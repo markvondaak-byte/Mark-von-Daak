@@ -532,17 +532,23 @@
           </ul>
         </div>
         <form id="kontaktform" novalidate>
+          <!-- Web3Forms Access-Key: bitte durch deinen echten Key von web3forms.com ersetzen -->
+          <input type="hidden" name="access_key" value="DEIN_WEB3FORMS_ACCESS_KEY" />
+          <input type="hidden" name="subject" value="Neue Anfrage über deine Website – Vital und fit mit Mark" />
+          <input type="hidden" name="from_name" value="Vital und fit mit Mark" />
+          <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display:none !important;" aria-hidden="true" />
           <div class="row">
-            <div><label for="fn">Vorname</label><input id="fn" name="fn" type="text" autocomplete="given-name" required /></div>
-            <div><label for="ln">Nachname</label><input id="ln" name="ln" type="text" autocomplete="family-name" required /></div>
+            <div><label for="fn">Vorname</label><input id="fn" name="Vorname" type="text" autocomplete="given-name" required /></div>
+            <div><label for="ln">Nachname</label><input id="ln" name="Nachname" type="text" autocomplete="family-name" required /></div>
           </div>
           <div class="row">
-            <div><label for="em">E-Mail</label><input id="em" name="em" type="email" autocomplete="email" required /></div>
-            <div><label for="tel">Telefon <span style="font-weight:400;">(optional)</span></label><input id="tel" name="tel" type="tel" autocomplete="tel" /></div>
+            <div><label for="em">E-Mail</label><input id="em" name="email" type="email" autocomplete="email" required /></div>
+            <div><label for="tel">Telefon <span style="font-weight:400;">(optional)</span></label><input id="tel" name="Telefon" type="tel" autocomplete="tel" /></div>
           </div>
-          <div><label for="msg">Deine Nachricht</label><textarea id="msg" name="msg" placeholder="Wofür interessierst du dich?" required></textarea></div>
-          <button type="submit" class="btn">Anfrage per E-Mail senden</button>
-          <p id="sent" hidden style="color:var(--accent);font-size:.95rem;font-weight:600;">Danke! Dein E-Mail-Programm öffnet sich mit deiner Anfrage – bitte nur noch auf „Senden“ tippen. Alternativ erreichst du mich direkt unter <a href="mailto:markvondaak@icloud.com">markvondaak@icloud.com</a>.</p>
+          <div><label for="msg">Deine Nachricht</label><textarea id="msg" name="message" placeholder="Wofür interessierst du dich?" required></textarea></div>
+          <button type="submit" class="btn" id="sendbtn">Anfrage senden</button>
+          <p id="sent" hidden style="color:var(--accent);font-size:.95rem;font-weight:600;">Danke! Deine Anfrage wurde gesendet – ich melde mich zeitnah bei dir. 🌱</p>
+          <p id="senderr" hidden style="color:var(--accent-ink);font-size:.95rem;font-weight:600;">Da ist leider etwas schiefgelaufen. Bitte versuche es später erneut oder schreib mir direkt an <a href="mailto:markvondaak@icloud.com">markvondaak@icloud.com</a>.</p>
         </form>
       </div>
     </div>
@@ -581,26 +587,35 @@
   (function () {
     var form = document.getElementById("kontaktform");
     if (!form) return;
+    var btn = document.getElementById("sendbtn");
+    var okMsg = document.getElementById("sent");
+    var errMsg = document.getElementById("senderr");
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
+      okMsg.hidden = true; errMsg.hidden = true;
       if (!form.checkValidity()) { form.reportValidity(); return; }
-      var v = function (id) { return (document.getElementById(id).value || "").trim(); };
-      var name = (v("fn") + " " + v("ln")).trim();
-      var betreff = "Anfrage über die Website – " + (name || "Interessent/in");
-      var zeilen = [
-        "Name: " + name,
-        "E-Mail: " + v("em"),
-        "Telefon: " + (v("tel") || "—"),
-        "",
-        "Nachricht:",
-        v("msg")
-      ];
-      var mailto = "mailto:markvondaak@icloud.com"
-        + "?subject=" + encodeURIComponent(betreff)
-        + "&body=" + encodeURIComponent(zeilen.join("\n"));
-      document.getElementById("sent").hidden = false;
-      window.location.href = mailto;
-      form.reset();
+
+      var data = Object.fromEntries(new FormData(form).entries());
+      var original = btn.textContent;
+      btn.disabled = true; btn.textContent = "Wird gesendet …";
+
+      fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify(data)
+      })
+      .then(function (r) { return r.json(); })
+      .then(function (res) {
+        if (res && res.success) {
+          form.reset();
+          okMsg.hidden = false;
+        } else {
+          errMsg.hidden = false;
+        }
+      })
+      .catch(function () { errMsg.hidden = false; })
+      .finally(function () { btn.disabled = false; btn.textContent = original; });
     });
   })();
 </script>
