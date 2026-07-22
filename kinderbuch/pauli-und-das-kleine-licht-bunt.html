@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pauli und das kleine Licht — Bilderbuch</title>
+<meta name="description" content="Pauli und das kleine Licht: eine warmherzige Kindergeschichte über Mut und Freundschaft für Kinder ab 6 Jahren – bunte, verspielte Bilderbuch-Fassung." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2218%22%20fill%3D%22%232F9BD6%22/%3E%3Ctext%20x%3D%2232%22%20y%3D%2246%22%20font-size%3D%2236%22%20text-anchor%3D%22middle%22%3E%F0%9F%90%AD%3C/text%3E%3C/svg%3E" />
+<style>
+  :root {
+    --sky1: #BFE6FF;
+    --sky2: #E7F7EE;
+    --sky3: #FFF4D6;
+    --card: #FFFFFF;
+    --ink: #263445;
+    --ink-soft: #5D6B7B;
+    --blue: #2F9BD6;
+    --teal: #17B6A0;
+    --sun: #F6B93B;
+    --pink: #FF7BA9;
+    --violet: #8C7AE6;
+    --maxw: 780px;
+    --round: 26px;
+    --font: "Baloo 2", "Comic Sans MS", "Trebuchet MS", -apple-system, "Segoe UI", sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --sky1: #16283a;
+      --sky2: #14262b;
+      --sky3: #2b2718;
+      --card: #1e2a38;
+      --ink: #EAF2F9;
+      --ink-soft: #A9B8C6;
+      --blue: #5CB8ED;
+      --teal: #38D3BB;
+      --sun: #FFCE63;
+      --pink: #FF9BBE;
+      --violet: #B0A2FF;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: var(--font);
+    color: var(--ink);
+    line-height: 1.7;
+    font-size: 19px;
+    background: linear-gradient(160deg, var(--sky1) 0%, var(--sky2) 45%, var(--sky3) 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+  .page { max-width: var(--maxw); margin: 0 auto; padding: clamp(1rem, 4vw, 2.5rem) clamp(.8rem, 4vw, 1.5rem) 4rem; }
+
+  /* ---- Cover ---- */
+  .cover {
+    text-align: center;
+    background: var(--card);
+    border-radius: 34px;
+    padding: 2.6rem 1.5rem 2.8rem;
+    box-shadow: 0 22px 50px -24px rgba(30,60,90,.45);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 2rem;
+  }
+  .cover::before, .cover::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    opacity: .18;
+    filter: blur(4px);
+  }
+  .cover::before { width: 180px; height: 180px; background: var(--sun); top: -60px; right: -40px; }
+  .cover::after  { width: 150px; height: 150px; background: var(--pink); bottom: -50px; left: -40px; }
+  .scene { font-size: 3.6rem; letter-spacing: .3rem; position: relative; z-index: 1; }
+  .cover h1 {
+    font-size: clamp(2.1rem, 7vw, 3.2rem);
+    margin: .6rem 0 .3rem;
+    color: var(--blue);
+    position: relative; z-index: 1;
+    line-height: 1.05;
+    text-shadow: 0 2px 0 rgba(0,0,0,.04);
+  }
+  .cover .sub { color: var(--ink-soft); font-size: 1.1rem; position: relative; z-index: 1; }
+  .badge {
+    display: inline-block; margin-top: 1.1rem;
+    background: var(--sun); color: #4a3708;
+    font-size: .85rem; font-weight: 700;
+    padding: .45rem 1.1rem; border-radius: 999px;
+    position: relative; z-index: 1;
+  }
+  @media (prefers-color-scheme: dark) { .badge { color: #2a1f04; } }
+
+  /* ---- Chapter cards ---- */
+  .chapter {
+    background: var(--card);
+    border-radius: var(--round);
+    padding: 1.6rem clamp(1.1rem, 4vw, 2rem) 1.8rem;
+    margin: 1.4rem 0;
+    box-shadow: 0 16px 34px -22px rgba(30,60,90,.4);
+    position: relative;
+  }
+  .chapter-head { display: flex; align-items: center; gap: .9rem; margin-bottom: .9rem; }
+  .num-bubble {
+    flex: 0 0 auto;
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    display: grid; place-items: center;
+    font-weight: 800; font-size: 1.4rem; color: #fff;
+    box-shadow: 0 6px 14px -4px rgba(0,0,0,.35);
+  }
+  .chapter h2 { font-size: 1.35rem; margin: 0; color: var(--ink); line-height: 1.2; }
+  .chapter p { margin: 0 0 1rem; }
+  .chapter p:last-child { margin-bottom: 0; }
+  strong { color: var(--blue); }
+  .emoji-tag { font-size: 1.6rem; margin-left: auto; flex: 0 0 auto; }
+
+  /* rotating accent colors per chapter */
+  .c1 .num-bubble{background:var(--blue)}   .c1 strong{color:var(--blue)}
+  .c2 .num-bubble{background:var(--violet)} .c2 strong{color:var(--violet)}
+  .c3 .num-bubble{background:var(--teal)}   .c3 strong{color:var(--teal)}
+  .c4 .num-bubble{background:var(--pink)}   .c4 strong{color:var(--pink)}
+  .c5 .num-bubble{background:var(--sun);color:#4a3708} .c5 strong{color:#c98a00}
+  .c6 .num-bubble{background:var(--blue)}   .c6 strong{color:var(--blue)}
+  .c7 .num-bubble{background:var(--violet)} .c7 strong{color:var(--violet)}
+  .c8 .num-bubble{background:var(--teal)}   .c8 strong{color:var(--teal)}
+  .c9 .num-bubble{background:var(--pink)}   .c9 strong{color:var(--pink)}
+  .c10 .num-bubble{background:var(--sun);color:#4a3708} .c10 strong{color:#c98a00}
+
+  .theend {
+    text-align: center;
+    font-size: 1.6rem; font-weight: 800; color: var(--blue);
+    margin: 1.6rem 0;
+  }
+  .talk {
+    background: var(--card);
+    border-radius: var(--round);
+    padding: 1.6rem clamp(1.1rem, 4vw, 2rem);
+    box-shadow: 0 16px 34px -22px rgba(30,60,90,.4);
+    margin-top: 1.4rem;
+  }
+  .talk h3 { margin: 0 0 .7rem; color: var(--teal); font-size: 1.25rem; }
+  .talk ul { margin: 0; padding-left: 1.3rem; }
+  .talk li { margin-bottom: .55rem; }
+  footer {
+    text-align: center; color: var(--ink-soft);
+    margin-top: 2rem; font-size: .95rem;
+  }
+  @media print {
+    body { background: #fff; }
+    .cover, .chapter, .talk { box-shadow: none; border: 1px solid #e5e5e5; }
+    .chapter { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="cover">
+    <div class="scene">🐭 ✨ 🐸</div>
+    <h1>Pauli und das kleine Licht</h1>
+    <div class="sub">Eine Geschichte über Mut und Freundschaft</div>
+    <span class="badge">Zum Vorlesen &amp; Selberlesen · ab 6 Jahren</span>
+  </header>
+
+  <section class="chapter c1">
+    <div class="chapter-head"><div class="num-bubble">1</div><h2>Das Dorf unter der Wurzel</h2><span class="emoji-tag">🌳</span></div>
+    <p>Tief unter der großen, alten Eiche lag ein Dorf, so klein, dass kein Mensch es je gesehen hatte. Es war das Dorf der Wurzelmäuse. Die Häuser waren aus Moos und Nussschalen gebaut, die Wege mit weichem Waldstaub bestreut, und über allem hing ein warmes, goldenes Licht.</p>
+    <p>Dieses Licht kam von der <strong>Leuchtblume</strong>. Sie stand mitten auf dem Dorfplatz, groß wie ein Regenschirm, und leuchtete Tag und Nacht. Bei ihrem Schein spielten die Mäusekinder Fangen, backten die Bäcker ihr Eichelbrot und erzählten die Großeltern ihre Geschichten.</p>
+    <p>In einem der kleinsten Häuser wohnte eine Maus namens <strong>Pauli</strong>.</p>
+    <p>Pauli war die kleinste Maus im ganzen Dorf. Und, das muss man ehrlich sagen, auch die schüchternste. Wenn die anderen Mäusekinder um die Wette liefen, stand Pauli lieber am Rand. Wenn jemand einen dunklen Winkel erkunden wollte, machte Pauli einen großen Bogen darum.</p>
+    <p>„Ich bin einfach kein mutiger Typ", sagte Pauli oft leise zu sich selbst. „Mut haben die anderen."</p>
+    <p>Doch eines Abends geschah etwas, das alles veränderte.</p>
+  </section>
+
+  <section class="chapter c2">
+    <div class="chapter-head"><div class="num-bubble">2</div><h2>Das Licht geht aus</h2><span class="emoji-tag">🌑</span></div>
+    <p>Es war mitten in der Nacht, als ein Zittern durch das Dorf ging.</p>
+    <p>Pauli wachte auf, weil es plötzlich so <strong>still</strong> war. Und so <strong>dunkel</strong>.</p>
+    <p>Die Leuchtblume — sie leuchtete nicht mehr! Wo eben noch das goldene Licht gestrahlt hatte, war jetzt nur ein grauer, welker Stängel.</p>
+    <p>Alle Mäuse kamen aus ihren Häusern gehuscht. Sie standen im Dunkeln und wisperten ängstlich durcheinander.</p>
+    <p>Die alte Bürgermeisterin, Frau Federbart, klopfte mit ihrem Stock auf einen Stein, bis alle still waren.</p>
+    <p>„Meine lieben Mäuse", sagte sie. „Die Leuchtblume ist müde geworden. So etwas geschieht alle hundert Jahre. Sie kann nur wieder erwachen, wenn jemand einen <strong>Funken vom Sternenlicht</strong> holt — von der Sternenblume, die ganz oben auf dem Nebelberg wächst."</p>
+    <p>Ein Raunen ging durch die Menge. Der Nebelberg! Dorthin führte der Weg durch den finsteren Nebelwald. Niemand ging freiwillig in den Nebelwald.</p>
+    <p>„Wer ist mutig genug, den Funken zu holen?", fragte Frau Federbart.</p>
+    <p>Alle schauten zu Boden. Keiner meldete sich. Nicht der starke Schmied. Nicht der schnelle Läufer. Niemand.</p>
+    <p>Und dann — Pauli wusste selbst nicht, warum — hörte Pauli sich mit ganz kleiner, zittriger Stimme sagen:</p>
+    <p>„Ich… ich gehe."</p>
+  </section>
+
+  <section class="chapter c3">
+    <div class="chapter-head"><div class="num-bubble">3</div><h2>Ein winziger Freund</h2><span class="emoji-tag">✨</span></div>
+    <p>Am nächsten Morgen stand Pauli am Rand des Dorfes, einen kleinen Rucksack aus einem Blatt auf dem Rücken. Darin: drei Haselnüsse, ein Schluck Tautropfenwasser und ein Stückchen Mut, das sich sehr, sehr klein anfühlte.</p>
+    <p>„Bist du sicher, dass du das schaffst?", fragte ein Mäusekind.</p>
+    <p>„Nein", sagte Pauli ehrlich. „Aber ich versuche es trotzdem."</p>
+    <p>Kaum hatte Pauli den ersten Schritt in den Wald gesetzt, hörte es ein winziges Stimmchen:</p>
+    <p>„Wart auf mich! Wart auf mich!"</p>
+    <p>Etwas Kleines, Blinkendes flog heran und setzte sich schnaufend auf Paulis Nase. Es war ein <strong>Glühwürmchen</strong>, nicht größer als ein Reiskorn, mit einem Lichtschweif, der immer wieder flackerte — an, aus, an, aus.</p>
+    <p>„Ich heiße <strong>Luna</strong>", sagte das Glühwürmchen. „Mein Licht ist ganz schwach, siehst du? Deshalb lacht mich zu Hause keiner ernst. Aber ein bisschen leuchten kann ich schon. Darf ich mitkommen? Zu zweit ist der Weg nur halb so dunkel."</p>
+    <p>Pauli lächelte zum ersten Mal seit langer Zeit.</p>
+    <p>„Zu zweit", sagte Pauli, „ist der Weg nur halb so dunkel. Komm mit, Luna."</p>
+    <p>Und so gingen die kleinste Maus und das schwächste Glühwürmchen zusammen los.</p>
+  </section>
+
+  <section class="chapter c4">
+    <div class="chapter-head"><div class="num-bubble">4</div><h2>Der finstere Nebelwald</h2><span class="emoji-tag">🌫️</span></div>
+    <p>Bald wurde der Wald dichter. Die Bäume standen so eng, dass kaum ein Sonnenstrahl bis zum Boden fand. Grauer Nebel kroch zwischen den Stämmen hindurch und legte sich kalt um Paulis Ohren.</p>
+    <p>„Ich sehe fast nichts", flüsterte Pauli.</p>
+    <p>„Warte", sagte Luna. Sie flog ein Stückchen voraus, und ihr kleines Licht flackerte auf — an, aus, an. Es war nicht viel. Aber es reichte, um den nächsten Schritt zu sehen. Und den übernächsten.</p>
+    <p>„Weißt du was?", sagte Pauli. „Man muss gar nicht den ganzen Weg sehen. Man muss nur den nächsten Schritt sehen."</p>
+    <p>So gingen sie weiter, Schritt für Schritt, Lichtblick für Lichtblick.</p>
+    <p>Doch dann — <strong>KNACK</strong> — brach ein Ast.</p>
+    <p>Aus dem Nebel tauchten zwei große, gelbe Augen auf. Pauli erstarrte. Das Herz klopfte bis zum Hals.</p>
+  </section>
+
+  <section class="chapter c5">
+    <div class="chapter-head"><div class="num-bubble">5</div><h2>Bruno, der brummige Kröterich</h2><span class="emoji-tag">🐸</span></div>
+    <p>Die Augen gehörten zu einer großen, dicken Kröte, die breitbeinig auf einem Stein saß.</p>
+    <p>„Wer wagt es, durch <strong>meinen</strong> Wald zu trampeln?", brummte die Kröte.</p>
+    <p>Pauli zitterte so sehr, dass die Haselnüsse im Rucksack klapperten. Am liebsten wäre es weggerannt. Aber dann dachte es an das dunkle Dorf, an die müde Leuchtblume, an all die Mäuse, die auf den Funken warteten.</p>
+    <p>Pauli holte tief Luft und sagte mit fester Stimme — na ja, mit <em>fast</em> fester Stimme:</p>
+    <p>„Ich bin Pauli. Das ist Luna. Wir wollen zum Nebelberg, um einen Funken Sternenlicht zu holen. Unser Dorf ist dunkel geworden."</p>
+    <p>Die Kröte blinzelte. „Sternenlicht, so, so. Und ihr zwei Winzlinge wollt da hinauf? Ihr fallt doch beim ersten Windstoß um."</p>
+    <p>„Vielleicht", sagte Pauli. „Aber umkehren ist keine Möglichkeit."</p>
+    <p>Da geschah etwas Merkwürdiges. Die Kröte fing an zu lachen — ein tiefes, glucksendes Lachen.</p>
+    <p>„So viel Mut in so einer kleinen Maus. Ich heiße <strong>Bruno</strong>. Und weil ich seit hundert Jahren nichts so Tapferes mehr gesehen habe, bringe ich euch über den reißenden Bach. Springt auf meinen Rücken."</p>
+  </section>
+
+  <section class="chapter c6">
+    <div class="chapter-head"><div class="num-bubble">6</div><h2>Über den reißenden Bach</h2><span class="emoji-tag">🌊</span></div>
+    <p>Der Bach war breit und wild, das Wasser rauschte kalt und schäumte über die Steine. Alleine hätte Pauli ihn niemals überqueren können.</p>
+    <p>Aber Bruno setzte mit kräftigen Sprüngen von Stein zu Stein — <strong>hopp, hopp, hopp</strong> — während Pauli sich festhielt und Luna wie ein kleines Licht vorausflog, um die glitschigen Stellen zu zeigen.</p>
+    <p>Am anderen Ufer setzte Bruno die beiden vorsichtig ab.</p>
+    <p>„Weiter kann ich nicht mit", sagte Bruno. „Ab hier wird es steil, und Kröten sind keine Bergsteiger. Aber merkt euch eins, ihr Kleinen: <strong>Mut ist nicht, keine Angst zu haben. Mut ist, trotz der Angst weiterzugehen.</strong>"</p>
+    <p>Pauli nickte und drückte Brunos große Pfote. „Danke, Bruno. Du bist ein echter Freund."</p>
+    <p>„Ach was", brummte Bruno und wandte sich schnell ab, damit niemand die Träne in seinem Krötenauge sah. „Nun macht schon. Und kommt heil zurück, hört ihr?"</p>
+  </section>
+
+  <section class="chapter c7">
+    <div class="chapter-head"><div class="num-bubble">7</div><h2>Der Nebelberg</h2><span class="emoji-tag">⛰️</span></div>
+    <p>Jetzt begann der schwerste Teil. Der Pfad wand sich steil den Nebelberg hinauf. Der Wind pfiff, die Steine waren glatt, und Paulis Beine wurden müde. So müde.</p>
+    <p>Auf halbem Weg setzte sich Pauli auf einen Felsen und ließ den Kopf hängen.</p>
+    <p>„Ich kann nicht mehr, Luna. Ich bin doch nur eine kleine Maus. Was habe ich mir bloß dabei gedacht?"</p>
+    <p>Luna setzte sich ganz nah auf Paulis Ohr.</p>
+    <p>„Weißt du noch im Wald?", sagte sie leise. „Du hast gesagt: Man muss nicht den ganzen Weg sehen. Nur den nächsten Schritt. Schau — da ist ein Stein. Schaffst du es bis zu diesem einen Stein?"</p>
+    <p>Pauli schaute. Der Stein war ganz nah.</p>
+    <p>„Das… das schaffe ich."</p>
+    <p>„Und danach der nächste. Und der nächste. Ich leuchte für dich, so gut ich kann."</p>
+    <p>Und so kämpften sie sich weiter, Stein für Stein, Lichtblick für Lichtblick, bis der Nebel plötzlich aufriss — und über ihnen der Gipfel im Sternenlicht erstrahlte.</p>
+  </section>
+
+  <section class="chapter c8">
+    <div class="chapter-head"><div class="num-bubble">8</div><h2>Der Funke</h2><span class="emoji-tag">🌟</span></div>
+    <p>Ganz oben auf dem Gipfel wuchs sie: die <strong>Sternenblume</strong>. Ihre Blütenblätter schimmerten silbern, und in ihrer Mitte tanzten winzige Funken wie kleine Sterne.</p>
+    <p>Pauli trat vorsichtig näher.</p>
+    <p>„Bitte", flüsterte Pauli, „darf ich einen einzigen Funken haben? Für mein Dorf. Es ist so dunkel geworden."</p>
+    <p>Die Sternenblume neigte sich sanft im Wind, als würde sie nicken. Ein einziger, warmer Funke löste sich und schwebte langsam herab — genau in Paulis Pfötchen. Er war warm und leicht und kribbelte wie ein kleines Lachen.</p>
+    <p>„Wir haben es geschafft!", rief Luna und wirbelte vor Freude im Kreis. Und schau — mit einem Mal leuchtete auch <strong>ihr</strong> Licht heller als je zuvor. Denn wer einem Freund hilft, dessen eigenes Licht wächst.</p>
+  </section>
+
+  <section class="chapter c9">
+    <div class="chapter-head"><div class="num-bubble">9</div><h2>Der Weg nach Hause</h2><span class="emoji-tag">🏡</span></div>
+    <p>Den ganzen Weg zurück hütete Pauli den Funken wie einen Schatz. Bruno wartete schon am Bach und trug sie glücklich hinüber. Gemeinsam liefen sie durch den Nebelwald, der jetzt gar nicht mehr so finster wirkte — denn zu dritt, mit einem Funken Sternenlicht, war der Weg hell und warm.</p>
+    <p>Als sie das Dorf unter der Wurzel erreichten, kamen alle Mäuse aus ihren Häusern.</p>
+    <p>Ganz behutsam setzte Pauli den Funken in die Mitte der müden Leuchtblume.</p>
+    <p>Einen Augenblick geschah nichts.</p>
+    <p>Dann — ganz langsam — richtete sich der welke Stängel auf. Die Blätter entfalteten sich. Und mit einem sanften <strong>Wusch</strong> flammte das goldene Licht wieder auf, heller und wärmer als je zuvor. Das ganze Dorf strahlte.</p>
+  </section>
+
+  <section class="chapter c10">
+    <div class="chapter-head"><div class="num-bubble">10</div><h2>Die mutigste Maus</h2><span class="emoji-tag">💛</span></div>
+    <p>Die Mäuse jubelten und feierten die ganze Nacht. Und in der Mitte standen Pauli, Luna und Bruno.</p>
+    <p>„Wie hast du das nur geschafft?", fragte ein Mäusekind Pauli mit großen Augen. „Du hattest doch immer vor allem Angst!"</p>
+    <p>Pauli überlegte einen Moment. Dann lächelte es.</p>
+    <p>„Ich hatte auch diesmal Angst", sagte Pauli. „Die ganze Zeit sogar. Aber ich habe gelernt: Man muss nicht ohne Angst sein, um mutig zu sein. Man muss nur den nächsten Schritt tun. Und — " Pauli schaute zu Luna und Bruno, „man schafft es leichter, wenn man gute Freunde hat."</p>
+    <p>Von diesem Tag an war Pauli nicht mehr die schüchterne kleine Maus. Pauli war die Maus, die zeigte, dass auch der Kleinste Großes vollbringen kann.</p>
+    <p>Und jeden Abend, wenn die Leuchtblume golden strahlte, saßen drei Freunde beieinander — eine kleine Maus, ein Glühwürmchen und ein brummiger Kröterich — und waren einfach nur froh, dass sie sich gefunden hatten.</p>
+  </section>
+
+  <div class="theend">🌟 Ende 🌟</div>
+
+  <div class="talk">
+    <h3>💬 Zum Weiterreden</h3>
+    <p style="margin:0 0 .7rem">Nach dem Vorlesen könnt ihr gemeinsam überlegen:</p>
+    <ul>
+      <li>Warum ist Pauli mutig, obwohl es Angst hat? Was bedeutet Mut wirklich?</li>
+      <li>Wie helfen sich Pauli, Luna und Bruno gegenseitig? Was macht eine gute Freundschaft aus?</li>
+      <li>Luna sagt: „Man muss nicht den ganzen Weg sehen, nur den nächsten Schritt." Wann hilft dir dieser Gedanke?</li>
+      <li>Gab es schon einmal etwas, vor dem <em>du</em> Angst hattest — und du hast es trotzdem geschafft?</li>
+    </ul>
+  </div>
+
+  <footer>Geschrieben für dich — eine Geschichte zum Vorlesen, Selberlesen und Mutigsein.</footer>
+
+</div>
+</body>
+</html>
