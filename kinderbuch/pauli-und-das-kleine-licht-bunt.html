@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Pauli und das kleine Licht — Bilderbuch</title>
-<meta name="description" content="Pauli und das kleine Licht: eine warmherzige Kindergeschichte über Mut und Freundschaft für Kinder ab 6 Jahren – bunte, verspielte Bilderbuch-Fassung." />
+<title>Pauli und das kleine Licht — Bilderbuch mit Illustrationen</title>
+<meta name="description" content="Pauli und das kleine Licht: eine warmherzige Kindergeschichte über Mut und Freundschaft für Kinder ab 6 Jahren – bunte Bilderbuch-Fassung mit Illustrationen zu jedem Kapitel." />
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2218%22%20fill%3D%22%232F9BD6%22/%3E%3Ctext%20x%3D%2232%22%20y%3D%2246%22%20font-size%3D%2236%22%20text-anchor%3D%22middle%22%3E%F0%9F%90%AD%3C/text%3E%3C/svg%3E" />
 <style>
   :root {
@@ -56,37 +56,24 @@
     text-align: center;
     background: var(--card);
     border-radius: 34px;
-    padding: 2.6rem 1.5rem 2.8rem;
+    padding: 0 0 2.4rem;
     box-shadow: 0 22px 50px -24px rgba(30,60,90,.45);
-    position: relative;
     overflow: hidden;
     margin-bottom: 2rem;
   }
-  .cover::before, .cover::after {
-    content: "";
-    position: absolute;
-    border-radius: 50%;
-    opacity: .18;
-    filter: blur(4px);
-  }
-  .cover::before { width: 180px; height: 180px; background: var(--sun); top: -60px; right: -40px; }
-  .cover::after  { width: 150px; height: 150px; background: var(--pink); bottom: -50px; left: -40px; }
-  .scene { font-size: 3.6rem; letter-spacing: .3rem; position: relative; z-index: 1; }
+  .cover .hero { display:block; width:100%; height:auto; }
   .cover h1 {
     font-size: clamp(2.1rem, 7vw, 3.2rem);
-    margin: .6rem 0 .3rem;
+    margin: 1.3rem 0 .3rem;
     color: var(--blue);
-    position: relative; z-index: 1;
     line-height: 1.05;
-    text-shadow: 0 2px 0 rgba(0,0,0,.04);
   }
-  .cover .sub { color: var(--ink-soft); font-size: 1.1rem; position: relative; z-index: 1; }
+  .cover .sub { color: var(--ink-soft); font-size: 1.1rem; }
   .badge {
     display: inline-block; margin-top: 1.1rem;
     background: var(--sun); color: #4a3708;
     font-size: .85rem; font-weight: 700;
     padding: .45rem 1.1rem; border-radius: 999px;
-    position: relative; z-index: 1;
   }
   @media (prefers-color-scheme: dark) { .badge { color: #2a1f04; } }
 
@@ -94,11 +81,12 @@
   .chapter {
     background: var(--card);
     border-radius: var(--round);
-    padding: 1.6rem clamp(1.1rem, 4vw, 2rem) 1.8rem;
     margin: 1.4rem 0;
     box-shadow: 0 16px 34px -22px rgba(30,60,90,.4);
-    position: relative;
+    overflow: hidden;
   }
+  .illo { display:block; width:100%; height:auto; }
+  .chapter-body { padding: 1.3rem clamp(1.1rem, 4vw, 2rem) 1.7rem; }
   .chapter-head { display: flex; align-items: center; gap: .9rem; margin-bottom: .9rem; }
   .num-bubble {
     flex: 0 0 auto;
@@ -112,9 +100,7 @@
   .chapter p { margin: 0 0 1rem; }
   .chapter p:last-child { margin-bottom: 0; }
   strong { color: var(--blue); }
-  .emoji-tag { font-size: 1.6rem; margin-left: auto; flex: 0 0 auto; }
 
-  /* rotating accent colors per chapter */
   .c1 .num-bubble{background:var(--blue)}   .c1 strong{color:var(--blue)}
   .c2 .num-bubble{background:var(--violet)} .c2 strong{color:var(--violet)}
   .c3 .num-bubble{background:var(--teal)}   .c3 strong{color:var(--teal)}
@@ -153,127 +139,430 @@
 </style>
 </head>
 <body>
+
+<!-- ============ Wiederverwendbare Figuren & Verläufe ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="gSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#CDEBFF"/><stop offset="1" stop-color="#EAF7FF"/>
+    </linearGradient>
+    <linearGradient id="gDawn" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFDCA8"/><stop offset="1" stop-color="#FFF1DC"/>
+    </linearGradient>
+    <linearGradient id="gNight" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1b2a52"/><stop offset="1" stop-color="#3a4a86"/>
+    </linearGradient>
+    <linearGradient id="gForest" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#20463d"/><stop offset="1" stop-color="#356054"/>
+    </linearGradient>
+    <linearGradient id="gWater" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8ed3ef"/><stop offset="1" stop-color="#4aa0d2"/>
+    </linearGradient>
+    <linearGradient id="gMountain" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#c4bfe0"/><stop offset="1" stop-color="#e7e3f2"/>
+    </linearGradient>
+    <linearGradient id="gSummit" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#152150"/><stop offset="1" stop-color="#33417a"/>
+    </linearGradient>
+    <linearGradient id="gHome" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFE4A6"/><stop offset="1" stop-color="#FFF6E2"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#FFE9A0" stop-opacity=".95"/>
+      <stop offset="1" stop-color="#FFE9A0" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Pauli die Maus -->
+    <symbol id="mouse" viewBox="0 0 120 120">
+      <path d="M92 96 q24 -4 20 -28" stroke="#AEB6C0" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <ellipse cx="58" cy="90" rx="34" ry="26" fill="#B9C0C9"/>
+      <circle cx="40" cy="42" r="15" fill="#C7CDD5"/><circle cx="40" cy="42" r="8" fill="#F6B7C8"/>
+      <circle cx="76" cy="42" r="15" fill="#C7CDD5"/><circle cx="76" cy="42" r="8" fill="#F6B7C8"/>
+      <circle cx="58" cy="60" r="27" fill="#C7CDD5"/>
+      <circle cx="50" cy="58" r="3.6" fill="#2b2b2b"/>
+      <circle cx="66" cy="58" r="3.6" fill="#2b2b2b"/>
+      <circle cx="58" cy="70" r="4" fill="#F0728F"/>
+      <path d="M58 74 v5" stroke="#8a909a" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- Luna das Glühwürmchen -->
+    <symbol id="firefly" viewBox="0 0 60 60">
+      <circle cx="34" cy="36" r="20" fill="url(#glow)"/>
+      <ellipse cx="21" cy="20" rx="7" ry="5" fill="#eef8dc" opacity=".85" transform="rotate(-25 21 20)"/>
+      <ellipse cx="31" cy="18" rx="7" ry="5" fill="#eef8dc" opacity=".85" transform="rotate(15 31 18)"/>
+      <ellipse cx="28" cy="28" rx="11" ry="9" fill="#93cf50"/>
+      <circle cx="24" cy="27" r="1.9" fill="#2b2b2b"/><circle cx="32" cy="27" r="1.9" fill="#2b2b2b"/>
+      <path d="M24 33 q4 3 8 0" stroke="#3f6b1f" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+      <circle cx="34" cy="36" r="6.5" fill="#FFD23F"/>
+    </symbol>
+
+    <!-- Bruno der Kröterich -->
+    <symbol id="toad" viewBox="0 0 160 110">
+      <ellipse cx="34" cy="100" rx="13" ry="7" fill="#4f9e4b"/><ellipse cx="126" cy="100" rx="13" ry="7" fill="#4f9e4b"/>
+      <ellipse cx="80" cy="76" rx="60" ry="31" fill="#5fb35a"/>
+      <ellipse cx="80" cy="68" rx="52" ry="25" fill="#74c46e"/>
+      <circle cx="60" cy="84" r="3" fill="#4a9147"/><circle cx="95" cy="90" r="3" fill="#4a9147"/><circle cx="80" cy="80" r="3" fill="#4a9147"/>
+      <circle cx="52" cy="42" r="16" fill="#74c46e"/><circle cx="108" cy="42" r="16" fill="#74c46e"/>
+      <circle cx="52" cy="40" r="9" fill="#FFF"/><circle cx="52" cy="41" r="5" fill="#2b2b2b"/>
+      <circle cx="108" cy="40" r="9" fill="#FFF"/><circle cx="108" cy="41" r="5" fill="#2b2b2b"/>
+      <path d="M56 74 q24 20 48 0" stroke="#2f6b34" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- Leuchtblume (wach) -->
+    <symbol id="flower" viewBox="0 0 120 150">
+      <path d="M60 150 V72" stroke="#4a9147" stroke-width="7" fill="none"/>
+      <path d="M60 116 q-24 -4 -32 -22 q24 -4 32 14 Z" fill="#5fb35a"/>
+      <path d="M60 104 q24 -4 32 -22 q-24 -4 -32 14 Z" fill="#5fb35a"/>
+      <circle cx="60" cy="54" r="46" fill="url(#glow)"/>
+      <g fill="#F6B93B">
+        <ellipse cx="60" cy="26" rx="10" ry="17"/>
+        <ellipse cx="84" cy="38" rx="10" ry="17" transform="rotate(45 84 38)"/>
+        <ellipse cx="92" cy="60" rx="17" ry="10"/>
+        <ellipse cx="84" cy="82" rx="10" ry="17" transform="rotate(-45 84 82)"/>
+        <ellipse cx="60" cy="94" rx="10" ry="17"/>
+        <ellipse cx="36" cy="82" rx="10" ry="17" transform="rotate(45 36 82)"/>
+        <ellipse cx="28" cy="60" rx="17" ry="10"/>
+        <ellipse cx="36" cy="38" rx="10" ry="17" transform="rotate(-45 36 38)"/>
+      </g>
+      <circle cx="60" cy="60" r="17" fill="#FFD23F"/>
+      <circle cx="60" cy="60" r="9" fill="#FFF3C4"/>
+    </symbol>
+
+    <!-- Leuchtblume (welk) -->
+    <symbol id="flowerdead" viewBox="0 0 120 150">
+      <path d="M60 150 Q58 100 44 82" stroke="#8a8f88" stroke-width="7" fill="none" stroke-linecap="round"/>
+      <g fill="#9aa0a0">
+        <ellipse cx="40" cy="74" rx="8" ry="14" transform="rotate(-40 40 74)"/>
+        <ellipse cx="30" cy="82" rx="8" ry="13" transform="rotate(20 30 82)"/>
+        <ellipse cx="48" cy="66" rx="8" ry="13" transform="rotate(-70 48 66)"/>
+      </g>
+      <circle cx="40" cy="76" r="9" fill="#b6bab6"/>
+    </symbol>
+
+    <!-- Sternenblume -->
+    <symbol id="starflower" viewBox="0 0 120 150">
+      <path d="M60 150 V70" stroke="#8fae9a" stroke-width="5" fill="none"/>
+      <circle cx="60" cy="54" r="46" fill="url(#glow)"/>
+      <g fill="#DCEAF6" stroke="#b6cede" stroke-width="1.5">
+        <path d="M60 18 L69 46 L60 54 L51 46 Z"/>
+        <path d="M96 44 L67 50 L61 58 L74 62 Z"/>
+        <path d="M82 88 L62 66 L54 66 L60 88 Z"/>
+        <path d="M38 88 L58 66 L66 66 L60 88 Z"/>
+        <path d="M24 44 L53 50 L59 58 L46 62 Z"/>
+      </g>
+      <circle cx="60" cy="54" r="12" fill="#FFFFFF"/>
+      <circle cx="60" cy="54" r="6" fill="#EAF3FF"/>
+    </symbol>
+
+    <symbol id="tree" viewBox="0 0 100 130">
+      <rect x="44" y="72" width="12" height="55" rx="4" fill="#7a5b3a"/>
+      <circle cx="50" cy="46" r="34" fill="#4f9d55"/>
+      <circle cx="28" cy="58" r="22" fill="#5aa85f"/>
+      <circle cx="72" cy="58" r="22" fill="#5aa85f"/>
+    </symbol>
+    <symbol id="treeDark" viewBox="0 0 100 130">
+      <rect x="45" y="70" width="10" height="58" rx="4" fill="#243b2f"/>
+      <path d="M50 8 L82 60 H18 Z" fill="#2c5045"/>
+      <path d="M50 30 L78 78 H22 Z" fill="#356054"/>
+    </symbol>
+    <symbol id="spark" viewBox="0 0 40 40">
+      <path d="M20 2 L24 16 L38 20 L24 24 L20 38 L16 24 L2 20 L16 16 Z" fill="#FFD23F"/>
+    </symbol>
+    <symbol id="house" viewBox="0 0 100 90">
+      <ellipse cx="50" cy="60" rx="40" ry="30" fill="#C79A5B"/>
+      <path d="M18 60 Q50 20 82 60 Z" fill="#a9814a"/>
+      <ellipse cx="50" cy="70" rx="12" ry="16" fill="#5b432a"/>
+    </symbol>
+  </defs>
+</svg>
+
 <div class="page">
 
   <header class="cover">
-    <div class="scene">🐭 ✨ 🐸</div>
+    <!-- Titelbild -->
+    <svg class="hero" viewBox="0 0 400 240" role="img" aria-label="Pauli die Maus, Luna das Glühwürmchen und Bruno der Kröterich unter der leuchtenden Blume">
+      <rect width="400" height="240" fill="url(#gNight)"/>
+      <g fill="#FFF" opacity=".85">
+        <use href="#spark" x="40" y="26" width="18" height="18"/>
+        <use href="#spark" x="330" y="40" width="22" height="22"/>
+        <use href="#spark" x="300" y="18" width="12" height="12"/>
+        <use href="#spark" x="70" y="60" width="12" height="12"/>
+        <use href="#spark" x="360" y="120" width="14" height="14"/>
+      </g>
+      <path d="M0 240 V150 Q60 120 120 150 Q130 90 200 100 Q210 60 280 90 Q340 110 400 140 V240 Z" fill="#2b3a2f" opacity=".55"/>
+      <path d="M-10 240 Q80 150 40 240 Z" fill="#3a2c1e"/>
+      <path d="M410 240 Q320 150 360 240 Z" fill="#3a2c1e"/>
+      <ellipse cx="200" cy="235" rx="150" ry="26" fill="#3a2c1e"/>
+      <use href="#flower" x="150" y="60" width="100" height="125"/>
+      <use href="#toad" x="238" y="150" width="120" height="82"/>
+      <use href="#mouse" x="120" y="150" width="90" height="90"/>
+      <use href="#firefly" x="196" y="120" width="46" height="46"/>
+    </svg>
     <h1>Pauli und das kleine Licht</h1>
     <div class="sub">Eine Geschichte über Mut und Freundschaft</div>
     <span class="badge">Zum Vorlesen &amp; Selberlesen · ab 6 Jahren</span>
   </header>
 
   <section class="chapter c1">
-    <div class="chapter-head"><div class="num-bubble">1</div><h2>Das Dorf unter der Wurzel</h2><span class="emoji-tag">🌳</span></div>
-    <p>Tief unter der großen, alten Eiche lag ein Dorf, so klein, dass kein Mensch es je gesehen hatte. Es war das Dorf der Wurzelmäuse. Die Häuser waren aus Moos und Nussschalen gebaut, die Wege mit weichem Waldstaub bestreut, und über allem hing ein warmes, goldenes Licht.</p>
-    <p>Dieses Licht kam von der <strong>Leuchtblume</strong>. Sie stand mitten auf dem Dorfplatz, groß wie ein Regenschirm, und leuchtete Tag und Nacht. Bei ihrem Schein spielten die Mäusekinder Fangen, backten die Bäcker ihr Eichelbrot und erzählten die Großeltern ihre Geschichten.</p>
-    <p>In einem der kleinsten Häuser wohnte eine Maus namens <strong>Pauli</strong>.</p>
-    <p>Pauli war die kleinste Maus im ganzen Dorf. Und, das muss man ehrlich sagen, auch die schüchternste. Wenn die anderen Mäusekinder um die Wette liefen, stand Pauli lieber am Rand. Wenn jemand einen dunklen Winkel erkunden wollte, machte Pauli einen großen Bogen darum.</p>
-    <p>„Ich bin einfach kein mutiger Typ", sagte Pauli oft leise zu sich selbst. „Mut haben die anderen."</p>
-    <p>Doch eines Abends geschah etwas, das alles veränderte.</p>
+    <svg class="illo" viewBox="0 0 400 180" role="img" aria-label="Das Mäusedorf unter den Wurzeln der großen Eiche, in der Mitte leuchtet die goldene Blume">
+      <rect width="400" height="180" fill="url(#gDawn)"/>
+      <ellipse cx="200" cy="176" rx="200" ry="30" fill="#C9A876"/>
+      <path d="M-10 180 Q60 100 30 180 Z" fill="#7a5b3a"/>
+      <path d="M410 180 Q340 100 370 180 Z" fill="#7a5b3a"/>
+      <path d="M60 180 Q90 120 130 180 Z" fill="#8a6a44"/>
+      <use href="#house" x="40" y="118" width="70" height="60"/>
+      <use href="#house" x="300" y="120" width="66" height="58"/>
+      <use href="#flower" x="168" y="52" width="80" height="100"/>
+      <use href="#mouse" x="120" y="112" width="64" height="64"/>
+    </svg>
+    <div class="chapter-body">
+      <div class="chapter-head"><div class="num-bubble">1</div><h2>Das Dorf unter der Wurzel</h2></div>
+      <p>Tief unter der großen, alten Eiche lag ein Dorf, so klein, dass kein Mensch es je gesehen hatte. Es war das Dorf der Wurzelmäuse. Die Häuser waren aus Moos und Nussschalen gebaut, die Wege mit weichem Waldstaub bestreut, und über allem hing ein warmes, goldenes Licht.</p>
+      <p>Dieses Licht kam von der <strong>Leuchtblume</strong>. Sie stand mitten auf dem Dorfplatz, groß wie ein Regenschirm, und leuchtete Tag und Nacht. Bei ihrem Schein spielten die Mäusekinder Fangen, backten die Bäcker ihr Eichelbrot und erzählten die Großeltern ihre Geschichten.</p>
+      <p>In einem der kleinsten Häuser wohnte eine Maus namens <strong>Pauli</strong>.</p>
+      <p>Pauli war die kleinste Maus im ganzen Dorf. Und, das muss man ehrlich sagen, auch die schüchternste. Wenn die anderen Mäusekinder um die Wette liefen, stand Pauli lieber am Rand. Wenn jemand einen dunklen Winkel erkunden wollte, machte Pauli einen großen Bogen darum.</p>
+      <p>„Ich bin einfach kein mutiger Typ", sagte Pauli oft leise zu sich selbst. „Mut haben die anderen."</p>
+      <p>Doch eines Abends geschah etwas, das alles veränderte.</p>
+    </div>
   </section>
 
   <section class="chapter c2">
-    <div class="chapter-head"><div class="num-bubble">2</div><h2>Das Licht geht aus</h2><span class="emoji-tag">🌑</span></div>
-    <p>Es war mitten in der Nacht, als ein Zittern durch das Dorf ging.</p>
-    <p>Pauli wachte auf, weil es plötzlich so <strong>still</strong> war. Und so <strong>dunkel</strong>.</p>
-    <p>Die Leuchtblume — sie leuchtete nicht mehr! Wo eben noch das goldene Licht gestrahlt hatte, war jetzt nur ein grauer, welker Stängel.</p>
-    <p>Alle Mäuse kamen aus ihren Häusern gehuscht. Sie standen im Dunkeln und wisperten ängstlich durcheinander.</p>
-    <p>Die alte Bürgermeisterin, Frau Federbart, klopfte mit ihrem Stock auf einen Stein, bis alle still waren.</p>
-    <p>„Meine lieben Mäuse", sagte sie. „Die Leuchtblume ist müde geworden. So etwas geschieht alle hundert Jahre. Sie kann nur wieder erwachen, wenn jemand einen <strong>Funken vom Sternenlicht</strong> holt — von der Sternenblume, die ganz oben auf dem Nebelberg wächst."</p>
-    <p>Ein Raunen ging durch die Menge. Der Nebelberg! Dorthin führte der Weg durch den finsteren Nebelwald. Niemand ging freiwillig in den Nebelwald.</p>
-    <p>„Wer ist mutig genug, den Funken zu holen?", fragte Frau Federbart.</p>
-    <p>Alle schauten zu Boden. Keiner meldete sich. Nicht der starke Schmied. Nicht der schnelle Läufer. Niemand.</p>
-    <p>Und dann — Pauli wusste selbst nicht, warum — hörte Pauli sich mit ganz kleiner, zittriger Stimme sagen:</p>
-    <p>„Ich… ich gehe."</p>
+    <svg class="illo" viewBox="0 0 400 180" role="img" aria-label="Nacht im Dorf: die Leuchtblume ist welk geworden, der Mond scheint, eine kleine Maus steht davor">
+      <rect width="400" height="180" fill="url(#gNight)"/>
+      <circle cx="330" cy="46" r="26" fill="#FDF3C4"/>
+      <circle cx="322" cy="40" r="22" fill="url(#gNight)" opacity=".9"/>
+      <g fill="#FFF" opacity=".8">
+        <use href="#spark" x="60" y="30" width="12" height="12"/>
+        <use href="#spark" x="120" y="20" width="10" height="10"/>
+        <use href="#spark" x="250" y="34" width="10" height="10"/>
+      </g>
+      <ellipse cx="200" cy="176" rx="200" ry="28" fill="#20304f"/>
+      <use href="#house" x="40" y="122" width="66" height="56"/>
+      <use href="#house" x="298" y="124" width="62" height="54"/>
+      <use href="#flowerdead" x="176" y="70" width="70" height="90"/>
+      <use href="#mouse" x="150" y="118" width="58" height="58"/>
+    </svg>
+    <div class="chapter-body">
+      <div class="chapter-head"><div class="num-bubble">2</div><h2>Das Licht geht aus</h2></div>
+      <p>Es war mitten in der Nacht, als ein Zittern durch das Dorf ging.</p>
+      <p>Pauli wachte auf, weil es plötzlich so <strong>still</strong> war. Und so <strong>dunkel</strong>.</p>
+      <p>Die Leuchtblume — sie leuchtete nicht mehr! Wo eben noch das goldene Licht gestrahlt hatte, war jetzt nur ein grauer, welker Stängel.</p>
+      <p>Alle Mäuse kamen aus ihren Häusern gehuscht. Sie standen im Dunkeln und wisperten ängstlich durcheinander.</p>
+      <p>Die alte Bürgermeisterin, Frau Federbart, klopfte mit ihrem Stock auf einen Stein, bis alle still waren.</p>
+      <p>„Meine lieben Mäuse", sagte sie. „Die Leuchtblume ist müde geworden. So etwas geschieht alle hundert Jahre. Sie kann nur wieder erwachen, wenn jemand einen <strong>Funken vom Sternenlicht</strong> holt — von der Sternenblume, die ganz oben auf dem Nebelberg wächst."</p>
+      <p>Ein Raunen ging durch die Menge. Der Nebelberg! Dorthin führte der Weg durch den finsteren Nebelwald. Niemand ging freiwillig in den Nebelwald.</p>
+      <p>„Wer ist mutig genug, den Funken zu holen?", fragte Frau Federbart.</p>
+      <p>Alle schauten zu Boden. Keiner meldete sich. Nicht der starke Schmied. Nicht der schnelle Läufer. Niemand.</p>
+      <p>Und dann — Pauli wusste selbst nicht, warum — hörte Pauli sich mit ganz kleiner, zittriger Stimme sagen:</p>
+      <p>„Ich… ich gehe."</p>
+    </div>
   </section>
 
   <section class="chapter c3">
-    <div class="chapter-head"><div class="num-bubble">3</div><h2>Ein winziger Freund</h2><span class="emoji-tag">✨</span></div>
-    <p>Am nächsten Morgen stand Pauli am Rand des Dorfes, einen kleinen Rucksack aus einem Blatt auf dem Rücken. Darin: drei Haselnüsse, ein Schluck Tautropfenwasser und ein Stückchen Mut, das sich sehr, sehr klein anfühlte.</p>
-    <p>„Bist du sicher, dass du das schaffst?", fragte ein Mäusekind.</p>
-    <p>„Nein", sagte Pauli ehrlich. „Aber ich versuche es trotzdem."</p>
-    <p>Kaum hatte Pauli den ersten Schritt in den Wald gesetzt, hörte es ein winziges Stimmchen:</p>
-    <p>„Wart auf mich! Wart auf mich!"</p>
-    <p>Etwas Kleines, Blinkendes flog heran und setzte sich schnaufend auf Paulis Nase. Es war ein <strong>Glühwürmchen</strong>, nicht größer als ein Reiskorn, mit einem Lichtschweif, der immer wieder flackerte — an, aus, an, aus.</p>
-    <p>„Ich heiße <strong>Luna</strong>", sagte das Glühwürmchen. „Mein Licht ist ganz schwach, siehst du? Deshalb lacht mich zu Hause keiner ernst. Aber ein bisschen leuchten kann ich schon. Darf ich mitkommen? Zu zweit ist der Weg nur halb so dunkel."</p>
-    <p>Pauli lächelte zum ersten Mal seit langer Zeit.</p>
-    <p>„Zu zweit", sagte Pauli, „ist der Weg nur halb so dunkel. Komm mit, Luna."</p>
-    <p>Und so gingen die kleinste Maus und das schwächste Glühwürmchen zusammen los.</p>
+    <svg class="illo" viewBox="0 0 400 180" role="img" aria-label="Pauli am Waldrand, Luna das kleine Glühwürmchen setzt sich auf ihre Nase">
+      <rect width="400" height="180" fill="url(#gDawn)"/>
+      <ellipse cx="200" cy="176" rx="200" ry="28" fill="#BFD98E"/>
+      <use href="#tree" x="300" y="40" width="110" height="140"/>
+      <use href="#tree" x="10" y="60" width="80" height="110"/>
+      <use href="#mouse" x="150" y="86" width="96" height="96"/>
+      <use href="#firefly" x="196" y="92" width="52" height="52"/>
+      <g fill="#FFD23F" opacity=".8"><use href="#spark" x="236" y="70" width="14" height="14"/></g>
+    </svg>
+    <div class="chapter-body">
+      <div class="chapter-head"><div class="num-bubble">3</div><h2>Ein winziger Freund</h2></div>
+      <p>Am nächsten Morgen stand Pauli am Rand des Dorfes, einen kleinen Rucksack aus einem Blatt auf dem Rücken. Darin: drei Haselnüsse, ein Schluck Tautropfenwasser und ein Stückchen Mut, das sich sehr, sehr klein anfühlte.</p>
+      <p>„Bist du sicher, dass du das schaffst?", fragte ein Mäusekind.</p>
+      <p>„Nein", sagte Pauli ehrlich. „Aber ich versuche es trotzdem."</p>
+      <p>Kaum hatte Pauli den ersten Schritt in den Wald gesetzt, hörte es ein winziges Stimmchen:</p>
+      <p>„Wart auf mich! Wart auf mich!"</p>
+      <p>Etwas Kleines, Blinkendes flog heran und setzte sich schnaufend auf Paulis Nase. Es war ein <strong>Glühwürmchen</strong>, nicht größer als ein Reiskorn, mit einem Lichtschweif, der immer wieder flackerte — an, aus, an, aus.</p>
+      <p>„Ich heiße <strong>Luna</strong>", sagte das Glühwürmchen. „Mein Licht ist ganz schwach, siehst du? Deshalb lacht mich zu Hause keiner ernst. Aber ein bisschen leuchten kann ich schon. Darf ich mitkommen? Zu zweit ist der Weg nur halb so dunkel."</p>
+      <p>Pauli lächelte zum ersten Mal seit langer Zeit.</p>
+      <p>„Zu zweit", sagte Pauli, „ist der Weg nur halb so dunkel. Komm mit, Luna."</p>
+      <p>Und so gingen die kleinste Maus und das schwächste Glühwürmchen zusammen los.</p>
+    </div>
   </section>
 
   <section class="chapter c4">
-    <div class="chapter-head"><div class="num-bubble">4</div><h2>Der finstere Nebelwald</h2><span class="emoji-tag">🌫️</span></div>
-    <p>Bald wurde der Wald dichter. Die Bäume standen so eng, dass kaum ein Sonnenstrahl bis zum Boden fand. Grauer Nebel kroch zwischen den Stämmen hindurch und legte sich kalt um Paulis Ohren.</p>
-    <p>„Ich sehe fast nichts", flüsterte Pauli.</p>
-    <p>„Warte", sagte Luna. Sie flog ein Stückchen voraus, und ihr kleines Licht flackerte auf — an, aus, an. Es war nicht viel. Aber es reichte, um den nächsten Schritt zu sehen. Und den übernächsten.</p>
-    <p>„Weißt du was?", sagte Pauli. „Man muss gar nicht den ganzen Weg sehen. Man muss nur den nächsten Schritt sehen."</p>
-    <p>So gingen sie weiter, Schritt für Schritt, Lichtblick für Lichtblick.</p>
-    <p>Doch dann — <strong>KNACK</strong> — brach ein Ast.</p>
-    <p>Aus dem Nebel tauchten zwei große, gelbe Augen auf. Pauli erstarrte. Das Herz klopfte bis zum Hals.</p>
+    <svg class="illo" viewBox="0 0 400 180" role="img" aria-label="Der finstere Nebelwald mit dunklen Bäumen, Nebelschwaden und zwei gelben Augen">
+      <rect width="400" height="180" fill="url(#gForest)"/>
+      <use href="#treeDark" x="-6" y="20" width="110" height="150"/>
+      <use href="#treeDark" x="300" y="10" width="120" height="165"/>
+      <use href="#treeDark" x="150" y="0" width="100" height="140"/>
+      <ellipse cx="200" cy="172" rx="200" ry="26" fill="#1a352d"/>
+      <g fill="#FFD23F"><circle cx="330" cy="120" r="5"/><circle cx="348" cy="120" r="5"/><circle cx="330" cy="120" r="2" fill="#2b2b2b"/><circle cx="348" cy="120" r="2" fill="#2b2b2b"/></g>
+      <g fill="#FFFFFF" opacity=".28">
+        <ellipse cx="120" cy="120" rx="90" ry="16"/>
+        <ellipse cx="260" cy="150" rx="110" ry="18"/>
+        <ellipse cx="60" cy="90" rx="70" ry="12"/>
+      </g>
+      <use href="#mouse" x="120" y="108" width="60" height="60"/>
+      <use href="#firefly" x="158" y="96" width="40" height="40"/>
+    </svg>
+    <div class="chapter-body">
+      <div class="chapter-head"><div class="num-bubble">4</div><h2>Der finstere Nebelwald</h2></div>
+      <p>Bald wurde der Wald dichter. Die Bäume standen so eng, dass kaum ein Sonnenstrahl bis zum Boden fand. Grauer Nebel kroch zwischen den Stämmen hindurch und legte sich kalt um Paulis Ohren.</p>
+      <p>„Ich sehe fast nichts", flüsterte Pauli.</p>
+      <p>„Warte", sagte Luna. Sie flog ein Stückchen voraus, und ihr kleines Licht flackerte auf — an, aus, an. Es war nicht viel. Aber es reichte, um den nächsten Schritt zu sehen. Und den übernächsten.</p>
+      <p>„Weißt du was?", sagte Pauli. „Man muss gar nicht den ganzen Weg sehen. Man muss nur den nächsten Schritt sehen."</p>
+      <p>So gingen sie weiter, Schritt für Schritt, Lichtblick für Lichtblick.</p>
+      <p>Doch dann — <strong>KNACK</strong> — brach ein Ast.</p>
+      <p>Aus dem Nebel tauchten zwei große, gelbe Augen auf. Pauli erstarrte. Das Herz klopfte bis zum Hals.</p>
+    </div>
   </section>
 
   <section class="chapter c5">
-    <div class="chapter-head"><div class="num-bubble">5</div><h2>Bruno, der brummige Kröterich</h2><span class="emoji-tag">🐸</span></div>
-    <p>Die Augen gehörten zu einer großen, dicken Kröte, die breitbeinig auf einem Stein saß.</p>
-    <p>„Wer wagt es, durch <strong>meinen</strong> Wald zu trampeln?", brummte die Kröte.</p>
-    <p>Pauli zitterte so sehr, dass die Haselnüsse im Rucksack klapperten. Am liebsten wäre es weggerannt. Aber dann dachte es an das dunkle Dorf, an die müde Leuchtblume, an all die Mäuse, die auf den Funken warteten.</p>
-    <p>Pauli holte tief Luft und sagte mit fester Stimme — na ja, mit <em>fast</em> fester Stimme:</p>
-    <p>„Ich bin Pauli. Das ist Luna. Wir wollen zum Nebelberg, um einen Funken Sternenlicht zu holen. Unser Dorf ist dunkel geworden."</p>
-    <p>Die Kröte blinzelte. „Sternenlicht, so, so. Und ihr zwei Winzlinge wollt da hinauf? Ihr fallt doch beim ersten Windstoß um."</p>
-    <p>„Vielleicht", sagte Pauli. „Aber umkehren ist keine Möglichkeit."</p>
-    <p>Da geschah etwas Merkwürdiges. Die Kröte fing an zu lachen — ein tiefes, glucksendes Lachen.</p>
-    <p>„So viel Mut in so einer kleinen Maus. Ich heiße <strong>Bruno</strong>. Und weil ich seit hundert Jahren nichts so Tapferes mehr gesehen habe, bringe ich euch über den reißenden Bach. Springt auf meinen Rücken."</p>
+    <svg class="illo" viewBox="0 0 400 180" role="img" aria-label="Bruno der große Kröterich sitzt auf einem Stein und lacht, Pauli und Luna stehen davor">
+      <rect width="400" height="180" fill="url(#gForest)"/>
+      <use href="#treeDark" x="-10" y="20" width="100" height="150"/>
+      <use href="#treeDark" x="320" y="18" width="100" height="150"/>
+      <ellipse cx="200" cy="174" rx="200" ry="24" fill="#1a352d"/>
+      <ellipse cx="270" cy="150" rx="70" ry="26" fill="#556170"/>
+      <ellipse cx="270" cy="144" rx="70" ry="20" fill="#6b7787"/>
+      <use href="#toad" x="216" y="78" width="130" height="86"/>
+      <use href="#mouse" x="70" y="108" width="64" height="64"/>
+      <use href="#firefly" x="112" y="96" width="40" height="40"/>
+    </svg>
+    <div class="chapter-body">
+      <div class="chapter-head"><div class="num-bubble">5</div><h2>Bruno, der brummige Kröterich</h2></div>
+      <p>Die Augen gehörten zu einer großen, dicken Kröte, die breitbeinig auf einem Stein saß.</p>
+      <p>„Wer wagt es, durch <strong>meinen</strong> Wald zu trampeln?", brummte die Kröte.</p>
+      <p>Pauli zitterte so sehr, dass die Haselnüsse im Rucksack klapperten. Am liebsten wäre es weggerannt. Aber dann dachte es an das dunkle Dorf, an die müde Leuchtblume, an all die Mäuse, die auf den Funken warteten.</p>
+      <p>Pauli holte tief Luft und sagte mit fester Stimme — na ja, mit <em>fast</em> fester Stimme:</p>
+      <p>„Ich bin Pauli. Das ist Luna. Wir wollen zum Nebelberg, um einen Funken Sternenlicht zu holen. Unser Dorf ist dunkel geworden."</p>
+      <p>Die Kröte blinzelte. „Sternenlicht, so, so. Und ihr zwei Winzlinge wollt da hinauf? Ihr fallt doch beim ersten Windstoß um."</p>
+      <p>„Vielleicht", sagte Pauli. „Aber umkehren ist keine Möglichkeit."</p>
+      <p>Da geschah etwas Merkwürdiges. Die Kröte fing an zu lachen — ein tiefes, glucksendes Lachen.</p>
+      <p>„So viel Mut in so einer kleinen Maus. Ich heiße <strong>Bruno</strong>. Und weil ich seit hundert Jahren nichts so Tapferes mehr gesehen habe, bringe ich euch über den reißenden Bach. Springt auf meinen Rücken."</p>
+    </div>
   </section>
 
   <section class="chapter c6">
-    <div class="chapter-head"><div class="num-bubble">6</div><h2>Über den reißenden Bach</h2><span class="emoji-tag">🌊</span></div>
-    <p>Der Bach war breit und wild, das Wasser rauschte kalt und schäumte über die Steine. Alleine hätte Pauli ihn niemals überqueren können.</p>
-    <p>Aber Bruno setzte mit kräftigen Sprüngen von Stein zu Stein — <strong>hopp, hopp, hopp</strong> — während Pauli sich festhielt und Luna wie ein kleines Licht vorausflog, um die glitschigen Stellen zu zeigen.</p>
-    <p>Am anderen Ufer setzte Bruno die beiden vorsichtig ab.</p>
-    <p>„Weiter kann ich nicht mit", sagte Bruno. „Ab hier wird es steil, und Kröten sind keine Bergsteiger. Aber merkt euch eins, ihr Kleinen: <strong>Mut ist nicht, keine Angst zu haben. Mut ist, trotz der Angst weiterzugehen.</strong>"</p>
-    <p>Pauli nickte und drückte Brunos große Pfote. „Danke, Bruno. Du bist ein echter Freund."</p>
-    <p>„Ach was", brummte Bruno und wandte sich schnell ab, damit niemand die Träne in seinem Krötenauge sah. „Nun macht schon. Und kommt heil zurück, hört ihr?"</p>
+    <svg class="illo" viewBox="0 0 400 180" role="img" aria-label="Bruno springt mit Pauli auf dem Rücken von Stein zu Stein über einen reißenden Bach, Luna fliegt voraus">
+      <rect width="400" height="180" fill="url(#gWater)"/>
+      <g fill="#FFFFFF" opacity=".5">
+        <path d="M0 120 q30 -12 60 0 t60 0 t60 0 t60 0 t60 0 t60 0" stroke="#FFF" stroke-width="4" fill="none"/>
+        <path d="M0 148 q30 -12 60 0 t60 0 t60 0 t60 0 t60 0 t60 0" stroke="#FFF" stroke-width="4" fill="none"/>
+      </g>
+      <ellipse cx="70" cy="150" rx="34" ry="14" fill="#6b7787"/>
+      <ellipse cx="330" cy="150" rx="34" ry="14" fill="#6b7787"/>
+      <ellipse cx="200" cy="132" rx="30" ry="12" fill="#7d8998"/>
+      <use href="#toad" x="150" y="66" width="120" height="80"/>
+      <use href="#mouse" x="196" y="40" width="52" height="52"/>
+      <use href="#firefly" x="300" y="70" width="42" height="42"/>
+    </svg>
+    <div class="chapter-body">
+      <div class="chapter-head"><div class="num-bubble">6</div><h2>Über den reißenden Bach</h2></div>
+      <p>Der Bach war breit und wild, das Wasser rauschte kalt und schäumte über die Steine. Alleine hätte Pauli ihn niemals überqueren können.</p>
+      <p>Aber Bruno setzte mit kräftigen Sprüngen von Stein zu Stein — <strong>hopp, hopp, hopp</strong> — während Pauli sich festhielt und Luna wie ein kleines Licht vorausflog, um die glitschigen Stellen zu zeigen.</p>
+      <p>Am anderen Ufer setzte Bruno die beiden vorsichtig ab.</p>
+      <p>„Weiter kann ich nicht mit", sagte Bruno. „Ab hier wird es steil, und Kröten sind keine Bergsteiger. Aber merkt euch eins, ihr Kleinen: <strong>Mut ist nicht, keine Angst zu haben. Mut ist, trotz der Angst weiterzugehen.</strong>"</p>
+      <p>Pauli nickte und drückte Brunos große Pfote. „Danke, Bruno. Du bist ein echter Freund."</p>
+      <p>„Ach was", brummte Bruno und wandte sich schnell ab, damit niemand die Träne in seinem Krötenauge sah. „Nun macht schon. Und kommt heil zurück, hört ihr?"</p>
+    </div>
   </section>
 
   <section class="chapter c7">
-    <div class="chapter-head"><div class="num-bubble">7</div><h2>Der Nebelberg</h2><span class="emoji-tag">⛰️</span></div>
-    <p>Jetzt begann der schwerste Teil. Der Pfad wand sich steil den Nebelberg hinauf. Der Wind pfiff, die Steine waren glatt, und Paulis Beine wurden müde. So müde.</p>
-    <p>Auf halbem Weg setzte sich Pauli auf einen Felsen und ließ den Kopf hängen.</p>
-    <p>„Ich kann nicht mehr, Luna. Ich bin doch nur eine kleine Maus. Was habe ich mir bloß dabei gedacht?"</p>
-    <p>Luna setzte sich ganz nah auf Paulis Ohr.</p>
-    <p>„Weißt du noch im Wald?", sagte sie leise. „Du hast gesagt: Man muss nicht den ganzen Weg sehen. Nur den nächsten Schritt. Schau — da ist ein Stein. Schaffst du es bis zu diesem einen Stein?"</p>
-    <p>Pauli schaute. Der Stein war ganz nah.</p>
-    <p>„Das… das schaffe ich."</p>
-    <p>„Und danach der nächste. Und der nächste. Ich leuchte für dich, so gut ich kann."</p>
-    <p>Und so kämpften sie sich weiter, Stein für Stein, Lichtblick für Lichtblick, bis der Nebel plötzlich aufriss — und über ihnen der Gipfel im Sternenlicht erstrahlte.</p>
+    <svg class="illo" viewBox="0 0 400 180" role="img" aria-label="Der steile Nebelberg mit gewundenem Pfad, Pauli klettert mit Luna nach oben">
+      <rect width="400" height="180" fill="url(#gMountain)"/>
+      <path d="M0 180 L120 60 L200 120 L300 40 L400 180 Z" fill="#9b96c2"/>
+      <path d="M120 60 L150 88 L120 100 L96 84 Z" fill="#e9e6f4"/>
+      <path d="M300 40 L328 70 L300 82 L276 66 Z" fill="#e9e6f4"/>
+      <g fill="#FFFFFF" opacity=".35">
+        <ellipse cx="120" cy="140" rx="90" ry="14"/>
+        <ellipse cx="300" cy="120" rx="90" ry="14"/>
+      </g>
+      <path d="M40 178 Q120 150 130 120 Q140 96 210 100" stroke="#7d78a8" stroke-width="5" fill="none" stroke-dasharray="6 7" stroke-linecap="round"/>
+      <use href="#mouse" x="70" y="118" width="54" height="54"/>
+      <use href="#firefly" x="106" y="106" width="38" height="38"/>
+    </svg>
+    <div class="chapter-body">
+      <div class="chapter-head"><div class="num-bubble">7</div><h2>Der Nebelberg</h2></div>
+      <p>Jetzt begann der schwerste Teil. Der Pfad wand sich steil den Nebelberg hinauf. Der Wind pfiff, die Steine waren glatt, und Paulis Beine wurden müde. So müde.</p>
+      <p>Auf halbem Weg setzte sich Pauli auf einen Felsen und ließ den Kopf hängen.</p>
+      <p>„Ich kann nicht mehr, Luna. Ich bin doch nur eine kleine Maus. Was habe ich mir bloß dabei gedacht?"</p>
+      <p>Luna setzte sich ganz nah auf Paulis Ohr.</p>
+      <p>„Weißt du noch im Wald?", sagte sie leise. „Du hast gesagt: Man muss nicht den ganzen Weg sehen. Nur den nächsten Schritt. Schau — da ist ein Stein. Schaffst du es bis zu diesem einen Stein?"</p>
+      <p>Pauli schaute. Der Stein war ganz nah.</p>
+      <p>„Das… das schaffe ich."</p>
+      <p>„Und danach der nächste. Und der nächste. Ich leuchte für dich, so gut ich kann."</p>
+      <p>Und so kämpften sie sich weiter, Stein für Stein, Lichtblick für Lichtblick, bis der Nebel plötzlich aufriss — und über ihnen der Gipfel im Sternenlicht erstrahlte.</p>
+    </div>
   </section>
 
   <section class="chapter c8">
-    <div class="chapter-head"><div class="num-bubble">8</div><h2>Der Funke</h2><span class="emoji-tag">🌟</span></div>
-    <p>Ganz oben auf dem Gipfel wuchs sie: die <strong>Sternenblume</strong>. Ihre Blütenblätter schimmerten silbern, und in ihrer Mitte tanzten winzige Funken wie kleine Sterne.</p>
-    <p>Pauli trat vorsichtig näher.</p>
-    <p>„Bitte", flüsterte Pauli, „darf ich einen einzigen Funken haben? Für mein Dorf. Es ist so dunkel geworden."</p>
-    <p>Die Sternenblume neigte sich sanft im Wind, als würde sie nicken. Ein einziger, warmer Funke löste sich und schwebte langsam herab — genau in Paulis Pfötchen. Er war warm und leicht und kribbelte wie ein kleines Lachen.</p>
-    <p>„Wir haben es geschafft!", rief Luna und wirbelte vor Freude im Kreis. Und schau — mit einem Mal leuchtete auch <strong>ihr</strong> Licht heller als je zuvor. Denn wer einem Freund hilft, dessen eigenes Licht wächst.</p>
+    <svg class="illo" viewBox="0 0 400 180" role="img" aria-label="Auf dem Gipfel unter dem Sternenhimmel leuchtet die silberne Sternenblume, ein Funke schwebt zu Pauli">
+      <rect width="400" height="180" fill="url(#gSummit)"/>
+      <g fill="#FFF" opacity=".9">
+        <use href="#spark" x="50" y="24" width="16" height="16"/>
+        <use href="#spark" x="120" y="14" width="12" height="12"/>
+        <use href="#spark" x="330" y="30" width="18" height="18"/>
+        <use href="#spark" x="280" y="16" width="10" height="10"/>
+        <use href="#spark" x="360" y="90" width="12" height="12"/>
+      </g>
+      <path d="M0 180 L120 130 L240 150 L400 120 V180 Z" fill="#26356b"/>
+      <use href="#starflower" x="180" y="44" width="90" height="112"/>
+      <use href="#mouse" x="120" y="112" width="58" height="58"/>
+      <use href="#firefly" x="158" y="104" width="36" height="36"/>
+      <g fill="#FFD23F"><use href="#spark" x="188" y="108" width="16" height="16"/><use href="#spark" x="172" y="128" width="12" height="12"/></g>
+    </svg>
+    <div class="chapter-body">
+      <div class="chapter-head"><div class="num-bubble">8</div><h2>Der Funke</h2></div>
+      <p>Ganz oben auf dem Gipfel wuchs sie: die <strong>Sternenblume</strong>. Ihre Blütenblätter schimmerten silbern, und in ihrer Mitte tanzten winzige Funken wie kleine Sterne.</p>
+      <p>Pauli trat vorsichtig näher.</p>
+      <p>„Bitte", flüsterte Pauli, „darf ich einen einzigen Funken haben? Für mein Dorf. Es ist so dunkel geworden."</p>
+      <p>Die Sternenblume neigte sich sanft im Wind, als würde sie nicken. Ein einziger, warmer Funke löste sich und schwebte langsam herab — genau in Paulis Pfötchen. Er war warm und leicht und kribbelte wie ein kleines Lachen.</p>
+      <p>„Wir haben es geschafft!", rief Luna und wirbelte vor Freude im Kreis. Und schau — mit einem Mal leuchtete auch <strong>ihr</strong> Licht heller als je zuvor. Denn wer einem Freund hilft, dessen eigenes Licht wächst.</p>
+    </div>
   </section>
 
   <section class="chapter c9">
-    <div class="chapter-head"><div class="num-bubble">9</div><h2>Der Weg nach Hause</h2><span class="emoji-tag">🏡</span></div>
-    <p>Den ganzen Weg zurück hütete Pauli den Funken wie einen Schatz. Bruno wartete schon am Bach und trug sie glücklich hinüber. Gemeinsam liefen sie durch den Nebelwald, der jetzt gar nicht mehr so finster wirkte — denn zu dritt, mit einem Funken Sternenlicht, war der Weg hell und warm.</p>
-    <p>Als sie das Dorf unter der Wurzel erreichten, kamen alle Mäuse aus ihren Häusern.</p>
-    <p>Ganz behutsam setzte Pauli den Funken in die Mitte der müden Leuchtblume.</p>
-    <p>Einen Augenblick geschah nichts.</p>
-    <p>Dann — ganz langsam — richtete sich der welke Stängel auf. Die Blätter entfalteten sich. Und mit einem sanften <strong>Wusch</strong> flammte das goldene Licht wieder auf, heller und wärmer als je zuvor. Das ganze Dorf strahlte.</p>
+    <svg class="illo" viewBox="0 0 400 180" role="img" aria-label="Zurück im Dorf: die Leuchtblume strahlt wieder golden, die Mäuse feiern">
+      <rect width="400" height="180" fill="url(#gHome)"/>
+      <ellipse cx="200" cy="176" rx="200" ry="30" fill="#C9A876"/>
+      <path d="M-10 180 Q60 100 30 180 Z" fill="#7a5b3a"/>
+      <path d="M410 180 Q340 100 370 180 Z" fill="#7a5b3a"/>
+      <g stroke="#FFD23F" stroke-width="4" opacity=".55" stroke-linecap="round">
+        <path d="M200 70 V20"/><path d="M200 70 L150 30"/><path d="M200 70 L250 30"/><path d="M200 70 L130 60"/><path d="M200 70 L270 60"/>
+      </g>
+      <use href="#house" x="36" y="120" width="66" height="56"/>
+      <use href="#house" x="300" y="122" width="64" height="54"/>
+      <use href="#flower" x="160" y="46" width="80" height="100"/>
+      <use href="#mouse" x="110" y="120" width="52" height="52"/>
+      <use href="#mouse" x="250" y="122" width="50" height="50"/>
+    </svg>
+    <div class="chapter-body">
+      <div class="chapter-head"><div class="num-bubble">9</div><h2>Der Weg nach Hause</h2></div>
+      <p>Den ganzen Weg zurück hütete Pauli den Funken wie einen Schatz. Bruno wartete schon am Bach und trug sie glücklich hinüber. Gemeinsam liefen sie durch den Nebelwald, der jetzt gar nicht mehr so finster wirkte — denn zu dritt, mit einem Funken Sternenlicht, war der Weg hell und warm.</p>
+      <p>Als sie das Dorf unter der Wurzel erreichten, kamen alle Mäuse aus ihren Häusern.</p>
+      <p>Ganz behutsam setzte Pauli den Funken in die Mitte der müden Leuchtblume.</p>
+      <p>Einen Augenblick geschah nichts.</p>
+      <p>Dann — ganz langsam — richtete sich der welke Stängel auf. Die Blätter entfalteten sich. Und mit einem sanften <strong>Wusch</strong> flammte das goldene Licht wieder auf, heller und wärmer als je zuvor. Das ganze Dorf strahlte.</p>
+    </div>
   </section>
 
   <section class="chapter c10">
-    <div class="chapter-head"><div class="num-bubble">10</div><h2>Die mutigste Maus</h2><span class="emoji-tag">💛</span></div>
-    <p>Die Mäuse jubelten und feierten die ganze Nacht. Und in der Mitte standen Pauli, Luna und Bruno.</p>
-    <p>„Wie hast du das nur geschafft?", fragte ein Mäusekind Pauli mit großen Augen. „Du hattest doch immer vor allem Angst!"</p>
-    <p>Pauli überlegte einen Moment. Dann lächelte es.</p>
-    <p>„Ich hatte auch diesmal Angst", sagte Pauli. „Die ganze Zeit sogar. Aber ich habe gelernt: Man muss nicht ohne Angst sein, um mutig zu sein. Man muss nur den nächsten Schritt tun. Und — " Pauli schaute zu Luna und Bruno, „man schafft es leichter, wenn man gute Freunde hat."</p>
-    <p>Von diesem Tag an war Pauli nicht mehr die schüchterne kleine Maus. Pauli war die Maus, die zeigte, dass auch der Kleinste Großes vollbringen kann.</p>
-    <p>Und jeden Abend, wenn die Leuchtblume golden strahlte, saßen drei Freunde beieinander — eine kleine Maus, ein Glühwürmchen und ein brummiger Kröterich — und waren einfach nur froh, dass sie sich gefunden hatten.</p>
+    <svg class="illo" viewBox="0 0 400 180" role="img" aria-label="Pauli, Luna und Bruno sitzen als Freunde beieinander unter der leuchtenden Blume, kleine Herzen schweben darüber">
+      <rect width="400" height="180" fill="url(#gDawn)"/>
+      <ellipse cx="200" cy="176" rx="200" ry="28" fill="#BFD98E"/>
+      <use href="#flower" x="170" y="34" width="70" height="88"/>
+      <g fill="#FF7BA9" opacity=".85">
+        <path d="M120 54 q-8 -10 -16 0 q-8 10 16 20 q24 -10 16 -20 q-8 -10 -16 0 Z"/>
+        <path d="M300 60 q-6 -8 -12 0 q-6 8 12 15 q18 -7 12 -15 q-6 -8 -12 0 Z"/>
+      </g>
+      <use href="#toad" x="240" y="96" width="120" height="80"/>
+      <use href="#mouse" x="90" y="108" width="70" height="70"/>
+      <use href="#firefly" x="176" y="96" width="44" height="44"/>
+    </svg>
+    <div class="chapter-body">
+      <div class="chapter-head"><div class="num-bubble">10</div><h2>Die mutigste Maus</h2></div>
+      <p>Die Mäuse jubelten und feierten die ganze Nacht. Und in der Mitte standen Pauli, Luna und Bruno.</p>
+      <p>„Wie hast du das nur geschafft?", fragte ein Mäusekind Pauli mit großen Augen. „Du hattest doch immer vor allem Angst!"</p>
+      <p>Pauli überlegte einen Moment. Dann lächelte es.</p>
+      <p>„Ich hatte auch diesmal Angst", sagte Pauli. „Die ganze Zeit sogar. Aber ich habe gelernt: Man muss nicht ohne Angst sein, um mutig zu sein. Man muss nur den nächsten Schritt tun. Und — " Pauli schaute zu Luna und Bruno, „man schafft es leichter, wenn man gute Freunde hat."</p>
+      <p>Von diesem Tag an war Pauli nicht mehr die schüchterne kleine Maus. Pauli war die Maus, die zeigte, dass auch der Kleinste Großes vollbringen kann.</p>
+      <p>Und jeden Abend, wenn die Leuchtblume golden strahlte, saßen drei Freunde beieinander — eine kleine Maus, ein Glühwürmchen und ein brummiger Kröterich — und waren einfach nur froh, dass sie sich gefunden hatten.</p>
+    </div>
   </section>
 
   <div class="theend">🌟 Ende 🌟</div>
@@ -289,7 +578,7 @@
     </ul>
   </div>
 
-  <footer>Geschrieben für dich — eine Geschichte zum Vorlesen, Selberlesen und Mutigsein.</footer>
+  <footer>Geschrieben und illustriert für dich — eine Geschichte zum Vorlesen, Selberlesen und Mutigsein.</footer>
 
 </div>
 </body>
