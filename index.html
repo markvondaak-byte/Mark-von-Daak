@@ -279,6 +279,14 @@
     display: grid; place-items: center; color: var(--accent); }
   .vc-clip .row .line { flex: 1; }
 
+  /* ---------- trust bar ---------- */
+  .trust-tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  @media (max-width: 760px) { .trust-tiles { grid-template-columns: repeat(2, 1fr); } }
+  .trust-tile { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 30px 20px; text-align: center; box-shadow: var(--shadow); }
+  .trust-tile .tn { display: block; font-family: var(--display); font-weight: 800; font-size: clamp(1.8rem, 4vw, 2.6rem); color: var(--accent); font-variant-numeric: tabular-nums; letter-spacing: -.02em; line-height: 1; }
+  .trust-tile .tl { display: block; margin-top: 10px; font-size: .82rem; color: var(--ink-soft); text-transform: uppercase; letter-spacing: .09em; }
+  .trust-note { margin-top: 28px; text-align: center; font-size: .9rem; color: var(--ink-soft); max-width: 62ch; margin-inline: auto; }
+
   /* ---------- footer ---------- */
   footer.site { background: var(--bg-2); border-top: 1px solid var(--line); padding: 56px 0 40px; }
   .foot-top { display: flex; justify-content: space-between; gap: 30px; flex-wrap: wrap; }
@@ -514,6 +522,24 @@
       <span class="eyebrow" style="justify-content:center;">Erfahrung</span>
       <blockquote>Mark hat mich vom ersten Tag an persönlich begleitet – heute fühle ich mich fitter und wohler als seit Jahren.</blockquote>
       <p class="by"><strong>Sabine K.</strong> · begleitet von Mark</p>
+    </div>
+  </section>
+
+  <!-- VERTRAUEN -->
+  <section id="vertrauen" class="band" aria-labelledby="trust-title">
+    <div class="wrap">
+      <div class="section-head center">
+        <span class="eyebrow">Weltweit vertraut</span>
+        <h2 id="trust-title">Qualität, auf die sich sogar Profis verlassen</h2>
+        <p>Millionenfach bewährt und im Spitzensport zu Hause – FitLine ist offizieller Ernährungspartner zahlreicher Sportverbände sowie Athletinnen und Athleten.</p>
+      </div>
+      <div class="trust-tiles">
+        <div class="trust-tile"><span class="tn">1&nbsp;Mrd.+</span><span class="tl">verkaufte Produkte</span></div>
+        <div class="trust-tile"><span class="tn">1.000+</span><span class="tl">Athleten weltweit</span></div>
+        <div class="trust-tile"><span class="tn">70+</span><span class="tl">Länder</span></div>
+        <div class="trust-tile"><span class="tn">35+</span><span class="tl">Jahre Erfahrung</span></div>
+      </div>
+      <p class="trust-note">Geprüft auf der Kölner Liste® für sauberen, dopingfreien Sport · Made in Germany.</p>
     </div>
   </section>
 
