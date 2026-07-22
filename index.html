@@ -285,6 +285,11 @@
   .foot-links { display: flex; gap: 26px; flex-wrap: wrap; }
   .foot-links a { color: var(--ink-soft); text-decoration: none; font-size: .95rem; }
   .foot-links a:hover { color: var(--accent); }
+  .foot-brand { max-width: 360px; }
+  .foot-tagline { margin-top: 12px; color: var(--ink-soft); font-size: .98rem; max-width: 34ch; }
+  .socials { display: flex; gap: 12px; margin-top: 20px; }
+  .socials a { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; background: var(--surface); border: 1px solid var(--line); color: var(--ink); transition: transform .18s ease, background .2s, color .2s, border-color .2s; }
+  .socials a:hover { background: var(--accent); color: #fff; border-color: var(--accent); transform: translateY(-2px); }
   .disclaimer { margin-top: 34px; padding-top: 26px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); line-height: 1.7; max-width: 90ch; }
   .disclaimer strong { color: var(--ink); }
   .copy { margin-top: 22px; font-size: .82rem; color: var(--ink-soft); }
@@ -564,7 +569,15 @@
 <footer class="site">
   <div class="wrap">
     <div class="foot-top">
-      <a class="brand" href="#top"><span class="dot" aria-hidden="true"></span> Vital und fit mit Mark</a>
+      <div class="foot-brand">
+        <a class="brand" href="#top"><span class="dot" aria-hidden="true"></span> Vital und fit mit Mark</a>
+        <p class="foot-tagline">Mehr Energie. Mehr Lebensfreude. Persönlich begleitet.</p>
+        <div class="socials">
+          <a href="#" target="_blank" rel="noopener" aria-label="Facebook"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.7-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.2c-1.2 0-1.6.8-1.6 1.5V12h2.7l-.4 2.9h-2.3v7A10 10 0 0 0 22 12z"/></svg></a>
+          <a href="#" target="_blank" rel="noopener" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></a>
+          <a href="#" target="_blank" rel="noopener" aria-label="YouTube"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 12s0-3.2-.4-4.7a2.5 2.5 0 0 0-1.8-1.8C19.3 5 12 5 12 5s-7.3 0-8.8.5A2.5 2.5 0 0 0 1.4 7.3 26 26 0 0 0 1 12a26 26 0 0 0 .4 4.7 2.5 2.5 0 0 0 1.8 1.8C4.7 19 12 19 12 19s7.3 0 8.8-.5a2.5 2.5 0 0 0 1.8-1.8C23 15.2 23 12 23 12zM9.8 15.3V8.7l6 3.3-6 3.3z"/></svg></a>
+        </div>
+      </div>
       <nav class="foot-links" aria-label="Fußzeile">
         <a href="#ergebnisse">Ergebnisse</a>
         <a href="#ueber-mich">Über mich</a>
