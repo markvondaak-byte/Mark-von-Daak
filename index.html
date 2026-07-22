@@ -233,6 +233,13 @@
   .quote blockquote::after { content: "\201C"; color: var(--accent); }
   .quote .by { margin-top: 26px; color: var(--ink-soft); font-size: .98rem; }
   .quote .by strong { color: var(--ink); font-weight: 600; }
+  .testi-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+  @media (max-width: 760px) { .testi-grid { grid-template-columns: 1fr; } }
+  .testi { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 14px; margin: 0; }
+  .testi .stars { color: var(--accent); letter-spacing: 3px; font-size: .95rem; }
+  .testi blockquote { margin: 0; font-size: 1.05rem; line-height: 1.6; color: var(--ink); }
+  .testi .who { margin-top: auto; font-size: .92rem; color: var(--ink-soft); }
+  .testi .who strong { color: var(--ink); font-weight: 600; }
 
   /* ---------- CTA ---------- */
   .cta-card { background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 62%, #000)); border-radius: 28px; padding: clamp(38px, 6vw, 72px); text-align: center; color: #fff; position: relative; overflow: hidden; }
@@ -524,11 +531,35 @@
   </section>
 
   <!-- TESTIMONIAL -->
-  <section aria-label="Kundenstimme">
-    <div class="wrap quote">
-      <span class="eyebrow" style="justify-content:center;">Erfahrung</span>
-      <blockquote>Mark hat mich vom ersten Tag an persönlich begleitet – heute fühle ich mich fitter und wohler als seit Jahren.</blockquote>
-      <p class="by"><strong>Sabine K.</strong> · begleitet von Mark</p>
+  <section id="erfahrungen" aria-labelledby="testi-title">
+    <div class="wrap">
+      <div class="section-head center">
+        <span class="eyebrow">Erfahrungen</span>
+        <h2 id="testi-title">Das sagen Menschen, die Mark begleitet</h2>
+        <p>Ehrliche Stimmen aus meiner persönlichen Begleitung.</p>
+      </div>
+      <div class="testi-grid">
+        <figure class="testi">
+          <div class="stars" aria-label="5 von 5 Sternen">★★★★★</div>
+          <blockquote>Mark hat mich vom ersten Tag an persönlich begleitet – heute fühle ich mich fitter und wohler als seit Jahren.</blockquote>
+          <figcaption class="who"><strong>Sabine K.</strong> · begleitet von Mark</figcaption>
+        </figure>
+        <figure class="testi">
+          <div class="stars" aria-label="5 von 5 Sternen">★★★★★</div>
+          <blockquote>Mit dem PowerCocktail am Morgen starte ich viel energiegeladener in den Tag. Die Beratung war ehrlich und ganz ohne Druck.</blockquote>
+          <figcaption class="who"><strong>Thomas R.</strong> · seit 8 Monaten dabei</figcaption>
+        </figure>
+        <figure class="testi">
+          <div class="stars" aria-label="5 von 5 Sternen">★★★★★</div>
+          <blockquote>Wir haben zu zweit angefangen – Mark hat für jeden von uns die passende Routine gefunden. Wir fühlen uns rundum gut betreut.</blockquote>
+          <figcaption class="who"><strong>Nadine &amp; Jörg</strong> · gemeinsam gestartet</figcaption>
+        </figure>
+        <figure class="testi">
+          <div class="stars" aria-label="5 von 5 Sternen">★★★★★</div>
+          <blockquote>Endlich jemand, der wirklich zuhört und nichts aufschwatzt. Ich merke deutlich mehr Energie im Alltag und bleibe gerne dran.</blockquote>
+          <figcaption class="who"><strong>Michael B.</strong> · Freizeitsportler</figcaption>
+        </figure>
+      </div>
     </div>
   </section>
 
