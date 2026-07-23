@@ -1,0 +1,528 @@
+#!/usr/bin/env python3
+# Generator fuer den 6x9-Innenteil von "Pauli und das kleine Licht".
+# Erzeugt innenteil.html (>= 76 Seiten) mit erweiterter Geschichte,
+# Zitat-Seiten, Figuren-Vorstellung und Bonus-Seiten. Nur Inline-SVG.
+
+# ---------- Farb-Palette pro Kapitel ----------
+PALETTE = [
+    ("#2F9BD6", "#EAF7FF", "#2F9BD6", "#ffffff"),  # blue
+    ("#8C7AE6", "#efeafc", "#8C7AE6", "#ffffff"),  # violet
+    ("#17B6A0", "#e5f8f4", "#17B6A0", "#ffffff"),  # teal
+    ("#FF7BA9", "#ffeaf2", "#FF7BA9", "#ffffff"),  # pink
+    ("#F6B93B", "#fff4dd", "#c98a00", "#4a3708"),  # sun
+]
+
+def color_css(nchapters):
+    out = []
+    for i in range(1, nchapters + 1):
+        bubble, panel, k, txt = PALETTE[(i - 1) % len(PALETTE)]
+        out.append(
+            f".c{i} .num-bubble{{background:{bubble};color:{txt}}} "
+            f".c{i} .panel{{background:{panel}}} "
+            f".k{i}c{{color:{k}}} .c{i} .story strong{{color:{k}}}"
+        )
+    return "\n  ".join(out)
+
+# ---------- SVG: gemeinsame Figuren ----------
+DEFS = r'''
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="gDawn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFDCA8"/><stop offset="1" stop-color="#FFF1DC"/></linearGradient>
+    <linearGradient id="gNight" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b2a52"/><stop offset="1" stop-color="#3a4a86"/></linearGradient>
+    <linearGradient id="gForest" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#20463d"/><stop offset="1" stop-color="#356054"/></linearGradient>
+    <linearGradient id="gWater" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8ed3ef"/><stop offset="1" stop-color="#4aa0d2"/></linearGradient>
+    <linearGradient id="gMountain" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c4bfe0"/><stop offset="1" stop-color="#e7e3f2"/></linearGradient>
+    <linearGradient id="gSummit" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#152150"/><stop offset="1" stop-color="#33417a"/></linearGradient>
+    <linearGradient id="gHome" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE4A6"/><stop offset="1" stop-color="#FFF6E2"/></linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#FFE9A0" stop-opacity=".95"/><stop offset="1" stop-color="#FFE9A0" stop-opacity="0"/></radialGradient>
+    <symbol id="mouse" viewBox="0 0 120 120">
+      <path d="M92 96 q24 -4 20 -28" stroke="#AEB6C0" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <ellipse cx="58" cy="90" rx="34" ry="26" fill="#B9C0C9"/>
+      <circle cx="40" cy="42" r="15" fill="#C7CDD5"/><circle cx="40" cy="42" r="8" fill="#F6B7C8"/>
+      <circle cx="76" cy="42" r="15" fill="#C7CDD5"/><circle cx="76" cy="42" r="8" fill="#F6B7C8"/>
+      <circle cx="58" cy="60" r="27" fill="#C7CDD5"/>
+      <circle cx="50" cy="58" r="3.6" fill="#2b2b2b"/><circle cx="66" cy="58" r="3.6" fill="#2b2b2b"/>
+      <circle cx="58" cy="70" r="4" fill="#F0728F"/>
+      <path d="M58 74 v5" stroke="#8a909a" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="firefly" viewBox="0 0 60 60">
+      <circle cx="34" cy="36" r="20" fill="url(#glow)"/>
+      <ellipse cx="21" cy="20" rx="7" ry="5" fill="#eef8dc" opacity=".85" transform="rotate(-25 21 20)"/>
+      <ellipse cx="31" cy="18" rx="7" ry="5" fill="#eef8dc" opacity=".85" transform="rotate(15 31 18)"/>
+      <ellipse cx="28" cy="28" rx="11" ry="9" fill="#93cf50"/>
+      <circle cx="24" cy="27" r="1.9" fill="#2b2b2b"/><circle cx="32" cy="27" r="1.9" fill="#2b2b2b"/>
+      <path d="M24 33 q4 3 8 0" stroke="#3f6b1f" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+      <circle cx="34" cy="36" r="6.5" fill="#FFD23F"/>
+    </symbol>
+    <symbol id="toad" viewBox="0 0 160 110">
+      <ellipse cx="34" cy="100" rx="13" ry="7" fill="#4f9e4b"/><ellipse cx="126" cy="100" rx="13" ry="7" fill="#4f9e4b"/>
+      <ellipse cx="80" cy="76" rx="60" ry="31" fill="#5fb35a"/><ellipse cx="80" cy="68" rx="52" ry="25" fill="#74c46e"/>
+      <circle cx="60" cy="84" r="3" fill="#4a9147"/><circle cx="95" cy="90" r="3" fill="#4a9147"/><circle cx="80" cy="80" r="3" fill="#4a9147"/>
+      <circle cx="52" cy="42" r="16" fill="#74c46e"/><circle cx="108" cy="42" r="16" fill="#74c46e"/>
+      <circle cx="52" cy="40" r="9" fill="#FFF"/><circle cx="52" cy="41" r="5" fill="#2b2b2b"/>
+      <circle cx="108" cy="40" r="9" fill="#FFF"/><circle cx="108" cy="41" r="5" fill="#2b2b2b"/>
+      <path d="M56 74 q24 20 48 0" stroke="#2f6b34" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="flower" viewBox="0 0 120 150">
+      <path d="M60 150 V72" stroke="#4a9147" stroke-width="7" fill="none"/>
+      <path d="M60 116 q-24 -4 -32 -22 q24 -4 32 14 Z" fill="#5fb35a"/>
+      <path d="M60 104 q24 -4 32 -22 q-24 -4 -32 14 Z" fill="#5fb35a"/>
+      <circle cx="60" cy="54" r="46" fill="url(#glow)"/>
+      <g fill="#F6B93B"><ellipse cx="60" cy="26" rx="10" ry="17"/><ellipse cx="84" cy="38" rx="10" ry="17" transform="rotate(45 84 38)"/><ellipse cx="92" cy="60" rx="17" ry="10"/><ellipse cx="84" cy="82" rx="10" ry="17" transform="rotate(-45 84 82)"/><ellipse cx="60" cy="94" rx="10" ry="17"/><ellipse cx="36" cy="82" rx="10" ry="17" transform="rotate(45 36 82)"/><ellipse cx="28" cy="60" rx="17" ry="10"/><ellipse cx="36" cy="38" rx="10" ry="17" transform="rotate(-45 36 38)"/></g>
+      <circle cx="60" cy="60" r="17" fill="#FFD23F"/><circle cx="60" cy="60" r="9" fill="#FFF3C4"/>
+    </symbol>
+    <symbol id="flowerdead" viewBox="0 0 120 150">
+      <path d="M60 150 Q58 100 44 82" stroke="#8a8f88" stroke-width="7" fill="none" stroke-linecap="round"/>
+      <g fill="#9aa0a0"><ellipse cx="40" cy="74" rx="8" ry="14" transform="rotate(-40 40 74)"/><ellipse cx="30" cy="82" rx="8" ry="13" transform="rotate(20 30 82)"/><ellipse cx="48" cy="66" rx="8" ry="13" transform="rotate(-70 48 66)"/></g>
+      <circle cx="40" cy="76" r="9" fill="#b6bab6"/>
+    </symbol>
+    <symbol id="starflower" viewBox="0 0 120 150">
+      <path d="M60 150 V70" stroke="#8fae9a" stroke-width="5" fill="none"/>
+      <circle cx="60" cy="54" r="46" fill="url(#glow)"/>
+      <g fill="#DCEAF6" stroke="#b6cede" stroke-width="1.5"><path d="M60 18 L69 46 L60 54 L51 46 Z"/><path d="M96 44 L67 50 L61 58 L74 62 Z"/><path d="M82 88 L62 66 L54 66 L60 88 Z"/><path d="M38 88 L58 66 L66 66 L60 88 Z"/><path d="M24 44 L53 50 L59 58 L46 62 Z"/></g>
+      <circle cx="60" cy="54" r="12" fill="#FFFFFF"/><circle cx="60" cy="54" r="6" fill="#EAF3FF"/>
+    </symbol>
+    <symbol id="tree" viewBox="0 0 100 130"><rect x="44" y="72" width="12" height="55" rx="4" fill="#7a5b3a"/><circle cx="50" cy="46" r="34" fill="#4f9d55"/><circle cx="28" cy="58" r="22" fill="#5aa85f"/><circle cx="72" cy="58" r="22" fill="#5aa85f"/></symbol>
+    <symbol id="treeDark" viewBox="0 0 100 130"><rect x="45" y="70" width="10" height="58" rx="4" fill="#243b2f"/><path d="M50 8 L82 60 H18 Z" fill="#2c5045"/><path d="M50 30 L78 78 H22 Z" fill="#356054"/></symbol>
+    <symbol id="spark" viewBox="0 0 40 40"><path d="M20 2 L24 16 L38 20 L24 24 L20 38 L16 24 L2 20 L16 16 Z" fill="#FFD23F"/></symbol>
+    <symbol id="house" viewBox="0 0 100 90"><ellipse cx="50" cy="60" rx="40" ry="30" fill="#C79A5B"/><path d="M18 60 Q50 20 82 60 Z" fill="#a9814a"/><ellipse cx="50" cy="70" rx="12" ry="16" fill="#5b432a"/></symbol>
+    <symbol id="spider" viewBox="0 0 60 60">
+      <g stroke="#2b2b2b" stroke-width="2.4" fill="none" stroke-linecap="round">
+        <path d="M30 30 L12 20"/><path d="M30 30 L10 30"/><path d="M30 30 L12 42"/><path d="M30 30 L18 50"/>
+        <path d="M30 30 L48 20"/><path d="M30 30 L50 30"/><path d="M30 30 L48 42"/><path d="M30 30 L42 50"/>
+      </g>
+      <ellipse cx="30" cy="32" rx="10" ry="12" fill="#2b2b2b"/><circle cx="30" cy="22" r="6" fill="#2b2b2b"/>
+      <circle cx="27" cy="21" r="1.5" fill="#fff"/><circle cx="33" cy="21" r="1.5" fill="#fff"/>
+    </symbol>
+  </defs>
+</svg>
+'''
+
+# ---------- Szenen (viewBox 0 0 400 300) ----------
+SCENES = {}
+SCENES["village"] = '''<rect width="400" height="300" fill="url(#gDawn)"/><ellipse cx="200" cy="296" rx="220" ry="46" fill="#C9A876"/><path d="M-10 300 Q60 160 30 300 Z" fill="#7a5b3a"/><path d="M410 300 Q340 160 370 300 Z" fill="#7a5b3a"/><use href="#house" x="40" y="196" width="80" height="70"/><use href="#house" x="300" y="200" width="76" height="66"/><use href="#flower" x="158" y="70" width="90" height="112"/><use href="#mouse" x="120" y="188" width="70" height="70"/>'''
+SCENES["night"] = '''<rect width="400" height="300" fill="url(#gNight)"/><circle cx="330" cy="66" r="30" fill="#FDF3C4"/><circle cx="320" cy="58" r="26" fill="url(#gNight)" opacity=".9"/><g fill="#FFF" opacity=".8"><use href="#spark" x="60" y="40" width="12" height="12"/><use href="#spark" x="120" y="26" width="10" height="10"/><use href="#spark" x="250" y="46" width="10" height="10"/></g><ellipse cx="200" cy="296" rx="220" ry="44" fill="#20304f"/><use href="#house" x="40" y="200" width="72" height="62"/><use href="#house" x="298" y="204" width="68" height="58"/><use href="#flowerdead" x="176" y="96" width="80" height="102"/><use href="#mouse" x="150" y="196" width="62" height="62"/>'''
+SCENES["assembly"] = '''<rect width="400" height="300" fill="url(#gNight)"/><circle cx="342" cy="54" r="26" fill="#FDF3C4"/><circle cx="333" cy="48" r="22" fill="url(#gNight)" opacity=".9"/><g fill="#FFF" opacity=".8"><use href="#spark" x="60" y="40" width="12" height="12"/><use href="#spark" x="150" y="26" width="10" height="10"/><use href="#spark" x="250" y="46" width="10" height="10"/></g><ellipse cx="200" cy="296" rx="220" ry="44" fill="#20304f"/><use href="#flowerdead" x="168" y="88" width="80" height="104"/><use href="#mouse" x="34" y="214" width="46" height="46"/><use href="#mouse" x="90" y="220" width="42" height="42"/><use href="#mouse" x="150" y="228" width="40" height="40"/><use href="#mouse" x="266" y="220" width="44" height="44"/><use href="#mouse" x="320" y="214" width="46" height="46"/>'''
+SCENES["farewell"] = '''<rect width="400" height="300" fill="url(#gDawn)"/><ellipse cx="200" cy="296" rx="220" ry="46" fill="#BFD98E"/><path d="M150 300 Q230 250 320 236" stroke="#C9A876" stroke-width="18" fill="none" opacity=".7" stroke-linecap="round"/><use href="#house" x="16" y="200" width="74" height="64"/><use href="#house" x="84" y="208" width="60" height="52"/><use href="#tree" x="300" y="86" width="110" height="140"/><path d="M232 208 L256 184" stroke="#7a5b3a" stroke-width="3.5" stroke-linecap="round"/><circle cx="260" cy="180" r="11" fill="#c98a5a"/><use href="#mouse" x="176" y="198" width="66" height="66"/>'''
+SCENES["forestedge"] = '''<rect width="400" height="300" fill="url(#gDawn)"/><ellipse cx="200" cy="296" rx="220" ry="44" fill="#BFD98E"/><use href="#tree" x="300" y="70" width="120" height="150"/><use href="#tree" x="4" y="96" width="90" height="120"/><use href="#mouse" x="150" y="150" width="104" height="104"/><use href="#firefly" x="198" y="150" width="56" height="56"/><use href="#spark" x="244" y="120" width="16" height="16"/>'''
+SCENES["darkforest"] = '''<rect width="400" height="300" fill="url(#gForest)"/><use href="#treeDark" x="-6" y="30" width="120" height="170"/><use href="#treeDark" x="300" y="16" width="130" height="185"/><use href="#treeDark" x="150" y="0" width="110" height="160"/><ellipse cx="200" cy="296" rx="220" ry="40" fill="#1a352d"/><g fill="#FFD23F"><circle cx="330" cy="200" r="6"/><circle cx="352" cy="200" r="6"/><circle cx="330" cy="200" r="2.5" fill="#2b2b2b"/><circle cx="352" cy="200" r="2.5" fill="#2b2b2b"/></g><g fill="#FFFFFF" opacity=".28"><ellipse cx="120" cy="200" rx="100" ry="18"/><ellipse cx="260" cy="250" rx="120" ry="20"/><ellipse cx="60" cy="150" rx="80" ry="14"/></g><use href="#mouse" x="120" y="188" width="64" height="64"/><use href="#firefly" x="160" y="172" width="42" height="42"/>'''
+SCENES["toadstone"] = '''<rect width="400" height="300" fill="url(#gForest)"/><use href="#treeDark" x="-10" y="30" width="110" height="160"/><use href="#treeDark" x="320" y="26" width="110" height="160"/><ellipse cx="200" cy="296" rx="220" ry="38" fill="#1a352d"/><ellipse cx="270" cy="250" rx="80" ry="30" fill="#556170"/><ellipse cx="270" cy="242" rx="80" ry="22" fill="#6b7787"/><use href="#toad" x="212" y="128" width="140" height="94"/><use href="#mouse" x="66" y="186" width="70" height="70"/><use href="#firefly" x="112" y="170" width="42" height="42"/>'''
+SCENES["water"] = '''<rect width="400" height="300" fill="url(#gWater)"/><g><path d="M0 200 q30 -14 60 0 t60 0 t60 0 t60 0 t60 0 t60 0" stroke="#FFF" stroke-width="5" fill="none" opacity=".5"/><path d="M0 240 q30 -14 60 0 t60 0 t60 0 t60 0 t60 0 t60 0" stroke="#FFF" stroke-width="5" fill="none" opacity=".5"/></g><ellipse cx="66" cy="250" rx="38" ry="16" fill="#6b7787"/><ellipse cx="334" cy="250" rx="38" ry="16" fill="#6b7787"/><ellipse cx="200" cy="224" rx="34" ry="14" fill="#7d8998"/><use href="#toad" x="146" y="118" width="130" height="86"/><use href="#mouse" x="196" y="86" width="56" height="56"/><use href="#firefly" x="300" y="122" width="44" height="44"/>'''
+SCENES["thorns"] = '''<rect width="400" height="300" fill="url(#gForest)"/><use href="#treeDark" x="-12" y="30" width="100" height="150"/><use href="#treeDark" x="330" y="30" width="100" height="150"/><ellipse cx="200" cy="296" rx="220" ry="38" fill="#1a352d"/><g stroke="#6b4a2a" stroke-width="6" fill="none" stroke-linecap="round"><path d="M150 300 Q182 210 150 130"/><path d="M210 300 Q196 210 214 132"/><path d="M262 300 Q236 214 258 140"/><path d="M150 210 L128 196"/><path d="M214 200 L236 186"/><path d="M258 210 L280 198"/></g><g fill="#6b4a2a"><path d="M150 168 l-12 6 l10 5 Z"/><path d="M214 172 l12 5 l-10 6 Z"/><path d="M256 176 l12 5 l-10 6 Z"/></g><g stroke="#cfe0d8" stroke-width="1" opacity=".7" fill="none"><path d="M300 90 L340 70 M300 90 L344 96 M300 90 L322 128 M300 90 L286 60"/><circle cx="300" cy="90" r="14"/><circle cx="300" cy="90" r="24"/></g><use href="#spider" x="288" y="104" width="30" height="30"/><use href="#mouse" x="70" y="200" width="60" height="60"/><use href="#firefly" x="112" y="186" width="40" height="40"/>'''
+SCENES["mountain"] = '''<rect width="400" height="300" fill="url(#gMountain)"/><path d="M0 300 L120 100 L200 200 L300 70 L400 300 Z" fill="#9b96c2"/><path d="M120 100 L152 140 L120 156 L94 134 Z" fill="#e9e6f4"/><path d="M300 70 L330 112 L300 128 L274 106 Z" fill="#e9e6f4"/><g fill="#FFFFFF" opacity=".35"><ellipse cx="120" cy="230" rx="100" ry="16"/><ellipse cx="300" cy="200" rx="100" ry="16"/></g><path d="M40 296 Q130 250 140 200 Q150 164 210 168" stroke="#7d78a8" stroke-width="6" fill="none" stroke-dasharray="7 8" stroke-linecap="round"/><use href="#mouse" x="70" y="196" width="56" height="56"/><use href="#firefly" x="108" y="182" width="40" height="40"/>'''
+SCENES["nightmountain"] = '''<rect width="400" height="300" fill="url(#gSummit)"/><circle cx="330" cy="60" r="24" fill="#FDF3C4"/><circle cx="322" cy="54" r="20" fill="url(#gSummit)" opacity=".9"/><g fill="#FFF" opacity=".9"><use href="#spark" x="40" y="30" width="14" height="14"/><use href="#spark" x="110" y="20" width="10" height="10"/><use href="#spark" x="180" y="36" width="12" height="12"/><use href="#spark" x="250" y="22" width="10" height="10"/><use href="#spark" x="370" y="120" width="12" height="12"/><use href="#spark" x="60" y="80" width="9" height="9"/></g><path d="M0 300 L100 210 L260 240 L400 210 V300 Z" fill="#20305e"/><ellipse cx="150" cy="252" rx="72" ry="16" fill="#2b3a6e"/><use href="#mouse" x="118" y="198" width="58" height="58"/><use href="#firefly" x="158" y="186" width="36" height="36"/>'''
+SCENES["summit"] = '''<rect width="400" height="300" fill="url(#gSummit)"/><g fill="#FFF" opacity=".9"><use href="#spark" x="50" y="34" width="16" height="16"/><use href="#spark" x="120" y="20" width="12" height="12"/><use href="#spark" x="330" y="40" width="18" height="18"/><use href="#spark" x="280" y="22" width="10" height="10"/><use href="#spark" x="360" y="130" width="12" height="12"/></g><path d="M0 300 L120 220 L240 250 L400 200 V300 Z" fill="#26356b"/><use href="#starflower" x="178" y="62" width="94" height="118"/><use href="#mouse" x="118" y="190" width="60" height="60"/><use href="#firefly" x="158" y="176" width="38" height="38"/><g fill="#FFD23F"><use href="#spark" x="188" y="180" width="16" height="16"/><use href="#spark" x="172" y="204" width="12" height="12"/></g>'''
+SCENES["home"] = '''<rect width="400" height="300" fill="url(#gHome)"/><ellipse cx="200" cy="296" rx="220" ry="46" fill="#C9A876"/><path d="M-10 300 Q60 160 30 300 Z" fill="#7a5b3a"/><path d="M410 300 Q340 160 370 300 Z" fill="#7a5b3a"/><g stroke="#FFD23F" stroke-width="5" opacity=".55" stroke-linecap="round"><path d="M200 116 V40"/><path d="M200 116 L140 60"/><path d="M200 116 L260 60"/><path d="M200 116 L120 108"/><path d="M200 116 L280 108"/></g><use href="#house" x="36" y="200" width="72" height="62"/><use href="#house" x="300" y="204" width="70" height="58"/><use href="#flower" x="158" y="70" width="86" height="108"/><use href="#mouse" x="110" y="200" width="56" height="56"/><use href="#mouse" x="252" y="204" width="54" height="54"/>'''
+SCENES["trio"] = '''<rect width="400" height="300" fill="url(#gDawn)"/><ellipse cx="200" cy="296" rx="220" ry="44" fill="#BFD98E"/><use href="#flower" x="168" y="56" width="70" height="88"/><g fill="#FF7BA9" opacity=".85"><path d="M110 84 q-8 -10 -16 0 q-8 10 16 20 q24 -10 16 -20 q-8 -10 -16 0 Z"/><path d="M300 90 q-6 -8 -12 0 q-6 8 12 15 q18 -7 12 -15 q-6 -8 -12 0 Z"/></g><use href="#toad" x="240" y="140" width="130" height="86"/><use href="#mouse" x="86" y="170" width="76" height="76"/><use href="#firefly" x="176" y="150" width="46" height="46"/>'''
+
+# Kleine Figurengruppen fuer Zitat-Seiten (viewBox 0 0 300 200)
+def vig_svg(chars):
+    tmpl = {
+        "mouse":     '<use href="#mouse" x="{x}" y="70" width="90" height="90"/>',
+        "firefly":   '<use href="#firefly" x="{x}" y="80" width="56" height="56"/>',
+        "toad":      '<use href="#toad" x="{x}" y="76" width="120" height="80"/>',
+        "flower":    '<use href="#flower" x="{x}" y="34" width="80" height="100"/>',
+        "flowerdead":'<use href="#flowerdead" x="{x}" y="44" width="70" height="92"/>',
+        "starflower":'<use href="#starflower" x="{x}" y="34" width="80" height="100"/>',
+    }
+    widths = {"mouse":90,"firefly":56,"toad":120,"flower":80,"flowerdead":70,"starflower":80}
+    total = sum(widths[c] for c in chars) + 14 * (len(chars) - 1)
+    x = 150 - total / 2
+    parts = []
+    for c in chars:
+        parts.append(tmpl[c].format(x=round(x)))
+        x += widths[c] + 14
+    return ('<svg class="vscene" viewBox="0 0 300 200">'
+            '<ellipse cx="150" cy="168" rx="120" ry="18" fill="#000" opacity=".05"/>'
+            + "".join(parts) + '</svg>')
+
+# ---------- Story-Inhalt ----------
+# Absaetze mit dreifachen Anfuehrungszeichen, deutsche Zeichen: „ … "
+P = lambda *ps: list(ps)
+
+CH = [
+ dict(title="Das Dorf unter der Wurzel", scene="village",
+   pages=[
+     P("""Tief unter den Wurzeln der großen, alten Eiche lag ein Dorf, so klein und so gut versteckt, dass kein Mensch es je gesehen hatte. Es war das Dorf der Wurzelmäuse. Die Häuschen waren aus Moos, Nussschalen und Eichenrinde gebaut, und die Wege waren mit weichem Waldstaub bestreut.""",
+       """Über allem hing ein warmes, goldenes Licht. Es kam von der <strong>Leuchtblume</strong>, die mitten auf dem Dorfplatz stand – groß wie ein Regenschirm und hell wie ein kleiner Sonnenaufgang. Tag und Nacht leuchtete sie und wärmte das ganze Dorf."""),
+     P("""Bei ihrem Schein spielten die Mäusekinder Fangen, backten die Bäcker ihr Eichelbrot, und abends erzählten die Großeltern ihre schönsten Geschichten.""",
+       """In einem der allerkleinsten Häuser wohnte eine Maus namens <strong>Pauli</strong>. Pauli war die kleinste Maus im ganzen Dorf – und, das muss man ehrlich sagen, auch die schüchternste.""",
+       """Wenn die anderen um die Wette liefen, stand Pauli lieber am Rand und schaute zu. „Ich bin eben kein mutiger Typ“, flüsterte Pauli dann. „Mut haben die anderen.“ Doch eines Abends geschah etwas, das alles veränderte."""),
+   ],
+   vig=(["mouse"], "Mut haben die anderen, dachte Pauli. Doch da irrte sich die kleine Maus gewaltig.")),
+
+ dict(title="Als das Licht erlosch", scene="night",
+   pages=[
+     P("""Es war mitten in der Nacht, als ein leises Zittern durch das Dorf ging. Pauli wachte auf, weil es plötzlich so <strong>still</strong> war. Und so <strong>dunkel</strong>.""",
+       """Pauli tappte zum Fenster – und erschrak. Die Leuchtblume leuchtete nicht mehr! Wo eben noch das goldene Licht gestrahlt hatte, stand jetzt nur ein grauer, welker Stängel im Dunkeln."""),
+     P("""Überall gingen Türen auf. Verschlafen und ängstlich kamen die Mäuse auf den Dorfplatz und drängten sich zusammen. „Was ist mit unserem Licht geschehen?“, riefen sie durcheinander. „Wie soll es jetzt weitergehen?“""",
+       """Da klopfte die alte Bürgermeisterin, Frau Federbart, mit ihrem Stock auf einen Stein, bis alle still waren. Und dann erzählte sie, was niemand hören wollte."""),
+   ],
+   vig=(["flowerdead"], "Wo eben noch Licht gewesen war, blieb nun nur die Dunkelheit.")),
+
+ dict(title="Niemand traut sich", scene="assembly",
+   pages=[
+     P("""„Die Leuchtblume ist sehr, sehr müde geworden“, sagte Frau Federbart. „So etwas geschieht nur alle hundert Jahre. Sie kann wieder erwachen – aber nur, wenn jemand einen <strong>Funken vom Sternenlicht</strong> holt.“""",
+       """„Sternenlicht?“, flüsterten die Mäuse. „Ja“, sagte Frau Federbart ernst. „Hoch oben auf dem Nebelberg wächst die Sternenblume. Nur ein Funke von ihr kann unser Licht zurückbringen. Doch der Weg dorthin führt mitten durch den finsteren Nebelwald.“"""),
+     P("""Ein Raunen ging durch die Menge. Der Nebelwald! Dorthin ging niemand freiwillig. „Wer von euch ist mutig genug?“, fragte Frau Federbart.""",
+       """Der starke Schmied schaute weg. Der schnelle Läufer betrachtete seine Füße. Einer nach dem anderen fand einen Grund. Es wurde ganz still.""",
+       """Und dann – Pauli wusste selbst nicht, warum – hörte sich die kleinste Maus mit zittriger Stimme sagen: „Ich… ich gehe.“ Alle drehten sich um. „Du?“, fragten sie. „Ich“, sagte Pauli noch einmal, ganz leise."""),
+     P("""„Du bist doch viel zu klein“, flüsterte eine Maus. „Der Nebelwald verschluckt dich!“ Pauli spürte, wie die Angst im Bauch immer größer wurde. Doch dann schaute es zur dunklen Leuchtblume – und wusste: Wenn niemand geht, bleibt es für immer dunkel.""",
+       """„Vielleicht bin ich klein“, sagte Pauli und reckte sich, so hoch es konnte, „aber klein heißt nicht mutlos. Ich versuche es. Für uns alle.“ Frau Federbart nickte langsam, und in ihren alten Augen glänzte etwas wie Stolz."""),
+   ],
+   vig=(["mouse"], "Ich gehe, sagte die kleinste Stimme von allen – und meinte es ernst.")),
+
+ dict(title="Abschied im Morgengrauen", scene="farewell",
+   pages=[
+     P("""Am nächsten Morgen, als der erste Lichtschein durch die Wurzeln fiel, stand Pauli am Rand des Dorfes. Auf dem Rücken trug Pauli einen winzigen Rucksack aus einem gefalteten Blatt.""",
+       """Darin lagen drei Haselnüsse, ein Schluck Tautropfenwasser und ein Stückchen Mut, das sich sehr, sehr klein anfühlte. Frau Federbart legte Pauli eine Pfote auf die Schulter. „Vergiss nie“, sagte sie, „auch das kleinste Licht kann die Dunkelheit vertreiben.“"""),
+     P("""„Bist du sicher, dass du das schaffst?“, fragte ein Mäusekind mit großen Augen. Pauli schluckte. „Nein“, sagte Pauli ehrlich. „Aber ich versuche es trotzdem.“""",
+       """Dann drehte sich Pauli um, atmete tief ein und machte den ersten Schritt hinaus in den Wald. Es war der schwerste Schritt von allen. Denn es war der allererste."""),
+   ],
+   vig=(["mouse"], "Der schwerste Schritt ist fast immer der allererste.")),
+
+ dict(title="Ein winziger Freund", scene="forestedge",
+   pages=[
+     P("""Kaum war Pauli ein paar Schritte gegangen, hörte es hinter sich ein winziges Stimmchen. „Wart auf mich! Wart auf mich!“""",
+       """Etwas Kleines, Blinkendes flatterte heran und setzte sich schnaufend auf Paulis Nase. Es war ein <strong>Glühwürmchen</strong>, nicht größer als ein Reiskorn, mit einem Lichtschweif, der immer wieder flackerte – an, aus, an, aus."""),
+     P("""„Ich heiße <strong>Luna</strong>“, sagte das Glühwürmchen ein wenig verlegen. „Mein Licht ist ganz schwach, siehst du? Zu Hause lacht mich deshalb keiner ernst. Aber ein bisschen leuchten kann ich schon. Darf ich mitkommen?“""",
+       """Pauli schaute in Lunas hoffnungsvolles Gesichtchen und lächelte zum ersten Mal seit Langem. „Zu zweit“, sagte Pauli, „ist der Weg nur halb so dunkel. Komm mit, Luna.“ Und so gingen die kleinste Maus und das schwächste Glühwürmchen zusammen los."""),
+   ],
+   vig=(["mouse","firefly"], "Zu zweit ist der Weg nur halb so dunkel.")),
+
+ dict(title="Tiefer in den Nebelwald", scene="darkforest",
+   pages=[
+     P("""Bald wurde der Wald dichter und dunkler. Die Bäume standen so eng beieinander, dass kaum ein Sonnenstrahl bis zum Boden fand. Grauer Nebel kroch zwischen den Stämmen hindurch und legte sich kalt um Paulis Ohren.""",
+       """„Ich sehe fast nichts“, flüsterte Pauli und blieb stehen. „Warte“, sagte Luna. Sie flog ein Stückchen voraus, und ihr kleines Licht flackerte auf – an, aus, an."""),
+     P("""Es war nicht viel Licht. Aber es reichte, um den nächsten Schritt zu sehen. Und dann den übernächsten. „Weißt du was?“, sagte Pauli langsam. „Man muss gar nicht den ganzen Weg auf einmal sehen. Man muss nur den nächsten Schritt sehen.“""",
+       """So gingen sie weiter, Schritt für Schritt, Lichtblick für Lichtblick. Doch dann – <strong>KNACK</strong> – brach irgendwo ein Ast. Pauli erstarrte. Aus dem Nebel tauchten zwei große, gelbe Augen auf."""),
+   ],
+   vig=(["firefly"], "Man muss nicht den ganzen Weg sehen – nur den nächsten Schritt.")),
+
+ dict(title="Bruno, der Kröterich", scene="toadstone",
+   pages=[
+     P("""Die gelben Augen gehörten zu einer großen, dicken Kröte, die breitbeinig auf einem Stein saß. „Wer wagt es, durch <strong>meinen</strong> Wald zu trampeln?“, brummte sie mit tiefer Stimme.""",
+       """Pauli zitterte so sehr, dass die Haselnüsse im Rucksack klapperten. Am liebsten wäre es weggerannt. Aber dann dachte Pauli an das dunkle Dorf und an all die Mäuse, die auf den Funken warteten."""),
+     P("""Pauli holte tief Luft und sagte mit fast fester Stimme: „Ich bin Pauli. Wir wollen zum Nebelberg, um einen Funken Sternenlicht zu holen. Unser Dorf ist dunkel geworden.“""",
+       """Die Kröte blinzelte überrascht. Dann fing sie an zu lachen – ein tiefes, glucksendes Lachen. „So viel Mut in so einer kleinen Maus! Ich heiße <strong>Bruno</strong>. Und weil ich seit hundert Jahren nichts so Tapferes gesehen habe, helfe ich euch. Springt auf meinen Rücken!“"""),
+   ],
+   vig=(["toad"], "Wahre Freunde findet man oft an den allerseltsamsten Orten.")),
+
+ dict(title="Über den reißenden Bach", scene="water",
+   pages=[
+     P("""Schon bald kamen sie an einen Bach. Er war breit und wild, das Wasser rauschte kalt und schäumte über die glitschigen Steine. Ganz allein hätte Pauli ihn niemals überqueren können.""",
+       """Aber Bruno setzte mit kräftigen Sprüngen von Stein zu Stein – <strong>hopp, hopp, hopp</strong> –, während Pauli sich an seinem Rücken festhielt und Luna vorausflog, um die rutschigen Stellen zu zeigen."""),
+     P("""Am anderen Ufer setzte Bruno die beiden vorsichtig ab. „Weiter kann ich nicht mit“, sagte er. „Kröten sind eben keine Bergsteiger. Aber merkt euch eins, ihr Kleinen: <strong>Mut ist nicht, keine Angst zu haben. Mut ist, trotz der Angst weiterzugehen.</strong>“""",
+       """Pauli drückte Brunos große Pfote. „Danke, Bruno. Du bist ein echter Freund.“ „Ach was“, brummte Bruno und drehte sich rasch weg, damit niemand die Träne in seinem Auge sah. „Nun macht schon. Und kommt heil zurück!“"""),
+   ],
+   vig=(["toad","mouse"], "Mut ist nicht, keine Angst zu haben – Mut ist, trotzdem weiterzugehen.")),
+
+ dict(title="Das Dornengestrüpp", scene="thorns",
+   pages=[
+     P("""Kaum hatten sie den Bach hinter sich gelassen, versperrte ihnen ein dichtes Dornengestrüpp den Weg. Spitze Ranken wuchsen kreuz und quer, und mittendrin hing ein großes, silbriges Spinnennetz.""",
+       """„Oh nein“, flüsterte Pauli. „Da kommen wir nie hindurch.“ In diesem Moment kribbelte etwas über das Netz: eine große Spinne mit acht langen Beinen. „Niemand geht durch mein Tor“, zischte sie, „ohne mir ein Rätsel zu lösen.“"""),
+     P("""Pauli schluckte. „Ein… ein Rätsel?“ „Was“, fragte die Spinne, „wird größer, je mehr man es teilt?“ Pauli überlegte. Es dachte an Luna, die ihr Licht mit ihm teilte. Es dachte an Bruno, der seine Kraft geteilt hatte.""",
+       """„Die Freude!“, rief Pauli. „Und der Mut! Beides wird größer, wenn man es teilt.“ Die Spinne war so verblüfft, dass sie beiseiterückte. „Noch nie hat das jemand so schnell erraten“, murmelte sie. „Geht nur hindurch.“"""),
+     P("""Als sie durch das Gestrüpp geschlüpft waren, rief die Spinne ihnen nach: „Warte, kleine Maus! Nimm diesen Faden mit. Er leuchtet ein wenig im Dunkeln – ein Dankeschön fürs klügste Rätselraten seit hundert Jahren.“""",
+       """Pauli bedankte sich höflich und wickelte den silbrigen Faden um seine Pfote. Wer weiß, dachte es, vielleicht kann man sogar aus einem Grummel-Wesen einen Freund machen, wenn man nur freundlich bleibt."""),
+   ],
+   vig=(["mouse","firefly"], "Geteilte Freude und geteilter Mut werden größer, niemals kleiner.")),
+
+ dict(title="Der steile Nebelberg", scene="mountain",
+   pages=[
+     P("""Hinter dem Gestrüpp begann der Nebelberg. Der Pfad wand sich steil nach oben. Der Wind pfiff, die Steine waren glatt, und schon nach kurzer Zeit wurden Paulis Beine müde. So müde.""",
+       """Höher und höher kletterten sie. Der Nebel wurde dichter, die Luft immer kälter. Pauli rutschte aus, fing sich gerade noch – und traute sich kaum noch weiterzugehen."""),
+     P("""Auf halbem Weg setzte sich Pauli auf einen Felsen und ließ den Kopf hängen. „Ich kann nicht mehr, Luna“, sagte es leise. „Ich bin doch nur eine kleine Maus. Was habe ich mir bloß dabei gedacht?“""",
+       """Luna setzte sich ganz nah auf Paulis Ohr und schwieg einen Moment. Dann sagte sie etwas, das Pauli nie mehr vergessen würde."""),
+   ],
+   vig=(["mouse"], "Manchmal ist der schwerste Berg der, den wir in unserem Kopf hinaufsteigen.")),
+
+ dict(title="Eine Nacht am Berg", scene="nightmountain",
+   pages=[
+     P("""„Weißt du noch, unten im Wald?“, sagte Luna leise. „Du hast gesagt: Man muss nicht den ganzen Weg sehen. Nur den nächsten Schritt. Schau – da vorne ist ein Stein. Schaffst du es bis zu diesem einen Stein?“""",
+       """Pauli hob den Kopf. Der Stein war ganz nah. „Das… das schaffe ich.“ „Und danach der nächste“, sagte Luna. „Ich leuchte für dich, so gut ich kann.“"""),
+     P("""Es wurde Nacht, und sie machten Rast auf einem schmalen Felsvorsprung. Über ihnen funkelten unzählige Sterne. „Hast du eigentlich auch manchmal Angst?“, fragte Pauli. Luna nickte. „Ganz oft. Aber wenn ich bei dir bin, ist sie viel kleiner.“""",
+       """Da rückten die beiden ganz nah zusammen, und Pauli begriff etwas Wichtiges: Auch wer selbst Angst hat, kann für einen anderen mutig sein."""),
+     P("""Mitten in der Nacht wachte Pauli einmal auf. Der Wind war kalt, und für einen Moment fühlte es sich schrecklich allein an. Doch dann sah es Lunas kleines Licht, das ganz ruhig neben ihm glomm – an, aus, an.""",
+       """Pauli lächelte und schloss die Augen wieder. Solange dieses eine kleine Licht bei ihm war, konnte keine Dunkelheit der Welt ihm wirklich etwas anhaben."""),
+   ],
+   vig=(["mouse","firefly"], "Auch wer selbst Angst hat, kann für einen anderen ganz mutig sein.")),
+
+ dict(title="Der Gipfel", scene="summit",
+   pages=[
+     P("""Als die Sonne aufging, war der Nebel plötzlich verschwunden – und über ihnen leuchtete der Gipfel im ersten Morgenlicht. Mit letzter Kraft kletterten Pauli und Luna die allerletzten Schritte hinauf.""",
+       """Und da stand sie: die <strong>Sternenblume</strong>. Ihre Blütenblätter schimmerten silbern, und in ihrer Mitte tanzten winzige Funken wie kleine, lebendige Sterne."""),
+     P("""Pauli trat vorsichtig näher. „Bitte“, flüsterte es, „darf ich einen einzigen Funken haben? Für mein Dorf. Es ist so dunkel geworden.“ Die Sternenblume neigte sich sanft im Wind, als würde sie nicken.""",
+       """Ein einziger, warmer Funke löste sich und schwebte langsam herab – genau in Paulis Pfötchen. „Wir haben es geschafft!“, jubelte Luna und wirbelte im Kreis. Und schau – mit einem Mal leuchtete auch <strong>ihr</strong> Licht heller als je zuvor."""),
+     P("""Vorsichtig, ganz vorsichtig, legte Pauli den Funken in den kleinen Rucksack – dorthin, wo am Morgen noch das Stückchen Mut gelegen hatte. „Komm“, sagte Pauli zu Luna, und die Stimme klang mit einem Mal ganz stark. „Bringen wir das Licht nach Hause.“""",
+       """Und zum ersten Mal, seit sie losgegangen waren, hatte Pauli überhaupt keine Angst mehr – nur noch Vorfreude auf all die glücklichen Gesichter zu Hause."""),
+   ],
+   vig=(["starflower"], "Wer einem Freund hilft, dessen eigenes Licht wächst mit.")),
+
+ dict(title="Der Weg nach Hause", scene="home",
+   pages=[
+     P("""Den ganzen Weg zurück hütete Pauli den Funken wie einen kostbaren Schatz. Am Bach wartete Bruno schon und trug die beiden glücklich hinüber. „Ich wusste, dass ihr es schafft“, brummte er stolz.""",
+       """Gemeinsam liefen sie durch den Nebelwald, der jetzt gar nicht mehr so finster wirkte. Denn zu dritt, mit einem Funken Sternenlicht, war der Weg hell und warm."""),
+     P("""Als sie endlich das Dorf unter der Wurzel erreichten, kamen alle Mäuse aus ihren Häusern gelaufen. Ganz behutsam setzte Pauli den Funken in die Mitte der müden Leuchtblume.""",
+       """Einen Augenblick geschah nichts. Dann – ganz langsam – richtete sich der welke Stängel auf. Die Blätter entfalteten sich. Und mit einem sanften <strong>Wusch</strong> flammte das goldene Licht wieder auf, heller und wärmer als je zuvor. Das ganze Dorf strahlte."""),
+   ],
+   vig=(["flower"], "Ein einziger kleiner Funke genügt, um die größte Dunkelheit zu vertreiben.")),
+
+ dict(title="Die mutigste Maus", scene="trio",
+   pages=[
+     P("""Die Mäuse jubelten und feierten die ganze Nacht. Und mitten im goldenen Licht standen Pauli, Luna und Bruno. „Wie hast du das nur geschafft?“, fragte ein Mäusekind. „Du hattest doch immer vor allem Angst!“""",
+       """Pauli überlegte einen Moment. Dann lächelte es. „Ich hatte auch diesmal Angst“, sagte Pauli. „Die ganze Zeit sogar.“"""),
+     P("""„Aber ich habe etwas gelernt: Man muss nicht ohne Angst sein, um mutig zu sein. Man muss nur den nächsten Schritt tun. Und –“, Pauli schaute zu Luna und Bruno, „man schafft es viel leichter, wenn man gute Freunde hat.“""",
+       """Von diesem Tag an war Pauli nicht mehr die schüchterne kleine Maus. Pauli war die Maus, die zeigte, dass auch der Allerkleinste Großes vollbringen kann. Und jeden Abend saßen drei Freunde beisammen und waren einfach nur froh, dass sie sich gefunden hatten."""),
+   ],
+   vig=(["mouse","firefly","toad"], "Auch der Allerkleinste kann das Allergrößte vollbringen.")),
+]
+
+# ---------- Sheet-Bausteine ----------
+def sheet_illo(cls, scene_svg, num, title):
+    return (f'<div class="sheet illo-sheet {cls}"><div class="panel">'
+            f'<svg class="scene" viewBox="0 0 400 300">{scene_svg}</svg>'
+            f'<div class="cap"><span class="num-bubble">{num}</span><h2>{title}</h2></div>'
+            f'</div></div>')
+
+def sheet_text(cls, num, title, paras, kicker, last):
+    kick = f'<p class="kicker k{num}c">Kapitel {num} · {title}</p>' if kicker else ''
+    body = "".join(f'<p>{p}</p>' for p in paras)
+    fl = '<div class="flourish">✦ ✦ ✦</div>' if last else ''
+    return f'<div class="sheet text-sheet {cls}"><div class="story">{kick}{body}</div>{fl}</div>'
+
+def sheet_vig(cls, chars, caption):
+    return (f'<div class="sheet illo-sheet vignette {cls}"><div class="panel">'
+            f'{vig_svg(chars)}'
+            f'<p class="vcap">„{caption}“</p>'
+            f'</div></div>')
+
+# ---------- Zusammenbau ----------
+sheets = []
+
+sheets.append('''<div class="sheet center title-page">
+  <svg class="hero-mini" viewBox="0 0 400 210">
+    <rect width="400" height="210" rx="20" fill="url(#gNight)"/>
+    <g fill="#FFF" opacity=".85"><use href="#spark" x="40" y="24" width="16" height="16"/><use href="#spark" x="330" y="36" width="20" height="20"/><use href="#spark" x="300" y="16" width="10" height="10"/><use href="#spark" x="70" y="56" width="10" height="10"/></g>
+    <ellipse cx="200" cy="205" rx="150" ry="24" fill="#3a2c1e"/>
+    <use href="#flower" x="152" y="46" width="96" height="120"/>
+    <use href="#toad" x="240" y="128" width="120" height="82"/>
+    <use href="#mouse" x="118" y="132" width="90" height="90"/>
+    <use href="#firefly" x="196" y="104" width="46" height="46"/>
+  </svg>
+  <h1>Pauli und<br/>das kleine Licht</h1>
+  <div class="sub">Eine Geschichte über Mut und Freundschaft</div>
+  <div class="author">Mark von Daak</div>
+</div>''')
+
+sheets.append('''<div class="sheet imprint"><div class="box">
+  <h3>Pauli und das kleine Licht</h3>
+  <p>Eine Geschichte über Mut und Freundschaft</p>
+  <p>Text und Illustrationen: Mark von Daak</p>
+  <p class="small">1. Auflage · 2026<br/>© 2026 Mark von Daak. Alle Rechte vorbehalten.<br/>Kein Teil dieses Buches darf ohne schriftliche Genehmigung des Autors reproduziert oder verbreitet werden.<br/><br/>Die Figuren und die Handlung dieses Buches sind frei erfunden.<br/>Independently published.</p>
+</div></div>''')
+
+sheets.append('''<div class="sheet center dedication"><p>Für alle kleinen Mäuse,<br/>die glauben, sie seien nicht mutig genug.<br/>Ihr seid es.</p></div>''')
+
+sheets.append('''<div class="sheet center halftitle"><div class="deco">🌟</div><h2>Pauli und das kleine Licht</h2></div>''')
+
+sheets.append('''<div class="sheet figpage"><h2 class="figtitle">Die Freunde dieser Geschichte</h2>
+  <div class="fig"><svg viewBox="0 0 120 120"><use href="#mouse" x="14" y="14" width="92" height="92"/></svg>
+    <div class="txt"><h3>Pauli</h3><p>Die kleinste und schüchternste Maus im Dorf unter der Wurzel. Pauli glaubt, gar nicht mutig zu sein – und beweist genau das Gegenteil.</p></div></div>
+  <div class="fig"><svg viewBox="0 0 60 60"><use href="#firefly" x="4" y="4" width="52" height="52"/></svg>
+    <div class="txt"><h3>Luna</h3><p>Ein kleines Glühwürmchen mit einem schwachen, flackernden Licht. Luna zeigt Pauli, dass schon ein winziger Schein den nächsten Schritt möglich macht.</p></div></div>
+</div>''')
+
+sheets.append('''<div class="sheet figpage"><h2 class="figtitle">… und wen sie unterwegs treffen</h2>
+  <div class="fig"><svg viewBox="0 0 160 120"><use href="#toad" x="10" y="18" width="140" height="94"/></svg>
+    <div class="txt"><h3>Bruno</h3><p>Ein großer, brummiger Kröterich aus dem Nebelwald. Hinter seinem Grummeln steckt ein weiches Herz – und der beste Rat der ganzen Reise.</p></div></div>
+  <div class="fig"><svg viewBox="0 0 120 150"><use href="#flower" x="10" y="14" width="100" height="124"/></svg>
+    <div class="txt"><h3>Die Leuchtblume</h3><p>Das goldene Herz des Mäusedorfes. Sie spendet Licht und Wärme – bis sie eines Nachts erlischt und Paulis Abenteuer beginnt.</p></div></div>
+</div>''')
+
+for i, ch in enumerate(CH, start=1):
+    cls = f"c{i}"
+    sheets.append(sheet_illo(cls, SCENES[ch["scene"]], i, ch["title"]))
+    npages = len(ch["pages"])
+    for j, paras in enumerate(ch["pages"]):
+        sheets.append(sheet_text(cls, i, ch["title"], paras, kicker=(j == 0), last=(j == npages - 1)))
+    chars, cap = ch["vig"]
+    sheets.append(sheet_vig(cls, chars, cap))
+
+sheets.append('''<div class="sheet center theend-sheet"><div><div class="bigstar">🌟</div><div class="endword">Ende</div><p class="endsub">…aber Paulis Mut geht weiter – jedes Mal, wenn du dich traust.</p></div></div>''')
+
+sheets.append('''<div class="sheet mp"><h2 class="mph">Ein kleines Mutmach-Gedicht</h2>
+  <div class="poem">
+    <p>Wenn's dunkel wird und bang ums Herz,<br/>dann denk an Pauli – trotz dem Schmerz:</p>
+    <p>Du musst nicht groß, nicht furchtlos sein,<br/>geh einen Schritt – und nie allein.</p>
+    <p>Ein kleines Licht, ein Freund dazu,<br/>und schon bist du mutig genug. Wie du.</p>
+  </div></div>''')
+
+sheets.append('''<div class="sheet mp"><h2 class="mph">Das kleine Mut-Einmaleins</h2>
+  <ul class="lessons">
+    <li><b>Mut heißt nicht,</b> keine Angst zu haben – sondern trotz der Angst weiterzugehen.</li>
+    <li><b>Du musst nicht</b> den ganzen Weg sehen. Es genügt, den nächsten Schritt zu sehen.</li>
+    <li><b>Zusammen</b> ist alles halb so dunkel. Geteilter Mut wird größer, nie kleiner.</li>
+    <li><b>Auch der Kleinste</b> kann Großes vollbringen – vielleicht sogar gerade der Kleinste.</li>
+  </ul></div>''')
+
+sheets.append('''<div class="sheet mp"><h2 class="mph">💬 Zum Weiterreden</h2>
+  <p class="mpi">Nach dem Vorlesen könnt ihr gemeinsam überlegen:</p>
+  <ul class="qlist">
+    <li>Warum ist Pauli mutig, obwohl es Angst hat? Was bedeutet Mut für dich?</li>
+    <li>Wie helfen sich Pauli, Luna und Bruno gegenseitig?</li>
+    <li>Luna sagt: „Man muss nur den nächsten Schritt sehen.“ Wann hilft dir dieser Gedanke?</li>
+    <li>Die Spinne fragt: Was wird größer, je mehr man es teilt? Was fällt dir dazu ein?</li>
+    <li>Gab es etwas, vor dem <em>du</em> Angst hattest – und du hast es trotzdem geschafft?</li>
+  </ul></div>''')
+
+sheets.append('''<div class="sheet mp"><h2 class="mph">Kennst du die Geschichte?</h2>
+  <p class="mpi">Ein kleines Quiz – erinnerst du dich?</p>
+  <ol class="quiz">
+    <li>Wie heißt die Blume, die dem Dorf Licht schenkt?</li>
+    <li>Wer setzt sich als Erster auf Paulis Nase?</li>
+    <li>Wie hilft Bruno den beiden über den Bach?</li>
+    <li>Welches Rätsel stellt die Spinne im Nebelwald?</li>
+    <li>Was lernt Pauli am Ende über den Mut?</li>
+  </ol>
+  <p class="qans">Tipp: Alle Antworten stehen in der Geschichte – blättere ruhig zurück!</p></div>''')
+
+sheets.append('''<div class="sheet mp"><h2 class="mph">Finde den Weg durch den Nebelwald</h2>
+  <p class="mpi">Hilf Pauli von seinem Dorf bis zur Sternenblume.</p>
+  <svg class="maze" viewBox="0 0 300 300">
+    <rect x="6" y="6" width="288" height="288" rx="10" fill="#f4f7fb" stroke="#2F9BD6" stroke-width="4"/>
+    <g stroke="#9bb3c9" stroke-width="4" stroke-linecap="round" fill="none">
+      <path d="M6 60 H210"/><path d="M90 60 V150"/><path d="M90 150 H294"/>
+      <path d="M60 6 V110"/><path d="M60 110 H150"/><path d="M150 110 V60"/>
+      <path d="M6 210 H150"/><path d="M150 210 V294"/>
+      <path d="M210 150 V240"/><path d="M210 240 H294"/>
+      <path d="M240 60 V180"/><path d="M120 210 H180 V150"/>
+    </g>
+    <use href="#mouse" x="14" y="18" width="40" height="40"/>
+    <use href="#flower" x="246" y="250" width="42" height="42"/>
+    <text x="58" y="34" font-size="11" fill="#2F9BD6">Start</text>
+    <text x="236" y="248" font-size="11" fill="#c98a00">Ziel</text>
+  </svg></div>''')
+
+sheets.append('''<div class="sheet mp coloring"><h2 class="mph">Male die Leuchtblume bunt aus</h2>
+  <p class="mpi">Welche Farben hätte <em>dein</em> kleines Licht?</p>
+  <svg class="outline" viewBox="0 0 200 240">
+    <g fill="none" stroke="#333" stroke-width="3" stroke-linejoin="round">
+      <path d="M100 236 V120"/>
+      <path d="M100 176 q-34 -6 -46 -30 q34 -6 46 20"/>
+      <path d="M100 160 q34 -6 46 -30 q-34 -6 -46 20"/>
+      <ellipse cx="100" cy="44" rx="16" ry="28"/>
+      <ellipse cx="140" cy="62" rx="16" ry="28" transform="rotate(45 140 62)"/>
+      <ellipse cx="156" cy="100" rx="28" ry="16"/>
+      <ellipse cx="140" cy="138" rx="16" ry="28" transform="rotate(-45 140 138)"/>
+      <ellipse cx="100" cy="156" rx="16" ry="28"/>
+      <ellipse cx="60" cy="138" rx="16" ry="28" transform="rotate(45 60 138)"/>
+      <ellipse cx="44" cy="100" rx="28" ry="16"/>
+      <ellipse cx="60" cy="62" rx="16" ry="28" transform="rotate(-45 60 62)"/>
+      <circle cx="100" cy="100" r="26"/>
+    </g>
+  </svg></div>''')
+
+sheets.append('''<div class="sheet mp"><h2 class="mph">Wer war wer?</h2>
+  <div class="recap">
+    <div class="rrow"><svg viewBox="0 0 120 120"><use href="#mouse" x="14" y="14" width="92" height="92"/></svg><span><b>Pauli</b> – die kleine, mutige Maus.</span></div>
+    <div class="rrow"><svg viewBox="0 0 60 60"><use href="#firefly" x="4" y="4" width="52" height="52"/></svg><span><b>Luna</b> – das treue Glühwürmchen.</span></div>
+    <div class="rrow"><svg viewBox="0 0 160 110"><use href="#toad" x="14" y="12" width="132" height="90"/></svg><span><b>Bruno</b> – der brummige, gute Kröterich.</span></div>
+    <div class="rrow"><svg viewBox="0 0 120 150"><use href="#starflower" x="12" y="12" width="96" height="120"/></svg><span><b>Die Sternenblume</b> – der Funke der Hoffnung.</span></div>
+  </div></div>''')
+
+sheets.append('''<div class="sheet mp"><h2 class="mph">Mein Mut-Versprechen</h2>
+  <p class="mpi">Wie Pauli kannst auch du mutig sein. Trag hier ein, was du dir vornimmst:</p>
+  <div class="promise">
+    <p class="pl">Ich bin mutig, wenn ich …</p>
+    <div class="wl"></div><div class="wl"></div>
+    <p class="pl">Wenn ich Angst habe, hilft mir …</p>
+    <div class="wl"></div><div class="wl"></div>
+    <p class="pl">Mein wichtigster nächster kleiner Schritt ist …</p>
+    <div class="wl"></div><div class="wl"></div>
+  </div>
+  <p class="qans">Denk daran: Auch der Allerkleinste kann Großes vollbringen. 🌟</p></div>''')
+
+sheets.append('''<div class="sheet center colo"><div>
+  <div style="font-size:30pt;margin-bottom:.12in">🐭 ✨ 🐸</div>
+  <p>Geschrieben und illustriert für alle, die ihren ersten mutigen Schritt noch vor sich haben.</p>
+  <p style="margin-top:.25in;color:#8a93a0;font-size:10pt">Pauli und das kleine Licht · © 2026 Mark von Daak · Independently published</p>
+</div></div>''')
+
+# ---------- HTML ----------
+STYLE = r'''
+  @page { size: 6in 9in; margin: 0.5in; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { font-family: "Trebuchet MS", "Segoe UI", Verdana, sans-serif; color: #263445; }
+  .sheet { position: relative; width: 5in; height: 8in; page-break-after: always; overflow: hidden; display: flex; flex-direction: column; }
+  .sheet:last-child { page-break-after: auto; }
+  .center { align-items: center; justify-content: center; text-align: center; }
+  .title-page h1 { font-size: 34pt; line-height: 1.06; color: #2F9BD6; margin: 0 0 .16in; }
+  .title-page .sub { font-size: 13.5pt; color: #5D6B7B; margin-bottom: .3in; }
+  .title-page .author { font-size: 13pt; color: #263445; margin-top: .3in; }
+  .hero-mini { width: 3.5in; height: auto; margin: .1in auto; }
+  .imprint { justify-content: center; }
+  .imprint .box { font-size: 9.5pt; line-height: 1.7; color: #4a5563; max-width: 4.3in; margin: 0 auto; text-align: center; }
+  .imprint h3 { color: #2F9BD6; font-size: 11.5pt; margin: 0 0 .12in; }
+  .imprint .small { font-size: 8.5pt; color: #7a8290; margin-top: .22in; }
+  .dedication p { font-size: 15pt; font-style: italic; color: #5D6B7B; line-height: 1.6; max-width: 4in; }
+  .halftitle h2 { font-size: 22pt; color: #17B6A0; margin: 0; }
+  .halftitle .deco { font-size: 34pt; margin-bottom: .1in; }
+  .figpage { padding: .1in .1in; }
+  .figtitle { font-size: 16pt; color: #2F9BD6; margin: 0 0 .28in; text-align: center; }
+  .fig { display: flex; align-items: center; gap: .2in; margin-bottom: .34in; }
+  .fig > svg { width: 1.3in; height: 1.3in; flex: 0 0 auto; }
+  .fig .txt h3 { margin: 0 0 .06in; font-size: 14pt; color: #17B6A0; }
+  .fig .txt p { margin: 0; font-size: 11.5pt; line-height: 1.45; }
+  .illo-sheet { padding: 0; }
+  .panel { flex: 1; border-radius: 22px; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+  .panel svg.scene { width: 100%; height: auto; display: block; }
+  .cap { position: absolute; left: 0; right: 0; bottom: 0; display: flex; align-items: center; gap: .14in; padding: .2in .28in; background: rgba(255,255,255,.92); }
+  .num-bubble { flex: 0 0 auto; width: .55in; height: .55in; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18pt; color: #fff; }
+  .cap h2 { margin: 0; font-size: 16.5pt; color: #263445; line-height: 1.12; }
+  .vignette .panel { justify-content: center; padding: .35in; }
+  .vignette .vscene { width: 74%; height: auto; display: block; margin: 0 auto; }
+  .vcap { text-align: center; font-size: 15pt; line-height: 1.5; margin: .3in auto 0; max-width: 3.6in; font-style: italic; color: #3a4553; }
+  .text-sheet { padding: .12in .18in; justify-content: flex-start; }
+  .kicker { font-size: 9.5pt; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700; margin: 0 0 .16in; }
+  .story p { font-size: 13pt; line-height: 1.56; margin: 0 0 .14in; }
+  .story p:last-child { margin-bottom: 0; }
+  .story strong { font-weight: 800; }
+  .flourish { text-align: center; font-size: 13pt; color: #cbd3dd; margin-top: .2in; }
+  .theend-sheet { align-items: center; justify-content: center; text-align: center; }
+  .bigstar { font-size: 46pt; }
+  .endword { font-size: 30pt; font-weight: 800; color: #2F9BD6; letter-spacing: 3px; margin: .1in 0; }
+  .endsub { font-size: 12pt; color: #5D6B7B; font-style: italic; max-width: 3.6in; }
+  .mp { padding: .3in .28in; }
+  .mph { font-size: 17pt; color: #2F9BD6; margin: 0 0 .2in; text-align: center; }
+  .mpi { font-size: 11.5pt; color: #5D6B7B; margin: 0 0 .18in; text-align: center; }
+  .poem { text-align: center; }
+  .poem p { font-size: 14pt; line-height: 1.7; margin: 0 0 .2in; color: #3a4553; }
+  .lessons { font-size: 12.5pt; line-height: 1.5; padding-left: .26in; margin: 0; }
+  .lessons li { margin-bottom: .16in; }
+  .lessons b { color: #17B6A0; }
+  .qlist, .quiz { font-size: 12pt; line-height: 1.5; padding-left: .28in; margin: 0; }
+  .qlist li, .quiz li { margin-bottom: .13in; }
+  .qans { font-size: 10.5pt; color: #8a93a0; font-style: italic; margin-top: .18in; text-align: center; }
+  .maze { width: 3.4in; height: 3.4in; display: block; margin: .12in auto 0; }
+  .outline { width: 2.9in; height: auto; display: block; margin: .1in auto 0; }
+  .recap { margin-top: .1in; }
+  .rrow { display: flex; align-items: center; gap: .18in; margin-bottom: .2in; font-size: 12.5pt; }
+  .rrow > svg { width: 1in; height: 1in; flex: 0 0 auto; }
+  .rrow b { color: #17B6A0; }
+  .colo p { font-size: 11pt; color: #5D6B7B; font-style: italic; max-width: 4in; margin: 0 auto .16in; }
+  .promise { margin-top: .1in; }
+  .promise .pl { font-size: 12.5pt; font-weight: 700; color: #17B6A0; margin: .18in 0 .16in; }
+  .promise .wl { border-bottom: 1.5px dotted #b9c6d3; height: .34in; }
+  ''' + color_css(len(CH))
+
+html = ('<!DOCTYPE html>\n<html lang="de">\n<head>\n<meta charset="UTF-8" />\n'
+        '<title>Pauli und das kleine Licht — Innenteil</title>\n<style>' + STYLE +
+        '\n</style>\n</head>\n<body>\n' + DEFS + "\n" + "\n".join(sheets) +
+        "\n</body>\n</html>\n")
+
+with open("innenteil.html", "w", encoding="utf-8") as f:
+    f.write(html)
+
+print("Sheets total:", len(sheets))

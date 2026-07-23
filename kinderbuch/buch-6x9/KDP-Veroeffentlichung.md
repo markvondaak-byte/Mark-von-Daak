@@ -16,8 +16,8 @@ die druckfertigen Dateien, die Metadaten zum Einfügen und die Schritt-für-Schr
 
 | Datei | Zweck | Format |
 |---|---|---|
-| `innenteil.pdf` | Buchblock (Innenseiten) | 26 Seiten, 15,24 × 22,86 cm (6 × 9″) |
-| `cover.pdf` | Full-Wrap-Umschlag (Rück­seite + Rücken + Vorderseite) | 31,27 × 23,50 cm |
+| `innenteil.pdf` | Buchblock (Innenseiten) | 76 Seiten, 15,24 × 22,86 cm (6 × 9″) |
+| `cover.pdf` | Full-Wrap-Umschlag (Rück­seite + Rücken + Vorderseite) | 31,57 × 23,50 cm |
 | `innenteil.html` / `cover.html` | Quelldateien zum Anpassen | HTML |
 
 Die PDFs wurden direkt aus den HTML-Dateien erzeugt. Wenn du etwas änderst
@@ -32,21 +32,26 @@ Die PDFs wurden direkt aus den HTML-Dateien erzeugt. Wenn du etwas änderst
 | Format | Taschenbuch (Paperback) |
 | Sprache | Deutsch |
 | Buchgröße / Trim Size | **6 × 9 Zoll (15,24 × 22,86 cm)** – Hochformat |
-| Seitenzahl | **26** |
+| Seitenzahl | **76** |
 | Beschnitt Innenteil (Bleed) | **Nein** (Illustrationen haben einen weißen Rahmen) |
 | Farbe Innenteil | **Farbdruck** – „Standardfarbe" (günstiger) oder „Premiumfarbe" |
 | Papier | **Weiß** |
 | Umschlag-Finish | Matt oder glänzend (Geschmackssache; matt wirkt hochwertiger) |
-| Rückenbreite | ca. **0,15 cm** (0,061″) – im Cover bereits berücksichtigt, ohne Rückentext |
+| Rückenbreite | ca. **0,45 cm** (0,178″) – im Cover bereits berücksichtigt, ohne Rückentext |
 
 Der Umschlag ist als **Full-Wrap-PDF mit 0,3 cm Beschnitt** angelegt und passt zu
-26 Farbseiten auf weißem Papier. Unten rechts auf der Rückseite ist ein freier
+76 Farbseiten auf weißem Papier. Unten rechts auf der Rückseite ist ein freier
 Bereich für den **Barcode**, den Amazon automatisch einfügt.
 
 > Falls KDPs Vorschau die Umschlaggröße beanstandet (die exakte Rückenbreite
 > hängt minimal von „Standard-" vs. „Premiumfarbe" ab): sag mir Bescheid, dann
 > passe ich die Cover-Maße punktgenau an. Alternativ kannst du das Titelbild aus
 > `cover.pdf` auch in KDPs „Cover Creator" verwenden.
+
+> **Auch als Hardcover möglich:** Mit 76 Seiten erfüllt das Buch die
+> KDP-Mindestseitenzahl für **Hardcover** (mind. 75 Seiten). Wenn du Hardcover
+> statt/zusätzlich zum Taschenbuch möchtest, sag Bescheid – dann rechne ich das
+> Cover auf die (etwas anderen) Hardcover-Maße mit Umschlagklappen um.
 
 ---
 
@@ -150,7 +155,10 @@ den Inhalt.
 
 ## 8. Ehrliche Einordnung & mögliche nächste Schritte
 
-- Die Geschichte ist vollständig, altersgerecht (6–8) und original.
+- Die Geschichte wurde auf **14 Kapitel** erweitert und umfasst mit Figuren-
+  Vorstellung, Zitat-Seiten und Bonus-Seiten (Gedicht, Rätsel, Labyrinth,
+  Mal-Seite, Mut-Versprechen) genau **76 Seiten** – echte Inhalte, keine
+  Leerseiten. Sie ist altersgerecht (6–8) und original.
 - Die Illustrationen sind **eigene, schlichte Vektorbilder** – klar und freundlich,
   aber bewusst minimalistisch. Für einen noch professionelleren Auftritt im hart
   umkämpften Kinderbuchmarkt könntest du sie später durch aufwendigere
