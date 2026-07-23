@@ -79,7 +79,7 @@ Bereich für den **Barcode**, den Amazon automatisch einfügt.
 > als alles andere: *Mut heißt nicht, keine Angst zu haben. Mut heißt, trotzdem den
 > nächsten Schritt zu tun – am besten mit guten Freunden an seiner Seite.*
 >
-> Eine warmherzige Vorlesegeschichte in 10 kurzen Kapiteln, durchgehend farbig
+> Eine warmherzige Vorlesegeschichte in 14 kurzen Kapiteln, durchgehend farbig
 > illustriert, mit Fragen zum gemeinsamen Weiterreden am Ende. Ideal für Kinder ab
 > 6 Jahren – zum Vorlesen und für erste eigene Leseabenteuer.
 
