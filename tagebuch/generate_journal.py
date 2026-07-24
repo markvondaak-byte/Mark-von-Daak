@@ -235,11 +235,11 @@ def daily_page(bk, day, impulse, example=False):
     y = top
     txt(c, left, y - 4, f"TAG {day:>3}", "SansB", 12, ACCENT, "l")
     txt(c, right, y - 4, "Datum:  ____  /  ____  /  ________", "Sans", 9.5, SOFT, "r")
-    y -= 12
+    y -= 13
     c.setStrokeColor(SANDD); c.setLineWidth(1); c.line(left, y, right, y)
 
     # Wochentage zum Ankreuzen
-    y -= 16
+    y -= 18
     days_lbl = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"]
     step = w / 7.0
     for i, d in enumerate(days_lbl):
@@ -249,7 +249,7 @@ def daily_page(bk, day, impulse, example=False):
         txt(c, cx - 6, y, d, "Sans", 8.5, SOFT, "l")
 
     # ---- Impuls des Tages ----
-    y -= 14
+    y -= 16
     bh = 34
     band(c, left, y - bh, w, bh, SAND)
     txt(c, left + w/2, y - 14, "GEDANKE FÜR HEUTE", "SansB", 7.5, ACCENT, "c")
@@ -257,29 +257,36 @@ def daily_page(bk, day, impulse, example=False):
     for ln in wrap(c, impulse, "SerifI", 10.5, w - 30)[:2]:
         txt(c, left + w/2, ly, ln, "SerifI", 10.5, INK, "c")
         ly -= 12
-    y -= bh + 14
+    y -= bh + 16
 
-    # ---- MORGEN ----
-    sun(c, left + 7, y - 3, 6.5, ACCENT)
-    txt(c, left + 22, y - 6, "MORGEN", "SansB", 12, INK, "l")
-    txt(c, left + 92, y - 6, "3 Minuten", "Sans", 9, GOLD, "l")
-    y -= 20
+    # ---- Zeilenabstand dynamisch, damit die Seite gefüllt wird ----
+    # 12 Schreibzeilen (Morgen 6 + Abend 6); fester Overhead ~ 224 pt.
+    n_lines = 12
+    overhead = 224
+    GAP = max(25, min(31, (y - bottom - overhead) / n_lines))
+
+    def head(icon, label):
+        nonlocal y
+        icon(c, left + 7, y - 3, 6.5, ACCENT)
+        txt(c, left + 22, y - 6, label, "SansB", 12, INK, "l")
+        txt(c, left + 92, y - 6, "3 Minuten", "Sans", 9, GOLD, "l")
+        y -= 22
 
     def block(label, nlines, ex=None):
         nonlocal y
-        txt(c, left, y, label, "SansB", 8.5, SOFT, "l")
-        y -= 4
+        txt(c, left, y, label, "SansB", 9, SOFT, "l")
+        y -= 6
         y0 = y
-        y = writing_lines(c, left, w, y, nlines)
+        y = writing_lines(c, left, w, y, nlines, gap=GAP)
         if example and ex:
-            c.setFont("SerifI", 10)
+            c.setFont("SerifI", 10.5)
             c.setFillColor(SOFT)
-            yy = y0 - 15
-            for e in ex[:nlines]:
-                c.drawString(left + 4, yy, e)
-                yy -= 21
-        y -= 8
+            for i, e in enumerate(ex[:nlines]):
+                c.drawString(left + 4, y0 - (i + 1) * GAP + 5, e)
+        y -= 9
 
+    # ---- MORGEN ----
+    head(sun, "MORGEN")
     block("Wofür bin ich heute dankbar?", 3,
           ["für den ruhigen Start in den Tag",
            "für meine Gesundheit", "für den Kaffee am Fenster"] if example else None)
@@ -290,16 +297,12 @@ def daily_page(bk, day, impulse, example=False):
           ["Ich gehe ruhig und klar durch diesen Tag."] if example else None)
 
     # ---- Trennlinie ----
-    y -= 2
+    y -= 3
     dotted_rule(c, left, right, y)
-    y -= 14
+    y -= 15
 
     # ---- ABEND ----
-    moon(c, left + 7, y - 3, 6.5, ACCENT)
-    txt(c, left + 22, y - 6, "ABEND", "SansB", 12, INK, "l")
-    txt(c, left + 92, y - 6, "3 Minuten", "Sans", 9, GOLD, "l")
-    y -= 20
-
+    head(moon, "ABEND")
     block("Was war heute schön? Drei Momente:", 3,
           ["die Sonne am Mittag", "ein Lob bekommen",
            "gut gegessen und gekocht"] if example else None)
@@ -310,9 +313,10 @@ def daily_page(bk, day, impulse, example=False):
           ["etwas früher schlafen gehen"] if example else None)
 
     # ---- Stimmung ----
-    txt(c, left, y, "Meine Stimmung heute:", "SansB", 8.5, SOFT, "l")
+    y -= 2
+    txt(c, left, y, "Meine Stimmung heute:", "SansB", 9, SOFT, "l")
     for i in range(5):
-        cx = left + 118 + i * 16
+        cx = left + 122 + i * 16
         c.setStrokeColor(LINE); c.setLineWidth(0.9)
         c.circle(cx, y + 3, 5, stroke=1, fill=0)
 
@@ -325,26 +329,31 @@ def weekly_page(bk, week):
     w = right - left
     y = top
 
-    band(c, left, y - 30, w, 30, SANDD)
-    txt(c, left + 14, y - 20, "WOCHENRÜCKBLICK", "SansB", 12, INK, "l")
-    txt(c, right - 14, y - 20, f"Woche {week}", "SerifI", 13, ACCENT, "r")
-    y -= 52
+    band(c, left, y - 32, w, 32, SANDD)
+    txt(c, left + 14, y - 21, "WOCHENRÜCKBLICK", "SansB", 12, INK, "l")
+    txt(c, right - 14, y - 21, f"Woche {week}", "SerifI", 13, ACCENT, "r")
+    y -= 56
 
-    def sec(label, n):
-        nonlocal y
+    sections = [
+        ("Meine drei schönsten Momente dieser Woche", 3),
+        ("Das habe ich diese Woche erreicht", 3),
+        ("Dafür bin ich besonders dankbar", 3),
+        ("Das nehme ich mir für nächste Woche vor", 3),
+    ]
+    n_lines = sum(n for _, n in sections)         # 12
+    overhead = len(sections) * 22 + 22            # Labels + Bilanzzeile
+    GAP = max(26, min(34, (y - bottom - overhead) / n_lines))
+
+    for label, n in sections:
         txt(c, left, y, label, "SansB", 9.5, ACCENT, "l")
         y -= 6
-        y = writing_lines(c, left, w, y, n, gap=23)
+        y = writing_lines(c, left, w, y, n, gap=GAP)
         y -= 16
 
-    sec("Meine drei schönsten Momente dieser Woche", 3)
-    sec("Das habe ich diese Woche erreicht", 3)
-    sec("Dafür bin ich besonders dankbar", 2)
-    sec("Das nehme ich mir für nächste Woche vor", 3)
-
+    y -= 2
     txt(c, left, y, "Meine Wochenbilanz:", "SansB", 9.5, SOFT, "l")
     for i in range(5):
-        cx = left + 110 + i * 20
+        cx = left + 118 + i * 20
         c.setStrokeColor(LINE); c.setLineWidth(1)
         c.circle(cx, y + 3, 6, stroke=1, fill=0)
 
