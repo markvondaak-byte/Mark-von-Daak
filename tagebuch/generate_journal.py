@@ -49,12 +49,13 @@ BOTTOM   = 0.5   * inch
 # --------------------------------------------------------------------------
 # FARBEN (warm / motivierend)
 # --------------------------------------------------------------------------
-INK    = Color(0.22, 0.18, 0.15)        # warmes Dunkelbraun
+INK    = Color(0.20, 0.17, 0.14)        # warmes Dunkelbraun
 SOFT   = Color(0.42, 0.36, 0.31)        # gedämpftes Braun
-ACCENT = Color(0.76, 0.42, 0.31)        # Terracotta
-GOLD   = Color(0.82, 0.62, 0.34)        # warmes Gold
-SAND   = Color(0.965, 0.935, 0.885)     # Sand / Creme
-SANDD  = Color(0.93, 0.89, 0.82)        # dunkleres Sand
+ACCENT = Color(0.74, 0.41, 0.30)        # Terracotta
+GOLD   = Color(0.80, 0.63, 0.36)        # warmes Gold
+CREAM  = Color(0.984, 0.968, 0.933)     # Cremeweiß (Grundton)
+SAND   = Color(0.975, 0.952, 0.910)     # helle Creme (Akzentbänder)
+SANDD  = Color(0.945, 0.912, 0.850)     # tiefere Creme
 LINE   = Color(0.80, 0.74, 0.66)        # Schreiblinie
 LINEL  = Color(0.87, 0.82, 0.75)        # helle Linie
 WHITE  = Color(1, 1, 1)
@@ -358,7 +359,7 @@ def title_page(bk):
     left, right, top, bottom = bk.new()
     cx = (left + right) / 2
 
-    c.setFillColor(SAND)
+    c.setFillColor(CREAM)
     c.rect(0, 0, PW, PH, stroke=0, fill=1)
 
     c.setStrokeColor(GOLD); c.setLineWidth(1.2)
@@ -512,7 +513,7 @@ def section_divider(bk, text, sub=""):
     c = bk.c
     left, right, top, bottom = bk.new()
     cx = (left + right) / 2
-    c.setFillColor(SAND); c.rect(0, 0, PW, PH, stroke=0, fill=1)
+    c.setFillColor(CREAM); c.rect(0, 0, PW, PH, stroke=0, fill=1)
     sun(c, cx, PH/2 + 60, 10, ACCENT)
     txt(c, cx, PH/2, text, "SerifB", 26, INK, "c")
     if sub:
@@ -541,7 +542,7 @@ def closing_page(bk):
     left, right, top, bottom = bk.new()
     w = right - left
     cx = (left + right) / 2
-    c.setFillColor(SAND); c.rect(0, 0, PW, PH, stroke=0, fill=1)
+    c.setFillColor(CREAM); c.rect(0, 0, PW, PH, stroke=0, fill=1)
     sun(c, cx, PH - 200, 11, ACCENT)
     txt(c, cx, PH - 250, "Herzlichen Glückwunsch!", "SerifB", 24, INK, "c")
     txt(c, cx, PH - 285, f"Du hast {DAYS} Tage lang innegehalten.", "Serif", 13, SOFT, "c")
@@ -598,6 +599,53 @@ def build_interior():
 
 
 # --------------------------------------------------------------------------
+# COVER-ORNAMENTE
+# --------------------------------------------------------------------------
+def diamond(c, cx, cy, s, color):
+    p = c.beginPath()
+    p.moveTo(cx, cy + s); p.lineTo(cx + s, cy)
+    p.lineTo(cx, cy - s); p.lineTo(cx - s, cy); p.close()
+    c.setFillColor(color)
+    c.drawPath(p, fill=1, stroke=0)
+
+
+def orn_divider(c, cx, y, halfw, color=ACCENT):
+    """Zierteiler:  Linie – Raute – Linie."""
+    c.setStrokeColor(color); c.setLineWidth(0.9)
+    gap = 8
+    c.line(cx - halfw, y, cx - gap, y)
+    c.line(cx + gap, y, cx + halfw, y)
+    diamond(c, cx - halfw, y, 1.8, color)
+    diamond(c, cx + halfw, y, 1.8, color)
+    diamond(c, cx, y, 2.8, color)
+
+
+def cover_sun(c, cx, cy, r, color=ACCENT, halo=SANDD):
+    """Sonnen-Emblem mit weichem Halo, Ring, Strahlen und Kern."""
+    c.setFillColor(halo)
+    c.circle(cx, cy, r * 3.0, stroke=0, fill=1)
+    c.setStrokeColor(color); c.setFillColor(color); c.setLineWidth(1.5)
+    c.circle(cx, cy, r, stroke=1, fill=0)
+    for k in range(12):
+        a = k * math.pi / 6
+        c.line(cx + math.cos(a) * (r + 3.5), cy + math.sin(a) * (r + 3.5),
+               cx + math.cos(a) * (r + 8.5), cy + math.sin(a) * (r + 8.5))
+    c.circle(cx, cy, r * 0.34, stroke=0, fill=1)
+
+
+def cover_frame(c, x, y, w, h, base=CREAM):
+    """Eleganter Doppelrahmen mit unterbrechenden Rauten oben/unten."""
+    c.setStrokeColor(ACCENT); c.setLineWidth(1.4)
+    c.roundRect(x, y, w, h, 12, stroke=1, fill=0)
+    ins = 6
+    c.setStrokeColor(GOLD); c.setLineWidth(0.7)
+    c.roundRect(x + ins, y + ins, w - 2 * ins, h - 2 * ins, 9, stroke=1, fill=0)
+    for yy in (y, y + h):
+        c.setFillColor(base); c.rect(x + w/2 - 8, yy - 4.5, 16, 9, stroke=0, fill=1)
+        diamond(c, x + w/2, yy, 3.6, ACCENT)
+
+
+# --------------------------------------------------------------------------
 # COVER
 # --------------------------------------------------------------------------
 def build_cover(page_count):
@@ -608,74 +656,117 @@ def build_cover(page_count):
     ch = PH + BLEED * 2
     c = canvas.Canvas(COVER, pagesize=(cw, ch))
 
-    c.setFillColor(SAND); c.rect(0, 0, cw, ch, stroke=0, fill=1)
+    # durchgehender Creme-Grund
+    c.setFillColor(CREAM); c.rect(0, 0, cw, ch, stroke=0, fill=1)
 
     front_x0 = BLEED + PW + spine
-    back_x0 = BLEED
+    back_x0  = BLEED
     spine_x0 = BLEED + PW
-    cyv = ch / 2
+    fB, fT   = BLEED, BLEED + PH              # Trim unten/oben
 
-    # ---- FRONT ----
+    # ======================================================================
+    # FRONT
+    # ======================================================================
     fcx = front_x0 + PW / 2
-    c.setFillColor(SANDD)
-    c.rect(front_x0, ch - BLEED - 2.7 * inch, PW, 2.7 * inch, stroke=0, fill=1)
-    sun(c, fcx, ch - BLEED - 1.0 * inch, 12, ACCENT)
+    fx  = front_x0 + 0.5 * inch
+    fw  = PW - 1.0 * inch
+    cover_frame(c, fx, fB + 0.5 * inch, fw, PH - 1.0 * inch)
 
-    c.setFillColor(INK); c.setFont("SerifB", 34)
-    for i, ln in enumerate(TITLE_DISP.split("\n")):
-        c.drawCentredString(fcx, cyv + 70 - i * 40, ln)
-    c.setStrokeColor(ACCENT); c.setLineWidth(1.2)
-    c.line(fcx - 55, cyv + 20, fcx + 55, cyv + 20)
-    c.setFillColor(SOFT); c.setFont("Serif", 13)
-    for i, ln in enumerate(SUBTITLE.split("\n")):
-        c.drawCentredString(fcx, cyv - 12 - i * 20, ln)
-    c.setFillColor(ACCENT); c.setFont("SansB", 12)
-    c.drawCentredString(fcx, BLEED + 1.1 * inch, f"{DAYS} TAGE  ·  MORGEN & ABEND")
+    # Sonnen-Emblem
+    cover_sun(c, fcx, fT - 1.55 * inch, 13, ACCENT)
 
-    # ---- SPINE ----
+    # Titel
+    c.setFillColor(INK); c.setFont("SerifB", 37)
+    ty = fT - 2.95 * inch
+    for ln in TITLE_DISP.split("\n"):
+        c.drawCentredString(fcx, ty, ln)
+        ty -= 0.56 * inch
+
+    # Zierteiler + Untertitel
+    orn_divider(c, fcx, ty + 0.14 * inch, 62)
+    ty -= 0.18 * inch
+    c.setFillColor(SOFT); c.setFont("Serif", 12.5)
+    for ln in SUBTITLE.split("\n"):
+        c.drawCentredString(fcx, ty, ln)
+        ty -= 0.26 * inch
+
+    # unteres Emblem "180 TAGE"
+    ey = fB + 1.35 * inch
+    c.setFillColor(ACCENT); c.setFont("SansB", 12.5)
+    c.drawCentredString(fcx, ey, f"{DAYS} TAGE")
+    c.setStrokeColor(GOLD); c.setLineWidth(0.8)
+    c.line(fcx - 78, ey + 4, fcx - 42, ey + 4)
+    c.line(fcx + 42, ey + 4, fcx + 78, ey + 4)
+    c.setFillColor(SOFT); c.setFont("Sans", 9.5)
+    c.drawCentredString(fcx, ey - 0.26 * inch, "MORGEN- UND ABENDRITUAL")
+
+    # ======================================================================
+    # SPINE
+    # ======================================================================
     if spine > 0.35 * inch:
         c.saveState()
         c.translate(spine_x0 + spine / 2, ch / 2)
         c.rotate(90)
         c.setFillColor(INK); c.setFont("SerifB", 15)
         c.drawCentredString(0, -5, TITLE)
+        diamond(c, -1.7 * inch, -0.5, 2.4, ACCENT)
+        diamond(c,  1.7 * inch, -0.5, 2.4, ACCENT)
         c.restoreState()
 
-    # ---- BACK ----
+    # ======================================================================
+    # BACK
+    # ======================================================================
     bcx = back_x0 + PW / 2
-    txt(c, bcx, ch - BLEED - 1.1 * inch, "Nimm dir sechs Minuten.", "SerifB", 17, INK, "c")
-    txt(c, bcx, ch - BLEED - 1.35 * inch, "Für dich.", "SerifI", 15, ACCENT, "c")
+    bx  = back_x0 + 0.5 * inch
+    bw  = PW - 1.0 * inch
+    cover_frame(c, bx, fB + 0.5 * inch, bw, PH - 1.0 * inch)
 
-    blurb = [
+    cover_sun(c, bcx, fT - 1.2 * inch, 8, ACCENT)
+    txt(c, bcx, fT - 1.95 * inch, "Nimm dir sechs Minuten.", "SerifB", 18, INK, "c")
+    txt(c, bcx, fT - 2.22 * inch, "Für dich.", "SerifI", 15, ACCENT, "c")
+    orn_divider(c, bcx, fT - 2.5 * inch, 55)
+
+    paras = [
         "Drei Minuten am Morgen. Drei Minuten am Abend.",
         "Mehr braucht es nicht, um deinen Blick jeden Tag",
         "ein Stück weit auf das Gute zu lenken.",
-        "",
+    ]
+    para2 = [
         "Dieses Tagebuch begleitet dich 180 Tage lang mit",
-        "einem einfachen, wohltuenden Ritual: Dankbarkeit,",
+        "einem einfachen, wohltuenden Ritual aus Dankbarkeit,",
         "Fokus und Achtsamkeit – klar strukturiert und",
         "liebevoll gestaltet.",
-        "",
-        "•  Morgens: Dankbarkeit, Tagesfokus, Affirmation",
-        "•  Abends:  schöne Momente, Wachstum, Ausblick",
-        "•  Wöchentliche Rückblicke und Platz für Notizen",
-        "",
-        "Beginne heute – und schenke dir jeden Tag einen",
-        "Moment nur für dich.",
     ]
-    yy = ch - BLEED - 1.9 * inch
-    c.setFont("Serif", 11); c.setFillColor(SOFT)
-    for ln in blurb:
-        if ln.startswith("•"):
-            txt(c, back_x0 + 0.7 * inch, yy, ln, "Serif", 11, INK, "l")
-        else:
-            c.drawCentredString(bcx, yy, ln)
-        yy -= 17
+    bullets = [
+        "Morgens: Dankbarkeit, Tagesfokus, Affirmation",
+        "Abends: schöne Momente, Wachstum, Ausblick",
+        "Wöchentliche Rückblicke und Platz für Notizen",
+    ]
 
-    # Platz für KDP-Barcode (weißes Feld unten rechts, 2" x 1.2")
-    c.setFillColor(WHITE)
-    c.rect(back_x0 + PW - BLEED - 2.0 * inch, BLEED + 0.35 * inch,
-           2.0 * inch, 1.2 * inch, stroke=0, fill=1)
+    yy = fT - 2.95 * inch
+    c.setFillColor(SOFT)
+    for ln in paras:
+        txt(c, bcx, yy, ln, "Serif", 11.5, SOFT, "c"); yy -= 17
+    yy -= 10
+    for ln in para2:
+        txt(c, bcx, yy, ln, "Serif", 11.5, SOFT, "c"); yy -= 17
+    yy -= 14
+    bxl = bx + 0.55 * inch
+    for ln in bullets:
+        diamond(c, bxl, yy + 3.5, 2.6, ACCENT)
+        txt(c, bxl + 12, yy, ln, "Serif", 11.5, INK, "l"); yy -= 21
+    yy -= 8
+    txt(c, bcx, yy, "Beginne heute – und schenke dir jeden Tag", "SerifI", 11.5, SOFT, "c"); yy -= 17
+    txt(c, bcx, yy, "einen Moment nur für dich.", "SerifI", 11.5, SOFT, "c")
+
+    # Platz für KDP-Barcode (weißes Feld unten rechts, innerhalb des Rahmens)
+    bcw, bch = 1.9 * inch, 1.15 * inch
+    bcx0 = back_x0 + PW - 0.65 * inch - bcw
+    bcy0 = fB + 0.62 * inch
+    c.setFillColor(WHITE); c.setStrokeColor(LINEL); c.setLineWidth(0.6)
+    c.rect(bcx0, bcy0, bcw, bch, stroke=1, fill=1)
+    txt(c, bcx0 + bcw / 2, bcy0 + bch / 2 - 3, "Platz für ISBN / Barcode",
+        "Sans", 7.5, LINE, "c")
 
     c.showPage(); c.save()
     return spine, cw, ch
