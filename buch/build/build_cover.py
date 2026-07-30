@@ -122,13 +122,51 @@ def block_schreiben(c, text, x, y, breite, schrift, groesse, zeilenhoehe,
 
 
 # --- Zeichnen ----------------------------------------------------------------
-def vorderseite(c, x, y, breite, hoehe, cfg):
+def titelbild_suchen(cover_verzeichnis):
+    """Sucht ein eigenes Titelfoto.
+
+    Liegt in buch/cover/ eine Datei namens `titelbild.jpg` (oder .png/.webp),
+    wird sie anstelle des oberen Illustrationsbands eingesetzt. Für den Druck
+    sollte sie mindestens 1800 x 2700 px haben — darunter warnt das Skript.
+    """
+    for endung in (".jpg", ".jpeg", ".png", ".webp"):
+        pfad = cover_verzeichnis / f"titelbild{endung}"
+        if pfad.exists():
+            return pfad
+    return None
+
+
+def titelbild_zeichnen(c, pfad, x, y, breite, hoehe):
+    """Zeichnet das Foto formatfüllend in den Rahmen, mittig beschnitten."""
+    from PIL import Image
+    from reportlab.lib.utils import ImageReader
+
+    with Image.open(pfad) as bild:
+        bild = bild.convert("RGB")
+        soll = breite / hoehe
+        ist = bild.width / bild.height
+        if ist > soll:  # zu breit — links und rechts beschneiden
+            neu = int(bild.height * soll)
+            links = (bild.width - neu) // 2
+            bild = bild.crop((links, 0, links + neu, bild.height))
+        else:           # zu hoch — oben und unten beschneiden
+            neu = int(bild.width / soll)
+            oben = (bild.height - neu) // 2
+            bild = bild.crop((0, oben, bild.width, oben + neu))
+        c.drawImage(ImageReader(bild), x, y, breite, hoehe,
+                    preserveAspectRatio=False, mask=None)
+
+
+def vorderseite(c, x, y, breite, hoehe, cfg, titelbild=None):
     """Titelseite: Illustrationsbänder oben und unten, Titel in der Mitte."""
     rand = breite * 0.10
 
-    # Illustrationsband oben
-    ill.komposition_zeichnen(c, ill.BAND_OBEN,
-                             x, y + hoehe * 0.70, breite, hoehe * 0.24)
+    if titelbild:
+        titelbild_zeichnen(c, titelbild, x, y + hoehe * 0.62,
+                           breite, hoehe * 0.38)
+    else:
+        ill.komposition_zeichnen(c, ill.BAND_OBEN,
+                                 x, y + hoehe * 0.70, breite, hoehe * 0.24)
 
     # Titelblock — Größe so wählen, dass keine Zeile in den Anschnitt läuft
     titel_groesse, titel_zeilen = groesse_einpassen(
@@ -160,9 +198,11 @@ def vorderseite(c, x, y, breite, hoehe, cfg):
     c.setFont("Sans-Bold", 18)
     c.drawCentredString(x + breite / 2, y + hoehe * 0.30, cfg["autor"])
 
-    # Illustrationsband unten
-    ill.komposition_zeichnen(c, ill.BAND_UNTEN,
-                             x, y + hoehe * 0.075, breite, hoehe * 0.18)
+    # Illustrationsband unten — beim Fotocover bleibt es weg, sonst
+    # konkurrieren Foto und Zeichnung miteinander.
+    if not titelbild:
+        ill.komposition_zeichnen(c, ill.BAND_UNTEN,
+                                 x, y + hoehe * 0.075, breite, hoehe * 0.18)
 
 
 def ruecken(c, x, y, breite, hoehe, cfg, mit_text):
@@ -253,13 +293,14 @@ def cover_bauen(cfg, seiten, klappentext_pfad, ziel):
     c.rect(0, 0, gesamt_b, gesamt_h, stroke=0, fill=1)
 
     kopf, absaetze, punkte = klappentext_laden(klappentext_pfad)
+    titelbild = titelbild_suchen(Path(klappentext_pfad).parent)
 
     rueckseite(c, anschnitt, anschnitt, trim_b, trim_h, cfg,
                kopf, absaetze, punkte)
     ruecken(c, anschnitt + trim_b, anschnitt, ruecken_b, trim_h, cfg,
             mit_text=seiten >= RUECKENTEXT_AB_SEITEN)
     vorderseite(c, anschnitt + trim_b + ruecken_b, anschnitt,
-                trim_b, trim_h, cfg)
+                trim_b, trim_h, cfg, titelbild)
 
     c.showPage()
     c.save()
@@ -267,6 +308,7 @@ def cover_bauen(cfg, seiten, klappentext_pfad, ziel):
         "gesamt_mm": (gesamt_b / mm, gesamt_h / mm),
         "ruecken_mm": ruecken_b / mm,
         "ruecken_text": seiten >= RUECKENTEXT_AB_SEITEN,
+        "titelbild": titelbild,
     }
 
 
@@ -291,6 +333,17 @@ def main():
     print(f"Rückenbreite: {masse['ruecken_mm']:.1f} mm"
           f"  (Rückentext: {'ja' if masse['ruecken_text'] else 'nein'})")
     print(f"Umschlag gesamt: {b:.1f} x {h:.1f} mm inkl. {BESCHNITT_MM} mm Anschnitt")
+    if masse["titelbild"]:
+        from PIL import Image
+        with Image.open(masse["titelbild"]) as bild:
+            gross_genug = bild.width >= 1800 and bild.height >= 2700
+        print(f"Titelbild: {masse['titelbild'].name} "
+              f"({bild.width} x {bild.height} px)"
+              + ("" if gross_genug else "  — ACHTUNG: unter 1800 x 2700 px, "
+                                        "für den Druck zu klein"))
+    else:
+        print("Titelbild: keins — es werden die Illustrationen verwendet. "
+              "Für ein Foto: buch/cover/titelbild.jpg ablegen.")
     print(f"  → {ziel.relative_to(WURZEL)}")
     print(f"  → {png.relative_to(WURZEL)}")
 

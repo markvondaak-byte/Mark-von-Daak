@@ -1,15 +1,23 @@
-"""Vektor-Illustrationen von Obst und Gemüse für die Umschläge beider Bände.
+"""Plastische Vektor-Illustrationen von Obst und Gemüse für die Umschläge.
 
-Alles wird direkt mit reportlab gezeichnet: rechtefrei, in jeder Größe scharf
-und ohne externe Bilddateien. Im Container ist kein lizenziertes Bildmaterial
-verfügbar, und die Web-Grafiken der Website haben keine Druckauflösung.
+Gezeichnet mit reportlab: rechtefrei, in jeder Größe scharf, ohne externe
+Bilddateien. Fotos sind in dieser Umgebung nicht beschaffbar — der
+Netzwerkzugang ist auf wenige Paketquellen beschränkt, und das Bildmaterial
+der Website hat Web-Auflösung.
 
-Jede Funktion zeichnet ein Motiv zentriert auf (x, y) in ein gedachtes Quadrat
-der Kantenlänge `groesse`. Alle Maße in Punkt.
+Um dem Eindruck echter Lebensmittel möglichst nahe zu kommen, arbeitet jedes
+Motiv mit vier Lagen:
+
+  1. weicher Schlagschatten darunter
+  2. Grundkörper mit Radialverlauf (Lichtquelle oben links)
+  3. Detailzeichnung — Segmente, Kerne, Maserung
+  4. Glanzlicht
+
+Wer ein echtes Foto einsetzen will: `build_cover.py` verwendet automatisch
+`buch/cover/titelbild.jpg`, sobald die Datei existiert (mind. 1800 x 2700 px).
 
 **Wichtig:** Abgebildet wird ausschließlich, was das Konzept auch erlaubt.
-Banane, Weintraube, Ananas und Karotte stehen auf der Vermeiden-Liste und
-haben auf dem Umschlag nichts zu suchen.
+Banane, Weintraube, Ananas und Karotte stehen auf der Vermeiden-Liste.
 """
 
 import math
@@ -22,270 +30,480 @@ PALETTE = {
     "blatt": HexColor("#2F7A3E"),
     "blatt_hell": HexColor("#6FA85E"),
     "blatt_tief": HexColor("#1F5A2C"),
-    "avocado_schale": HexColor("#3D6B33"),
-    "avocado_fleisch": HexColor("#C7D96B"),
-    "avocado_kern": HexColor("#8B6239"),
-    "paprika_rot": HexColor("#D1483C"),
-    "paprika_gruen": HexColor("#5BA34A"),
-    "zitrone": HexColor("#F2C43D"),
-    "zitrone_hell": HexColor("#F8E08A"),
-    "gurke_schale": HexColor("#4E8A3C"),
-    "gurke_fleisch": HexColor("#DCEBC4"),
-    "beere": HexColor("#4A5B8C"),
-    "beere_hell": HexColor("#6E7EAB"),
-    "erdbeere": HexColor("#D1483C"),
-    "erdbeere_kern": HexColor("#F5E3A0"),
-    "tomate": HexColor("#D9533F"),
-    "pilz_hut": HexColor("#C9A57B"),
-    "pilz_stiel": HexColor("#EDE0CB"),
+    "erdbeere": HexColor("#C8382C"),
     "tinte": HexColor("#243021"),
+    "schatten": HexColor("#B9BCAF"),
+}
+
+# Verlaufstripel je Motiv: (Glanz, Mitte, Tiefe)
+TOENE = {
+    "tomate": ("#F07A62", "#D6412C", "#8E2318"),
+    "zitrone": ("#FBEBA6", "#F0C230", "#C68F12"),
+    "zitrone_fleisch": ("#FDF6D2", "#F7DE86", "#E2C25C"),
+    "avocado_schale": ("#4C7F3C", "#335D28", "#1D3A16"),
+    "avocado_fleisch": ("#E4EEA6", "#C3D46A", "#95AB44"),
+    "avocado_kern": ("#B08355", "#8A6034", "#5C3E1F"),
+    "paprika": ("#7DC45E", "#4E9B3C", "#2E6B22"),
+    "brokkoli": ("#63A24E", "#3B7A31", "#22521F"),
+    "brokkoli_strunk": ("#CBDDA0", "#A8C47B", "#7C9955"),
+    "gurke_schale": ("#79B04E", "#4C8A32", "#2C5C1D"),
+    "gurke_fleisch": ("#F0F6DC", "#DAE9BE", "#BCD199"),
+    "beere": ("#7A88B8", "#48568C", "#252F55"),
+    "erdbeere": ("#EB6B55", "#C8382C", "#831C15"),
+    "pilz_hut": ("#E3C69C", "#C09A6B", "#8E6C42"),
+    "pilz_stiel": ("#F7EEDD", "#E3D5BC", "#BFAF92"),
+    "spargel": ("#A8C97F", "#7BA453", "#4F7431"),
+    "kraut": ("#7FB562", "#4E8C3C", "#2C5F24"),
 }
 
 
-def _ellipse(c, x, y, rx, ry, fuellung, kontur=None, strich=0):
+def _farben(schluessel):
+    return [HexColor(t) for t in TOENE[schluessel]]
+
+
+def _schatten(c, x, y, rx, ry):
+    """Weicher Schlagschatten aus mehreren transparenten Ellipsen."""
     c.saveState()
-    c.setFillColor(fuellung)
-    if kontur is not None and strich:
-        c.setStrokeColor(kontur)
-        c.setLineWidth(strich)
-    c.ellipse(x - rx, y - ry, x + rx, y + ry,
-              stroke=1 if (kontur is not None and strich) else 0, fill=1)
+    for i, (faktor, alpha) in enumerate(
+            ((1.00, 0.05), (0.86, 0.06), (0.70, 0.07), (0.54, 0.08))):
+        c.setFillColor(PALETTE["schatten"], alpha=alpha)
+        c.ellipse(x - rx * faktor, y - ry * faktor,
+                  x + rx * faktor, y + ry * faktor, stroke=0, fill=1)
+    c.restoreState()
+
+
+def _kugel(c, x, y, rx, ry, toene, *, licht=(-0.34, 0.34)):
+    """Runder Körper mit Radialverlauf — erzeugt den Eindruck von Volumen."""
+    hell, mitte, tief = _farben(toene)
+    c.saveState()
+    p = c.beginPath()
+    p.ellipse(x - rx, y - ry, 2 * rx, 2 * ry)
+    c.clipPath(p, stroke=0, fill=0)
+    c.radialGradient(x + licht[0] * rx, y + licht[1] * ry,
+                     max(rx, ry) * 1.55,
+                     [hell, mitte, tief], [0.0, 0.45, 1.0])
+    c.restoreState()
+
+
+def _pfad_verlauf(c, pfad_bauen, toene, cx, cy, radius, *, licht=(-0.3, 0.3)):
+    """Beliebige Form mit Radialverlauf füllen."""
+    hell, mitte, tief = _farben(toene)
+    c.saveState()
+    p = c.beginPath()
+    pfad_bauen(p)
+    c.clipPath(p, stroke=0, fill=0)
+    c.radialGradient(cx + licht[0] * radius, cy + licht[1] * radius,
+                     radius * 1.6, [hell, mitte, tief], [0.0, 0.45, 1.0])
+    c.restoreState()
+
+
+def _glanz(c, x, y, rx, ry, *, alpha=0.42, drehung=-28):
+    c.saveState()
+    c.translate(x, y)
+    c.rotate(drehung)
+    c.setFillColor(HexColor("#FFFFFF"), alpha=alpha)
+    c.ellipse(-rx, -ry, rx, ry, stroke=0, fill=1)
     c.restoreState()
 
 
 # --- Motive ------------------------------------------------------------------
-def avocado(c, x, y, groesse):
-    """Halbierte Avocado mit Kern — das Leitmotiv."""
+def tomate(c, x, y, groesse):
     h = groesse / 2
-    # Schale: birnenförmiger Umriss
-    c.saveState()
-    c.setFillColor(PALETTE["avocado_schale"])
-    p = c.beginPath()
-    p.moveTo(x, y + h)
-    p.curveTo(x + h * 0.62, y + h * 0.80, x + h * 0.78, y + h * 0.05,
-              x + h * 0.66, y - h * 0.45)
-    p.curveTo(x + h * 0.56, y - h * 0.92, x - h * 0.56, y - h * 0.92,
-              x - h * 0.66, y - h * 0.45)
-    p.curveTo(x - h * 0.78, y + h * 0.05, x - h * 0.62, y + h * 0.80,
-              x, y + h)
-    p.close()
-    c.drawPath(p, stroke=0, fill=1)
+    _schatten(c, x, y - h * 0.80, h * 0.72, h * 0.15)
+    _kugel(c, x, y - h * 0.05, h * 0.84, h * 0.76, "tomate")
 
-    # Fruchtfleisch, gleiche Form etwas kleiner
-    c.setFillColor(PALETTE["avocado_fleisch"])
-    f = 0.80
-    p = c.beginPath()
-    p.moveTo(x, y + h * f)
-    p.curveTo(x + h * 0.62 * f, y + h * 0.80 * f, x + h * 0.78 * f, y + h * 0.05,
-              x + h * 0.66 * f, y - h * 0.45 * f)
-    p.curveTo(x + h * 0.56 * f, y - h * 0.92 * f, x - h * 0.56 * f, y - h * 0.92 * f,
-              x - h * 0.66 * f, y - h * 0.45 * f)
-    p.curveTo(x - h * 0.78 * f, y + h * 0.05, x - h * 0.62 * f, y + h * 0.80 * f,
-              x, y + h * f)
-    p.close()
-    c.drawPath(p, stroke=0, fill=1)
+    # Wölbungsrillen
+    c.saveState()
+    c.setStrokeColor(HexColor("#A62C1E"), alpha=0.30)
+    c.setLineWidth(max(0.5, h * 0.045))
+    for versatz in (-0.42, 0.0, 0.42):
+        c.bezier(x + versatz * h, y + h * 0.62,
+                 x + versatz * h * 1.5, y + h * 0.10,
+                 x + versatz * h * 1.5, y - h * 0.30,
+                 x + versatz * h * 0.75, y - h * 0.72)
     c.restoreState()
 
-    _ellipse(c, x, y - h * 0.28, h * 0.34, h * 0.34, PALETTE["avocado_kern"])
+    _glanz(c, x - h * 0.34, y + h * 0.34, h * 0.24, h * 0.14)
 
-
-def brokkoli(c, x, y, groesse):
-    h = groesse / 2
+    # Kelchblätter
     c.saveState()
-    # Strunk
-    c.setFillColor(PALETTE["blatt_hell"])
-    c.roundRect(x - h * 0.16, y - h, h * 0.32, h * 0.85,
-                h * 0.12, stroke=0, fill=1)
-    # Röschen als überlappende Kreise
-    c.setFillColor(PALETTE["blatt"])
-    roeschen = [
-        (0.00, 0.52, 0.40), (-0.42, 0.30, 0.34), (0.42, 0.30, 0.34),
-        (-0.22, 0.02, 0.32), (0.22, 0.02, 0.32), (0.00, 0.22, 0.34),
-        (-0.58, 0.00, 0.24), (0.58, 0.00, 0.24),
-    ]
-    for dx, dy, r in roeschen:
-        c.circle(x + dx * h, y + dy * h, r * h, stroke=0, fill=1)
-    # Aufhellungen für Tiefe
-    c.setFillColor(PALETTE["blatt_hell"])
-    for dx, dy, r in [(-0.30, 0.44, 0.13), (0.16, 0.38, 0.10), (0.44, 0.14, 0.09)]:
-        c.circle(x + dx * h, y + dy * h, r * h, stroke=0, fill=1)
-    c.restoreState()
-
-
-def paprika(c, x, y, groesse, farbe="paprika_gruen"):
-    h = groesse / 2
-    c.saveState()
-    c.setFillColor(PALETTE[farbe])
-    p = c.beginPath()
-    p.moveTo(x - h * 0.70, y + h * 0.30)
-    p.curveTo(x - h * 0.92, y - h * 0.30, x - h * 0.60, y - h * 0.95,
-              x - h * 0.16, y - h * 0.86)
-    p.curveTo(x, y - h * 0.82, x, y - h * 0.82, x + h * 0.16, y - h * 0.86)
-    p.curveTo(x + h * 0.60, y - h * 0.95, x + h * 0.92, y - h * 0.30,
-              x + h * 0.70, y + h * 0.30)
-    p.curveTo(x + h * 0.56, y + h * 0.68, x - h * 0.56, y + h * 0.68,
-              x - h * 0.70, y + h * 0.30)
-    p.close()
-    c.drawPath(p, stroke=0, fill=1)
-    # Stiel
-    c.setFillColor(PALETTE["blatt_tief"])
-    c.roundRect(x - h * 0.09, y + h * 0.52, h * 0.18, h * 0.42,
-                h * 0.07, stroke=0, fill=1)
-    _ellipse(c, x, y + h * 0.56, h * 0.30, h * 0.11, PALETTE["blatt"])
+    for i in range(6):
+        c.saveState()
+        c.translate(x, y + h * 0.62)
+        c.rotate(i * 60 + 12)
+        gruen = _farben("blatt" if False else "kraut")
+        c.setFillColor(gruen[1])
+        p = c.beginPath()
+        p.moveTo(0, 0)
+        p.curveTo(h * 0.10, h * 0.12, h * 0.16, h * 0.26, h * 0.05, h * 0.40)
+        p.curveTo(h * 0.00, h * 0.26, -h * 0.06, h * 0.14, 0, 0)
+        p.close()
+        c.drawPath(p, stroke=0, fill=1)
+        c.restoreState()
+    c.setFillColor(_farben("kraut")[2])
+    c.circle(x, y + h * 0.64, h * 0.09, stroke=0, fill=1)
     c.restoreState()
 
 
 def zitrone(c, x, y, groesse):
-    """Zitronenhälfte mit Segmenten."""
+    """Aufgeschnittene Zitrone mit Segmenten."""
     h = groesse / 2
-    _ellipse(c, x, y, h * 0.86, h * 0.86, PALETTE["zitrone"])
-    _ellipse(c, x, y, h * 0.72, h * 0.72, PALETTE["zitrone_hell"])
+    _schatten(c, x, y - h * 0.86, h * 0.72, h * 0.14)
+    _kugel(c, x, y, h * 0.86, h * 0.86, "zitrone")
+    _kugel(c, x, y, h * 0.74, h * 0.74, "zitrone_fleisch")
+
+    # Segmente als Tortenstücke mit weißen Trennhäuten
     c.saveState()
-    c.setStrokeColor(PALETTE["zitrone"])
-    c.setLineWidth(max(0.6, h * 0.055))
     for i in range(8):
-        winkel = i * math.pi / 4
-        c.line(x, y,
-               x + math.cos(winkel) * h * 0.70,
-               y + math.sin(winkel) * h * 0.70)
+        a0 = i * math.pi / 4 + 0.10
+        a1 = (i + 1) * math.pi / 4 - 0.10
+        c.setFillColor(HexColor("#F6D96A"), alpha=0.85)
+        p = c.beginPath()
+        p.moveTo(x, y)
+        p.lineTo(x + math.cos(a0) * h * 0.70, y + math.sin(a0) * h * 0.70)
+        schritte = 6
+        for s in range(1, schritte + 1):
+            a = a0 + (a1 - a0) * s / schritte
+            p.lineTo(x + math.cos(a) * h * 0.70, y + math.sin(a) * h * 0.70)
+        p.close()
+        c.drawPath(p, stroke=0, fill=1)
+    # Mittelachse
+    c.setFillColor(HexColor("#FDF8E0"))
+    c.circle(x, y, h * 0.09, stroke=0, fill=1)
+    c.restoreState()
+    _glanz(c, x - h * 0.30, y + h * 0.42, h * 0.20, h * 0.09, alpha=0.30)
+
+
+def avocado(c, x, y, groesse):
+    """Halbierte Avocado mit Kern — das Leitmotiv."""
+    h = groesse / 2
+    _schatten(c, x, y - h * 0.92, h * 0.60, h * 0.13)
+
+    def umriss(p, f=1.0):
+        # Birnenform: schmaler Hals oben, runder Bauch unten. Der Hals darf
+        # nicht spitz zulaufen, sonst sieht die Frucht aus wie ein Tropfen.
+        p.moveTo(x, y + h * 0.92 * f)
+        p.curveTo(x + h * 0.24 * f, y + h * 0.91 * f,
+                  x + h * 0.38 * f, y + h * 0.66 * f,
+                  x + h * 0.44 * f, y + h * 0.30 * f)
+        p.curveTo(x + h * 0.50 * f, y - h * 0.06 * f,
+                  x + h * 0.74 * f, y - h * 0.20 * f,
+                  x + h * 0.74 * f, y - h * 0.50 * f)
+        p.curveTo(x + h * 0.74 * f, y - h * 0.86 * f,
+                  x + h * 0.40 * f, y - h * 0.99 * f,
+                  x, y - h * 0.99 * f)
+        p.curveTo(x - h * 0.40 * f, y - h * 0.99 * f,
+                  x - h * 0.74 * f, y - h * 0.86 * f,
+                  x - h * 0.74 * f, y - h * 0.50 * f)
+        p.curveTo(x - h * 0.74 * f, y - h * 0.20 * f,
+                  x - h * 0.50 * f, y - h * 0.06 * f,
+                  x - h * 0.44 * f, y + h * 0.30 * f)
+        p.curveTo(x - h * 0.38 * f, y + h * 0.66 * f,
+                  x - h * 0.24 * f, y + h * 0.91 * f,
+                  x, y + h * 0.92 * f)
+        p.close()
+
+    _pfad_verlauf(c, umriss, "avocado_schale", x, y, h)
+    _pfad_verlauf(c, lambda p: umriss(p, 0.82), "avocado_fleisch", x, y, h * 0.82)
+
+    # Übergang Fleisch zu Schale etwas heller absetzen
+    c.saveState()
+    c.setStrokeColor(HexColor("#D8E88F"), alpha=0.55)
+    c.setLineWidth(max(0.6, h * 0.05))
+    p = c.beginPath()
+    umriss(p, 0.82)
+    c.drawPath(p, stroke=1, fill=0)
+    c.restoreState()
+
+    _kugel(c, x, y - h * 0.28, h * 0.35, h * 0.35, "avocado_kern")
+    _glanz(c, x - h * 0.14, y - h * 0.18, h * 0.09, h * 0.05, alpha=0.30)
+
+
+def brokkoli(c, x, y, groesse):
+    h = groesse / 2
+
+    def strunk(p):
+        # Kurz und kräftig mit abzweigenden Nebenstielen — ein dünner,
+        # langer Stiel lässt den Brokkoli wie ein Bäumchen aussehen.
+        p.moveTo(x - h * 0.26, y - h * 0.92)
+        p.curveTo(x - h * 0.30, y - h * 0.55, x - h * 0.26, y - h * 0.40,
+                  x - h * 0.34, y - h * 0.16)
+        p.lineTo(x - h * 0.16, y - h * 0.08)
+        p.lineTo(x + h * 0.02, y - h * 0.22)
+        p.lineTo(x + h * 0.20, y - h * 0.06)
+        p.lineTo(x + h * 0.36, y - h * 0.18)
+        p.curveTo(x + h * 0.28, y - h * 0.42, x + h * 0.30, y - h * 0.58,
+                  x + h * 0.26, y - h * 0.92)
+        p.close()
+
+    _schatten(c, x, y - h * 0.92, h * 0.58, h * 0.13)
+    _pfad_verlauf(c, strunk, "brokkoli_strunk", x, y - h * 0.5, h * 0.55)
+
+    # Röschen: breite, flache Krone aus vielen Kugeln. Hintere Reihe zuerst
+    # und dunkler, damit Tiefe entsteht.
+    hinten = [(-0.72, 0.26, 0.28), (0.72, 0.26, 0.28), (-0.40, 0.62, 0.28),
+              (0.40, 0.62, 0.28), (0.00, 0.70, 0.30), (-0.60, 0.50, 0.24),
+              (0.60, 0.50, 0.24)]
+    vorne = [(-0.58, 0.22, 0.34), (0.58, 0.22, 0.34), (-0.28, 0.40, 0.38),
+             (0.28, 0.40, 0.38), (0.00, 0.24, 0.36), (-0.20, 0.06, 0.28),
+             (0.22, 0.06, 0.28)]
+
+    c.saveState()
+    for dx, dy, r in hinten:
+        _kugel(c, x + dx * h, y + dy * h, r * h, r * h * 0.92, "brokkoli",
+               licht=(-0.2, 0.2))
+    for dx, dy, r in vorne:
+        _kugel(c, x + dx * h, y + dy * h, r * h, r * h * 0.92, "brokkoli")
+    c.restoreState()
+
+    # Feine Krümel für die typische Textur
+    c.saveState()
+    c.setFillColor(HexColor("#8CBE6E"), alpha=0.55)
+    for dx, dy, r in vorne:
+        for k in range(7):
+            winkel = k * 2 * math.pi / 7 + dx
+            c.circle(x + dx * h + math.cos(winkel) * r * h * 0.55,
+                     y + dy * h + math.sin(winkel) * r * h * 0.55,
+                     r * h * 0.11, stroke=0, fill=1)
+    c.restoreState()
+    _glanz(c, x - h * 0.30, y + h * 0.46, h * 0.14, h * 0.07, alpha=0.25)
+
+
+def paprika(c, x, y, groesse):
+    h = groesse / 2
+    _schatten(c, x, y - h * 0.90, h * 0.62, h * 0.13)
+
+    def koerper(p):
+        # Blockpaprika: breite Schultern oben, unten drei deutliche Lappen.
+        # Ohne die Lappen wirkt die Form wie ein Apfel.
+        p.moveTo(x - h * 0.78, y + h * 0.34)
+        p.curveTo(x - h * 0.96, y - h * 0.10, x - h * 0.90, y - h * 0.52,
+                  x - h * 0.62, y - h * 0.78)
+        # linker Lappen
+        p.curveTo(x - h * 0.50, y - h * 0.92, x - h * 0.36, y - h * 0.88,
+                  x - h * 0.30, y - h * 0.70)
+        # mittlerer Lappen, sitzt etwas tiefer
+        p.curveTo(x - h * 0.22, y - h * 0.94, x - h * 0.06, y - h * 1.00,
+                  x + h * 0.02, y - h * 0.96)
+        p.curveTo(x + h * 0.12, y - h * 0.92, x + h * 0.20, y - h * 0.80,
+                  x + h * 0.26, y - h * 0.68)
+        # rechter Lappen
+        p.curveTo(x + h * 0.34, y - h * 0.90, x + h * 0.52, y - h * 0.90,
+                  x + h * 0.64, y - h * 0.76)
+        p.curveTo(x + h * 0.90, y - h * 0.50, x + h * 0.96, y - h * 0.10,
+                  x + h * 0.78, y + h * 0.34)
+        p.curveTo(x + h * 0.66, y + h * 0.70, x - h * 0.66, y + h * 0.70,
+                  x - h * 0.78, y + h * 0.34)
+        p.close()
+
+    _pfad_verlauf(c, koerper, "paprika", x, y, h)
+
+    # Längsfurchen
+    c.saveState()
+    c.setStrokeColor(HexColor("#2E6B22"), alpha=0.28)
+    c.setLineWidth(max(0.5, h * 0.05))
+    for versatz in (-0.36, 0.36):
+        c.bezier(x + versatz * h, y + h * 0.46,
+                 x + versatz * h * 1.5, y + h * 0.00,
+                 x + versatz * h * 1.4, y - h * 0.40,
+                 x + versatz * h * 0.55, y - h * 0.80)
+    c.restoreState()
+
+    _glanz(c, x - h * 0.34, y + h * 0.18, h * 0.16, h * 0.34, alpha=0.34, drehung=-8)
+
+    # Stiel
+    c.saveState()
+    gruen = _farben("kraut")
+    c.setFillColor(gruen[1])
+    c.roundRect(x - h * 0.09, y + h * 0.52, h * 0.18, h * 0.44,
+                h * 0.07, stroke=0, fill=1)
+    c.setFillColor(gruen[0])
+    p = c.beginPath()
+    p.moveTo(x - h * 0.30, y + h * 0.54)
+    p.curveTo(x - h * 0.12, y + h * 0.68, x + h * 0.12, y + h * 0.68,
+              x + h * 0.30, y + h * 0.54)
+    p.curveTo(x + h * 0.12, y + h * 0.44, x - h * 0.12, y + h * 0.44,
+              x - h * 0.30, y + h * 0.54)
+    p.close()
+    c.drawPath(p, stroke=0, fill=1)
     c.restoreState()
 
 
 def gurkenscheibe(c, x, y, groesse):
     h = groesse / 2
-    _ellipse(c, x, y, h * 0.85, h * 0.85, PALETTE["gurke_schale"])
-    _ellipse(c, x, y, h * 0.70, h * 0.70, PALETTE["gurke_fleisch"])
+    _schatten(c, x, y - h * 0.88, h * 0.66, h * 0.12)
+    _kugel(c, x, y, h * 0.86, h * 0.86, "gurke_schale")
+    _kugel(c, x, y, h * 0.72, h * 0.72, "gurke_fleisch")
+
+    # Kerne in zwei Ringen, leicht oval und unterschiedlich groß
     c.saveState()
-    c.setFillColor(PALETTE["blatt_hell"])
+    c.setFillColor(HexColor("#C3D89A"))
     for i in range(6):
-        winkel = i * math.pi / 3 + 0.4
-        c.circle(x + math.cos(winkel) * h * 0.34,
-                 y + math.sin(winkel) * h * 0.34,
-                 h * 0.10, stroke=0, fill=1)
+        winkel = i * math.pi / 3 + 0.35
+        c.saveState()
+        c.translate(x + math.cos(winkel) * h * 0.34,
+                    y + math.sin(winkel) * h * 0.34)
+        c.rotate(math.degrees(winkel))
+        c.ellipse(-h * 0.11, -h * 0.07, h * 0.11, h * 0.07, stroke=0, fill=1)
+        c.restoreState()
+    c.setFillColor(HexColor("#D6E7B4"))
+    for i in range(3):
+        winkel = i * 2 * math.pi / 3
+        c.circle(x + math.cos(winkel) * h * 0.13,
+                 y + math.sin(winkel) * h * 0.13, h * 0.05, stroke=0, fill=1)
     c.restoreState()
+    _glanz(c, x - h * 0.32, y + h * 0.36, h * 0.18, h * 0.09, alpha=0.30)
 
 
 def heidelbeeren(c, x, y, groesse):
     h = groesse / 2
-    for dx, dy, r in [(-0.42, -0.18, 0.40), (0.34, 0.10, 0.46), (0.02, -0.48, 0.34)]:
-        _ellipse(c, x + dx * h, y + dy * h, r * h, r * h, PALETTE["beere"])
+    for dx, dy, r in ((-0.44, -0.20, 0.40), (0.02, -0.50, 0.34),
+                      (0.36, 0.10, 0.46)):
+        _schatten(c, x + dx * h, y + dy * h - r * h, r * h * 0.7, r * h * 0.16)
+        _kugel(c, x + dx * h, y + dy * h, r * h, r * h * 0.94, "beere")
+        # Blütenkranz auf der Oberseite
         c.saveState()
-        c.setStrokeColor(PALETTE["beere_hell"])
-        c.setLineWidth(max(0.5, h * 0.05))
+        c.setStrokeColor(HexColor("#9AA6CB"), alpha=0.65)
+        c.setLineWidth(max(0.4, r * h * 0.10))
         for i in range(5):
-            w = i * 2 * math.pi / 5
+            w = i * 2 * math.pi / 5 + 0.4
             c.line(x + dx * h, y + dy * h,
-                   x + dx * h + math.cos(w) * r * h * 0.42,
-                   y + dy * h + math.sin(w) * r * h * 0.42)
+                   x + dx * h + math.cos(w) * r * h * 0.34,
+                   y + dy * h + math.sin(w) * r * h * 0.34)
+        c.setFillColor(HexColor("#B9C2DD"), alpha=0.55)
+        c.circle(x + dx * h, y + dy * h, r * h * 0.10, stroke=0, fill=1)
         c.restoreState()
+        _glanz(c, x + dx * h - r * h * 0.36, y + dy * h + r * h * 0.36,
+               r * h * 0.20, r * h * 0.11, alpha=0.34)
 
 
 def erdbeere(c, x, y, groesse):
     h = groesse / 2
+    _schatten(c, x, y - h * 0.94, h * 0.44, h * 0.11)
+
+    def koerper(p):
+        p.moveTo(x, y - h * 0.94)
+        p.curveTo(x + h * 0.44, y - h * 0.62, x + h * 0.76, y - h * 0.12,
+                  x + h * 0.70, y + h * 0.26)
+        p.curveTo(x + h * 0.64, y + h * 0.58, x - h * 0.64, y + h * 0.58,
+                  x - h * 0.70, y + h * 0.26)
+        p.curveTo(x - h * 0.76, y - h * 0.12, x - h * 0.44, y - h * 0.62,
+                  x, y - h * 0.94)
+        p.close()
+
+    _pfad_verlauf(c, koerper, "erdbeere", x, y, h)
+
+    # Nüsschen in versetzten Reihen, jeweils mit Schattenkante
     c.saveState()
-    c.setFillColor(PALETTE["erdbeere"])
-    p = c.beginPath()
-    p.moveTo(x, y - h * 0.92)
-    p.curveTo(x + h * 0.78, y - h * 0.20, x + h * 0.70, y + h * 0.52,
-              x, y + h * 0.52)
-    p.curveTo(x - h * 0.70, y + h * 0.52, x - h * 0.78, y - h * 0.20,
-              x, y - h * 0.92)
-    p.close()
-    c.drawPath(p, stroke=0, fill=1)
-    # Kerne
-    c.setFillColor(PALETTE["erdbeere_kern"])
-    for dx, dy in [(-0.34, 0.16), (0.00, 0.28), (0.34, 0.16), (-0.20, -0.14),
-                   (0.20, -0.14), (0.00, -0.44)]:
-        c.circle(x + dx * h, y + dy * h, h * 0.055, stroke=0, fill=1)
-    # Blätter
-    c.setFillColor(PALETTE["blatt"])
-    for winkel in (-0.9, -0.3, 0.3, 0.9):
-        c.saveState()
-        c.translate(x, y + h * 0.52)
-        c.rotate(math.degrees(winkel))
-        c.ellipse(-h * 0.09, 0, h * 0.09, h * 0.42, stroke=0, fill=1)
-        c.restoreState()
+    reihen = [(-0.44, 4, 0.44), (-0.16, 5, 0.52), (0.14, 4, 0.44),
+              (0.40, 3, 0.30)]
+    for dy, anzahl, spanne in reihen:
+        for i in range(anzahl):
+            dx = (i - (anzahl - 1) / 2) * (2 * spanne / max(1, anzahl - 1))
+            c.setFillColor(HexColor("#8F2418"), alpha=0.55)
+            c.circle(x + dx * h, y + dy * h - h * 0.018, h * 0.048,
+                     stroke=0, fill=1)
+            c.setFillColor(HexColor("#F7E4A8"))
+            c.circle(x + dx * h, y + dy * h, h * 0.042, stroke=0, fill=1)
     c.restoreState()
 
+    _glanz(c, x - h * 0.30, y + h * 0.14, h * 0.13, h * 0.22, alpha=0.28, drehung=-14)
 
-def tomate(c, x, y, groesse):
-    h = groesse / 2
-    _ellipse(c, x, y - h * 0.06, h * 0.82, h * 0.74, PALETTE["tomate"])
+    # Kelch
     c.saveState()
-    c.setFillColor(PALETTE["blatt"])
-    for i in range(5):
-        winkel = i * 2 * math.pi / 5 + 0.3
+    gruen = _farben("kraut")
+    for i, winkel in enumerate((-72, -36, 0, 36, 72)):
         c.saveState()
-        c.translate(x, y + h * 0.60)
-        c.rotate(math.degrees(winkel))
-        c.ellipse(-h * 0.07, 0, h * 0.07, h * 0.34, stroke=0, fill=1)
+        c.translate(x, y + h * 0.46)
+        c.rotate(winkel)
+        c.setFillColor(gruen[0] if i % 2 else gruen[1])
+        p = c.beginPath()
+        p.moveTo(0, 0)
+        p.curveTo(h * 0.13, h * 0.12, h * 0.16, h * 0.30, h * 0.02, h * 0.50)
+        p.curveTo(-h * 0.08, h * 0.30, -h * 0.12, h * 0.12, 0, 0)
+        p.close()
+        c.drawPath(p, stroke=0, fill=1)
         c.restoreState()
-    c.circle(x, y + h * 0.62, h * 0.10, stroke=0, fill=1)
     c.restoreState()
 
 
 def spargel(c, x, y, groesse):
     h = groesse / 2
-    c.saveState()
-    c.setFillColor(PALETTE["blatt_hell"])
-    for i, dx in enumerate((-0.34, 0.0, 0.34)):
-        neigung = dx * 0.30
+    _schatten(c, x, y - h * 0.95, h * 0.44, h * 0.10)
+    hell, mitte, tief = _farben("spargel")
+    for dx, neigung, laenge in ((-0.34, -7, 0.92), (0.02, 2, 1.00),
+                                (0.36, 9, 0.88)):
         c.saveState()
         c.translate(x + dx * h, y)
-        c.rotate(math.degrees(-neigung))
-        c.roundRect(-h * 0.10, -h * 0.90, h * 0.20, h * 1.55,
-                    h * 0.09, stroke=0, fill=1)
-        c.setFillColor(PALETTE["blatt"])
+        c.rotate(neigung)
+
+        def stange(p, laenge=laenge):
+            p.moveTo(-h * 0.11, -h * 0.95)
+            p.lineTo(h * 0.11, -h * 0.95)
+            p.lineTo(h * 0.085, h * 0.48 * laenge)
+            p.curveTo(h * 0.06, h * 0.72 * laenge, -h * 0.06, h * 0.72 * laenge,
+                      -h * 0.085, h * 0.48 * laenge)
+            p.close()
+
+        _pfad_verlauf(c, stange, "spargel", 0, 0, h * 0.5)
+
+        # Kopf aus überlappenden Schuppen
+        c.setFillColor(tief)
         p = c.beginPath()
-        p.moveTo(0, h * 0.95)
-        p.lineTo(-h * 0.13, h * 0.52)
-        p.lineTo(h * 0.13, h * 0.52)
+        p.moveTo(0, h * 0.98 * laenge)
+        p.curveTo(-h * 0.14, h * 0.72 * laenge, -h * 0.10, h * 0.58 * laenge,
+                  0, h * 0.54 * laenge)
+        p.curveTo(h * 0.10, h * 0.58 * laenge, h * 0.14, h * 0.72 * laenge,
+                  0, h * 0.98 * laenge)
         p.close()
         c.drawPath(p, stroke=0, fill=1)
-        c.setFillColor(PALETTE["blatt_hell"])
+        c.setFillColor(mitte, alpha=0.8)
+        for stufe in (0.62, 0.74, 0.86):
+            c.circle(0, h * stufe * laenge, h * 0.055, stroke=0, fill=1)
         c.restoreState()
-    c.restoreState()
 
 
 def kraeuterzweig(c, x, y, groesse, blaetter=5):
-    """Kräuterzweig mit paarweise angesetzten Blättern."""
     h = groesse / 2
+    hell, mitte, tief = _farben("kraut")
     c.saveState()
-    c.setStrokeColor(PALETTE["blatt"])
+    c.setStrokeColor(tief)
     c.setLineWidth(max(0.8, h * 0.06))
-    c.line(x, y - h * 0.9, x, y + h * 0.85)
+    c.line(x, y - h * 0.92, x, y + h * 0.82)
 
-    c.setFillColor(PALETTE["blatt_hell"])
     for i in range(blaetter):
         anteil = i / max(1, blaetter - 1)
-        hoehe = y - h * 0.62 + anteil * h * 1.35
-        laenge = h * (0.60 - anteil * 0.26)
-        breite = h * 0.17
+        hoehe = y - h * 0.64 + anteil * h * 1.34
+        laenge = h * (0.62 - anteil * 0.26)
+        breite = h * 0.19
         for seite in (-1, 1):
             c.saveState()
             c.translate(x, hoehe)
-            c.rotate(seite * 38)
-            # Blattform als zwei gespiegelte Bögen statt gefüllter Ellipse:
-            # ergibt eine Spitze und wirkt weniger klobig.
+            c.rotate(seite * 36)
+            c.setFillColor(mitte if i % 2 else hell)
             p = c.beginPath()
             p.moveTo(0, 0)
-            p.curveTo(seite * laenge * 0.35, breite,
-                      seite * laenge * 0.75, breite * 0.7,
+            p.curveTo(seite * laenge * 0.30, breite,
+                      seite * laenge * 0.72, breite * 0.68,
                       seite * laenge, 0)
-            p.curveTo(seite * laenge * 0.75, -breite * 0.7,
-                      seite * laenge * 0.35, -breite,
+            p.curveTo(seite * laenge * 0.72, -breite * 0.68,
+                      seite * laenge * 0.30, -breite,
                       0, 0)
             p.close()
             c.drawPath(p, stroke=0, fill=1)
+            # Mittelrippe
+            c.setStrokeColor(tief, alpha=0.45)
+            c.setLineWidth(max(0.3, h * 0.025))
+            c.line(0, 0, seite * laenge * 0.92, 0)
             c.restoreState()
-    # Triebspitze
-    c.setFillColor(PALETTE["blatt"])
+
+    c.setFillColor(mitte)
     p = c.beginPath()
-    p.moveTo(x, y + h * 0.95)
-    p.curveTo(x - h * 0.16, y + h * 0.62, x - h * 0.10, y + h * 0.55,
-              x, y + h * 0.52)
-    p.curveTo(x + h * 0.10, y + h * 0.55, x + h * 0.16, y + h * 0.62,
-              x, y + h * 0.95)
+    p.moveTo(x, y + h * 0.94)
+    p.curveTo(x - h * 0.17, y + h * 0.62, x - h * 0.10, y + h * 0.52,
+              x, y + h * 0.48)
+    p.curveTo(x + h * 0.10, y + h * 0.52, x + h * 0.17, y + h * 0.62,
+              x, y + h * 0.94)
     p.close()
     c.drawPath(p, stroke=0, fill=1)
     c.restoreState()
@@ -293,52 +511,70 @@ def kraeuterzweig(c, x, y, groesse, blaetter=5):
 
 def pilz(c, x, y, groesse):
     h = groesse / 2
+    _schatten(c, x, y - h * 0.88, h * 0.52, h * 0.12)
+
+    def stiel(p):
+        p.moveTo(-h * 0.24 + x, y - h * 0.86)
+        p.curveTo(x - h * 0.20, y - h * 0.30, x - h * 0.22, y - h * 0.10,
+                  x - h * 0.20, y + h * 0.08)
+        p.lineTo(x + h * 0.20, y + h * 0.08)
+        p.curveTo(x + h * 0.22, y - h * 0.10, x + h * 0.20, y - h * 0.30,
+                  x + h * 0.24, y - h * 0.86)
+        p.close()
+
+    _pfad_verlauf(c, stiel, "pilz_stiel", x, y - h * 0.4, h * 0.6)
+
+    def hut(p):
+        p.moveTo(x - h * 0.84, y + h * 0.06)
+        p.curveTo(x - h * 0.82, y + h * 0.88, x + h * 0.82, y + h * 0.88,
+                  x + h * 0.84, y + h * 0.06)
+        p.curveTo(x + h * 0.50, y - h * 0.10, x - h * 0.50, y - h * 0.10,
+                  x - h * 0.84, y + h * 0.06)
+        p.close()
+
+    _pfad_verlauf(c, hut, "pilz_hut", x, y + h * 0.3, h * 0.9)
+    _glanz(c, x - h * 0.30, y + h * 0.48, h * 0.20, h * 0.10, alpha=0.30)
+
+    # Lamellenandeutung unter dem Hutrand
     c.saveState()
-    c.setFillColor(PALETTE["pilz_stiel"])
-    c.roundRect(x - h * 0.22, y - h * 0.85, h * 0.44, h * 0.90,
-                h * 0.10, stroke=0, fill=1)
-    c.setFillColor(PALETTE["pilz_hut"])
-    p = c.beginPath()
-    p.moveTo(x - h * 0.82, y + h * 0.05)
-    p.curveTo(x - h * 0.80, y + h * 0.85, x + h * 0.80, y + h * 0.85,
-              x + h * 0.82, y + h * 0.05)
-    p.close()
-    c.drawPath(p, stroke=0, fill=1)
+    c.setStrokeColor(HexColor("#8E6C42"), alpha=0.40)
+    c.setLineWidth(max(0.4, h * 0.035))
+    for i in range(9):
+        anteil = i / 8
+        px = x - h * 0.70 + anteil * h * 1.40
+        c.line(px, y + h * 0.02, px, y - h * 0.05)
     c.restoreState()
 
 
 # --- Kompositionen -----------------------------------------------------------
 #  (Motivfunktion, x-Anteil, y-Anteil, Größe als Anteil der Breite, Drehung)
 BAND_OBEN = [
-    (kraeuterzweig, 0.09, 0.52, 0.15, -12),
-    (zitrone, 0.22, 0.74, 0.17, 0),
-    (brokkoli, 0.37, 0.46, 0.22, 0),
-    (avocado, 0.53, 0.76, 0.20, 8),
-    (paprika, 0.70, 0.48, 0.20, -6),
-    (gurkenscheibe, 0.85, 0.74, 0.16, 0),
-    (heidelbeeren, 0.94, 0.44, 0.15, 0),
+    (kraeuterzweig, 0.08, 0.52, 0.16, -12),
+    (zitrone, 0.22, 0.74, 0.18, 0),
+    (brokkoli, 0.38, 0.46, 0.23, 0),
+    (avocado, 0.54, 0.76, 0.21, 8),
+    (paprika, 0.71, 0.48, 0.21, -6),
+    (gurkenscheibe, 0.86, 0.74, 0.17, 0),
+    (heidelbeeren, 0.95, 0.42, 0.16, 0),
 ]
 
 BAND_UNTEN = [
-    (spargel, 0.10, 0.52, 0.18, 6),
-    (erdbeere, 0.26, 0.30, 0.15, -8),
-    (tomate, 0.42, 0.58, 0.17, 0),
-    (pilz, 0.58, 0.30, 0.15, 0),
-    (gurkenscheibe, 0.72, 0.60, 0.14, 0),
-    (kraeuterzweig, 0.88, 0.42, 0.16, 14),
+    (spargel, 0.09, 0.52, 0.19, 6),
+    (erdbeere, 0.26, 0.30, 0.16, -8),
+    (tomate, 0.42, 0.58, 0.18, 0),
+    (pilz, 0.58, 0.30, 0.16, 0),
+    (gurkenscheibe, 0.73, 0.60, 0.15, 0),
+    (kraeuterzweig, 0.89, 0.42, 0.17, 14),
 ]
 
 
 def komposition_zeichnen(c, motive, x, y, breite, hoehe):
     """Zeichnet eine Motivliste in den Rahmen (x, y, breite, hoehe)."""
     for zeichnen, ax, ay, agroesse, drehung in motive:
-        mx = x + ax * breite
-        my = y + ay * hoehe
-        groesse = agroesse * breite
         c.saveState()
-        c.translate(mx, my)
+        c.translate(x + ax * breite, y + ay * hoehe)
         c.rotate(drehung)
-        zeichnen(c, 0, 0, groesse)
+        zeichnen(c, 0, 0, agroesse * breite)
         c.restoreState()
 
 

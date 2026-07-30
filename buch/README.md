@@ -25,6 +25,24 @@ python3 buch/build/abnahme.py              # Endabnahme beider Bände
 Die Umschläge müssen **nach** dem jeweiligen Innenteil gebaut werden — die
 Rückenbreite errechnet sich aus der Seitenzahl des fertigen PDFs.
 
+## Umschlaggestaltung
+
+Obst und Gemüse sind als Vektorgrafik in `buch/build/illustration.py`
+gezeichnet — mit Radialverläufen, Glanzlichtern und Schlagschatten, damit die
+Motive plastisch wirken. Der Grund für Zeichnungen statt Fotos: In der
+Bauumgebung ist kein lizenziertes Bildmaterial beschaffbar, und die Grafiken
+der Website haben nur Web-Auflösung.
+
+**Ein eigenes Titelfoto einsetzen:** Leg die Datei unter
+`buch/cover/titelbild.jpg` ab (auch `.png` und `.webp` werden erkannt) und bau
+den Umschlag neu. Sie ersetzt dann das obere Illustrationsband und wird mittig
+auf das Format beschnitten. Für den Druck sind mindestens **1800 × 2700 px**
+nötig; darunter warnt das Skript.
+
+Auf dem Umschlag dürfen nur Lebensmittel erscheinen, die das Konzept auch
+erlaubt — keine Banane, Weintraube, Ananas oder Karotte. Fremde Marken
+(Produktfotos, Verbandslogos, Prüfsiegel) gehören nicht darauf.
+
 `build_docx.py` läuft **zweimal** durch: Der erste Durchlauf ermittelt die
 Seitenzahlen, der zweite setzt damit das Inhaltsverzeichnis. Grund: LibreOffice
 löst Word-TOC-Felder beim PDF-Export nicht auf, deshalb wird das Verzeichnis
