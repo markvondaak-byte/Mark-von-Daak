@@ -1,0 +1,117 @@
+# Der Stoffwechsel-Reset — Buchprojekt
+
+Zwei eigenständige Bände, gemeinsame Build-Basis:
+
+| Band | Quelle | Format | Ausgabe |
+|---|---|---|---|
+| 1 — Das Buch | `buch/kapitel/*.md` | 6″ × 9″ | `buch/out/stoffwechsel-reset.{docx,pdf}` |
+| 2 — Das Workbook | `workbook/` | 8,27″ × 11,69″ | `workbook/out/workbook.{docx,pdf}` |
+
+## Bauen
+
+```bash
+pip install -r buch/requirements.txt
+
+python3 buch/build/build_docx.py           # Band 1: .docx und .pdf
+python3 buch/build/build_cover.py          # Umschlag Band 1
+
+python3 workbook/build/build_workbook.py   # Band 2: .docx und .pdf
+python3 workbook/build/build_cover.py      # Umschlag Band 2
+
+python3 buch/build/claim_check.py          # HCVO-Prüfung, muss ohne Fehler laufen
+python3 buch/build/abnahme.py              # Endabnahme beider Bände
+```
+
+Die Umschläge müssen **nach** dem jeweiligen Innenteil gebaut werden — die
+Rückenbreite errechnet sich aus der Seitenzahl des fertigen PDFs.
+
+`build_docx.py` läuft **zweimal** durch: Der erste Durchlauf ermittelt die
+Seitenzahlen, der zweite setzt damit das Inhaltsverzeichnis. Grund: LibreOffice
+löst Word-TOC-Felder beim PDF-Export nicht auf, deshalb wird das Verzeichnis
+selbst gesetzt.
+
+### Systemvoraussetzung
+
+`libreoffice-writer` muss installiert sein — `libreoffice-core` allein genügt
+nicht und führt zu „source file could not be loaded":
+
+```bash
+apt-get update && apt-get install -y libreoffice-writer
+```
+
+## Kapitel schreiben
+
+Jede Datei in `buch/kapitel/` beginnt mit YAML-Front-Matter:
+
+```markdown
+---
+typ: kapitel          # titelei | teil | kapitel
+nummer: 3             # Kapitelnummer, erscheint im Inhaltsverzeichnis
+titel: Die Idee dahinter
+kopfzeile: Die Idee   # steht in der Kopfzeile der rechten Seiten
+---
+
+# Die Idee dahinter
+
+Fließtext …
+```
+
+Die Reihenfolge ergibt sich aus dem Dateinamen (`01-…`, `02-…`).
+
+### Unterstützte Auszeichnung
+
+Überschriften `#`, `##`, `###` · Absätze · `- ` Aufzählung · `1. ` Nummerierung ·
+GFM-Tabellen · `**fett**` · `*kursiv*` · `---` Trenner · `> ` Hinweiskasten.
+
+Ein Hinweiskasten bekommt eine Titelzeile, wenn dessen erster Absatz auf einen
+Doppelpunkt endet — dazwischen muss eine leere `>`-Zeile stehen:
+
+```markdown
+> Kurz gefasst:
+>
+> Der eigentliche Kastentext.
+```
+
+Drei Marker, jeweils allein in einer Zeile:
+
+| Marker | Wirkung |
+|---|---|
+| `{{INHALTSVERZEICHNIS}}` | setzt das Inhaltsverzeichnis ein |
+| `{{SEITENUMBRUCH}}` | harter Seitenumbruch |
+| `{{LEERZEILE}}` | vertikaler Abstand |
+
+## Rechtliche Leitplanken
+
+- **Eigenständigkeit:** Fakten, Mengen und Listen stammen aus dem
+  cellRESET-Ernährungskonzept, jede Formulierung ist neu. Keine Textpassagen
+  und keine Grafiken übernehmen.
+- **HCVO:** keine krankheitsbezogenen Aussagen, keine Wirkversprechen.
+  `claim_check.py` prüft das automatisch und muss ohne Treffer durchlaufen.
+- **Marke:** „cellRESET" und „FitLine" sind Marken der PM-International AG und
+  werden nur beschreibend genannt, nie im Titel.
+- Pflichthinweise (Schwangerschaft, ärztliche Abklärung, Eigenverantwortung)
+  stehen in `buch/kapitel/64-hinweise-haftung.md` und
+  `workbook/rahmen/90-rechtliches.md` und dürfen nicht gekürzt werden.
+  `abnahme.py` prüft ihr Vorhandensein im fertigen PDF.
+
+## Band 2 — Workbook
+
+Die 84 Tageskarten werden **nicht** von Hand gepflegt. Welcher Tag welche
+Farbe hat, steht ausschließlich in `workbook/build/wochenplan.py`; das Layout
+erzeugt daraus alles Weitere. Ein Blick auf den Plan:
+
+```bash
+python3 workbook/build/wochenplan.py
+```
+
+Rahmentexte (Titelei, Anleitung, Anhang) liegen als Markdown in
+`workbook/rahmen/`. Die Reihenfolge steuert der Dateiname, die Platzierung das
+Feld `position: vorne` oder `position: hinten` im Front Matter.
+
+**Schreiblinien** werden über `schreibzeilen()` als Tabelle gesetzt, nicht als
+Absätze mit Unterstrich: Word fasst aufeinanderfolgende Absätze mit gleichem
+Rahmen sonst zu einer einzigen Linie zusammen.
+
+**Kein Farbdruck einplanen.** Jede Tagesfarbe trägt zusätzlich ihre
+Beschriftung (WEISS / GRÜN / ROT), damit der Band auch in Schwarz-Weiß
+funktioniert — KDP-Farbdruck verteuert das Buch erheblich.

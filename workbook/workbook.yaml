@@ -1,0 +1,27 @@
+# Metadaten Band 2 — Das 12-Wochen-Workbook.
+
+titel: "Der Stoffwechsel-Reset"
+untertitel: "Das 12-Wochen-Workbook"
+autor: "Mark von Daak"
+sprache: de
+version: "1.0"
+jahr: 2026
+
+slug: workbook
+
+# A4-nah. Mehr Schreibfläche als beim Buch, liegt flach auf dem Tisch.
+seitenformat:
+  breite_mm: 210.0      # 8,27 Zoll
+  hoehe_mm: 297.0       # 11,69 Zoll
+  rand_innen_mm: 22.0   # mehr Bundsteg wegen höherer Seitenzahl
+  rand_aussen_mm: 16.0
+  rand_oben_mm: 18.0
+  rand_unten_mm: 18.0
+
+impressum:
+  name: "Mark von Daak"
+  strasse: "Rabenbergstraße 16"
+  ort: "38444 Wolfsburg"
+  land: "Deutschland"
+  email: "markvondaak@icloud.com"
+  ustid: "DE319920422"

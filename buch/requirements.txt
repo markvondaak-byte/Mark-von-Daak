@@ -1,0 +1,15 @@
+# Toolchain für beide Bände (Buch + Workbook).
+# Installation:  pip install -r buch/requirements.txt
+#
+# Hinweis für frische Container: Falls beim Import von pypdf ein
+# ModuleNotFoundError für _cffi_backend auftritt, ist die System-Installation
+# von `cryptography` defekt. Reparatur:
+#     pip install --force-reinstall cffi cryptography
+
+python-docx>=1.1.0
+markdown-it-py>=3.0.0
+reportlab>=4.0.0
+Pillow>=10.0.0
+pymupdf>=1.24.0
+pypdf>=4.0.0
+PyYAML>=6.0

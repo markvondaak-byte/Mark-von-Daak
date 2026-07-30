@@ -1,0 +1,8 @@
+# Generierte Buch- und Workbook-Dateien
+buch/out/
+workbook/out/
+
+# Python
+__pycache__/
+*.pyc
+.venv/

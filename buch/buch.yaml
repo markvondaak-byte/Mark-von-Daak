@@ -1,0 +1,30 @@
+# Metadaten Band 1 — Das Buch.
+# Wird von build/build_docx.py und build/build_cover.py gelesen.
+
+titel: "Der Stoffwechsel-Reset"
+untertitel: "Das 4-Phasen-Ernährungskonzept in 28 Tagen"
+autor: "Mark von Daak"
+sprache: de
+version: "1.0"
+jahr: 2026
+
+# Dateiname ohne Endung für alles unter out/
+slug: stoffwechsel-reset
+
+# KDP-Satzspiegel
+seitenformat:
+  breite_mm: 152.4      # 6 Zoll
+  hoehe_mm: 228.6       # 9 Zoll
+  rand_innen_mm: 20.0
+  rand_aussen_mm: 16.0
+  rand_oben_mm: 18.0
+  rand_unten_mm: 18.0
+
+# Impressumsangaben — übernommen aus impressum.html, nicht frei erfunden.
+impressum:
+  name: "Mark von Daak"
+  strasse: "Rabenbergstraße 16"
+  ort: "38444 Wolfsburg"
+  land: "Deutschland"
+  email: "markvondaak@icloud.com"
+  ustid: "DE319920422"
