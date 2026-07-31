@@ -1,0 +1,459 @@
+teil: "Grüne Tage"
+einleitung: |
+  Ein grüner Tag ist ein weißer Tag plus Pflanzen. Zu jeder Mahlzeit außer
+  dem Frühstück kommen 100 Gramm Gemüse, Salat oder Rohkost — über den Tag
+  also 300 Gramm. Dazu eine Portion Obst, und zwar nach der dritten Mahlzeit.
+
+  Die 100 Gramm hängen nicht vom Körpergewicht ab. Anders als beim Eiweiß
+  bleibt es immer bei dieser Menge, egal wie viel du wiegst.
+
+  Salz bleibt auch an grünen Tagen weg, solange die Aktivierungsphase läuft.
+  Gewürzt wird mit Kräutern, Gewürzen, Zitrone und gutem Öl.
+
+  > Beim Dressing wird es gefährlich:
+  >
+  > Gekaufte Dressings enthalten praktisch immer Zucker. Balsamico hat zu
+  > viele Kohlenhydrate. Nimm Apfelessig, Weißweinessig oder Rotweinessig —
+  > die Grundrezepte am Ende des Buches liefern die Basis.
+
+rezepte:
+  - name: Hähnchen-Spargel-Pfanne
+    tagesfarbe: gruen
+    portionen: 1
+    zeit_min: 20
+    eiweiss_g: 37
+    zutaten:
+      - 180 g Hähnchenbrust roh, in Streifen
+      - 100 g grüner Spargel
+      - 1 EL Kokosöl
+      - 1 Knoblauchzehe, gehackt
+      - Pfeffer, Zitronensaft, frische Petersilie
+    schritte:
+      - Vom Spargel die holzigen Enden abbrechen, die Stangen schräg in
+        Stücke schneiden.
+      - Kokosöl stark erhitzen, die Hähnchenstreifen portionsweise scharf
+        anbraten und herausnehmen.
+      - Spargel in derselben Pfanne drei bis vier Minuten braten — er soll
+        Biss behalten.
+      - Fleisch zurückgeben, Knoblauch zugeben, kurz durchschwenken, mit
+        Pfeffer und Zitronensaft abschmecken.
+
+  - name: Lachs mit Brokkoli
+    tagesfarbe: gruen
+    portionen: 1
+    zeit_min: 25
+    eiweiss_g: 43
+    zutaten:
+      - 260 g Lachsfilet roh
+      - 100 g Brokkoli
+      - 1 EL Olivenöl extra vergine
+      - Saft einer halben Zitrone
+      - Pfeffer, frischer Dill
+    schritte:
+      - Backofen auf 180 Grad vorheizen, Lachs auf Backpapier legen und mit
+        Öl bestreichen.
+      - Brokkoli in Röschen teilen und rundherum verteilen.
+      - 15 Minuten backen, bis der Lachs sich mit der Gabel teilen lässt und
+        der Brokkoli noch Biss hat.
+      - Mit Zitronensaft, Pfeffer und Dill abschmecken.
+    tipp: >-
+      Brokkoli aus dem Ofen wird nussiger als gekochter — und behält mehr von
+      dem, was in ihm steckt.
+
+  - name: Gurkensalat mit Putenstreifen
+    tagesfarbe: gruen
+    portionen: 1
+    zeit_min: 15
+    eiweiss_g: 36
+    zutaten:
+      - 180 g Putenbrust roh
+      - 100 g Salatgurke
+      - 1 EL Leinöl
+      - 1 TL Apfelessig
+      - frischer Dill, Pfeffer
+    schritte:
+      - Putenbrust in Streifen schneiden und in wenig Kokosöl kräftig
+        anbraten, abkühlen lassen.
+      - Gurke in dünne Scheiben hobeln.
+      - Leinöl, Apfelessig, Dill und Pfeffer verrühren, über die Gurke geben.
+      - Die abgekühlten Putenstreifen unterheben.
+    tipp: >-
+      Leinöl nur kalt verwenden — erhitzt verliert es genau die Fettsäuren,
+      wegen derer es hier steht.
+
+  - name: Zucchininudeln mit Hähnchen
+    tagesfarbe: gruen
+    portionen: 1
+    zeit_min: 20
+    eiweiss_g: 37
+    zutaten:
+      - 180 g Hähnchenbrust roh, gewürfelt
+      - 100 g Zucchini
+      - 1 EL Olivenöl extra vergine
+      - 1 Knoblauchzehe
+      - Pfeffer, Oregano, Basilikum
+    schritte:
+      - Zucchini mit einem Spiralschneider oder Sparschäler in lange Streifen
+        schneiden.
+      - Hähnchenwürfel in Olivenöl scharf anbraten, Knoblauch und Kräuter
+        zugeben.
+      - Zucchinistreifen erst ganz zum Schluss zugeben und höchstens zwei
+        Minuten mitschwenken.
+    tipp: >-
+      Zucchini zieht schnell Wasser. Zu lange gegart wird aus den Nudeln
+      Matsch — deshalb erst am Ende in die Pfanne.
+
+  - name: Blumenkohlreis mit Garnelen
+    tagesfarbe: gruen
+    portionen: 1
+    zeit_min: 20
+    eiweiss_g: 33
+    zutaten:
+      - 260 g Garnelen roh, geschält
+      - 100 g Blumenkohl
+      - 2 EL Olivenöl extra vergine
+      - 1 Knoblauchzehe, Chiliflocken
+      - Pfeffer, Kurkuma, glatte Petersilie
+    schritte:
+      - Blumenkohl grob raspeln oder im Mixer kurz zerkleinern, bis er die
+        Größe von Reiskörnern hat.
+      - In einem Esslöffel Öl drei bis vier Minuten anbraten, mit Kurkuma und
+        Pfeffer würzen, beiseitestellen.
+      - Garnelen im restlichen Öl mit Knoblauch und Chili je Seite ein bis
+        zwei Minuten braten.
+      - Auf dem Blumenkohlreis anrichten, Petersilie darüber.
+
+  - name: Spinat mit Rührei
+    tagesfarbe: gruen
+    portionen: 1
+    zeit_min: 12
+    eiweiss_g: 16
+    zutaten:
+      - 3 Eier
+      - 100 g frischer Blattspinat
+      - 1 EL Kokosöl
+      - 1 Knoblauchzehe
+      - Pfeffer, Muskat
+    schritte:
+      - Kokosöl erhitzen, Knoblauch kurz anschwitzen, Spinat zugeben und
+        zusammenfallen lassen.
+      - Eier verquirlen, mit Pfeffer und Muskat würzen und über den Spinat
+        gießen.
+      - Bei kleiner Hitze langsam rühren, bis die Masse cremig stockt.
+    tipp: >-
+      Frischer Spinat fällt stark zusammen. Aus 100 Gramm roh wird eine
+      überschaubare Portion — das ist normal und richtig so.
+
+  - name: Paprikasalat mit gegrillten Garnelen
+    tagesfarbe: gruen
+    portionen: 1
+    zeit_min: 20
+    eiweiss_g: 31
+    zutaten:
+      - 260 g Garnelen roh
+      - 100 g grüne Paprika
+      - 2 EL Olivenöl extra vergine
+      - 1 TL Weißweinessig
+      - Pfeffer, Chiliflocken, frischer Koriander
+    schritte:
+      - Paprika in feine Streifen schneiden.
+      - Garnelen in einem Esslöffel Öl scharf braten, mit Pfeffer und Chili
+        würzen.
+      - Restliches Öl mit Essig verrühren, über die Paprika geben.
+      - Garnelen darauf anrichten, Koriander darüber.
+
+  - name: Ofengemüse mit Kabeljau
+    tagesfarbe: gruen
+    portionen: 1
+    zeit_min: 35
+    eiweiss_g: 41
+    zutaten:
+      - 260 g Kabeljaufilet roh
+      - 100 g gemischtes Gemüse (Zucchini, Paprika, Champignons)
+      - 2 EL Olivenöl extra vergine
+      - Pfeffer, Rosmarin, Thymian
+      - Saft einer halben Zitrone
+    schritte:
+      - Backofen auf 200 Grad vorheizen. Gemüse in mundgerechte Stücke
+        schneiden, mit Öl und Kräutern mischen.
+      - Auf dem Blech 15 Minuten vorbacken.
+      - Den Fisch daraufsetzen, mit Pfeffer würzen und weitere 12 bis 15
+        Minuten backen.
+      - Vor dem Servieren mit Zitronensaft beträufeln.
+
+  - name: Tomatensalat mit Thunfisch
+    tagesfarbe: gruen
+    portionen: 1
+    zeit_min: 10
+    eiweiss_g: 32
+    zutaten:
+      - 1 Dose Thunfisch im eigenen Saft, gut abgespült
+      - 100 g Tomaten
+      - 1 EL Olivenöl extra vergine
+      - 1 TL Rotweinessig
+      - frisches Basilikum, Pfeffer
+    schritte:
+      - Tomaten in Spalten schneiden.
+      - Thunfisch abspülen, gut ausdrücken und grob zerpflücken.
+      - Öl und Essig verrühren, über die Tomaten geben, Thunfisch darauf.
+      - Basilikum grob zupfen, mit Pfeffer abschmecken.
+    tipp: >-
+      Ohne Salz braucht der Tomatensalat mehr Säure und mehr Kräuter als
+      gewohnt. Nicht am Basilikum sparen.
+
+  - name: Rucola mit Rinderstreifen
+    tagesfarbe: gruen
+    portionen: 1
+    zeit_min: 15
+    eiweiss_g: 36
+    zutaten:
+      - 180 g Rindersteak roh
+      - 100 g Rucola
+      - 2 EL Olivenöl extra vergine
+      - Saft einer halben Zitrone
+      - grob gemahlener Pfeffer
+    schritte:
+      - Steak scharf anbraten, fünf Minuten ruhen lassen, dann in dünne
+        Streifen schneiden.
+      - Rucola mit Olivenöl und Zitronensaft anmachen.
+      - Fleischstreifen darauf verteilen und kräftig pfeffern.
+    tipp: >-
+      Rotes Fleisch höchstens zweimal pro Woche — diese Regel gilt auch an
+      grünen Tagen.
+
+  - name: Champignonpfanne mit Hähnchen
+    tagesfarbe: gruen
+    portionen: 1
+    zeit_min: 20
+    eiweiss_g: 37
+    zutaten:
+      - 180 g Hähnchenbrust roh, gewürfelt
+      - 100 g Champignons
+      - 1 EL Kokosöl
+      - 1 Knoblauchzehe
+      - Pfeffer, Thymian, glatte Petersilie
+    schritte:
+      - Champignons putzen und vierteln — nicht waschen, sondern abreiben.
+      - Hähnchen in Kokosöl scharf anbraten und herausnehmen.
+      - Champignons in derselben Pfanne braten, bis die Flüssigkeit
+        verdampft ist und sie Farbe nehmen.
+      - Fleisch zurückgeben, Knoblauch und Thymian zugeben, mit Pfeffer
+        abschmecken.
+    tipp: >-
+      Pilze in einer zu vollen Pfanne kochen im eigenen Saft. Lieber in zwei
+      Durchgängen braten.
+
+  - name: Fenchelsalat mit Forelle
+    tagesfarbe: gruen
+    portionen: 1
+    zeit_min: 25
+    eiweiss_g: 39
+    zutaten:
+      - 260 g Forellenfilet roh
+      - 100 g Fenchel
+      - 2 EL Olivenöl extra vergine
+      - Saft einer halben Zitrone
+      - Pfeffer, Fenchelgrün
+    schritte:
+      - Forellenfilets in wenig Öl von jeder Seite drei Minuten braten.
+      - Fenchel sehr fein hobeln — je dünner, desto milder.
+      - Mit Öl, Zitronensaft und Pfeffer anmachen und zehn Minuten ziehen
+        lassen.
+      - Forelle darauf anrichten, mit Fenchelgrün bestreuen.
+
+  - name: Grüne Bohnen mit Putenschnitzel
+    tagesfarbe: gruen
+    portionen: 1
+    zeit_min: 25
+    eiweiss_g: 37
+    zutaten:
+      - 180 g Putenschnitzel roh
+      - 100 g grüne Stangenbohnen
+      - 1 EL Kokosöl
+      - 1 TL Bohnenkraut, Pfeffer
+      - Saft einer halben Zitrone
+    schritte:
+      - Bohnen putzen und in ungesalzenem Wasser acht bis zehn Minuten
+        bissfest garen, dann kalt abschrecken.
+      - Schnitzel mit Pfeffer würzen und in Kokosöl von jeder Seite zwei bis
+        drei Minuten braten.
+      - Bohnen mit Bohnenkraut in derselben Pfanne kurz durchschwenken.
+      - Mit Zitronensaft abschmecken.
+    tipp: >-
+      Nur grüne Stangenbohnen sind erlaubt. Alle anderen Bohnen zählen zu den
+      Hülsenfrüchten und bleiben weg.
+
+  - name: Chinakohlsalat mit Ei
+    tagesfarbe: gruen
+    portionen: 1
+    zeit_min: 15
+    eiweiss_g: 20
+    zutaten:
+      - 3 hartgekochte Eier
+      - 100 g Chinakohl
+      - 1 EL Leinöl
+      - 1 TL Apfelessig
+      - 1 TL selbst gemachter Senf
+      - Pfeffer, Schnittlauch
+    schritte:
+      - Chinakohl in feine Streifen schneiden.
+      - Leinöl, Apfelessig, Senf und Pfeffer zu einem Dressing verrühren.
+      - Kohl damit anmachen und zehn Minuten ziehen lassen.
+      - Eier vierteln, darauf anrichten, Schnittlauch darüber.
+
+  - name: Rosenkohl mit Hackbällchen
+    tagesfarbe: gruen
+    portionen: 1
+    zeit_min: 30
+    eiweiss_g: 35
+    zutaten:
+      - 180 g Geflügelhack
+      - 100 g Rosenkohl
+      - 1 Ei, 1 EL Mandelmehl
+      - 1 EL Kokosöl
+      - Pfeffer, Muskat, Paprikapulver
+    schritte:
+      - Hack mit Ei, Mandelmehl und Gewürzen verkneten, zehn Minuten ruhen
+        lassen, kleine Bällchen formen.
+      - Rosenkohl halbieren und in Kokosöl mit der Schnittfläche nach unten
+        anbraten, bis er Farbe nimmt.
+      - Bällchen dazugeben und alles zugedeckt zehn Minuten bei mittlerer
+        Hitze garen.
+    tipp: >-
+      Angebratener Rosenkohl schmeckt deutlich milder als gekochter — die
+      Röstaromen nehmen ihm die Bitterkeit.
+
+  - name: Auberginenauflauf mit Geflügelhack
+    tagesfarbe: gruen
+    portionen: 2
+    zeit_min: 45
+    eiweiss_g: 34
+    zutaten:
+      - 350 g Geflügelhack
+      - 200 g Aubergine
+      - 2 EL Olivenöl extra vergine
+      - 200 g passierte Tomaten ohne Zusätze
+      - Pfeffer, Oregano, Basilikum, 1 Knoblauchzehe
+    schritte:
+      - Backofen auf 190 Grad vorheizen. Aubergine in Scheiben schneiden und
+        in Olivenöl von beiden Seiten anbraten.
+      - Hack krümelig anbraten, Knoblauch und Kräuter zugeben, mit den
+        passierten Tomaten aufgießen und zehn Minuten einkochen lassen.
+      - Auberginenscheiben und Hackmasse abwechselnd in eine Auflaufform
+        schichten.
+      - 20 Minuten backen.
+    tipp: >-
+      Bei passierten Tomaten die Zutatenliste prüfen — viele enthalten Salz
+      oder Zucker. Es gibt sie auch ohne.
+
+  - name: Gefüllte Paprika mit Hackfleisch
+    tagesfarbe: gruen
+    portionen: 2
+    zeit_min: 45
+    eiweiss_g: 34
+    zutaten:
+      - 350 g Geflügelhack
+      - 2 grüne Paprikaschoten
+      - 1 Ei, 2 EL Mandelmehl
+      - Pfeffer, Paprikapulver, Oregano
+      - 100 g passierte Tomaten ohne Zusätze
+    schritte:
+      - Backofen auf 190 Grad vorheizen. Paprika halbieren und entkernen.
+      - Hack mit Ei, Mandelmehl und Gewürzen verkneten und in die Hälften
+        füllen.
+      - Passierte Tomaten in die Form gießen, Paprika hineinsetzen.
+      - Zugedeckt 30 Minuten backen, danach zehn Minuten offen.
+
+  - name: Kohlrabi-Sticks mit Tofu
+    tagesfarbe: gruen
+    portionen: 1
+    zeit_min: 20
+    eiweiss_g: 21
+    zutaten:
+      - 150 g Naturtofu, gepresst
+      - 100 g Kohlrabi
+      - 1 EL Kokosöl, 1 EL Leinöl
+      - Saft einer halben Zitrone
+      - Pfeffer, Kurkuma, frische Kräuter
+    schritte:
+      - Tofu würfeln, mit Pfeffer und Kurkuma würzen und in Kokosöl rundum
+        knusprig braten.
+      - Kohlrabi schälen und in Stifte schneiden.
+      - Leinöl mit Zitronensaft und Kräutern verrühren und über die Stifte
+        geben.
+      - Tofu darauf anrichten.
+
+  - name: Radieschensalat mit Seitan
+    tagesfarbe: gruen
+    portionen: 1
+    zeit_min: 15
+    eiweiss_g: 38
+    zutaten:
+      - 150 g selbst gemachter Seitan
+      - 100 g Radieschen
+      - 1 EL Kokosöl, 1 EL Leinöl
+      - 1 TL Weißweinessig
+      - Pfeffer, Schnittlauch
+    schritte:
+      - Seitan in Streifen schneiden und in Kokosöl knusprig braten.
+      - Radieschen in dünne Scheiben hobeln.
+      - Leinöl mit Essig und Pfeffer verrühren, Radieschen darin wenden.
+      - Seitanstreifen darauf verteilen, Schnittlauch darüber.
+
+  - name: Mangold mit Lachs
+    tagesfarbe: gruen
+    portionen: 1
+    zeit_min: 25
+    eiweiss_g: 42
+    zutaten:
+      - 260 g Lachsfilet roh
+      - 100 g Mangold
+      - 2 EL Olivenöl extra vergine
+      - 1 Knoblauchzehe
+      - Pfeffer, Muskat, Zitronensaft
+    schritte:
+      - Mangold waschen, Stiele klein schneiden und die Blätter grob
+        zerteilen — die Stiele brauchen länger.
+      - Lachs in einem Esslöffel Öl von jeder Seite drei bis vier Minuten
+        braten und warm stellen.
+      - Im restlichen Öl Knoblauch anschwitzen, erst die Stiele, nach zwei
+        Minuten die Blätter zugeben und zusammenfallen lassen.
+      - Mit Pfeffer, Muskat und Zitronensaft abschmecken, Lachs darauf.
+
+  - name: Grünkohl mit Tempeh
+    tagesfarbe: gruen
+    portionen: 1
+    zeit_min: 25
+    eiweiss_g: 30
+    zutaten:
+      - 150 g Tempeh
+      - 100 g Grünkohl
+      - 2 EL Olivenöl extra vergine
+      - 1 Knoblauchzehe
+      - Pfeffer, Chiliflocken, Zitronensaft
+    schritte:
+      - Grünkohl von den harten Rippen befreien und grob zerpflücken.
+      - Tempeh in Scheiben schneiden und in einem Esslöffel Öl goldbraun
+        braten, herausnehmen.
+      - Im restlichen Öl Knoblauch anschwitzen, Grünkohl zugeben und
+        zugedeckt fünf bis acht Minuten dünsten.
+      - Mit Pfeffer, Chili und Zitronensaft abschmecken, Tempeh darauf.
+
+  - name: Apfel mit Zimt zum Nachtisch
+    tagesfarbe: gruen
+    portionen: 1
+    zeit_min: 5
+    eiweiss_g: 12
+    zutaten:
+      - 1 Apfel
+      - 1 TL gemahlener Zimt
+      - 30 g naturbelassene Mandeln
+      - 2 Eier, hartgekocht (als Eiweißanteil der Mahlzeit)
+    schritte:
+      - Diese Portion kommt nach der dritten Mahlzeit — nie allein und nie
+        auf leeren Magen.
+      - Apfel in Spalten schneiden und mit Zimt bestreuen.
+      - Mit den Mandeln und dem Eiweißanteil der Mahlzeit zusammen essen.
+    tipp: >-
+      Obst gehört im Konzept immer in Kombination mit Eiweiß und Fett. In
+      dieser Zusammenstellung gelangt der Fruchtzucker langsamer ins Blut.

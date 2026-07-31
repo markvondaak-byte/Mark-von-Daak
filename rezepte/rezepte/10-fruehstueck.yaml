@@ -1,0 +1,115 @@
+teil: "Das Frühstück"
+einleitung: |
+  Das Frühstück ist in diesem Konzept die einzige Mahlzeit, die immer gleich
+  aussieht — und zwar in jeder Phase. Probiotischer Joghurt mit über Nacht
+  eingeweichten Leinsamen und Sonnenblumenkernen. Kalt.
+
+  Das klingt nach wenig Abwechslung, und das ist es auch. Dafür ist es in
+  zwei Minuten fertig und es funktioniert. Die Varianten hier verändern nur
+  die Eiweißergänzung, nicht das Grundgerüst.
+
+  > Am Vorabend nicht vergessen:
+  >
+  > Je einen gehäuften Esslöffel Leinsamen und Sonnenblumenkerne in etwas
+  > Wasser einweichen, gerade so, dass sie bedeckt sind. Joghurt ansetzen —
+  > er braucht mindestens acht Stunden. Kräutertee kochen und kalt stellen.
+
+rezepte:
+  - name: Das Basis-Frühstück
+    tagesfarbe: fruehstueck
+    portionen: 1
+    zeit_min: 3
+    eiweiss_g: 17
+    zutaten:
+      - 150 g probiotischer Joghurt
+      - 1 gehäufter EL ganze Leinsamen, über Nacht eingeweicht
+      - 1 gehäufter EL Sonnenblumenkerne, über Nacht eingeweicht
+      - 300–500 ml kalter Kräutertee
+    schritte:
+      - Direkt nach dem Aufstehen den kalten Kräutertee trinken, darin die
+        Nährstoffmischung einrühren und kurz quellen lassen.
+      - Etwa 15 Minuten später die eingeweichten Körner samt Einweichwasser
+        vollständig in den Joghurt rühren.
+      - Langsam essen und gründlich kauen — auch Joghurt mit Körnern will
+        gekaut werden.
+      - Etwa 15 Minuten nach dem Essen mindestens 300 ml stilles Wasser
+        trinken.
+    tipp: >-
+      Das Frühstück ist immer kalt. Der Körper muss es auf Körpertemperatur
+      bringen und wird dadurch gleich zu Beginn des Tages aktiv. Aus demselben
+      Grund wird der Tee kalt getrunken.
+
+  - name: Frühstück mit Ei
+    tagesfarbe: fruehstueck
+    portionen: 1
+    zeit_min: 12
+    eiweiss_g: 23
+    zutaten:
+      - 150 g probiotischer Joghurt
+      - je 1 gehäufter EL eingeweichte Leinsamen und Sonnenblumenkerne
+      - 1 hartgekochtes Ei, kalt
+      - Pfeffer, frische Kräuter nach Geschmack
+    schritte:
+      - Das Ei am Vorabend mitkochen und im Kühlschrank aufbewahren — morgens
+        fehlt dafür die Zeit.
+      - Joghurt mit den eingeweichten Körnern verrühren.
+      - Das kalte Ei halbieren, mit Pfeffer und Kräutern würzen und dazu essen.
+    tipp: >-
+      Wer mit dem Basis-Frühstück nicht bis zur zweiten Mahlzeit kommt, ergänzt
+      hier eine halbe Eiweißportion. Das ist ausdrücklich vorgesehen.
+
+  - name: Frühstück mit Hähnchenbrust
+    tagesfarbe: fruehstueck
+    portionen: 1
+    zeit_min: 5
+    eiweiss_g: 34
+    zutaten:
+      - 150 g probiotischer Joghurt
+      - je 1 gehäufter EL eingeweichte Leinsamen und Sonnenblumenkerne
+      - 75 g gegarte Hähnchenbrust, kalt
+      - Pfeffer, Paprikapulver
+    schritte:
+      - Die Hähnchenbrust am Vortag mitgaren und kalt stellen.
+      - Joghurt mit den Körnern verrühren.
+      - Das kalte Fleisch in Streifen schneiden, mit Pfeffer und Paprikapulver
+        würzen und dazu essen.
+    tipp: >-
+      Diese Variante trägt am längsten. Sinnvoll an Tagen, an denen die zweite
+      Mahlzeit erst spät möglich ist.
+
+  - name: Frühstück mit Mandeln
+    tagesfarbe: fruehstueck
+    portionen: 1
+    zeit_min: 3
+    eiweiss_g: 23
+    zutaten:
+      - 150 g probiotischer Joghurt
+      - je 1 gehäufter EL eingeweichte Leinsamen und Sonnenblumenkerne
+      - 30 g naturbelassene Mandeln, ungesalzen
+      - etwas gemahlene Vanille oder Zimt
+    schritte:
+      - Die Mandeln grob hacken oder ganz lassen.
+      - Joghurt mit den Körnern verrühren, Mandeln unterheben.
+      - Mit Vanille oder Zimt abschmecken.
+    tipp: >-
+      Mandeln sind die einzige Nuss, die in der Aktivierungsphase erlaubt ist.
+      Eine Portion sind 30 Gramm, und höchstens eine Mahlzeit am Tag enthält
+      Nüsse.
+
+  - name: Trinkjoghurt für unterwegs
+    tagesfarbe: fruehstueck
+    portionen: 1
+    zeit_min: 3
+    eiweiss_g: 17
+    zutaten:
+      - 180 g probiotischer Joghurt
+      - je 1 gehäufter EL eingeweichte Leinsamen und Sonnenblumenkerne
+      - etwas kalter Kräutertee zum Verdünnen
+    schritte:
+      - Joghurt mit den eingeweichten Körnern und der Nährstoffmischung
+        verrühren.
+      - Mit kaltem Kräutertee auf Trinkkonsistenz bringen.
+      - In eine verschließbare Flasche füllen und mitnehmen.
+    tipp: >-
+      Der praktische Kompromiss für Tage, an denen morgens keine Ruhe ist.
+      Trotzdem langsam trinken statt in einem Zug — Verdauung beginnt im Mund.

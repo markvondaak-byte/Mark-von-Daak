@@ -1,0 +1,35 @@
+# Metadaten Band 3 — Das Rezeptbuch.
+
+titel: "Der Stoffwechsel-Reset"
+untertitel: "Das Rezeptbuch — 73 Gerichte ohne Salz und Zucker"
+autor: "Mark von Daak"
+sprache: de
+version: "1.0"
+jahr: 2026
+
+slug: rezeptbuch
+
+# Gleiches Format wie Band 1, damit beide Bände zusammen im Regal stehen.
+seitenformat:
+  breite_mm: 152.4      # 6 Zoll
+  hoehe_mm: 228.6       # 9 Zoll
+  rand_innen_mm: 20.0
+  rand_aussen_mm: 16.0
+  rand_oben_mm: 18.0
+  rand_unten_mm: 18.0
+
+impressum:
+  name: "Mark von Daak"
+  strasse: "Rabenbergstraße 16"
+  ort: "38444 Wolfsburg"
+  land: "Deutschland"
+  email: "markvondaak@icloud.com"
+  ustid: "DE319920422"
+
+# Alle Mengenangaben sind auf diese Referenzperson gerechnet.
+referenz:
+  koerpergewicht_kg: 80
+  hinweis: >-
+    Die Eiweißmengen gelten für eine Person mit rund 80 kg Körpergewicht und
+    moderater Bewegung. Wer deutlich mehr oder weniger wiegt, rechnet nach der
+    Formel im Buch um: 0,8 bis 1,5 g Eiweiß je Kilogramm Körpergewicht.

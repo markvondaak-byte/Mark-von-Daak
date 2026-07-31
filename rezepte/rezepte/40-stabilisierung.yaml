@@ -1,0 +1,262 @@
+teil: "Ab der Stabilisierungsphase"
+einleitung: |
+  Ab Phase 3 wächst die Auswahl wieder. Milchprodukte kehren zurück, Nüsse,
+  Salz in Maßen — 2 bis 5 Gramm Natursalz am Tag, ideal etwa 3 — und kleine
+  Mengen Kohlenhydrate als Beilage.
+
+  Zwei Dinge ändern sich dabei nicht:
+
+  Der **weiße Tag bleibt streng**. Auch in dieser Phase gilt dort kein Salz,
+  kein Zucker, kein Gemüse. Die beiden einzigen Erweiterungen sind ungesalzene
+  Nüsse und kohlenhydratarme Milchprodukte als Eiweißquelle.
+
+  Und: Je näher du am Original der Aktivierungsphase bleibst, desto besser
+  hält das Ergebnis. Die Rezepte hier sind Spielraum, keine Aufforderung, ihn
+  jeden Tag auszuschöpfen.
+
+rezepte:
+  - name: Zucchini-Lasagne mit Hartkäse
+    tagesfarbe: stabilisierung
+    portionen: 2
+    zeit_min: 50
+    eiweiss_g: 38
+    zutaten:
+      - 350 g Geflügelhack
+      - 300 g Zucchini
+      - 200 g passierte Tomaten ohne Zusätze
+      - 60 g geriebener Hartkäse
+      - 2 EL Olivenöl extra vergine
+      - Pfeffer, Oregano, Basilikum, 1 Knoblauchzehe, 1 Prise Natursalz
+    schritte:
+      - Backofen auf 190 Grad vorheizen. Zucchini längs in dünne Streifen
+        hobeln und auf Küchenpapier abtropfen lassen.
+      - Hack krümelig anbraten, Knoblauch und Kräuter zugeben, mit den
+        passierten Tomaten aufgießen und zehn Minuten einkochen.
+      - Zucchinistreifen und Hacksauce abwechselnd schichten, mit Käse
+        abschließen.
+      - 25 bis 30 Minuten backen, danach zehn Minuten ruhen lassen.
+    tipp: >-
+      Die Zucchini vorher abtropfen zu lassen ist der Unterschied zwischen
+      Lasagne und Suppe.
+
+  - name: Omelett mit Käse und Kräutern
+    tagesfarbe: stabilisierung
+    portionen: 1
+    zeit_min: 12
+    eiweiss_g: 24
+    zutaten:
+      - 3 Eier
+      - 30 g geriebener Hartkäse
+      - 1 TL Butter aus Weidehaltung
+      - frische Kräuter, Pfeffer, 1 Prise Natursalz
+    schritte:
+      - Eier verquirlen, mit Pfeffer und einer Prise Salz würzen.
+      - Butter bei kleiner Hitze schmelzen, Eimasse hineingeben.
+      - Sobald die Oberfläche fast fest ist, Käse und Kräuter auf eine Hälfte
+        streuen und zusammenklappen.
+      - Eine Minute ziehen lassen, bis der Käse geschmolzen ist.
+
+  - name: Quark mit Beeren
+    tagesfarbe: stabilisierung
+    portionen: 1
+    zeit_min: 5
+    eiweiss_g: 26
+    zutaten:
+      - 200 g Quark 40 %
+      - 100 g gemischte Beeren
+      - 20 g gehackte Walnüsse
+      - 1 TL Erythrit, gemahlene Vanille
+    schritte:
+      - Quark mit Erythrit und Vanille glatt rühren, bei Bedarf mit etwas
+        Wasser cremiger machen.
+      - Beeren unterheben.
+      - Walnüsse darüber streuen.
+    tipp: >-
+      Höchstens eine Mahlzeit am Tag mit Nüssen — sie sind reich an
+      Fettsäuren und Spurenelementen, aber auch an Kalorien.
+
+  - name: Getreidefreies Nussbrot
+    tagesfarbe: stabilisierung
+    portionen: 8
+    zeit_min: 70
+    eiweiss_g: 12
+    zutaten:
+      - 200 g gemahlene Mandeln
+      - 60 g Leinmehl
+      - 40 g Flohsamenschalen
+      - 6 Eier
+      - 60 g gemischte Kerne, Kürbiskerne und Sonnenblumenkerne
+      - 1 TL Weinsteinbackpulver, 1 Prise Natursalz
+    schritte:
+      - Backofen auf 175 Grad vorheizen, eine Kastenform mit Backpapier
+        auslegen.
+      - Alle trockenen Zutaten mischen.
+      - Eier verquirlen und unterrühren, den Teig zehn Minuten quellen
+        lassen — er wird deutlich fester.
+      - In die Form füllen, mit Kernen bestreuen und 50 bis 55 Minuten
+        backen. Stäbchenprobe machen.
+      - Vollständig auskühlen lassen, bevor du es anschneidest.
+    tipp: >-
+      Frisch aus dem Ofen angeschnitten fällt das Brot zusammen. Es braucht
+      die Auskühlzeit, um Struktur zu bekommen.
+
+  - name: Hähnchen in Sahnesauce
+    tagesfarbe: stabilisierung
+    portionen: 1
+    zeit_min: 25
+    eiweiss_g: 38
+    zutaten:
+      - 180 g Hähnchenbrust roh
+      - 100 g Champignons
+      - 50 ml Sahne
+      - 1 EL Butter aus Weidehaltung
+      - Pfeffer, Thymian, 1 Prise Natursalz
+    schritte:
+      - Hähnchenbrust in Butter von beiden Seiten anbraten und herausnehmen.
+      - Champignons in derselben Pfanne braten, bis die Flüssigkeit verdampft
+        ist.
+      - Mit Sahne ablöschen, Thymian zugeben und drei bis vier Minuten
+        einkochen lassen.
+      - Fleisch zurückgeben, kurz ziehen lassen, abschmecken.
+
+  - name: Lachs mit kleinen Kartoffeln
+    tagesfarbe: stabilisierung
+    portionen: 1
+    zeit_min: 30
+    eiweiss_g: 42
+    zutaten:
+      - 260 g Lachsfilet roh
+      - 30 g festkochende Kartoffeln
+      - 100 g grüne Bohnen
+      - 2 EL Olivenöl extra vergine
+      - Pfeffer, Dill, Zitronensaft, 1 Prise Natursalz
+    schritte:
+      - Kartoffeln in kleine Würfel schneiden und 15 Minuten garen.
+      - Bohnen bissfest garen.
+      - Lachs in Olivenöl von jeder Seite drei bis vier Minuten braten.
+      - Alles zusammen anrichten, mit Dill, Zitronensaft und Pfeffer
+        abschmecken.
+    tipp: >-
+      30 Gramm sind wenig, und das ist Absicht. Stärkehaltiges bleibt
+      Beilage, nicht Grundlage der Mahlzeit.
+
+  - name: Mandelmuffins mit Erythrit
+    tagesfarbe: stabilisierung
+    portionen: 6
+    zeit_min: 35
+    eiweiss_g: 8
+    zutaten:
+      - 150 g gemahlene Mandeln
+      - 3 Eier
+      - 50 g Erythrit
+      - 60 g weiche Butter aus Weidehaltung
+      - 1 TL Weinsteinbackpulver, gemahlene Vanille
+    schritte:
+      - Backofen auf 175 Grad vorheizen, Muffinform vorbereiten.
+      - Butter mit Erythrit und Vanille schaumig rühren, Eier einzeln
+        unterrühren.
+      - Mandeln und Backpulver unterheben.
+      - In die Mulden füllen und 20 bis 22 Minuten backen.
+    tipp: >-
+      Erythrit süßt schwächer als Zucker und hinterlässt einen leicht kühlen
+      Eindruck auf der Zunge. Das gibt sich, wenn die Muffins abgekühlt sind.
+
+  - name: Salat mit Walnüssen und Ziegenkäse
+    tagesfarbe: stabilisierung
+    portionen: 1
+    zeit_min: 15
+    eiweiss_g: 22
+    zutaten:
+      - 100 g Feldsalat
+      - 60 g Ziegenkäse
+      - 30 g Walnüsse
+      - 2 EL Walnussöl
+      - 1 TL Apfelessig
+      - Pfeffer, 1 Prise Natursalz
+    schritte:
+      - Walnüsse in einer trockenen Pfanne kurz rösten, bis sie duften.
+      - Walnussöl mit Apfelessig, Pfeffer und Salz verrühren.
+      - Salat damit anmachen, Ziegenkäse zerbröckeln und mit den Nüssen
+        darüber verteilen.
+
+  - name: Rindergeschnetzeltes mit Reisbeilage
+    tagesfarbe: stabilisierung
+    portionen: 1
+    zeit_min: 25
+    eiweiss_g: 38
+    zutaten:
+      - 180 g Rindfleisch roh, in Streifen
+      - 30 g Naturreis, roh gewogen
+      - 100 g Paprika
+      - 1 EL Kokosöl
+      - Pfeffer, Paprikapulver, 1 Prise Natursalz
+    schritte:
+      - Reis nach Packungsangabe garen.
+      - Fleischstreifen portionsweise in Kokosöl scharf anbraten und
+        herausnehmen.
+      - Paprikastreifen in derselben Pfanne drei Minuten braten.
+      - Fleisch zurückgeben, würzen und mit dem Reis anrichten.
+    tipp: >-
+      Wenn du in dieser Phase weiter abnehmen möchtest, lass die Beilage weg
+      und leg sie auf einen roten Tag.
+
+  - name: Kokospudding mit Chiasamen
+    tagesfarbe: stabilisierung
+    portionen: 2
+    zeit_min: 10
+    eiweiss_g: 7
+    zutaten:
+      - 300 ml Kokosmilch ohne Zusätze
+      - 40 g Chiasamen
+      - 1 TL Erythrit, gemahlene Vanille
+      - 100 g Beeren zum Anrichten
+    schritte:
+      - Kokosmilch mit Erythrit und Vanille verrühren.
+      - Chiasamen einrühren und fünf Minuten stehen lassen, dann noch einmal
+        kräftig durchrühren — sonst verklumpen sie.
+      - Mindestens vier Stunden, besser über Nacht, im Kühlschrank quellen
+        lassen.
+      - Mit Beeren anrichten.
+    tipp: >-
+      Das zweite Durchrühren nach fünf Minuten ist der ganze Trick. Ohne das
+      entstehen Klumpen, die sich nicht mehr auflösen.
+
+  - name: Griechischer Salat
+    tagesfarbe: stabilisierung
+    portionen: 1
+    zeit_min: 15
+    eiweiss_g: 18
+    zutaten:
+      - 100 g Tomaten und Gurke gemischt
+      - 80 g Schafskäse
+      - 6 schwarze Oliven
+      - 2 EL Olivenöl extra vergine
+      - 1 TL Rotweinessig
+      - Pfeffer, Oregano, 1 Prise Natursalz
+    schritte:
+      - Tomaten und Gurke in grobe Stücke schneiden.
+      - Olivenöl mit Essig, Oregano, Pfeffer und Salz verrühren.
+      - Gemüse damit anmachen, Schafskäse und Oliven daraufgeben.
+      - Zehn Minuten durchziehen lassen.
+    tipp: >-
+      Schafskäse bringt bereits Salz mit. Die Prise im Dressing reicht
+      deshalb völlig.
+
+  - name: Butterfisch mit Ghee und Kräutern
+    tagesfarbe: stabilisierung
+    portionen: 1
+    zeit_min: 20
+    eiweiss_g: 38
+    zutaten:
+      - 260 g Fischfilet roh (Heilbutt, Zander oder Seelachs)
+      - 1 EL Ghee
+      - 100 g Zucchini
+      - Pfeffer, Petersilie, Zitronensaft, 1 Prise Natursalz
+    schritte:
+      - Zucchini in Scheiben schneiden und in Ghee anbraten, herausnehmen.
+      - Fisch im selben Fett von jeder Seite drei bis vier Minuten braten.
+      - Mit Pfeffer und einer Prise Salz würzen, Zitronensaft darüber.
+      - Mit den Zucchini anrichten, Petersilie darüber.
+    tipp: >-
+      Ghee verträgt höhere Temperaturen als Butter, weil das Eiweiß entfernt
+      ist. Zum Braten deshalb die bessere Wahl.

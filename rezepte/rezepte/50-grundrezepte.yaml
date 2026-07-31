@@ -1,0 +1,169 @@
+teil: "Grundrezepte"
+einleitung: |
+  Die Basis, ohne die der Rest nicht funktioniert. Wer diese acht Rezepte
+  einmal gemacht hat, kocht den Rest des Buches ohne Umwege.
+
+  Der Grund, warum so vieles selbst gemacht wird, ist immer derselbe: In
+  Fertigprodukten steckt Salz, Zucker oder beides. Bei Gewürzmischungen fast
+  ausnahmslos, bei Dressings praktisch immer, bei Seitan und Lupinenprodukten
+  in der Regel auch.
+
+rezepte:
+  - name: Salzfreie Gewürzmischung mediterran
+    tagesfarbe: grundrezept
+    portionen: 20
+    zeit_min: 5
+    zutaten:
+      - 2 EL getrockneter Oregano
+      - 2 EL getrockneter Basilikum
+      - 1 EL getrockneter Thymian
+      - 1 EL getrockneter Rosmarin, fein zerrieben
+      - 1 TL Knoblauchgranulat ohne Zusätze
+      - 1 TL schwarzer Pfeffer, gemahlen
+    schritte:
+      - Alle Zutaten in einer Schüssel mischen.
+      - Rosmarin vorher zwischen den Fingern zerreiben — ganze Nadeln
+        stechen im Essen.
+      - In ein sauberes, trockenes Schraubglas füllen, dunkel und trocken
+        lagern.
+    tipp: >-
+      Hält sich rund sechs Monate. Prüfe beim Knoblauchgranulat die
+      Zutatenliste: Viele Produkte enthalten Salz oder Rieselhilfen.
+
+  - name: Salzfreie Gewürzmischung scharf
+    tagesfarbe: grundrezept
+    portionen: 20
+    zeit_min: 5
+    zutaten:
+      - 2 EL Paprikapulver edelsüß
+      - 1 EL Paprikapulver scharf
+      - 1 EL Kreuzkümmel, gemahlen
+      - 1 TL Chiliflocken
+      - 1 TL Koriander, gemahlen
+      - 1 TL schwarzer Pfeffer
+    schritte:
+      - Alle Gewürze gründlich vermischen.
+      - Wer es intensiver mag, röstet Kreuzkümmel und Koriander vorher kurz
+        in einer trockenen Pfanne und mahlt sie dann.
+      - In ein Schraubglas füllen.
+    tipp: >-
+      Diese Mischung trägt Geflügel, Hackfleisch und Tofu gleichermaßen. Sie
+      ersetzt in den ersten Wochen das, was sonst das Salz getan hätte.
+
+  - name: Basis-Dressing
+    tagesfarbe: grundrezept
+    portionen: 4
+    zeit_min: 5
+    zutaten:
+      - 6 EL Leinöl oder Olivenöl extra vergine
+      - 2 EL Apfelessig
+      - 1 TL selbst gemachter Senf
+      - 1 Knoblauchzehe, gepresst
+      - Pfeffer, frische Kräuter nach Geschmack
+    schritte:
+      - Essig, Senf, Knoblauch und Pfeffer verrühren.
+      - Das Öl langsam und unter ständigem Rühren einlaufen lassen — so
+        verbindet es sich, statt sich abzusetzen.
+      - Kräuter unterrühren.
+      - Im Glas im Kühlschrank drei bis vier Tage haltbar.
+    tipp: >-
+      Leinöl niemals erhitzen und immer im Kühlschrank aufbewahren. Es wird
+      schnell ranzig und schmeckt dann bitter.
+
+  - name: Kräuter-Zitronen-Dressing
+    tagesfarbe: grundrezept
+    portionen: 4
+    zeit_min: 5
+    zutaten:
+      - 6 EL Olivenöl extra vergine
+      - Saft von 1 Zitrone
+      - 2 EL frische gemischte Kräuter, fein gehackt
+      - Pfeffer, 1 Prise gemahlener Koriander
+    schritte:
+      - Zitronensaft mit Pfeffer und Koriander verrühren.
+      - Olivenöl langsam einrühren.
+      - Kräuter unterheben und zehn Minuten ziehen lassen.
+    tipp: >-
+      Ohne Salz braucht ein Dressing mehr Säure und deutlich mehr Kräuter,
+      als man gewohnt ist. Ruhig doppelt so viel nehmen wie sonst.
+
+  - name: Selbst gemachter Senf
+    tagesfarbe: grundrezept
+    portionen: 10
+    zeit_min: 15
+    zutaten:
+      - 50 g gelbe Senfkörner
+      - 100 ml Apfelessig
+      - 100 ml Wasser
+      - 1 TL Kurkuma
+      - Pfeffer
+    schritte:
+      - Senfkörner mit Essig und Wasser in ein Glas geben und 24 Stunden
+        quellen lassen.
+      - Alles mit Kurkuma und Pfeffer im Mixer fein pürieren — je länger,
+        desto glatter.
+      - In ein sauberes Glas füllen und im Kühlschrank drei Tage durchziehen
+        lassen.
+    tipp: >-
+      Direkt nach dem Mixen schmeckt der Senf sehr scharf und bitter. Nach
+      ein paar Tagen im Kühlschrank rundet er sich ab.
+
+  - name: Seitan selbst herstellen
+    tagesfarbe: grundrezept
+    portionen: 4
+    zeit_min: 60
+    zutaten:
+      - 200 g Dinkelkleber
+      - 200 ml Wasser
+      - 2 TL Paprikapulver
+      - 1 TL Knoblauchgranulat ohne Zusätze
+      - 1 TL getrockneter Oregano, Pfeffer
+    schritte:
+      - Dinkelkleber mit den trockenen Gewürzen mischen.
+      - Wasser zugeben und rasch zu einem festen Teig verkneten — nicht zu
+        lange, sonst wird er zäh.
+      - Den Teig zu einer Rolle formen, in Backpapier und dann in Alufolie
+        wickeln.
+      - In siedendem, ungesalzenem Wasser 45 Minuten leicht köcheln lassen.
+      - Vollständig auskühlen lassen, dann in Scheiben oder Streifen
+        schneiden.
+    tipp: >-
+      Dinkelkleber statt Weizenkleber verwenden. Portionsweise eingefroren
+      hält sich Seitan mehrere Monate — einmal machen, wochenlang davon
+      haben.
+
+  - name: Probiotischen Joghurt ansetzen
+    tagesfarbe: grundrezept
+    portionen: 4
+    zeit_min: 15
+    zutaten:
+      - 1 l H-Milch, bio oder aus Weidehaltung, Vollfett
+      - Joghurtkulturen nach Packungsangabe
+    schritte:
+      - Milch auf die vom Hersteller angegebene Temperatur bringen, meist
+        rund 40 Grad.
+      - Kulturen einrühren, bis sie vollständig gelöst sind.
+      - In saubere Gläser füllen und mindestens acht Stunden bei
+        gleichbleibender Temperatur reifen lassen.
+      - Anschließend kühl stellen. Hält sich rund eine Woche.
+    tipp: >-
+      Bei Laktoseunverträglichkeit funktioniert der Ansatz auch mit
+      laktosefreier H-Milch, Ziegenmilch oder ungesüßter Sojamilch. Am Abend
+      ansetzen, am Morgen essen.
+
+  - name: Basischer Kräutertee für den Morgen
+    tagesfarbe: grundrezept
+    portionen: 4
+    zeit_min: 15
+    zutaten:
+      - 3–4 TL basische Kräuterteemischung
+      - 1 l kochendes Wasser
+    schritte:
+      - Kräuter mit kochendem Wasser übergießen.
+      - Sieben bis zehn Minuten ziehen lassen.
+      - Abseihen und vollständig abkühlen lassen, dann in den Kühlschrank.
+      - Am Morgen kalt trinken, 300 bis 500 ml.
+    tipp: >-
+      Der Tee wird bewusst kalt getrunken: Der Körper muss ihn auf
+      Körpertemperatur bringen und wird dadurch gleich zu Beginn des Tages
+      aktiv. Am Vorabend kochen ist deshalb Pflicht, nicht Bequemlichkeit.

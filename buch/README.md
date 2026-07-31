@@ -6,6 +6,7 @@ Zwei eigenständige Bände, gemeinsame Build-Basis:
 |---|---|---|---|
 | 1 — Das Buch | `buch/kapitel/*.md` | 6″ × 9″ | `buch/out/stoffwechsel-reset.{docx,pdf}` |
 | 2 — Das Workbook | `workbook/` | 8,27″ × 11,69″ | `workbook/out/workbook.{docx,pdf}` |
+| 3 — Das Rezeptbuch | `rezepte/` | 6″ × 9″ | `rezepte/out/rezeptbuch.{docx,pdf}` |
 
 ## Bauen
 
@@ -18,8 +19,12 @@ python3 buch/build/build_cover.py          # Umschlag Band 1
 python3 workbook/build/build_workbook.py   # Band 2: .docx und .pdf
 python3 workbook/build/build_cover.py      # Umschlag Band 2
 
+python3 rezepte/build/build_rezepte.py     # Band 3: .docx und .pdf
+python3 rezepte/build/build_cover.py       # Umschlag Band 3
+
 python3 buch/build/claim_check.py          # HCVO-Prüfung, muss ohne Fehler laufen
-python3 buch/build/abnahme.py              # Endabnahme beider Bände
+python3 rezepte/build/zutaten_check.py     # Rezepte gegen die Phasenregeln
+python3 buch/build/abnahme.py              # Endabnahme aller drei Bände
 ```
 
 Die Umschläge müssen **nach** dem jeweiligen Innenteil gebaut werden — die
@@ -97,6 +102,39 @@ Drei Marker, jeweils allein in einer Zeile:
 | `{{INHALTSVERZEICHNIS}}` | setzt das Inhaltsverzeichnis ein |
 | `{{SEITENUMBRUCH}}` | harter Seitenumbruch |
 | `{{LEERZEILE}}` | vertikaler Abstand |
+
+## Band 3 — Rezeptbuch
+
+Rezepte liegen **strukturiert als YAML** in `rezepte/rezepte/*.yaml`, nicht als
+Fließtext. Zwei Gründe: Das Layout bleibt über alle Rezepte gleich, und
+`zutaten_check.py` kann jede Zutat gegen die Regeln der Phase prüfen, in der
+das Rezept stehen soll.
+
+```yaml
+rezepte:
+  - name: Kräuteromelett
+    tagesfarbe: weiss        # weiss | gruen | stabilisierung |
+                             #   fruehstueck | grundrezept
+    portionen: 1
+    zeit_min: 10
+    eiweiss_g: 13
+    zutaten: ["2 Eier", "1 TL Kokosöl"]
+    schritte: ["Eier verquirlen …"]
+    tipp: optional
+```
+
+Der Prüfer kennt drei Verbotsstufen: immer verboten (Salz, Zucker, Zwiebeln,
+Getreide …), an weißen Tagen zusätzlich verboten (jedes Gemüse, jedes Obst)
+und erst ab der Stabilisierungsphase erlaubt (Milchprodukte, Nüsse,
+Wurzelgemüse, kleine Mengen Kohlenhydrate). Er läuft ohne Treffer durch —
+neue Rezepte müssen das ebenfalls.
+
+Ein Rezept bricht nie über zwei Seiten: Alle Absätze außer dem letzten
+tragen `keep_with_next`.
+
+Die Seitenzahl wird automatisch gerade gemacht — bei ungerader Zahl baut das
+Skript einen zweiten Durchlauf mit Leerseite am Ende, weil KDP sonst selbst
+ein unbeschriftetes Blatt einschiebt.
 
 ## Rechtliche Leitplanken
 

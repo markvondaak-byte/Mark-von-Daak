@@ -6,3 +6,4 @@ workbook/out/
 __pycache__/
 *.pyc
 .venv/
+rezepte/out/

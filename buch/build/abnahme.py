@@ -202,6 +202,61 @@ def cover_pruefen(bezeichnung, pdf, cfg, seiten):
            f"{ist_h:.1f} mm (Soll {soll_h:.1f})")
 
 
+def rezeptbuch_pruefen():
+    print("\nBand 3 — Das Rezeptbuch")
+    print("-" * 66)
+    basis = WURZEL / "rezepte"
+    cfg = yaml.safe_load((basis / "rezepte.yaml").read_text(encoding="utf-8"))
+    pdf = basis / "out" / f"{cfg['slug']}.pdf"
+    pruefe("PDF vorhanden", pdf.exists(), str(pdf.relative_to(WURZEL)))
+    if not pdf.exists():
+        return
+
+    seiten = text_von(pdf)
+    volltext = "\n".join(seiten)
+    pruefe("Seitenzahl gerade", len(seiten) % 2 == 0, f"{len(seiten)} Seiten")
+
+    # Rezepte zählen und mit der Zahl im Untertitel abgleichen
+    rezepte, namen = [], []
+    for quelle in sorted((basis / "rezepte").glob("*.yaml")):
+        daten = yaml.safe_load(quelle.read_text(encoding="utf-8"))
+        for rezept in daten.get("rezepte", []):
+            rezepte.append(rezept)
+            namen.append(rezept["name"])
+
+    behauptet = re.search(r"(\d+)\s+Gerichte", cfg["untertitel"])
+    pruefe("Rezeptzahl im Untertitel stimmt",
+           behauptet and int(behauptet.group(1)) == len(rezepte),
+           f"Untertitel nennt {behauptet.group(1) if behauptet else '?'}, "
+           f"tatsächlich {len(rezepte)}")
+
+    doppelt = {n for n in namen if namen.count(n) > 1}
+    pruefe("Keine doppelten Rezeptnamen", not doppelt,
+           ", ".join(sorted(doppelt)) if doppelt else f"{len(namen)} Rezepte")
+
+    fehlend = [n for n in namen if n.split(" mit ")[0][:28] not in volltext]
+    pruefe("Alle Rezepte im PDF gesetzt", not fehlend,
+           f"fehlen: {fehlend[:5]}" if fehlend else "")
+
+    pruefe("Rezeptregister vorhanden", "Rezeptregister" in volltext)
+    pruefe("Kapitel „Kochen im Konzept“", "Kochen im Konzept" in volltext)
+
+    for name, nadel in {
+        "Schwangerschaft": "Schwangerschaft",
+        "Eigenverantwortung": "eigener Verantwortung",
+        "Allergiehinweis": "Allergie",
+        "Lebensmittelsicherheit": "durchgaren",
+        "Markenhinweis": "PM-International AG",
+    }.items():
+        pruefe(f"Rechtstext: {name}", nadel in volltext)
+
+    fehlend_f = schriften_eingebettet(pdf)
+    pruefe("Alle Schriften eingebettet", not fehlend_f,
+           ", ".join(sorted(fehlend_f)) if fehlend_f else "")
+
+    cover_pruefen("Band 3", basis / "out" / "cover.pdf", cfg, len(seiten))
+
+
 def website_unberuehrt():
     print("\nWebsite")
     print("-" * 66)
@@ -216,10 +271,11 @@ def website_unberuehrt():
 
 def main():
     print("=" * 66)
-    print("ENDABNAHME — Der Stoffwechsel-Reset")
+    print("ENDABNAHME — Der Stoffwechsel-Reset (drei Bände)")
     print("=" * 66)
     buch_pruefen()
     workbook_pruefen()
+    rezeptbuch_pruefen()
     website_unberuehrt()
 
     fehler = [e for e in ergebnisse if not e[0]]

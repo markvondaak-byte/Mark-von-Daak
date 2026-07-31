@@ -1,0 +1,569 @@
+teil: "Weiße Tage"
+einleitung: |
+  An weißen Tagen gibt es vier eiweißreiche Mahlzeiten im Abstand von rund
+  vier Stunden. Kein Gemüse, kein Obst, kein Salz, kein Zucker.
+
+  Das klingt nach einer kurzen Liste, und trotzdem stehen hier 26 Gerichte.
+  Der Grund: Ohne Salz wird gewürzt statt gesalzen — und Kräuter und Gewürze
+  sind vollständig erlaubt. Genau darin liegt die Abwechslung.
+
+  Alle Mengen gelten für eine Person mit rund 80 kg Körpergewicht. Wer
+  deutlich mehr oder weniger wiegt, rechnet um: 0,8 bis 1,5 g Eiweiß je
+  Kilogramm Körpergewicht am Tag.
+
+  > Zwei Dinge, die jedes Rezept betreffen:
+  >
+  > Rohes Fleisch und roher Fisch wiegen mehr als gegartes. Bei Geflügel,
+  > Rind und Wild rund 20 Prozent aufschlagen, bei Fisch rund 30 Prozent.
+  >
+  > Getrunken wird erst 15 bis 20 Minuten nach dem Essen — nie dazu.
+
+rezepte:
+  - name: Kräuteromelett
+    tagesfarbe: weiss
+    portionen: 1
+    zeit_min: 10
+    eiweiss_g: 13
+    zutaten:
+      - 2 Eier
+      - 1 TL Kokosöl
+      - 1 EL frische Petersilie, fein gehackt
+      - 1 EL frischer Schnittlauch
+      - Pfeffer
+    schritte:
+      - Eier in einer Schüssel gründlich verquirlen, bis die Masse
+        gleichmäßig hell ist. Pfeffer und die Hälfte der Kräuter unterrühren.
+      - Kokosöl in einer beschichteten Pfanne bei mittlerer Hitze schmelzen.
+      - Eimasse hineingeben und bei niedriger Hitze stocken lassen, dabei die
+        Ränder mit einem Spatel vorsichtig lösen.
+      - Sobald die Oberfläche fast fest ist, einmal falten und mit den
+        restlichen Kräutern bestreuen.
+    tipp: >-
+      Niedrige Hitze ist der ganze Trick. Ein Omelett, das bräunt, ist zu heiß
+      gebraten und wird zäh.
+
+  - name: Rührei mit Dill
+    tagesfarbe: weiss
+    portionen: 1
+    zeit_min: 8
+    eiweiss_g: 13
+    zutaten:
+      - 2 Eier
+      - 1 TL Kokosöl
+      - 1 EL frischer Dill
+      - Pfeffer, eine Prise Kurkuma
+    schritte:
+      - Eier verquirlen, Pfeffer und Kurkuma einrühren.
+      - Kokosöl bei kleiner Hitze schmelzen, Eimasse hineingeben.
+      - Mit einem Holzlöffel langsam und stetig rühren, bis die Masse cremig
+        stockt. Vom Herd nehmen, solange sie noch leicht glänzt.
+      - Dill unterheben und sofort essen.
+    tipp: >-
+      Rührei gart nach. Wer es erst vom Herd nimmt, wenn es fertig aussieht,
+      isst am Ende trockenes Rührei.
+
+  - name: Spiegeleier mit Knoblauch und Chili
+    tagesfarbe: weiss
+    portionen: 1
+    zeit_min: 8
+    eiweiss_g: 13
+    zutaten:
+      - 2 Eier
+      - 1 TL Kokosöl
+      - 1 Knoblauchzehe, in feine Scheiben
+      - 1 Prise Chiliflocken
+      - Pfeffer
+    schritte:
+      - Kokosöl erhitzen, Knoblauchscheiben darin bei mittlerer Hitze goldgelb
+        werden lassen und herausnehmen.
+      - Eier vorsichtig in die Pfanne gleiten lassen und bei kleiner Hitze
+        stocken lassen.
+      - Mit Pfeffer und Chiliflocken würzen, den gerösteten Knoblauch darüber
+        verteilen.
+    tipp: >-
+      Der Knoblauch kommt heraus, bevor die Eier hineinkommen — sonst
+      verbrennt er und wird bitter.
+
+  - name: Eier-Muffins mit Kräutern
+    tagesfarbe: weiss
+    portionen: 2
+    zeit_min: 25
+    eiweiss_g: 12
+    zutaten:
+      - 4 Eier
+      - 2 EL gemischte frische Kräuter, fein gehackt
+      - 1 TL Kokosöl für die Form
+      - Pfeffer, Paprikapulver
+    schritte:
+      - Backofen auf 180 Grad Ober- und Unterhitze vorheizen.
+      - Muffinform mit Kokosöl ausstreichen.
+      - Eier verquirlen, Kräuter und Gewürze unterrühren, in die Mulden
+        füllen.
+      - 18 bis 20 Minuten backen, bis die Masse gestockt und leicht
+        aufgegangen ist.
+    tipp: >-
+      Halten sich zwei bis drei Tage im Kühlschrank und lassen sich kalt
+      essen — praktisch für den Vorrat.
+
+  - name: Hähnchenbrust mit Zitrone und Thymian
+    tagesfarbe: weiss
+    portionen: 1
+    zeit_min: 20
+    eiweiss_g: 35
+    zutaten:
+      - 180 g Hähnchenbrust roh (ergibt ca. 150 g gegart)
+      - 1 EL Kokosöl
+      - Saft einer halben Zitrone
+      - 2 Zweige frischer Thymian
+      - Pfeffer
+    schritte:
+      - Hähnchenbrust flach klopfen, damit sie gleichmäßig gart. Mit Pfeffer
+        würzen.
+      - Kokosöl in der Pfanne erhitzen, Fleisch von jeder Seite drei bis vier
+        Minuten kräftig anbraten.
+      - Hitze reduzieren, Thymianzweige dazugeben und weitere fünf Minuten
+        zugedeckt ziehen lassen.
+      - Vom Herd nehmen, mit Zitronensaft beträufeln und zwei Minuten ruhen
+        lassen, bevor du sie anschneidest.
+    tipp: >-
+      Die Ruhezeit ist kein Beiwerk. Fleisch, das sofort angeschnitten wird,
+      verliert seinen Saft auf dem Brett statt ihn zu behalten.
+
+  - name: Putenschnitzel mit Paprikapulver
+    tagesfarbe: weiss
+    portionen: 1
+    zeit_min: 15
+    eiweiss_g: 35
+    zutaten:
+      - 180 g Putenschnitzel roh
+      - 1 EL Kokosöl
+      - 1 TL Paprikapulver edelsüß
+      - 1 Prise Paprikapulver scharf
+      - Pfeffer, 1 TL getrockneter Oregano
+    schritte:
+      - Schnitzel trocken tupfen und beidseitig mit den Gewürzen einreiben.
+      - Kokosöl stark erhitzen, Schnitzel von jeder Seite zwei bis drei
+        Minuten braten.
+      - Hitze zurücknehmen und noch zwei Minuten ziehen lassen.
+    tipp: >-
+      Pute wird schnell trocken. Lieber eine Minute zu kurz als eine zu lang —
+      im Zweifel an der dicksten Stelle einschneiden und nachsehen.
+
+  - name: Hähnchenkeulen aus dem Ofen
+    tagesfarbe: weiss
+    portionen: 2
+    zeit_min: 45
+    eiweiss_g: 34
+    zutaten:
+      - 4 Hähnchenkeulen
+      - 2 EL Olivenöl extra vergine
+      - 2 Knoblauchzehen, gepresst
+      - 1 TL Rosmarin, getrocknet
+      - 1 TL Thymian, getrocknet
+      - Pfeffer
+    schritte:
+      - Backofen auf 200 Grad Ober- und Unterhitze vorheizen.
+      - Olivenöl mit Knoblauch, Kräutern und Pfeffer verrühren und die Keulen
+        damit rundum einreiben.
+      - Auf ein Blech mit Backpapier legen und 35 bis 40 Minuten backen, nach
+        der Hälfte einmal wenden.
+      - Fertig sind sie, wenn der austretende Saft klar ist.
+    tipp: >-
+      Zwei Keulen sind eine Portion, die anderen zwei ergeben die Mahlzeit am
+      nächsten Tag — kalt genauso gut.
+
+  - name: Geflügelspieße mit Kräutermarinade
+    tagesfarbe: weiss
+    portionen: 1
+    zeit_min: 20
+    eiweiss_g: 35
+    zutaten:
+      - 180 g Hähnchen- oder Putenbrust roh, gewürfelt
+      - 2 EL Olivenöl extra vergine
+      - 1 TL getrockneter Oregano
+      - 1 TL getrockneter Basilikum
+      - 1 Knoblauchzehe, gepresst
+      - Pfeffer, Saft einer halben Zitrone
+    schritte:
+      - Öl, Kräuter, Knoblauch, Pfeffer und Zitronensaft verrühren.
+      - Fleischwürfel darin mindestens 30 Minuten marinieren, gern über Nacht.
+      - Auf Spieße stecken und in der heißen Pfanne oder auf dem Grill rundum
+        acht bis zehn Minuten garen.
+    tipp: >-
+      Fertigmarinaden enthalten praktisch immer Zucker und Salz. Selbst
+      angerührt dauert es zwei Minuten.
+
+  - name: Hähnchenfrikadellen mit Mandelmehl
+    tagesfarbe: weiss
+    portionen: 2
+    zeit_min: 25
+    eiweiss_g: 33
+    zutaten:
+      - 350 g Geflügelhack
+      - 1 Ei
+      - 2 EL Mandelmehl, entölt
+      - 1 EL frische Petersilie
+      - Pfeffer, 1 TL Paprikapulver, 1 Prise Muskat
+      - 1 EL Kokosöl zum Braten
+    schritte:
+      - Hack, Ei, Mandelmehl, Kräuter und Gewürze gründlich verkneten.
+      - Die Masse zehn Minuten ruhen lassen, damit das Mandelmehl quillt.
+      - Flache Frikadellen formen und in Kokosöl bei mittlerer Hitze von jeder
+        Seite vier bis fünf Minuten braten.
+    tipp: >-
+      Mandelmehl lässt sich nicht durch gemahlene Mandeln ersetzen — es bindet
+      völlig anders. Ohne die Ruhezeit zerfallen die Frikadellen.
+
+  - name: Entenbrust rosa gebraten
+    tagesfarbe: weiss
+    portionen: 1
+    zeit_min: 25
+    eiweiss_g: 34
+    zutaten:
+      - 180 g Entenbrust roh
+      - Pfeffer
+      - 1 Zweig Thymian
+    schritte:
+      - Die Fettseite rautenförmig einschneiden, ohne das Fleisch zu
+        verletzen. Mit Pfeffer würzen.
+      - In eine kalte Pfanne mit der Fettseite nach unten legen und erst dann
+        die Hitze anstellen — so schmilzt das Fett langsam aus.
+      - Sechs bis acht Minuten braten, bis die Haut knusprig ist. Wenden,
+        Thymian dazugeben und drei Minuten fertig garen.
+      - Fünf Minuten ruhen lassen, dann quer zur Faser aufschneiden.
+    tipp: >-
+      Zusätzliches Öl ist hier überflüssig — die Ente bringt ihr eigenes mit.
+
+  - name: Putengeschnetzeltes mit Knoblauch
+    tagesfarbe: weiss
+    portionen: 1
+    zeit_min: 15
+    eiweiss_g: 35
+    zutaten:
+      - 180 g Putenbrust roh, in Streifen
+      - 1 EL Kokosöl
+      - 2 Knoblauchzehen, fein gehackt
+      - 1 TL Kreuzkümmel
+      - Pfeffer, frischer Koriander
+    schritte:
+      - Kokosöl stark erhitzen, die Fleischstreifen portionsweise scharf
+        anbraten — die Pfanne nicht überladen, sonst kocht das Fleisch.
+      - Alles zurück in die Pfanne, Hitze reduzieren, Knoblauch und
+        Kreuzkümmel zugeben und eine Minute mitbraten.
+      - Mit Pfeffer abschmecken und mit frischem Koriander bestreuen.
+    tipp: >-
+      Portionsweise anbraten ist der Unterschied zwischen gebratenem und
+      gedünstetem Fleisch.
+
+  - name: Lachsfilet aus dem Ofen mit Dill
+    tagesfarbe: weiss
+    portionen: 1
+    zeit_min: 20
+    eiweiss_g: 40
+    zutaten:
+      - 260 g Lachsfilet roh (ergibt ca. 200 g gegart)
+      - 1 EL Olivenöl extra vergine
+      - Saft einer halben Zitrone
+      - 2 EL frischer Dill
+      - Pfeffer
+    schritte:
+      - Backofen auf 180 Grad vorheizen.
+      - Lachs auf Backpapier legen, mit Olivenöl bestreichen, mit Pfeffer
+        würzen.
+      - 12 bis 15 Minuten backen — der Fisch ist fertig, wenn er sich mit der
+        Gabel leicht in Segmente teilen lässt.
+      - Mit Zitronensaft beträufeln und mit Dill bestreuen.
+    tipp: >-
+      Lachs gart nach dem Herausnehmen weiter. Lieber zwei Minuten früher aus
+      dem Ofen holen.
+
+  - name: Garnelen mit Chili und Knoblauch
+    tagesfarbe: weiss
+    portionen: 1
+    zeit_min: 12
+    eiweiss_g: 30
+    zutaten:
+      - 260 g Garnelen roh, geschält
+      - 2 EL Olivenöl extra vergine
+      - 2 Knoblauchzehen, in Scheiben
+      - 1 Prise Chiliflocken
+      - Pfeffer, glatte Petersilie
+    schritte:
+      - Garnelen trocken tupfen — nasse Garnelen braten nicht, sie dünsten.
+      - Olivenöl erhitzen, Knoblauch und Chili kurz anschwitzen.
+      - Garnelen zugeben und je Seite ein bis zwei Minuten braten, bis sie
+        gerade eben undurchsichtig sind.
+      - Mit Pfeffer würzen, Petersilie darüber.
+    tipp: >-
+      Garnelen brauchen weniger Zeit, als man denkt. Sobald sie sich zum C
+      krümmen, sind sie fertig; beim O sind sie übergart.
+
+  - name: Kabeljau im Backpapier
+    tagesfarbe: weiss
+    portionen: 1
+    zeit_min: 25
+    eiweiss_g: 38
+    zutaten:
+      - 260 g Kabeljaufilet roh
+      - 1 EL Olivenöl extra vergine
+      - Saft und Schale einer halben Bio-Zitrone
+      - 1 Zweig Thymian, 1 Lorbeerblatt
+      - Pfeffer
+    schritte:
+      - Backofen auf 180 Grad vorheizen.
+      - Ein großes Stück Backpapier ausbreiten, Fisch daraufsetzen, mit Öl
+        beträufeln, mit Pfeffer und Zitronenschale würzen.
+      - Kräuter auflegen, das Papier zu einem geschlossenen Päckchen falten.
+      - 15 bis 18 Minuten backen, Päckchen erst am Tisch öffnen.
+    tipp: >-
+      Im Päckchen gart der Fisch im eigenen Dampf und bleibt saftig — die
+      sicherste Methode für mageren Fisch.
+
+  - name: Thunfisch-Frikadellen
+    tagesfarbe: weiss
+    portionen: 2
+    zeit_min: 20
+    eiweiss_g: 32
+    zutaten:
+      - 2 Dosen Thunfisch im eigenen Saft (ca. 300 g abgetropft), gut abgespült
+      - 2 Eier
+      - 3 EL Mandelmehl, entölt
+      - 2 EL frische Petersilie
+      - Pfeffer, 1 TL Paprikapulver, Saft einer halben Zitrone
+      - 1 EL Kokosöl zum Braten
+    schritte:
+      - Thunfisch gründlich abspülen und gut ausdrücken — das entfernt einen
+        Großteil des Salzes aus der Konserve.
+      - Mit Eiern, Mandelmehl, Kräutern und Gewürzen vermengen und zehn
+        Minuten quellen lassen.
+      - Flache Frikadellen formen und in Kokosöl von jeder Seite drei bis vier
+        Minuten braten.
+    tipp: >-
+      Thunfisch in Öl oder in Salzlake ist nicht geeignet. Nur die Variante im
+      eigenen Saft, und auch die gut abspülen.
+
+  - name: Makrele aus der Pfanne
+    tagesfarbe: weiss
+    portionen: 1
+    zeit_min: 15
+    eiweiss_g: 39
+    zutaten:
+      - 260 g Makrelenfilet roh
+      - 1 EL Kokosöl
+      - Saft einer halben Zitrone
+      - Pfeffer, 1 TL getrockneter Majoran
+    schritte:
+      - Filets trocken tupfen und mit Pfeffer und Majoran würzen.
+      - Kokosöl erhitzen, Filets mit der Hautseite nach unten drei bis vier
+        Minuten braten, bis die Haut knusprig ist.
+      - Wenden und noch ein bis zwei Minuten garen.
+      - Mit Zitronensaft beträufelt servieren.
+    tipp: >-
+      Geräucherte Makrele ist nicht geeignet — zu viel Salz. Nur frische oder
+      tiefgekühlte.
+
+  - name: Forelle mit Zitrone
+    tagesfarbe: weiss
+    portionen: 1
+    zeit_min: 30
+    eiweiss_g: 38
+    zutaten:
+      - 1 ganze Forelle, küchenfertig (ca. 300 g)
+      - 1 EL Olivenöl extra vergine
+      - 1 Bio-Zitrone, in Scheiben
+      - 2 Zweige Petersilie
+      - Pfeffer
+    schritte:
+      - Backofen auf 190 Grad vorheizen.
+      - Forelle innen und außen mit Pfeffer würzen, den Bauchraum mit
+        Zitronenscheiben und Petersilie füllen.
+      - Mit Olivenöl bestreichen und auf Backpapier 20 bis 25 Minuten backen.
+      - Fertig ist sie, wenn sich die Rückenflosse leicht herausziehen lässt.
+    tipp: >-
+      Der Test mit der Rückenflosse ist zuverlässiger als jede Zeitangabe —
+      Forellen unterscheiden sich stark in der Größe.
+
+  - name: Tintenfischringe gebraten
+    tagesfarbe: weiss
+    portionen: 1
+    zeit_min: 12
+    eiweiss_g: 30
+    zutaten:
+      - 260 g Tintenfischtuben roh, in Ringe geschnitten
+      - 2 EL Olivenöl extra vergine
+      - 1 Knoblauchzehe, gehackt
+      - Pfeffer, Chiliflocken, Saft einer halben Zitrone
+      - glatte Petersilie
+    schritte:
+      - Tintenfischringe sehr gut trocken tupfen.
+      - Olivenöl stark erhitzen, die Ringe eine bis maximal zwei Minuten
+        scharf braten.
+      - Knoblauch, Pfeffer und Chili zugeben, kurz durchschwenken.
+      - Vom Herd nehmen, mit Zitronensaft und Petersilie servieren.
+    tipp: >-
+      Tintenfisch kennt nur zwei Zustände: sehr kurz gebraten oder sehr lange
+      geschmort. Alles dazwischen wird zäh.
+
+  - name: Meeresfrüchte-Pfanne
+    tagesfarbe: weiss
+    portionen: 1
+    zeit_min: 15
+    eiweiss_g: 30
+    zutaten:
+      - 260 g gemischte Meeresfrüchte, tiefgekühlt und aufgetaut
+      - 2 EL Olivenöl extra vergine
+      - 2 Knoblauchzehen, gehackt
+      - Pfeffer, Chiliflocken, 1 TL Oregano
+      - Saft einer halben Zitrone, glatte Petersilie
+    schritte:
+      - Meeresfrüchte vollständig auftauen lassen und gründlich abtropfen.
+      - Öl erhitzen, Knoblauch kurz anschwitzen, Meeresfrüchte zugeben.
+      - Zwei bis drei Minuten braten, mit Gewürzen abschmecken.
+      - Mit Zitronensaft und Petersilie servieren.
+    tipp: >-
+      Auf Zusatzstoffe in der Tiefkühlpackung achten — viele Mischungen sind
+      gesalzen oder mit Zitronensäure behandelt.
+
+  - name: Rindersteak mit Pfeffer
+    tagesfarbe: weiss
+    portionen: 1
+    zeit_min: 15
+    eiweiss_g: 35
+    zutaten:
+      - 180 g Rindersteak roh
+      - 1 EL Kokosöl
+      - grob gemahlener schwarzer Pfeffer
+      - 1 Zweig Rosmarin
+    schritte:
+      - Steak eine halbe Stunde vor dem Braten aus dem Kühlschrank nehmen und
+        trocken tupfen.
+      - Kokosöl stark erhitzen, Steak je nach Dicke zwei bis drei Minuten pro
+        Seite scharf anbraten.
+      - Rosmarin dazugeben, Hitze reduzieren, eine Minute nachziehen lassen.
+      - Fünf Minuten ruhen lassen, erst dann pfeffern und anschneiden.
+    tipp: >-
+      Rotes Fleisch höchstens zweimal pro Woche. Es sättigt außerdem kürzer
+      als Geflügel.
+
+  - name: Hacksteaks mit Kräutern
+    tagesfarbe: weiss
+    portionen: 2
+    zeit_min: 20
+    eiweiss_g: 33
+    zutaten:
+      - 350 g Rinderhack
+      - 1 Ei
+      - 2 EL Mandelmehl, entölt
+      - 1 EL frischer Majoran oder Oregano
+      - Pfeffer, 1 TL Paprikapulver
+      - 1 EL Kokosöl zum Braten
+    schritte:
+      - Alle Zutaten außer dem Öl gründlich verkneten und zehn Minuten ruhen
+        lassen.
+      - Flache Steaks formen — je flacher, desto gleichmäßiger garen sie.
+      - In Kokosöl bei mittlerer Hitze von jeder Seite vier bis fünf Minuten
+        braten.
+    tipp: >-
+      Beim Hackfleisch auf die Herkunft achten und keine gewürzten Mischungen
+      kaufen — die enthalten fast immer Salz.
+
+  - name: Tofu mit Kräuterkruste
+    tagesfarbe: weiss
+    portionen: 1
+    zeit_min: 20
+    eiweiss_g: 20
+    zutaten:
+      - 150 g Naturtofu, ungesalzen
+      - 2 EL Mandelmehl, entölt
+      - 2 EL gemischte getrocknete Kräuter
+      - 1 EL Kokosöl
+      - Pfeffer, Paprikapulver
+    schritte:
+      - Tofu 20 Minuten zwischen Küchenpapier pressen — je weniger Wasser,
+        desto besser die Kruste.
+      - In Scheiben schneiden und mit Pfeffer und Paprikapulver würzen.
+      - Mandelmehl und Kräuter mischen, die Tofuscheiben darin wenden.
+      - In Kokosöl von jeder Seite drei bis vier Minuten goldbraun braten.
+    tipp: >-
+      Das Pressen ist der entscheidende Schritt. Ungepresster Tofu wird in der
+      Pfanne matschig statt knusprig.
+
+  - name: Tempeh gebraten
+    tagesfarbe: weiss
+    portionen: 1
+    zeit_min: 15
+    eiweiss_g: 28
+    zutaten:
+      - 150 g Tempeh
+      - 1 EL Kokosöl
+      - 1 Knoblauchzehe, gehackt
+      - 1 TL Kreuzkümmel, Pfeffer
+      - Saft einer halben Limette
+    schritte:
+      - Tempeh in dünne Scheiben schneiden.
+      - Kokosöl erhitzen und die Scheiben von jeder Seite drei Minuten
+        goldbraun braten.
+      - Knoblauch und Gewürze zugeben, eine Minute mitbraten.
+      - Mit Limettensaft ablöschen und sofort servieren.
+    tipp: >-
+      Tempeh liefert durch die Fermentation mehr verwertbares Eiweiß als Tofu
+      und dazu Ballaststoffe.
+
+  - name: Seitan-Streifen aus der Pfanne
+    tagesfarbe: weiss
+    portionen: 1
+    zeit_min: 15
+    eiweiss_g: 37
+    zutaten:
+      - 150 g selbst gemachter Seitan (Grundrezept im letzten Teil)
+      - 1 EL Kokosöl
+      - 1 TL Paprikapulver, 1 TL Oregano
+      - Pfeffer, 1 Knoblauchzehe
+    schritte:
+      - Seitan in Streifen schneiden.
+      - Kokosöl stark erhitzen und die Streifen rundum knusprig braten.
+      - Knoblauch und Gewürze zugeben und kurz mitbraten.
+    tipp: >-
+      Gekaufter Seitan enthält fast immer Salz und oft Zucker. Für die
+      Aktivierungsphase führt kein Weg am Selbermachen vorbei.
+
+  - name: Lupinenschnitzel
+    tagesfarbe: weiss
+    portionen: 1
+    zeit_min: 20
+    eiweiss_g: 23
+    zutaten:
+      - 150 g Lupinenschnitzel, ungewürzt
+      - 2 EL Mandelmehl, entölt
+      - 1 Ei
+      - 1 EL Kokosöl
+      - Pfeffer, Paprikapulver, getrockneter Thymian
+    schritte:
+      - Ei verquirlen, Mandelmehl mit den Gewürzen mischen.
+      - Schnitzel erst durch das Ei, dann durch die Mandelmehlmischung ziehen.
+      - In Kokosöl bei mittlerer Hitze von jeder Seite drei bis vier Minuten
+        braten.
+    tipp: >-
+      Fertige Lupinenprodukte enthalten oft Salz, Zucker oder Zwiebeln — die
+      Zutatenliste vor dem Kauf lesen.
+
+  - name: Eiersalat ohne Mayonnaise
+    tagesfarbe: weiss
+    portionen: 1
+    zeit_min: 15
+    eiweiss_g: 19
+    zutaten:
+      - 3 hartgekochte Eier
+      - 2 EL probiotischer Joghurt
+      - 1 TL selbst gemachter Senf (Grundrezept im letzten Teil)
+      - 1 EL frischer Schnittlauch
+      - Pfeffer, 1 Prise Kurkuma
+    schritte:
+      - Eier pellen und grob würfeln.
+      - Joghurt mit Senf, Pfeffer und Kurkuma verrühren.
+      - Eier unterheben, Schnittlauch darüber.
+      - Vor dem Essen zehn Minuten durchziehen lassen.
+    tipp: >-
+      Der Joghurt zählt als die eine erlaubte Milchportion des Tages. Wer ihn
+      morgens schon gegessen hat, nimmt für diesen Salat stattdessen etwas
+      Olivenöl.
