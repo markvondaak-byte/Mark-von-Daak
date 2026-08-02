@@ -182,14 +182,9 @@ def vorderseite(c, x, y, breite, hoehe, cfg, titelbild=None):
 
     unten = mitte_y - len(titel_zeilen) * zeilenhoehe
 
-    # Tagesfarben-Streifen
-    streifen_b = breite * 0.36
-    ill.streifen_tagesfarben(c, x + (breite - streifen_b) / 2,
-                             unten - 4, streifen_b, 7)
-
     # Untertitel
     c.setFillColor(HexColor("#3E4A3A"))
-    block_schreiben(c, cfg["untertitel"], x + rand, unten - 34,
+    block_schreiben(c, cfg["untertitel"], x + rand, unten - 22,
                     breite - 2 * rand, "Sans", 16, 21,
                     HexColor("#3E4A3A"), zentriert=True)
 

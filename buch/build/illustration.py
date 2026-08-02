@@ -578,14 +578,3 @@ def komposition_zeichnen(c, motive, x, y, breite, hoehe):
         c.restoreState()
 
 
-def streifen_tagesfarben(c, x, y, breite, hoehe):
-    """Schmaler Balken in Weiß, Grün und Rot — das Tagesfarbensystem."""
-    farben = [HexColor("#FFFFFF"), PALETTE["blatt_hell"], PALETTE["erdbeere"]]
-    teil = breite / len(farben)
-    c.saveState()
-    for i, farbe in enumerate(farben):
-        c.setFillColor(farbe)
-        c.setStrokeColor(PALETTE["blatt"])
-        c.setLineWidth(0.5)
-        c.rect(x + i * teil, y, teil, hoehe, stroke=1, fill=1)
-    c.restoreState()

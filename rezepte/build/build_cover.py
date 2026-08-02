@@ -82,11 +82,7 @@ def vorderseite(c, x, y, breite, hoehe, cfg, titelbild=None):
         c.drawCentredString(x + breite / 2, mitte_y - i * zeilenhoehe, zeile)
     unten = mitte_y - len(titel_zeilen) * zeilenhoehe
 
-    streifen_b = breite * 0.34
-    ill.streifen_tagesfarben(c, x + (breite - streifen_b) / 2,
-                             unten - 2, streifen_b, 7)
-
-    block_schreiben(c, cfg["untertitel"], x + rand, unten - 30,
+    block_schreiben(c, cfg["untertitel"], x + rand, unten - 22,
                     breite - 2 * rand, "Sans", 13, 18,
                     HexColor("#3E4A3A"), zentriert=True)
 
