@@ -1,0 +1,23 @@
+{
+  "name": "Der Stoffwechsel-Reset",
+  "short_name": "Stoffwechsel",
+  "description": "Dein Begleiter durch das 4-Phasen-Ernährungskonzept: Tagesplan, Rezepte, Nachschlagewerk und Fortschritt.",
+  "lang": "de",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FFFFFF",
+  "theme_color": "#C8102E",
+  "categories": ["health", "lifestyle", "food"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Heute", "url": "./#heute" },
+    { "name": "Rezepte", "url": "./#rezepte" }
+  ]
+}

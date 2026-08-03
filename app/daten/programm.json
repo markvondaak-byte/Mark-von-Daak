@@ -1,0 +1,573 @@
+{
+ "wochen": [
+  {
+   "nummer": 1,
+   "phase": "vorbereitung",
+   "phaseName": "Vorbereitungsphase",
+   "fokusTitel": "Ankommen",
+   "fokusText": "Ändere noch nichts an deinem Essen. Nimm nur die Nährstoffe und den Joghurt dazu und beobachte, was sich verändert.",
+   "planbar": false,
+   "tage": [
+    {
+     "nummer": 1,
+     "wochentag": "Montag",
+     "farbe": "vorbereitung"
+    },
+    {
+     "nummer": 2,
+     "wochentag": "Dienstag",
+     "farbe": "vorbereitung"
+    },
+    {
+     "nummer": 3,
+     "wochentag": "Mittwoch",
+     "farbe": "vorbereitung"
+    },
+    {
+     "nummer": 4,
+     "wochentag": "Donnerstag",
+     "farbe": "vorbereitung"
+    },
+    {
+     "nummer": 5,
+     "wochentag": "Freitag",
+     "farbe": "vorbereitung"
+    },
+    {
+     "nummer": 6,
+     "wochentag": "Samstag",
+     "farbe": "vorbereitung"
+    },
+    {
+     "nummer": 7,
+     "wochentag": "Sonntag",
+     "farbe": "vorbereitung"
+    }
+   ]
+  },
+  {
+   "nummer": 2,
+   "phase": "vorbereitung",
+   "phaseName": "Vorbereitungsphase",
+   "fokusTitel": "Der Einkauf",
+   "fokusText": "Diese Woche wird eingekauft und vorbereitet. Geh die Einkaufsliste durch und prüfe deine Gewürze auf Salz und Zucker.",
+   "planbar": false,
+   "tage": [
+    {
+     "nummer": 8,
+     "wochentag": "Montag",
+     "farbe": "vorbereitung"
+    },
+    {
+     "nummer": 9,
+     "wochentag": "Dienstag",
+     "farbe": "vorbereitung"
+    },
+    {
+     "nummer": 10,
+     "wochentag": "Mittwoch",
+     "farbe": "vorbereitung"
+    },
+    {
+     "nummer": 11,
+     "wochentag": "Donnerstag",
+     "farbe": "vorbereitung"
+    },
+    {
+     "nummer": 12,
+     "wochentag": "Freitag",
+     "farbe": "vorbereitung"
+    },
+    {
+     "nummer": 13,
+     "wochentag": "Samstag",
+     "farbe": "vorbereitung"
+    },
+    {
+     "nummer": 14,
+     "wochentag": "Sonntag",
+     "farbe": "vorbereitung"
+    }
+   ]
+  },
+  {
+   "nummer": 3,
+   "phase": "aktivierung",
+   "phaseName": "Aktivierungsphase",
+   "fokusTitel": "Durchhalten",
+   "fokusText": "Die weiße Woche ist die anstrengendste. Trink viel, iss genug Fett und leg keinen Sport ein. Die Umstellung dauert drei bis zehn Tage.",
+   "planbar": false,
+   "tage": [
+    {
+     "nummer": 15,
+     "wochentag": "Montag",
+     "farbe": "weiss"
+    },
+    {
+     "nummer": 16,
+     "wochentag": "Dienstag",
+     "farbe": "weiss"
+    },
+    {
+     "nummer": 17,
+     "wochentag": "Mittwoch",
+     "farbe": "weiss"
+    },
+    {
+     "nummer": 18,
+     "wochentag": "Donnerstag",
+     "farbe": "weiss"
+    },
+    {
+     "nummer": 19,
+     "wochentag": "Freitag",
+     "farbe": "weiss"
+    },
+    {
+     "nummer": 20,
+     "wochentag": "Samstag",
+     "farbe": "weiss"
+    },
+    {
+     "nummer": 21,
+     "wochentag": "Sonntag",
+     "farbe": "weiss"
+    }
+   ]
+  },
+  {
+   "nummer": 4,
+   "phase": "aktivierung",
+   "phaseName": "Aktivierungsphase",
+   "fokusTitel": "Kauen",
+   "fokusText": "Nimm dir diese Woche das Kauen vor — rund 32-mal pro Bissen. Zähl an zwei, drei Mahlzeiten bewusst mit.",
+   "planbar": false,
+   "tage": [
+    {
+     "nummer": 22,
+     "wochentag": "Montag",
+     "farbe": "weiss"
+    },
+    {
+     "nummer": 23,
+     "wochentag": "Dienstag",
+     "farbe": "gruen"
+    },
+    {
+     "nummer": 24,
+     "wochentag": "Mittwoch",
+     "farbe": "gruen"
+    },
+    {
+     "nummer": 25,
+     "wochentag": "Donnerstag",
+     "farbe": "gruen"
+    },
+    {
+     "nummer": 26,
+     "wochentag": "Freitag",
+     "farbe": "weiss"
+    },
+    {
+     "nummer": 27,
+     "wochentag": "Samstag",
+     "farbe": "gruen"
+    },
+    {
+     "nummer": 28,
+     "wochentag": "Sonntag",
+     "farbe": "gruen"
+    }
+   ]
+  },
+  {
+   "nummer": 5,
+   "phase": "aktivierung",
+   "phaseName": "Aktivierungsphase",
+   "fokusTitel": "Trinken",
+   "fokusText": "Zwei Liter stilles Wasser, immer mit 15 bis 20 Minuten Abstand zu den Mahlzeiten. Kontrolle: Der Urin sollte fast farblos sein.",
+   "planbar": false,
+   "tage": [
+    {
+     "nummer": 29,
+     "wochentag": "Montag",
+     "farbe": "weiss"
+    },
+    {
+     "nummer": 30,
+     "wochentag": "Dienstag",
+     "farbe": "gruen"
+    },
+    {
+     "nummer": 31,
+     "wochentag": "Mittwoch",
+     "farbe": "gruen"
+    },
+    {
+     "nummer": 32,
+     "wochentag": "Donnerstag",
+     "farbe": "gruen"
+    },
+    {
+     "nummer": 33,
+     "wochentag": "Freitag",
+     "farbe": "weiss"
+    },
+    {
+     "nummer": 34,
+     "wochentag": "Samstag",
+     "farbe": "gruen"
+    },
+    {
+     "nummer": 35,
+     "wochentag": "Sonntag",
+     "farbe": "gruen"
+    }
+   ]
+  },
+  {
+   "nummer": 6,
+   "phase": "aktivierung",
+   "phaseName": "Aktivierungsphase",
+   "fokusTitel": "Das Ende der Aktivierung",
+   "fokusText": "Letzte Woche der strengen Phase. Miss am Ende deine Werte und vergleiche sie mit dem Start.",
+   "planbar": false,
+   "tage": [
+    {
+     "nummer": 36,
+     "wochentag": "Montag",
+     "farbe": "weiss"
+    },
+    {
+     "nummer": 37,
+     "wochentag": "Dienstag",
+     "farbe": "gruen"
+    },
+    {
+     "nummer": 38,
+     "wochentag": "Mittwoch",
+     "farbe": "gruen"
+    },
+    {
+     "nummer": 39,
+     "wochentag": "Donnerstag",
+     "farbe": "gruen"
+    },
+    {
+     "nummer": 40,
+     "wochentag": "Freitag",
+     "farbe": "weiss"
+    },
+    {
+     "nummer": 41,
+     "wochentag": "Samstag",
+     "farbe": "gruen"
+    },
+    {
+     "nummer": 42,
+     "wochentag": "Sonntag",
+     "farbe": "gruen"
+    }
+   ]
+  },
+  {
+   "nummer": 7,
+   "phase": "stabilisierung",
+   "phaseName": "Stabilisierungsphase",
+   "fokusTitel": "Der Übergang",
+   "fokusText": "Die Stabilisierung beginnt. Salz kehrt zurück — sparsam, 2 bis 5 g am Tag, und nie an weißen Tagen.",
+   "planbar": true,
+   "tage": [
+    {
+     "nummer": 43,
+     "wochentag": "Montag",
+     "farbe": "gruen"
+    },
+    {
+     "nummer": 44,
+     "wochentag": "Dienstag",
+     "farbe": "gruen"
+    },
+    {
+     "nummer": 45,
+     "wochentag": "Mittwoch",
+     "farbe": "gruen"
+    },
+    {
+     "nummer": 46,
+     "wochentag": "Donnerstag",
+     "farbe": "gruen"
+    },
+    {
+     "nummer": 47,
+     "wochentag": "Freitag",
+     "farbe": "rot"
+    },
+    {
+     "nummer": 48,
+     "wochentag": "Samstag",
+     "farbe": "weiss"
+    },
+    {
+     "nummer": 49,
+     "wochentag": "Sonntag",
+     "farbe": "gruen"
+    }
+   ]
+  },
+  {
+   "nummer": 8,
+   "phase": "stabilisierung",
+   "phaseName": "Stabilisierungsphase",
+   "fokusTitel": "Der erste rote Tag",
+   "fokusText": "Geh ihn langsam an. Ein bis zwei Mahlzeiten mit dem, worauf du Lust hast, reichen. Beobachte, wie dein Körper reagiert.",
+   "planbar": true,
+   "tage": [
+    {
+     "nummer": 50,
+     "wochentag": "Montag",
+     "farbe": "gruen"
+    },
+    {
+     "nummer": 51,
+     "wochentag": "Dienstag",
+     "farbe": "gruen"
+    },
+    {
+     "nummer": 52,
+     "wochentag": "Mittwoch",
+     "farbe": "gruen"
+    },
+    {
+     "nummer": 53,
+     "wochentag": "Donnerstag",
+     "farbe": "rot"
+    },
+    {
+     "nummer": 54,
+     "wochentag": "Freitag",
+     "farbe": "rot"
+    },
+    {
+     "nummer": 55,
+     "wochentag": "Samstag",
+     "farbe": "weiss"
+    },
+    {
+     "nummer": 56,
+     "wochentag": "Sonntag",
+     "farbe": "weiss"
+    }
+   ]
+  },
+  {
+   "nummer": 9,
+   "phase": "stabilisierung",
+   "phaseName": "Stabilisierungsphase",
+   "fokusTitel": "Auswärts essen",
+   "fokusText": "Diese Woche übst du das Essen außer Haus. Gemüse und Eiweiß wählen, Beilage klein halten — das geht auf fast jeder Speisekarte.",
+   "planbar": true,
+   "tage": [
+    {
+     "nummer": 57,
+     "wochentag": "Montag",
+     "farbe": "gruen"
+    },
+    {
+     "nummer": 58,
+     "wochentag": "Dienstag",
+     "farbe": "gruen"
+    },
+    {
+     "nummer": 59,
+     "wochentag": "Mittwoch",
+     "farbe": "gruen"
+    },
+    {
+     "nummer": 60,
+     "wochentag": "Donnerstag",
+     "farbe": "gruen"
+    },
+    {
+     "nummer": 61,
+     "wochentag": "Freitag",
+     "farbe": "rot"
+    },
+    {
+     "nummer": 62,
+     "wochentag": "Samstag",
+     "farbe": "weiss"
+    },
+    {
+     "nummer": 63,
+     "wochentag": "Sonntag",
+     "farbe": "gruen"
+    }
+   ]
+  },
+  {
+   "nummer": 10,
+   "phase": "stabilisierung",
+   "phaseName": "Stabilisierungsphase",
+   "fokusTitel": "Der weiße Tag als Werkzeug",
+   "fokusText": "Der weiße Tag bleibt streng, auch jetzt. Genau darauf beruht seine Ausgleichswirkung.",
+   "planbar": true,
+   "tage": [
+    {
+     "nummer": 64,
+     "wochentag": "Montag",
+     "farbe": "gruen"
+    },
+    {
+     "nummer": 65,
+     "wochentag": "Dienstag",
+     "farbe": "gruen"
+    },
+    {
+     "nummer": 66,
+     "wochentag": "Mittwoch",
+     "farbe": "gruen"
+    },
+    {
+     "nummer": 67,
+     "wochentag": "Donnerstag",
+     "farbe": "rot"
+    },
+    {
+     "nummer": 68,
+     "wochentag": "Freitag",
+     "farbe": "rot"
+    },
+    {
+     "nummer": 69,
+     "wochentag": "Samstag",
+     "farbe": "weiss"
+    },
+    {
+     "nummer": 70,
+     "wochentag": "Sonntag",
+     "farbe": "weiss"
+    }
+   ]
+  },
+  {
+   "nummer": 11,
+   "phase": "stabilisierung",
+   "phaseName": "Stabilisierungsphase",
+   "fokusTitel": "Gewohnheiten prüfen",
+   "fokusText": "Was ist selbstverständlich geworden, was kostet noch Überwindung? Notiere beides.",
+   "planbar": true,
+   "tage": [
+    {
+     "nummer": 71,
+     "wochentag": "Montag",
+     "farbe": "gruen"
+    },
+    {
+     "nummer": 72,
+     "wochentag": "Dienstag",
+     "farbe": "gruen"
+    },
+    {
+     "nummer": 73,
+     "wochentag": "Mittwoch",
+     "farbe": "gruen"
+    },
+    {
+     "nummer": 74,
+     "wochentag": "Donnerstag",
+     "farbe": "gruen"
+    },
+    {
+     "nummer": 75,
+     "wochentag": "Freitag",
+     "farbe": "rot"
+    },
+    {
+     "nummer": 76,
+     "wochentag": "Samstag",
+     "farbe": "weiss"
+    },
+    {
+     "nummer": 77,
+     "wochentag": "Sonntag",
+     "farbe": "gruen"
+    }
+   ]
+  },
+  {
+   "nummer": 12,
+   "phase": "stabilisierung",
+   "phaseName": "Stabilisierungsphase",
+   "fokusTitel": "Der Blick nach vorn",
+   "fokusText": "Letzte Woche in diesem Buch — aber nicht das Ende der Stabilisierung. Die läuft noch rund sieben Wochen weiter.",
+   "planbar": true,
+   "tage": [
+    {
+     "nummer": 78,
+     "wochentag": "Montag",
+     "farbe": "gruen"
+    },
+    {
+     "nummer": 79,
+     "wochentag": "Dienstag",
+     "farbe": "gruen"
+    },
+    {
+     "nummer": 80,
+     "wochentag": "Mittwoch",
+     "farbe": "gruen"
+    },
+    {
+     "nummer": 81,
+     "wochentag": "Donnerstag",
+     "farbe": "rot"
+    },
+    {
+     "nummer": 82,
+     "wochentag": "Freitag",
+     "farbe": "rot"
+    },
+    {
+     "nummer": 83,
+     "wochentag": "Samstag",
+     "farbe": "weiss"
+    },
+    {
+     "nummer": 84,
+     "wochentag": "Sonntag",
+     "farbe": "weiss"
+    }
+   ]
+  }
+ ],
+ "phasen": {
+  "vorbereitung": {
+   "name": "Vorbereitungsphase",
+   "wochen": [
+    1,
+    2
+   ]
+  },
+  "aktivierung": {
+   "name": "Aktivierungsphase",
+   "wochen": [
+    3,
+    6
+   ]
+  },
+  "stabilisierung": {
+   "name": "Stabilisierungsphase",
+   "wochen": [
+    7,
+    12
+   ]
+  }
+ },
+ "verteilung": {
+  "vorbereitung": 14,
+  "weiss": 22,
+  "gruen": 39,
+  "rot": 9
+ }
+}

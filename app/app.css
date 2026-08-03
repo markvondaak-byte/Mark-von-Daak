@@ -1,0 +1,516 @@
+/* =========================================================================
+   Der Stoffwechsel-Reset — App
+   Designsystem übernommen aus index.html der Website, damit App und Auftritt
+   zusammenpassen: FitLine-Rot als Akzent, Poppins für Überschriften,
+   Instrument Sans für Fließtext, heller und dunkler Modus.
+   ========================================================================= */
+
+:root {
+  --bg:         #FFFFFF;
+  --bg-2:       #F3F1EC;
+  --surface:    #FFFFFF;
+  --surface-2:  #F7F5F0;
+  --ink:        #1B1A17;
+  --ink-soft:   #625F58;
+  --line:       #E7E2D9;
+  --accent:     #C8102E;
+  --accent-ink: #A00D24;
+  --on-accent:  #FFFFFF;
+
+  /* Tagesfarben des Konzepts. Immer zusammen mit ihrer Beschriftung
+     verwenden — Farbe allein ist keine zugängliche Information. */
+  --tag-weiss:      #FFFFFF;
+  --tag-weiss-line: #C7C2B8;
+  --tag-gruen:      #E4F0D8;
+  --tag-gruen-ink:  #3C7A2E;
+  --tag-rot:        #FBE2E2;
+  --tag-rot-ink:    #B03A3A;
+  --tag-vorb:       #EFEDE8;
+  --tag-vorb-ink:   #6E6A61;
+
+  --radius:    18px;
+  --radius-sm: 12px;
+  --maxw:      560px;
+
+  --display: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --body:    "Instrument Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+
+  --shadow:    0 1px 2px rgba(28,18,21,.05), 0 14px 34px -18px rgba(28,18,21,.28);
+  --shadow-sm: 0 1px 2px rgba(28,18,21,.06), 0 6px 16px -12px rgba(28,18,21,.3);
+
+  --tabbar-h: 62px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:         #17140F;
+    --bg-2:       #100D08;
+    --surface:    #221E17;
+    --surface-2:  #2B261E;
+    --ink:        #F4F1EA;
+    --ink-soft:   #BDB4A6;
+    --line:       #34302A;
+    --accent:     #FF5566;
+    --accent-ink: #FF8A93;
+    --on-accent:  #FFFFFF;
+
+    --tag-weiss:      #2E2A22;
+    --tag-weiss-line: #6A6459;
+    --tag-gruen:      #24361C;
+    --tag-gruen-ink:  #9CCB84;
+    --tag-rot:        #3B2320;
+    --tag-rot-ink:    #F09A9A;
+    --tag-vorb:       #2A2620;
+    --tag-vorb-ink:   #A39C90;
+
+    --shadow:    0 1px 2px rgba(0,0,0,.4), 0 22px 46px -22px rgba(0,0,0,.72);
+    --shadow-sm: 0 1px 2px rgba(0,0,0,.4), 0 8px 20px -14px rgba(0,0,0,.7);
+  }
+}
+
+* { box-sizing: border-box; }
+
+/* Inline-SVG ohne width/height fällt sonst auf 300x150 zurück und sprengt
+   jedes Flex-Layout. Basisgröße setzen, Einzelfälle überschreiben sie. */
+svg { width: 20px; height: 20px; flex: 0 0 auto; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg-2);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: none;
+}
+
+h1, h2, h3, h4 { font-family: var(--display); font-weight: 700; margin: 0; }
+
+button, input, select, textarea { font: inherit; color: inherit; }
+
+/* --- Grundgerüst -------------------------------------------------------- */
+.app {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  min-height: 100dvh;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+}
+
+.kopf {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  padding: calc(env(safe-area-inset-top) + 14px) 18px 12px;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: saturate(160%) blur(14px);
+  -webkit-backdrop-filter: saturate(160%) blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+
+.kopf__zeile { display: flex; align-items: center; gap: 12px; }
+.kopf h1 { font-size: 22px; letter-spacing: -.02em; flex: 1; }
+.kopf__sub { color: var(--ink-soft); font-size: 13px; margin-top: 2px; }
+
+.inhalt {
+  flex: 1;
+  padding: 16px 18px calc(var(--tabbar-h) + env(safe-area-inset-bottom) + 24px);
+}
+
+/* --- Tableiste ---------------------------------------------------------- */
+.tabs {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 30;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding-bottom: env(safe-area-inset-bottom);
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  backdrop-filter: saturate(160%) blur(16px);
+  -webkit-backdrop-filter: saturate(160%) blur(16px);
+  border-top: 1px solid var(--line);
+}
+
+.tab {
+  appearance: none;
+  border: 0;
+  background: none;
+  padding: 9px 4px 8px;
+  height: var(--tabbar-h);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  color: var(--ink-soft);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: .01em;
+  cursor: pointer;
+  transition: color .15s;
+}
+.tab svg { width: 22px; height: 22px; stroke-width: 1.8; }
+.tab[aria-selected="true"] { color: var(--accent); }
+.tab:active { opacity: .6; }
+
+/* --- Karten ------------------------------------------------------------- */
+.karte {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 14px;
+}
+.karte--flach { box-shadow: none; }
+.karte__titel {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 15px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.karte__titel .zaehler {
+  margin-left: auto;
+  font-family: var(--body);
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.abschnitt-titel {
+  font-family: var(--display);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin: 22px 2px 10px;
+}
+.abschnitt-titel:first-child { margin-top: 4px; }
+
+/* --- Tagesfarben-Plakette ---------------------------------------------- */
+.plakette {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+.plakette--weiss { background: var(--tag-weiss); border-color: var(--tag-weiss-line); color: var(--ink); }
+.plakette--gruen { background: var(--tag-gruen); color: var(--tag-gruen-ink); }
+.plakette--rot   { background: var(--tag-rot);   color: var(--tag-rot-ink); }
+.plakette--vorbereitung { background: var(--tag-vorb); color: var(--tag-vorb-ink); }
+.plakette--fruehstueck  { background: var(--tag-vorb); color: var(--tag-vorb-ink); }
+.plakette--stabilisierung { background: #FBF0DC; color: #8A6416; }
+.plakette--grundrezept  { background: var(--surface-2); color: var(--ink-soft); border-color: var(--line); }
+@media (prefers-color-scheme: dark) {
+  .plakette--stabilisierung { background: #372E1C; color: #E0BC72; }
+}
+
+/* --- Held: die Tageskarte ---------------------------------------------- */
+.heute {
+  background: linear-gradient(160deg,
+    color-mix(in srgb, var(--accent) 92%, #000) 0%,
+    var(--accent) 62%,
+    color-mix(in srgb, var(--accent) 82%, #FF8A5B) 100%);
+  color: var(--on-accent);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+.heute::after {
+  content: "";
+  position: absolute;
+  inset: auto -40px -70px auto;
+  width: 190px; height: 190px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.10);
+}
+.heute__oben { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.heute__phase {
+  font-size: 11px; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; opacity: .82;
+}
+.heute__plakette {
+  margin-left: auto;
+  background: rgba(255,255,255,.18);
+  border: 1px solid rgba(255,255,255,.34);
+  color: #fff;
+  padding: 5px 11px; border-radius: 999px;
+  font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+  white-space: nowrap;
+}
+.heute__tag { font-family: var(--display); font-size: 30px; line-height: 1.05; letter-spacing: -.02em; }
+.heute__datum { opacity: .84; font-size: 13.5px; margin-top: 4px; }
+.heute__fortschritt {
+  margin-top: 16px; height: 6px; border-radius: 999px;
+  background: rgba(255,255,255,.24); overflow: hidden;
+}
+.heute__balken { height: 100%; background: #fff; border-radius: 999px; transition: width .4s; }
+.heute__meta { display: flex; justify-content: space-between; font-size: 11.5px; opacity: .84; margin-top: 7px; }
+
+/* --- Abhaken ------------------------------------------------------------ */
+.haken-reihe {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--line);
+}
+.haken-reihe:last-child { border-bottom: 0; padding-bottom: 2px; }
+.haken-reihe__text { flex: 1; font-size: 14.5px; }
+.haken-reihe__note { display: block; font-size: 12px; color: var(--ink-soft); margin-top: 1px; }
+
+.haken {
+  appearance: none;
+  flex: 0 0 auto;
+  width: 26px; height: 26px;
+  border-radius: 9px;
+  border: 2px solid var(--line);
+  background: var(--surface);
+  cursor: pointer;
+  display: grid; place-items: center;
+  transition: background .15s, border-color .15s, transform .1s;
+}
+.haken:active { transform: scale(.9); }
+.haken[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); }
+.haken svg { width: 15px; height: 15px; stroke: #fff; stroke-width: 3; opacity: 0; transition: opacity .15s; }
+.haken[aria-pressed="true"] svg { opacity: 1; }
+
+/* Wasserperlen */
+.wasser { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 4px; }
+.perle {
+  appearance: none; border: 2px solid var(--line); background: var(--surface);
+  width: 34px; height: 34px; border-radius: 12px; cursor: pointer;
+  display: grid; place-items: center; font-size: 15px;
+  transition: background .15s, border-color .15s, transform .1s;
+}
+.perle:active { transform: scale(.9); }
+.perle[aria-pressed="true"] { background: color-mix(in srgb, var(--accent) 14%, var(--surface)); border-color: var(--accent); }
+
+/* --- Formularfelder ----------------------------------------------------- */
+.feld { margin-bottom: 12px; }
+.feld > label {
+  display: block; font-size: 12px; font-weight: 600;
+  color: var(--ink-soft); margin-bottom: 5px;
+}
+.eingabe, textarea.eingabe, select.eingabe {
+  width: 100%;
+  padding: 11px 13px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  color: var(--ink);
+  outline: none;
+  transition: border-color .15s, box-shadow .15s;
+}
+.eingabe:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+textarea.eingabe { min-height: 76px; resize: vertical; }
+
+.skala { display: flex; gap: 5px; }
+.skala button {
+  flex: 1; appearance: none; border: 1px solid var(--line);
+  background: var(--surface-2); color: var(--ink-soft);
+  border-radius: 9px; padding: 8px 0; font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all .12s;
+}
+.skala button[aria-pressed="true"] {
+  background: var(--accent); border-color: var(--accent);
+  color: var(--on-accent);
+}
+
+/* --- Schaltflächen ------------------------------------------------------ */
+.knopf {
+  appearance: none; border: 0; cursor: pointer;
+  background: var(--accent); color: var(--on-accent);
+  padding: 13px 20px; border-radius: 999px;
+  font-family: var(--display); font-weight: 700; font-size: 15px;
+  width: 100%;
+  box-shadow: 0 8px 20px -12px var(--accent);
+  transition: transform .1s, opacity .15s;
+}
+.knopf:active { transform: scale(.98); opacity: .9; }
+.knopf--zweit {
+  background: var(--surface-2); color: var(--ink);
+  border: 1px solid var(--line); box-shadow: none;
+}
+.knopf--klein { width: auto; padding: 9px 16px; font-size: 13.5px; }
+
+/* --- Wochengitter ------------------------------------------------------- */
+.wochen { display: flex; flex-direction: column; gap: 10px; }
+.woche {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 13px 14px;
+  box-shadow: var(--shadow-sm);
+}
+.woche__kopf { display: flex; align-items: baseline; gap: 8px; margin-bottom: 9px; }
+.woche__nr { font-family: var(--display); font-weight: 700; font-size: 14.5px; }
+.woche__phase { font-size: 11.5px; color: var(--ink-soft); }
+.woche__fokus { margin-left: auto; font-size: 11.5px; color: var(--accent); font-weight: 600; }
+.woche__tage { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
+
+.tageszelle {
+  appearance: none; cursor: pointer;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 7px 2px 6px;
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  background: var(--surface-2);
+  transition: transform .1s, box-shadow .15s;
+}
+.tageszelle:active { transform: scale(.94); }
+.tageszelle__wt { font-size: 9.5px; color: var(--ink-soft); font-weight: 600; }
+.tageszelle__nr { font-size: 13px; font-weight: 700; font-family: var(--display); }
+.tageszelle--weiss { background: var(--tag-weiss); border-color: var(--tag-weiss-line); }
+.tageszelle--gruen { background: var(--tag-gruen); border-color: color-mix(in srgb, var(--tag-gruen-ink) 34%, transparent); }
+.tageszelle--gruen .tageszelle__nr { color: var(--tag-gruen-ink); }
+.tageszelle--rot { background: var(--tag-rot); border-color: color-mix(in srgb, var(--tag-rot-ink) 34%, transparent); }
+.tageszelle--rot .tageszelle__nr { color: var(--tag-rot-ink); }
+.tageszelle--vorbereitung { background: var(--tag-vorb); border-color: var(--line); }
+.tageszelle--vorbereitung .tageszelle__nr { color: var(--tag-vorb-ink); }
+.tageszelle--heute { box-shadow: 0 0 0 2.5px var(--accent); border-color: transparent; }
+.tageszelle--fertig::after {
+  content: ""; width: 5px; height: 5px; border-radius: 50%;
+  background: var(--accent);
+}
+
+/* --- Rezepte ------------------------------------------------------------ */
+.filter { display: flex; gap: 7px; overflow-x: auto; padding: 2px 0 12px; scrollbar-width: none; }
+.filter::-webkit-scrollbar { display: none; }
+.chip {
+  appearance: none; cursor: pointer; white-space: nowrap;
+  border: 1px solid var(--line); background: var(--surface-2);
+  color: var(--ink-soft); padding: 7px 14px; border-radius: 999px;
+  font-size: 13px; font-weight: 600; transition: all .12s;
+}
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+
+.rezept {
+  display: flex; align-items: flex-start; gap: 12px;
+  width: 100%; text-align: left;
+  appearance: none; cursor: pointer;
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 13px 14px; margin-bottom: 9px;
+  box-shadow: var(--shadow-sm);
+  transition: transform .1s;
+}
+.rezept:active { transform: scale(.99); }
+.rezept__text { flex: 1; min-width: 0; }
+.rezept__name { font-family: var(--display); font-weight: 700; font-size: 14.5px; line-height: 1.3; }
+.rezept__meta { font-size: 12px; color: var(--ink-soft); margin-top: 3px; }
+.rezept__pfeil { color: var(--ink-soft); flex: 0 0 auto; margin-top: 4px; }
+.rezept__pfeil svg { width: 17px; height: 17px; stroke-width: 2.2; }
+
+.zutat { display: flex; gap: 9px; padding: 7px 0; border-bottom: 1px dashed var(--line); font-size: 14.5px; }
+.zutat:last-child { border-bottom: 0; }
+.zutat__punkt { color: var(--accent); font-weight: 700; }
+
+.schritt { display: flex; gap: 11px; padding: 9px 0; }
+.schritt__nr {
+  flex: 0 0 24px; height: 24px; border-radius: 50%;
+  background: var(--accent); color: var(--on-accent);
+  display: grid; place-items: center;
+  font-size: 12.5px; font-weight: 700; font-family: var(--display);
+}
+.schritt__text { flex: 1; font-size: 14.5px; }
+
+/* --- Wissen ------------------------------------------------------------- */
+.wissen-block h2 { font-size: 18px; margin: 20px 0 8px; letter-spacing: -.01em; }
+.wissen-block h3 { font-size: 15px; margin: 16px 0 6px; }
+.wissen-block p { margin: 0 0 11px; font-size: 15px; }
+.wissen-block ul, .wissen-block ol { margin: 0 0 12px; padding-left: 20px; font-size: 15px; }
+.wissen-block li { margin-bottom: 4px; }
+
+.hinweis {
+  background: var(--surface-2);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 12px 14px; margin: 0 0 14px;
+}
+.hinweis__titel { font-family: var(--display); font-weight: 700; font-size: 13.5px; color: var(--accent); margin-bottom: 4px; }
+.hinweis p { margin: 0; font-size: 14px; }
+
+.tabelle-wrap { overflow-x: auto; margin: 0 0 14px; -webkit-overflow-scrolling: touch; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-family: var(--display); font-weight: 700; font-size: 12px; background: var(--surface-2); }
+
+/* --- Fortschritt -------------------------------------------------------- */
+.werte { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.wert {
+  background: var(--surface-2); border: 1px solid var(--line);
+  border-radius: var(--radius-sm); padding: 12px;
+}
+.wert__label { font-size: 11.5px; color: var(--ink-soft); font-weight: 600; }
+.wert__zahl { font-family: var(--display); font-weight: 700; font-size: 22px; margin-top: 2px; letter-spacing: -.02em; }
+.wert__delta { font-size: 12px; font-weight: 600; margin-top: 1px; }
+.wert__delta--gut { color: var(--tag-gruen-ink); }
+.wert__delta--neutral { color: var(--ink-soft); }
+
+.diagramm { width: 100%; height: 170px; display: block; }
+.diagramm .achse { stroke: var(--line); stroke-width: 1; }
+.diagramm .linie { fill: none; stroke: var(--accent); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.diagramm .flaeche { fill: color-mix(in srgb, var(--accent) 12%, transparent); }
+.diagramm .punkt { fill: var(--accent); }
+.diagramm .beschriftung { fill: var(--ink-soft); font-size: 10px; font-family: var(--body); }
+
+/* --- Leerzustand -------------------------------------------------------- */
+.leer { text-align: center; padding: 42px 20px; color: var(--ink-soft); }
+.leer svg { width: 44px !important; height: 44px !important; opacity: .35; margin-bottom: 12px; }
+.leer__titel { font-family: var(--display); font-weight: 700; font-size: 16px; color: var(--ink); margin-bottom: 5px; }
+.leer p { font-size: 14px; margin: 0 auto; max-width: 30ch; }
+
+/* --- Overlay ------------------------------------------------------------ */
+.blatt {
+  position: fixed; inset: 0; z-index: 60;
+  background: var(--bg);
+  max-width: var(--maxw); margin: 0 auto;
+  display: flex; flex-direction: column;
+  animation: hoch .26s cubic-bezier(.32,.72,0,1);
+}
+@keyframes hoch { from { transform: translateY(100%); } to { transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) { .blatt { animation: none; } }
+
+.blatt__kopf {
+  display: flex; align-items: center; gap: 10px;
+  padding: calc(env(safe-area-inset-top) + 12px) 16px 12px;
+  border-bottom: 1px solid var(--line);
+}
+.blatt__kopf h2 { font-size: 17px; flex: 1; letter-spacing: -.01em; }
+.blatt__inhalt { flex: 1; overflow-y: auto; padding: 16px 18px calc(env(safe-area-inset-bottom) + 30px); -webkit-overflow-scrolling: touch; }
+
+.ikon-knopf {
+  appearance: none; border: 0; background: var(--surface-2);
+  width: 34px; height: 34px; border-radius: 50%;
+  display: grid; place-items: center; cursor: pointer; color: var(--ink);
+  flex: 0 0 auto;
+}
+.ikon-knopf:active { opacity: .6; }
+.ikon-knopf svg { width: 17px; height: 17px; stroke-width: 2.2; }
+
+/* --- Kleinkram ---------------------------------------------------------- */
+.fusstext { font-size: 11.5px; color: var(--ink-soft); line-height: 1.45; margin-top: 18px; }
+.trenner { height: 1px; background: var(--line); margin: 16px 0; border: 0; }
+.reihe { display: flex; gap: 10px; }
+.reihe > * { flex: 1; }
+.mitte { text-align: center; }
+.versteckt { display: none !important; }

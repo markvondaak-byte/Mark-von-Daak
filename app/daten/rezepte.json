@@ -1,0 +1,1670 @@
+{
+ "teile": [
+  {
+   "id": "10-fruehstueck",
+   "titel": "Das Frühstück"
+  },
+  {
+   "id": "20-weisse-tage",
+   "titel": "Weiße Tage"
+  },
+  {
+   "id": "30-gruene-tage",
+   "titel": "Grüne Tage"
+  },
+  {
+   "id": "40-stabilisierung",
+   "titel": "Ab der Stabilisierungsphase"
+  },
+  {
+   "id": "50-grundrezepte",
+   "titel": "Grundrezepte"
+  }
+ ],
+ "rezepte": [
+  {
+   "id": "10-fruehstueck-0",
+   "teil": "Das Frühstück",
+   "name": "Das Basis-Frühstück",
+   "farbe": "fruehstueck",
+   "portionen": 1,
+   "zeit": 3,
+   "eiweiss": 17,
+   "zutaten": [
+    "150 g probiotischer Joghurt",
+    "1 gehäufter EL ganze Leinsamen, über Nacht eingeweicht",
+    "1 gehäufter EL Sonnenblumenkerne, über Nacht eingeweicht",
+    "300–500 ml kalter Kräutertee"
+   ],
+   "schritte": [
+    "Direkt nach dem Aufstehen den kalten Kräutertee trinken, darin die Nährstoffmischung einrühren und kurz quellen lassen.",
+    "Etwa 15 Minuten später die eingeweichten Körner samt Einweichwasser vollständig in den Joghurt rühren.",
+    "Langsam essen und gründlich kauen — auch Joghurt mit Körnern will gekaut werden.",
+    "Etwa 15 Minuten nach dem Essen mindestens 300 ml stilles Wasser trinken."
+   ],
+   "tipp": "Das Frühstück ist immer kalt. Der Körper muss es auf Körpertemperatur bringen und wird dadurch gleich zu Beginn des Tages aktiv. Aus demselben Grund wird der Tee kalt getrunken."
+  },
+  {
+   "id": "10-fruehstueck-1",
+   "teil": "Das Frühstück",
+   "name": "Frühstück mit Ei",
+   "farbe": "fruehstueck",
+   "portionen": 1,
+   "zeit": 12,
+   "eiweiss": 23,
+   "zutaten": [
+    "150 g probiotischer Joghurt",
+    "je 1 gehäufter EL eingeweichte Leinsamen und Sonnenblumenkerne",
+    "1 hartgekochtes Ei, kalt",
+    "Pfeffer, frische Kräuter nach Geschmack"
+   ],
+   "schritte": [
+    "Das Ei am Vorabend mitkochen und im Kühlschrank aufbewahren — morgens fehlt dafür die Zeit.",
+    "Joghurt mit den eingeweichten Körnern verrühren.",
+    "Das kalte Ei halbieren, mit Pfeffer und Kräutern würzen und dazu essen."
+   ],
+   "tipp": "Wer mit dem Basis-Frühstück nicht bis zur zweiten Mahlzeit kommt, ergänzt hier eine halbe Eiweißportion. Das ist ausdrücklich vorgesehen."
+  },
+  {
+   "id": "10-fruehstueck-2",
+   "teil": "Das Frühstück",
+   "name": "Frühstück mit Hähnchenbrust",
+   "farbe": "fruehstueck",
+   "portionen": 1,
+   "zeit": 5,
+   "eiweiss": 34,
+   "zutaten": [
+    "150 g probiotischer Joghurt",
+    "je 1 gehäufter EL eingeweichte Leinsamen und Sonnenblumenkerne",
+    "75 g gegarte Hähnchenbrust, kalt",
+    "Pfeffer, Paprikapulver"
+   ],
+   "schritte": [
+    "Die Hähnchenbrust am Vortag mitgaren und kalt stellen.",
+    "Joghurt mit den Körnern verrühren.",
+    "Das kalte Fleisch in Streifen schneiden, mit Pfeffer und Paprikapulver würzen und dazu essen."
+   ],
+   "tipp": "Diese Variante trägt am längsten. Sinnvoll an Tagen, an denen die zweite Mahlzeit erst spät möglich ist."
+  },
+  {
+   "id": "10-fruehstueck-3",
+   "teil": "Das Frühstück",
+   "name": "Frühstück mit Mandeln",
+   "farbe": "fruehstueck",
+   "portionen": 1,
+   "zeit": 3,
+   "eiweiss": 23,
+   "zutaten": [
+    "150 g probiotischer Joghurt",
+    "je 1 gehäufter EL eingeweichte Leinsamen und Sonnenblumenkerne",
+    "30 g naturbelassene Mandeln, ungesalzen",
+    "etwas gemahlene Vanille oder Zimt"
+   ],
+   "schritte": [
+    "Die Mandeln grob hacken oder ganz lassen.",
+    "Joghurt mit den Körnern verrühren, Mandeln unterheben.",
+    "Mit Vanille oder Zimt abschmecken."
+   ],
+   "tipp": "Mandeln sind die einzige Nuss, die in der Aktivierungsphase erlaubt ist. Eine Portion sind 30 Gramm, und höchstens eine Mahlzeit am Tag enthält Nüsse."
+  },
+  {
+   "id": "10-fruehstueck-4",
+   "teil": "Das Frühstück",
+   "name": "Trinkjoghurt für unterwegs",
+   "farbe": "fruehstueck",
+   "portionen": 1,
+   "zeit": 3,
+   "eiweiss": 17,
+   "zutaten": [
+    "180 g probiotischer Joghurt",
+    "je 1 gehäufter EL eingeweichte Leinsamen und Sonnenblumenkerne",
+    "etwas kalter Kräutertee zum Verdünnen"
+   ],
+   "schritte": [
+    "Joghurt mit den eingeweichten Körnern und der Nährstoffmischung verrühren.",
+    "Mit kaltem Kräutertee auf Trinkkonsistenz bringen.",
+    "In eine verschließbare Flasche füllen und mitnehmen."
+   ],
+   "tipp": "Der praktische Kompromiss für Tage, an denen morgens keine Ruhe ist. Trotzdem langsam trinken statt in einem Zug — Verdauung beginnt im Mund."
+  },
+  {
+   "id": "20-weisse-tage-0",
+   "teil": "Weiße Tage",
+   "name": "Kräuteromelett",
+   "farbe": "weiss",
+   "portionen": 1,
+   "zeit": 10,
+   "eiweiss": 13,
+   "zutaten": [
+    "2 Eier",
+    "1 TL Kokosöl",
+    "1 EL frische Petersilie, fein gehackt",
+    "1 EL frischer Schnittlauch",
+    "Pfeffer"
+   ],
+   "schritte": [
+    "Eier in einer Schüssel gründlich verquirlen, bis die Masse gleichmäßig hell ist. Pfeffer und die Hälfte der Kräuter unterrühren.",
+    "Kokosöl in einer beschichteten Pfanne bei mittlerer Hitze schmelzen.",
+    "Eimasse hineingeben und bei niedriger Hitze stocken lassen, dabei die Ränder mit einem Spatel vorsichtig lösen.",
+    "Sobald die Oberfläche fast fest ist, einmal falten und mit den restlichen Kräutern bestreuen."
+   ],
+   "tipp": "Niedrige Hitze ist der ganze Trick. Ein Omelett, das bräunt, ist zu heiß gebraten und wird zäh."
+  },
+  {
+   "id": "20-weisse-tage-1",
+   "teil": "Weiße Tage",
+   "name": "Rührei mit Dill",
+   "farbe": "weiss",
+   "portionen": 1,
+   "zeit": 8,
+   "eiweiss": 13,
+   "zutaten": [
+    "2 Eier",
+    "1 TL Kokosöl",
+    "1 EL frischer Dill",
+    "Pfeffer, eine Prise Kurkuma"
+   ],
+   "schritte": [
+    "Eier verquirlen, Pfeffer und Kurkuma einrühren.",
+    "Kokosöl bei kleiner Hitze schmelzen, Eimasse hineingeben.",
+    "Mit einem Holzlöffel langsam und stetig rühren, bis die Masse cremig stockt. Vom Herd nehmen, solange sie noch leicht glänzt.",
+    "Dill unterheben und sofort essen."
+   ],
+   "tipp": "Rührei gart nach. Wer es erst vom Herd nimmt, wenn es fertig aussieht, isst am Ende trockenes Rührei."
+  },
+  {
+   "id": "20-weisse-tage-2",
+   "teil": "Weiße Tage",
+   "name": "Spiegeleier mit Knoblauch und Chili",
+   "farbe": "weiss",
+   "portionen": 1,
+   "zeit": 8,
+   "eiweiss": 13,
+   "zutaten": [
+    "2 Eier",
+    "1 TL Kokosöl",
+    "1 Knoblauchzehe, in feine Scheiben",
+    "1 Prise Chiliflocken",
+    "Pfeffer"
+   ],
+   "schritte": [
+    "Kokosöl erhitzen, Knoblauchscheiben darin bei mittlerer Hitze goldgelb werden lassen und herausnehmen.",
+    "Eier vorsichtig in die Pfanne gleiten lassen und bei kleiner Hitze stocken lassen.",
+    "Mit Pfeffer und Chiliflocken würzen, den gerösteten Knoblauch darüber verteilen."
+   ],
+   "tipp": "Der Knoblauch kommt heraus, bevor die Eier hineinkommen — sonst verbrennt er und wird bitter."
+  },
+  {
+   "id": "20-weisse-tage-3",
+   "teil": "Weiße Tage",
+   "name": "Eier-Muffins mit Kräutern",
+   "farbe": "weiss",
+   "portionen": 2,
+   "zeit": 25,
+   "eiweiss": 12,
+   "zutaten": [
+    "4 Eier",
+    "2 EL gemischte frische Kräuter, fein gehackt",
+    "1 TL Kokosöl für die Form",
+    "Pfeffer, Paprikapulver"
+   ],
+   "schritte": [
+    "Backofen auf 180 Grad Ober- und Unterhitze vorheizen.",
+    "Muffinform mit Kokosöl ausstreichen.",
+    "Eier verquirlen, Kräuter und Gewürze unterrühren, in die Mulden füllen.",
+    "18 bis 20 Minuten backen, bis die Masse gestockt und leicht aufgegangen ist."
+   ],
+   "tipp": "Halten sich zwei bis drei Tage im Kühlschrank und lassen sich kalt essen — praktisch für den Vorrat."
+  },
+  {
+   "id": "20-weisse-tage-4",
+   "teil": "Weiße Tage",
+   "name": "Hähnchenbrust mit Zitrone und Thymian",
+   "farbe": "weiss",
+   "portionen": 1,
+   "zeit": 20,
+   "eiweiss": 35,
+   "zutaten": [
+    "180 g Hähnchenbrust roh (ergibt ca. 150 g gegart)",
+    "1 EL Kokosöl",
+    "Saft einer halben Zitrone",
+    "2 Zweige frischer Thymian",
+    "Pfeffer"
+   ],
+   "schritte": [
+    "Hähnchenbrust flach klopfen, damit sie gleichmäßig gart. Mit Pfeffer würzen.",
+    "Kokosöl in der Pfanne erhitzen, Fleisch von jeder Seite drei bis vier Minuten kräftig anbraten.",
+    "Hitze reduzieren, Thymianzweige dazugeben und weitere fünf Minuten zugedeckt ziehen lassen.",
+    "Vom Herd nehmen, mit Zitronensaft beträufeln und zwei Minuten ruhen lassen, bevor du sie anschneidest."
+   ],
+   "tipp": "Die Ruhezeit ist kein Beiwerk. Fleisch, das sofort angeschnitten wird, verliert seinen Saft auf dem Brett statt ihn zu behalten."
+  },
+  {
+   "id": "20-weisse-tage-5",
+   "teil": "Weiße Tage",
+   "name": "Putenschnitzel mit Paprikapulver",
+   "farbe": "weiss",
+   "portionen": 1,
+   "zeit": 15,
+   "eiweiss": 35,
+   "zutaten": [
+    "180 g Putenschnitzel roh",
+    "1 EL Kokosöl",
+    "1 TL Paprikapulver edelsüß",
+    "1 Prise Paprikapulver scharf",
+    "Pfeffer, 1 TL getrockneter Oregano"
+   ],
+   "schritte": [
+    "Schnitzel trocken tupfen und beidseitig mit den Gewürzen einreiben.",
+    "Kokosöl stark erhitzen, Schnitzel von jeder Seite zwei bis drei Minuten braten.",
+    "Hitze zurücknehmen und noch zwei Minuten ziehen lassen."
+   ],
+   "tipp": "Pute wird schnell trocken. Lieber eine Minute zu kurz als eine zu lang — im Zweifel an der dicksten Stelle einschneiden und nachsehen."
+  },
+  {
+   "id": "20-weisse-tage-6",
+   "teil": "Weiße Tage",
+   "name": "Hähnchenkeulen aus dem Ofen",
+   "farbe": "weiss",
+   "portionen": 2,
+   "zeit": 45,
+   "eiweiss": 34,
+   "zutaten": [
+    "4 Hähnchenkeulen",
+    "2 EL Olivenöl extra vergine",
+    "2 Knoblauchzehen, gepresst",
+    "1 TL Rosmarin, getrocknet",
+    "1 TL Thymian, getrocknet",
+    "Pfeffer"
+   ],
+   "schritte": [
+    "Backofen auf 200 Grad Ober- und Unterhitze vorheizen.",
+    "Olivenöl mit Knoblauch, Kräutern und Pfeffer verrühren und die Keulen damit rundum einreiben.",
+    "Auf ein Blech mit Backpapier legen und 35 bis 40 Minuten backen, nach der Hälfte einmal wenden.",
+    "Fertig sind sie, wenn der austretende Saft klar ist."
+   ],
+   "tipp": "Zwei Keulen sind eine Portion, die anderen zwei ergeben die Mahlzeit am nächsten Tag — kalt genauso gut."
+  },
+  {
+   "id": "20-weisse-tage-7",
+   "teil": "Weiße Tage",
+   "name": "Geflügelspieße mit Kräutermarinade",
+   "farbe": "weiss",
+   "portionen": 1,
+   "zeit": 20,
+   "eiweiss": 35,
+   "zutaten": [
+    "180 g Hähnchen- oder Putenbrust roh, gewürfelt",
+    "2 EL Olivenöl extra vergine",
+    "1 TL getrockneter Oregano",
+    "1 TL getrockneter Basilikum",
+    "1 Knoblauchzehe, gepresst",
+    "Pfeffer, Saft einer halben Zitrone"
+   ],
+   "schritte": [
+    "Öl, Kräuter, Knoblauch, Pfeffer und Zitronensaft verrühren.",
+    "Fleischwürfel darin mindestens 30 Minuten marinieren, gern über Nacht.",
+    "Auf Spieße stecken und in der heißen Pfanne oder auf dem Grill rundum acht bis zehn Minuten garen."
+   ],
+   "tipp": "Fertigmarinaden enthalten praktisch immer Zucker und Salz. Selbst angerührt dauert es zwei Minuten."
+  },
+  {
+   "id": "20-weisse-tage-8",
+   "teil": "Weiße Tage",
+   "name": "Hähnchenfrikadellen mit Mandelmehl",
+   "farbe": "weiss",
+   "portionen": 2,
+   "zeit": 25,
+   "eiweiss": 33,
+   "zutaten": [
+    "350 g Geflügelhack",
+    "1 Ei",
+    "2 EL Mandelmehl, entölt",
+    "1 EL frische Petersilie",
+    "Pfeffer, 1 TL Paprikapulver, 1 Prise Muskat",
+    "1 EL Kokosöl zum Braten"
+   ],
+   "schritte": [
+    "Hack, Ei, Mandelmehl, Kräuter und Gewürze gründlich verkneten.",
+    "Die Masse zehn Minuten ruhen lassen, damit das Mandelmehl quillt.",
+    "Flache Frikadellen formen und in Kokosöl bei mittlerer Hitze von jeder Seite vier bis fünf Minuten braten."
+   ],
+   "tipp": "Mandelmehl lässt sich nicht durch gemahlene Mandeln ersetzen — es bindet völlig anders. Ohne die Ruhezeit zerfallen die Frikadellen."
+  },
+  {
+   "id": "20-weisse-tage-9",
+   "teil": "Weiße Tage",
+   "name": "Entenbrust rosa gebraten",
+   "farbe": "weiss",
+   "portionen": 1,
+   "zeit": 25,
+   "eiweiss": 34,
+   "zutaten": [
+    "180 g Entenbrust roh",
+    "Pfeffer",
+    "1 Zweig Thymian"
+   ],
+   "schritte": [
+    "Die Fettseite rautenförmig einschneiden, ohne das Fleisch zu verletzen. Mit Pfeffer würzen.",
+    "In eine kalte Pfanne mit der Fettseite nach unten legen und erst dann die Hitze anstellen — so schmilzt das Fett langsam aus.",
+    "Sechs bis acht Minuten braten, bis die Haut knusprig ist. Wenden, Thymian dazugeben und drei Minuten fertig garen.",
+    "Fünf Minuten ruhen lassen, dann quer zur Faser aufschneiden."
+   ],
+   "tipp": "Zusätzliches Öl ist hier überflüssig — die Ente bringt ihr eigenes mit."
+  },
+  {
+   "id": "20-weisse-tage-10",
+   "teil": "Weiße Tage",
+   "name": "Putengeschnetzeltes mit Knoblauch",
+   "farbe": "weiss",
+   "portionen": 1,
+   "zeit": 15,
+   "eiweiss": 35,
+   "zutaten": [
+    "180 g Putenbrust roh, in Streifen",
+    "1 EL Kokosöl",
+    "2 Knoblauchzehen, fein gehackt",
+    "1 TL Kreuzkümmel",
+    "Pfeffer, frischer Koriander"
+   ],
+   "schritte": [
+    "Kokosöl stark erhitzen, die Fleischstreifen portionsweise scharf anbraten — die Pfanne nicht überladen, sonst kocht das Fleisch.",
+    "Alles zurück in die Pfanne, Hitze reduzieren, Knoblauch und Kreuzkümmel zugeben und eine Minute mitbraten.",
+    "Mit Pfeffer abschmecken und mit frischem Koriander bestreuen."
+   ],
+   "tipp": "Portionsweise anbraten ist der Unterschied zwischen gebratenem und gedünstetem Fleisch."
+  },
+  {
+   "id": "20-weisse-tage-11",
+   "teil": "Weiße Tage",
+   "name": "Lachsfilet aus dem Ofen mit Dill",
+   "farbe": "weiss",
+   "portionen": 1,
+   "zeit": 20,
+   "eiweiss": 40,
+   "zutaten": [
+    "260 g Lachsfilet roh (ergibt ca. 200 g gegart)",
+    "1 EL Olivenöl extra vergine",
+    "Saft einer halben Zitrone",
+    "2 EL frischer Dill",
+    "Pfeffer"
+   ],
+   "schritte": [
+    "Backofen auf 180 Grad vorheizen.",
+    "Lachs auf Backpapier legen, mit Olivenöl bestreichen, mit Pfeffer würzen.",
+    "12 bis 15 Minuten backen — der Fisch ist fertig, wenn er sich mit der Gabel leicht in Segmente teilen lässt.",
+    "Mit Zitronensaft beträufeln und mit Dill bestreuen."
+   ],
+   "tipp": "Lachs gart nach dem Herausnehmen weiter. Lieber zwei Minuten früher aus dem Ofen holen."
+  },
+  {
+   "id": "20-weisse-tage-12",
+   "teil": "Weiße Tage",
+   "name": "Garnelen mit Chili und Knoblauch",
+   "farbe": "weiss",
+   "portionen": 1,
+   "zeit": 12,
+   "eiweiss": 30,
+   "zutaten": [
+    "260 g Garnelen roh, geschält",
+    "2 EL Olivenöl extra vergine",
+    "2 Knoblauchzehen, in Scheiben",
+    "1 Prise Chiliflocken",
+    "Pfeffer, glatte Petersilie"
+   ],
+   "schritte": [
+    "Garnelen trocken tupfen — nasse Garnelen braten nicht, sie dünsten.",
+    "Olivenöl erhitzen, Knoblauch und Chili kurz anschwitzen.",
+    "Garnelen zugeben und je Seite ein bis zwei Minuten braten, bis sie gerade eben undurchsichtig sind.",
+    "Mit Pfeffer würzen, Petersilie darüber."
+   ],
+   "tipp": "Garnelen brauchen weniger Zeit, als man denkt. Sobald sie sich zum C krümmen, sind sie fertig; beim O sind sie übergart."
+  },
+  {
+   "id": "20-weisse-tage-13",
+   "teil": "Weiße Tage",
+   "name": "Kabeljau im Backpapier",
+   "farbe": "weiss",
+   "portionen": 1,
+   "zeit": 25,
+   "eiweiss": 38,
+   "zutaten": [
+    "260 g Kabeljaufilet roh",
+    "1 EL Olivenöl extra vergine",
+    "Saft und Schale einer halben Bio-Zitrone",
+    "1 Zweig Thymian, 1 Lorbeerblatt",
+    "Pfeffer"
+   ],
+   "schritte": [
+    "Backofen auf 180 Grad vorheizen.",
+    "Ein großes Stück Backpapier ausbreiten, Fisch daraufsetzen, mit Öl beträufeln, mit Pfeffer und Zitronenschale würzen.",
+    "Kräuter auflegen, das Papier zu einem geschlossenen Päckchen falten.",
+    "15 bis 18 Minuten backen, Päckchen erst am Tisch öffnen."
+   ],
+   "tipp": "Im Päckchen gart der Fisch im eigenen Dampf und bleibt saftig — die sicherste Methode für mageren Fisch."
+  },
+  {
+   "id": "20-weisse-tage-14",
+   "teil": "Weiße Tage",
+   "name": "Thunfisch-Frikadellen",
+   "farbe": "weiss",
+   "portionen": 2,
+   "zeit": 20,
+   "eiweiss": 32,
+   "zutaten": [
+    "2 Dosen Thunfisch im eigenen Saft (ca. 300 g abgetropft), gut abgespült",
+    "2 Eier",
+    "3 EL Mandelmehl, entölt",
+    "2 EL frische Petersilie",
+    "Pfeffer, 1 TL Paprikapulver, Saft einer halben Zitrone",
+    "1 EL Kokosöl zum Braten"
+   ],
+   "schritte": [
+    "Thunfisch gründlich abspülen und gut ausdrücken — das entfernt einen Großteil des Salzes aus der Konserve.",
+    "Mit Eiern, Mandelmehl, Kräutern und Gewürzen vermengen und zehn Minuten quellen lassen.",
+    "Flache Frikadellen formen und in Kokosöl von jeder Seite drei bis vier Minuten braten."
+   ],
+   "tipp": "Thunfisch in Öl oder in Salzlake ist nicht geeignet. Nur die Variante im eigenen Saft, und auch die gut abspülen."
+  },
+  {
+   "id": "20-weisse-tage-15",
+   "teil": "Weiße Tage",
+   "name": "Makrele aus der Pfanne",
+   "farbe": "weiss",
+   "portionen": 1,
+   "zeit": 15,
+   "eiweiss": 39,
+   "zutaten": [
+    "260 g Makrelenfilet roh",
+    "1 EL Kokosöl",
+    "Saft einer halben Zitrone",
+    "Pfeffer, 1 TL getrockneter Majoran"
+   ],
+   "schritte": [
+    "Filets trocken tupfen und mit Pfeffer und Majoran würzen.",
+    "Kokosöl erhitzen, Filets mit der Hautseite nach unten drei bis vier Minuten braten, bis die Haut knusprig ist.",
+    "Wenden und noch ein bis zwei Minuten garen.",
+    "Mit Zitronensaft beträufelt servieren."
+   ],
+   "tipp": "Geräucherte Makrele ist nicht geeignet — zu viel Salz. Nur frische oder tiefgekühlte."
+  },
+  {
+   "id": "20-weisse-tage-16",
+   "teil": "Weiße Tage",
+   "name": "Forelle mit Zitrone",
+   "farbe": "weiss",
+   "portionen": 1,
+   "zeit": 30,
+   "eiweiss": 38,
+   "zutaten": [
+    "1 ganze Forelle, küchenfertig (ca. 300 g)",
+    "1 EL Olivenöl extra vergine",
+    "1 Bio-Zitrone, in Scheiben",
+    "2 Zweige Petersilie",
+    "Pfeffer"
+   ],
+   "schritte": [
+    "Backofen auf 190 Grad vorheizen.",
+    "Forelle innen und außen mit Pfeffer würzen, den Bauchraum mit Zitronenscheiben und Petersilie füllen.",
+    "Mit Olivenöl bestreichen und auf Backpapier 20 bis 25 Minuten backen.",
+    "Fertig ist sie, wenn sich die Rückenflosse leicht herausziehen lässt."
+   ],
+   "tipp": "Der Test mit der Rückenflosse ist zuverlässiger als jede Zeitangabe — Forellen unterscheiden sich stark in der Größe."
+  },
+  {
+   "id": "20-weisse-tage-17",
+   "teil": "Weiße Tage",
+   "name": "Tintenfischringe gebraten",
+   "farbe": "weiss",
+   "portionen": 1,
+   "zeit": 12,
+   "eiweiss": 30,
+   "zutaten": [
+    "260 g Tintenfischtuben roh, in Ringe geschnitten",
+    "2 EL Olivenöl extra vergine",
+    "1 Knoblauchzehe, gehackt",
+    "Pfeffer, Chiliflocken, Saft einer halben Zitrone",
+    "glatte Petersilie"
+   ],
+   "schritte": [
+    "Tintenfischringe sehr gut trocken tupfen.",
+    "Olivenöl stark erhitzen, die Ringe eine bis maximal zwei Minuten scharf braten.",
+    "Knoblauch, Pfeffer und Chili zugeben, kurz durchschwenken.",
+    "Vom Herd nehmen, mit Zitronensaft und Petersilie servieren."
+   ],
+   "tipp": "Tintenfisch kennt nur zwei Zustände: sehr kurz gebraten oder sehr lange geschmort. Alles dazwischen wird zäh."
+  },
+  {
+   "id": "20-weisse-tage-18",
+   "teil": "Weiße Tage",
+   "name": "Meeresfrüchte-Pfanne",
+   "farbe": "weiss",
+   "portionen": 1,
+   "zeit": 15,
+   "eiweiss": 30,
+   "zutaten": [
+    "260 g gemischte Meeresfrüchte, tiefgekühlt und aufgetaut",
+    "2 EL Olivenöl extra vergine",
+    "2 Knoblauchzehen, gehackt",
+    "Pfeffer, Chiliflocken, 1 TL Oregano",
+    "Saft einer halben Zitrone, glatte Petersilie"
+   ],
+   "schritte": [
+    "Meeresfrüchte vollständig auftauen lassen und gründlich abtropfen.",
+    "Öl erhitzen, Knoblauch kurz anschwitzen, Meeresfrüchte zugeben.",
+    "Zwei bis drei Minuten braten, mit Gewürzen abschmecken.",
+    "Mit Zitronensaft und Petersilie servieren."
+   ],
+   "tipp": "Auf Zusatzstoffe in der Tiefkühlpackung achten — viele Mischungen sind gesalzen oder mit Zitronensäure behandelt."
+  },
+  {
+   "id": "20-weisse-tage-19",
+   "teil": "Weiße Tage",
+   "name": "Rindersteak mit Pfeffer",
+   "farbe": "weiss",
+   "portionen": 1,
+   "zeit": 15,
+   "eiweiss": 35,
+   "zutaten": [
+    "180 g Rindersteak roh",
+    "1 EL Kokosöl",
+    "grob gemahlener schwarzer Pfeffer",
+    "1 Zweig Rosmarin"
+   ],
+   "schritte": [
+    "Steak eine halbe Stunde vor dem Braten aus dem Kühlschrank nehmen und trocken tupfen.",
+    "Kokosöl stark erhitzen, Steak je nach Dicke zwei bis drei Minuten pro Seite scharf anbraten.",
+    "Rosmarin dazugeben, Hitze reduzieren, eine Minute nachziehen lassen.",
+    "Fünf Minuten ruhen lassen, erst dann pfeffern und anschneiden."
+   ],
+   "tipp": "Rotes Fleisch höchstens zweimal pro Woche. Es sättigt außerdem kürzer als Geflügel."
+  },
+  {
+   "id": "20-weisse-tage-20",
+   "teil": "Weiße Tage",
+   "name": "Hacksteaks mit Kräutern",
+   "farbe": "weiss",
+   "portionen": 2,
+   "zeit": 20,
+   "eiweiss": 33,
+   "zutaten": [
+    "350 g Rinderhack",
+    "1 Ei",
+    "2 EL Mandelmehl, entölt",
+    "1 EL frischer Majoran oder Oregano",
+    "Pfeffer, 1 TL Paprikapulver",
+    "1 EL Kokosöl zum Braten"
+   ],
+   "schritte": [
+    "Alle Zutaten außer dem Öl gründlich verkneten und zehn Minuten ruhen lassen.",
+    "Flache Steaks formen — je flacher, desto gleichmäßiger garen sie.",
+    "In Kokosöl bei mittlerer Hitze von jeder Seite vier bis fünf Minuten braten."
+   ],
+   "tipp": "Beim Hackfleisch auf die Herkunft achten und keine gewürzten Mischungen kaufen — die enthalten fast immer Salz."
+  },
+  {
+   "id": "20-weisse-tage-21",
+   "teil": "Weiße Tage",
+   "name": "Tofu mit Kräuterkruste",
+   "farbe": "weiss",
+   "portionen": 1,
+   "zeit": 20,
+   "eiweiss": 20,
+   "zutaten": [
+    "150 g Naturtofu, ungesalzen",
+    "2 EL Mandelmehl, entölt",
+    "2 EL gemischte getrocknete Kräuter",
+    "1 EL Kokosöl",
+    "Pfeffer, Paprikapulver"
+   ],
+   "schritte": [
+    "Tofu 20 Minuten zwischen Küchenpapier pressen — je weniger Wasser, desto besser die Kruste.",
+    "In Scheiben schneiden und mit Pfeffer und Paprikapulver würzen.",
+    "Mandelmehl und Kräuter mischen, die Tofuscheiben darin wenden.",
+    "In Kokosöl von jeder Seite drei bis vier Minuten goldbraun braten."
+   ],
+   "tipp": "Das Pressen ist der entscheidende Schritt. Ungepresster Tofu wird in der Pfanne matschig statt knusprig."
+  },
+  {
+   "id": "20-weisse-tage-22",
+   "teil": "Weiße Tage",
+   "name": "Tempeh gebraten",
+   "farbe": "weiss",
+   "portionen": 1,
+   "zeit": 15,
+   "eiweiss": 28,
+   "zutaten": [
+    "150 g Tempeh",
+    "1 EL Kokosöl",
+    "1 Knoblauchzehe, gehackt",
+    "1 TL Kreuzkümmel, Pfeffer",
+    "Saft einer halben Limette"
+   ],
+   "schritte": [
+    "Tempeh in dünne Scheiben schneiden.",
+    "Kokosöl erhitzen und die Scheiben von jeder Seite drei Minuten goldbraun braten.",
+    "Knoblauch und Gewürze zugeben, eine Minute mitbraten.",
+    "Mit Limettensaft ablöschen und sofort servieren."
+   ],
+   "tipp": "Tempeh liefert durch die Fermentation mehr verwertbares Eiweiß als Tofu und dazu Ballaststoffe."
+  },
+  {
+   "id": "20-weisse-tage-23",
+   "teil": "Weiße Tage",
+   "name": "Seitan-Streifen aus der Pfanne",
+   "farbe": "weiss",
+   "portionen": 1,
+   "zeit": 15,
+   "eiweiss": 37,
+   "zutaten": [
+    "150 g selbst gemachter Seitan (Grundrezept im letzten Teil)",
+    "1 EL Kokosöl",
+    "1 TL Paprikapulver, 1 TL Oregano",
+    "Pfeffer, 1 Knoblauchzehe"
+   ],
+   "schritte": [
+    "Seitan in Streifen schneiden.",
+    "Kokosöl stark erhitzen und die Streifen rundum knusprig braten.",
+    "Knoblauch und Gewürze zugeben und kurz mitbraten."
+   ],
+   "tipp": "Gekaufter Seitan enthält fast immer Salz und oft Zucker. Für die Aktivierungsphase führt kein Weg am Selbermachen vorbei."
+  },
+  {
+   "id": "20-weisse-tage-24",
+   "teil": "Weiße Tage",
+   "name": "Lupinenschnitzel",
+   "farbe": "weiss",
+   "portionen": 1,
+   "zeit": 20,
+   "eiweiss": 23,
+   "zutaten": [
+    "150 g Lupinenschnitzel, ungewürzt",
+    "2 EL Mandelmehl, entölt",
+    "1 Ei",
+    "1 EL Kokosöl",
+    "Pfeffer, Paprikapulver, getrockneter Thymian"
+   ],
+   "schritte": [
+    "Ei verquirlen, Mandelmehl mit den Gewürzen mischen.",
+    "Schnitzel erst durch das Ei, dann durch die Mandelmehlmischung ziehen.",
+    "In Kokosöl bei mittlerer Hitze von jeder Seite drei bis vier Minuten braten."
+   ],
+   "tipp": "Fertige Lupinenprodukte enthalten oft Salz, Zucker oder Zwiebeln — die Zutatenliste vor dem Kauf lesen."
+  },
+  {
+   "id": "20-weisse-tage-25",
+   "teil": "Weiße Tage",
+   "name": "Eiersalat ohne Mayonnaise",
+   "farbe": "weiss",
+   "portionen": 1,
+   "zeit": 15,
+   "eiweiss": 19,
+   "zutaten": [
+    "3 hartgekochte Eier",
+    "2 EL probiotischer Joghurt",
+    "1 TL selbst gemachter Senf (Grundrezept im letzten Teil)",
+    "1 EL frischer Schnittlauch",
+    "Pfeffer, 1 Prise Kurkuma"
+   ],
+   "schritte": [
+    "Eier pellen und grob würfeln.",
+    "Joghurt mit Senf, Pfeffer und Kurkuma verrühren.",
+    "Eier unterheben, Schnittlauch darüber.",
+    "Vor dem Essen zehn Minuten durchziehen lassen."
+   ],
+   "tipp": "Der Joghurt zählt als die eine erlaubte Milchportion des Tages. Wer ihn morgens schon gegessen hat, nimmt für diesen Salat stattdessen etwas Olivenöl."
+  },
+  {
+   "id": "30-gruene-tage-0",
+   "teil": "Grüne Tage",
+   "name": "Hähnchen-Spargel-Pfanne",
+   "farbe": "gruen",
+   "portionen": 1,
+   "zeit": 20,
+   "eiweiss": 37,
+   "zutaten": [
+    "180 g Hähnchenbrust roh, in Streifen",
+    "100 g grüner Spargel",
+    "1 EL Kokosöl",
+    "1 Knoblauchzehe, gehackt",
+    "Pfeffer, Zitronensaft, frische Petersilie"
+   ],
+   "schritte": [
+    "Vom Spargel die holzigen Enden abbrechen, die Stangen schräg in Stücke schneiden.",
+    "Kokosöl stark erhitzen, die Hähnchenstreifen portionsweise scharf anbraten und herausnehmen.",
+    "Spargel in derselben Pfanne drei bis vier Minuten braten — er soll Biss behalten.",
+    "Fleisch zurückgeben, Knoblauch zugeben, kurz durchschwenken, mit Pfeffer und Zitronensaft abschmecken."
+   ],
+   "tipp": null
+  },
+  {
+   "id": "30-gruene-tage-1",
+   "teil": "Grüne Tage",
+   "name": "Lachs mit Brokkoli",
+   "farbe": "gruen",
+   "portionen": 1,
+   "zeit": 25,
+   "eiweiss": 43,
+   "zutaten": [
+    "260 g Lachsfilet roh",
+    "100 g Brokkoli",
+    "1 EL Olivenöl extra vergine",
+    "Saft einer halben Zitrone",
+    "Pfeffer, frischer Dill"
+   ],
+   "schritte": [
+    "Backofen auf 180 Grad vorheizen, Lachs auf Backpapier legen und mit Öl bestreichen.",
+    "Brokkoli in Röschen teilen und rundherum verteilen.",
+    "15 Minuten backen, bis der Lachs sich mit der Gabel teilen lässt und der Brokkoli noch Biss hat.",
+    "Mit Zitronensaft, Pfeffer und Dill abschmecken."
+   ],
+   "tipp": "Brokkoli aus dem Ofen wird nussiger als gekochter — und behält mehr von dem, was in ihm steckt."
+  },
+  {
+   "id": "30-gruene-tage-2",
+   "teil": "Grüne Tage",
+   "name": "Gurkensalat mit Putenstreifen",
+   "farbe": "gruen",
+   "portionen": 1,
+   "zeit": 15,
+   "eiweiss": 36,
+   "zutaten": [
+    "180 g Putenbrust roh",
+    "100 g Salatgurke",
+    "1 EL Leinöl",
+    "1 TL Apfelessig",
+    "frischer Dill, Pfeffer"
+   ],
+   "schritte": [
+    "Putenbrust in Streifen schneiden und in wenig Kokosöl kräftig anbraten, abkühlen lassen.",
+    "Gurke in dünne Scheiben hobeln.",
+    "Leinöl, Apfelessig, Dill und Pfeffer verrühren, über die Gurke geben.",
+    "Die abgekühlten Putenstreifen unterheben."
+   ],
+   "tipp": "Leinöl nur kalt verwenden — erhitzt verliert es genau die Fettsäuren, wegen derer es hier steht."
+  },
+  {
+   "id": "30-gruene-tage-3",
+   "teil": "Grüne Tage",
+   "name": "Zucchininudeln mit Hähnchen",
+   "farbe": "gruen",
+   "portionen": 1,
+   "zeit": 20,
+   "eiweiss": 37,
+   "zutaten": [
+    "180 g Hähnchenbrust roh, gewürfelt",
+    "100 g Zucchini",
+    "1 EL Olivenöl extra vergine",
+    "1 Knoblauchzehe",
+    "Pfeffer, Oregano, Basilikum"
+   ],
+   "schritte": [
+    "Zucchini mit einem Spiralschneider oder Sparschäler in lange Streifen schneiden.",
+    "Hähnchenwürfel in Olivenöl scharf anbraten, Knoblauch und Kräuter zugeben.",
+    "Zucchinistreifen erst ganz zum Schluss zugeben und höchstens zwei Minuten mitschwenken."
+   ],
+   "tipp": "Zucchini zieht schnell Wasser. Zu lange gegart wird aus den Nudeln Matsch — deshalb erst am Ende in die Pfanne."
+  },
+  {
+   "id": "30-gruene-tage-4",
+   "teil": "Grüne Tage",
+   "name": "Blumenkohlreis mit Garnelen",
+   "farbe": "gruen",
+   "portionen": 1,
+   "zeit": 20,
+   "eiweiss": 33,
+   "zutaten": [
+    "260 g Garnelen roh, geschält",
+    "100 g Blumenkohl",
+    "2 EL Olivenöl extra vergine",
+    "1 Knoblauchzehe, Chiliflocken",
+    "Pfeffer, Kurkuma, glatte Petersilie"
+   ],
+   "schritte": [
+    "Blumenkohl grob raspeln oder im Mixer kurz zerkleinern, bis er die Größe von Reiskörnern hat.",
+    "In einem Esslöffel Öl drei bis vier Minuten anbraten, mit Kurkuma und Pfeffer würzen, beiseitestellen.",
+    "Garnelen im restlichen Öl mit Knoblauch und Chili je Seite ein bis zwei Minuten braten.",
+    "Auf dem Blumenkohlreis anrichten, Petersilie darüber."
+   ],
+   "tipp": null
+  },
+  {
+   "id": "30-gruene-tage-5",
+   "teil": "Grüne Tage",
+   "name": "Spinat mit Rührei",
+   "farbe": "gruen",
+   "portionen": 1,
+   "zeit": 12,
+   "eiweiss": 16,
+   "zutaten": [
+    "3 Eier",
+    "100 g frischer Blattspinat",
+    "1 EL Kokosöl",
+    "1 Knoblauchzehe",
+    "Pfeffer, Muskat"
+   ],
+   "schritte": [
+    "Kokosöl erhitzen, Knoblauch kurz anschwitzen, Spinat zugeben und zusammenfallen lassen.",
+    "Eier verquirlen, mit Pfeffer und Muskat würzen und über den Spinat gießen.",
+    "Bei kleiner Hitze langsam rühren, bis die Masse cremig stockt."
+   ],
+   "tipp": "Frischer Spinat fällt stark zusammen. Aus 100 Gramm roh wird eine überschaubare Portion — das ist normal und richtig so."
+  },
+  {
+   "id": "30-gruene-tage-6",
+   "teil": "Grüne Tage",
+   "name": "Paprikasalat mit gegrillten Garnelen",
+   "farbe": "gruen",
+   "portionen": 1,
+   "zeit": 20,
+   "eiweiss": 31,
+   "zutaten": [
+    "260 g Garnelen roh",
+    "100 g grüne Paprika",
+    "2 EL Olivenöl extra vergine",
+    "1 TL Weißweinessig",
+    "Pfeffer, Chiliflocken, frischer Koriander"
+   ],
+   "schritte": [
+    "Paprika in feine Streifen schneiden.",
+    "Garnelen in einem Esslöffel Öl scharf braten, mit Pfeffer und Chili würzen.",
+    "Restliches Öl mit Essig verrühren, über die Paprika geben.",
+    "Garnelen darauf anrichten, Koriander darüber."
+   ],
+   "tipp": null
+  },
+  {
+   "id": "30-gruene-tage-7",
+   "teil": "Grüne Tage",
+   "name": "Ofengemüse mit Kabeljau",
+   "farbe": "gruen",
+   "portionen": 1,
+   "zeit": 35,
+   "eiweiss": 41,
+   "zutaten": [
+    "260 g Kabeljaufilet roh",
+    "100 g gemischtes Gemüse (Zucchini, Paprika, Champignons)",
+    "2 EL Olivenöl extra vergine",
+    "Pfeffer, Rosmarin, Thymian",
+    "Saft einer halben Zitrone"
+   ],
+   "schritte": [
+    "Backofen auf 200 Grad vorheizen. Gemüse in mundgerechte Stücke schneiden, mit Öl und Kräutern mischen.",
+    "Auf dem Blech 15 Minuten vorbacken.",
+    "Den Fisch daraufsetzen, mit Pfeffer würzen und weitere 12 bis 15 Minuten backen.",
+    "Vor dem Servieren mit Zitronensaft beträufeln."
+   ],
+   "tipp": null
+  },
+  {
+   "id": "30-gruene-tage-8",
+   "teil": "Grüne Tage",
+   "name": "Tomatensalat mit Thunfisch",
+   "farbe": "gruen",
+   "portionen": 1,
+   "zeit": 10,
+   "eiweiss": 32,
+   "zutaten": [
+    "1 Dose Thunfisch im eigenen Saft, gut abgespült",
+    "100 g Tomaten",
+    "1 EL Olivenöl extra vergine",
+    "1 TL Rotweinessig",
+    "frisches Basilikum, Pfeffer"
+   ],
+   "schritte": [
+    "Tomaten in Spalten schneiden.",
+    "Thunfisch abspülen, gut ausdrücken und grob zerpflücken.",
+    "Öl und Essig verrühren, über die Tomaten geben, Thunfisch darauf.",
+    "Basilikum grob zupfen, mit Pfeffer abschmecken."
+   ],
+   "tipp": "Ohne Salz braucht der Tomatensalat mehr Säure und mehr Kräuter als gewohnt. Nicht am Basilikum sparen."
+  },
+  {
+   "id": "30-gruene-tage-9",
+   "teil": "Grüne Tage",
+   "name": "Rucola mit Rinderstreifen",
+   "farbe": "gruen",
+   "portionen": 1,
+   "zeit": 15,
+   "eiweiss": 36,
+   "zutaten": [
+    "180 g Rindersteak roh",
+    "100 g Rucola",
+    "2 EL Olivenöl extra vergine",
+    "Saft einer halben Zitrone",
+    "grob gemahlener Pfeffer"
+   ],
+   "schritte": [
+    "Steak scharf anbraten, fünf Minuten ruhen lassen, dann in dünne Streifen schneiden.",
+    "Rucola mit Olivenöl und Zitronensaft anmachen.",
+    "Fleischstreifen darauf verteilen und kräftig pfeffern."
+   ],
+   "tipp": "Rotes Fleisch höchstens zweimal pro Woche — diese Regel gilt auch an grünen Tagen."
+  },
+  {
+   "id": "30-gruene-tage-10",
+   "teil": "Grüne Tage",
+   "name": "Champignonpfanne mit Hähnchen",
+   "farbe": "gruen",
+   "portionen": 1,
+   "zeit": 20,
+   "eiweiss": 37,
+   "zutaten": [
+    "180 g Hähnchenbrust roh, gewürfelt",
+    "100 g Champignons",
+    "1 EL Kokosöl",
+    "1 Knoblauchzehe",
+    "Pfeffer, Thymian, glatte Petersilie"
+   ],
+   "schritte": [
+    "Champignons putzen und vierteln — nicht waschen, sondern abreiben.",
+    "Hähnchen in Kokosöl scharf anbraten und herausnehmen.",
+    "Champignons in derselben Pfanne braten, bis die Flüssigkeit verdampft ist und sie Farbe nehmen.",
+    "Fleisch zurückgeben, Knoblauch und Thymian zugeben, mit Pfeffer abschmecken."
+   ],
+   "tipp": "Pilze in einer zu vollen Pfanne kochen im eigenen Saft. Lieber in zwei Durchgängen braten."
+  },
+  {
+   "id": "30-gruene-tage-11",
+   "teil": "Grüne Tage",
+   "name": "Fenchelsalat mit Forelle",
+   "farbe": "gruen",
+   "portionen": 1,
+   "zeit": 25,
+   "eiweiss": 39,
+   "zutaten": [
+    "260 g Forellenfilet roh",
+    "100 g Fenchel",
+    "2 EL Olivenöl extra vergine",
+    "Saft einer halben Zitrone",
+    "Pfeffer, Fenchelgrün"
+   ],
+   "schritte": [
+    "Forellenfilets in wenig Öl von jeder Seite drei Minuten braten.",
+    "Fenchel sehr fein hobeln — je dünner, desto milder.",
+    "Mit Öl, Zitronensaft und Pfeffer anmachen und zehn Minuten ziehen lassen.",
+    "Forelle darauf anrichten, mit Fenchelgrün bestreuen."
+   ],
+   "tipp": null
+  },
+  {
+   "id": "30-gruene-tage-12",
+   "teil": "Grüne Tage",
+   "name": "Grüne Bohnen mit Putenschnitzel",
+   "farbe": "gruen",
+   "portionen": 1,
+   "zeit": 25,
+   "eiweiss": 37,
+   "zutaten": [
+    "180 g Putenschnitzel roh",
+    "100 g grüne Stangenbohnen",
+    "1 EL Kokosöl",
+    "1 TL Bohnenkraut, Pfeffer",
+    "Saft einer halben Zitrone"
+   ],
+   "schritte": [
+    "Bohnen putzen und in ungesalzenem Wasser acht bis zehn Minuten bissfest garen, dann kalt abschrecken.",
+    "Schnitzel mit Pfeffer würzen und in Kokosöl von jeder Seite zwei bis drei Minuten braten.",
+    "Bohnen mit Bohnenkraut in derselben Pfanne kurz durchschwenken.",
+    "Mit Zitronensaft abschmecken."
+   ],
+   "tipp": "Nur grüne Stangenbohnen sind erlaubt. Alle anderen Bohnen zählen zu den Hülsenfrüchten und bleiben weg."
+  },
+  {
+   "id": "30-gruene-tage-13",
+   "teil": "Grüne Tage",
+   "name": "Chinakohlsalat mit Ei",
+   "farbe": "gruen",
+   "portionen": 1,
+   "zeit": 15,
+   "eiweiss": 20,
+   "zutaten": [
+    "3 hartgekochte Eier",
+    "100 g Chinakohl",
+    "1 EL Leinöl",
+    "1 TL Apfelessig",
+    "1 TL selbst gemachter Senf",
+    "Pfeffer, Schnittlauch"
+   ],
+   "schritte": [
+    "Chinakohl in feine Streifen schneiden.",
+    "Leinöl, Apfelessig, Senf und Pfeffer zu einem Dressing verrühren.",
+    "Kohl damit anmachen und zehn Minuten ziehen lassen.",
+    "Eier vierteln, darauf anrichten, Schnittlauch darüber."
+   ],
+   "tipp": null
+  },
+  {
+   "id": "30-gruene-tage-14",
+   "teil": "Grüne Tage",
+   "name": "Rosenkohl mit Hackbällchen",
+   "farbe": "gruen",
+   "portionen": 1,
+   "zeit": 30,
+   "eiweiss": 35,
+   "zutaten": [
+    "180 g Geflügelhack",
+    "100 g Rosenkohl",
+    "1 Ei, 1 EL Mandelmehl",
+    "1 EL Kokosöl",
+    "Pfeffer, Muskat, Paprikapulver"
+   ],
+   "schritte": [
+    "Hack mit Ei, Mandelmehl und Gewürzen verkneten, zehn Minuten ruhen lassen, kleine Bällchen formen.",
+    "Rosenkohl halbieren und in Kokosöl mit der Schnittfläche nach unten anbraten, bis er Farbe nimmt.",
+    "Bällchen dazugeben und alles zugedeckt zehn Minuten bei mittlerer Hitze garen."
+   ],
+   "tipp": "Angebratener Rosenkohl schmeckt deutlich milder als gekochter — die Röstaromen nehmen ihm die Bitterkeit."
+  },
+  {
+   "id": "30-gruene-tage-15",
+   "teil": "Grüne Tage",
+   "name": "Auberginenauflauf mit Geflügelhack",
+   "farbe": "gruen",
+   "portionen": 2,
+   "zeit": 45,
+   "eiweiss": 34,
+   "zutaten": [
+    "350 g Geflügelhack",
+    "200 g Aubergine",
+    "2 EL Olivenöl extra vergine",
+    "200 g passierte Tomaten ohne Zusätze",
+    "Pfeffer, Oregano, Basilikum, 1 Knoblauchzehe"
+   ],
+   "schritte": [
+    "Backofen auf 190 Grad vorheizen. Aubergine in Scheiben schneiden und in Olivenöl von beiden Seiten anbraten.",
+    "Hack krümelig anbraten, Knoblauch und Kräuter zugeben, mit den passierten Tomaten aufgießen und zehn Minuten einkochen lassen.",
+    "Auberginenscheiben und Hackmasse abwechselnd in eine Auflaufform schichten.",
+    "20 Minuten backen."
+   ],
+   "tipp": "Bei passierten Tomaten die Zutatenliste prüfen — viele enthalten Salz oder Zucker. Es gibt sie auch ohne."
+  },
+  {
+   "id": "30-gruene-tage-16",
+   "teil": "Grüne Tage",
+   "name": "Gefüllte Paprika mit Hackfleisch",
+   "farbe": "gruen",
+   "portionen": 2,
+   "zeit": 45,
+   "eiweiss": 34,
+   "zutaten": [
+    "350 g Geflügelhack",
+    "2 grüne Paprikaschoten",
+    "1 Ei, 2 EL Mandelmehl",
+    "Pfeffer, Paprikapulver, Oregano",
+    "100 g passierte Tomaten ohne Zusätze"
+   ],
+   "schritte": [
+    "Backofen auf 190 Grad vorheizen. Paprika halbieren und entkernen.",
+    "Hack mit Ei, Mandelmehl und Gewürzen verkneten und in die Hälften füllen.",
+    "Passierte Tomaten in die Form gießen, Paprika hineinsetzen.",
+    "Zugedeckt 30 Minuten backen, danach zehn Minuten offen."
+   ],
+   "tipp": null
+  },
+  {
+   "id": "30-gruene-tage-17",
+   "teil": "Grüne Tage",
+   "name": "Kohlrabi-Sticks mit Tofu",
+   "farbe": "gruen",
+   "portionen": 1,
+   "zeit": 20,
+   "eiweiss": 21,
+   "zutaten": [
+    "150 g Naturtofu, gepresst",
+    "100 g Kohlrabi",
+    "1 EL Kokosöl, 1 EL Leinöl",
+    "Saft einer halben Zitrone",
+    "Pfeffer, Kurkuma, frische Kräuter"
+   ],
+   "schritte": [
+    "Tofu würfeln, mit Pfeffer und Kurkuma würzen und in Kokosöl rundum knusprig braten.",
+    "Kohlrabi schälen und in Stifte schneiden.",
+    "Leinöl mit Zitronensaft und Kräutern verrühren und über die Stifte geben.",
+    "Tofu darauf anrichten."
+   ],
+   "tipp": null
+  },
+  {
+   "id": "30-gruene-tage-18",
+   "teil": "Grüne Tage",
+   "name": "Radieschensalat mit Seitan",
+   "farbe": "gruen",
+   "portionen": 1,
+   "zeit": 15,
+   "eiweiss": 38,
+   "zutaten": [
+    "150 g selbst gemachter Seitan",
+    "100 g Radieschen",
+    "1 EL Kokosöl, 1 EL Leinöl",
+    "1 TL Weißweinessig",
+    "Pfeffer, Schnittlauch"
+   ],
+   "schritte": [
+    "Seitan in Streifen schneiden und in Kokosöl knusprig braten.",
+    "Radieschen in dünne Scheiben hobeln.",
+    "Leinöl mit Essig und Pfeffer verrühren, Radieschen darin wenden.",
+    "Seitanstreifen darauf verteilen, Schnittlauch darüber."
+   ],
+   "tipp": null
+  },
+  {
+   "id": "30-gruene-tage-19",
+   "teil": "Grüne Tage",
+   "name": "Mangold mit Lachs",
+   "farbe": "gruen",
+   "portionen": 1,
+   "zeit": 25,
+   "eiweiss": 42,
+   "zutaten": [
+    "260 g Lachsfilet roh",
+    "100 g Mangold",
+    "2 EL Olivenöl extra vergine",
+    "1 Knoblauchzehe",
+    "Pfeffer, Muskat, Zitronensaft"
+   ],
+   "schritte": [
+    "Mangold waschen, Stiele klein schneiden und die Blätter grob zerteilen — die Stiele brauchen länger.",
+    "Lachs in einem Esslöffel Öl von jeder Seite drei bis vier Minuten braten und warm stellen.",
+    "Im restlichen Öl Knoblauch anschwitzen, erst die Stiele, nach zwei Minuten die Blätter zugeben und zusammenfallen lassen.",
+    "Mit Pfeffer, Muskat und Zitronensaft abschmecken, Lachs darauf."
+   ],
+   "tipp": null
+  },
+  {
+   "id": "30-gruene-tage-20",
+   "teil": "Grüne Tage",
+   "name": "Grünkohl mit Tempeh",
+   "farbe": "gruen",
+   "portionen": 1,
+   "zeit": 25,
+   "eiweiss": 30,
+   "zutaten": [
+    "150 g Tempeh",
+    "100 g Grünkohl",
+    "2 EL Olivenöl extra vergine",
+    "1 Knoblauchzehe",
+    "Pfeffer, Chiliflocken, Zitronensaft"
+   ],
+   "schritte": [
+    "Grünkohl von den harten Rippen befreien und grob zerpflücken.",
+    "Tempeh in Scheiben schneiden und in einem Esslöffel Öl goldbraun braten, herausnehmen.",
+    "Im restlichen Öl Knoblauch anschwitzen, Grünkohl zugeben und zugedeckt fünf bis acht Minuten dünsten.",
+    "Mit Pfeffer, Chili und Zitronensaft abschmecken, Tempeh darauf."
+   ],
+   "tipp": null
+  },
+  {
+   "id": "30-gruene-tage-21",
+   "teil": "Grüne Tage",
+   "name": "Apfel mit Zimt zum Nachtisch",
+   "farbe": "gruen",
+   "portionen": 1,
+   "zeit": 5,
+   "eiweiss": 12,
+   "zutaten": [
+    "1 Apfel",
+    "1 TL gemahlener Zimt",
+    "30 g naturbelassene Mandeln",
+    "2 Eier, hartgekocht (als Eiweißanteil der Mahlzeit)"
+   ],
+   "schritte": [
+    "Diese Portion kommt nach der dritten Mahlzeit — nie allein und nie auf leeren Magen.",
+    "Apfel in Spalten schneiden und mit Zimt bestreuen.",
+    "Mit den Mandeln und dem Eiweißanteil der Mahlzeit zusammen essen."
+   ],
+   "tipp": "Obst gehört im Konzept immer in Kombination mit Eiweiß und Fett. In dieser Zusammenstellung gelangt der Fruchtzucker langsamer ins Blut."
+  },
+  {
+   "id": "40-stabilisierung-0",
+   "teil": "Ab der Stabilisierungsphase",
+   "name": "Zucchini-Lasagne mit Hartkäse",
+   "farbe": "stabilisierung",
+   "portionen": 2,
+   "zeit": 50,
+   "eiweiss": 38,
+   "zutaten": [
+    "350 g Geflügelhack",
+    "300 g Zucchini",
+    "200 g passierte Tomaten ohne Zusätze",
+    "60 g geriebener Hartkäse",
+    "2 EL Olivenöl extra vergine",
+    "Pfeffer, Oregano, Basilikum, 1 Knoblauchzehe, 1 Prise Natursalz"
+   ],
+   "schritte": [
+    "Backofen auf 190 Grad vorheizen. Zucchini längs in dünne Streifen hobeln und auf Küchenpapier abtropfen lassen.",
+    "Hack krümelig anbraten, Knoblauch und Kräuter zugeben, mit den passierten Tomaten aufgießen und zehn Minuten einkochen.",
+    "Zucchinistreifen und Hacksauce abwechselnd schichten, mit Käse abschließen.",
+    "25 bis 30 Minuten backen, danach zehn Minuten ruhen lassen."
+   ],
+   "tipp": "Die Zucchini vorher abtropfen zu lassen ist der Unterschied zwischen Lasagne und Suppe."
+  },
+  {
+   "id": "40-stabilisierung-1",
+   "teil": "Ab der Stabilisierungsphase",
+   "name": "Omelett mit Käse und Kräutern",
+   "farbe": "stabilisierung",
+   "portionen": 1,
+   "zeit": 12,
+   "eiweiss": 24,
+   "zutaten": [
+    "3 Eier",
+    "30 g geriebener Hartkäse",
+    "1 TL Butter aus Weidehaltung",
+    "frische Kräuter, Pfeffer, 1 Prise Natursalz"
+   ],
+   "schritte": [
+    "Eier verquirlen, mit Pfeffer und einer Prise Salz würzen.",
+    "Butter bei kleiner Hitze schmelzen, Eimasse hineingeben.",
+    "Sobald die Oberfläche fast fest ist, Käse und Kräuter auf eine Hälfte streuen und zusammenklappen.",
+    "Eine Minute ziehen lassen, bis der Käse geschmolzen ist."
+   ],
+   "tipp": null
+  },
+  {
+   "id": "40-stabilisierung-2",
+   "teil": "Ab der Stabilisierungsphase",
+   "name": "Quark mit Beeren",
+   "farbe": "stabilisierung",
+   "portionen": 1,
+   "zeit": 5,
+   "eiweiss": 26,
+   "zutaten": [
+    "200 g Quark 40 %",
+    "100 g gemischte Beeren",
+    "20 g gehackte Walnüsse",
+    "1 TL Erythrit, gemahlene Vanille"
+   ],
+   "schritte": [
+    "Quark mit Erythrit und Vanille glatt rühren, bei Bedarf mit etwas Wasser cremiger machen.",
+    "Beeren unterheben.",
+    "Walnüsse darüber streuen."
+   ],
+   "tipp": "Höchstens eine Mahlzeit am Tag mit Nüssen — sie sind reich an Fettsäuren und Spurenelementen, aber auch an Kalorien."
+  },
+  {
+   "id": "40-stabilisierung-3",
+   "teil": "Ab der Stabilisierungsphase",
+   "name": "Getreidefreies Nussbrot",
+   "farbe": "stabilisierung",
+   "portionen": 8,
+   "zeit": 70,
+   "eiweiss": 12,
+   "zutaten": [
+    "200 g gemahlene Mandeln",
+    "60 g Leinmehl",
+    "40 g Flohsamenschalen",
+    "6 Eier",
+    "60 g gemischte Kerne, Kürbiskerne und Sonnenblumenkerne",
+    "1 TL Weinsteinbackpulver, 1 Prise Natursalz"
+   ],
+   "schritte": [
+    "Backofen auf 175 Grad vorheizen, eine Kastenform mit Backpapier auslegen.",
+    "Alle trockenen Zutaten mischen.",
+    "Eier verquirlen und unterrühren, den Teig zehn Minuten quellen lassen — er wird deutlich fester.",
+    "In die Form füllen, mit Kernen bestreuen und 50 bis 55 Minuten backen. Stäbchenprobe machen.",
+    "Vollständig auskühlen lassen, bevor du es anschneidest."
+   ],
+   "tipp": "Frisch aus dem Ofen angeschnitten fällt das Brot zusammen. Es braucht die Auskühlzeit, um Struktur zu bekommen."
+  },
+  {
+   "id": "40-stabilisierung-4",
+   "teil": "Ab der Stabilisierungsphase",
+   "name": "Hähnchen in Sahnesauce",
+   "farbe": "stabilisierung",
+   "portionen": 1,
+   "zeit": 25,
+   "eiweiss": 38,
+   "zutaten": [
+    "180 g Hähnchenbrust roh",
+    "100 g Champignons",
+    "50 ml Sahne",
+    "1 EL Butter aus Weidehaltung",
+    "Pfeffer, Thymian, 1 Prise Natursalz"
+   ],
+   "schritte": [
+    "Hähnchenbrust in Butter von beiden Seiten anbraten und herausnehmen.",
+    "Champignons in derselben Pfanne braten, bis die Flüssigkeit verdampft ist.",
+    "Mit Sahne ablöschen, Thymian zugeben und drei bis vier Minuten einkochen lassen.",
+    "Fleisch zurückgeben, kurz ziehen lassen, abschmecken."
+   ],
+   "tipp": null
+  },
+  {
+   "id": "40-stabilisierung-5",
+   "teil": "Ab der Stabilisierungsphase",
+   "name": "Lachs mit kleinen Kartoffeln",
+   "farbe": "stabilisierung",
+   "portionen": 1,
+   "zeit": 30,
+   "eiweiss": 42,
+   "zutaten": [
+    "260 g Lachsfilet roh",
+    "30 g festkochende Kartoffeln",
+    "100 g grüne Bohnen",
+    "2 EL Olivenöl extra vergine",
+    "Pfeffer, Dill, Zitronensaft, 1 Prise Natursalz"
+   ],
+   "schritte": [
+    "Kartoffeln in kleine Würfel schneiden und 15 Minuten garen.",
+    "Bohnen bissfest garen.",
+    "Lachs in Olivenöl von jeder Seite drei bis vier Minuten braten.",
+    "Alles zusammen anrichten, mit Dill, Zitronensaft und Pfeffer abschmecken."
+   ],
+   "tipp": "30 Gramm sind wenig, und das ist Absicht. Stärkehaltiges bleibt Beilage, nicht Grundlage der Mahlzeit."
+  },
+  {
+   "id": "40-stabilisierung-6",
+   "teil": "Ab der Stabilisierungsphase",
+   "name": "Mandelmuffins mit Erythrit",
+   "farbe": "stabilisierung",
+   "portionen": 6,
+   "zeit": 35,
+   "eiweiss": 8,
+   "zutaten": [
+    "150 g gemahlene Mandeln",
+    "3 Eier",
+    "50 g Erythrit",
+    "60 g weiche Butter aus Weidehaltung",
+    "1 TL Weinsteinbackpulver, gemahlene Vanille"
+   ],
+   "schritte": [
+    "Backofen auf 175 Grad vorheizen, Muffinform vorbereiten.",
+    "Butter mit Erythrit und Vanille schaumig rühren, Eier einzeln unterrühren.",
+    "Mandeln und Backpulver unterheben.",
+    "In die Mulden füllen und 20 bis 22 Minuten backen."
+   ],
+   "tipp": "Erythrit süßt schwächer als Zucker und hinterlässt einen leicht kühlen Eindruck auf der Zunge. Das gibt sich, wenn die Muffins abgekühlt sind."
+  },
+  {
+   "id": "40-stabilisierung-7",
+   "teil": "Ab der Stabilisierungsphase",
+   "name": "Salat mit Walnüssen und Ziegenkäse",
+   "farbe": "stabilisierung",
+   "portionen": 1,
+   "zeit": 15,
+   "eiweiss": 22,
+   "zutaten": [
+    "100 g Feldsalat",
+    "60 g Ziegenkäse",
+    "30 g Walnüsse",
+    "2 EL Walnussöl",
+    "1 TL Apfelessig",
+    "Pfeffer, 1 Prise Natursalz"
+   ],
+   "schritte": [
+    "Walnüsse in einer trockenen Pfanne kurz rösten, bis sie duften.",
+    "Walnussöl mit Apfelessig, Pfeffer und Salz verrühren.",
+    "Salat damit anmachen, Ziegenkäse zerbröckeln und mit den Nüssen darüber verteilen."
+   ],
+   "tipp": null
+  },
+  {
+   "id": "40-stabilisierung-8",
+   "teil": "Ab der Stabilisierungsphase",
+   "name": "Rindergeschnetzeltes mit Reisbeilage",
+   "farbe": "stabilisierung",
+   "portionen": 1,
+   "zeit": 25,
+   "eiweiss": 38,
+   "zutaten": [
+    "180 g Rindfleisch roh, in Streifen",
+    "30 g Naturreis, roh gewogen",
+    "100 g Paprika",
+    "1 EL Kokosöl",
+    "Pfeffer, Paprikapulver, 1 Prise Natursalz"
+   ],
+   "schritte": [
+    "Reis nach Packungsangabe garen.",
+    "Fleischstreifen portionsweise in Kokosöl scharf anbraten und herausnehmen.",
+    "Paprikastreifen in derselben Pfanne drei Minuten braten.",
+    "Fleisch zurückgeben, würzen und mit dem Reis anrichten."
+   ],
+   "tipp": "Wenn du in dieser Phase weiter abnehmen möchtest, lass die Beilage weg und leg sie auf einen roten Tag."
+  },
+  {
+   "id": "40-stabilisierung-9",
+   "teil": "Ab der Stabilisierungsphase",
+   "name": "Kokospudding mit Chiasamen",
+   "farbe": "stabilisierung",
+   "portionen": 2,
+   "zeit": 10,
+   "eiweiss": 7,
+   "zutaten": [
+    "300 ml Kokosmilch ohne Zusätze",
+    "40 g Chiasamen",
+    "1 TL Erythrit, gemahlene Vanille",
+    "100 g Beeren zum Anrichten"
+   ],
+   "schritte": [
+    "Kokosmilch mit Erythrit und Vanille verrühren.",
+    "Chiasamen einrühren und fünf Minuten stehen lassen, dann noch einmal kräftig durchrühren — sonst verklumpen sie.",
+    "Mindestens vier Stunden, besser über Nacht, im Kühlschrank quellen lassen.",
+    "Mit Beeren anrichten."
+   ],
+   "tipp": "Das zweite Durchrühren nach fünf Minuten ist der ganze Trick. Ohne das entstehen Klumpen, die sich nicht mehr auflösen."
+  },
+  {
+   "id": "40-stabilisierung-10",
+   "teil": "Ab der Stabilisierungsphase",
+   "name": "Griechischer Salat",
+   "farbe": "stabilisierung",
+   "portionen": 1,
+   "zeit": 15,
+   "eiweiss": 18,
+   "zutaten": [
+    "100 g Tomaten und Gurke gemischt",
+    "80 g Schafskäse",
+    "6 schwarze Oliven",
+    "2 EL Olivenöl extra vergine",
+    "1 TL Rotweinessig",
+    "Pfeffer, Oregano, 1 Prise Natursalz"
+   ],
+   "schritte": [
+    "Tomaten und Gurke in grobe Stücke schneiden.",
+    "Olivenöl mit Essig, Oregano, Pfeffer und Salz verrühren.",
+    "Gemüse damit anmachen, Schafskäse und Oliven daraufgeben.",
+    "Zehn Minuten durchziehen lassen."
+   ],
+   "tipp": "Schafskäse bringt bereits Salz mit. Die Prise im Dressing reicht deshalb völlig."
+  },
+  {
+   "id": "40-stabilisierung-11",
+   "teil": "Ab der Stabilisierungsphase",
+   "name": "Butterfisch mit Ghee und Kräutern",
+   "farbe": "stabilisierung",
+   "portionen": 1,
+   "zeit": 20,
+   "eiweiss": 38,
+   "zutaten": [
+    "260 g Fischfilet roh (Heilbutt, Zander oder Seelachs)",
+    "1 EL Ghee",
+    "100 g Zucchini",
+    "Pfeffer, Petersilie, Zitronensaft, 1 Prise Natursalz"
+   ],
+   "schritte": [
+    "Zucchini in Scheiben schneiden und in Ghee anbraten, herausnehmen.",
+    "Fisch im selben Fett von jeder Seite drei bis vier Minuten braten.",
+    "Mit Pfeffer und einer Prise Salz würzen, Zitronensaft darüber.",
+    "Mit den Zucchini anrichten, Petersilie darüber."
+   ],
+   "tipp": "Ghee verträgt höhere Temperaturen als Butter, weil das Eiweiß entfernt ist. Zum Braten deshalb die bessere Wahl."
+  },
+  {
+   "id": "50-grundrezepte-0",
+   "teil": "Grundrezepte",
+   "name": "Salzfreie Gewürzmischung mediterran",
+   "farbe": "grundrezept",
+   "portionen": 20,
+   "zeit": 5,
+   "eiweiss": null,
+   "zutaten": [
+    "2 EL getrockneter Oregano",
+    "2 EL getrockneter Basilikum",
+    "1 EL getrockneter Thymian",
+    "1 EL getrockneter Rosmarin, fein zerrieben",
+    "1 TL Knoblauchgranulat ohne Zusätze",
+    "1 TL schwarzer Pfeffer, gemahlen"
+   ],
+   "schritte": [
+    "Alle Zutaten in einer Schüssel mischen.",
+    "Rosmarin vorher zwischen den Fingern zerreiben — ganze Nadeln stechen im Essen.",
+    "In ein sauberes, trockenes Schraubglas füllen, dunkel und trocken lagern."
+   ],
+   "tipp": "Hält sich rund sechs Monate. Prüfe beim Knoblauchgranulat die Zutatenliste: Viele Produkte enthalten Salz oder Rieselhilfen."
+  },
+  {
+   "id": "50-grundrezepte-1",
+   "teil": "Grundrezepte",
+   "name": "Salzfreie Gewürzmischung scharf",
+   "farbe": "grundrezept",
+   "portionen": 20,
+   "zeit": 5,
+   "eiweiss": null,
+   "zutaten": [
+    "2 EL Paprikapulver edelsüß",
+    "1 EL Paprikapulver scharf",
+    "1 EL Kreuzkümmel, gemahlen",
+    "1 TL Chiliflocken",
+    "1 TL Koriander, gemahlen",
+    "1 TL schwarzer Pfeffer"
+   ],
+   "schritte": [
+    "Alle Gewürze gründlich vermischen.",
+    "Wer es intensiver mag, röstet Kreuzkümmel und Koriander vorher kurz in einer trockenen Pfanne und mahlt sie dann.",
+    "In ein Schraubglas füllen."
+   ],
+   "tipp": "Diese Mischung trägt Geflügel, Hackfleisch und Tofu gleichermaßen. Sie ersetzt in den ersten Wochen das, was sonst das Salz getan hätte."
+  },
+  {
+   "id": "50-grundrezepte-2",
+   "teil": "Grundrezepte",
+   "name": "Basis-Dressing",
+   "farbe": "grundrezept",
+   "portionen": 4,
+   "zeit": 5,
+   "eiweiss": null,
+   "zutaten": [
+    "6 EL Leinöl oder Olivenöl extra vergine",
+    "2 EL Apfelessig",
+    "1 TL selbst gemachter Senf",
+    "1 Knoblauchzehe, gepresst",
+    "Pfeffer, frische Kräuter nach Geschmack"
+   ],
+   "schritte": [
+    "Essig, Senf, Knoblauch und Pfeffer verrühren.",
+    "Das Öl langsam und unter ständigem Rühren einlaufen lassen — so verbindet es sich, statt sich abzusetzen.",
+    "Kräuter unterrühren.",
+    "Im Glas im Kühlschrank drei bis vier Tage haltbar."
+   ],
+   "tipp": "Leinöl niemals erhitzen und immer im Kühlschrank aufbewahren. Es wird schnell ranzig und schmeckt dann bitter."
+  },
+  {
+   "id": "50-grundrezepte-3",
+   "teil": "Grundrezepte",
+   "name": "Kräuter-Zitronen-Dressing",
+   "farbe": "grundrezept",
+   "portionen": 4,
+   "zeit": 5,
+   "eiweiss": null,
+   "zutaten": [
+    "6 EL Olivenöl extra vergine",
+    "Saft von 1 Zitrone",
+    "2 EL frische gemischte Kräuter, fein gehackt",
+    "Pfeffer, 1 Prise gemahlener Koriander"
+   ],
+   "schritte": [
+    "Zitronensaft mit Pfeffer und Koriander verrühren.",
+    "Olivenöl langsam einrühren.",
+    "Kräuter unterheben und zehn Minuten ziehen lassen."
+   ],
+   "tipp": "Ohne Salz braucht ein Dressing mehr Säure und deutlich mehr Kräuter, als man gewohnt ist. Ruhig doppelt so viel nehmen wie sonst."
+  },
+  {
+   "id": "50-grundrezepte-4",
+   "teil": "Grundrezepte",
+   "name": "Selbst gemachter Senf",
+   "farbe": "grundrezept",
+   "portionen": 10,
+   "zeit": 15,
+   "eiweiss": null,
+   "zutaten": [
+    "50 g gelbe Senfkörner",
+    "100 ml Apfelessig",
+    "100 ml Wasser",
+    "1 TL Kurkuma",
+    "Pfeffer"
+   ],
+   "schritte": [
+    "Senfkörner mit Essig und Wasser in ein Glas geben und 24 Stunden quellen lassen.",
+    "Alles mit Kurkuma und Pfeffer im Mixer fein pürieren — je länger, desto glatter.",
+    "In ein sauberes Glas füllen und im Kühlschrank drei Tage durchziehen lassen."
+   ],
+   "tipp": "Direkt nach dem Mixen schmeckt der Senf sehr scharf und bitter. Nach ein paar Tagen im Kühlschrank rundet er sich ab."
+  },
+  {
+   "id": "50-grundrezepte-5",
+   "teil": "Grundrezepte",
+   "name": "Seitan selbst herstellen",
+   "farbe": "grundrezept",
+   "portionen": 4,
+   "zeit": 60,
+   "eiweiss": null,
+   "zutaten": [
+    "200 g Dinkelkleber",
+    "200 ml Wasser",
+    "2 TL Paprikapulver",
+    "1 TL Knoblauchgranulat ohne Zusätze",
+    "1 TL getrockneter Oregano, Pfeffer"
+   ],
+   "schritte": [
+    "Dinkelkleber mit den trockenen Gewürzen mischen.",
+    "Wasser zugeben und rasch zu einem festen Teig verkneten — nicht zu lange, sonst wird er zäh.",
+    "Den Teig zu einer Rolle formen, in Backpapier und dann in Alufolie wickeln.",
+    "In siedendem, ungesalzenem Wasser 45 Minuten leicht köcheln lassen.",
+    "Vollständig auskühlen lassen, dann in Scheiben oder Streifen schneiden."
+   ],
+   "tipp": "Dinkelkleber statt Weizenkleber verwenden. Portionsweise eingefroren hält sich Seitan mehrere Monate — einmal machen, wochenlang davon haben."
+  },
+  {
+   "id": "50-grundrezepte-6",
+   "teil": "Grundrezepte",
+   "name": "Probiotischen Joghurt ansetzen",
+   "farbe": "grundrezept",
+   "portionen": 4,
+   "zeit": 15,
+   "eiweiss": null,
+   "zutaten": [
+    "1 l H-Milch, bio oder aus Weidehaltung, Vollfett",
+    "Joghurtkulturen nach Packungsangabe"
+   ],
+   "schritte": [
+    "Milch auf die vom Hersteller angegebene Temperatur bringen, meist rund 40 Grad.",
+    "Kulturen einrühren, bis sie vollständig gelöst sind.",
+    "In saubere Gläser füllen und mindestens acht Stunden bei gleichbleibender Temperatur reifen lassen.",
+    "Anschließend kühl stellen. Hält sich rund eine Woche."
+   ],
+   "tipp": "Bei Laktoseunverträglichkeit funktioniert der Ansatz auch mit laktosefreier H-Milch, Ziegenmilch oder ungesüßter Sojamilch. Am Abend ansetzen, am Morgen essen."
+  },
+  {
+   "id": "50-grundrezepte-7",
+   "teil": "Grundrezepte",
+   "name": "Basischer Kräutertee für den Morgen",
+   "farbe": "grundrezept",
+   "portionen": 4,
+   "zeit": 15,
+   "eiweiss": null,
+   "zutaten": [
+    "3–4 TL basische Kräuterteemischung",
+    "1 l kochendes Wasser"
+   ],
+   "schritte": [
+    "Kräuter mit kochendem Wasser übergießen.",
+    "Sieben bis zehn Minuten ziehen lassen.",
+    "Abseihen und vollständig abkühlen lassen, dann in den Kühlschrank.",
+    "Am Morgen kalt trinken, 300 bis 500 ml."
+   ],
+   "tipp": "Der Tee wird bewusst kalt getrunken: Der Körper muss ihn auf Körpertemperatur bringen und wird dadurch gleich zu Beginn des Tages aktiv. Am Vorabend kochen ist deshalb Pflicht, nicht Bequemlichkeit."
+  }
+ ]
+}
