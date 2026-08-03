@@ -7,6 +7,10 @@ sprache: de
 version: "1.0"
 jahr: 2026
 
+# Cover-Farbwelt: "hell" (Papierweiß) oder "schiefer" (dunkler Grund)
+cover_stil: schiefer
+cover_akzent: zitrone   # blatt | zitrone | beere
+
 slug: workbook
 
 # A4-nah. Mehr Schreibfläche als beim Buch, liegt flach auf dem Tisch.

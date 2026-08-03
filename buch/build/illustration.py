@@ -35,6 +35,48 @@ PALETTE = {
     "schatten": HexColor("#B9BCAF"),
 }
 
+# Zweite Farbwelt: Lebensmittel auf dunklem Schiefer. Dieselben Motive, nur
+# Grund, Schrift und Schlagschatten wechseln.
+SCHIEFER = {
+    "grund": HexColor("#2C3037"),
+    "grund_tief": HexColor("#1E2126"),
+    "text": HexColor("#F5F7F2"),
+    "text_leise": HexColor("#A7B0A5"),
+    "akzent": HexColor("#93CE72"),   # helles Blattgrün, auf Dunkel lesbar
+    "schatten": HexColor("#05070A"),
+}
+
+# Je Band eine eigene Akzentfarbe, damit sich die drei Umschläge im Regal und
+# im Amazon-Vorschaubild unterscheiden — dort ist der Titel bei allen dreien
+# derselbe. Alle drei stammen aus der Lebensmittelpalette und halten Abstand
+# zum FitLine-Crimson #C8102E.
+AKZENTE = {
+    "blatt": HexColor("#93CE72"),    # Band 1 — Blattgrün
+    "zitrone": HexColor("#E9BE45"),  # Band 2 — Zitronengelb
+    "beere": HexColor("#A98FD8"),    # Band 3 — Heidelbeere, aufgehellt
+}
+
+# Steuert nur die Schlagschatten. Auf hellem Grund sind sie hellgrau, auf
+# dunklem fast schwarz — ein heller Schatten auf Schiefer sähe aus wie ein
+# Lichtkranz um jedes Motiv.
+_GRUND = "hell"
+
+
+def grund_setzen(art):
+    """'hell' oder 'dunkel' — bestimmt die Schattenfarbe der Motive."""
+    global _GRUND
+    if art not in ("hell", "dunkel"):
+        raise ValueError(f"Unbekannter Grund: {art}")
+    _GRUND = art
+
+
+def akzent_setzen(name):
+    """Wählt die Akzentfarbe des Bandes aus AKZENTE."""
+    if name not in AKZENTE:
+        raise SystemExit(
+            f"Unbekannter cover_akzent: {name} ({' | '.join(AKZENTE)})")
+    SCHIEFER["akzent"] = AKZENTE[name]
+
 # Verlaufstripel je Motiv: (Glanz, Mitte, Tiefe)
 TOENE = {
     "tomate": ("#F07A62", "#D6412C", "#8E2318"),
@@ -63,10 +105,16 @@ def _farben(schluessel):
 
 def _schatten(c, x, y, rx, ry):
     """Weicher Schlagschatten aus mehreren transparenten Ellipsen."""
+    dunkel = _GRUND == "dunkel"
+    farbe = SCHIEFER["schatten"] if dunkel else PALETTE["schatten"]
+    # Auf Schiefer darf der Schatten kräftiger sein, sonst schweben die
+    # Motive über dem Grund, statt auf ihm zu liegen.
+    stufen = (((1.06, 0.20), (0.88, 0.22), (0.70, 0.24), (0.52, 0.26))
+              if dunkel else
+              ((1.00, 0.05), (0.86, 0.06), (0.70, 0.07), (0.54, 0.08)))
     c.saveState()
-    for i, (faktor, alpha) in enumerate(
-            ((1.00, 0.05), (0.86, 0.06), (0.70, 0.07), (0.54, 0.08))):
-        c.setFillColor(PALETTE["schatten"], alpha=alpha)
+    for faktor, alpha in stufen:
+        c.setFillColor(farbe, alpha=alpha)
         c.ellipse(x - rx * faktor, y - ry * faktor,
                   x + rx * faktor, y + ry * faktor, stroke=0, fill=1)
     c.restoreState()
@@ -568,13 +616,103 @@ BAND_UNTEN = [
 ]
 
 
-def komposition_zeichnen(c, motive, x, y, breite, hoehe):
-    """Zeichnet eine Motivliste in den Rahmen (x, y, breite, hoehe)."""
+# Dichte Anordnung für den Schieferstil: zwei versetzte Reihen, die sich
+# überlappen und an beiden Seiten über den Rand hinauslaufen. Das ergibt das
+# Bild einer ausgebreiteten Auslage statt einer Reihe einzelner Symbole.
+# Reihenfolge = Zeichenreihenfolge: hinten liegende Motive zuerst.
+BAND_DICHT = [
+    # hintere Reihe
+    (brokkoli,      -0.02, 0.74, 0.26, -4),
+    (paprika,        0.15, 0.80, 0.23, 6),
+    (avocado,        0.33, 0.76, 0.24, -8),
+    (zitrone,        0.50, 0.82, 0.20, 0),
+    (brokkoli,       0.66, 0.75, 0.24, 5),
+    (paprika,        0.84, 0.81, 0.22, -7),
+    (avocado,        1.01, 0.74, 0.23, 10),
+    # vordere Reihe, tiefer und etwas kleiner
+    (kraeuterzweig,  0.04, 0.44, 0.19, -16),
+    (tomate,         0.21, 0.38, 0.19, 0),
+    (gurkenscheibe,  0.36, 0.42, 0.17, 0),
+    (erdbeere,       0.48, 0.34, 0.16, -9),
+    (spargel,        0.60, 0.46, 0.19, 8),
+    (tomate,         0.74, 0.36, 0.18, 0),
+    (heidelbeeren,   0.87, 0.40, 0.16, 0),
+    (pilz,           0.97, 0.35, 0.16, 0),
+]
+
+# Schmalere Fassung für den Fuß der Rückseite.
+BAND_DICHT_SCHMAL = [
+    (paprika,        0.06, 0.66, 0.20, 6),
+    (zitrone,        0.24, 0.70, 0.17, 0),
+    (brokkoli,       0.42, 0.64, 0.21, -5),
+    (avocado,        0.62, 0.68, 0.20, 8),
+    (gurkenscheibe,  0.80, 0.66, 0.16, 0),
+    (kraeuterzweig,  0.94, 0.60, 0.17, 12),
+    (tomate,         0.14, 0.30, 0.16, 0),
+    (erdbeere,       0.34, 0.28, 0.14, -8),
+    (heidelbeeren,   0.53, 0.30, 0.14, 0),
+    (spargel,        0.72, 0.32, 0.16, 6),
+]
+
+
+def schiefergrund(c, x, y, breite, hoehe):
+    """Dunkler Grund mit leichter Abdunklung nach unten.
+
+    Bewusst als Vektorverlauf und nicht als Bild: Ein Rasterhintergrund über
+    einen ganzen Umschlag bräuchte für 300 dpi rund 10 Megapixel — sieben
+    Megabyte je Umschlag, und darunter meldet KDP beim Hochladen eine zu
+    niedrige Auflösung. Der Verlauf bleibt in jeder Größe scharf.
+    """
+    c.saveState()
+    # Ohne gesetzten Beschneidungspfad füllt der Verlauf die ganze Seite.
+    p = c.beginPath()
+    p.rect(x, y, breite, hoehe)
+    c.clipPath(p, stroke=0, fill=0)
+    c.linearGradient(x, y + hoehe, x, y,
+                     [SCHIEFER["grund"], SCHIEFER["grund_tief"]],
+                     [0.0, 1.0], extend=True)
+    c.restoreState()
+
+
+def komposition_zeichnen(c, motive, x, y, breite, hoehe, *, bezug=None):
+    """Zeichnet eine Motivliste in den Rahmen (x, y, breite, hoehe).
+
+    `bezug` ist die Breite, auf die sich die Größenangaben beziehen. Ohne
+    Angabe ist das die Rahmenbreite. Läuft ein Band über den ganzen Umschlag,
+    muss der Bezug eine einzelne Buchseite bleiben — sonst wächst jede Tomate
+    mit der Rahmenbreite mit und wird doppelt so groß wie gedacht.
+    """
+    bezugsbreite = breite if bezug is None else bezug
     for zeichnen, ax, ay, agroesse, drehung in motive:
         c.saveState()
         c.translate(x + ax * breite, y + ay * hoehe)
         c.rotate(drehung)
-        zeichnen(c, 0, 0, agroesse * breite)
+        zeichnen(c, 0, 0, agroesse * bezugsbreite)
         c.restoreState()
+
+
+def band_ueber_breite(motive, wiederholungen):
+    """Reiht eine Komposition mehrfach nebeneinander.
+
+    Für den durchlaufenden Streifen über Rückseite, Rücken und Vorderseite.
+    Jede Wiederholung wird leicht versetzt und gespiegelt angeordnet, damit
+    kein sichtbares Muster entsteht.
+    """
+    lang = []
+    for i in range(wiederholungen):
+        # Jede Wiederholung startet an einer anderen Stelle der Liste, läuft
+        # abwechselnd rückwärts und kippt die Drehungen. Ohne das sieht man
+        # dieselbe Kette mehrfach hintereinander — bei vier Durchgängen über
+        # ein A4-Format fällt das sofort auf.
+        gedreht = motive[i * 3 % len(motive):] + motive[:i * 3 % len(motive)]
+        for k, (zeichnen, ax, ay, agroesse, drehung) in enumerate(gedreht):
+            anteil = (1.0 - ax) if i % 2 else ax
+            versatz = (0.04, -0.03, 0.015, -0.045)[i % 4]
+            skala = (1.0, 0.93, 1.06, 0.97)[(i + k) % 4]
+            lang.append((zeichnen, (i + anteil) / wiederholungen,
+                         min(0.95, max(0.05, ay + versatz)),
+                         agroesse * skala,
+                         -drehung if i % 2 else drehung))
+    return lang
 
 

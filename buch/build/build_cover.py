@@ -200,6 +200,205 @@ def vorderseite(c, x, y, breite, hoehe, cfg, titelbild=None):
                                  x, y + hoehe * 0.075, breite, hoehe * 0.18)
 
 
+#: Anteil der Umschlaghöhe, den die Auslage am oberen Rand einnimmt.
+AUSLAGE_HOEHE = 0.30
+
+
+def kennungsbalken(c, text, mitte_x, y, schrift, groesse, sperrung):
+    """Bandkennung als gefüllter Balken in der Akzentfarbe."""
+    breite = c.stringWidth(text, schrift, groesse) + sperrung * (len(text) - 1)
+    polster_x, polster_y = groesse * 1.4, groesse * 0.62
+    c.setFillColor(ill.SCHIEFER["akzent"])
+    c.roundRect(mitte_x - breite / 2 - polster_x, y - polster_y,
+                breite + 2 * polster_x, groesse + 2 * polster_y,
+                (groesse + 2 * polster_y) / 2, stroke=0, fill=1)
+    gesperrt_zentriert(c, text, mitte_x, y + groesse * 0.12,
+                       schrift, groesse, sperrung, ill.SCHIEFER["grund_tief"])
+
+
+def gesperrt_zentriert(c, text, mitte_x, y, schrift, groesse, sperrung, farbe):
+    """Zentrierter Text mit erweiterter Laufweite.
+
+    Die Sperrung sitzt im Textobjekt, nicht in eingefügten Leerzeichen — die
+    würden aus dem Wortabstand eine Lücke von drei Zeichen machen. Die
+    Gesamtbreite wächst um die Sperrung und muss beim Zentrieren mitzählen.
+    """
+    breite = c.stringWidth(text, schrift, groesse) + sperrung * (len(text) - 1)
+    t = c.beginText(mitte_x - breite / 2, y)
+    t.setFont(schrift, groesse)
+    t.setCharSpace(sperrung)
+    t.setFillColor(farbe)
+    t.textOut(text)
+    # Zurücksetzen, solange das Textobjekt noch offen ist: Die Laufweite ist
+    # Teil des PDF-Textzustands und gälte sonst für jeden weiteren Text auf
+    # der Seite — Untertitel und Autorenzeile kamen gesperrt heraus.
+    t.setCharSpace(0)
+    c.drawText(t)
+
+
+def auslage_oben(c, x, y, breite, hoehe, *, bezug, wiederholungen):
+    """Durchlaufender Streifen mit Lebensmitteln am oberen Rand.
+
+    Läuft über Rückseite, Rücken und Vorderseite in einem Zug — wie eine
+    ausgebreitete Auslage, die am Bildrand einfach weitergeht.
+    """
+    motive = ill.band_ueber_breite(ill.BAND_DICHT, wiederholungen)
+    ill.komposition_zeichnen(c, motive, x, y, breite, hoehe, bezug=bezug)
+
+
+def vorderseite_schiefer(c, x, y, breite, hoehe, cfg, titelbild=None,
+                         *, kennung=None, titel_maximal=46):
+    """Titelseite im Schieferstil: Titel im freien Grund unter der Auslage.
+
+    Die Auslage selbst zeichnet cover_bauen über den ganzen Umschlag.
+    `kennung` ist die Bandkennzeichnung über dem Titel („REZEPTBUCH · …"),
+    die Band 2 und 3 voneinander und von Band 1 unterscheidbar macht.
+    """
+    rand = breite * 0.09
+
+    if titelbild:
+        titelbild_zeichnen(c, titelbild, x, y + hoehe * 0.60,
+                           breite, hoehe * 0.40)
+
+    if kennung:
+        # Als gefüllter Balken, nicht als feine Schrift auf dem Grund: Im
+        # Amazon-Vorschaubild ist der Umschlag rund 100 px breit, und alle
+        # drei Bände tragen denselben Titel. Die Bandkennung ist dort das
+        # Einzige, was sie unterscheidet — sie muss bei dieser Größe stehen.
+        kennungsbalken(c, kennung, x + breite / 2, y + hoehe * 0.545,
+                       "Sans-Bold", 10.5, 2.4)
+
+    titel_groesse, titel_zeilen = groesse_einpassen(
+        c, cfg["titel"], "Sans-Bold", breite - 2 * rand,
+        maximal=titel_maximal, minimal=20)
+    zeilenhoehe = titel_groesse * 1.13
+
+    mitte_y = y + hoehe * 0.455
+    c.setFillColor(ill.SCHIEFER["text"])
+    for i, zeile in enumerate(titel_zeilen):
+        c.setFont("Sans-Bold", titel_groesse)
+        c.drawCentredString(x + breite / 2, mitte_y - i * zeilenhoehe, zeile)
+
+    unten = mitte_y - len(titel_zeilen) * zeilenhoehe
+
+    # Feiner Strich in Blattgrün als Trenner statt eines Farbbalkens — auf
+    # dunklem Grund reicht das, ein Balken würde das Bild zerschneiden.
+    c.setStrokeColor(ill.SCHIEFER["akzent"])
+    c.setLineWidth(1.6)
+    c.line(x + breite * 0.36, unten - 12, x + breite * 0.64, unten - 12)
+
+    block_schreiben(c, cfg["untertitel"], x + rand, unten - 36,
+                    breite - 2 * rand, "Sans", 15.5, 20.5,
+                    ill.SCHIEFER["text_leise"], zentriert=True)
+
+    c.setFillColor(ill.SCHIEFER["akzent"])
+    c.setFont("Sans-Bold", 18)
+    c.drawCentredString(x + breite / 2, y + hoehe * 0.135, cfg["autor"])
+
+
+#: Grundgrößen des Rückseitentexts: (Schlagzeile, Fließtext, Stichpunkt,
+#: Autorenzeile). Werden gemeinsam verkleinert, wenn der Platz nicht reicht.
+RUECKEN_GROESSEN = (17.0, 10.5, 10.0, 9.5)
+
+
+def _rueckseite_hoehe(c, kopf, absaetze, punkte, textbreite, faktor):
+    """Höhe, die der Rückseitentext bei diesem Verkleinerungsfaktor braucht.
+
+    Wird vor dem Zeichnen ausgerechnet: Der Text muss über dem Markenhinweis
+    enden, und ein Umschlag, bei dem beides übereinanderliegt, fällt in der
+    PDF-Vorschau leicht durch, im Druck aber teuer auf.
+    """
+    g_kopf, g_text, g_punkt, g_autor = (g * faktor for g in RUECKEN_GROESSEN)
+    hoehe = 0.0
+    if kopf.get("schlagzeile"):
+        hoehe += len(umbrechen(c, kopf["schlagzeile"], "Sans-Bold", g_kopf,
+                               textbreite)) * g_kopf * 1.3 + 14
+    for absatz in absaetze:
+        hoehe += len(umbrechen(c, absatz, "Serif", g_text,
+                               textbreite)) * g_text * 1.38 + 8
+    hoehe += 4
+    for punkt in punkte:
+        hoehe += len(umbrechen(c, punkt, "Serif", g_punkt,
+                               textbreite - 14)) * g_punkt * 1.35 + 3
+    hoehe += 10 + g_autor * 2.3
+    return hoehe
+
+
+def rueckseite_schiefer(c, x, y, breite, hoehe, cfg, kopf, absaetze, punkte):
+    rand = breite * 0.11
+    textbreite = breite - 2 * rand
+    # Text beginnt unter der Auslage, nicht am Seitenkopf.
+    oben = y + hoehe * (1 - AUSLAGE_HOEHE) - rand * 0.6
+    hinweis_y = y + BARCODE_H_MM * mm + rand * 0.5
+    platz = oben - (hinweis_y + 16)
+
+    faktor = 1.0
+    while faktor > 0.72 and _rueckseite_hoehe(
+            c, kopf, absaetze, punkte, textbreite, faktor) > platz:
+        faktor -= 0.02
+    g_kopf, g_text, g_punkt, g_autor = (g * faktor for g in RUECKEN_GROESSEN)
+
+    cursor = oben
+    if kopf.get("schlagzeile"):
+        cursor = block_schreiben(c, kopf["schlagzeile"], x + rand, cursor,
+                                 textbreite, "Sans-Bold", g_kopf,
+                                 g_kopf * 1.3, ill.SCHIEFER["akzent"])
+        cursor -= 14
+
+    for absatz in absaetze:
+        cursor = block_schreiben(c, absatz, x + rand, cursor, textbreite,
+                                 "Serif", g_text, g_text * 1.38,
+                                 ill.SCHIEFER["text"])
+        cursor -= 8
+
+    cursor -= 4
+    for punkt in punkte:
+        c.setFillColor(ill.SCHIEFER["akzent"])
+        c.setFont("Sans-Bold", g_punkt)
+        c.drawString(x + rand, cursor, "•")
+        zeilen = umbrechen(c, punkt, "Serif", g_punkt, textbreite - 14)
+        c.setFillColor(ill.SCHIEFER["text"])
+        for zeile in zeilen:
+            c.setFont("Serif", g_punkt)
+            c.drawString(x + rand + 14, cursor, zeile)
+            cursor -= g_punkt * 1.35
+        cursor -= 3
+
+    cursor -= 10
+    c.setFillColor(ill.SCHIEFER["text_leise"])
+    c.setFont("Serif-Italic", g_autor)
+    c.drawString(x + rand, cursor, f"{cfg['autor']} begleitet Menschen bei der")
+    c.drawString(x + rand, cursor - g_autor * 1.3, "Umstellung ihrer Ernährung.")
+
+    if cursor - g_autor * 1.3 < hinweis_y + 12:
+        print("  ACHTUNG: Rückseitentext reicht bis an den Markenhinweis — "
+              "Klappentext kürzen.")
+
+    block_schreiben(
+        c,
+        "„cellRESET“ und „FitLine“ sind Marken der PM-International AG. "
+        "Dieses Buch wird von diesem Unternehmen weder herausgegeben noch "
+        "autorisiert. Kein medizinischer Ratgeber — bitte die Hinweise im "
+        "Buch beachten.",
+        x + rand, hinweis_y, textbreite, "Serif", 7, 9,
+        ill.SCHIEFER["text_leise"])
+
+
+def ruecken_schiefer(c, x, y, breite, hoehe, cfg, mit_text, text=None):
+    """Der Rücken bleibt im Schiefergrund, der schon flächig liegt."""
+    if not mit_text:
+        return
+    groesse = min(11, breite * 0.55)
+    c.saveState()
+    c.translate(x + breite / 2, y + hoehe / 2)
+    c.rotate(-90)
+    c.setFillColor(ill.SCHIEFER["text"])
+    c.setFont("Sans-Bold", groesse)
+    c.drawCentredString(0, -groesse * 0.35,
+                        text or f"{cfg['titel']}   ·   {cfg['autor']}")
+    c.restoreState()
+
+
 def ruecken(c, x, y, breite, hoehe, cfg, mit_text):
     c.saveState()
     c.setFillColor(ill.PALETTE["blatt"])
@@ -280,30 +479,60 @@ def cover_bauen(cfg, seiten, klappentext_pfad, ziel):
     gesamt_b = 2 * trim_b + ruecken_b + 2 * anschnitt
     gesamt_h = trim_h + 2 * anschnitt
 
-    c = canvas.Canvas(str(ziel), pagesize=(gesamt_b, gesamt_h))
+    # initialFontName: reportlab schreibt sonst einen Seitenvorspann mit
+    # Helvetica in die Ressourcen — eine Schrift ohne Einbettung, die
+    # kein Zeichen setzt, aber bei der KDP-Prüfung auffallen kann.
+    c = canvas.Canvas(str(ziel), pagesize=(gesamt_b, gesamt_h),
+                      initialFontName="Serif")
     c.setTitle(f"{cfg['titel']} — Umschlag")
 
+    stil = cfg.get("cover_stil", "hell")
+    if stil not in ("hell", "schiefer"):
+        raise SystemExit(f"Unbekannter cover_stil: {stil} (hell | schiefer)")
+    ill.grund_setzen("dunkel" if stil == "schiefer" else "hell")
+    ill.akzent_setzen(cfg.get("cover_akzent", "blatt"))
+
     # Grundfläche inklusive Anschnitt
-    c.setFillColor(ill.PALETTE["papier"])
-    c.rect(0, 0, gesamt_b, gesamt_h, stroke=0, fill=1)
+    if stil == "schiefer":
+        ill.schiefergrund(c, 0, 0, gesamt_b, gesamt_h)
+    else:
+        c.setFillColor(ill.PALETTE["papier"])
+        c.rect(0, 0, gesamt_b, gesamt_h, stroke=0, fill=1)
 
     kopf, absaetze, punkte = klappentext_laden(klappentext_pfad)
     titelbild = titelbild_suchen(Path(klappentext_pfad).parent)
+    mit_ruecken_text = seiten >= RUECKENTEXT_AB_SEITEN
 
-    rueckseite(c, anschnitt, anschnitt, trim_b, trim_h, cfg,
-               kopf, absaetze, punkte)
-    ruecken(c, anschnitt + trim_b, anschnitt, ruecken_b, trim_h, cfg,
-            mit_text=seiten >= RUECKENTEXT_AB_SEITEN)
-    vorderseite(c, anschnitt + trim_b + ruecken_b, anschnitt,
-                trim_b, trim_h, cfg, titelbild)
+    if stil == "schiefer":
+        # Die Auslage zuerst und über den ganzen Umschlag — Rückseite, Rücken
+        # und Vorderseite bekommen denselben durchlaufenden Streifen.
+        if not titelbild:
+            auslage_oben(c, 0, gesamt_h * (1 - AUSLAGE_HOEHE),
+                         gesamt_b, gesamt_h * AUSLAGE_HOEHE,
+                         bezug=trim_b, wiederholungen=2)
+        rueckseite_schiefer(c, anschnitt, anschnitt, trim_b, trim_h, cfg,
+                            kopf, absaetze, punkte)
+        ruecken_schiefer(c, anschnitt + trim_b, anschnitt, ruecken_b, trim_h,
+                         cfg, mit_ruecken_text)
+        vorderseite_schiefer(c, anschnitt + trim_b + ruecken_b, anschnitt,
+                             trim_b, trim_h, cfg, titelbild,
+                             kennung="DAS BUCH · 4 PHASEN")
+    else:
+        rueckseite(c, anschnitt, anschnitt, trim_b, trim_h, cfg,
+                   kopf, absaetze, punkte)
+        ruecken(c, anschnitt + trim_b, anschnitt, ruecken_b, trim_h, cfg,
+                mit_text=mit_ruecken_text)
+        vorderseite(c, anschnitt + trim_b + ruecken_b, anschnitt,
+                    trim_b, trim_h, cfg, titelbild)
 
     c.showPage()
     c.save()
     return {
         "gesamt_mm": (gesamt_b / mm, gesamt_h / mm),
         "ruecken_mm": ruecken_b / mm,
-        "ruecken_text": seiten >= RUECKENTEXT_AB_SEITEN,
+        "ruecken_text": mit_ruecken_text,
         "titelbild": titelbild,
+        "stil": stil,
     }
 
 

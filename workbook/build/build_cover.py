@@ -23,11 +23,12 @@ WURZEL = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(WURZEL / "buch" / "build"))
 
 import illustration as ill  # noqa: E402
-from build_cover import (BESCHNITT_MM, BARCODE_H_MM,  # noqa: E402
+from build_cover import (AUSLAGE_HOEHE, BESCHNITT_MM, BARCODE_H_MM,  # noqa: E402
                          RUECKEN_PRO_SEITE_MM, RUECKENTEXT_AB_SEITEN,
-                         block_schreiben, groesse_einpassen,
-                         klappentext_laden, schriften_laden, seitenzahl,
-                         umbrechen, vorschau)
+                         auslage_oben, block_schreiben, groesse_einpassen,
+                         klappentext_laden, rueckseite_schiefer,
+                         ruecken_schiefer, schriften_laden, seitenzahl,
+                         umbrechen, vorderseite_schiefer, vorschau)
 
 # Komposition für Band 2 — bewusst anders angeordnet als beim Buch.
 BAND_OBEN_WORKBOOK = [
@@ -153,18 +154,46 @@ def cover_bauen(cfg, seiten, klappentext_pfad, ziel):
     gesamt_b = 2 * trim_b + ruecken_b + 2 * anschnitt
     gesamt_h = trim_h + 2 * anschnitt
 
-    c = canvas.Canvas(str(ziel), pagesize=(gesamt_b, gesamt_h))
+    # initialFontName: reportlab schreibt sonst einen Seitenvorspann mit
+    # Helvetica in die Ressourcen — eine Schrift ohne Einbettung, die
+    # kein Zeichen setzt, aber bei der KDP-Prüfung auffallen kann.
+    c = canvas.Canvas(str(ziel), pagesize=(gesamt_b, gesamt_h),
+                      initialFontName="Serif")
     c.setTitle(f"{cfg['titel']} — {cfg['untertitel']} — Umschlag")
-    c.setFillColor(ill.PALETTE["papier"])
-    c.rect(0, 0, gesamt_b, gesamt_h, stroke=0, fill=1)
+
+    stil = cfg.get("cover_stil", "hell")
+    ill.grund_setzen("dunkel" if stil == "schiefer" else "hell")
+    ill.akzent_setzen(cfg.get("cover_akzent", "blatt"))
+    if stil == "schiefer":
+        ill.schiefergrund(c, 0, 0, gesamt_b, gesamt_h)
+    else:
+        c.setFillColor(ill.PALETTE["papier"])
+        c.rect(0, 0, gesamt_b, gesamt_h, stroke=0, fill=1)
 
     kopf, absaetze, punkte = klappentext_laden(klappentext_pfad)
-    rueckseite(c, anschnitt, anschnitt, trim_b, trim_h, cfg,
-               kopf, absaetze, punkte)
-    ruecken(c, anschnitt + trim_b, anschnitt, ruecken_b, trim_h, cfg,
-            mit_text=seiten >= RUECKENTEXT_AB_SEITEN)
-    vorderseite(c, anschnitt + trim_b + ruecken_b, anschnitt,
-                trim_b, trim_h, cfg)
+    mit_ruecken_text = seiten >= RUECKENTEXT_AB_SEITEN
+
+    if stil == "schiefer":
+        # A4 ist breiter als 6x9 — vier Durchgänge halten die Motive in
+        # derselben Größe wie bei den anderen Bänden.
+        auslage_oben(c, 0, gesamt_h * (1 - AUSLAGE_HOEHE),
+                     gesamt_b, gesamt_h * AUSLAGE_HOEHE,
+                     bezug=trim_b * 0.78, wiederholungen=4)
+        rueckseite_schiefer(c, anschnitt, anschnitt, trim_b, trim_h, cfg,
+                            kopf, absaetze, punkte)
+        ruecken_schiefer(c, anschnitt + trim_b, anschnitt, ruecken_b, trim_h,
+                         cfg, mit_ruecken_text,
+                         f"{cfg['titel']} — WORKBOOK   ·   {cfg['autor']}")
+        vorderseite_schiefer(c, anschnitt + trim_b + ruecken_b, anschnitt,
+                             trim_b, trim_h, cfg,
+                             kennung="WORKBOOK · 12 WOCHEN", titel_maximal=52)
+    else:
+        rueckseite(c, anschnitt, anschnitt, trim_b, trim_h, cfg,
+                   kopf, absaetze, punkte)
+        ruecken(c, anschnitt + trim_b, anschnitt, ruecken_b, trim_h, cfg,
+                mit_text=mit_ruecken_text)
+        vorderseite(c, anschnitt + trim_b + ruecken_b, anschnitt,
+                    trim_b, trim_h, cfg)
 
     c.showPage()
     c.save()

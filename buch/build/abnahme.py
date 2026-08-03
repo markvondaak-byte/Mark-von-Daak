@@ -201,6 +201,13 @@ def cover_pruefen(bezeichnung, pdf, cfg, seiten):
     pruefe(f"{bezeichnung}: Umschlaghöhe", abs(ist_h - soll_h) < 0.5,
            f"{ist_h:.1f} mm (Soll {soll_h:.1f})")
 
+    # Auch der Umschlag muss alle Schriften mitbringen. reportlab schreibt
+    # sonst einen Seitenvorspann mit Helvetica in die Ressourcen — er setzt
+    # kein Zeichen, steht aber als nicht eingebettete Schrift in der Datei.
+    fehlend = schriften_eingebettet(pdf)
+    pruefe(f"{bezeichnung}: Umschlagschriften eingebettet", not fehlend,
+           ", ".join(fehlend) if fehlend else "")
+
 
 def rezeptbuch_pruefen():
     print("\nBand 3 — Das Rezeptbuch")

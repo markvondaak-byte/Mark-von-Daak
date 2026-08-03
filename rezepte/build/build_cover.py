@@ -22,12 +22,13 @@ WURZEL = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(WURZEL / "buch" / "build"))
 
 import illustration as ill  # noqa: E402
-from build_cover import (BESCHNITT_MM, BARCODE_H_MM,  # noqa: E402
+from build_cover import (AUSLAGE_HOEHE, BESCHNITT_MM, BARCODE_H_MM,  # noqa: E402
                          RUECKEN_PRO_SEITE_MM, RUECKENTEXT_AB_SEITEN,
-                         block_schreiben, groesse_einpassen,
-                         klappentext_laden, schriften_laden, seitenzahl,
+                         auslage_oben, block_schreiben, groesse_einpassen,
+                         klappentext_laden, rueckseite_schiefer,
+                         ruecken_schiefer, schriften_laden, seitenzahl,
                          titelbild_suchen, titelbild_zeichnen, umbrechen,
-                         vorschau)
+                         vorderseite_schiefer, vorschau)
 
 # Dritte Komposition — Kräuter und Gewürzträger stehen im Vordergrund,
 # passend zum Thema Kochen ohne Salz.
@@ -49,6 +50,17 @@ BAND_UNTEN_REZEPTE = [
     (ill.erdbeere, 0.75, 0.30, 0.15, -6),
     (ill.kraeuterzweig, 0.90, 0.50, 0.16, 12),
 ]
+
+
+def rezeptzahl():
+    """Zählt die Rezepte in den Quelldateien.
+
+    Nicht fest eintragen: Die Zahl steht auch im Untertitel und auf dem
+    Cover, und genau da ist sie schon einmal auseinandergelaufen.
+    """
+    return sum(
+        len(yaml.safe_load(p.read_text(encoding="utf-8")).get("rezepte", []))
+        for p in sorted((WURZEL / "rezepte" / "rezepte").glob("*.yaml")))
 
 
 def vorderseite(c, x, y, breite, hoehe, cfg, titelbild=None):
@@ -159,27 +171,58 @@ def cover_bauen(cfg, seiten, klappentext_pfad, ziel):
     gesamt_b = 2 * trim_b + ruecken_b + 2 * anschnitt
     gesamt_h = trim_h + 2 * anschnitt
 
-    c = canvas.Canvas(str(ziel), pagesize=(gesamt_b, gesamt_h))
+    # initialFontName: reportlab schreibt sonst einen Seitenvorspann mit
+    # Helvetica in die Ressourcen — eine Schrift ohne Einbettung, die
+    # kein Zeichen setzt, aber bei der KDP-Prüfung auffallen kann.
+    c = canvas.Canvas(str(ziel), pagesize=(gesamt_b, gesamt_h),
+                      initialFontName="Serif")
     c.setTitle(f"{cfg['titel']} — Rezeptbuch — Umschlag")
-    c.setFillColor(ill.PALETTE["papier"])
-    c.rect(0, 0, gesamt_b, gesamt_h, stroke=0, fill=1)
+
+    stil = cfg.get("cover_stil", "hell")
+    ill.grund_setzen("dunkel" if stil == "schiefer" else "hell")
+    ill.akzent_setzen(cfg.get("cover_akzent", "blatt"))
+    if stil == "schiefer":
+        ill.schiefergrund(c, 0, 0, gesamt_b, gesamt_h)
+    else:
+        c.setFillColor(ill.PALETTE["papier"])
+        c.rect(0, 0, gesamt_b, gesamt_h, stroke=0, fill=1)
 
     kopf, absaetze, punkte = klappentext_laden(klappentext_pfad)
     titelbild = titelbild_suchen(Path(klappentext_pfad).parent)
+    mit_ruecken_text = seiten >= RUECKENTEXT_AB_SEITEN
+    anzahl = rezeptzahl()
 
-    rueckseite(c, anschnitt, anschnitt, trim_b, trim_h, cfg,
-               kopf, absaetze, punkte)
-    ruecken(c, anschnitt + trim_b, anschnitt, ruecken_b, trim_h, cfg,
-            mit_text=seiten >= RUECKENTEXT_AB_SEITEN)
-    vorderseite(c, anschnitt + trim_b + ruecken_b, anschnitt,
-                trim_b, trim_h, cfg, titelbild)
+    if stil == "schiefer":
+        if not titelbild:
+            # Andere Wiederholungszahl als Band 1: Dasselbe Bild auf drei
+            # Umschlägen wäre im Regal nicht auseinanderzuhalten.
+            auslage_oben(c, 0, gesamt_h * (1 - AUSLAGE_HOEHE),
+                         gesamt_b, gesamt_h * AUSLAGE_HOEHE,
+                         bezug=trim_b, wiederholungen=3)
+        rueckseite_schiefer(c, anschnitt, anschnitt, trim_b, trim_h, cfg,
+                            kopf, absaetze, punkte)
+        ruecken_schiefer(c, anschnitt + trim_b, anschnitt, ruecken_b, trim_h,
+                         cfg, mit_ruecken_text,
+                         f"{cfg['titel']} — REZEPTBUCH   ·   {cfg['autor']}")
+        vorderseite_schiefer(c, anschnitt + trim_b + ruecken_b, anschnitt,
+                             trim_b, trim_h, cfg, titelbild,
+                             kennung=f"REZEPTBUCH · {anzahl} GERICHTE",
+                             titel_maximal=42)
+    else:
+        rueckseite(c, anschnitt, anschnitt, trim_b, trim_h, cfg,
+                   kopf, absaetze, punkte)
+        ruecken(c, anschnitt + trim_b, anschnitt, ruecken_b, trim_h, cfg,
+                mit_text=mit_ruecken_text)
+        vorderseite(c, anschnitt + trim_b + ruecken_b, anschnitt,
+                    trim_b, trim_h, cfg, titelbild)
 
     c.showPage()
     c.save()
     return {
         "gesamt_mm": (gesamt_b / mm, gesamt_h / mm),
         "ruecken_mm": ruecken_b / mm,
-        "ruecken_text": seiten >= RUECKENTEXT_AB_SEITEN,
+        "ruecken_text": mit_ruecken_text,
+        "stil": stil,
     }
 
 

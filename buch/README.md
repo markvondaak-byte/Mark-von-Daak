@@ -38,6 +38,25 @@ Motive plastisch wirken. Der Grund für Zeichnungen statt Fotos: In der
 Bauumgebung ist kein lizenziertes Bildmaterial beschaffbar, und die Grafiken
 der Website haben nur Web-Auflösung.
 
+**Farbwelt.** Zwei Varianten, umgeschaltet über `cover_stil` in der jeweiligen
+YAML-Datei des Bandes:
+
+| Wert | Aussehen |
+|---|---|
+| `schiefer` | dunkler Grund, Lebensmittel als durchlaufender Streifen am oberen Rand, Titel im freien Grund darunter (aktuell eingestellt) |
+| `hell` | Papierweiß, Illustrationsbänder oben und unten, Titel in der Mitte |
+
+Dazu bestimmt `cover_akzent` die Akzentfarbe des Bandes — `blatt` (Band 1),
+`zitrone` (Band 2) oder `beere` (Band 3). Die drei Bände tragen denselben
+Titel; im Amazon-Vorschaubild ist der farbige Balken mit der Bandkennung das
+Einzige, was sie auf den ersten Blick unterscheidet. Alle Akzentfarben halten
+Abstand zum FitLine-Crimson `#C8102E` und erreichen auf dem dunklen Grund
+mindestens 4,5:1 Kontrast.
+
+Der Untergrund ist ein Vektorverlauf, kein Bild. Ein Rasterhintergrund über
+den ganzen Umschlag bräuchte für 300 dpi rund zehn Megapixel — und unterhalb
+davon meldet KDP beim Hochladen eine zu niedrige Auflösung.
+
 **Ein eigenes Titelfoto einsetzen:** Leg die Datei unter
 `buch/cover/titelbild.jpg` ab (auch `.png` und `.webp` werden erkannt) und bau
 den Umschlag neu. Sie ersetzt dann das obere Illustrationsband und wird mittig
