@@ -405,21 +405,33 @@ def bauen(cfg, kapitel, ziel, toc_daten=None):
 
     # Rumpf: je Kapitel ein eigener Abschnitt, damit die Kopfzeile den
     # Kapitelnamen tragen kann. Seitenzählung startet neu bei 1.
-    for nummer, kap in enumerate(rumpf):
+    #
+    # Teilüberschriften bekommen keinen eigenen Abschnitt und damit keine
+    # eigene Seite. Sie werden dem ersten Kapitel ihres Teils vorangestellt.
+    # Auf 60 Seiten Umfang kosteten sechs Trennseiten ein Zehntel des Buches,
+    # ohne eine Zeile Inhalt zu tragen; die Gliederung bleibt über die
+    # Überschrift und das Inhaltsverzeichnis erhalten.
+    offener_teil = None
+    abschnitt_nr = 0
+    for kap in rumpf:
+        if kap["meta"]["typ"] == "teil":
+            offener_teil = kap
+            continue
+
         section = stile.neuer_abschnitt(doc, sf)
-        if nummer == 0:
+        if abschnitt_nr == 0:
             stile.seitenzahlen_format(section, "decimal", neustart_bei=1)
         else:
             stile.seitenzahlen_format(section, "decimal")
-        if kap["meta"]["typ"] == "teil":
-            # Teil-Trennseiten stehen für sich: Seitenzahl ja, Kopfzeile nein.
-            stile.kopf_und_fusszeile(doc, section, links_text="", rechts_text="")
-        else:
-            stile.kopf_und_fusszeile(
-                doc, section,
-                links_text=cfg["titel"],
-                rechts_text=kap["meta"]["kopfzeile"],
-            )
+        abschnitt_nr += 1
+        stile.kopf_und_fusszeile(
+            doc, section,
+            links_text=cfg["titel"],
+            rechts_text=kap["meta"]["kopfzeile"],
+        )
+        if offener_teil is not None:
+            renderer.rendern(offener_teil["text"], _layout(offener_teil))
+            offener_teil = None
         renderer.rendern(kap["text"], _layout(kap))
 
     ziel.parent.mkdir(parents=True, exist_ok=True)
@@ -441,13 +453,29 @@ def seitenzahlen_ermitteln(pdf_pfad, kapitel):
               for s in PdfReader(str(pdf_pfad)).pages]
     rumpf = [k for k in kapitel if k["meta"]["typ"] != "titelei"]
 
+    def schluessel(text):
+        """Nur Buchstaben und Ziffern, klein geschrieben.
+
+        Der Vergleich muss über Zeilenumbrüche, Gedankenstriche und doppelte
+        Leerzeichen hinweg funktionieren: Im PDF steht die Teilüberschrift als
+        zwei getrennte Zeilen („Teil I" und der Name), in der YAML-Angabe
+        dagegen als eine Zeile mit Gedankenstrich dazwischen.
+        """
+        return "".join(z for z in text.lower() if z.isalnum())
+
     treffer, suche_ab = [], 0
+    nach_teil = False
     for kap in rumpf:
         titel = kap["meta"].get("titel") or kap["meta"]["kopfzeile"]
+        gesucht = schluessel(titel)
+        # Die ersten Zeilen einer Seite, nicht nur die allererste: Ganz oben
+        # steht die Kolumnentitelzeile. Folgt das Kapitel direkt auf eine
+        # Teilüberschrift, stehen davor zusätzlich deren zwei Zeilen und der
+        # einleitende Absatz des Teils — dann muss das Fenster größer sein.
+        fenster = 16 if nach_teil else 6
         gefunden = None
         for index in range(suche_ab, len(seiten)):
-            kopf = " ".join(seiten[index][:2]).strip()
-            if kopf.startswith(titel[:40]):
+            if gesucht in schluessel(" ".join(seiten[index][:fenster])):
                 gefunden = index
                 break
         if gefunden is None:
@@ -456,7 +484,10 @@ def seitenzahlen_ermitteln(pdf_pfad, kapitel):
             treffer.append((kap, None))
             continue
         treffer.append((kap, gefunden))
-        suche_ab = gefunden + 1
+        # Teilüberschrift und erstes Kapitel des Teils teilen sich eine Seite,
+        # deshalb hier nicht weiterspringen.
+        nach_teil = kap["meta"]["typ"] == "teil"
+        suche_ab = gefunden if nach_teil else gefunden + 1
 
     erste_rumpfseite = next((i for _, i in treffer if i is not None), 0)
     eintraege = []

@@ -82,20 +82,14 @@ Die vollständigen Listen stehen in Teil IV.
 
 ## Der grüne Tag ab der Stabilisierungsphase
 
-Ab Phase 3 darf der grüne Tag sich deinem Alltag anpassen. Möglich werden dann:
+Ab Phase 3 darf der grüne Tag sich deinem Alltag anpassen. Möglich werden dann
+Salz in Maßen (2 bis 5 Gramm Natursalz am Tag, kein raffiniertes Tafelsalz),
+kleine Mengen Kohlenhydrate als Beilage wie Reis oder Kartoffeln — Betonung auf
+Beilage —, gebundene Saucen ohne Weizenmehl und gern mit einem Schluck Wein
+verfeinert, eine kleine Scheibe Roggenvollkornbrot anstelle einer Salatportion
+und Nüsse als Fett- und Mineralstoffquelle, höchstens bei einer Mahlzeit am
+Tag.
 
-- **Salz in Maßen** — 2 bis 5 Gramm Natursalz am Tag, kein raffiniertes
-  Tafelsalz
-- **Kleine Mengen Kohlenhydrate** als Beilage: Reis, Kartoffeln. Betonung auf
-  Beilage — ein kleiner Teil der Mahlzeit, nicht die Hauptsache
-- **Gebundene Saucen**, gern mit einem Schluck Wein verfeinert, aber kein
-  Weizenmehl zum Binden
-- **Eine kleine Scheibe Roggenvollkornbrot** anstelle einer Salatportion
-- **Nüsse** als Fett- und Mineralstoffquelle, höchstens eine Mahlzeit am Tag
-  mit Nüssen
-
-> Eine Faustregel für die Stabilisierung:
->
-> Je näher du am Original der Aktivierungsphase bleibst, desto besser hält das
-> Ergebnis. Die Erweiterungen sind Spielraum, keine Aufforderung, ihn
-> vollständig auszuschöpfen.
+Als Faustregel gilt: Je näher du am Original der Aktivierungsphase bleibst,
+desto besser hält das Ergebnis. Die Erweiterungen sind Spielraum, keine
+Aufforderung, ihn auszuschöpfen.

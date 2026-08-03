@@ -14,5 +14,5 @@ kopfzeile: Anhang
 
 {{LEERZEILE}}
 
-Nachschlagen statt durchlesen: Nährstoffe, Vorlagen zum Ausfüllen und die
-rechtlichen Hinweise, die du vor dem Start kennen solltest.
+Nachschlagen statt durchlesen: Nährstoffe, die Kurzübersicht zum Aufhängen und
+die rechtlichen Hinweise, die du vor dem Start kennen solltest.

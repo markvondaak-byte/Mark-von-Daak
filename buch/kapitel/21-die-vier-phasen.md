@@ -7,8 +7,8 @@ kopfzeile: Die vier Phasen
 
 # Die vier Phasen im Überblick
 
-Das Konzept läuft in vier Phasen ab, die aufeinander aufbauen. Jede hat eine
-eigene Aufgabe, eine eigene Dauer und eigene Regeln.
+Vier Phasen, die aufeinander aufbauen — jede mit eigener Aufgabe, Dauer und
+eigenen Regeln.
 
 | Phase | Dauer | Worum es geht |
 |---|---|---|
@@ -21,35 +21,19 @@ eigene Aufgabe, eine eigene Dauer und eigene Regeln.
 
 **14 bis 30 Tage, besser 30.**
 
-In dieser Zeit änderst du an deiner Ernährung noch nichts. Du isst weiter wie
-bisher. Was dazukommt, ist die Versorgung: die Nährstoffe am Morgen und Abend
-sowie der probiotische Joghurt, der die Darmflora aufbaut.
-
-Der Sinn liegt darin, den Körper nicht kalt in die strenge Phase zu schicken.
-Wer mit leeren Speichern startet, hat es in den ersten Tagen der Aktivierung
-deutlich schwerer.
-
-Viele Menschen bemerken schon in dieser Phase Veränderungen — beim Schlaf, bei
-der Verdauung, beim Energieniveau. Nutze die Zeit außerdem, um dieses Buch
-fertig zu lesen und den ersten Einkauf zu planen.
+An der Ernährung änderst du noch nichts. Dazu kommen die Nährstoffe am Morgen
+und Abend und der probiotische Joghurt, der die Darmflora aufbaut — damit der
+Körper nicht mit leeren Speichern in die strenge Phase geht.
 
 ## Phase 2 — Aktivierung
 
 **Genau 28 Tage.**
 
-Hier passiert die Umstellung. Die Phase besteht ausschließlich aus weißen und
-grünen Tagen und beginnt mit sieben weißen Tagen am Stück — der weißen Woche.
-
-Danach folgen drei Wochen, in denen grüne Tage überwiegen und jeweils zwei
-weiße Tage eingestreut sind.
-
-In diesen 28 Tagen gilt: kein Salz, kein Zucker, kein Getreide, keine
-Hülsenfrüchte, kein Alkohol, keine Milchprodukte außer dem Joghurt am Morgen.
-Vier Mahlzeiten am Tag, keine ausgelassen.
-
-Die Phase lässt sich wiederholen, wenn du dein Ziel noch nicht erreicht hast.
-Empfohlen wird allerdings, vorher mindestens einen Monat Stabilisierung
-einzulegen.
+Hier passiert die Umstellung: sieben weiße Tage am Stück, danach drei Wochen
+mit überwiegend grünen und je zwei weißen Tagen. Kein Salz, kein Zucker, kein
+Getreide, keine Hülsenfrüchte, kein Alkohol, keine Milchprodukte außer dem
+Joghurt am Morgen, vier Mahlzeiten am Tag. Die Phase lässt sich wiederholen —
+mit mindestens einem Monat Stabilisierung dazwischen.
 
 ## Phase 3 — Stabilisierung
 
@@ -72,33 +56,21 @@ am sozialen Leben teilnehmen kannst, ohne aus dem Konzept zu fallen.
 **Dauerhaft.**
 
 Wenn die Stabilisierung getragen hat, läuft vieles von selbst. Was bleibt, sind
-ein paar Gewohnheiten: gründlich kauen, ausreichend trinken, stärkehaltige
-Lebensmittel im Rahmen halten, unverarbeitet einkaufen.
-
-Dazu kommen zwei bis vier weiße Tage im Monat. Sie genügen, um das Gleichgewicht
-zu halten — besonders nach Anlässen, an denen es üppiger zuging.
-
-Die Aktivierungsphase alle zwei Jahre zu wiederholen, ist möglich und wird
-empfohlen. Die Stabilisierung darf dann kürzer ausfallen.
+ein paar Gewohnheiten — gründlich kauen, ausreichend trinken, Stärkehaltiges im
+Rahmen halten, unverarbeitet einkaufen — und zwei bis vier weiße Tage im Monat,
+besonders nach Anlässen, an denen es üppiger zuging. Die Aktivierungsphase alle
+zwei Jahre zu wiederholen, ist möglich und empfohlen; die Stabilisierung darf
+dann kürzer ausfallen.
 
 ## Ein realistischer Zeitplan
 
-Rechne von Anfang an mit der ganzen Strecke, nicht nur mit den 28 Tagen:
-
-| Zeitraum | Was läuft |
-|---|---|
-| Woche 1–2 (oder 1–4) | Vorbereitung |
-| Woche 3–6 | Aktivierung |
-| ab Woche 7 | Stabilisierung, mindestens 13 Wochen |
-| danach | Lifestyle |
-
-Vom ersten Tag bis zum Ende der Stabilisierung vergehen also gut fünf Monate.
-Das klingt lang. Gemessen an der Zeit, die die meisten Menschen bereits mit
-erfolglosen Versuchen verbracht haben, ist es kurz.
+Rechne mit der ganzen Strecke: zwei bis vier Wochen Vorbereitung, vier Wochen
+Aktivierung, ab Woche sieben mindestens dreizehn Wochen Stabilisierung, danach
+der Lifestyle. Das sind gut fünf Monate — gemessen an der Zeit, die die meisten
+bereits mit erfolglosen Versuchen verbracht haben, ist das kurz.
 
 > Bevor du weiterliest:
 >
-> Wenn du nur die 28 Tage machen willst und die Stabilisierung von vornherein
-> nicht einplanst, spar dir die Mühe. Die vier Wochen sind anstrengend, und
-> ohne die Phase danach ist das Ergebnis mit hoher Wahrscheinlichkeit nicht
-> von Dauer.
+> Wenn du nur die 28 Tage machen willst und die Stabilisierung nicht
+> einplanst, spar dir die Mühe. Ohne die Phase danach ist das Ergebnis mit
+> hoher Wahrscheinlichkeit nicht von Dauer.

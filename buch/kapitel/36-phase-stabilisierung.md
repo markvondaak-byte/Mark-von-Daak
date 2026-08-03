@@ -11,12 +11,8 @@ kopfzeile: Phase 3 — Stabilisierung
 
 Das ist die Phase, die über alles entscheidet — und die am häufigsten
 weggelassen wird. Nach 28 anstrengenden Tagen mit sichtbarem Ergebnis fühlt es
-sich an, als wäre man fertig. Man ist es nicht.
-
-Die Aktivierungsphase hat eine Veränderung erzeugt. Die Stabilisierungsphase
-entscheidet, ob sie bleibt. Wer nach den vier Wochen zur alten Ernährung
-zurückkehrt, bekommt genau das, wovor dieses Buch im ersten Kapitel gewarnt
-hat.
+sich an, als wäre man fertig. Man ist es nicht: Die Aktivierungsphase hat eine
+Veränderung erzeugt, die Stabilisierungsphase entscheidet, ob sie bleibt.
 
 ## Was diese Phase leisten soll
 
@@ -89,15 +85,11 @@ Ausgleichswirkung.
 
 ## Der rote Tag in der Praxis
 
-Der erste rote Tag nach fünf Wochen ohne Zucker und Weizen ist ein besonderer
-Moment — und oft eine Überraschung.
-
-Viele stellen fest, dass die Pizza, auf die sie sich wochenlang gefreut haben,
-schwer im Magen liegt. Dass der Kuchen unangenehm süß schmeckt. Dass sie nach
-zwei Gläsern Wein müder sind als früher nach vier.
-
-Das ist keine Einbildung, sondern die Rückmeldung eines Körpers, der sich
-umgestellt hat.
+Der erste rote Tag nach fünf Wochen ohne Zucker und Weizen ist oft eine
+Überraschung: Die Pizza, auf die man sich wochenlang gefreut hat, liegt schwer
+im Magen, der Kuchen schmeckt unangenehm süß, zwei Gläser Wein machen müder als
+früher vier. Das ist keine Einbildung, sondern die Rückmeldung eines Körpers,
+der sich umgestellt hat.
 
 > Für den Einstieg:
 >
@@ -112,12 +104,8 @@ stammen.
 
 ## Warum mindestens 90 Tage
 
-Weil Gewohnheiten Zeit brauchen.
-
-In vier Wochen kann man Regeln befolgen. Aber Regeln befolgen und etwas
-selbstverständlich tun sind zwei verschiedene Dinge. Nach drei Monaten, in
-denen du Einkäufe erledigt, Restaurantbesuche überstanden, einen Geburtstag
-gefeiert und ein Wochenende bei Verwandten verbracht hast, weißt du, ob es
-trägt.
-
-Erst dann lohnt sich der Übergang in die letzte Phase.
+Weil Gewohnheiten Zeit brauchen. In vier Wochen kann man Regeln befolgen — aber
+Regeln befolgen und etwas selbstverständlich tun sind zwei verschiedene Dinge.
+Nach drei Monaten mit Einkäufen, Restaurantbesuchen, einem Geburtstag und einem
+Wochenende bei Verwandten weißt du, ob es trägt. Erst dann lohnt sich der
+Übergang in die letzte Phase.

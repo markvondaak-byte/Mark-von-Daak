@@ -28,27 +28,17 @@ reichlich hochwertiges Eiweiß, gute Fette und die Nährstoffe, die er braucht.
 Er soll nicht hungern. Er soll nur etwas anderes bekommen als bisher.
 
 Eine Diät entlastet, ohne zu versorgen: Sie nimmt weg, und der Körper reagiert
-mit Sparmodus. Ein Nahrungsergänzungsprogramm versorgt, ohne zu entlasten: Es
-gibt dazu, während die Grundlast bleibt.
-
-Beides zusammen ergibt etwas anderes als jedes für sich.
+mit Sparmodus. Ein Nahrungsergänzungsprogramm versorgt, ohne zu entlasten. Erst
+beides zusammen ergibt etwas anderes als jedes für sich.
 
 ## Warum es Phasen gibt und keinen Dauerzustand
 
-Das Konzept ist in vier Phasen aufgebaut, die aufeinander folgen. Diese
-Struktur ist kein Ordnungsprinzip, sondern hat einen praktischen Grund: Jede
-Phase hat eine andere Aufgabe.
-
-Die strenge Phase, in der die eigentliche Umstellung geschieht, dauert **28
-Tage**. Nicht länger. Sie ist so bemessen, dass sie wirkt und dass man sie
-durchhält. Eine Ernährungsform, die für immer streng bliebe, würde niemand
-über Jahre umsetzen — und müsste es auch nicht.
-
-Danach kommt eine deutlich längere Phase, in der die Auswahl wieder wächst und
-in der sich zeigt, ob das Erreichte trägt. Diese Phase ist der Grund, warum
-das Konzept überhaupt Aussicht auf Dauerhaftigkeit hat. Sie ist es auch, die
-am häufigsten übersprungen wird — und deren Auslassen den Jo-Jo-Effekt
-zuverlässig zurückbringt.
+Jede der vier Phasen hat eine andere Aufgabe. Die strenge Phase, in der die
+eigentliche Umstellung geschieht, dauert **28 Tage**, nicht länger — so
+bemessen, dass sie wirkt und dass man sie durchhält. Danach kommt eine deutlich
+längere Phase, in der die Auswahl wieder wächst und sich zeigt, ob das
+Erreichte trägt. Sie ist der Grund, warum das Konzept Aussicht auf
+Dauerhaftigkeit hat, und zugleich die, die am häufigsten übersprungen wird.
 
 > Ein Satz, der sich lohnt:
 >
@@ -58,37 +48,26 @@ zuverlässig zurückbringt.
 
 ## Was hier nicht behauptet wird
 
-Es ist üblich, an dieser Stelle groß aufzutragen. Deshalb ein paar klare Worte
-darüber, was dieses Buch nicht tut.
+Dieses Buch verspricht dir keine Zahl — weder Kilogramm noch Zentimeter noch
+einen Zeitpunkt. Was dein Körper macht, hängt von Ausgangspunkt, Alter,
+Hormonen, Medikamenten, Schlaf und Stresslevel ab. Wer dir eine Zahl
+verspricht, kennt diese Dinge nicht.
 
-Es verspricht dir keine Zahl. Weder Kilogramm noch Zentimeter noch einen
-Zeitpunkt. Was dein Körper macht, hängt von deinem Ausgangspunkt ab, von deinem
-Alter, deinen Hormonen, deinen Medikamenten, deinem Schlaf und deinem
-Stresslevel. Wer dir eine Zahl verspricht, kennt diese Dinge nicht.
-
-Es behandelt keine Krankheiten. Dieses Konzept ist eine Ernährungsform, kein
-Heilmittel. Es ersetzt keine Diagnose, keine Therapie und kein Medikament.
-
-Es ist nicht für jeden geeignet. In der Schwangerschaft und Stillzeit nicht,
-für Kinder und Jugendliche nicht, und bei einer Reihe von Erkrankungen nur nach
+Es behandelt auch keine Krankheiten: Das Konzept ist eine Ernährungsform, kein
+Heilmittel, und ersetzt keine Diagnose, keine Therapie und kein Medikament. Und
+es ist nicht für jeden geeignet — in Schwangerschaft und Stillzeit nicht, für
+Kinder und Jugendliche nicht, bei einer Reihe von Erkrankungen nur nach
 ärztlicher Abklärung. Das Kapitel „Wichtige Hinweise und Haftungsausschluss"
-führt das im Einzelnen aus, und es lohnt sich, dort nachzuschlagen, bevor du
-beginnst.
+führt das aus; schlag dort nach, bevor du beginnst.
 
 ## Was du dafür mitbringen musst
 
-Zwei Dinge, und beide sind unspektakulär.
+**Vorbereitung.** Das Konzept lässt sich nicht spontan am Montagmorgen
+beginnen. Es braucht einen Einkauf, ein paar Handgriffe am Vorabend und einen
+Blick in den Kalender.
 
-**Vorbereitung.** Dieses Konzept lässt sich nicht spontan am Montagmorgen
-beginnen. Es braucht einen Einkauf, ein paar Vorbereitungen am Vorabend und
-einen Blick in den Kalender. Wer in der ersten Woche eine Hochzeit, eine
-Dienstreise und einen Umzug hat, sucht sich besser einen anderen Starttermin.
-
-**Genauigkeit.** Die Regeln sehen kleinlich aus, und einige sind es auch. Aber
-sie hängen zusammen. Wer die Kohlenhydrate weglässt, aber weiter salzt, oder
-wer vier Mahlzeiten auf zwei reduziert, weil das ja noch schneller gehen müsste,
-bekommt nicht ein abgeschwächtes Ergebnis — sondern oft gar keins, dafür aber
-die Nebenwirkungen.
-
-Die gute Nachricht: Es sind überschaubar viele Regeln, und nach etwa einer
-Woche sind sie Gewohnheit. Der nächste Teil führt sie der Reihe nach auf.
+**Genauigkeit.** Die Regeln sehen kleinlich aus, aber sie hängen zusammen. Wer
+die Kohlenhydrate weglässt und weiter salzt oder vier Mahlzeiten auf zwei
+reduziert, bekommt nicht ein abgeschwächtes Ergebnis — sondern oft gar keins,
+dafür die Nebenwirkungen. Es sind überschaubar viele Regeln, und nach einer
+Woche sind sie Gewohnheit.

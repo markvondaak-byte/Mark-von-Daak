@@ -21,15 +21,10 @@ an diesen Tagen ist. Neben Geflügel stehen Eier, Fisch, Meeresfrüchte, Rind
 und Wild sowie die vegetarischen Varianten zur Auswahl. Dazu der probiotische
 Joghurt am Morgen.
 
-Der weiße Tag hat je nach Phase eine unterschiedliche Rolle:
-
-- In der **Aktivierungsphase** ist er der Motor der Umstellung.
-- In der **Stabilisierungsphase** ist er der Ausgleichstag, mit dem du einen
-  roten Tag wieder auffängst.
-- In der **Lifestylephase** genügen zwei bis vier davon im Monat, um das
-  Gleichgewicht zu halten.
-
-Wichtig: Ein weißer Tag ist immer ein weißer Tag. Auch Monate später gelten
+Je nach Phase hat er eine andere Rolle: in der Aktivierung der Motor der
+Umstellung, in der Stabilisierung der Ausgleichstag nach einem roten Tag, im
+Lifestyle genügen zwei bis vier im Monat. Wichtig: Ein weißer Tag ist immer ein
+weißer Tag. Auch Monate später gelten
 dieselben Regeln — kein Salz, kein Zucker, vier Mahlzeiten. Einfach nur
 „eiweißreich essen" ist kein weißer Tag.
 
@@ -64,13 +59,9 @@ Ein Stoffwechsel, der nur eine einzige Ernährungsform kennt, wird unflexibel.
 Rote Tage halten ihn beweglich und wirken dem Absinken des Sättigungshormons
 Leptin entgegen, das bei dauerhafter Einschränkung droht.
 
-> Wie ein roter Tag nicht gedacht ist:
->
-> Nicht als Freibrief, alles nachzuholen, worauf du wochenlang verzichtet hast.
-> In der Praxis reicht es meistens, ein bis zwei Mahlzeiten durch das zu
-> ersetzen, worauf du wirklich Lust hast. Beobachte dabei, wie dein Körper
-> reagiert — nach einigen Wochen ohne Zucker und Weizen fällt die Antwort
-> oft überraschend deutlich aus.
+Ein roter Tag ist kein Freibrief, alles nachzuholen: In der Praxis reicht es
+meist, ein bis zwei Mahlzeiten durch das zu ersetzen, worauf du wirklich Lust
+hast.
 
 Auf jeden roten Tag folgt ein weißer Tag. Bei zwei roten Tagen folgen zwei
 weiße.
@@ -90,13 +81,10 @@ weiße.
 
 ## Wann welche Farbe
 
-| Phase | Zusammensetzung |
-|---|---|
-| Vorbereitung | keine Farben — Ernährung bleibt wie gewohnt |
-| Aktivierung, Woche 1 | 7 weiße Tage |
-| Aktivierung, Woche 2–4 | überwiegend grün, je zwei weiße Tage pro Woche |
-| Stabilisierung | grün als Basis, 1–2 rote Tage pro Woche, jeder durch einen weißen ausgeglichen |
-| Lifestyle | frei, dazu 2–4 weiße Tage im Monat |
-
-Wie die weißen Tage in den Wochen der Aktivierungsphase genau liegen, steht im
-Kapitel „Phase 2: Die Aktivierung".
+In der Vorbereitung gibt es noch keine Farben. Die Aktivierung beginnt mit
+sieben weißen Tagen und läuft dann überwiegend grün mit je zwei weißen Tagen
+pro Woche. In der Stabilisierung ist Grün die Basis, dazu ein bis zwei rote
+Tage pro Woche, jeder durch einen weißen ausgeglichen. Im Lifestyle isst du
+frei und legst zwei bis vier weiße Tage im Monat ein. Wo die weißen Tage in der
+Aktivierungsphase genau liegen, steht im Kapitel „Phase 2: Die
+Aktivierung".

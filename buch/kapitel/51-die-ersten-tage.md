@@ -7,32 +7,20 @@ kopfzeile: Die ersten Tage
 
 # Die ersten Tage
 
-Irgendwo zwischen dem zweiten und dem vierten Tag der Aktivierungsphase kommt
-bei vielen Menschen der Moment, in dem sie sich fragen, was sie sich dabei
-gedacht haben.
-
-Kopfschmerzen. Müdigkeit. Gliederschmerzen. Ein flaues Gefühl. Reizbarkeit. Wo
-ist die Energie, von der alle reden?
-
-Das ist normal, es hat einen Namen und es geht vorbei.
+Irgendwo zwischen dem zweiten und dem vierten Tag kommt bei vielen der Moment,
+in dem sie sich fragen, was sie sich dabei gedacht haben. Kopfschmerzen,
+Müdigkeit, Gliederschmerzen, ein flaues Gefühl, Reizbarkeit. Das ist normal, es
+hat einen Namen und es geht vorbei.
 
 ## Was da passiert
 
-Dein Körper stellt seinen Hauptbrennstoff um. Jahrelang — bei vielen
-jahrzehntelang — lief er auf Kohlenhydraten. Die Enzyme dafür sind eingespielt,
-die Wege sind gebahnt.
-
-Jetzt kommen kaum noch Kohlenhydrate herein. Der Körper muss auf ein System
-umschalten, das er lange nicht gebraucht hat: die Verwertung von Fett und die
-Bildung von Ketonkörpern. Die dafür zuständigen Abläufe müssen erst wieder
-hochfahren.
-
-In dieser Übergangszeit ist die eine Energiequelle knapp und die andere noch
-nicht auf Betriebstemperatur. Genau das spürst du.
-
-Dazu kommt bei vielen ein zweiter Effekt: der Wegfall von Zucker. Wer über
-Jahre regelmäßig Süßes gegessen hat, erlebt die ersten Tage ohne durchaus als
-Entzug — mit allem, was dazugehört.
+Dein Körper stellt seinen Hauptbrennstoff um. Jahrelang lief er auf
+Kohlenhydraten, die Enzyme dafür sind eingespielt. Jetzt muss er auf ein
+System umschalten, das er lange nicht gebraucht hat: die Verwertung von Fett
+und die Bildung von Ketonkörpern. In dieser Übergangszeit ist die eine
+Energiequelle knapp und die andere noch nicht auf Betriebstemperatur — genau
+das spürst du. Dazu kommt bei vielen der Wegfall von Zucker, den die ersten
+Tage durchaus als Entzug erlebbar machen.
 
 ## Was auftreten kann
 
@@ -105,12 +93,3 @@ Besondere Vorsicht gilt, wenn du Medikamente nimmst, die auf Blutzucker,
 Blutdruck oder den Wasserhaushalt wirken. Der Bedarf kann sich durch die
 Umstellung verändern — das ist einer der Gründe, warum die ärztliche Begleitung
 in diesen Fällen nicht optional ist.
-
-## Warum es sich lohnt, durchzuhalten
-
-Weil diese Tage der Preis für alles Weitere sind. Wer beim ersten Kopfschmerz
-abbricht, zahlt ihn — und bekommt nichts dafür.
-
-Die Beschwerden sind ein Zeichen dafür, dass die Umstellung läuft. Sie sind
-unangenehm und sie sind endlich. Auf der anderen Seite wartet der Zustand, für
-den du die vier Wochen begonnen hast.

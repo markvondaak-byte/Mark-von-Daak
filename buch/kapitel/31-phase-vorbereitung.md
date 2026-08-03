@@ -13,20 +13,17 @@ Die Vorbereitungsphase ist die einzige, in der du an deiner Ernährung nichts
 änderst. Du isst weiter wie bisher. Was hinzukommt, ist die Versorgung — und
 eine Portion Vorarbeit im Kopf.
 
-Viele wollen diese Phase überspringen. Der Wunsch ist verständlich: Man hat
-sich entschieden, man will loslegen. Wer sie überspringt, startet die
-Aktivierungsphase allerdings mit leeren Speichern — und die erste Woche ist
-dann deutlich härter, als sie sein müsste.
+Viele wollen diese Phase überspringen — der Wunsch ist verständlich. Wer sie
+überspringt, startet die Aktivierungsphase aber mit leeren Speichern, und die
+erste Woche wird deutlich härter, als sie sein müsste.
 
 ## Was diese Phase leisten soll
 
-- **Die Nährstoffspeicher füllen.** Lücken, die sich über Jahre aufgebaut
-  haben, schließen sich nicht in drei Tagen.
-- **Die Darmflora aufbauen.** Ein intakter Darm nimmt Nährstoffe besser auf.
-  Das ist die Grundlage dafür, dass die folgenden Wochen überhaupt wirken.
-- **Den Säure-Basen-Haushalt ins Gleichgewicht bringen.**
-- **Ankommen.** Du liest das Konzept zu Ende, planst den Einkauf und suchst dir
-  einen Starttermin, an dem keine Hochzeit und keine Dienstreise im Weg steht.
+Die Nährstoffspeicher füllen — Lücken, die sich über Jahre aufgebaut haben,
+schließen sich nicht in drei Tagen. Die Darmflora aufbauen, weil ein intakter
+Darm Nährstoffe besser aufnimmt. Den Säure-Basen-Haushalt ins Gleichgewicht
+bringen. Und ankommen: das Konzept zu Ende lesen, den Einkauf planen, einen
+Starttermin suchen, an dem nichts Größeres im Weg steht.
 
 ## Der Tagesablauf
 
@@ -63,46 +60,26 @@ Der probiotische Joghurt wird selbst angesetzt und braucht mindestens acht
 Stunden Reifezeit. Das heißt in der Praxis: am Abend ansetzen, am Morgen
 essen.
 
-Nimm dafür H-Milch, am besten Bio- oder Weidemilch, mit vollem Fettgehalt.
-Bei Laktoseunverträglichkeit funktioniert es auch mit laktosefreier H-Milch,
-Ziegenmilch oder Sojamilch.
-
-> Angewöhnen lohnt sich:
->
-> Der Joghurt begleitet dich durch alle Phasen. Wenn du dir jetzt angewöhnst,
-> ihn abends anzusetzen, ist diese Gewohnheit in vier Wochen selbstverständlich
-> — und du stehst in der Aktivierungsphase nicht ohne Frühstück da.
+Nimm H-Milch mit vollem Fettgehalt, am besten Bio- oder Weidemilch; bei
+Laktoseunverträglichkeit laktosefreie H-Milch, Ziegen- oder Sojamilch.
 
 ## Was du beobachten solltest
 
 Diese Phase ist deine Gelegenheit, den eigenen Körper wieder wahrzunehmen. Die
-meisten Menschen haben sich so an ihren Zustand gewöhnt, dass sie ihn für
-normal halten.
+meisten haben sich so an ihren Zustand gewöhnt, dass sie ihn für normal halten.
+Achte in diesen zwei bis vier Wochen darauf, wie du morgens aufwachst, wie die
+Verdauung ist, wann das Nachmittagstief kommt, wie die Haut aussieht und wie du
+ein- und durchschläfst.
 
-Achte in diesen zwei bis vier Wochen auf:
+Halte die Werte fest — nach der Vorbereitungsphase notierst du dieselben ein
+zweites Mal.
 
-- Wie wachst du morgens auf — ausgeruht oder wie gerädert?
-- Wie ist die Verdauung?
-- Kommt das Nachmittagstief, und wann genau?
-- Wie ist die Haut?
-- Wie schläfst du ein, wie schläfst du durch?
+## Bevor die Aktivierung beginnt
 
-Trage deine Werte in die Vorlage im Anhang ein. Nach der Vorbereitungsphase
-füllst du dieselben Zeilen ein zweites Mal aus.
-
-## Deine Checkliste für den Start
-
-Bevor die Aktivierungsphase beginnt, sollte Folgendes erledigt sein:
-
-- ☐ Ärztliche Abklärung, falls du zu einer der Risikogruppen gehörst
-- ☐ Dieses Buch vollständig gelesen, besonders Teil III und IV
-- ☐ Starttermin festgelegt — idealerweise ein ruhiger Zeitraum
-- ☐ Startwerte und Maße notiert, Fotos gemacht
-- ☐ Erster Einkauf erledigt (Liste im Kapitel „Deine Einkaufsliste")
-- ☐ Salzfreie Gewürze besorgt oder selbst gemischt
-- ☐ Joghurt für den ersten Morgen angesetzt
-- ☐ Kräutertee gekocht und kalt gestellt
-- ☐ Leinsamen und Sonnenblumenkerne eingeweicht
-
-Die letzten drei Punkte gehören zum Vorabend jedes weißen und grünen Tages.
-Wie das genau abläuft, steht im nächsten Kapitel.
+Erledigt sein sollten: die ärztliche Abklärung, falls du zu einer der
+Risikogruppen gehörst; ein festgelegter Starttermin in einem ruhigen Zeitraum;
+notierte Startwerte, Maße und Fotos; der erste Einkauf samt salzfreien
+Gewürzen. Dazu die drei Handgriffe, die künftig zu jedem Vorabend gehören —
+Joghurt ansetzen, Kräutertee kochen und kalt stellen, Leinsamen und
+Sonnenblumenkerne einweichen. Wie das genau abläuft, steht im nächsten
+Kapitel.

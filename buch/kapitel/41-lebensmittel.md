@@ -30,11 +30,9 @@ möglich wird.
 | Molke | — | Molkenprotein möglich |
 
 Nicht geeignet sind Schweinefleisch, Innereien, Wurst sowie geräucherte oder
-eingelegte Ware — bei Letzterem wegen des Salzes. Thunfisch im eigenen Saft ist
-eine mögliche Ausnahme, wenn du ihn gut abspülst.
-
-Bei Fleisch und Eiern lohnt sich Qualität: Haltung und Fütterung entscheiden
-über die Fettsäurezusammensetzung.
+eingelegte Ware — Letzteres wegen des Salzes. Bei Fleisch und Eiern lohnt sich
+Qualität: Haltung und Fütterung entscheiden über die
+Fettsäurezusammensetzung.
 
 ## Vegetarische und vegane Eiweißquellen
 
@@ -86,11 +84,9 @@ getrocknetes Obst — alle mit hohem Zuckergehalt.
 
 ## Öle und Fette
 
-Fette sind in diesem Konzept kein Beiwerk. Die enthaltenen Fettsäuren sind
-Voraussetzung dafür, dass der Körper eigene Fettzellen abbauen kann. Spar hier
-also nicht.
-
-Entscheidend ist das Verhältnis von Omega-6- zu Omega-3-Fettsäuren.
+Fette sind kein Beiwerk: Die enthaltenen Fettsäuren sind Voraussetzung dafür,
+dass der Körper eigene Fettzellen abbauen kann. Spar hier nicht. Entscheidend
+ist das Verhältnis von Omega-6- zu Omega-3-Fettsäuren.
 
 | Verwendung | Geeignet |
 |---|---|
@@ -107,9 +103,9 @@ Bei Gewürzölen immer auf Zusatzstoffe achten.
 
 ## Nüsse und Samen
 
-Nüsse sind eine gute Quelle für Fettsäuren und Spurenelemente. Sie enthalten
-allerdings auch Antinährstoffe wie Phytinsäure und viele Kalorien. Deshalb
-höchstens **eine Mahlzeit am Tag** mit Nüssen.
+Nüsse liefern Fettsäuren und Spurenelemente, enthalten aber auch
+Antinährstoffe wie Phytinsäure und viele Kalorien — deshalb höchstens **eine
+Mahlzeit am Tag** mit Nüssen.
 
 **In der Aktivierungsphase:** ungesalzene, naturbelassene Mandeln (eine Portion
 entspricht 30 Gramm). Nur zum Frühstück im Joghurt: Leinsamen und
@@ -123,42 +119,28 @@ Hanfsamen.
 
 ## Mehle und Bindemittel
 
-Für Frikadellen, getreidefreies Brot oder Backwaren.
+Für Frikadellen, getreidefreies Brot oder Backwaren. In der Aktivierungsphase:
+Goldleinmehl, Leinmehl, Süßlupinenmehl und entöltes oder teilentöltes
+Mandelmehl. Mandelmehl lässt sich **nicht** durch gemahlene Mandeln ersetzen —
+Backverhalten und Nährwerte unterscheiden sich deutlich.
 
-**In der Aktivierungsphase:** Goldleinmehl, Leinmehl, Süßlupinenmehl,
-Mandelmehl — entölt oder teilentölt.
+Ab der Stabilisierungsphase kommen Kokos-, Hanf-, Sesam-, Kürbiskern- und
+Walnussmehl dazu, ebenso Flohsamenschale, Guarkernmehl, Apfelpektin,
+Bambusfaser und Zitrusfaser. Gekaufte Low-Carb-Produkte enthalten fast immer
+Salz, Zucker oder Weizenkleber — selbst herstellen ist zuverlässiger.
 
-Mandelmehl lässt sich **nicht** durch gemahlene Mandeln ersetzen. Backverhalten
-und Nährwerte unterscheiden sich deutlich.
+## Milchprodukte, Getränke, Süßungsmittel
 
-**Ab der Stabilisierungsphase zusätzlich:** Apfelpektin, Backkakao,
-Bambusfaser, Flohsamenschale, Guarkernmehl, Hanfmehl, Johannisbrotkernmehl,
-Kartoffelfaser, Kokosmehl, Kürbiskernmehl, Sesammehl, Walnussmehl,
-Zitrusfaser.
+**Milchprodukte** in der Aktivierungsphase: ausschließlich der probiotische
+Joghurt als erste Mahlzeit am Morgen. Ab der Stabilisierungsphase zusätzlich
+Butter aus Weidehaltung, Vollfett-Frischkäse, Hartkäse wie Cheddar oder
+Ziegenkäse, Weichkäse, Mozzarella, körniger Frischkäse, Mascarpone, Quark 40 %,
+Sahne und saure Sahne.
 
-Gekaufte Low-Carb-Produkte enthalten fast immer Salz, Zucker oder
-Weizenkleber. Selbst herstellen ist zuverlässiger.
+**Getränke:** zwei Liter reines, stilles Wasser am Tag, ohne Kohlensäure und
+ohne Aromastoffe; ein Spritzer frischer Zitronensaft ist erlaubt. Dazu Kaffee,
+Kräutertee, hochwertiger grüner oder weißer Tee, Zitronen- und Ingwerwasser.
+**Kaffee und Tee zählen nicht zu den zwei Litern.**
 
-## Milchprodukte
-
-**In der Aktivierungsphase:** ausschließlich der probiotische Joghurt, und zwar
-nur als erste Mahlzeit am Morgen.
-
-**Ab der Stabilisierungsphase zusätzlich:** Butter aus Weidehaltung,
-Vollfett-Frischkäse, Hartkäse wie Cheddar oder Ziegenkäse, Weichkäse,
-Mozzarella, körniger Frischkäse, Mascarpone, Quark 40 %, Sahne, saure Sahne.
-
-## Getränke
-
-Wasser, Kaffee, Kräutertee, hochwertiger grüner oder weißer Tee, Zitronenwasser,
-Ingwerwasser.
-
-Zwei Liter reines, stilles Wasser am Tag — ohne Kohlensäure, ohne Aromastoffe.
-Ein Spritzer frischer Zitronensaft ist erlaubt. **Kaffee und Tee zählen nicht
-zu dieser Menge.**
-
-## Süßungsmittel
-
-**In der Aktivierungsphase:** keine. Auch keine Süßstoffe.
-
-**Ab der Stabilisierungsphase:** Erythrit und Stevia in kleinen Mengen.
+**Süßungsmittel:** in der Aktivierungsphase keine, auch keine Süßstoffe. Ab der
+Stabilisierungsphase Erythrit und Stevia in kleinen Mengen.

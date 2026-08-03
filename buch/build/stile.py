@@ -195,9 +195,11 @@ def _stile_definieren(doc):
           zeilen=1.05)
 
     # Inhaltsverzeichnis
+    # Enger gesetzt als der Fließtext: Mit sechs Teilen und 26 Kapiteln lief
+    # das Verzeichnis sonst um wenige Zeilen auf eine zweite Seite über.
     _stil(doc, "InhaltTeil", schrift=SANS, groesse=10, fett=True,
-          farbe=FARBEN["blatt"], vor=10, nach=3)
-    _stil(doc, "InhaltKapitel", schrift=SERIF, groesse=10, vor=0, nach=2)
+          farbe=FARBEN["blatt"], vor=7, nach=2)
+    _stil(doc, "InhaltKapitel", schrift=SERIF, groesse=10, vor=0, nach=1)
 
     # Kopf- und Fußzeile
     _stil(doc, "Kopfzeile", schrift=SANS, groesse=8, farbe=FARBEN["gedaempft"],

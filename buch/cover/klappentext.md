@@ -18,7 +18,7 @@ der Körper lernt, wieder an die eigenen Fettreserven zu gehen.
 - **Weiße, grüne und rote Tage** — was wann auf den Teller kommt
 - **Vollständige Lebensmittellisten** und eine Einkaufsliste zum Abhaken
 - **Was in den ersten Tagen passiert** und was dagegen hilft
-- **Vorlagen zum Eintragen** für deine Werte über zwölf Wochen
+- **Eine Kurzübersicht zum Aufhängen** mit allen Regeln der drei Tagesfarben
 
 Ohne Produktempfehlungen. Ohne Versprechen über Kilos. Mit allen Regeln,
 Mengen und Stolpersteinen, die in der Praxis wirklich vorkommen.

@@ -8,108 +8,60 @@ kopfzeile: Einkaufsliste
 # Deine Einkaufsliste zum Start
 
 Diese Liste deckt die erste Woche ab. Sie ist bewusst großzügig — was übrig
-bleibt, hält sich oder lässt sich einfrieren.
+bleibt, hält sich oder lässt sich einfrieren. Eine Einkaufsliste für jede
+einzelne Woche steht im Workbook.
 
-## Vorratsschrank
+**Vorratsschrank.** Ganze Leinsamen, Sonnenblumenkerne, naturbelassene
+ungesalzene Mandeln, entöltes Mandelmehl, Kräutertee für den Morgen, Kaffee
+oder Tee nach Geschmack.
 
-- ☐ Ganze Leinsamen
-- ☐ Sonnenblumenkerne
-- ☐ Naturbelassene Mandeln, ungesalzen
-- ☐ Mandelmehl, entölt oder teilentölt
-- ☐ Kräutertee für den Morgen
-- ☐ Kaffee oder Tee nach Geschmack
+**Öle und Essig.** Kokosöl und Olivenöl extra vergine zum Braten, Leinöl nur
+für die kalte Küche und im Kühlschrank gelagert, Apfelessig, Weißwein- oder
+Rotweinessig. Kein Balsamico — zu viele Kohlenhydrate.
 
-## Öle und Essig
-
-- ☐ Kokosöl, bio und kaltgepresst — zum Braten
-- ☐ Olivenöl extra vergine — zum Braten und für die kalte Küche
-- ☐ Leinöl — nur kalt verwenden, im Kühlschrank lagern
-- ☐ Apfelessig
-- ☐ Weißwein- oder Rotweinessig
-
-Kein Balsamico — zu viele Kohlenhydrate.
-
-## Gewürze
-
-- ☐ Pfeffer
-- ☐ Paprikapulver, edelsüß und scharf
-- ☐ Kreuzkümmel, Koriander, Kurkuma
-- ☐ Getrocknete Kräuter: Oregano, Thymian, Rosmarin, Basilikum, Dill
-- ☐ Chiliflocken
-- ☐ Knoblauch, frisch oder als Pulver ohne Zusätze
+**Gewürze.** Pfeffer, Paprikapulver edelsüß und scharf, Kreuzkümmel, Koriander,
+Kurkuma, Chiliflocken, Knoblauch. Getrocknete Kräuter: Oregano, Thymian,
+Rosmarin, Basilikum, Dill.
 
 Prüfe bei jeder Mischung die Zutatenliste auf Salz, Zucker und Zwiebelpulver.
-Ausdrücklich salzfreie Gewürzmischungen gibt es im Handel; ansonsten mischst du
+Ausdrücklich salzfreie Mischungen gibt es im Handel; ansonsten mischst du
 selbst.
 
-## Frisches Eiweiß
+**Frisches Eiweiß.** Eier aus Freiland- oder Bioqualität. Hähnchenbrust,
+Hähnchenkeulen, Putenbrust — naturbelassen und ungewürzt. Lachsfilet, Makrele
+oder Forelle, Thunfisch im eigenen Saft (vor Gebrauch gut abspülen), Garnelen
+und tiefgekühlte Meeresfrüchte, bei beiden auf Zusatzstoffe achten. Rinderhack
+oder Steak für höchstens zwei Mahlzeiten in der Woche.
 
-- ☐ Eier aus Freilandhaltung oder Bioqualität
-- ☐ Hähnchenbrust, Hähnchenkeulen, Putenbrust — naturbelassen, ungewürzt
-- ☐ Lachsfilet
-- ☐ Thunfisch im eigenen Saft (vor Gebrauch gut abspülen)
-- ☐ Garnelen — auf Zusatzstoffe achten
-- ☐ Tiefgekühlte Meeresfrüchte
-- ☐ Makrele oder Forelle
-- ☐ Rinderhack oder Steak — für höchstens zwei Mahlzeiten in der Woche
+Vegetarisch und vegan: ungesalzener Tofu, Tempeh, Dinkelkleber für selbst
+gemachten Seitan.
 
-**Für die vegetarische und vegane Variante**
+**Für den Joghurt.** Vollfette H-Milch in Bio- oder Weidequalität,
+Joghurtkulturen oder ein Joghurtbereiter. Alternativ laktosefreie H-Milch,
+Ziegenmilch oder ungesüßte Sojamilch.
 
-- ☐ Tofu, ungesalzen
-- ☐ Tempeh
-- ☐ Dinkelkleber für selbst gemachten Seitan
+**Gemüse und Salat**, ab den grünen Tagen. Blattsalate wie Feldsalat, Kopfsalat,
+Rucola und Endivie. Gurke, Tomaten, Paprika (bevorzugt grüne), Zucchini,
+Brokkoli, Blumenkohl, Champignons, Spinat, Fenchel, Radieschen,
+Frühlingszwiebeln, Avocado, Spargel je nach Saison. Frische Kräuter:
+Petersilie, Schnittlauch, Dill, Basilikum. Keine Zwiebeln, keine Karotten,
+keine Kartoffeln.
 
-## Für den Joghurt
+**Obst**, eine Portion täglich ab den grünen Tagen: Zitronen in Bioqualität,
+Äpfel, Beeren frisch oder tiefgekühlt, je nach Saison Birne, Pfirsich oder
+Aprikose.
 
-- ☐ H-Milch, bio oder aus Weidehaltung, Vollfett
-- ☐ Alternativ: laktosefreie H-Milch, Ziegenmilch oder ungesüßte Sojamilch
-- ☐ Joghurtkulturen oder Joghurtbereiter
+**Wasser.** Mindestens zwei Liter am Tag, ohne Kohlensäure und ohne Aromen. Wer
+Leitungswasser trinkt, umso besser.
 
-## Gemüse und Salat (ab den grünen Tagen)
+**Nützlich, aber kein Muss.** Küchenwaage für die erste Woche, Maßband für die
+Umfänge, verschließbare Dosen zum Vorbereiten und eine Trinkflasche, an der du
+den Tagesbedarf ablesen kannst.
 
-- ☐ Blattsalate — Feldsalat, Kopfsalat, Rucola, Endivie
-- ☐ Gurke
-- ☐ Tomaten
-- ☐ Paprika, bevorzugt grüne
-- ☐ Zucchini
-- ☐ Brokkoli und Blumenkohl
-- ☐ Champignons
-- ☐ Spinat
-- ☐ Spargel je nach Saison
-- ☐ Fenchel
-- ☐ Radieschen
-- ☐ Frühlingszwiebeln
-- ☐ Frische Kräuter — Petersilie, Schnittlauch, Dill, Basilikum
-- ☐ Avocado
-
-Keine Zwiebeln, keine Karotten, keine Kartoffeln.
-
-## Obst (eine Portion täglich ab den grünen Tagen)
-
-- ☐ Zitronen, bio
-- ☐ Äpfel
-- ☐ Beeren, frisch oder tiefgekühlt
-- ☐ Birne, Pfirsich oder Aprikose je nach Saison
-
-## Wasser
-
-- ☐ Stilles Wasser für mindestens zwei Liter am Tag
-
-Ohne Kohlensäure und ohne Aromen. Wer Leitungswasser trinkt, umso besser.
-
-## Nützlich, aber kein Muss
-
-- ☐ Küchenwaage — für die erste Woche
-- ☐ Maßband — für die Umfänge
-- ☐ Verschließbare Dosen zum Vorbereiten
-- ☐ Eine Trinkflasche, an der du den Tagesbedarf ablesen kannst
-
-## Ein Tipp für die erste Woche
-
-Koche die ersten Tage vor. Gegartes Geflügel, hartgekochte Eier und gebratener
-Fisch halten sich im Kühlschrank zwei bis drei Tage und lassen sich kalt
-essen.
-
-Die weiße Woche ist die anstrengendste des ganzen Konzepts. Der häufigste
-Grund für einen Abbruch ist nicht mangelnde Disziplin, sondern ein leerer
-Kühlschrank um halb sieben abends.
+> Für die erste Woche:
+>
+> Koche die ersten Tage vor. Gegartes Geflügel, hartgekochte Eier und
+> gebratener Fisch halten sich im Kühlschrank zwei bis drei Tage und lassen
+> sich kalt essen. Die weiße Woche ist die anstrengendste des ganzen Konzepts,
+> und der häufigste Grund für einen Abbruch ist nicht mangelnde Disziplin,
+> sondern ein leerer Kühlschrank um halb sieben abends.

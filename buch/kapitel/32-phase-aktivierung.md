@@ -18,10 +18,9 @@ einer Logik — die Reihenfolge der Tage ist kein Zufall.
 
 Sieben weiße Tage am Stück.
 
-In dieser Woche bekommt der Körper fast nur Eiweiß, gute Fette und die
-ergänzten Nährstoffe. Er hat dadurch die Gelegenheit, den Blutzucker ungestört
-einzupendeln und auf Fett als Hauptbrennstoff umzustellen. Es ist die härteste
-Woche, und sie ist die wirksamste.
+Der Körper bekommt fast nur Eiweiß, gute Fette und die ergänzten Nährstoffe und
+hat damit Gelegenheit, den Blutzucker einzupendeln und auf Fett als
+Hauptbrennstoff umzustellen. Es ist die härteste Woche und die wirksamste.
 
 **Woche 2 bis 4**
 
@@ -37,9 +36,8 @@ Ein möglicher Wochenrhythmus:
 | Woche 3 | weiß | grün | grün | grün | weiß | grün | grün |
 | Woche 4 | weiß | grün | grün | grün | weiß | grün | grün |
 
-Mit den grünen Tagen kommen Gemüse und Salat zurück. Das sichert die Versorgung
-mit Ballaststoffen und bereitet den Körper darauf vor, wieder eine breitere
-Auswahl zu verarbeiten. Blutzuckerspitzen bleiben trotzdem aus, und der
+Mit den grünen Tagen kommen Gemüse und Salat zurück. Das sichert die
+Ballaststoffversorgung; Blutzuckerspitzen bleiben trotzdem aus, und der
 Verzicht auf Salz läuft weiter.
 
 ## Wenn du ohne Nahrungsergänzung arbeitest
@@ -60,24 +58,11 @@ Gemüse und Salat pro Tag.
 
 ## Was in diesen 28 Tagen komplett wegbleibt
 
-- Salz — in jeder Form, auch Meersalz und Kräutersalz
-- Zucker, Süßigkeiten, Limonaden, Fruchtsäfte, auch „zuckerfreie" Produkte
-- Süßstoffe und Zuckeraustauschstoffe
-- Getreide: Brot, Gebäck, Nudeln, Reis, Haferflocken, Müsli, Pizza
-- Hülsenfrüchte: Erbsen, Bohnen, Linsen, Kichererbsen, Mais
-- Kartoffeln, Süßkartoffeln, Karotten, Pastinaken und anderes Wurzelgemüse
-- Zwiebeln und Lauch (Frühlingszwiebeln und Knoblauch sind erlaubt)
-- Milchprodukte außer dem probiotischen Joghurt am Morgen
-- Nüsse, außer Mandeln sowie Leinsamen und Sonnenblumenkerne im Frühstück
-- Schweinefleisch, Innereien, Wurst, geräuchertes Fleisch und geräucherter Fisch
-- Alkohol
-- Fertiggerichte, mariniertes Fleisch, industriell gewürzte Produkte
-- Eiweißshakes und Eiweißdrinks
-- Suppen
-
-Der Punkt mit den Suppen wirkt willkürlich, hat aber drei Gründe: Eine Suppe
-lässt sich nicht 32-mal kauen, die Flüssigkeit während des Essens verdünnt die
-Verdauungssäfte, und die Eiweißmenge pro Mahlzeit kommt selten zusammen.
+Salz, Zucker und Süßstoffe, Getreide, Hülsenfrüchte, Wurzel- und Knollengemüse,
+Zwiebeln und Lauch, Milchprodukte außer dem Joghurt am Morgen, Nüsse außer
+Mandeln, Schweinefleisch und Geräuchertes, Alkohol, Fertiggerichte,
+Eiweißshakes — und Suppen. Das Kapitel „Was in den vier Wochen wegbleibt"
+führt jede Gruppe einzeln auf, samt der drei häufigsten Stolperfallen.
 
 ## Der Vorabend
 
@@ -91,22 +76,13 @@ Jeder weiße und grüne Tag beginnt am Abend davor mit drei Handgriffen:
 Zusammen dauert das keine fünf Minuten. Wer es vergisst, steht am Morgen ohne
 Frühstück da.
 
-## Wenn du die Phase wiederholen willst
+## Wiederholen und vorzeitig am Ziel sein
 
-Die Aktivierungsphase lässt sich wiederholen, so oft du möchtest, bis dein Ziel
-erreicht ist.
+Die Aktivierungsphase lässt sich wiederholen, so oft du möchtest. Leg zwischen
+zwei Durchgängen aber mindestens einen Monat Stabilisierungsphase ein — der
+Körper braucht die Zeit, um das Erreichte zu festigen.
 
-Empfohlen wird allerdings, zwischen zwei Durchgängen mindestens einen Monat
-Stabilisierungsphase einzulegen. Zwei Aktivierungsphasen unmittelbar
-hintereinander sind zwar möglich, aber der Körper braucht die Zeit dazwischen,
-um das Erreichte zu festigen.
-
-## Wenn du am Ziel bist, bevor die 28 Tage um sind
-
-Das kommt vor. Die Antwort lautet trotzdem: Mach die Phase zu Ende.
-
-Die 28 Tage sind nicht auf ein Gewicht hin gerechnet, sondern auf die
-Umstellung selbst. Wer nach drei Wochen abbricht, hat die Veränderung, aber
-nicht die Festigung. Wenn du nicht weiter abnehmen möchtest, erhöhe einfach den
-Anteil an guten Fetten — dann bleibt das Gewicht stabil, und die Phase läuft
-trotzdem sauber zu Ende.
+Und wenn du dein Ziel vor Ablauf der 28 Tage erreichst: Mach die Phase
+trotzdem zu Ende. Die 28 Tage sind auf die Umstellung gerechnet, nicht auf ein
+Gewicht. Willst du nicht weiter abnehmen, erhöhe den Anteil an guten Fetten —
+dann bleibt das Gewicht stabil und die Phase läuft sauber zu Ende.

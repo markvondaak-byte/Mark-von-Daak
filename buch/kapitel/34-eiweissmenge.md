@@ -16,23 +16,10 @@ um. Das ist in einer Minute erledigt.
 Der tägliche Eiweißbedarf liegt in diesem Konzept bei **0,8 bis 1,5 Gramm pro
 Kilogramm deines aktuellen Körpergewichts.**
 
-Multipliziere dein Gewicht einmal mit 0,8 und einmal mit 1,5. Dazwischen liegt
-dein Bereich.
-
-**Beispiel bei 100 kg**
-
-- 100 × 0,8 = 80 g
-- 100 × 1,5 = 150 g
-- Dein Bereich: 80 bis 150 Gramm Eiweiß am Tag
-
-**Beispiel bei 60 kg**
-
-- 60 × 0,8 = 48 g
-- 60 × 1,5 = 90 g
-- Dein Bereich: 48 bis 90 Gramm Eiweiß am Tag
-
-Maßgeblich ist dein **aktuelles** Gewicht, nicht dein Wunschgewicht. Rechne
-alle paar Wochen neu, wenn sich etwas verändert hat.
+Multipliziere dein Gewicht einmal mit 0,8 und einmal mit 1,5 — dazwischen liegt
+dein Bereich. Bei 100 Kilogramm sind das 80 bis 150 Gramm Eiweiß am Tag, bei
+60 Kilogramm 48 bis 90 Gramm. Maßgeblich ist dein **aktuelles** Gewicht, nicht
+dein Wunschgewicht.
 
 ## Wie viel Eiweiß steckt drin?
 
@@ -64,17 +51,10 @@ Die erste Mahlzeit liefert bereits einen Teil. Eine typische Rechnung:
 Mit Ei kommst du auf etwa 23 Gramm, ohne Ei auf etwa 17 Gramm. Den Rest
 verteilst du auf die drei übrigen Mahlzeiten.
 
-## Eine Beispielrechnung
-
-Nehmen wir 70 Kilogramm Körpergewicht.
-
-- Bereich: 70 × 0,8 = 56 g bis 70 × 1,5 = 105 g
-- Zielwert in der Mitte: rund 80 Gramm am Tag
-- Frühstück mit Ei: 23 g
-- Bleiben 57 Gramm für drei Mahlzeiten, also rund 19 Gramm je Mahlzeit
-
-Das entspricht etwa 85 Gramm Geflügel oder 95 Gramm Fisch pro Mahlzeit — roh
-gewogen jeweils etwas mehr.
+Ein Durchgang für 70 Kilogramm: Der Bereich liegt bei 56 bis 105 Gramm, als
+Zielwert nimmst du rund 80 Gramm am Tag. Das Frühstück mit Ei deckt 23 davon,
+bleiben 57 Gramm für drei Mahlzeiten — also rund 19 Gramm je Mahlzeit oder etwa
+85 Gramm Geflügel, roh etwas mehr.
 
 ## Roh oder gekocht?
 
@@ -87,15 +67,9 @@ Faustregeln aus der Proteintabelle:
 Aus 150 Gramm Hähnchenbrust auf dem Teller werden also rund 180 Gramm rohes
 Fleisch in der Pfanne.
 
-## Du musst nicht ewig wiegen
-
-Die Waage brauchst du in der ersten Woche. Danach nicht mehr.
-
-> Ein Trick, der Arbeit spart:
->
-> Fotografiere in den ersten Tagen deine abgewogenen Portionen auf dem Teller,
-> den du üblicherweise benutzt. Nach fünf, sechs Mahlzeiten hast du ein Gefühl
-> für die Größe und kannst die Waage im Schrank lassen.
+Die Waage brauchst du nur in der ersten Woche: Fotografiere die abgewogenen
+Portionen auf deinem üblichen Teller, dann hast du nach wenigen Mahlzeiten ein
+Gefühl für die Größe.
 
 ## Zwei wichtige Einschränkungen
 

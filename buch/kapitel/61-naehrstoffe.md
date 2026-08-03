@@ -7,36 +7,26 @@ kopfzeile: Nährstoffe
 
 # Nährstoffe — worauf es ankommt
 
-In den vier Wochen der Aktivierungsphase isst du weniger verschiedene
-Lebensmittel als sonst. Das ist gewollt — es ist der Kern der Entlastung. Es
-bedeutet aber auch: Die Bandbreite an Vitaminen, Mineralstoffen und
-Spurenelementen, die sonst über die Vielfalt hereinkommt, muss anders gedeckt
-werden.
+In der Aktivierungsphase isst du weniger verschiedene Lebensmittel. Das ist der
+Kern der Entlastung — bedeutet aber, dass Vitamine, Mineralstoffe und
+Spurenelemente anders gedeckt werden müssen. Dafür gibt es zwei Wege:
 
-Dafür gibt es zwei Wege, und beide funktionieren:
+**Weg eins — über das Essen.** Dauerhaft mindestens fünf Portionen à 200 Gramm
+Gemüse und Salat pro Tag. Dann entfällt die weiße Woche zu Beginn, weil sie
+ohne ergänzende Nährstoffe nicht durchzuhalten wäre; du startest direkt mit dem
+Rhythmus aus grünen und weißen Tagen.
 
-**Weg eins — über das Essen.** Du deckst alles über frische Lebensmittel ab.
-Das verlangt dauerhaft mindestens fünf Portionen à 200 Gramm Gemüse und Salat
-pro Tag. Wenn du diesen Weg gehst, entfällt die weiße Woche zu Beginn der
-Aktivierungsphase — sie ließe sich ohne ergänzende Nährstoffe nicht sinnvoll
-durchhalten. Stattdessen startest du direkt mit dem Wochenrhythmus aus grünen
-und weißen Tagen.
+**Weg zwei — mit Nahrungsergänzung.** Der Weg, für den das Konzept ursprünglich
+entwickelt wurde, und der Grund, warum die weiße Woche möglich ist.
 
-**Weg zwei — mit Nahrungsergänzung.** Du ergänzt gezielt. Das ist der Weg, für
-den das Konzept ursprünglich entwickelt wurde, und der Grund, warum die weiße
-Woche überhaupt möglich ist.
-
-> Kein Muss, aber eine Entscheidung:
->
-> Entscheide dich bewusst für einen der beiden Wege — und dann halte ihn durch.
-> Die Mischung aus „weiße Woche machen" und „Nährstoffe weglassen" ist die eine
-> Variante, die nicht aufgeht.
+Entscheide dich bewusst für einen der beiden Wege und halte ihn durch: Die
+Mischung aus „weiße Woche machen" und „Nährstoffe weglassen" ist die eine
+Variante, die nicht aufgeht.
 
 ## Die Bausteine
 
-Das Konzept arbeitet mit einer überschaubaren Zahl von Bausteinen. Bewusst
-werden hier keine Produkte genannt, sondern Kategorien — welches Präparat du
-wählst, ist deine Entscheidung.
+Bewusst werden hier keine Produkte genannt, sondern Kategorien — welches
+Präparat du wählst, ist deine Entscheidung.
 
 | Baustein | Wozu er im Konzept gehört |
 |---|---|
@@ -49,9 +39,9 @@ wählst, ist deine Entscheidung.
 | Omega 3 und Coenzym Q10 | Optional, nach Bedarf |
 | Kollagenpeptide | Optional, für Haut, Haare und Nägel |
 
-Die Mengenangaben richten sich immer nach der Packungsangabe des jeweiligen
-Herstellers und nach den gesetzlichen Höchstmengen des Landes. Lies die
-Dosierungshinweise, bevor du beginnst — dieses Buch kann sie nicht ersetzen.
+Die Mengen richten sich nach der Packungsangabe des Herstellers und den
+gesetzlichen Höchstmengen. Lies die Dosierungshinweise, bevor du beginnst —
+dieses Buch ersetzt sie nicht.
 
 ## Woran du Qualität erkennst
 
@@ -59,18 +49,14 @@ Ob eine Ergänzung etwas taugt, entscheidet sich an wenigen, nachprüfbaren
 Punkten:
 
 - **Bioverfügbarkeit.** Entscheidend ist nicht, wie viel auf der Packung steht,
-  sondern wie viel der Körper tatsächlich aufnehmen kann. Pulver, die sich
-  vollständig lösen, sind Presslingen darin meist überlegen.
-- **GMP-Zertifizierung.** „Good Manufacturing Practice" ist ein
-  Produktionsstandard mit dokumentierten Reinheits- und Qualitätskontrollen.
-  Ein Hersteller, der danach zertifiziert ist, gibt das an.
-- **Kohlenhydratgehalt.** Für dieses Konzept gilt: höchstens 2 bis 8 Gramm
-  Kohlenhydrate pro Portion. Alles darüber unterläuft den Sinn der
-  Aktivierungsphase.
-- **Zutatenliste.** Je kürzer, desto besser. Zucker, Süßungsmittel und
-  Füllstoffe haben in der Aktivierungsphase nichts zu suchen.
-- **Herkunft und Prüfung.** Angaben zu Herstellungsland und
-  Laborkontrollen sollten auffindbar sein, nicht nur behauptet.
+  sondern wie viel der Körper aufnehmen kann. Vollständig lösliche Pulver sind
+  Presslingen darin meist überlegen.
+- **GMP-Zertifizierung**, ein Produktionsstandard mit dokumentierten
+  Reinheits- und Qualitätskontrollen. Wer danach zertifiziert ist, gibt es an.
+- **Kohlenhydratgehalt:** höchstens 2 bis 8 Gramm pro Portion.
+- **Zutatenliste.** Je kürzer, desto besser — Zucker, Süßungsmittel und
+  Füllstoffe haben hier nichts zu suchen.
+- **Herkunft und Prüfung** sollten auffindbar sein, nicht nur behauptet.
 
 ## Wann du besonders genau hinsehen solltest
 

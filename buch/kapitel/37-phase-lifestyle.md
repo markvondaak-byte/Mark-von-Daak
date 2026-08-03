@@ -58,23 +58,11 @@ der Gesundheit und Ernährung zwangsläufig hinten anstanden.
 
 ## Woran du merkst, dass es funktioniert hat
 
-Nicht an der Waage.
+Nicht an der Waage. Sondern daran, dass du in der Bäckerei nicht mehr überlegen
+musst. Dass du auf einer Feier isst, was es gibt, und am nächsten Tag ohne
+Drama einen weißen Tag einlegst. Dass du beim Einkaufen automatisch auf die
+Zutatenliste schaust. Und daran, dass das alles keine Anstrengung mehr ist.
 
-Sondern daran, dass du in der Bäckerei nicht mehr überlegen musst. Dass du auf
-einer Feier isst, was es gibt, und am nächsten Tag ohne Drama einen weißen Tag
-einlegst. Dass du beim Einkaufen automatisch auf die Zutatenliste schaust. Dass
-du merkst, wenn du zu wenig getrunken hast.
-
-Und daran, dass das alles keine Anstrengung mehr ist.
-
-{{LEERZEILE}}
-
----
-
-{{LEERZEILE}}
-
-**Damit hast du das Konzept vollständig durchlaufen.**
-
-Der Rest dieses Buches ist Nachschlagewerk: Lebensmittellisten für den Einkauf,
-Hilfe für die schwierigen Tage, Antworten auf die häufigsten Fragen und die
-Vorlagen zum Ausfüllen.
+**Damit hast du das Konzept vollständig durchlaufen.** Der Rest dieses Buches
+ist Nachschlagewerk: Lebensmittellisten für den Einkauf, Hilfe für die
+schwierigen Tage und Antworten auf die häufigsten Fragen.

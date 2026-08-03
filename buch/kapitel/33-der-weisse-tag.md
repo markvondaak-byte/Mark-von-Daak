@@ -7,12 +7,9 @@ kopfzeile: Der weiße Tag
 
 # Der weiße Tag — Schritt für Schritt
 
-Der weiße Tag ist der Grundbaustein. Wer ihn einmal verstanden hat, hat den
-größten Teil des Konzepts verstanden — der grüne Tag ist derselbe Ablauf mit
-Gemüse dazu.
-
-Vier eiweißreiche Mahlzeiten im Abstand von etwa vier Stunden, kein Salz, kein
-Zucker. Jeden Bissen gründlich kauen.
+Der weiße Tag ist der Grundbaustein — der grüne Tag ist derselbe Ablauf mit
+Gemüse dazu. Vier eiweißreiche Mahlzeiten im Abstand von etwa vier Stunden,
+kein Salz, kein Zucker, jeden Bissen gründlich kauen.
 
 ## Am Vorabend
 
@@ -32,16 +29,11 @@ Bei Bedarf zusätzlich das Präparat mit Omega 3 und Coenzym Q10.
 Die eingeweichten Körner vollständig in 100 bis 180 ml probiotischen Joghurt
 einrühren und essen.
 
-**Das Frühstück ist immer kalt.** Der kalte Tee am Morgen hat denselben Grund:
-Der Körper muss beides auf Körpertemperatur bringen und wird damit gleich zu
-Beginn aktiv.
-
-Wer damit nicht satt wird, ergänzt eine halbe Eiweißportion — ein kaltes,
-hartgekochtes Ei oder 75 Gramm kalte Hähnchenbrust.
-
-In der Aktivierungsphase kommt **kein Obst** in den Joghurt.
-
-Etwa 15 Minuten nach dem Essen: mindestens 300 ml stilles Wasser.
+**Das Frühstück ist immer kalt** — wie der Tee am Morgen: Der Körper muss beides
+auf Körpertemperatur bringen und wird damit gleich zu Beginn aktiv. Wer nicht
+satt wird, ergänzt eine halbe Eiweißportion, etwa ein kaltes hartgekochtes Ei.
+In der Aktivierungsphase kommt **kein Obst** in den Joghurt. Etwa 15 Minuten
+nach dem Essen: mindestens 300 ml stilles Wasser.
 
 ## Mittags — die zweite Mahlzeit
 
@@ -52,17 +44,12 @@ ohne Salz zubereitet.
 Pulver in etwa 50 ml stillem Wasser vollständig auflösen, kurz ausschäumen
 lassen, auf 250 bis 450 ml auffüllen und langsam trinken.
 
-## Nachmittags — die dritte Mahlzeit
+## Nachmittags und abends — dritte und vierte Mahlzeit
 
-Wieder rund vier Stunden später. Ein Proteingericht ohne Salz.
-
-15 Minuten danach etwa 300 ml Wasser und die zweite Portion Aminosäuren.
-
-## Abends — die vierte Mahlzeit
-
-Rund vier Stunden später. Ein Proteingericht ohne Salz.
-
-15 Minuten danach 300 ml Wasser und der zweite Mineralstoffdrink.
+Jeweils rund vier Stunden später, wieder ein Proteingericht ohne Salz.
+15 Minuten nach der dritten Mahlzeit etwa 300 ml Wasser und die zweite Portion
+Aminosäuren, 15 Minuten nach der vierten Mahlzeit 300 ml Wasser und der zweite
+Mineralstoffdrink.
 
 Bei Bedarf kann der Vitamin-B-Komplex über den Tag verteilt bis zu zweimal
 genommen werden, jeweils in 150 ml Wasser oder Kräutertee, mit mindestens 15
@@ -82,27 +69,9 @@ steht im nächsten Kapitel.
 | Fisch und Meeresfrüchte | 200 g (roh 260 g) | frisch oder tiefgekühlt |
 | Tofu, Seitan, Lupine | 150 g | ungesalzen |
 
-Du darfst frei kombinieren. Als Veganer kannst du viermal Tofu essen, als
-Fischliebhaber viermal Fisch. Die Obergrenze von vier Eiern am Tag gilt
-unabhängig davon.
-
-Rotes Fleisch sättigt in der Regel kürzer als Geflügel — das ist der
-praktische Grund für die Begrenzung auf zweimal pro Woche.
-
-## Ein Beispieltag
-
-**Morgens:** Kräutertee mit Vitaminmischung, danach Joghurt mit Leinsamen und
-Sonnenblumenkernen, dazu ein hartgekochtes Ei.
-
-**Mittags:** Hähnchenbrust in Kokosöl gebraten, gewürzt mit Paprikapulver,
-Thymian und Knoblauch, dazu ein Spritzer Zitrone.
-
-**Nachmittags:** Omelett aus zwei Eiern mit frischen Kräutern.
-
-**Abends:** Lachsfilet aus dem Ofen mit Dill und Zitrone.
-
-Dazwischen über den Tag verteilt mindestens zwei Liter stilles Wasser, immer
-mit 15 bis 20 Minuten Abstand zu den Mahlzeiten.
+Du darfst frei kombinieren; die Obergrenze von vier Eiern am Tag gilt
+unabhängig davon. Rotes Fleisch sättigt kürzer als Geflügel — daher die
+Begrenzung auf zweimal pro Woche.
 
 ## Der weiße Tag in späteren Phasen
 
