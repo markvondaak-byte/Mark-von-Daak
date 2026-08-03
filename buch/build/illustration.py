@@ -44,12 +44,12 @@ PALETTE = {
 # unten sind auf mindestens 4,5:1 gegen den helleren der beiden Grundtöne
 # gerechnet; wer am Grund dreht, muss sie nachrechnen.
 SCHIEFER = {
-    "grund": HexColor("#4E545D"),
-    "grund_tief": HexColor("#474D56"),   # flacher Verlauf, damit der Fuß
+    "grund": HexColor("#5A616B"),
+    "grund_tief": HexColor("#545A64"),   # flacher Verlauf, damit der Fuß
                                          # des Umschlags nicht wieder absäuft
-    "text": HexColor("#F5F7F2"),        # 7,1:1
-    "text_leise": HexColor("#C3C9C2"),  # 4,5:1 — Untertitel, normalgroß
-    "akzent": HexColor("#9DD380"),      # 4,4:1, wird je Band gesetzt
+    "text": HexColor("#F5F7F2"),        # 5,8:1
+    "text_leise": HexColor("#D7DCD7"),  # 4,5:1 — Untertitel, normalgroß
+    "akzent": HexColor("#9DD380"),      # 3,6:1, wird je Band gesetzt
     "balkentext": HexColor("#23272D"),  # dunkle Schrift auf dem Akzentbalken
     "schatten": HexColor("#05070A"),
 }
