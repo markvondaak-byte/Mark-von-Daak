@@ -50,8 +50,13 @@ Dazu bestimmt `cover_akzent` die Akzentfarbe des Bandes — `blatt` (Band 1),
 `zitrone` (Band 2) oder `beere` (Band 3). Die drei Bände tragen denselben
 Titel; im Amazon-Vorschaubild ist der farbige Balken mit der Bandkennung das
 Einzige, was sie auf den ersten Blick unterscheidet. Alle Akzentfarben halten
-Abstand zum FitLine-Crimson `#C8102E` und erreichen auf dem dunklen Grund
-mindestens 4,5:1 Kontrast.
+Abstand zum FitLine-Crimson `#C8102E`.
+
+Wer am Grundton dreht, muss die Schriftfarben nachrechnen — jede Aufhellung
+des Grundes kostet Kontrast. Maßstab: `text_leise` steht in Normalgröße und
+braucht 4,5:1, die Akzentfarben stehen nur auf gefüllten Balken und in großer
+Fettschrift und brauchen 3:1. Sie über diesen Wert hinaus aufzuhellen macht
+sie pastellig und gleicht die Bände im Vorschaubild wieder an.
 
 Der Untergrund ist ein Vektorverlauf, kein Bild. Ein Rasterhintergrund über
 den ganzen Umschlag bräuchte für 300 dpi rund zehn Megapixel — und unterhalb
