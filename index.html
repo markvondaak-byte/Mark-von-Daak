@@ -156,16 +156,17 @@
   .band { background: var(--bg-2); border-block: 1px solid var(--line); }
 
   /* ---------- results ---------- */
-  .results { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-  @media (max-width: 900px) { .results { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 520px) { .results { grid-template-columns: 1fr; max-width: 380px; margin-inline: auto; } }
+  .results { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+  @media (max-width: 760px) { .results { grid-template-columns: 1fr; max-width: 460px; margin-inline: auto; } }
+  @media (max-width: 520px) { .results { max-width: 100%; } }
   .result {
     background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
     overflow: hidden; box-shadow: var(--shadow); transition: transform .2s ease, border-color .2s;
   }
   .result:hover { transform: translateY(-4px); border-color: var(--accent); }
-  .result .frame { background: var(--surface-2); }
-  .result img { width: 100%; height: 300px; object-fit: cover; object-position: center top; }
+  .result .frame { background: var(--surface-2); aspect-ratio: 16 / 10;
+    display: grid; place-items: center; overflow: hidden; }
+  .result img { width: 100%; height: 100%; object-fit: contain; object-position: center; }
   .result .cap { padding: 16px 18px 18px; }
   .result .cap .tag { font-size: .72rem; text-transform: uppercase; letter-spacing: .12em; color: var(--accent); font-weight: 600; }
   .result .cap h3 { font-family: var(--body); font-weight: 600; font-size: 1.02rem; margin: 6px 0 0; letter-spacing: -.01em; }
