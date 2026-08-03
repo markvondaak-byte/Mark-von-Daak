@@ -230,6 +230,23 @@ function naehrstoffPlan(farbe) {
   ];
 }
 
+/** Rezepte, die zu einer Tagesfarbe gehören.
+ *
+ *  Das Frühstück zählt zu weißen und grünen Tagen dazu — es ist dort die
+ *  erste der vier Mahlzeiten. Diese eine Stelle bestimmt sowohl die
+ *  Vorschläge auf der Tageskarte als auch, was der Filter in der
+ *  Rezeptliste zeigt. Vorher waren das zwei getrennte Regeln, weshalb die
+ *  Tageskarte 31 Rezepte versprach und die Liste 26 lieferte.
+ */
+function rezepteFuerTagesfarbe(farbe) {
+  const eigen = App.rezepte.rezepte.filter((r) => r.farbe === farbe);
+  if (farbe === 'rot') return eigen;
+  // Die Frühstücke stehen hinten: Es sind für jeden Tag dieselben fünf, und
+  // vorn würden sie die Vorschau füllen, bevor eine einzige Hauptmahlzeit
+  // zu sehen ist.
+  return eigen.concat(App.rezepte.rezepte.filter((r) => r.farbe === 'fruehstueck'));
+}
+
 function tagIstFertig(nummer) {
   const t = Speicher.daten.tage[nummer];
   if (!t) return false;
@@ -258,7 +275,12 @@ function blattOeffnen(titel, aufbauen) {
   halter.append(blatt);
   document.body.style.overflow = 'hidden';
 
-  blatt._escape = (e) => { if (e.key === 'Escape') blattSchliessen(blatt); };
+  // Nur das oberste Blatt schließen. Aus einem Tag heraus lässt sich ein
+  // Rezept öffnen — dann liegen zwei übereinander, und Escape darf nicht
+  // beide auf einmal wegräumen.
+  blatt._escape = (e) => {
+    if (e.key === 'Escape' && blatt === halter.lastElementChild) blattSchliessen(blatt);
+  };
   document.addEventListener('keydown', blatt._escape);
   zu.focus();
   return blatt;
@@ -332,7 +354,7 @@ function ansichtHeute(ziel) {
     ziel.append(abschlussKarte(nummer));
     return;
   }
-  tageskarte(ziel, nummer, true);
+  tageskarte(ziel, nummer, { istHeute: true });
 }
 
 function abschlussKarte(nummer) {
@@ -347,8 +369,16 @@ function abschlussKarte(nummer) {
   return box;
 }
 
-/** Die zentrale Tageskarte — auch aus der Programmübersicht heraus genutzt. */
-function tageskarte(ziel, nummer, istHeute) {
+/** Die zentrale Tageskarte — auch aus der Programmübersicht heraus genutzt.
+ *
+ *  `neuAufbauen` muss den Behälter neu zeichnen, in dem die Karte steckt.
+ *  Aus der Heute-Ansicht ist das die Hauptansicht, aus dem Programm heraus
+ *  der Inhalt des Tagesfensters. Ohne diese Unterscheidung zeichnete die
+ *  Karte im Fenster stets die Ansicht dahinter neu — Klicks blieben dann
+ *  ohne sichtbare Wirkung.
+ */
+function tageskarte(ziel, nummer, { istHeute = false, neuAufbauen } = {}) {
+  const zeichneNeu = neuAufbauen || neuZeichnen;
   const info = tagInfo(nummer);
   const tag = Speicher.tag(nummer);
   const farbe = farbeVonTag(nummer);
@@ -393,7 +423,7 @@ function tageskarte(ziel, nummer, istHeute) {
       k.onclick = () => {
         tag.farbe = f;
         Speicher.sichern();
-        neuZeichnen();
+        zeichneNeu();
       };
       reihe.append(k);
     });
@@ -518,14 +548,29 @@ function tageskarte(ziel, nummer, istHeute) {
 
   /* Passende Rezepte */
   if (farbe && farbe !== 'vorbereitung') {
-    const passend = App.rezepte.rezepte.filter((r) =>
-      r.farbe === farbe || (farbe !== 'rot' && r.farbe === 'fruehstueck'));
+    const passend = rezepteFuerTagesfarbe(farbe);
     if (passend.length) {
-      ziel.append(el('div', 'abschnitt-titel', `Rezepte für heute`));
-      passend.slice(0, 4).forEach((r) => ziel.append(rezeptZeile(r)));
-      const mehr = el('button', 'knopf knopf--zweit', `Alle ${passend.length} Rezepte ansehen`);
-      mehr.onclick = () => { App.rezeptFilter = farbe; wechseln('rezepte'); };
-      ziel.append(mehr);
+      ziel.append(el('div', 'abschnitt-titel',
+        istHeute ? 'Rezepte für heute' : `Rezepte für diesen Tag`));
+
+      // Erst vier zeigen, den Rest auf Wunsch direkt darunter ausklappen.
+      // Der frühere Sprung in den Rezepte-Tab funktionierte aus dem
+      // Tagesfenster heraus nicht: Er zeichnete die Ansicht dahinter neu,
+      // während das Fenster offen blieb — sichtbar passierte nichts.
+      const liste = el('div');
+      const sichtbar = 4;
+      passend.slice(0, sichtbar).forEach((r) => liste.append(rezeptZeile(r)));
+      ziel.append(liste);
+
+      if (passend.length > sichtbar) {
+        const mehr = el('button', 'knopf knopf--zweit',
+          `Weitere ${passend.length - sichtbar} Rezepte anzeigen`);
+        mehr.onclick = () => {
+          passend.slice(sichtbar).forEach((r) => liste.append(rezeptZeile(r)));
+          mehr.remove();
+        };
+        ziel.append(mehr);
+      }
     }
   }
 }
@@ -610,7 +655,13 @@ function ansichtProgramm(ziel) {
 }
 
 function tagBlattOeffnen(nummer) {
-  blattOeffnen(`Tag ${nummer}`, (inhalt) => tageskarte(inhalt, nummer, false));
+  blattOeffnen(`Tag ${nummer}`, (inhalt) => {
+    const aufbauen = () => {
+      inhalt.replaceChildren();
+      tageskarte(inhalt, nummer, { neuAufbauen: aufbauen });
+    };
+    aufbauen();
+  });
 }
 
 /* --- Ansicht: Rezepte --------------------------------------------------- */
@@ -651,8 +702,17 @@ function ansichtRezepte(ziel) {
 
 function rezeptListe() {
   const suche = App.rezeptSuche.trim().toLowerCase();
-  const treffer = App.rezepte.rezepte.filter((r) => {
-    if (App.rezeptFilter !== 'alle' && r.farbe !== App.rezeptFilter) return false;
+
+  // „Weiße Tage" und „Grüne Tage" sind Tagesfarben, keine Rezeptkategorien:
+  // Sie schließen das Frühstück mit ein, genau wie die Tageskarte. Die
+  // übrigen Chips filtern direkt über das Feld.
+  const istTagesfarbe = App.rezeptFilter === 'weiss' || App.rezeptFilter === 'gruen';
+  const grundmenge = istTagesfarbe
+    ? rezepteFuerTagesfarbe(App.rezeptFilter)
+    : App.rezepte.rezepte.filter(
+        (r) => App.rezeptFilter === 'alle' || r.farbe === App.rezeptFilter);
+
+  const treffer = grundmenge.filter((r) => {
     if (!suche) return true;
     return r.name.toLowerCase().includes(suche) ||
            r.zutaten.some((z) => z.toLowerCase().includes(suche));
