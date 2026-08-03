@@ -213,7 +213,7 @@ def kennungsbalken(c, text, mitte_x, y, schrift, groesse, sperrung):
                 breite + 2 * polster_x, groesse + 2 * polster_y,
                 (groesse + 2 * polster_y) / 2, stroke=0, fill=1)
     gesperrt_zentriert(c, text, mitte_x, y + groesse * 0.12,
-                       schrift, groesse, sperrung, ill.SCHIEFER["grund_tief"])
+                       schrift, groesse, sperrung, ill.SCHIEFER["balkentext"])
 
 
 def gesperrt_zentriert(c, text, mitte_x, y, schrift, groesse, sperrung, farbe):
