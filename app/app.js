@@ -42,7 +42,13 @@ const Speicher = {
       this.daten.tage[nummer] = {
         mahlzeiten: [false, false, false, false],
         wasser: 0,
-        naehrstoffe: { morgens: false, mittags: false, abends: false, joghurt: false },
+        // Schlüssel je nach Phase unterschiedlich, siehe naehrstoffPlan().
+        // Fehlende lesen sich als false, deshalb braucht es keine Migration
+        // für Tage, die vor dieser Erweiterung angelegt wurden.
+        naehrstoffe: {
+          morgens: false, mittags: false, nachmittags: false,
+          abends: false, tagsueber: false, joghurt: false
+        },
         bewegung: '',
         schlaf: '',
         befinden: null,
@@ -144,6 +150,39 @@ function farbeVonTag(nummer) {
     return gespeichert || null;
   }
   return info.tag.farbe;
+}
+
+/** Einnahmeplan der Nahrungsergänzung — je Phase ein anderer.
+ *
+ *  Die Uhrzeit allein sagt nichts darüber, was einzunehmen ist. Deshalb
+ *  trägt jede Zeile die konkrete Ergänzung als Zusatz.
+ *  Quelle: Kapitel „Der weiße Tag" und „Phase 1 — Die Vorbereitung".
+ */
+function naehrstoffPlan(farbe) {
+  if (farbe === 'vorbereitung') {
+    return [
+      ['morgens', 'Morgens',
+       'Ballaststoff- und Vitaminmischung mit B-Vitaminen, vor dem Frühstück'],
+      ['joghurt', 'Probiotischer Joghurt',
+       '100 bis 200 g, bevorzugt am Morgen'],
+      ['tagsueber', 'Tagsüber, bei Bedarf',
+       'Vitamin-B-Komplex, bis zu zweimal, mit Abstand zu den Mahlzeiten'],
+      ['abends', 'Abends',
+       'Mineralstoffdrink, etwa eine Stunde vor dem Schlafengehen']
+    ];
+  }
+  return [
+    ['morgens', 'Morgens, nach dem Aufstehen',
+     'Vitaminmischung im kalten Kräutertee, dazu die Aminosäuren'],
+    ['joghurt', 'Zum Frühstück',
+     'Probiotischer Joghurt mit den eingeweichten Körnern'],
+    ['mittags', 'Mittags',
+     'Mineralstoffdrink, nach der 2. Mahlzeit'],
+    ['nachmittags', 'Nachmittags',
+     'Zweite Portion Aminosäuren, nach der 3. Mahlzeit'],
+    ['abends', 'Abends',
+     'Zweiter Mineralstoffdrink, nach der 4. Mahlzeit']
+  ];
 }
 
 function tagIstFertig(nummer) {
@@ -377,12 +416,17 @@ function tageskarte(ziel, nummer, istHeute) {
   /* Nährstoffe */
   const nBox = el('div', 'karte');
   nBox.append(el('div', 'karte__titel', 'Nährstoffe'));
-  [['morgens', 'Morgens'], ['mittags', 'Mittags'],
-   ['abends', 'Abends'], ['joghurt', 'Probiotischer Joghurt']].forEach(([k, t]) => {
-    nBox.append(hakenReihe(t, null, tag.naehrstoffe[k], (v) => {
+  naehrstoffPlan(farbe).forEach(([k, titel, note]) => {
+    nBox.append(hakenReihe(titel, note, !!tag.naehrstoffe[k], (v) => {
       tag.naehrstoffe[k] = v; Speicher.sichern();
     }));
   });
+  const nHinweis = el('p', null,
+    'Die Mengen richten sich nach der Packungsangabe des Herstellers. '
+    + 'Ohne ergänzte Nährstoffe entfällt die weiße Woche — dann läuft die '
+    + 'Versorgung über fünf Portionen Gemüse und Salat am Tag.');
+  nHinweis.style.cssText = 'font-size:12px;color:var(--ink-soft);margin:10px 0 0';
+  nBox.append(nHinweis);
   ziel.append(nBox);
 
   /* Befinden und Notiz */

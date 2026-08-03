@@ -4,7 +4,7 @@
    Inhalte nur bei einem neuen Release ändern — dann wird VERSION erhöht und
    der alte Cache verworfen. */
 
-const VERSION = 'stoffwechsel-reset-v1';
+const VERSION = 'stoffwechsel-reset-v2';
 
 const DATEIEN = [
   './',
