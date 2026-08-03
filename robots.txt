@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Die App ist ein persönliches Werkzeug, kein Inhalt für Suchmaschinen.
+Disallow: /app/

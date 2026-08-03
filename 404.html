@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seite nicht gefunden — Mark von Daak</title>
+<meta name="robots" content="noindex">
+<style>
+  :root {
+    --bg: #FFFFFF; --bg-2: #F3F1EC; --ink: #1B1A17; --ink-soft: #625F58;
+    --line: #E7E2D9; --accent: #C8102E; --on-accent: #FFFFFF;
+    --display: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    --body: "Instrument Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #17140F; --bg-2: #100D08; --ink: #F4F1EA; --ink-soft: #BDB4A6;
+      --line: #34302A; --accent: #FF5566;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh;
+    display: grid; place-items: center;
+    background: var(--bg-2); color: var(--ink);
+    font-family: var(--body); line-height: 1.55;
+    padding: 24px;
+  }
+  main {
+    background: var(--bg); border: 1px solid var(--line);
+    border-radius: 18px; padding: 40px 32px;
+    max-width: 460px; width: 100%; text-align: center;
+    box-shadow: 0 1px 2px rgba(28,18,21,.05), 0 14px 34px -18px rgba(28,18,21,.28);
+  }
+  .zahl {
+    font-family: var(--display); font-weight: 700; font-size: 56px;
+    line-height: 1; color: var(--accent); letter-spacing: -.03em;
+  }
+  h1 { font-family: var(--display); font-size: 21px; margin: 14px 0 10px; }
+  p { color: var(--ink-soft); margin: 0 0 24px; font-size: 15px; }
+  .knopf {
+    display: inline-block; text-decoration: none;
+    background: var(--accent); color: var(--on-accent);
+    font-family: var(--display); font-weight: 700; font-size: 15px;
+    padding: 13px 26px; border-radius: 999px;
+  }
+  .neben {
+    display: block; margin-top: 16px; font-size: 14px;
+    color: var(--ink-soft); text-decoration: none;
+  }
+  .neben:hover { color: var(--accent); }
+</style>
+</head>
+<body>
+  <main>
+    <div class="zahl">404</div>
+    <h1>Diese Seite gibt es nicht</h1>
+    <p>Vielleicht hat sich ein Tippfehler eingeschlichen, oder die Seite ist
+       umgezogen.</p>
+    <a class="knopf" href="/">Zur Startseite</a>
+    <a class="neben" href="/app/">Zur Stoffwechsel-Reset-App</a>
+  </main>
+</body>
+</html>

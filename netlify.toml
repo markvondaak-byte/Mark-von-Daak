@@ -1,0 +1,87 @@
+# Netlify-Konfiguration
+#
+# Der Build kopiert nur das Auszuliefernde nach dist/ — die Buchquellen unter
+# buch/, workbook/ und rezepte/ bleiben draußen. Siehe tools/build_site.py.
+
+[build]
+  command = "python3 tools/build_site.py"
+  publish = "dist"
+
+[build.environment]
+  PYTHON_VERSION = "3.11"
+
+# --- Sicherheitskopfzeilen für alles -----------------------------------------
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), camera=(), microphone=(), payment=(), interest-cohort=()"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+
+# --- Website ------------------------------------------------------------------
+# HTML nie lange cachen, sonst sehen Besucher nach einer Änderung tagelang
+# die alte Seite.
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# --- App ----------------------------------------------------------------------
+# Programmdateien und Inhalte müssen bei jedem Start gegengeprüft werden,
+# damit ein Update tatsächlich ankommt.
+[[headers]]
+  for = "/app/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Der Service Worker ist der kritische Punkt: Wird er aus dem Cache
+# ausgeliefert, bleibt die App bei alten Nutzern für immer auf dem alten
+# Stand. Nach jedem Update zusätzlich VERSION in app/sw.js erhöhen.
+[[headers]]
+  for = "/app/sw.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    Service-Worker-Allowed = "/app/"
+
+[[headers]]
+  for = "/app/manifest.webmanifest"
+  [headers.values]
+    Content-Type = "application/manifest+json; charset=utf-8"
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Icons ändern sich praktisch nie und tragen feste Namen.
+[[headers]]
+  for = "/app/icons/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# --- Umleitungen ---------------------------------------------------------------
+# Bequemer Kurzlink zur App.
+[[redirects]]
+  from = "/app"
+  to = "/app/"
+  status = 301
+
+# Die Buchquellen sind gar nicht erst im dist. Falls jemand danach sucht,
+# soll er eine saubere 404 bekommen statt einer Verzeichnisauflistung.
+[[redirects]]
+  from = "/buch/*"
+  to = "/404.html"
+  status = 404
+
+[[redirects]]
+  from = "/workbook/*"
+  to = "/404.html"
+  status = 404
+
+[[redirects]]
+  from = "/rezepte/*"
+  to = "/404.html"
+  status = 404
