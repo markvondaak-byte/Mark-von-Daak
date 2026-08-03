@@ -44,20 +44,25 @@ PALETTE = {
 # unten sind auf mindestens 4,5:1 gegen den helleren der beiden Grundtöne
 # gerechnet; wer am Grund dreht, muss sie nachrechnen.
 SCHIEFER = {
-    "grund": HexColor("#454B54"),
-    "grund_tief": HexColor("#3E434B"),   # flacher Verlauf, damit der Fuß
+    "grund": HexColor("#4E545D"),
+    "grund_tief": HexColor("#474D56"),   # flacher Verlauf, damit der Fuß
                                          # des Umschlags nicht wieder absäuft
-    "text": HexColor("#F5F7F2"),        # 8,2:1
-    "text_leise": HexColor("#B4BCB3"),  # 4,5:1
-    "akzent": HexColor("#9DD380"),      # wird je Band gesetzt
+    "text": HexColor("#F5F7F2"),        # 7,1:1
+    "text_leise": HexColor("#C3C9C2"),  # 4,5:1 — Untertitel, normalgroß
+    "akzent": HexColor("#9DD380"),      # 4,4:1, wird je Band gesetzt
     "balkentext": HexColor("#23272D"),  # dunkle Schrift auf dem Akzentbalken
     "schatten": HexColor("#05070A"),
 }
 
 # Je Band eine eigene Akzentfarbe, damit sich die drei Umschläge im Regal und
 # im Amazon-Vorschaubild unterscheiden — dort ist der Titel bei allen dreien
-# derselbe. Alle drei stammen aus der Lebensmittelpalette, halten Abstand zum
-# FitLine-Crimson #C8102E und erreichen rund 5:1 gegen den Grund.
+# derselbe. Alle drei stammen aus der Lebensmittelpalette und halten Abstand
+# zum FitLine-Crimson #C8102E.
+#
+# Sie stehen nur auf gefüllten Balken und in großer Fettschrift (Schlagzeile,
+# Autorenzeile); dafür genügen 3:1. Sie liegen bei rund 4,4:1 und dürfen
+# deshalb kräftig bleiben, statt für den helleren Grund pastellig aufgehellt
+# zu werden. Für normalgroßen Text sind sie nicht gedacht.
 AKZENTE = {
     "blatt": HexColor("#9DD380"),    # Band 1 — Blattgrün
     "zitrone": HexColor("#E9BF47"),  # Band 2 — Zitronengelb

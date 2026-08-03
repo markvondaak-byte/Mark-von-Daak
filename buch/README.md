@@ -43,7 +43,7 @@ YAML-Datei des Bandes:
 
 | Wert | Aussehen |
 |---|---|
-| `schiefer` | helles Anthrazit (`#454B54` oben nach `#3E434B` unten), Lebensmittel als durchlaufender Streifen am oberen Rand, Titel im freien Grund darunter (aktuell eingestellt) |
+| `schiefer` | helles Anthrazit (`#4E545D` oben nach `#474D56` unten), Lebensmittel als durchlaufender Streifen am oberen Rand, Titel im freien Grund darunter (aktuell eingestellt) |
 | `hell` | Papierweiß, Illustrationsbänder oben und unten, Titel in der Mitte |
 
 Dazu bestimmt `cover_akzent` die Akzentfarbe des Bandes — `blatt` (Band 1),
