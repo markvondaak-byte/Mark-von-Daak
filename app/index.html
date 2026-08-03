@@ -5,8 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Der Stoffwechsel-Reset</title>
 <meta name="description" content="Dein Begleiter durch das 4-Phasen-Ernährungskonzept: Tagesplan, Rezepte, Nachschlagewerk und Fortschritt.">
-<meta name="theme-color" content="#C8102E" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#17140F" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#C8102E">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Stoffwechsel-Reset">
@@ -14,6 +13,19 @@
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <link rel="icon" href="icons/icon-192.png">
 <link rel="stylesheet" href="app.css">
+<script>
+/* Setzt den Farbmodus, bevor das erste Pixel gezeichnet wird. Ohne das
+   blitzt beim Start kurz die helle Variante auf, auch wenn dunkel
+   eingestellt ist. Muss deshalb inline im <head> stehen und darf nichts
+   nachladen. */
+(function () {
+  var wahl = null;
+  try { wahl = localStorage.getItem('stoffwechsel-reset.modus'); } catch (e) {}
+  var dunkel = wahl === 'dunkel' ||
+    (wahl !== 'hell' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.theme = dunkel ? 'dark' : 'light';
+})();
+</script>
 </head>
 <body>
 
@@ -43,9 +55,22 @@
   <symbol id="i-schliessen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
     <path d="M6 6l12 12M18 6L6 18"/>
   </symbol>
+  <!-- Zahnrad mit gezackter Kontur. Die frühere Variante aus Kreis und
+       Strahlen war von einem Sonnensymbol nicht zu unterscheiden und wurde
+       für eine Hell/Dunkel-Umschaltung gehalten. -->
   <symbol id="i-zahnrad" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="12" cy="12" r="3.2"/>
-    <path d="M12 2.5v2.2M12 19.3v2.2M21.5 12h-2.2M4.7 12H2.5M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6M18.7 18.7l-1.6-1.6M6.9 6.9 5.3 5.3"/>
+    <circle cx="12" cy="12" r="3"/>
+    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6h.09A1.65 1.65 0 0 0 10 3.09V3a2 2 0 1 1 4 0v.09A1.65 1.65 0 0 0 15 4.6a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9v.09a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+  </symbol>
+  <symbol id="i-sonne" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="4"/>
+    <path d="M12 2v2M12 20v2M22 12h-2M4 12H2M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4M19.1 19.1l-1.4-1.4M6.3 6.3 4.9 4.9"/>
+  </symbol>
+  <symbol id="i-mond" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+  </symbol>
+  <symbol id="i-system" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="2.5" y="4" width="19" height="13" rx="2"/><path d="M8 20.5h8M12 17v3.5"/>
   </symbol>
   <symbol id="i-suche" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
     <circle cx="11" cy="11" r="7"/><path d="M16.5 16.5 21 21"/>

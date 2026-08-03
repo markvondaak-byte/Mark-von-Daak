@@ -65,6 +65,51 @@ const Speicher = {
   }
 };
 
+/* --- Farbmodus ----------------------------------------------------------- */
+/* Drei Zustände: 'system' folgt dem Gerät, 'hell' und 'dunkel' überstimmen es.
+   Die Wahl liegt in einem eigenen Schlüssel, damit sie erhalten bleibt, wenn
+   die Programmdaten zurückgesetzt werden — und damit das Skript im <head>
+   sie lesen kann, ohne den ganzen Datensatz zu parsen. */
+const MODUS_SCHLUESSEL = 'stoffwechsel-reset.modus';
+
+const Modus = {
+  gewaehlt() {
+    try { return localStorage.getItem(MODUS_SCHLUESSEL) || 'system'; }
+    catch (e) { return 'system'; }
+  },
+
+  systemIstDunkel() {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  },
+
+  anwenden() {
+    const wahl = this.gewaehlt();
+    const dunkel = wahl === 'dunkel' || (wahl === 'system' && this.systemIstDunkel());
+    document.documentElement.dataset.theme = dunkel ? 'dark' : 'light';
+
+    // Die Statusleiste des Systems soll zur App passen.
+    const marke = document.querySelector('meta[name="theme-color"]');
+    if (marke) marke.setAttribute('content', dunkel ? '#17140F' : '#C8102E');
+  },
+
+  setzen(wahl) {
+    try {
+      if (wahl === 'system') localStorage.removeItem(MODUS_SCHLUESSEL);
+      else localStorage.setItem(MODUS_SCHLUESSEL, wahl);
+    } catch (e) { /* privates Surfen: dann gilt die Wahl nur für diese Sitzung */ }
+    this.anwenden();
+  },
+
+  beobachten() {
+    // Wechselt das Gerät zwischen hell und dunkel, zieht die App mit —
+    // aber nur, solange nichts Festes eingestellt ist.
+    window.matchMedia('(prefers-color-scheme: dark)')
+      .addEventListener('change', () => {
+        if (this.gewaehlt() === 'system') this.anwenden();
+      });
+  }
+};
+
 /* --- Zustand ------------------------------------------------------------ */
 const App = {
   programm: null,
@@ -931,6 +976,31 @@ function messungBlatt(index, vorhanden) {
 /* --- Einstellungen ------------------------------------------------------ */
 function einstellungenBlatt() {
   blattOeffnen('Einstellungen', (inhalt, schliessen) => {
+    const mBox = el('div', 'karte');
+    mBox.append(el('div', 'karte__titel', 'Darstellung'));
+    const modus = el('div', 'modus');
+    [['system', 'Automatisch', 'system'],
+     ['hell', 'Hell', 'sonne'],
+     ['dunkel', 'Dunkel', 'mond']].forEach(([wert, beschriftung, symbol]) => {
+      const k = el('button');
+      k.innerHTML = ikon(symbol);
+      k.append(document.createTextNode(beschriftung));
+      k.setAttribute('aria-pressed', String(Modus.gewaehlt() === wert));
+      k.onclick = () => {
+        Modus.setzen(wert);
+        modus.querySelectorAll('button').forEach((b) =>
+          b.setAttribute('aria-pressed', String(b === k)));
+      };
+      modus.append(k);
+    });
+    mBox.append(modus);
+    const mHinweis = el('p', null,
+      'Automatisch folgt der Einstellung deines Geräts und wechselt mit, '
+      + 'wenn es das tut.');
+    mHinweis.style.cssText = 'font-size:12.5px;color:var(--ink-soft);margin:11px 0 0';
+    mBox.append(mHinweis);
+    inhalt.append(mBox);
+
     const sBox = el('div', 'karte');
     sBox.append(el('div', 'karte__titel', 'Startdatum'));
     const f = el('div', 'feld');
@@ -1063,6 +1133,8 @@ function neuZeichnen() {
 
 /* --- Start -------------------------------------------------------------- */
 async function starten() {
+  Modus.anwenden();
+  Modus.beobachten();
   Speicher.laden();
   try {
     const [programm, rezepte, wissen] = await Promise.all([

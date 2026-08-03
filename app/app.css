@@ -41,29 +41,56 @@
   --tabbar-h: 62px;
 }
 
+/* Dunkelmodus.
+   Gesetzt wird er über data-theme am <html> — das erledigt ein kleines
+   Skript im <head>, noch vor dem ersten Zeichnen. Dadurch gibt es kein
+   Aufblitzen der falschen Variante, und die Umschaltung in den
+   Einstellungen kann die Systemvorgabe in beide Richtungen überstimmen.
+
+   Zur Akzentfarbe: Auf dunklem Grund muss sie zwei Aufgaben erfüllen, die
+   sich widersprechen — als Text lesbar sein und weiße Schrift auf Knöpfen
+   tragen. Eine einzige Farbe schafft beides nicht. Deshalb zwei:
+     --accent      Flächen (Knöpfe, Haken, aktive Zustände)
+                   #D6333F, weiße Schrift darauf 4,8:1
+     --accent-ink  Text und Symbole auf dunklem Grund
+                   #FF6B78, 6,0:1 auf Kartenflächen
+   Im hellen Modus ist es umgekehrt: Dort ist die Textvariante dunkler. */
+:root[data-theme="dark"] {
+  --bg:         #17140F;
+  --bg-2:       #100D08;
+  --surface:    #221E17;
+  --surface-2:  #2B261E;
+  --ink:        #F4F1EA;
+  --ink-soft:   #BDB4A6;
+  --line:       #34302A;
+  --accent:     #D6333F;
+  --accent-ink: #FF6B78;
+  --on-accent:  #FFFFFF;
+
+  --tag-weiss:      #2E2A22;
+  --tag-weiss-line: #6A6459;
+  --tag-gruen:      #24361C;
+  --tag-gruen-ink:  #9CCB84;
+  --tag-rot:        #3B2320;
+  --tag-rot-ink:    #F09A9A;
+  --tag-vorb:       #2A2620;
+  --tag-vorb-ink:   #A39C90;
+
+  --shadow:    0 1px 2px rgba(0,0,0,.4), 0 22px 46px -22px rgba(0,0,0,.72);
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.4), 0 8px 20px -14px rgba(0,0,0,.7);
+}
+
+/* Rückfallebene, falls das Skript im <head> nicht läuft. */
 @media (prefers-color-scheme: dark) {
-  :root {
-    --bg:         #17140F;
-    --bg-2:       #100D08;
-    --surface:    #221E17;
-    --surface-2:  #2B261E;
-    --ink:        #F4F1EA;
-    --ink-soft:   #BDB4A6;
-    --line:       #34302A;
-    --accent:     #FF5566;
-    --accent-ink: #FF8A93;
-    --on-accent:  #FFFFFF;
-
-    --tag-weiss:      #2E2A22;
-    --tag-weiss-line: #6A6459;
-    --tag-gruen:      #24361C;
-    --tag-gruen-ink:  #9CCB84;
-    --tag-rot:        #3B2320;
-    --tag-rot-ink:    #F09A9A;
-    --tag-vorb:       #2A2620;
-    --tag-vorb-ink:   #A39C90;
-
-    --shadow:    0 1px 2px rgba(0,0,0,.4), 0 22px 46px -22px rgba(0,0,0,.72);
+  :root:not([data-theme]) {
+    --bg: #17140F; --bg-2: #100D08; --surface: #221E17; --surface-2: #2B261E;
+    --ink: #F4F1EA; --ink-soft: #BDB4A6; --line: #34302A;
+    --accent: #D6333F; --accent-ink: #FF6B78;
+    --tag-weiss: #2E2A22; --tag-weiss-line: #6A6459;
+    --tag-gruen: #24361C; --tag-gruen-ink: #9CCB84;
+    --tag-rot: #3B2320; --tag-rot-ink: #F09A9A;
+    --tag-vorb: #2A2620; --tag-vorb-ink: #A39C90;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 22px 46px -22px rgba(0,0,0,.72);
     --shadow-sm: 0 1px 2px rgba(0,0,0,.4), 0 8px 20px -14px rgba(0,0,0,.7);
   }
 }
@@ -156,7 +183,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
   transition: color .15s;
 }
 .tab svg { width: 22px; height: 22px; stroke-width: 1.8; }
-.tab[aria-selected="true"] { color: var(--accent); }
+.tab[aria-selected="true"] { color: var(--accent-ink); }
 .tab:active { opacity: .6; }
 
 /* --- Karten ------------------------------------------------------------- */
@@ -236,6 +263,15 @@ button, input, select, textarea { font: inherit; color: inherit; }
   position: relative;
   overflow: hidden;
 }
+/* Im Dunkelmodus wirkt die volle Akzentfläche zu grell — der Verlauf wird
+   deshalb abgedunkelt. Weiße Schrift bleibt dabei klar über 4,5:1. */
+:root[data-theme="dark"] .heute {
+  background: linear-gradient(160deg,
+    color-mix(in srgb, var(--accent) 66%, #000) 0%,
+    color-mix(in srgb, var(--accent) 86%, #000) 62%,
+    color-mix(in srgb, var(--accent) 74%, #7A3E22) 100%);
+}
+
 .heute::after {
   content: "";
   position: absolute;
@@ -345,7 +381,7 @@ textarea.eingabe { min-height: 76px; resize: vertical; }
   padding: 13px 20px; border-radius: 999px;
   font-family: var(--display); font-weight: 700; font-size: 15px;
   width: 100%;
-  box-shadow: 0 8px 20px -12px var(--accent);
+  box-shadow: 0 6px 16px -10px color-mix(in srgb, var(--accent) 60%, transparent);
   transition: transform .1s, opacity .15s;
 }
 .knopf:active { transform: scale(.98); opacity: .9; }
@@ -365,7 +401,7 @@ textarea.eingabe { min-height: 76px; resize: vertical; }
 .woche__kopf { display: flex; align-items: baseline; gap: 8px; margin-bottom: 9px; }
 .woche__nr { font-family: var(--display); font-weight: 700; font-size: 14.5px; }
 .woche__phase { font-size: 11.5px; color: var(--ink-soft); }
-.woche__fokus { margin-left: auto; font-size: 11.5px; color: var(--accent); font-weight: 600; }
+.woche__fokus { margin-left: auto; font-size: 11.5px; color: var(--accent-ink); font-weight: 600; }
 .woche__tage { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
 
 .tageszelle {
@@ -422,7 +458,7 @@ textarea.eingabe { min-height: 76px; resize: vertical; }
 
 .zutat { display: flex; gap: 9px; padding: 7px 0; border-bottom: 1px dashed var(--line); font-size: 14.5px; }
 .zutat:last-child { border-bottom: 0; }
-.zutat__punkt { color: var(--accent); font-weight: 700; }
+.zutat__punkt { color: var(--accent-ink); font-weight: 700; }
 
 .schritt { display: flex; gap: 11px; padding: 9px 0; }
 .schritt__nr {
@@ -446,7 +482,7 @@ textarea.eingabe { min-height: 76px; resize: vertical; }
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
   padding: 12px 14px; margin: 0 0 14px;
 }
-.hinweis__titel { font-family: var(--display); font-weight: 700; font-size: 13.5px; color: var(--accent); margin-bottom: 4px; }
+.hinweis__titel { font-family: var(--display); font-weight: 700; font-size: 13.5px; color: var(--accent-ink); margin-bottom: 4px; }
 .hinweis p { margin: 0; font-size: 14px; }
 
 .tabelle-wrap { overflow-x: auto; margin: 0 0 14px; -webkit-overflow-scrolling: touch; }
@@ -514,3 +550,19 @@ th { font-family: var(--display); font-weight: 700; font-size: 12px; background:
 .reihe > * { flex: 1; }
 .mitte { text-align: center; }
 .versteckt { display: none !important; }
+
+/* --- Umschaltung hell/dunkel -------------------------------------------- */
+.modus { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
+.modus button {
+  appearance: none; cursor: pointer;
+  border: 1px solid var(--line); background: var(--surface-2); color: var(--ink);
+  border-radius: var(--radius-sm); padding: 13px 6px 11px;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  font-size: 12.5px; font-weight: 600; transition: all .12s;
+}
+.modus button svg { width: 19px; height: 19px; stroke-width: 1.8; color: var(--ink-soft); }
+.modus button[aria-pressed="true"] {
+  border-color: var(--accent); color: var(--accent-ink);
+  background: color-mix(in srgb, var(--accent) 10%, var(--surface));
+}
+.modus button[aria-pressed="true"] svg { color: var(--accent-ink); }
