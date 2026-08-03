@@ -10,8 +10,10 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Stoffwechsel-Reset">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="apple-touch-icon" href="icons/icon-192.png">
-<link rel="icon" href="icons/icon-192.png">
+<!-- iOS rundet das Apple-Touch-Icon selbst — es wird deshalb randfüllend
+     und ohne Transparenz geliefert. 180px ist die von Apple erwartete Größe. -->
+<link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="stylesheet" href="app.css">
 <script>
 /* Setzt den Farbmodus, bevor das erste Pixel gezeichnet wird. Ohne das

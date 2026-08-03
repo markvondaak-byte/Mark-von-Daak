@@ -1,16 +1,25 @@
 #!/usr/bin/env python3
-"""Erzeugt die App-Icons.
+"""Erzeugt die Icons für den Homescreen.
 
     python3 app/build/build_icons.py
 
-Ein Icon in der Akzentfarbe der Website mit einem stilisierten Blatt als
-Zeichen für den Neustart. Bewusst ohne FitLine-Logo oder -Wortmarke: Die App
-ist Marks eigenes Werkzeug, keine Publikation von PM-International.
+Motiv ist die Pulslinie aus dem Favicon der Website — damit gehören
+Browser-Tab und Homescreen-Symbol sichtbar zusammen. Kein FitLine-Logo und
+keine Wortmarke: Die App ist Marks eigenes Werkzeug, keine Publikation von
+PM-International.
 
-Drei Größen, weil die Plattformen unterschiedliche brauchen:
-  icon-192          Homescreen Android, Apple Touch Icon
-  icon-512          Splash und Store-Darstellung
-  icon-maskable-512 Android adaptive icons, Motiv innerhalb der sicheren Zone
+Zwei Dinge, die bei Homescreen-Icons regelmäßig schiefgehen und hier bewusst
+anders gemacht sind:
+
+1. **Keine vorgerundeten Ecken, keine Transparenz.** iOS legt über das
+   Apple-Touch-Icon selbst eine Rundung. Wer schon gerundet abliefert, bekommt
+   die Ecken zweimal beschnitten — sichtbare Artefakte und ein Symbol, das
+   kleiner wirkt als die Nachbarn. Geliefert wird deshalb ein randfüllendes,
+   deckendes Quadrat; das Runden übernimmt das Betriebssystem.
+
+2. **Maskable getrennt.** Android beschneidet adaptive Icons je nach Hersteller
+   zu Kreis, Squircle oder Tropfen. Das Motiv muss dafür innerhalb der sicheren
+   Zone von 80 Prozent liegen — beim randfüllenden Icon darf es größer sein.
 """
 
 from pathlib import Path
@@ -20,82 +29,74 @@ from PIL import Image, ImageDraw
 WURZEL = Path(__file__).resolve().parents[2]
 ZIEL = WURZEL / "app" / "icons"
 
-AKZENT = (200, 16, 46)        # #C8102E, wie --accent der Website
-AKZENT_TIEF = (150, 10, 33)
+# Pulslinie aus dem Website-Favicon, Koordinaten im 64er-Raster.
+PULS = [(9, 34), (18, 34), (22, 23), (28, 43), (33, 16), (38, 34), (42, 28), (50, 28)]
+
+# Verlauf im Markenrot. Oben etwas heller, damit das Symbol auf dunklen wie
+# hellen Homescreens Tiefe hat, statt flach zu wirken.
+ROT_OBEN = (216, 26, 55)
+ROT_UNTEN = (152, 10, 33)
 WEISS = (255, 255, 255)
 
+UEBERABTASTUNG = 8   # 8-fach zeichnen und herunterrechnen ergibt weiche Kanten
 
-def blatt_zeichnen(bild, mitte, groesse, farbe):
-    """Ein Blatt aus zwei gespiegelten Bögen, dazu die Mittelrippe."""
+
+def _verlauf(kante):
+    bild = Image.new("RGB", (kante, kante), ROT_OBEN)
     zeichner = ImageDraw.Draw(bild)
-    cx, cy = mitte
-    h = groesse / 2
+    for y in range(kante):
+        anteil = y / max(1, kante - 1)
+        # Leicht beschleunigt, damit die obere Hälfte heller bleibt.
+        t = anteil ** 1.25
+        farbe = tuple(round(ROT_OBEN[i] + (ROT_UNTEN[i] - ROT_OBEN[i]) * t)
+                      for i in range(3))
+        zeichner.line([(0, y), (kante, y)], fill=farbe)
+    return bild
 
-    # Blattfläche als Polygon aus zwei Bezier-Näherungen
-    punkte = []
-    schritte = 40
-    for i in range(schritte + 1):
-        t = i / schritte
-        # obere Kante
-        x = cx - h + 2 * h * t
-        y = cy - h * 0.72 * (1 - (2 * t - 1) ** 2) ** 0.85
-        punkte.append((x, y))
-    for i in range(schritte + 1):
-        t = 1 - i / schritte
-        x = cx - h + 2 * h * t
-        y = cy + h * 0.72 * (1 - (2 * t - 1) ** 2) ** 0.85
-        punkte.append((x, y))
-    zeichner.polygon(punkte, fill=farbe)
 
-    # Mittelrippe
-    zeichner.line([(cx - h * 0.86, cy), (cx + h * 0.86, cy)],
-                  fill=AKZENT, width=max(2, int(groesse * 0.045)))
-    # Seitenadern
-    for anteil in (-0.42, -0.14, 0.14, 0.42):
-        x0 = cx + anteil * h
-        laenge = h * (0.5 - abs(anteil) * 0.55)
-        for richtung in (-1, 1):
-            zeichner.line(
-                [(x0, cy), (x0 + laenge * 0.9, cy + richtung * laenge)],
-                fill=AKZENT, width=max(1, int(groesse * 0.028)))
+def _punkte_einpassen(kante, anteil_breite):
+    """Skaliert die Pulslinie auf die gewünschte Breite und zentriert sie."""
+    xs = [p[0] for p in PULS]
+    ys = [p[1] for p in PULS]
+    breite, hoehe = max(xs) - min(xs), max(ys) - min(ys)
+    faktor = (kante * anteil_breite) / breite
+
+    versatz_x = (kante - breite * faktor) / 2 - min(xs) * faktor
+    versatz_y = (kante - hoehe * faktor) / 2 - min(ys) * faktor
+    return [(x * faktor + versatz_x, y * faktor + versatz_y) for x, y in PULS], faktor
+
+
+def _puls_zeichnen(bild, kante, anteil_breite, strichanteil):
+    punkte, _ = _punkte_einpassen(kante, anteil_breite)
+    staerke = max(2, round(kante * strichanteil))
+    zeichner = ImageDraw.Draw(bild)
+
+    # joint="curve" rundet die Innenecken. Die beiden Enden bekommen ihre
+    # runden Abschlüsse von Hand — sonst stehen sie hart ab.
+    zeichner.line(punkte, fill=WEISS, width=staerke, joint="curve")
+    r = staerke / 2
+    for x, y in (punkte[0], punkte[-1]):
+        zeichner.ellipse([x - r, y - r, x + r, y + r], fill=WEISS)
+    return bild
 
 
 def icon_bauen(kante, *, maskable=False):
-    # 4x zeichnen und herunterrechnen — ergibt weiche Kanten ohne Zusatzbibliothek.
-    faktor = 4
-    gross = kante * faktor
-    bild = Image.new("RGB", (gross, gross), AKZENT)
-    zeichner = ImageDraw.Draw(bild)
+    gross = kante * UEBERABTASTUNG
+    bild = _verlauf(gross)
 
-    # Sanfter Verlauf von oben links nach unten rechts
-    for i in range(gross):
-        anteil = i / gross
-        farbe = tuple(int(AKZENT[k] + (AKZENT_TIEF[k] - AKZENT[k]) * anteil)
-                      for k in range(3))
-        zeichner.line([(0, i), (gross, i)], fill=farbe)
+    # Randfüllend darf das Motiv breiter sein. Beim maskable-Icon muss es in
+    # die sichere Zone passen, sonst schneiden manche Launcher es an.
+    anteil = 0.52 if maskable else 0.66
+    strich = 0.075 if maskable else 0.088
 
-    # Bei maskable bleibt das Motiv in der sicheren Zone (80 % Durchmesser).
-    motiv = gross * (0.44 if maskable else 0.58)
-    blatt_zeichnen(bild, (gross / 2, gross / 2), motiv, WEISS)
-
-    bild = bild.resize((kante, kante), Image.LANCZOS)
-
-    if not maskable:
-        # Abgerundete Ecken für Plattformen, die nicht selbst maskieren.
-        maske = Image.new("L", (gross, gross), 0)
-        ImageDraw.Draw(maske).rounded_rectangle(
-            [0, 0, gross - 1, gross - 1], radius=int(gross * 0.22), fill=255)
-        maske = maske.resize((kante, kante), Image.LANCZOS)
-        mit_alpha = bild.convert("RGBA")
-        mit_alpha.putalpha(maske)
-        return mit_alpha
-
-    return bild.convert("RGBA")
+    _puls_zeichnen(bild, gross, anteil, strich)
+    return bild.resize((kante, kante), Image.LANCZOS)
 
 
 def main():
     ZIEL.mkdir(parents=True, exist_ok=True)
     aufgaben = [
+        ("icon-180.png", 180, False),   # Apple-Touch-Icon
         ("icon-192.png", 192, False),
         ("icon-512.png", 512, False),
         ("icon-maskable-512.png", 512, True),
@@ -103,8 +104,20 @@ def main():
     for name, kante, maskable in aufgaben:
         bild = icon_bauen(kante, maskable=maskable)
         pfad = ZIEL / name
-        bild.save(pfad)
-        print(f"  {name:24s} {kante}x{kante}  {pfad.stat().st_size / 1024:5.1f} KB")
+        # Ohne Alphakanal speichern: iOS zeigt Transparenz sonst schwarz an.
+        bild.convert("RGB").save(pfad, optimize=True)
+        art = "maskable" if maskable else "randfüllend"
+        print(f"  {name:24s} {kante:4d}px  {art:12s} "
+              f"{pfad.stat().st_size / 1024:6.1f} KB")
+
+    # Kleine Kontrollmontage, um die Symbole nebeneinander zu beurteilen.
+    vorschau = Image.new("RGB", (560, 200), (242, 240, 235))
+    for i, name in enumerate(["icon-180.png", "icon-192.png",
+                              "icon-512.png", "icon-maskable-512.png"]):
+        mini = Image.open(ZIEL / name).resize((120, 120), Image.LANCZOS)
+        vorschau.paste(mini, (24 + i * 134, 40))
+    vorschau.save(Path(__file__).parent / "vorschau.png")
+    print("\n  Vorschau: app/build/vorschau.png (wird nicht ausgeliefert)")
 
 
 if __name__ == "__main__":

@@ -4,7 +4,7 @@
    Inhalte nur bei einem neuen Release ändern — dann wird VERSION erhöht und
    der alte Cache verworfen. */
 
-const VERSION = 'stoffwechsel-reset-v3';
+const VERSION = 'stoffwechsel-reset-v4';
 
 const DATEIEN = [
   './',
@@ -15,6 +15,7 @@ const DATEIEN = [
   './daten/programm.json',
   './daten/rezepte.json',
   './daten/wissen.json',
+  './icons/icon-180.png',
   './icons/icon-192.png',
   './icons/icon-512.png'
 ];
