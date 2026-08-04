@@ -167,8 +167,13 @@ def bauen(cfg, rahmen, abschnitte, ziel, leerseite=False):
 
     if leerseite:
         # KDP verlangt eine gerade Seitenzahl und schiebt sonst selbst ein
-        # unbeschriftetes Blatt ein. Besser, wir setzen es kontrolliert.
-        stile.seitenumbruch(doc)
+        # unbeschriftetes Blatt ein. Besser, wir setzen es kontrolliert — und
+        # zwar wirklich leer: Ein eigener Abschnitt ohne Kopf- und Fußzeile.
+        # Mit Kolumnentitel und Seitenzahl sähe die Seite nach einem Fehler
+        # aus statt nach der üblichen Vakatseite am Buchende.
+        abschluss = stile.neuer_abschnitt(doc, sf)
+        stile.kopf_und_fusszeile(doc, abschluss, links_text="", rechts_text="",
+                                 mit_seitenzahl=False)
         doc.add_paragraph(style="Fliesstext")
 
     ziel.parent.mkdir(parents=True, exist_ok=True)

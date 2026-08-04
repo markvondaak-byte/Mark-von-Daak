@@ -58,13 +58,13 @@ einlegst. Dass du beim Einkaufen automatisch auf die Zutatenliste schaust.
 
 Und daran, dass das alles keine Anstrengung mehr ist.
 
-{{LEERZEILE}}
-
----
-
-{{LEERZEILE}}
+{{SEITENUMBRUCH}}
 
 **Für die kommenden Wochen — mein Plan**
+
+Trag hier ein, wie du die restlichen Wochen der Stabilisierungsphase anlegst:
+welche Tagesfarben, welcher Wochenrhythmus, welche Termine im Kalender stehen,
+auf die du dich einstellen musst.
 
 {{LEERZEILE}}
 

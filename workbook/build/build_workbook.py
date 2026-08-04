@@ -226,14 +226,21 @@ def wochenauftakt(doc, woche, breite_mm):
             "Die Regel: grün als Basis, ein bis zwei rote Tage, und auf jeden "
             "roten Tag folgt ein weißer. Trag deine Planung oben ein.")
 
+    # Die Zeilenzahlen sind so bemessen, dass der Wochenauftakt auf eine Seite
+    # passt — auch in den Wochen ab 7, in denen der Hinweis zur eigenen
+    # Farbwahl darübersteht. Vorher liefen zwei bis drei Schreiblinien über und
+    # standen allein auf der Folgeseite: dreizehn Seiten im Heft, die nichts
+    # trugen als eine übrig gebliebene Linie.
+    einkaufszeilen = 9 if woche["vorschlag"] else 11
+
     doc.add_paragraph(style="Abschnitt").add_run("Einkauf für diese Woche")
-    schreibzeilen(doc, 12, breite_mm, praefix=f"{KAESTCHEN}   ")
+    schreibzeilen(doc, einkaufszeilen, breite_mm, praefix=f"{KAESTCHEN}   ")
 
     doc.add_paragraph(style="Abschnitt").add_run("Mein Vorsatz für diese Woche")
-    schreibzeilen(doc, 3, breite_mm)
+    schreibzeilen(doc, 2, breite_mm)
 
     doc.add_paragraph(style="Abschnitt").add_run("Notizen")
-    schreibzeilen(doc, 3, breite_mm)
+    schreibzeilen(doc, 2, breite_mm)
     stile.seitenumbruch(doc)
 
 

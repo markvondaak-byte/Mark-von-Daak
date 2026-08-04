@@ -36,6 +36,32 @@ def text_von(pdf):
     return [(s.extract_text() or "") for s in PdfReader(str(pdf)).pages]
 
 
+def fast_leere_seiten(seiten, mindestzeichen=60):
+    """Seiten, die außer Kolumnentitel und Seitenzahl nichts tragen.
+
+    Im Workbook liefen die Wochenauftakte um zwei bis drei Schreiblinien über;
+    die standen dann allein auf der Folgeseite. Dreizehn solcher Seiten waren
+    im Heft, bevor das hier geprüft wurde — im PDF-Schnelldurchlauf fallen sie
+    kaum auf, im gedruckten Buch sofort.
+
+    Schreiblinien sind Tabellenränder und liefern keinen Text; eine Seite mit
+    Linien zum Ausfüllen trägt trotzdem immer eine Überschrift darüber.
+
+    Eine vollständig leere letzte Seite ist erlaubt: Das ist die Vakatseite,
+    mit der die Seitenzahl auf gerade aufgeht. Sie trägt bewusst weder
+    Kolumnentitel noch Seitenzahl — eine Seite mit nur diesen beiden sähe
+    dagegen nach einem Satzfehler aus und wird deshalb gemeldet.
+    """
+    zu_leer = []
+    for nummer, text in enumerate(seiten, 1):
+        knapp = " ".join((text or "").split())
+        if nummer == len(seiten) and not knapp:
+            continue
+        if len(knapp) < mindestzeichen:
+            zu_leer.append(nummer)
+    return zu_leer
+
+
 def schriften_eingebettet(pdf):
     """KDP lehnt PDFs mit nicht eingebetteten Schriften ab."""
     fehlend = set()
@@ -111,6 +137,10 @@ def buch_pruefen():
     pruefe("Alle Schriften eingebettet", not fehlend,
            ", ".join(sorted(fehlend)) if fehlend else "")
 
+    zu_leer = fast_leere_seiten(seiten)
+    pruefe("Keine fast leeren Seiten", not zu_leer,
+           f"Seiten {zu_leer}" if zu_leer else "")
+
     cover_pruefen("Band 1", basis / "out" / "cover.pdf", cfg, len(seiten))
 
 
@@ -177,6 +207,10 @@ def workbook_pruefen():
     fehlend_f = schriften_eingebettet(pdf)
     pruefe("Alle Schriften eingebettet", not fehlend_f,
            ", ".join(sorted(fehlend_f)) if fehlend_f else "")
+
+    zu_leer = fast_leere_seiten(seiten)
+    pruefe("Keine fast leeren Seiten", not zu_leer,
+           f"Seiten {zu_leer}" if zu_leer else "")
 
     cover_pruefen("Band 2", basis / "out" / "cover.pdf", cfg, len(seiten))
 
@@ -260,6 +294,10 @@ def rezeptbuch_pruefen():
     fehlend_f = schriften_eingebettet(pdf)
     pruefe("Alle Schriften eingebettet", not fehlend_f,
            ", ".join(sorted(fehlend_f)) if fehlend_f else "")
+
+    zu_leer = fast_leere_seiten(seiten)
+    pruefe("Keine fast leeren Seiten", not zu_leer,
+           f"Seiten {zu_leer}" if zu_leer else "")
 
     cover_pruefen("Band 3", basis / "out" / "cover.pdf", cfg, len(seiten))
 
