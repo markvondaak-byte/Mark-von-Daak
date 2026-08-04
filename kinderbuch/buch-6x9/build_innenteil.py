@@ -279,23 +279,36 @@ CH = [
 ]
 
 # ---------- Sheet-Bausteine ----------
-def sheet_illo(cls, scene_svg, num, title):
+def sheet_illo(cls, scene_svg, num, title, folio):
     return (f'<div class="sheet illo-sheet {cls}"><div class="panel">'
             f'<svg class="scene" viewBox="0 0 400 300">{scene_svg}</svg>'
-            f'<div class="cap"><span class="num-bubble">{num}</span><h2>{title}</h2></div>'
+            f'<div class="cap"><span class="num-bubble">{num}</span><h2>{title}</h2>'
+            f'<span class="cap-num">{folio}</span></div>'
             f'</div></div>')
 
-def sheet_text(cls, num, title, paras, kicker, last):
+def sheet_text(cls, num, title, paras, kicker, last, folio):
     kick = f'<p class="kicker k{num}c">Kapitel {num} · {title}</p>' if kicker else ''
     body = "".join(f'<p>{p}</p>' for p in paras)
     fl = '<div class="flourish">✦ ✦ ✦</div>' if last else ''
-    return f'<div class="sheet text-sheet {cls}"><div class="story">{kick}{body}</div>{fl}</div>'
+    return (f'<div class="sheet text-sheet {cls}"><div class="story">{kick}{body}</div>{fl}'
+            f'<div class="folio">{folio}</div></div>')
 
-def sheet_vig(cls, chars, caption):
+def sheet_vig(cls, chars, caption, folio):
     return (f'<div class="sheet illo-sheet vignette {cls}"><div class="panel">'
             f'{vig_svg(chars)}'
             f'<p class="vcap">„{caption}“</p>'
+            f'<div class="folio">{folio}</div>'
             f'</div></div>')
+
+def with_folio(html):
+    """Fügt einer fertigen Sheet-Zeichenkette eine Seitenzahl hinzu."""
+    pg = len(sheets) + 1
+    h = html.rstrip()
+    return h[:-6] + f'<div class="folio">{pg}</div></div>'
+
+def addf(html):
+    """Sheet mit automatischer Seitenzahl anhängen."""
+    sheets.append(with_folio(html))
 
 # ---------- Zusammenbau ----------
 sheets = []
@@ -342,23 +355,23 @@ sheets.append('''<div class="sheet figpage"><h2 class="figtitle">… und wen sie
 
 for i, ch in enumerate(CH, start=1):
     cls = f"c{i}"
-    sheets.append(sheet_illo(cls, SCENES[ch["scene"]], i, ch["title"]))
+    sheets.append(sheet_illo(cls, SCENES[ch["scene"]], i, ch["title"], len(sheets) + 1))
     npages = len(ch["pages"])
     for j, paras in enumerate(ch["pages"]):
-        sheets.append(sheet_text(cls, i, ch["title"], paras, kicker=(j == 0), last=(j == npages - 1)))
+        sheets.append(sheet_text(cls, i, ch["title"], paras, (j == 0), (j == npages - 1), len(sheets) + 1))
     chars, cap = ch["vig"]
-    sheets.append(sheet_vig(cls, chars, cap))
+    sheets.append(sheet_vig(cls, chars, cap, len(sheets) + 1))
 
-sheets.append('''<div class="sheet center theend-sheet"><div><div class="bigstar">🌟</div><div class="endword">Ende</div><p class="endsub">…aber Paulis Mut geht weiter – jedes Mal, wenn du dich traust.</p></div></div>''')
+addf('''<div class="sheet center theend-sheet"><div><div class="bigstar">🌟</div><div class="endword">Ende</div><p class="endsub">…aber Paulis Mut geht weiter – jedes Mal, wenn du dich traust.</p></div></div>''')
 
-sheets.append('''<div class="sheet mp"><h2 class="mph">Ein kleines Mutmach-Gedicht</h2>
+addf('''<div class="sheet mp"><h2 class="mph">Ein kleines Mutmach-Gedicht</h2>
   <div class="poem">
     <p>Wenn's dunkel wird und bang ums Herz,<br/>dann denk an Pauli – trotz dem Schmerz:</p>
     <p>Du musst nicht groß, nicht furchtlos sein,<br/>geh einen Schritt – und nie allein.</p>
     <p>Ein kleines Licht, ein Freund dazu,<br/>und schon bist du mutig genug. Wie du.</p>
   </div></div>''')
 
-sheets.append('''<div class="sheet mp"><h2 class="mph">Das kleine Mut-Einmaleins</h2>
+addf('''<div class="sheet mp"><h2 class="mph">Das kleine Mut-Einmaleins</h2>
   <ul class="lessons">
     <li><b>Mut heißt nicht,</b> keine Angst zu haben – sondern trotz der Angst weiterzugehen.</li>
     <li><b>Du musst nicht</b> den ganzen Weg sehen. Es genügt, den nächsten Schritt zu sehen.</li>
@@ -366,7 +379,7 @@ sheets.append('''<div class="sheet mp"><h2 class="mph">Das kleine Mut-Einmaleins
     <li><b>Auch der Kleinste</b> kann Großes vollbringen – vielleicht sogar gerade der Kleinste.</li>
   </ul></div>''')
 
-sheets.append('''<div class="sheet mp"><h2 class="mph">💬 Zum Weiterreden</h2>
+addf('''<div class="sheet mp"><h2 class="mph">💬 Zum Weiterreden</h2>
   <p class="mpi">Nach dem Vorlesen könnt ihr gemeinsam überlegen:</p>
   <ul class="qlist">
     <li>Warum ist Pauli mutig, obwohl es Angst hat? Was bedeutet Mut für dich?</li>
@@ -376,7 +389,7 @@ sheets.append('''<div class="sheet mp"><h2 class="mph">💬 Zum Weiterreden</h2>
     <li>Gab es etwas, vor dem <em>du</em> Angst hattest – und du hast es trotzdem geschafft?</li>
   </ul></div>''')
 
-sheets.append('''<div class="sheet mp"><h2 class="mph">Kennst du die Geschichte?</h2>
+addf('''<div class="sheet mp"><h2 class="mph">Kennst du die Geschichte?</h2>
   <p class="mpi">Ein kleines Quiz – erinnerst du dich?</p>
   <ol class="quiz">
     <li>Wie heißt die Blume, die dem Dorf Licht schenkt?</li>
@@ -387,7 +400,7 @@ sheets.append('''<div class="sheet mp"><h2 class="mph">Kennst du die Geschichte?
   </ol>
   <p class="qans">Tipp: Alle Antworten stehen in der Geschichte – blättere ruhig zurück!</p></div>''')
 
-sheets.append('''<div class="sheet mp"><h2 class="mph">Finde den Weg durch den Nebelwald</h2>
+addf('''<div class="sheet mp"><h2 class="mph">Finde den Weg durch den Nebelwald</h2>
   <p class="mpi">Hilf Pauli von seinem Dorf bis zur Sternenblume.</p>
   <svg class="maze" viewBox="0 0 300 300">
     <rect x="6" y="6" width="288" height="288" rx="10" fill="#f4f7fb" stroke="#2F9BD6" stroke-width="4"/>
@@ -404,7 +417,7 @@ sheets.append('''<div class="sheet mp"><h2 class="mph">Finde den Weg durch den N
     <text x="236" y="248" font-size="11" fill="#c98a00">Ziel</text>
   </svg></div>''')
 
-sheets.append('''<div class="sheet mp coloring"><h2 class="mph">Male die Leuchtblume bunt aus</h2>
+addf('''<div class="sheet mp coloring"><h2 class="mph">Male die Leuchtblume bunt aus</h2>
   <p class="mpi">Welche Farben hätte <em>dein</em> kleines Licht?</p>
   <svg class="outline" viewBox="0 0 200 240">
     <g fill="none" stroke="#333" stroke-width="3" stroke-linejoin="round">
@@ -423,7 +436,7 @@ sheets.append('''<div class="sheet mp coloring"><h2 class="mph">Male die Leuchtb
     </g>
   </svg></div>''')
 
-sheets.append('''<div class="sheet mp"><h2 class="mph">Wer war wer?</h2>
+addf('''<div class="sheet mp"><h2 class="mph">Wer war wer?</h2>
   <div class="recap">
     <div class="rrow"><svg viewBox="0 0 120 120"><use href="#mouse" x="14" y="14" width="92" height="92"/></svg><span><b>Pauli</b> – die kleine, mutige Maus.</span></div>
     <div class="rrow"><svg viewBox="0 0 60 60"><use href="#firefly" x="4" y="4" width="52" height="52"/></svg><span><b>Luna</b> – das treue Glühwürmchen.</span></div>
@@ -431,7 +444,7 @@ sheets.append('''<div class="sheet mp"><h2 class="mph">Wer war wer?</h2>
     <div class="rrow"><svg viewBox="0 0 120 150"><use href="#starflower" x="12" y="12" width="96" height="120"/></svg><span><b>Die Sternenblume</b> – der Funke der Hoffnung.</span></div>
   </div></div>''')
 
-sheets.append('''<div class="sheet mp"><h2 class="mph">Mein Mut-Versprechen</h2>
+addf('''<div class="sheet mp"><h2 class="mph">Mein Mut-Versprechen</h2>
   <p class="mpi">Wie Pauli kannst auch du mutig sein. Trag hier ein, was du dir vornimmst:</p>
   <div class="promise">
     <p class="pl">Ich bin mutig, wenn ich …</p>
@@ -484,12 +497,14 @@ STYLE = r'''
   .vignette .panel { justify-content: center; padding: .35in; }
   .vignette .vscene { width: 74%; height: auto; display: block; margin: 0 auto; }
   .vcap { text-align: center; font-size: 15pt; line-height: 1.5; margin: .3in auto 0; max-width: 3.6in; font-style: italic; color: #3a4553; }
-  .text-sheet { padding: .12in .18in; justify-content: flex-start; }
+  .text-sheet { padding: .12in .18in .36in; justify-content: flex-start; }
   .kicker { font-size: 9.5pt; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700; margin: 0 0 .16in; }
   .story p { font-size: 13pt; line-height: 1.56; margin: 0 0 .14in; }
   .story p:last-child { margin-bottom: 0; }
   .story strong { font-weight: 800; }
   .flourish { text-align: center; font-size: 13pt; color: #cbd3dd; margin-top: .2in; }
+  .folio { position: absolute; left: 0; right: 0; bottom: .16in; text-align: center; font-size: 9pt; color: #9aa7b4; }
+  .cap-num { margin-left: auto; align-self: center; font-size: 11pt; font-weight: 700; color: #8a95a1; }
   .theend-sheet { align-items: center; justify-content: center; text-align: center; }
   .bigstar { font-size: 46pt; }
   .endword { font-size: 30pt; font-weight: 800; color: #2F9BD6; letter-spacing: 3px; margin: .1in 0; }
