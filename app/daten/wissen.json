@@ -10,7 +10,7 @@
     },
     {
      "typ": "absatz",
-     "text": "Das Konzept läuft in vier Phasen ab, die aufeinander aufbauen. Jede hat eine eigene Aufgabe, eine eigene Dauer und eigene Regeln."
+     "text": "Vier Phasen, die aufeinander aufbauen — jede mit eigener Aufgabe, Dauer und eigenen Regeln."
     },
     {
      "typ": "tabelle",
@@ -52,15 +52,7 @@
     },
     {
      "typ": "absatz",
-     "text": "In dieser Zeit änderst du an deiner Ernährung noch nichts. Du isst weiter wie bisher. Was dazukommt, ist die Versorgung: die Nährstoffe am Morgen und Abend sowie der probiotische Joghurt, der die Darmflora aufbaut."
-    },
-    {
-     "typ": "absatz",
-     "text": "Der Sinn liegt darin, den Körper nicht kalt in die strenge Phase zu schicken. Wer mit leeren Speichern startet, hat es in den ersten Tagen der Aktivierung deutlich schwerer."
-    },
-    {
-     "typ": "absatz",
-     "text": "Viele Menschen bemerken schon in dieser Phase Veränderungen — beim Schlaf, bei der Verdauung, beim Energieniveau. Nutze die Zeit außerdem, um dieses Buch fertig zu lesen und den ersten Einkauf zu planen."
+     "text": "An der Ernährung änderst du noch nichts. Dazu kommen die Nährstoffe am Morgen und Abend und der probiotische Joghurt, der die Darmflora aufbaut — damit der Körper nicht mit leeren Speichern in die strenge Phase geht."
     },
     {
      "typ": "h2",
@@ -72,19 +64,7 @@
     },
     {
      "typ": "absatz",
-     "text": "Hier passiert die Umstellung. Die Phase besteht ausschließlich aus weißen und grünen Tagen und beginnt mit sieben weißen Tagen am Stück — der weißen Woche."
-    },
-    {
-     "typ": "absatz",
-     "text": "Danach folgen drei Wochen, in denen grüne Tage überwiegen und jeweils zwei weiße Tage eingestreut sind."
-    },
-    {
-     "typ": "absatz",
-     "text": "In diesen 28 Tagen gilt: kein Salz, kein Zucker, kein Getreide, keine Hülsenfrüchte, kein Alkohol, keine Milchprodukte außer dem Joghurt am Morgen. Vier Mahlzeiten am Tag, keine ausgelassen."
-    },
-    {
-     "typ": "absatz",
-     "text": "Die Phase lässt sich wiederholen, wenn du dein Ziel noch nicht erreicht hast. Empfohlen wird allerdings, vorher mindestens einen Monat Stabilisierung einzulegen."
+     "text": "Hier passiert die Umstellung: sieben weiße Tage am Stück, danach drei Wochen mit überwiegend grünen und je zwei weißen Tagen. Kein Salz, kein Zucker, kein Getreide, keine Hülsenfrüchte, kein Alkohol, keine Milchprodukte außer dem Joghurt am Morgen, vier Mahlzeiten am Tag. Die Phase lässt sich wiederholen — mit mindestens einem Monat Stabilisierung dazwischen."
     },
     {
      "typ": "h2",
@@ -116,15 +96,7 @@
     },
     {
      "typ": "absatz",
-     "text": "Wenn die Stabilisierung getragen hat, läuft vieles von selbst. Was bleibt, sind ein paar Gewohnheiten: gründlich kauen, ausreichend trinken, stärkehaltige Lebensmittel im Rahmen halten, unverarbeitet einkaufen."
-    },
-    {
-     "typ": "absatz",
-     "text": "Dazu kommen zwei bis vier weiße Tage im Monat. Sie genügen, um das Gleichgewicht zu halten — besonders nach Anlässen, an denen es üppiger zuging."
-    },
-    {
-     "typ": "absatz",
-     "text": "Die Aktivierungsphase alle zwei Jahre zu wiederholen, ist möglich und wird empfohlen. Die Stabilisierung darf dann kürzer ausfallen."
+     "text": "Wenn die Stabilisierung getragen hat, läuft vieles von selbst. Was bleibt, sind ein paar Gewohnheiten — gründlich kauen, ausreichend trinken, Stärkehaltiges im Rahmen halten, unverarbeitet einkaufen — und zwei bis vier weiße Tage im Monat, besonders nach Anlässen, an denen es üppiger zuging. Die Aktivierungsphase alle zwei Jahre zu wiederholen, ist möglich und empfohlen; die Stabilisierung darf dann kürzer ausfallen."
     },
     {
      "typ": "h2",
@@ -132,41 +104,12 @@
     },
     {
      "typ": "absatz",
-     "text": "Rechne von Anfang an mit der ganzen Strecke, nicht nur mit den 28 Tagen:"
-    },
-    {
-     "typ": "tabelle",
-     "kopf": [
-      "Zeitraum",
-      "Was läuft"
-     ],
-     "zeilen": [
-      [
-       "Woche 1–2 (oder 1–4)",
-       "Vorbereitung"
-      ],
-      [
-       "Woche 3–6",
-       "Aktivierung"
-      ],
-      [
-       "ab Woche 7",
-       "Stabilisierung, mindestens 13 Wochen"
-      ],
-      [
-       "danach",
-       "Lifestyle"
-      ]
-     ]
-    },
-    {
-     "typ": "absatz",
-     "text": "Vom ersten Tag bis zum Ende der Stabilisierung vergehen also gut fünf Monate. Das klingt lang. Gemessen an der Zeit, die die meisten Menschen bereits mit erfolglosen Versuchen verbracht haben, ist es kurz."
+     "text": "Rechne mit der ganzen Strecke: zwei bis vier Wochen Vorbereitung, vier Wochen Aktivierung, ab Woche sieben mindestens dreizehn Wochen Stabilisierung, danach der Lifestyle. Das sind gut fünf Monate — gemessen an der Zeit, die die meisten bereits mit erfolglosen Versuchen verbracht haben, ist das kurz."
     },
     {
      "typ": "kasten",
      "titel": "Bevor du weiterliest",
-     "text": "Wenn du nur die 28 Tage machen willst und die Stabilisierung von vornherein nicht einplanst, spar dir die Mühe. Die vier Wochen sind anstrengend, und ohne die Phase danach ist das Ergebnis mit hoher Wahrscheinlichkeit nicht von Dauer."
+     "text": "Wenn du nur die 28 Tage machen willst und die Stabilisierung nicht einplanst, spar dir die Mühe. Ohne die Phase danach ist das Ergebnis mit hoher Wahrscheinlichkeit nicht von Dauer."
     }
    ]
   },
@@ -196,32 +139,7 @@
     },
     {
      "typ": "absatz",
-     "text": "Der weiße Tag hat je nach Phase eine unterschiedliche Rolle:"
-    },
-    {
-     "typ": "liste",
-     "punkte": [
-      "In der **Aktivierungsphase** ist er der Motor der Umstellung.",
-      "In der **Stabilisierungsphase** ist er der Ausgleichstag, mit dem du einen"
-     ]
-    },
-    {
-     "typ": "absatz",
-     "text": "roten Tag wieder auffängst."
-    },
-    {
-     "typ": "liste",
-     "punkte": [
-      "In der **Lifestylephase** genügen zwei bis vier davon im Monat, um das"
-     ]
-    },
-    {
-     "typ": "absatz",
-     "text": "Gleichgewicht zu halten."
-    },
-    {
-     "typ": "absatz",
-     "text": "Wichtig: Ein weißer Tag ist immer ein weißer Tag. Auch Monate später gelten dieselben Regeln — kein Salz, kein Zucker, vier Mahlzeiten. Einfach nur „eiweißreich essen\" ist kein weißer Tag."
+     "text": "Je nach Phase hat er eine andere Rolle: in der Aktivierung der Motor der Umstellung, in der Stabilisierung der Ausgleichstag nach einem roten Tag, im Lifestyle genügen zwei bis vier im Monat. Wichtig: Ein weißer Tag ist immer ein weißer Tag. Auch Monate später gelten dieselben Regeln — kein Salz, kein Zucker, vier Mahlzeiten. Einfach nur „eiweißreich essen\" ist kein weißer Tag."
     },
     {
      "typ": "h2",
@@ -264,9 +182,8 @@
      "text": "Sie sind kein Zugeständnis und keine Belohnung, sondern haben eine Funktion: Ein Stoffwechsel, der nur eine einzige Ernährungsform kennt, wird unflexibel. Rote Tage halten ihn beweglich und wirken dem Absinken des Sättigungshormons Leptin entgegen, das bei dauerhafter Einschränkung droht."
     },
     {
-     "typ": "kasten",
-     "titel": "Wie ein roter Tag nicht gedacht ist",
-     "text": "Nicht als Freibrief, alles nachzuholen, worauf du wochenlang verzichtet hast. In der Praxis reicht es meistens, ein bis zwei Mahlzeiten durch das zu ersetzen, worauf du wirklich Lust hast. Beobachte dabei, wie dein Körper reagiert — nach einigen Wochen ohne Zucker und Weizen fällt die Antwort oft überraschend deutlich aus."
+     "typ": "absatz",
+     "text": "Ein roter Tag ist kein Freibrief, alles nachzuholen: In der Praxis reicht es meist, ein bis zwei Mahlzeiten durch das zu ersetzen, worauf du wirklich Lust hast."
     },
     {
      "typ": "absatz",
@@ -340,37 +257,8 @@
      "text": "Wann welche Farbe"
     },
     {
-     "typ": "tabelle",
-     "kopf": [
-      "Phase",
-      "Zusammensetzung"
-     ],
-     "zeilen": [
-      [
-       "Vorbereitung",
-       "keine Farben — Ernährung bleibt wie gewohnt"
-      ],
-      [
-       "Aktivierung, Woche 1",
-       "7 weiße Tage"
-      ],
-      [
-       "Aktivierung, Woche 2–4",
-       "überwiegend grün, je zwei weiße Tage pro Woche"
-      ],
-      [
-       "Stabilisierung",
-       "grün als Basis, 1–2 rote Tage pro Woche, jeder durch einen weißen ausgeglichen"
-      ],
-      [
-       "Lifestyle",
-       "frei, dazu 2–4 weiße Tage im Monat"
-      ]
-     ]
-    },
-    {
      "typ": "absatz",
-     "text": "Wie die weißen Tage in den Wochen der Aktivierungsphase genau liegen, steht im Kapitel „Phase 2: Die Aktivierung\"."
+     "text": "In der Vorbereitung gibt es noch keine Farben. Die Aktivierung beginnt mit sieben weißen Tagen und läuft dann überwiegend grün mit je zwei weißen Tagen pro Woche. In der Stabilisierung ist Grün die Basis, dazu ein bis zwei rote Tage pro Woche, jeder durch einen weißen ausgeglichen. Im Lifestyle isst du frei und legst zwei bis vier weiße Tage im Monat ein. Wo die weißen Tage in der Aktivierungsphase genau liegen, steht im Kapitel „Phase 2: Die Aktivierung\"."
     }
    ]
   },
@@ -396,19 +284,11 @@
     },
     {
      "typ": "absatz",
-     "text": "Das ist die wichtigste Regel des gesamten Konzepts und die, gegen die am häufigsten verstoßen wird — meist in bester Absicht. Wer eine Mahlzeit weglässt, um schneller voranzukommen, erreicht das Gegenteil: Der Körper registriert Mangel und fährt herunter."
+     "text": "Das ist die wichtigste Regel des Konzepts und die, gegen die am häufigsten verstoßen wird — meist in bester Absicht. Wer eine Mahlzeit weglässt, um schneller voranzukommen, erreicht das Gegenteil: Der Körper registriert Mangel und fährt herunter. Eine mögliche Verteilung ist 7, 11, 15 und 19 Uhr; der Abstand zählt, nicht die Uhrzeit."
     },
     {
      "typ": "absatz",
-     "text": "Ein Beispiel für die Verteilung: 7 Uhr, 11 Uhr, 15 Uhr, 19 Uhr. Wenn dein Alltag andere Zeiten verlangt, ist das in Ordnung — der Abstand zählt, nicht die Uhrzeit."
-    },
-    {
-     "typ": "absatz",
-     "text": "Solltest du wider Erwarten Hunger bekommen, darfst du eine fünfte Mahlzeit essen. Dann aber nur eine halbe Portion. Prüfe bei der Gelegenheit, ob in den vorherigen Mahlzeiten genug gutes Fett war — Hunger vor Ablauf der vier Stunden ist meistens ein Fettmangel."
-    },
-    {
-     "typ": "absatz",
-     "text": "Sind die Portionen zu groß für dich, iss kleinere. Aber iss alle vier."
+     "text": "Bekommst du wider Erwarten Hunger, iss eine fünfte Mahlzeit, aber nur eine halbe Portion — und prüfe, ob in den vorherigen genug gutes Fett war. Sind dir die Portionen zu groß, iss kleinere. Aber iss alle vier."
     },
     {
      "typ": "h2",
@@ -416,15 +296,11 @@
     },
     {
      "typ": "absatz",
-     "text": "Etwa 32 Mal pro Bissen. Ja, das ist viel. Ja, es fühlt sich am Anfang albern an."
+     "text": "Etwa 32 Mal pro Bissen. Das ist viel, und am Anfang fühlt es sich albern an. Zwei Gründe: Die Verdauung beginnt im Mund, gut Eingespeicheltes ist für den Magen leichter zu verarbeiten. Und das Sättigungsgefühl braucht rund zwanzig Minuten — wer schnell isst, ist längst fertig, bevor der Körper Rückmeldung geben konnte."
     },
     {
      "typ": "absatz",
-     "text": "Es gibt zwei Gründe. Der erste: Die Verdauung beginnt im Mund. Was gut eingespeichelt wird, ist für den Magen leichter zu verarbeiten. Der zweite: Das Sättigungsgefühl braucht etwa zwanzig Minuten, bis es ankommt. Wer schnell isst, ist längst fertig, bevor der Körper Rückmeldung geben konnte."
-    },
-    {
-     "typ": "absatz",
-     "text": "Niemand zählt die ganzen vier Wochen mit. Zähl in den ersten Tagen ein paarmal bewusst mit, um ein Gefühl für das Tempo zu bekommen. Danach reicht es, langsam zu essen und nicht nebenbei."
+     "text": "Zähl in den ersten Tagen ein paarmal bewusst mit, um ein Gefühl für das Tempo zu bekommen. Danach reicht es, langsam zu essen und nicht nebenbei."
     },
     {
      "typ": "h2",
@@ -436,15 +312,7 @@
     },
     {
      "typ": "absatz",
-     "text": "Und: **nicht während des Essens trinken.** Zwischen Getränk und Mahlzeit sollen mindestens 15 bis 20 Minuten liegen — davor wie danach. Flüssigkeit während des Essens verdünnt die Verdauungssäfte und arbeitet gegen das gründliche Kauen."
-    },
-    {
-     "typ": "absatz",
-     "text": "Eine einfache Kontrolle liefert dein Urin: Er sollte hell sein, fast farblos bis zartgelb. Ist er kräftig gelb oder orange, trinkst du zu wenig — und der Körper drosselt dann unter anderem den Fettabbau."
-    },
-    {
-     "typ": "absatz",
-     "text": "Kaffee und Tee sind erlaubt, bis zu fünf Tassen am Tag. Ohne Zucker, ohne Milch, ohne Süßstoff. Ein Schuss ungesüßte Mandel- oder Sojamilch im Kaffee ist vertretbar."
+     "text": "Und: **nicht während des Essens trinken** — mindestens 15 bis 20 Minuten Abstand, davor wie danach. Flüssigkeit beim Essen verdünnt die Verdauungssäfte und arbeitet gegen das Kauen. Als Kontrolle dient der Urin: hell und fast farblos. Ist er kräftig gelb, trinkst du zu wenig. Kaffee und Tee sind erlaubt, bis fünf Tassen am Tag, ohne Zucker, Milch und Süßstoff; ein Schuss ungesüßte Mandelmilch ist vertretbar."
     },
     {
      "typ": "h2",
@@ -456,11 +324,11 @@
     },
     {
      "typ": "absatz",
-     "text": "Der Grund steht ausführlich im Kapitel über Blutzucker und Insulin: Es geht um den Wasserhaushalt und um die Neujustierung der Geschmacksnerven."
+     "text": "Der Grund steht im Kapitel über Blutzucker und Insulin."
     },
     {
      "typ": "absatz",
-     "text": "Gewürzt wird trotzdem, und zwar reichlich. Alle Kräuter und alle Gewürze sind erlaubt, solange kein Salz und kein Zucker beigemischt sind — also Pfeffer, Paprikapulver, Kreuzkümmel, Koriander, Oregano, Thymian, Basilikum, Dill, Chili, Knoblauch, Zitronensaft. Fertige Gewürzmischungen enthalten fast immer Salz; lies die Zutatenliste oder mische selbst."
+     "text": "Gewürzt wird trotzdem reichlich. Alle Kräuter und Gewürze sind erlaubt, solange kein Salz und kein Zucker beigemischt sind. Fertige Mischungen enthalten fast immer Salz; lies die Zutatenliste oder mische selbst."
     },
     {
      "typ": "absatz",
@@ -480,7 +348,7 @@
     },
     {
      "typ": "absatz",
-     "text": "Der letzte Punkt überrascht viele. Der Hintergrund: Bei Menschen, die lange sehr süß gegessen haben, kann bereits der süße Geschmack eine Reaktion auslösen — und vor allem hält er die Gewöhnung an Süße aufrecht. Genau die soll sich in diesen Wochen zurückstellen."
+     "text": "Der letzte Punkt überrascht viele: Der süße Geschmack hält die Gewöhnung an Süße aufrecht, und genau die soll sich zurückstellen."
     },
     {
      "typ": "absatz",
@@ -504,64 +372,7 @@
     },
     {
      "typ": "absatz",
-     "text": "Die erste Woche der Aktivierungsphase ist die anstrengendste. Der Körper stellt seinen Brennstoff um und ist damit ausgelastet. Zusätzliche Belastung durch Training hilft in dieser Zeit nicht."
-    },
-    {
-     "typ": "absatz",
-     "text": "Ab der zweiten Woche gilt wieder: Bewegung ist gut. Spazieren, Schwimmen, Radfahren, Krafttraining — was dir liegt. Das Konzept funktioniert auch ohne Sport, aber es funktioniert besser mit."
-    },
-    {
-     "typ": "h2",
-     "text": "Die Regeln auf einen Blick"
-    },
-    {
-     "typ": "tabelle",
-     "kopf": [
-      "Regel",
-      "Kurzfassung"
-     ],
-     "zeilen": [
-      [
-       "Mahlzeiten",
-       "4 pro Tag, ca. 4 Stunden Abstand, keine auslassen"
-      ],
-      [
-       "Kauen",
-       "gründlich, rund 32-mal pro Bissen"
-      ],
-      [
-       "Trinken",
-       "mind. 2 l stilles Wasser, nicht zum Essen, 15–20 min Abstand"
-      ],
-      [
-       "Kaffee/Tee",
-       "bis 5 Tassen, ohne Zucker, Milch und Süßstoff"
-      ],
-      [
-       "Salz",
-       "keins (ab Stabilisierung 2–5 g Natursalz, nicht an weißen Tagen)"
-      ],
-      [
-       "Zucker",
-       "keiner, auch keine Süßstoffe (ab Stabilisierung Erythrit/Stevia)"
-      ],
-      [
-       "Zwiebeln",
-       "keine (Frühlingszwiebeln und Knoblauch erlaubt)"
-      ],
-      [
-       "Milchprodukte",
-       "nur der Joghurt am Morgen"
-      ],
-      [
-       "Alkohol",
-       "keiner in der Aktivierungsphase"
-      ],
-      [
-       "Sport",
-       "nicht in Woche 1, danach gern"
-      ]
-     ]
+     "text": "Die erste Woche ist die anstrengendste — der Körper stellt seinen Brennstoff um und ist ausgelastet. Ab der zweiten Woche gilt wieder: Bewegung ist gut, was dir eben liegt. Das Konzept funktioniert auch ohne Sport, aber besser mit."
     }
    ]
   },
@@ -575,11 +386,7 @@
     },
     {
      "typ": "absatz",
-     "text": "Der weiße Tag ist der Grundbaustein. Wer ihn einmal verstanden hat, hat den größten Teil des Konzepts verstanden — der grüne Tag ist derselbe Ablauf mit Gemüse dazu."
-    },
-    {
-     "typ": "absatz",
-     "text": "Vier eiweißreiche Mahlzeiten im Abstand von etwa vier Stunden, kein Salz, kein Zucker. Jeden Bissen gründlich kauen."
+     "text": "Der weiße Tag ist der Grundbaustein — der grüne Tag ist derselbe Ablauf mit Gemüse dazu. Vier eiweißreiche Mahlzeiten im Abstand von etwa vier Stunden, kein Salz, kein Zucker, jeden Bissen gründlich kauen."
     },
     {
      "typ": "h2",
@@ -615,19 +422,7 @@
     },
     {
      "typ": "absatz",
-     "text": "**Das Frühstück ist immer kalt.** Der kalte Tee am Morgen hat denselben Grund: Der Körper muss beides auf Körpertemperatur bringen und wird damit gleich zu Beginn aktiv."
-    },
-    {
-     "typ": "absatz",
-     "text": "Wer damit nicht satt wird, ergänzt eine halbe Eiweißportion — ein kaltes, hartgekochtes Ei oder 75 Gramm kalte Hähnchenbrust."
-    },
-    {
-     "typ": "absatz",
-     "text": "In der Aktivierungsphase kommt **kein Obst** in den Joghurt."
-    },
-    {
-     "typ": "absatz",
-     "text": "Etwa 15 Minuten nach dem Essen: mindestens 300 ml stilles Wasser."
+     "text": "**Das Frühstück ist immer kalt** — wie der Tee am Morgen: Der Körper muss beides auf Körpertemperatur bringen und wird damit gleich zu Beginn aktiv. Wer nicht satt wird, ergänzt eine halbe Eiweißportion, etwa ein kaltes hartgekochtes Ei. In der Aktivierungsphase kommt **kein Obst** in den Joghurt. Etwa 15 Minuten nach dem Essen: mindestens 300 ml stilles Wasser."
     },
     {
      "typ": "h2",
@@ -643,27 +438,11 @@
     },
     {
      "typ": "h2",
-     "text": "Nachmittags — die dritte Mahlzeit"
+     "text": "Nachmittags und abends — dritte und vierte Mahlzeit"
     },
     {
      "typ": "absatz",
-     "text": "Wieder rund vier Stunden später. Ein Proteingericht ohne Salz."
-    },
-    {
-     "typ": "absatz",
-     "text": "15 Minuten danach etwa 300 ml Wasser und die zweite Portion Aminosäuren."
-    },
-    {
-     "typ": "h2",
-     "text": "Abends — die vierte Mahlzeit"
-    },
-    {
-     "typ": "absatz",
-     "text": "Rund vier Stunden später. Ein Proteingericht ohne Salz."
-    },
-    {
-     "typ": "absatz",
-     "text": "15 Minuten danach 300 ml Wasser und der zweite Mineralstoffdrink."
+     "text": "Jeweils rund vier Stunden später, wieder ein Proteingericht ohne Salz. 15 Minuten nach der dritten Mahlzeit etwa 300 ml Wasser und die zweite Portion Aminosäuren, 15 Minuten nach der vierten Mahlzeit 300 ml Wasser und der zweite Mineralstoffdrink."
     },
     {
      "typ": "absatz",
@@ -714,35 +493,7 @@
     },
     {
      "typ": "absatz",
-     "text": "Du darfst frei kombinieren. Als Veganer kannst du viermal Tofu essen, als Fischliebhaber viermal Fisch. Die Obergrenze von vier Eiern am Tag gilt unabhängig davon."
-    },
-    {
-     "typ": "absatz",
-     "text": "Rotes Fleisch sättigt in der Regel kürzer als Geflügel — das ist der praktische Grund für die Begrenzung auf zweimal pro Woche."
-    },
-    {
-     "typ": "h2",
-     "text": "Ein Beispieltag"
-    },
-    {
-     "typ": "absatz",
-     "text": "**Morgens:** Kräutertee mit Vitaminmischung, danach Joghurt mit Leinsamen und Sonnenblumenkernen, dazu ein hartgekochtes Ei."
-    },
-    {
-     "typ": "absatz",
-     "text": "**Mittags:** Hähnchenbrust in Kokosöl gebraten, gewürzt mit Paprikapulver, Thymian und Knoblauch, dazu ein Spritzer Zitrone."
-    },
-    {
-     "typ": "absatz",
-     "text": "**Nachmittags:** Omelett aus zwei Eiern mit frischen Kräutern."
-    },
-    {
-     "typ": "absatz",
-     "text": "**Abends:** Lachsfilet aus dem Ofen mit Dill und Zitrone."
-    },
-    {
-     "typ": "absatz",
-     "text": "Dazwischen über den Tag verteilt mindestens zwei Liter stilles Wasser, immer mit 15 bis 20 Minuten Abstand zu den Mahlzeiten."
+     "text": "Du darfst frei kombinieren; die Obergrenze von vier Eiern am Tag gilt unabhängig davon. Rotes Fleisch sättigt kürzer als Geflügel — daher die Begrenzung auf zweimal pro Woche."
     },
     {
      "typ": "h2",
@@ -936,53 +687,11 @@
     },
     {
      "typ": "absatz",
-     "text": "Ab Phase 3 darf der grüne Tag sich deinem Alltag anpassen. Möglich werden dann:"
-    },
-    {
-     "typ": "liste",
-     "punkte": [
-      "**Salz in Maßen** — 2 bis 5 Gramm Natursalz am Tag, kein raffiniertes"
-     ]
+     "text": "Ab Phase 3 darf der grüne Tag sich deinem Alltag anpassen. Möglich werden dann Salz in Maßen (2 bis 5 Gramm Natursalz am Tag, kein raffiniertes Tafelsalz), kleine Mengen Kohlenhydrate als Beilage wie Reis oder Kartoffeln — Betonung auf Beilage —, gebundene Saucen ohne Weizenmehl und gern mit einem Schluck Wein verfeinert, eine kleine Scheibe Roggenvollkornbrot anstelle einer Salatportion und Nüsse als Fett- und Mineralstoffquelle, höchstens bei einer Mahlzeit am Tag."
     },
     {
      "typ": "absatz",
-     "text": "Tafelsalz"
-    },
-    {
-     "typ": "liste",
-     "punkte": [
-      "**Kleine Mengen Kohlenhydrate** als Beilage: Reis, Kartoffeln. Betonung auf"
-     ]
-    },
-    {
-     "typ": "absatz",
-     "text": "Beilage — ein kleiner Teil der Mahlzeit, nicht die Hauptsache"
-    },
-    {
-     "typ": "liste",
-     "punkte": [
-      "**Gebundene Saucen**, gern mit einem Schluck Wein verfeinert, aber kein"
-     ]
-    },
-    {
-     "typ": "absatz",
-     "text": "Weizenmehl zum Binden"
-    },
-    {
-     "typ": "liste",
-     "punkte": [
-      "**Eine kleine Scheibe Roggenvollkornbrot** anstelle einer Salatportion",
-      "**Nüsse** als Fett- und Mineralstoffquelle, höchstens eine Mahlzeit am Tag"
-     ]
-    },
-    {
-     "typ": "absatz",
-     "text": "mit Nüssen"
-    },
-    {
-     "typ": "kasten",
-     "titel": "Eine Faustregel für die Stabilisierung",
-     "text": "Je näher du am Original der Aktivierungsphase bleibst, desto besser hält das Ergebnis. Die Erweiterungen sind Spielraum, keine Aufforderung, ihn vollständig auszuschöpfen."
+     "text": "Als Faustregel gilt: Je näher du am Original der Aktivierungsphase bleibst, desto besser hält das Ergebnis. Die Erweiterungen sind Spielraum, keine Aufforderung, ihn auszuschöpfen."
     }
    ]
   },
@@ -1008,35 +717,7 @@
     },
     {
      "typ": "absatz",
-     "text": "Multipliziere dein Gewicht einmal mit 0,8 und einmal mit 1,5. Dazwischen liegt dein Bereich."
-    },
-    {
-     "typ": "absatz",
-     "text": "**Beispiel bei 100 kg**"
-    },
-    {
-     "typ": "liste",
-     "punkte": [
-      "100 × 0,8 = 80 g",
-      "100 × 1,5 = 150 g",
-      "Dein Bereich: 80 bis 150 Gramm Eiweiß am Tag"
-     ]
-    },
-    {
-     "typ": "absatz",
-     "text": "**Beispiel bei 60 kg**"
-    },
-    {
-     "typ": "liste",
-     "punkte": [
-      "60 × 0,8 = 48 g",
-      "60 × 1,5 = 90 g",
-      "Dein Bereich: 48 bis 90 Gramm Eiweiß am Tag"
-     ]
-    },
-    {
-     "typ": "absatz",
-     "text": "Maßgeblich ist dein **aktuelles** Gewicht, nicht dein Wunschgewicht. Rechne alle paar Wochen neu, wenn sich etwas verändert hat."
+     "text": "Multipliziere dein Gewicht einmal mit 0,8 und einmal mit 1,5 — dazwischen liegt dein Bereich. Bei 100 Kilogramm sind das 80 bis 150 Gramm Eiweiß am Tag, bei 60 Kilogramm 48 bis 90 Gramm. Maßgeblich ist dein **aktuelles** Gewicht, nicht dein Wunschgewicht."
     },
     {
      "typ": "h2",
@@ -1134,25 +815,8 @@
      "text": "Mit Ei kommst du auf etwa 23 Gramm, ohne Ei auf etwa 17 Gramm. Den Rest verteilst du auf die drei übrigen Mahlzeiten."
     },
     {
-     "typ": "h2",
-     "text": "Eine Beispielrechnung"
-    },
-    {
      "typ": "absatz",
-     "text": "Nehmen wir 70 Kilogramm Körpergewicht."
-    },
-    {
-     "typ": "liste",
-     "punkte": [
-      "Bereich: 70 × 0,8 = 56 g bis 70 × 1,5 = 105 g",
-      "Zielwert in der Mitte: rund 80 Gramm am Tag",
-      "Frühstück mit Ei: 23 g",
-      "Bleiben 57 Gramm für drei Mahlzeiten, also rund 19 Gramm je Mahlzeit"
-     ]
-    },
-    {
-     "typ": "absatz",
-     "text": "Das entspricht etwa 85 Gramm Geflügel oder 95 Gramm Fisch pro Mahlzeit — roh gewogen jeweils etwas mehr."
+     "text": "Ein Durchgang für 70 Kilogramm: Der Bereich liegt bei 56 bis 105 Gramm, als Zielwert nimmst du rund 80 Gramm am Tag. Das Frühstück mit Ei deckt 23 davon, bleiben 57 Gramm für drei Mahlzeiten — also rund 19 Gramm je Mahlzeit oder etwa 85 Gramm Geflügel, roh etwas mehr."
     },
     {
      "typ": "h2",
@@ -1174,17 +838,8 @@
      "text": "Aus 150 Gramm Hähnchenbrust auf dem Teller werden also rund 180 Gramm rohes Fleisch in der Pfanne."
     },
     {
-     "typ": "h2",
-     "text": "Du musst nicht ewig wiegen"
-    },
-    {
      "typ": "absatz",
-     "text": "Die Waage brauchst du in der ersten Woche. Danach nicht mehr."
-    },
-    {
-     "typ": "kasten",
-     "titel": "Ein Trick, der Arbeit spart",
-     "text": "Fotografiere in den ersten Tagen deine abgewogenen Portionen auf dem Teller, den du üblicherweise benutzt. Nach fünf, sechs Mahlzeiten hast du ein Gefühl für die Größe und kannst die Waage im Schrank lassen."
+     "text": "Die Waage brauchst du nur in der ersten Woche: Fotografiere die abgewogenen Portionen auf deinem üblichen Teller, dann hast du nach wenigen Mahlzeiten ein Gefühl für die Größe."
     },
     {
      "typ": "h2",
@@ -1267,11 +922,7 @@
     },
     {
      "typ": "absatz",
-     "text": "Nicht geeignet sind Schweinefleisch, Innereien, Wurst sowie geräucherte oder eingelegte Ware — bei Letzterem wegen des Salzes. Thunfisch im eigenen Saft ist eine mögliche Ausnahme, wenn du ihn gut abspülst."
-    },
-    {
-     "typ": "absatz",
-     "text": "Bei Fleisch und Eiern lohnt sich Qualität: Haltung und Fütterung entscheiden über die Fettsäurezusammensetzung."
+     "text": "Nicht geeignet sind Schweinefleisch, Innereien, Wurst sowie geräucherte oder eingelegte Ware — Letzteres wegen des Salzes. Bei Fleisch und Eiern lohnt sich Qualität: Haltung und Fütterung entscheiden über die Fettsäurezusammensetzung."
     },
     {
      "typ": "h2",
@@ -1360,11 +1011,7 @@
     },
     {
      "typ": "absatz",
-     "text": "Fette sind in diesem Konzept kein Beiwerk. Die enthaltenen Fettsäuren sind Voraussetzung dafür, dass der Körper eigene Fettzellen abbauen kann. Spar hier also nicht."
-    },
-    {
-     "typ": "absatz",
-     "text": "Entscheidend ist das Verhältnis von Omega-6- zu Omega-3-Fettsäuren."
+     "text": "Fette sind kein Beiwerk: Die enthaltenen Fettsäuren sind Voraussetzung dafür, dass der Körper eigene Fettzellen abbauen kann. Spar hier nicht. Entscheidend ist das Verhältnis von Omega-6- zu Omega-3-Fettsäuren."
     },
     {
      "typ": "tabelle",
@@ -1401,7 +1048,7 @@
     },
     {
      "typ": "absatz",
-     "text": "Nüsse sind eine gute Quelle für Fettsäuren und Spurenelemente. Sie enthalten allerdings auch Antinährstoffe wie Phytinsäure und viele Kalorien. Deshalb höchstens **eine Mahlzeit am Tag** mit Nüssen."
+     "text": "Nüsse liefern Fettsäuren und Spurenelemente, enthalten aber auch Antinährstoffe wie Phytinsäure und viele Kalorien — deshalb höchstens **eine Mahlzeit am Tag** mit Nüssen."
     },
     {
      "typ": "absatz",
@@ -1421,59 +1068,27 @@
     },
     {
      "typ": "absatz",
-     "text": "Für Frikadellen, getreidefreies Brot oder Backwaren."
+     "text": "Für Frikadellen, getreidefreies Brot oder Backwaren. In der Aktivierungsphase: Goldleinmehl, Leinmehl, Süßlupinenmehl und entöltes oder teilentöltes Mandelmehl. Mandelmehl lässt sich **nicht** durch gemahlene Mandeln ersetzen — Backverhalten und Nährwerte unterscheiden sich deutlich."
     },
     {
      "typ": "absatz",
-     "text": "**In der Aktivierungsphase:** Goldleinmehl, Leinmehl, Süßlupinenmehl, Mandelmehl — entölt oder teilentölt."
-    },
-    {
-     "typ": "absatz",
-     "text": "Mandelmehl lässt sich **nicht** durch gemahlene Mandeln ersetzen. Backverhalten und Nährwerte unterscheiden sich deutlich."
-    },
-    {
-     "typ": "absatz",
-     "text": "**Ab der Stabilisierungsphase zusätzlich:** Apfelpektin, Backkakao, Bambusfaser, Flohsamenschale, Guarkernmehl, Hanfmehl, Johannisbrotkernmehl, Kartoffelfaser, Kokosmehl, Kürbiskernmehl, Sesammehl, Walnussmehl, Zitrusfaser."
-    },
-    {
-     "typ": "absatz",
-     "text": "Gekaufte Low-Carb-Produkte enthalten fast immer Salz, Zucker oder Weizenkleber. Selbst herstellen ist zuverlässiger."
+     "text": "Ab der Stabilisierungsphase kommen Kokos-, Hanf-, Sesam-, Kürbiskern- und Walnussmehl dazu, ebenso Flohsamenschale, Guarkernmehl, Apfelpektin, Bambusfaser und Zitrusfaser. Gekaufte Low-Carb-Produkte enthalten fast immer Salz, Zucker oder Weizenkleber — selbst herstellen ist zuverlässiger."
     },
     {
      "typ": "h2",
-     "text": "Milchprodukte"
+     "text": "Milchprodukte, Getränke, Süßungsmittel"
     },
     {
      "typ": "absatz",
-     "text": "**In der Aktivierungsphase:** ausschließlich der probiotische Joghurt, und zwar nur als erste Mahlzeit am Morgen."
+     "text": "**Milchprodukte** in der Aktivierungsphase: ausschließlich der probiotische Joghurt als erste Mahlzeit am Morgen. Ab der Stabilisierungsphase zusätzlich Butter aus Weidehaltung, Vollfett-Frischkäse, Hartkäse wie Cheddar oder Ziegenkäse, Weichkäse, Mozzarella, körniger Frischkäse, Mascarpone, Quark 40 %, Sahne und saure Sahne."
     },
     {
      "typ": "absatz",
-     "text": "**Ab der Stabilisierungsphase zusätzlich:** Butter aus Weidehaltung, Vollfett-Frischkäse, Hartkäse wie Cheddar oder Ziegenkäse, Weichkäse, Mozzarella, körniger Frischkäse, Mascarpone, Quark 40 %, Sahne, saure Sahne."
-    },
-    {
-     "typ": "h2",
-     "text": "Getränke"
+     "text": "**Getränke:** zwei Liter reines, stilles Wasser am Tag, ohne Kohlensäure und ohne Aromastoffe; ein Spritzer frischer Zitronensaft ist erlaubt. Dazu Kaffee, Kräutertee, hochwertiger grüner oder weißer Tee, Zitronen- und Ingwerwasser. **Kaffee und Tee zählen nicht zu den zwei Litern.**"
     },
     {
      "typ": "absatz",
-     "text": "Wasser, Kaffee, Kräutertee, hochwertiger grüner oder weißer Tee, Zitronenwasser, Ingwerwasser."
-    },
-    {
-     "typ": "absatz",
-     "text": "Zwei Liter reines, stilles Wasser am Tag — ohne Kohlensäure, ohne Aromastoffe. Ein Spritzer frischer Zitronensaft ist erlaubt. **Kaffee und Tee zählen nicht zu dieser Menge.**"
-    },
-    {
-     "typ": "h2",
-     "text": "Süßungsmittel"
-    },
-    {
-     "typ": "absatz",
-     "text": "**In der Aktivierungsphase:** keine. Auch keine Süßstoffe."
-    },
-    {
-     "typ": "absatz",
-     "text": "**Ab der Stabilisierungsphase:** Erythrit und Stevia in kleinen Mengen."
+     "text": "**Süßungsmittel:** in der Aktivierungsphase keine, auch keine Süßstoffe. Ab der Stabilisierungsphase Erythrit und Stevia in kleinen Mengen."
     }
    ]
   },
@@ -1602,15 +1217,7 @@
     },
     {
      "typ": "absatz",
-     "text": "Irgendwo zwischen dem zweiten und dem vierten Tag der Aktivierungsphase kommt bei vielen Menschen der Moment, in dem sie sich fragen, was sie sich dabei gedacht haben."
-    },
-    {
-     "typ": "absatz",
-     "text": "Kopfschmerzen. Müdigkeit. Gliederschmerzen. Ein flaues Gefühl. Reizbarkeit. Wo ist die Energie, von der alle reden?"
-    },
-    {
-     "typ": "absatz",
-     "text": "Das ist normal, es hat einen Namen und es geht vorbei."
+     "text": "Irgendwo zwischen dem zweiten und dem vierten Tag kommt bei vielen der Moment, in dem sie sich fragen, was sie sich dabei gedacht haben. Kopfschmerzen, Müdigkeit, Gliederschmerzen, ein flaues Gefühl, Reizbarkeit. Das ist normal, es hat einen Namen und es geht vorbei."
     },
     {
      "typ": "h2",
@@ -1618,19 +1225,7 @@
     },
     {
      "typ": "absatz",
-     "text": "Dein Körper stellt seinen Hauptbrennstoff um. Jahrelang — bei vielen jahrzehntelang — lief er auf Kohlenhydraten. Die Enzyme dafür sind eingespielt, die Wege sind gebahnt."
-    },
-    {
-     "typ": "absatz",
-     "text": "Jetzt kommen kaum noch Kohlenhydrate herein. Der Körper muss auf ein System umschalten, das er lange nicht gebraucht hat: die Verwertung von Fett und die Bildung von Ketonkörpern. Die dafür zuständigen Abläufe müssen erst wieder hochfahren."
-    },
-    {
-     "typ": "absatz",
-     "text": "In dieser Übergangszeit ist die eine Energiequelle knapp und die andere noch nicht auf Betriebstemperatur. Genau das spürst du."
-    },
-    {
-     "typ": "absatz",
-     "text": "Dazu kommt bei vielen ein zweiter Effekt: der Wegfall von Zucker. Wer über Jahre regelmäßig Süßes gegessen hat, erlebt die ersten Tage ohne durchaus als Entzug — mit allem, was dazugehört."
+     "text": "Dein Körper stellt seinen Hauptbrennstoff um. Jahrelang lief er auf Kohlenhydraten, die Enzyme dafür sind eingespielt. Jetzt muss er auf ein System umschalten, das er lange nicht gebraucht hat: die Verwertung von Fett und die Bildung von Ketonkörpern. In dieser Übergangszeit ist die eine Energiequelle knapp und die andere noch nicht auf Betriebstemperatur — genau das spürst du. Dazu kommt bei vielen der Wegfall von Zucker, den die ersten Tage durchaus als Entzug erlebbar machen."
     },
     {
      "typ": "h2",
@@ -1728,18 +1323,6 @@
     {
      "typ": "absatz",
      "text": "Besondere Vorsicht gilt, wenn du Medikamente nimmst, die auf Blutzucker, Blutdruck oder den Wasserhaushalt wirken. Der Bedarf kann sich durch die Umstellung verändern — das ist einer der Gründe, warum die ärztliche Begleitung in diesen Fällen nicht optional ist."
-    },
-    {
-     "typ": "h2",
-     "text": "Warum es sich lohnt, durchzuhalten"
-    },
-    {
-     "typ": "absatz",
-     "text": "Weil diese Tage der Preis für alles Weitere sind. Wer beim ersten Kopfschmerz abbricht, zahlt ihn — und bekommt nichts dafür."
-    },
-    {
-     "typ": "absatz",
-     "text": "Die Beschwerden sind ein Zeichen dafür, dass die Umstellung läuft. Sie sind unangenehm und sie sind endlich. Auf der anderen Seite wartet der Zustand, für den du die vier Wochen begonnen hast."
     }
    ]
   },
@@ -1913,31 +1496,23 @@
     },
     {
      "typ": "absatz",
-     "text": "Ja. Das ist die wichtigste Regel des Konzepts. Vier Mahlzeiten signalisieren dem Körper, dass kein Mangel herrscht — dadurch bleibt der Grundumsatz oben und die Muskulatur erhalten. Wer Mahlzeiten weglässt, bekommt das Gegenteil dessen, was er erreichen will."
+     "text": "Ja, das ist die wichtigste Regel. Vier Mahlzeiten signalisieren dem Körper, dass kein Mangel herrscht — dadurch bleibt der Grundumsatz oben und die Muskulatur erhalten. Wer Mahlzeiten weglässt, bekommt das Gegenteil dessen, was er erreichen will. Sind dir die Portionen zu groß, iss kleinere; nur auslassen darfst du keine."
     },
     {
      "typ": "absatz",
-     "text": "**Ich habe zwischen den Mahlzeiten Hunger. Was tun?**"
+     "text": "**Ich habe zwischen den Mahlzeiten Hunger.**"
     },
     {
      "typ": "absatz",
-     "text": "Das kommt selten vor. Wenn doch, prüfe zuerst, ob in den vorherigen Mahlzeiten genug gutes Fett und genug Eiweiß waren und ob du ausreichend getrunken hast. Bleibt der Hunger, iss eine fünfte Mahlzeit — aber nur eine halbe Portion."
+     "text": "Das kommt selten vor. Prüfe zuerst, ob in den vorherigen Mahlzeiten genug gutes Fett und Eiweiß waren und ob du ausreichend getrunken hast. Bleibt der Hunger, iss eine fünfte Mahlzeit — aber nur eine halbe Portion."
     },
     {
      "typ": "absatz",
-     "text": "**Die Portionen sind mir zu groß.**"
+     "text": "**Kann ich die Aktivierungsphase früher beenden, wenn ich mein Ziel erreicht habe?**"
     },
     {
      "typ": "absatz",
-     "text": "Dann iss kleinere. Wichtig ist nur, dass du alle vier Mahlzeiten isst und keine auslässt."
-    },
-    {
-     "typ": "absatz",
-     "text": "**Kann ich die Aktivierungsphase nach drei Wochen beenden, wenn ich mein Ziel erreicht habe?**"
-    },
-    {
-     "typ": "absatz",
-     "text": "Besser nicht. Die 28 Tage sind auf die Umstellung selbst gerechnet, nicht auf ein Gewicht. Wenn du nicht weiter abnehmen willst, erhöhe den Fettanteil — dann bleibt das Gewicht stabil und die Phase läuft zu Ende. Und plane die Stabilisierungsphase mit ein, sonst ist das Ergebnis nicht von Dauer."
+     "text": "Besser nicht. Die 28 Tage sind auf die Umstellung gerechnet, nicht auf ein Gewicht. Wenn du nicht weiter abnehmen willst, erhöhe den Fettanteil — dann bleibt das Gewicht stabil und die Phase läuft zu Ende."
     },
     {
      "typ": "absatz",
@@ -1945,7 +1520,7 @@
     },
     {
      "typ": "absatz",
-     "text": "Ja, ein bis zwei pro Woche. Sie halten den Stoffwechsel flexibel und wirken dem Absinken des Sättigungshormons entgegen. Es geht dabei nicht um unkontrolliertes Essen — oft genügen ein bis zwei Mahlzeiten mit guten Kohlenhydraten."
+     "text": "Ja, ein bis zwei pro Woche. Sie halten den Stoffwechsel flexibel. Es geht dabei nicht um unkontrolliertes Essen — oft genügen ein bis zwei Mahlzeiten mit guten Kohlenhydraten."
     },
     {
      "typ": "h2",
@@ -1953,27 +1528,11 @@
     },
     {
      "typ": "absatz",
-     "text": "**Warum darf ich in der Aktivierungsphase keine Milchprodukte außer dem Joghurt?**"
+     "text": "**Warum in der Aktivierungsphase keine Milchprodukte außer dem Joghurt?**"
     },
     {
      "typ": "absatz",
-     "text": "Milchprodukte enthalten Milchzucker und damit Kohlenhydrate. Sie können die Umstellung ausbremsen und bei manchen Menschen Heißhunger auslösen."
-    },
-    {
-     "typ": "absatz",
-     "text": "**Darf ich den Joghurt öfter als einmal am Tag essen?**"
-    },
-    {
-     "typ": "absatz",
-     "text": "Nein, nur am Morgen. Auch er enthält Kohlenhydrate — genug, um einen Körper, der sich gerade umstellt, aus dem Fettstoffwechsel zu werfen. Und in der Aktivierungsphase bitte ohne Obst."
-    },
-    {
-     "typ": "absatz",
-     "text": "**Warum soll der Tee am Morgen kalt sein?**"
-    },
-    {
-     "typ": "absatz",
-     "text": "Weil der Körper ihn auf Körpertemperatur bringen muss und dabei gleich zu Beginn des Tages aktiv wird. Dasselbe gilt für das kalte Frühstück."
+     "text": "Sie enthalten Milchzucker und damit Kohlenhydrate, können die Umstellung ausbremsen und bei manchen Heißhunger auslösen. Auch der Joghurt bleibt deshalb auf den Morgen beschränkt, und in der Aktivierungsphase ohne Obst."
     },
     {
      "typ": "absatz",
@@ -1981,7 +1540,7 @@
     },
     {
      "typ": "absatz",
-     "text": "Salz bindet Wasser im Körper. Der Verzicht gibt dem Wasserhaushalt die Gelegenheit, sich neu einzupendeln. Nebenbei stellen sich die Geschmacksnerven zurück — nach zwei bis drei Wochen schmeckt normal gesalzenes Essen unangenehm salzig."
+     "text": "Salz bindet Wasser. Der Verzicht gibt dem Wasserhaushalt Gelegenheit, sich neu einzupendeln. Nebenbei stellen sich die Geschmacksnerven zurück — nach zwei bis drei Wochen schmeckt normal gesalzenes Essen unangenehm salzig."
     },
     {
      "typ": "absatz",
@@ -1989,15 +1548,7 @@
     },
     {
      "typ": "absatz",
-     "text": "Weil es nicht nur um Kalorien geht. Der süße Geschmack hält die Gewöhnung an Süße aufrecht, und genau die soll sich in diesen Wochen zurückstellen. Ab der Stabilisierungsphase sind Erythrit und Stevia in kleinen Mengen möglich."
-    },
-    {
-     "typ": "absatz",
-     "text": "**Warum keine Zwiebeln?**"
-    },
-    {
-     "typ": "absatz",
-     "text": "Sie enthalten vergleichsweise viel Zucker und belasten den Darm in dieser Phase zusätzlich. Frühlingszwiebeln und Knoblauch sind erlaubt."
+     "text": "Weil es nicht um Kalorien geht: Der süße Geschmack hält die Gewöhnung an Süße aufrecht, und genau die soll sich zurückstellen. Ab der Stabilisierungsphase sind Erythrit und Stevia in kleinen Mengen möglich."
     },
     {
      "typ": "absatz",
@@ -2005,15 +1556,7 @@
     },
     {
      "typ": "absatz",
-     "text": "In der Aktivierungs- und Stabilisierungsphase nicht, außer an roten Tagen. Eine Suppe lässt sich nicht gründlich kauen, die Flüssigkeit verdünnt die Verdauungssäfte beim Essen, und die nötige Eiweißmenge pro Mahlzeit kommt selten zusammen."
-    },
-    {
-     "typ": "absatz",
-     "text": "**Kann ich in der Aktivierungsphase Low-Carb-Brot essen?**"
-    },
-    {
-     "typ": "absatz",
-     "text": "Nein. Getreidefreie Nachbauten gehören in die Stabilisierungsphase. In den 28 Tagen geht es auch darum, das Muster zu unterbrechen — nicht nur die Kohlenhydrate."
+     "text": "In der Aktivierungs- und Stabilisierungsphase nur an roten Tagen. Eine Suppe lässt sich nicht gründlich kauen, die Flüssigkeit verdünnt die Verdauungssäfte beim Essen, und die nötige Eiweißmenge pro Mahlzeit kommt selten zusammen."
     },
     {
      "typ": "absatz",
@@ -2021,15 +1564,7 @@
     },
     {
      "typ": "absatz",
-     "text": "Das Konzept arbeitet mit 0,8 bis 1,5 Gramm pro Kilogramm Körpergewicht. Das ist eine bedarfsdeckende Menge, keine Überversorgung. Bei Nierenerkrankungen und angeborenen Stoffwechselstörungen muss die Menge allerdings ärztlich festgelegt werden."
-    },
-    {
-     "typ": "absatz",
-     "text": "**Kann ich essen, bis ich satt bin?**"
-    },
-    {
-     "typ": "absatz",
-     "text": "Halte dich an die berechneten Mengen. Viele Menschen haben das Gefühl dafür verloren, wann sie wirklich satt sind. Die Portionen sind so bemessen, dass der Körper versorgt ist — er gewöhnt sich schnell daran."
+     "text": "Das Konzept arbeitet mit 0,8 bis 1,5 Gramm pro Kilogramm Körpergewicht, einer bedarfsdeckenden Menge. Bei Nierenerkrankungen und angeborenen Stoffwechselstörungen muss die Menge ärztlich festgelegt werden."
     },
     {
      "typ": "h2",
@@ -2037,35 +1572,15 @@
     },
     {
      "typ": "absatz",
-     "text": "**Ich bin müde und habe Kopfschmerzen. Ist das normal?**"
+     "text": "Müdigkeit und Kopfschmerzen in den ersten drei bis zehn Tagen sind normal — das Kapitel „Die ersten Tage\" sagt, was hilft und wann du abbrechen solltest. Steht die Waage tagelang still, ist das ein Plateau; Näheres im Kapitel „Wenn die Waage stillsteht\"."
     },
     {
      "typ": "absatz",
-     "text": "In den ersten drei bis zehn Tagen ja — das ist die Umstellungsphase. Das Kapitel „Die ersten Tage\" beschreibt ausführlich, was hilft und wann du abbrechen solltest."
+     "text": "**Was unterstützt das Ergebnis sonst noch?**"
     },
     {
      "typ": "absatz",
-     "text": "**Die Waage steht seit Tagen still.**"
-    },
-    {
-     "typ": "absatz",
-     "text": "Das ist normal und heißt Plateau. Miss den Umfang, wiege dich nur einmal pro Woche und iss auf keinen Fall weniger. Näheres im Kapitel „Wenn die Waage stillsteht\"."
-    },
-    {
-     "typ": "absatz",
-     "text": "**Wie wichtig ist Schlaf?**"
-    },
-    {
-     "typ": "absatz",
-     "text": "Sehr. Zu wenig Schlaf wirkt auf die Hormone, die Hunger und Sättigung steuern, und verstärkt jede Umstellungsbeschwerde. Wenn du eine Sache zusätzlich tun willst: früher ins Bett."
-    },
-    {
-     "typ": "absatz",
-     "text": "**Was kann ich noch tun, um das Ergebnis zu unterstützen?**"
-    },
-    {
-     "typ": "absatz",
-     "text": "Ausreichend trinken, gut schlafen und sich bewegen — Spazierengehen, Schwimmen, Radfahren, Krafttraining. In der ersten Woche allerdings keinen Sport. Wechselduschen und Basenbäder empfinden viele als angenehm."
+     "text": "Ausreichend trinken, gut schlafen und sich bewegen — in der ersten Woche allerdings ohne Sport. Zu wenig Schlaf wirkt auf die Hormone, die Hunger und Sättigung steuern, und verstärkt jede Umstellungsbeschwerde. Wenn du eine Sache zusätzlich tun willst: früher ins Bett."
     },
     {
      "typ": "h2",
@@ -2089,7 +1604,7 @@
     },
     {
      "typ": "absatz",
-     "text": "**Ich habe Diabetes / eine Herzerkrankung / ein Nierenleiden.**"
+     "text": "**Ich habe Diabetes, eine Herzerkrankung oder ein Nierenleiden.**"
     },
     {
      "typ": "absatz",
@@ -2109,7 +1624,7 @@
     },
     {
      "typ": "absatz",
-     "text": "Das geht. Das Kapitel „Vegetarisch und vegan\" beschreibt die Eiweißquellen und die angepassten Mengen."
+     "text": "Das geht. Eiweißquellen und angepasste Mengen stehen im Kapitel „Vegetarisch und vegan\"."
     }
    ]
   },

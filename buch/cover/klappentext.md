@@ -1,5 +1,5 @@
 ---
-schlagzeile: Vier Wochen, die deinen Alltag verändern
+schlagzeile: Neunzig Tage, die deinen Alltag verändern
 ---
 
 Du hast es schon mehrfach versucht. Kalorien gezählt, Portionen halbiert,

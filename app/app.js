@@ -809,7 +809,7 @@ function ansichtWissen(ziel) {
 
   const fuss = el('div', 'fusstext');
   fuss.textContent =
-    'Auszug aus „Der Stoffwechsel-Reset — Das 4-Phasen-Ernährungskonzept in 28 Tagen". Kein medizinischer Ratgeber.';
+    'Auszug aus „Der Stoffwechsel-Reset — Das 4-Phasen-Ernährungskonzept in 90 Tagen". Kein medizinischer Ratgeber.';
   ziel.append(fuss);
 }
 

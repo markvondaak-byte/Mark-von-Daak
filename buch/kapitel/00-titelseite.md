@@ -13,7 +13,7 @@ kopfzeile: Titelseite
 
 # Der Stoffwechsel-Reset
 
-## Das 4-Phasen-Ernährungskonzept in 28 Tagen
+## Das 4-Phasen-Ernährungskonzept in 90 Tagen
 
 {{LEERZEILE}}
 

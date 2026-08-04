@@ -36,7 +36,7 @@ Produktempfehlungen.
 **Das passende Buch**
 
 Dieses Workbook ist das Begleitheft zum Buch „Der Stoffwechsel-Reset — Das
-4-Phasen-Ernährungskonzept in 28 Tagen". Dort stehen die Hintergründe, die
+4-Phasen-Ernährungskonzept in 90 Tagen". Dort stehen die Hintergründe, die
 vollständigen Lebensmittellisten und alle Regeln im Detail.
 
 Du kannst dieses Workbook auch allein verwenden: Das Kapitel „Das Konzept in
