@@ -13,19 +13,26 @@ cover_akzent: zitrone   # blatt | zitrone | beere
 
 slug: workbook
 
-# A4-nah. Mehr Schreibfläche als beim Buch, liegt flach auf dem Tisch.
+# 8 × 10 Zoll — Großformat, immer noch deutlich mehr Schreibfläche als das
+# Buch, liegt flach auf dem Tisch.
 #
-# Die Maße sind bewusst nicht die runden 210 × 297 mm, sondern KDPs Trimmgröße
-# 8,27 × 11,69 Zoll. KDP rechnet intern in Zoll und prüft Innenteil und
-# Umschlag gegen diese Werte; mit den runden Millimetern war der Umschlag
-# 0,12 mm zu schmal und 0,07 mm zu hoch.
+# Vorher stand hier A4 (8,27 × 11,69 Zoll). Das ist für ein Heft zum Ausfüllen
+# minimal besser, steht bei KDP aber nicht in der Auswahlliste und muss als
+# benutzerdefinierte Trimmgröße eingetragen werden — daran ist der Upload
+# gescheitert. 8 × 10 kommt aus der Liste und kostet nur 17 Prozent Fläche
+# (6 × 9 hätte 44 Prozent gekostet).
+#
+# Die Höhe ist der knappe Wert: 42,9 mm weniger als A4. Zwei Tageskarten
+# müssen weiterhin auf eine Seite passen, deshalb sind die Ränder oben und
+# unten enger als vorher. KDP verlangt bei 76 bis 150 Seiten mindestens
+# 9,5 mm innen.
 seitenformat:
-  breite_mm: 210.058    # 8,27 Zoll
-  hoehe_mm: 296.926     # 11,69 Zoll
-  rand_innen_mm: 22.0   # mehr Bundsteg wegen höherer Seitenzahl
-  rand_aussen_mm: 16.0
-  rand_oben_mm: 18.0
-  rand_unten_mm: 18.0
+  breite_mm: 203.2      # 8 Zoll
+  hoehe_mm: 254.0       # 10 Zoll
+  rand_innen_mm: 20.0   # Bundsteg
+  rand_aussen_mm: 14.0
+  rand_oben_mm: 15.0
+  rand_unten_mm: 15.0
 
 impressum:
   name: "Mark von Daak"

@@ -355,7 +355,28 @@ def seitenzahlen_format(section, format_="decimal", neustart_bei=None):
 
 # --- Bausteine ---------------------------------------------------------------
 def seitenumbruch(doc):
-    absatz = doc.add_paragraph()
+    """Harter Seitenumbruch.
+
+    Steht am Ende bereits ein leerer Absatz — die Abstandshalter hinter
+    Tabellen sind genau das —, wandert der Umbruch in diesen hinein, statt
+    einen weiteren anzulegen. Sonst summieren sich zwei Absatzhöhen, und wenn
+    die Seite ohnehin voll ist, entsteht daraus eine Seite, die nichts trägt
+    als Kolumnentitel und Seitenzahl. Im Workbook waren das über vierzig.
+    """
+    letzter = doc.element.body.findall(qn("w:p"))
+    absatz = None
+    if letzter is not None and len(letzter):
+        kandidat = letzter[-1]
+        # Nur wiederverwenden, wenn er wirklich der letzte Knoten im Körper
+        # ist: Nach einer Tabelle darf der Umbruch nicht davor rutschen.
+        koerper = list(doc.element.body)
+        while koerper and koerper[-1].tag == qn("w:sectPr"):
+            koerper.pop()
+        if koerper and koerper[-1] is kandidat and not kandidat.findall(qn("w:r")):
+            from docx.text.paragraph import Paragraph
+            absatz = Paragraph(kandidat, doc)
+    if absatz is None:
+        absatz = doc.add_paragraph()
     absatz.add_run().add_break(WD_BREAK.PAGE)
     return absatz
 

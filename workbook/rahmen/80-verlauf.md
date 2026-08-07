@@ -27,6 +27,8 @@ nebeneinander sieht man Entwicklungen, die einem Woche für Woche entgehen.
 | 11 | | | | | | |
 | 12 | | | | | | |
 
+{{SEITENUMBRUCH}}
+
 ## Deine Kurve
 
 Trag deine Werte als Punkte ein und verbinde sie. Beschrifte die senkrechte

@@ -9,8 +9,8 @@ Gleiche Machart wie Band 1 (`buch/cover/amazon-beschreibung.md`), aber anderes
 Versprechen: Band 1 erklärt, Band 2 begleitet. Wer beide Listings nebeneinander
 liest, soll den Unterschied in den ersten zwei Zeilen erkennen.
 
-Geprüfte Zahlen: 88 Seiten, 84 Tageskarten, 12 Wochenauftakte, 12
-Wochenrückblicke, Format 21 × 29,7 cm. Die Farbverteilung stammt aus
+Geprüfte Zahlen: 92 Seiten, 84 Tageskarten, 12 Wochenauftakte, 12
+Wochenrückblicke, Format 20,3 × 25,4 cm. Die Farbverteilung stammt aus
 `workbook/build/wochenplan.py`: 14 Vorbereitungstage, 22 weiße, 39 grüne und
 9 rote Tage.
 
@@ -53,7 +53,7 @@ Wochen statt mit einer Ziellinie.
 
 **Ausstattung**
 
-Großformat 21 × 29,7 cm, 88 Seiten, mattes Papier zum Beschriften. Die
+Großformat 20,3 × 25,4 cm, 92 Seiten, mattes Papier zum Beschriften. Die
 Tagesfarben sind zusätzlich beschriftet und bleiben deshalb auch im
 Schwarz-Weiß-Druck unterscheidbar.
 
@@ -90,7 +90,7 @@ Band 3 — Das Rezeptbuch: 73 Gerichte ohne Salz und Zucker.
 <h5>Ein ehrlicher Schluss</h5>
 <p>Nach zw&ouml;lf Wochen steckst du mitten in der Stabilisierungsphase, nicht am Ziel. Dieses Heft sagt das offen und endet mit einem Ausblick auf die restlichen Wochen statt mit einer Ziellinie.</p>
 <h5>Ausstattung</h5>
-<p>Gro&szlig;format 21 &times; 29,7 cm, 88 Seiten, mattes Papier zum Beschriften. Die Tagesfarben sind zus&auml;tzlich beschriftet und bleiben auch im Schwarz-Wei&szlig;-Druck unterscheidbar.</p>
+<p>Gro&szlig;format 20,3 &times; 25,4 cm, 92 Seiten, mattes Papier zum Beschriften. Die Tagesfarben sind zus&auml;tzlich beschriftet und bleiben auch im Schwarz-Wei&szlig;-Druck unterscheidbar.</p>
 <p><i>Nicht geeignet in Schwangerschaft und Stillzeit, nicht f&uuml;r Kinder und Jugendliche. Bei Erkrankungen und bei regelm&auml;&szlig;iger Einnahme von Medikamenten geh&ouml;rt eine &auml;rztliche Abkl&auml;rung vor den Start. Dieses Heft ist kein medizinischer Ratgeber und ersetzt weder Untersuchung noch Diagnose noch Behandlung.</i></p>
 <h5>Die Reihe</h5>
 <p><b>Band 1 &mdash; Das Buch:</b> das Konzept zum Lesen und Nachschlagen.<br>

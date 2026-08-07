@@ -5,7 +5,7 @@ Zwei eigenständige Bände, gemeinsame Build-Basis:
 | Band | Quelle | Format | Ausgabe |
 |---|---|---|---|
 | 1 — Das Buch | `buch/kapitel/*.md` | 6″ × 9″ | `buch/out/stoffwechsel-reset.{docx,pdf}` |
-| 2 — Das Workbook | `workbook/` | 8,27″ × 11,69″ | `workbook/out/workbook.{docx,pdf}` |
+| 2 — Das Workbook | `workbook/` | 8″ × 10″ | `workbook/out/workbook.{docx,pdf}` |
 | 3 — Das Rezeptbuch | `rezepte/` | 6″ × 9″ | `rezepte/out/rezeptbuch.{docx,pdf}` |
 
 ## Bauen
@@ -217,6 +217,18 @@ Feld `position: vorne` oder `position: hinten` im Front Matter.
 **Schreiblinien** werden über `schreibzeilen()` als Tabelle gesetzt, nicht als
 Absätze mit Unterstrich: Word fasst aufeinanderfolgende Absätze mit gleichem
 Rahmen sonst zu einer einzigen Linie zusammen.
+
+**Format 8″ × 10″, nicht A4.** A4 (8,27″ × 11,69″) wäre für ein Heft zum
+Ausfüllen minimal besser, steht bei KDP aber nicht in der Auswahlliste der
+Trimmgrößen und muss von Hand als benutzerdefinierte Größe eingetragen werden.
+Wird stattdessen eine Größe aus der Liste gewählt, prüft KDP Innenteil und
+Umschlag gegen die falschen Sollmaße und weist beides zurück. 8″ × 10″ kommt
+aus der Liste und kostet gegenüber A4 nur 17 Prozent Fläche.
+
+Wer das Format wieder ändert, muss zwei Zahlen nachmessen: die Schreiblinien im
+Wochenauftakt und im Wochenrückblick. Beide Seiten sind auf die Seitenhöhe
+ausgemessen, und schon eine Zeile zu viel schickt jede der zwölf Wochen auf
+eine zweite Seite.
 
 **Kein Farbdruck einplanen.** Jede Tagesfarbe trägt zusätzlich ihre
 Beschriftung (WEISS / GRÜN / ROT), damit der Band auch in Schwarz-Weiß

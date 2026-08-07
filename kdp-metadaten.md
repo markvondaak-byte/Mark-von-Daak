@@ -106,30 +106,30 @@ Zum Tauschen, falls ein Begriff nach ein paar Wochen nichts bringt:
 | Untertitel | Das 12-Wochen-Workbook |
 | Serie | Der Stoffwechsel-Reset, Band 2 |
 | Beschreibung | `workbook/cover/amazon-beschreibung.md` |
-| Trimmgröße | **8,27 × 11,69 Zoll** (21,01 × 29,69 cm) — benutzerdefiniert |
-| Seiten | 88 |
+| Trimmgröße | **8 × 10 Zoll** (20,32 × 25,4 cm) — steht in der Auswahlliste |
+| Seiten | 92 |
 | Papier | weiß |
 | Druckfarbe | Schwarzweiß |
-| Rückenbreite | 5,0 mm — Rückentext gesetzt |
-| Umschlag gesamt | 431,50 × 303,28 mm (16,988 × 11,940 Zoll) |
+| Rückenbreite | 5,3 mm — Rückentext gesetzt |
+| Umschlag gesamt | 418,01 × 260,35 mm (16,457 × 10,250 Zoll) |
 
-**Diese Größe steht nicht in der Auswahlliste.** Bei KDP unter „Trimmgröße" auf
-*Benutzerdefiniert* umschalten und 8,27 × 11,69 Zoll eintragen. Wer stattdessen
-eine Größe aus der Liste nimmt, bekommt den Umschlag zurückgewiesen — KDP
-prüft ihn gegen die im Formular gewählte Trimmgröße, nicht gegen die Datei.
+Vorher war dieser Band A4 (8,27 × 11,69 Zoll). Das steht bei KDP **nicht** in
+der Auswahlliste und muss als benutzerdefinierte Trimmgröße eingetragen
+werden; wird stattdessen eine Größe aus der Liste gewählt, prüft KDP Innenteil
+und Umschlag gegen die falschen Sollmaße und weist beides zurück. 8 × 10 kommt
+aus der Liste und hat das Problem nicht.
 
-Ebenfalls wichtig: **Schwarzweiß**. Standardfarbe bietet KDP für dieses Format
-nicht an, und jede andere Papier- oder Farbwahl ändert die Rückenbreite und
-damit die Sollbreite des Umschlags.
+**Schwarzweiß und weißes Papier** sind keine Nebensache: Jede andere Papier-
+oder Farbwahl ändert die Rückenbreite und damit die Sollbreite des Umschlags.
 
-Zur Kontrolle — was KDP bei 88 Seiten erwartet, je nach Auswahl:
+Zur Kontrolle — was KDP bei 92 Seiten erwartet, je nach Auswahl:
 
 | Trimmgröße | Papier | Umschlag gesamt |
 |---|---|---|
-| 8,27 × 11,69 Zoll | weiß | **431,5 × 303,3 mm** ← unsere Datei |
-| 8,27 × 11,69 Zoll | creme | 432,1 × 303,3 mm |
-| 8,5 × 11 Zoll | weiß | 443,2 × 285,8 mm |
-| 8 × 10 Zoll | weiß | 417,8 × 260,3 mm |
+| 8 × 10 Zoll | weiß | **418,0 × 260,4 mm** ← unsere Datei |
+| 8 × 10 Zoll | creme | 418,6 × 260,4 mm |
+| 8,5 × 11 Zoll | weiß | 443,4 × 285,8 mm |
+| 8,27 × 11,69 Zoll | weiß | 431,7 × 303,3 mm |
 
 Nennt KDP eine Sollgröße, die hier in einer anderen Zeile steht, ist im
 Formular die falsche Trimmgröße oder das falsche Papier eingestellt.

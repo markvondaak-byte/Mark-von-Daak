@@ -35,8 +35,8 @@ def workbook_stile(doc):
     mitte = WD_ALIGN_PARAGRAPH.CENTER
     stile._stil(doc, "WocheNummer", schrift=stile.SANS, groesse=11, fett=True,
                 farbe=stile.FARBEN["blatt_hell"], vor=0, nach=2)
-    stile._stil(doc, "WocheTitel", schrift=stile.SANS, groesse=24, fett=True,
-                farbe=stile.FARBEN["blatt"], vor=0, nach=10, zeilen=1.05)
+    stile._stil(doc, "WocheTitel", schrift=stile.SANS, groesse=19, fett=True,
+                farbe=stile.FARBEN["blatt"], vor=0, nach=8, zeilen=1.05)
     stile._stil(doc, "TagKopf", schrift=stile.SANS, groesse=12, fett=True,
                 farbe=stile.FARBEN["blatt"], vor=0, nach=0)
     stile._stil(doc, "TagFarbe", schrift=stile.SANS, groesse=8, fett=True,
@@ -96,7 +96,7 @@ def schreibzeilen(doc, anzahl, breite_mm, *, praefix=None, hoehe_pt=11):
 
 
 def tageskarte(doc, tag, breite_mm):
-    """Eine Tageskarte — zwei davon passen auf eine A4-Seite."""
+    """Eine Tageskarte — zwei davon passen auf eine Seite von 8 × 10 Zoll."""
     farbe = stile.TAGESFARBEN[tag["farbe"]]
     ist_vorbereitung = tag["farbe"] == wp.VORBEREITUNG
     label_mm = 32
@@ -231,15 +231,17 @@ def wochenauftakt(doc, woche, breite_mm):
     # Farbwahl darübersteht. Vorher liefen zwei bis drei Schreiblinien über und
     # standen allein auf der Folgeseite: dreizehn Seiten im Heft, die nichts
     # trugen als eine übrig gebliebene Linie.
+    #
+    # Beim Wechsel von A4 auf 8 × 10 Zoll sind 42,9 mm Höhe weggefallen. Die
+    # Einkaufszeilen konnten trotzdem bleiben — eingespart wurde stattdessen an
+    # der Wochenüberschrift (24 auf 19 pt) und am Abschnitt „Notizen", der auf
+    # der Tageskarte ohnehin eine eigene Zeile hat.
     einkaufszeilen = 9 if woche["vorschlag"] else 11
 
     doc.add_paragraph(style="Abschnitt").add_run("Einkauf für diese Woche")
     schreibzeilen(doc, einkaufszeilen, breite_mm, praefix=f"{KAESTCHEN}   ")
 
     doc.add_paragraph(style="Abschnitt").add_run("Mein Vorsatz für diese Woche")
-    schreibzeilen(doc, 2, breite_mm)
-
-    doc.add_paragraph(style="Abschnitt").add_run("Notizen")
     schreibzeilen(doc, 2, breite_mm)
     stile.seitenumbruch(doc)
 
@@ -253,7 +255,7 @@ def wochenrueckblick(doc, woche, breite_mm):
     tabelle = doc.add_table(rows=6, cols=2)
     tabelle.autofit = False
     stile.tabellenraender(tabelle)
-    stile.spaltenbreiten(tabelle, [55, 105])
+    stile.spaltenbreiten(tabelle, [breite_mm * 0.34, breite_mm * 0.66])
     felder = ["Datum", "Gewicht (kg)", "Taille (cm)", "Bauch (cm)",
               "Hüfte (cm)", "Befinden 1–10"]
     for nummer, feld in enumerate(felder):
@@ -266,10 +268,14 @@ def wochenrueckblick(doc, woche, breite_mm):
         a = _zelle_leeren(z2)
         a.style = doc.styles["FeldZeile"]
 
+    # Elf Schreiblinien sind das Maximum, das mit der Wertetabelle darüber auf
+    # eine Seite von 8 × 10 Zoll passt. Bei zwölf läuft jeder der zwölf
+    # Rückblicke auf eine zweite Seite über — das Heft wächst dann von 92 auf
+    # 104 Seiten, und zwölf davon tragen zwei Linien.
     for titel, anzahl in [
-        ("Was gut lief", 5),
-        ("Was schwerfiel", 5),
-        ("Das nehme ich in die nächste Woche mit", 4),
+        ("Was gut lief", 4),
+        ("Was schwerfiel", 4),
+        ("Das nehme ich in die nächste Woche mit", 3),
     ]:
         doc.add_paragraph(style="Abschnitt").add_run(titel)
         schreibzeilen(doc, anzahl, breite_mm)
@@ -307,7 +313,7 @@ TYPOGRAFIE = {
 }
 
 
-def bauen(cfg, rahmen, ziel):
+def bauen(cfg, rahmen, ziel, leerseite=False):
     sf = cfg["seitenformat"]
     doc = stile.dokument_anlegen(sf, TYPOGRAFIE)
     workbook_stile(doc)
@@ -341,6 +347,16 @@ def bauen(cfg, rahmen, ziel):
         renderer.rendern(kap["text"],
                          Renderer.LAYOUTS.get(kap["meta"].get("layout")))
 
+    if leerseite:
+        # Wie in Band 1 und 3: KDP verlangt eine gerade Seitenzahl und schiebt
+        # sonst selbst ein unbeschriftetes Blatt ein. Die Vakatseite bekommt
+        # weder Kopfzeile noch Seitenzahl — mit beidem sähe sie nach einem
+        # Satzfehler aus.
+        abschluss = stile.neuer_abschnitt(doc, sf)
+        stile.kopf_und_fusszeile(doc, abschluss, links_text="", rechts_text="",
+                                 mit_seitenzahl=False)
+        doc.add_paragraph(style="Fliesstext")
+
     ziel.parent.mkdir(parents=True, exist_ok=True)
     doc.save(ziel)
     return ziel
@@ -352,11 +368,19 @@ def main():
     rahmen = kapitel_laden(basis / "rahmen")
     ziel = basis / "out" / f"{cfg['slug']}.docx"
 
+    from pypdf import PdfReader
+
     bauen(cfg, rahmen, ziel)
     pdf = pdf_erzeugen(ziel)
-
-    from pypdf import PdfReader
     seiten = len(PdfReader(str(pdf)).pages)
+
+    if seiten % 2:
+        # Zweiter Durchlauf mit Vakatseite am Ende. Erst jetzt möglich —
+        # vorher ist die Seitenzahl unbekannt.
+        bauen(cfg, rahmen, ziel, leerseite=True)
+        pdf = pdf_erzeugen(ziel)
+        seiten = len(PdfReader(str(pdf)).pages)
+
     print(f"12 Wochen, 84 Tageskarten, {len(rahmen)} Rahmenkapitel, "
           f"{seiten} Seiten")
     print(f"  → {ziel.relative_to(WURZEL)}")
