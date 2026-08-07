@@ -62,7 +62,7 @@ Kaum hatte Pauli den ersten Schritt in den Wald gesetzt, hörte es ein winziges 
 
 Etwas Kleines, Blinkendes flog heran und setzte sich schnaufend auf Paulis Nase. Es war ein **Glühwürmchen**, nicht größer als ein Reiskorn, mit einem Lichtschweif, der immer wieder flackerte — an, aus, an, aus.
 
-„Ich heiße **Luna**", sagte das Glühwürmchen. „Mein Licht ist ganz schwach, siehst du? Deshalb lacht mich zu Hause keiner ernst. Aber ein bisschen leuchten kann ich schon. Darf ich mitkommen? Zu zweit ist der Weg nur halb so dunkel."
+„Ich heiße **Luna**", sagte das Glühwürmchen. „Mein Licht ist ganz schwach, siehst du? Deshalb nimmt mich zu Hause keiner ernst. Aber ein bisschen leuchten kann ich schon. Darf ich mitkommen? Zu zweit ist der Weg nur halb so dunkel."
 
 Pauli lächelte zum ersten Mal seit langer Zeit.
 

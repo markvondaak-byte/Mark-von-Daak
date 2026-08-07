@@ -185,7 +185,7 @@ CH = [
    pages=[
      P("""Kaum war Pauli ein paar Schritte gegangen, hörte es hinter sich ein winziges Stimmchen. „Wart auf mich! Wart auf mich!“""",
        """Etwas Kleines, Blinkendes flatterte heran und setzte sich schnaufend auf Paulis Nase. Es war ein <strong>Glühwürmchen</strong>, nicht größer als ein Reiskorn, mit einem Lichtschweif, der immer wieder flackerte – an, aus, an, aus."""),
-     P("""„Ich heiße <strong>Luna</strong>“, sagte das Glühwürmchen ein wenig verlegen. „Mein Licht ist ganz schwach, siehst du? Zu Hause lacht mich deshalb keiner ernst. Aber ein bisschen leuchten kann ich schon. Darf ich mitkommen?“""",
+     P("""„Ich heiße <strong>Luna</strong>“, sagte das Glühwürmchen ein wenig verlegen. „Mein Licht ist ganz schwach, siehst du? Zu Hause nimmt mich deshalb keiner ernst. Aber ein bisschen leuchten kann ich schon. Darf ich mitkommen?“""",
        """Pauli schaute in Lunas hoffnungsvolles Gesichtchen und lächelte zum ersten Mal seit Langem. „Zu zweit“, sagte Pauli, „ist der Weg nur halb so dunkel. Komm mit, Luna.“ Und so gingen die kleinste Maus und das schwächste Glühwürmchen zusammen los."""),
    ],
    vig=(["mouse","firefly"], "Zu zweit ist der Weg nur halb so dunkel.")),
@@ -220,7 +220,7 @@ CH = [
  dict(title="Das Dornengestrüpp", scene="thorns",
    pages=[
      P("""Kaum hatten sie den Bach hinter sich gelassen, versperrte ihnen ein dichtes Dornengestrüpp den Weg. Spitze Ranken wuchsen kreuz und quer, und mittendrin hing ein großes, silbriges Spinnennetz.""",
-       """„Oh nein“, flüsterte Pauli. „Da kommen wir nie hindurch.“ In diesem Moment kribbelte etwas über das Netz: eine große Spinne mit acht langen Beinen. „Niemand geht durch mein Tor“, zischte sie, „ohne mir ein Rätsel zu lösen.“"""),
+       """„Oh nein“, flüsterte Pauli. „Da kommen wir nie hindurch.“ In diesem Moment krabbelte etwas über das Netz: eine große Spinne mit acht langen Beinen. „Niemand geht durch mein Tor“, zischte sie, „ohne mir ein Rätsel zu lösen.“"""),
      P("""Pauli schluckte. „Ein… ein Rätsel?“ „Was“, fragte die Spinne, „wird größer, je mehr man es teilt?“ Pauli überlegte. Es dachte an Luna, die ihr Licht mit ihm teilte. Es dachte an Bruno, der seine Kraft geteilt hatte.""",
        """„Die Freude!“, rief Pauli. „Und der Mut! Beides wird größer, wenn man es teilt.“ Die Spinne war so verblüfft, dass sie beiseiterückte. „Noch nie hat das jemand so schnell erraten“, murmelte sie. „Geht nur hindurch.“"""),
      P("""Als sie durch das Gestrüpp geschlüpft waren, rief die Spinne ihnen nach: „Warte, kleine Maus! Nimm diesen Faden mit. Er leuchtet ein wenig im Dunkeln – ein Dankeschön fürs klügste Rätselraten seit hundert Jahren.“""",
