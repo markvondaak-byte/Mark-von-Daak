@@ -66,9 +66,9 @@ nicht steht.
 | Beschreibung | `buch/cover/amazon-beschreibung.md` |
 | Altersfreigabe | keine jugendgefährdenden Inhalte |
 | Trimmgröße | 15,24 × 22,86 cm (6″ × 9″) |
-| Seiten | 60 |
+| Seiten | 76 (letzte Seite ist eine Vakatseite) |
 | Papier | weiß |
-| Rückenbreite | 3,4 mm — **kein Rückentext**, KDP erlaubt ihn erst ab 79 Seiten |
+| Rückenbreite | 4,3 mm — **kein Rückentext**, KDP erlaubt ihn erst ab 79 Seiten |
 
 **Kategorien** — eine breite, zwei enge:
 
@@ -116,17 +116,29 @@ Zum Tauschen, falls ein Begriff nach ein paar Wochen nichts bringt:
 Nicht unter „Kalender, Notizbücher & Planer" einordnen. Dort wird Blankoware
 gekauft, und ein Begleitheft zu einem Konzept geht in dieser Umgebung unter.
 
-**Keywords:**
+**Keywords** — sieben Felder à 50 Zeichen, nach denselben Regeln wie bei
+Band 1: Wortgruppen statt Einzelwörter, kein Wort aus Titel oder Untertitel.
+
+Band 2 zielt bewusst auf andere Suchen als Band 1. Band 1 wird von Leuten
+gesucht, die ein Konzept verstehen wollen („ratgeber", „anleitung"); Band 2 von
+Leuten, die schon entschieden haben und etwas zum Ausfüllen suchen
+(„tagebuch", „planer", „journal"). Nur so stehen die beiden Bände nicht in
+denselben Trefferlisten gegeneinander.
 
 ```
-ernährungstagebuch zum ausfüllen
-12 wochen challenge ernährung
-abnehmtagebuch stoffwechsel
-tagesplaner ernährungsumstellung
-begleitbuch ernährungskonzept
-gewicht und umfänge eintragen
-ernährungsplan zum ankreuzen
+ernährungstagebuch zum ausfüllen a4
+abnehmtagebuch erfolgsjournal zum eintragen
+gewichtstagebuch umfänge messen protokoll
+diät tagebuch ernährungsumstellung begleiter
+wochenplaner gesunde ernährung ausfüllbuch
+begleitheft ernährungskonzept low carb
+eiweißreich essen plan zum abhaken
 ```
+
+Zum Tauschen, falls ein Begriff nach ein paar Wochen nichts bringt:
+`habit tracker ernährung gesundheit` · `essenstagebuch selbst führen` ·
+`ausfüllbuch abnehmen ohne diät` · `ernährungsjournal großformat` ·
+`fortschritt dokumentieren ernährung`
 
 ---
 
