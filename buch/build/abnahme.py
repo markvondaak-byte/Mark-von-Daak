@@ -141,6 +141,9 @@ def buch_pruefen():
     pruefe("Keine fast leeren Seiten", not zu_leer,
            f"Seiten {zu_leer}" if zu_leer else "")
 
+    innenteil_druck_pruefen("Band 1", pdf.with_name(pdf.stem + "-druck.pdf"),
+                            cfg["seitenformat"]["breite_mm"],
+                            cfg["seitenformat"]["hoehe_mm"])
     cover_pruefen("Band 1", basis / "out" / "cover.pdf", cfg, len(seiten))
 
 
@@ -212,7 +215,38 @@ def workbook_pruefen():
     pruefe("Keine fast leeren Seiten", not zu_leer,
            f"Seiten {zu_leer}" if zu_leer else "")
 
+    innenteil_druck_pruefen("Band 2", pdf.with_name(pdf.stem + "-druck.pdf"),
+                            cfg["seitenformat"]["breite_mm"],
+                            cfg["seitenformat"]["hoehe_mm"])
     cover_pruefen("Band 2", basis / "out" / "cover.pdf", cfg, len(seiten))
+
+
+def innenteil_druck_pruefen(bezeichnung, pdf, breite_mm, hoehe_mm):
+    """Die Innenteil-Datei, die tatsächlich zu KDP hochgeladen wird.
+
+    LibreOffice exportiert 6x9 Zoll nicht maßhaltig: Aus 228,6 mm Höhe werden
+    229,01 mm. Schon ein leeres Dokument mit derselben Seitengröße kommt so
+    heraus, A4 dagegen stimmt. KDP prüft die Seitengröße gegen die gewählte
+    Trimmgröße — deshalb setzt innenteil_druck.py die Seitenbox gerade.
+    """
+    if not pdf.exists():
+        pruefe(f"{bezeichnung}: Druckfassung des Innenteils vorhanden", False,
+               "innenteil_druck.py laufen lassen")
+        return
+
+    reader = PdfReader(str(pdf))
+    masse = {(round(float(s.mediabox.width) / 72 * 25.4, 2),
+              round(float(s.mediabox.height) / 72 * 25.4, 2))
+             for s in reader.pages}
+    stimmt = (len(masse) == 1
+              and abs(list(masse)[0][0] - breite_mm) < 0.05
+              and abs(list(masse)[0][1] - hoehe_mm) < 0.05)
+    pruefe(f"{bezeichnung}: Innenteil hat exakt die Trimmgröße", stimmt,
+           " / ".join(f"{b} x {h} mm" for b, h in sorted(masse)))
+
+    fehlend = schriften_eingebettet(pdf)
+    pruefe(f"{bezeichnung}: Druckfassung mit allen Schriften", not fehlend,
+           ", ".join(sorted(fehlend)) if fehlend else "")
 
 
 def druckfassung_pruefen(bezeichnung, pdf, soll_b, soll_h):
@@ -354,6 +388,9 @@ def rezeptbuch_pruefen():
     pruefe("Keine fast leeren Seiten", not zu_leer,
            f"Seiten {zu_leer}" if zu_leer else "")
 
+    innenteil_druck_pruefen("Band 3", pdf.with_name(pdf.stem + "-druck.pdf"),
+                            cfg["seitenformat"]["breite_mm"],
+                            cfg["seitenformat"]["hoehe_mm"])
     cover_pruefen("Band 3", basis / "out" / "cover.pdf", cfg, len(seiten))
 
 

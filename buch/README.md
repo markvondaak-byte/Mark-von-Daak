@@ -86,6 +86,12 @@ Seitenzahlen, der zweite setzt damit das Inhaltsverzeichnis. Grund: LibreOffice
 löst Word-TOC-Felder beim PDF-Export nicht auf, deshalb wird das Verzeichnis
 selbst gesetzt.
 
+Fällt die Seitenzahl dabei ungerade aus, folgt ein dritter Durchlauf mit einer
+Vakatseite am Buchende — KDP verlangt eine gerade Seitenzahl und schiebt sonst
+selbst ein Blatt ein. Die Vakatseite ist ein eigener Abschnitt ohne Kopfzeile
+und ohne Seitenzahl; mit beidem sähe sie nach einem Satzfehler aus. Band 3
+macht das genauso.
+
 ### Systemvoraussetzung
 
 `libreoffice-writer` muss installiert sein — `libreoffice-core` allein genügt

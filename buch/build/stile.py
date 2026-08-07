@@ -159,47 +159,48 @@ def _stile_definieren(doc):
           farbe=FARBEN["blatt_hell"], vor=0, nach=3)
     _stil(doc, "Kapitel", schrift=SANS, groesse=19, fett=True,
           farbe=FARBEN["blatt"], vor=0, nach=10, zeilen=1.1, zusammenhalten=True)
-    _stil(doc, "Abschnitt", schrift=SANS, groesse=12.5, fett=True,
-          vor=11, nach=4, zeilen=1.15, zusammenhalten=True)
+    _stil(doc, "Abschnitt", schrift=SANS, groesse=13, fett=True,
+          vor=13, nach=5, zeilen=1.15, zusammenhalten=True)
     _stil(doc, "Unterabschnitt", schrift=SANS, groesse=10.5, fett=True,
           farbe=FARBEN["gedaempft"], vor=8, nach=3, zusammenhalten=True)
 
     # Fließtext
-    _stil(doc, "Fliesstext", schrift=SERIF, groesse=10.5, vor=0, nach=5,
-          zeilen=1.10)
-    _stil(doc, "FliesstextEng", schrift=SERIF, groesse=10.5, vor=0, nach=2,
-          zeilen=1.10)
-    _stil(doc, "Einzug", schrift=SERIF, groesse=10.5, vor=0, nach=5,
+    _stil(doc, "Fliesstext", schrift=SERIF, groesse=11, vor=0, nach=6,
+          zeilen=1.15)
+    _stil(doc, "FliesstextEng", schrift=SERIF, groesse=11, vor=0, nach=2,
+          zeilen=1.15)
+    _stil(doc, "Einzug", schrift=SERIF, groesse=11, vor=0, nach=5,
           zeilen=1.10, einzug_links=8)
     _stil(doc, "Klein", schrift=SERIF, groesse=9, farbe=FARBEN["gedaempft"],
           vor=0, nach=5)
     _stil(doc, "KleinMitte", schrift=SERIF, groesse=9, farbe=FARBEN["gedaempft"],
           vor=0, nach=5, ausrichtung=mitte)
-    _stil(doc, "Zitat", schrift=SERIF, groesse=10.5, kursiv=True,
+    _stil(doc, "Zitat", schrift=SERIF, groesse=11, kursiv=True,
           farbe=FARBEN["gedaempft"], vor=6, nach=10, einzug_links=6)
 
     # Listen
-    _stil(doc, "Punkt", schrift=SERIF, groesse=10.5, vor=0, nach=2,
+    _stil(doc, "Punkt", schrift=SERIF, groesse=11, vor=0, nach=2,
           zeilen=1.10, einzug_links=6)
-    _stil(doc, "Nummer", schrift=SERIF, groesse=10.5, vor=0, nach=2,
+    _stil(doc, "Nummer", schrift=SERIF, groesse=11, vor=0, nach=2,
           zeilen=1.10, einzug_links=6)
 
     # Kästen und Tabellen
     _stil(doc, "KastenTitel", schrift=SANS, groesse=10, fett=True,
           farbe=FARBEN["blatt"], vor=0, nach=3, zusammenhalten=True)
     _stil(doc, "KastenText", schrift=SERIF, groesse=9.5, vor=0, nach=3,
-          zeilen=1.10)
+          zeilen=1.15)
     _stil(doc, "TabellenKopf", schrift=SANS, groesse=9, fett=True,
           vor=2, nach=2, zeilen=1.05)
     _stil(doc, "TabellenZelle", schrift=SERIF, groesse=9, vor=2, nach=2,
           zeilen=1.05)
 
     # Inhaltsverzeichnis
-    # Enger gesetzt als der Fließtext: Mit sechs Teilen und 26 Kapiteln lief
-    # das Verzeichnis sonst um wenige Zeilen auf eine zweite Seite über.
+    # Enger als der Fließtext: 32 Einträge sollen auf eine Seite passen.
+    # Sonst steht der letzte Eintrag allein auf einer zweiten Seite und
+    # sieht nach einem Satzfehler aus.
     _stil(doc, "InhaltTeil", schrift=SANS, groesse=10, fett=True,
-          farbe=FARBEN["blatt"], vor=7, nach=2)
-    _stil(doc, "InhaltKapitel", schrift=SERIF, groesse=10, vor=0, nach=1)
+          farbe=FARBEN["blatt"], vor=8, nach=2)
+    _stil(doc, "InhaltKapitel", schrift=SERIF, groesse=10, vor=0, nach=1.5)
 
     # Kopf- und Fußzeile
     _stil(doc, "Kopfzeile", schrift=SANS, groesse=8, farbe=FARBEN["gedaempft"],

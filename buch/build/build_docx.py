@@ -386,7 +386,7 @@ def _layout(kap):
     return Renderer.LAYOUTS.get(name)
 
 
-def bauen(cfg, kapitel, ziel, toc_daten=None):
+def bauen(cfg, kapitel, ziel, toc_daten=None, leerseite=False):
     sf = cfg["seitenformat"]
     doc = stile.dokument_anlegen(sf)
     textbreite = sf["breite_mm"] - sf["rand_innen_mm"] - sf["rand_aussen_mm"]
@@ -406,33 +406,37 @@ def bauen(cfg, kapitel, ziel, toc_daten=None):
     # Rumpf: je Kapitel ein eigener Abschnitt, damit die Kopfzeile den
     # Kapitelnamen tragen kann. Seitenzählung startet neu bei 1.
     #
-    # Teilüberschriften bekommen keinen eigenen Abschnitt und damit keine
-    # eigene Seite. Sie werden dem ersten Kapitel ihres Teils vorangestellt.
-    # Auf 60 Seiten Umfang kosteten sechs Trennseiten ein Zehntel des Buches,
-    # ohne eine Zeile Inhalt zu tragen; die Gliederung bleibt über die
-    # Überschrift und das Inhaltsverzeichnis erhalten.
-    offener_teil = None
-    abschnitt_nr = 0
-    for kap in rumpf:
-        if kap["meta"]["typ"] == "teil":
-            offener_teil = kap
-            continue
-
+    # Teilüberschriften stehen wieder auf eigenen Trennseiten. Für die
+    # 60-Seiten-Fassung waren sie mit dem ersten Kapitel ihres Teils
+    # zusammengelegt; bei 76 Seiten ist der Platz da, und eine eigene Seite
+    # ist die übliche und ruhigere Lösung.
+    for nummer, kap in enumerate(rumpf):
         section = stile.neuer_abschnitt(doc, sf)
-        if abschnitt_nr == 0:
+        if nummer == 0:
             stile.seitenzahlen_format(section, "decimal", neustart_bei=1)
         else:
             stile.seitenzahlen_format(section, "decimal")
-        abschnitt_nr += 1
-        stile.kopf_und_fusszeile(
-            doc, section,
-            links_text=cfg["titel"],
-            rechts_text=kap["meta"]["kopfzeile"],
-        )
-        if offener_teil is not None:
-            renderer.rendern(offener_teil["text"], _layout(offener_teil))
-            offener_teil = None
+        if kap["meta"]["typ"] == "teil":
+            # Teil-Trennseiten stehen für sich: Seitenzahl ja, Kopfzeile nein.
+            stile.kopf_und_fusszeile(doc, section, links_text="", rechts_text="")
+        else:
+            stile.kopf_und_fusszeile(
+                doc, section,
+                links_text=cfg["titel"],
+                rechts_text=kap["meta"]["kopfzeile"],
+            )
         renderer.rendern(kap["text"], _layout(kap))
+
+    if leerseite:
+        # KDP verlangt eine gerade Seitenzahl und schiebt sonst selbst ein
+        # unbeschriftetes Blatt ein. Besser, wir setzen es kontrolliert — und
+        # zwar wirklich leer: eigener Abschnitt ohne Kopf- und Fußzeile.
+        # Mit Kolumnentitel und Seitenzahl sähe die Seite nach einem Fehler
+        # aus statt nach der üblichen Vakatseite am Buchende.
+        abschluss = stile.neuer_abschnitt(doc, sf)
+        stile.kopf_und_fusszeile(doc, abschluss, links_text="", rechts_text="",
+                                 mit_seitenzahl=False)
+        doc.add_paragraph(style="Fliesstext")
 
     ziel.parent.mkdir(parents=True, exist_ok=True)
     doc.save(ziel)
@@ -521,6 +525,15 @@ def main():
 
     from pypdf import PdfReader
     seiten = len(PdfReader(str(pdf)).pages)
+
+    if seiten % 2:
+        # Dritter Durchlauf mit Vakatseite am Ende. Erst jetzt möglich —
+        # vorher ist die Seitenzahl unbekannt. Das Verzeichnis bleibt
+        # gültig: Die Leerseite hängt hinten an und verschiebt nichts.
+        bauen(cfg, kapitel, ziel, toc_daten=toc, leerseite=True)
+        pdf = pdf_erzeugen(ziel)
+        seiten = len(PdfReader(str(pdf)).pages)
+
     print(f"{len(kapitel)} Kapitel, {len(toc)} Verzeichniseinträge, "
           f"{seiten} Seiten")
     print(f"  → {ziel.relative_to(WURZEL)}")

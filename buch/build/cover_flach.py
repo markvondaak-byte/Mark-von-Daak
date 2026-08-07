@@ -111,7 +111,9 @@ def main():
         WURZEL / "rezepte" / "out" / "cover.pdf",
     ]
     for quelle in quellen:
-        quelle = Path(quelle)
+        # resolve(): Wird das Skript mit einem relativen Pfad aufgerufen,
+        # scheitert sonst am Ende das relative_to(WURZEL) der Ausgabe.
+        quelle = Path(quelle).resolve()
         if not quelle.exists():
             print(f"  fehlt: {quelle}")
             continue
