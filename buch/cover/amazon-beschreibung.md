@@ -141,3 +141,57 @@ als letzter Absatz und immer mit Hinweis:
 Kläre das vorher mit PM-International ab. Als Teampartner hast du dort einen
 Ansprechpartner — eine schriftliche Rückmeldung ist mehr wert als jede
 Einschätzung aus diesem Repository.
+
+---
+
+## Kurzfassung
+
+Für alle Stellen, an denen wenig Platz ist: die ersten Zeilen der
+Amazon-Beschreibung, bevor „Mehr lesen" abschneidet, ein Newsletter, ein
+Beitrag, ein Gespräch.
+
+**Zusammenfassung in drei Sätzen**
+
+> Die meisten Diäten scheitern nicht an der Disziplin, sondern daran, dass sie
+> dem Körper etwas wegnehmen, statt ihm etwas anderes zu geben. Dieses Buch
+> beschreibt ein Ernährungskonzept in vier Phasen, das entlastet und
+> gleichzeitig versorgt: vier eiweißreiche Mahlzeiten am Tag, gute Fette, kaum
+> Kohlenhydrate — und eine strenge Phase von 28 Tagen, die wirklich endet. Auf
+> 60 Seiten stehen alle Regeln, Mengen und Lebensmittellisten, ohne
+> Produktempfehlungen und ohne ein Versprechen über Kilogramm.
+
+**Kurze Produktbeschreibung** (rund 900 Zeichen)
+
+> **Nicht weniger essen — anders essen.**
+>
+> Kalorien zählen funktioniert ein paar Wochen. Dann steht die Waage, die Kraft
+> geht, und das Gewicht kommt zurück. Nicht weil du versagt hast: Ein Körper,
+> der zu wenig bekommt, senkt den Grundumsatz und baut Muskulatur ab.
+>
+> Dieses Buch geht anders vor. Vier eiweißreiche Mahlzeiten am Tag, gute Fette,
+> kaum Kohlenhydrate — der Körper meldet keinen Mangel und geht trotzdem an die
+> eigenen Reserven. Vier Phasen, klar getrennt, mit einer strengen Phase von 28
+> Tagen und der Phase danach, die darüber entscheidet, ob das Erreichte bleibt.
+>
+> Auf 60 Seiten: alle Regeln und Mengen, vollständige Lebensmittellisten, deine
+> Eiweißmenge zum Ausrechnen, eine Einkaufsliste und eine Kurzübersicht für den
+> Kühlschrank. Dazu, was in den ersten Tagen passiert und wann du abbrechen
+> solltest.
+>
+> Ohne Produktempfehlungen. Ohne Marken. Ohne eine Zahl, die dir versprochen
+> wird.
+>
+> *Nicht geeignet in Schwangerschaft und Stillzeit, nicht für Kinder und
+> Jugendliche. Bei Erkrankungen und regelmäßiger Medikamenteneinnahme gehört
+> eine ärztliche Abklärung vor den Start. Kein medizinischer Ratgeber.*
+
+**Kurzfassung für das KDP-Feld**
+
+```html
+<h4>Nicht weniger essen &mdash; anders essen.</h4>
+<p>Kalorien z&auml;hlen funktioniert ein paar Wochen. Dann steht die Waage, die Kraft geht, und das Gewicht kommt zur&uuml;ck. Nicht weil du versagt hast: Ein K&ouml;rper, der zu wenig bekommt, senkt den Grundumsatz und baut Muskulatur ab.</p>
+<p>Dieses Buch geht anders vor. Vier eiwei&szlig;reiche Mahlzeiten am Tag, gute Fette, kaum Kohlenhydrate &mdash; der K&ouml;rper meldet keinen Mangel und geht trotzdem an die eigenen Reserven. Vier Phasen, klar getrennt, mit einer strengen Phase von 28 Tagen und der Phase danach, die dar&uuml;ber entscheidet, ob das Erreichte bleibt.</p>
+<p><b>Auf 60 Seiten:</b> alle Regeln und Mengen, vollst&auml;ndige Lebensmittellisten, deine Eiwei&szlig;menge zum Ausrechnen, eine Einkaufsliste und eine Kurz&uuml;bersicht f&uuml;r den K&uuml;hlschrank. Dazu, was in den ersten Tagen passiert und wann du abbrechen solltest.</p>
+<p><b>Ohne Produktempfehlungen. Ohne Marken. Ohne eine Zahl, die dir versprochen wird.</b></p>
+<p><i>Nicht geeignet in Schwangerschaft und Stillzeit, nicht f&uuml;r Kinder und Jugendliche. Bei Erkrankungen und regelm&auml;&szlig;iger Medikamenteneinnahme geh&ouml;rt eine &auml;rztliche Abkl&auml;rung vor den Start. Kein medizinischer Ratgeber.</i></p>
+```
