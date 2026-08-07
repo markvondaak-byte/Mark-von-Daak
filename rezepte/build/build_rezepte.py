@@ -36,22 +36,36 @@ FARBMARKE = {
 
 
 def rezept_stile(doc):
-    stile._stil(doc, "RezeptName", schrift=stile.SANS, groesse=13, fett=True,
-                farbe=stile.FARBEN["blatt"], vor=12, nach=1,
+    """Absatzformate der Rezepte.
+
+    Die Größen sind auf 8 × 10 Zoll ausgelegt. Bei 6 × 9 standen hier
+    9,5 pt — auf der breiteren Seite ergab das 110 Zeichen je Zeile. Gut
+    lesbar sind 60 bis 75; ab etwa 90 verliert das Auge beim Zeilenwechsel
+    den Anschluss und springt in dieselbe Zeile zurück. In einem Kochbuch,
+    das man im Stehen und aus einem Meter Entfernung liest, wiegt das
+    doppelt.
+
+    Korrigiert wird von zwei Seiten: 12,5 pt hier und 42 mm Außensteg in
+    rezepte.yaml. Zusammen ergibt das 72 Zeichen im Mittel. Nur an der
+    Schrift zu drehen hätte 14,5 pt gebraucht, nur am Rand einen Außensteg
+    von 95 mm — beides für sich genommen zu viel.
+    """
+    stile._stil(doc, "RezeptName", schrift=stile.SANS, groesse=15, fett=True,
+                farbe=stile.FARBEN["blatt"], vor=14, nach=1,
                 zusammenhalten=True)
-    stile._stil(doc, "RezeptMeta", schrift=stile.SANS, groesse=8,
-                farbe=stile.FARBEN["gedaempft"], vor=0, nach=6,
+    stile._stil(doc, "RezeptMeta", schrift=stile.SANS, groesse=9,
+                farbe=stile.FARBEN["gedaempft"], vor=0, nach=7,
                 zusammenhalten=True)
-    stile._stil(doc, "RezeptRubrik", schrift=stile.SANS, groesse=8.5,
-                fett=True, farbe=stile.FARBEN["blatt_hell"], vor=5, nach=2,
+    stile._stil(doc, "RezeptRubrik", schrift=stile.SANS, groesse=9.5,
+                fett=True, farbe=stile.FARBEN["blatt_hell"], vor=6, nach=2,
                 zusammenhalten=True)
-    stile._stil(doc, "RezeptZutat", schrift=stile.SERIF, groesse=9.5,
-                vor=0, nach=1, zeilen=1.08, einzug_links=4)
-    stile._stil(doc, "RezeptSchritt", schrift=stile.SERIF, groesse=9.5,
-                vor=0, nach=3, zeilen=1.12, einzug_links=6)
-    stile._stil(doc, "RezeptTipp", schrift=stile.SERIF, groesse=9,
+    stile._stil(doc, "RezeptZutat", schrift=stile.SERIF, groesse=12.5,
+                vor=0, nach=1.5, zeilen=1.10, einzug_links=4)
+    stile._stil(doc, "RezeptSchritt", schrift=stile.SERIF, groesse=12.5,
+                vor=0, nach=4, zeilen=1.15, einzug_links=6)
+    stile._stil(doc, "RezeptTipp", schrift=stile.SERIF, groesse=10.5,
                 kursiv=True, farbe=stile.FARBEN["gedaempft"],
-                vor=3, nach=2, zeilen=1.10, einzug_links=4)
+                vor=4, nach=2, zeilen=1.12, einzug_links=4)
 
 
 def rezept_setzen(doc, rezept, textbreite_mm):
@@ -116,9 +130,28 @@ def rezeptdateien_laden(verzeichnis):
     return abschnitte
 
 
+# Eigene Werte statt der Vorgaben aus stile.py, die auf Band 1 ausgemessen
+# sind. Zwei Gründe: Auf der breiteren Seite von 8 × 10 Zoll wären 11 pt
+# Fließtext zu klein für die Zeilenlänge, und ein Rahmentext in 11 pt neben
+# Rezepten in 12,5 pt sieht nach zwei verschiedenen Büchern aus.
+TYPOGRAFIE = {
+    "Fliesstext": {"groesse": 12, "nach": 7},
+    "FliesstextEng": {"groesse": 12},
+    "Einzug": {"groesse": 12},
+    "Punkt": {"groesse": 12},
+    "Nummer": {"groesse": 12},
+    "Zitat": {"groesse": 12},
+    "KastenText": {"groesse": 10.5},
+    "KastenTitel": {"groesse": 11},
+    "Abschnitt": {"groesse": 14},
+    "TabellenZelle": {"groesse": 10},
+    "TabellenKopf": {"groesse": 10},
+}
+
+
 def bauen(cfg, rahmen, abschnitte, ziel, leerseite=False):
     sf = cfg["seitenformat"]
-    doc = stile.dokument_anlegen(sf)
+    doc = stile.dokument_anlegen(sf, TYPOGRAFIE)
     rezept_stile(doc)
     breite = sf["breite_mm"] - sf["rand_innen_mm"] - sf["rand_aussen_mm"]
     renderer = Renderer(doc, breite)

@@ -7,7 +7,7 @@ grenze: 4000 Zeichen inklusive Auszeichnung
 
 Geprüfte Zahlen aus `rezepte/rezepte/*.yaml`: 73 Rezepte, davon 5 Frühstücke,
 26 für weiße Tage, 22 für grüne Tage, 12 ab der Stabilisierungsphase und
-8 Grundrezepte. 54 Seiten, Format 15,24 × 22,86 cm.
+8 Grundrezepte. 54 Seiten, Großformat 20,3 × 25,4 cm.
 
 Der Nutzen, den dieses Listing verkauft, ist nicht „viele Rezepte", sondern:
 Du musst bei keinem Gericht nachschlagen, ob es heute erlaubt ist. Genau das

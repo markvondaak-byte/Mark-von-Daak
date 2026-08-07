@@ -6,7 +6,7 @@ Zwei eigenständige Bände, gemeinsame Build-Basis:
 |---|---|---|---|
 | 1 — Das Buch | `buch/kapitel/*.md` | 6″ × 9″ | `buch/out/stoffwechsel-reset.{docx,pdf}` |
 | 2 — Das Workbook | `workbook/` | 8″ × 10″ | `workbook/out/workbook.{docx,pdf}` |
-| 3 — Das Rezeptbuch | `rezepte/` | 6″ × 9″ | `rezepte/out/rezeptbuch.{docx,pdf}` |
+| 3 — Das Rezeptbuch | `rezepte/` | 8″ × 10″ | `rezepte/out/rezeptbuch.{docx,pdf}` |
 
 ## Bauen
 
@@ -220,6 +220,21 @@ neue Rezepte müssen das ebenfalls.
 
 Ein Rezept bricht nie über zwei Seiten: Alle Absätze außer dem letzten
 tragen `keep_with_next`.
+
+**Format 8″ × 10″ und ein breiter Außensteg.** Beim Kochen liegt das Buch
+flach auf der Arbeitsfläche, und man liest im Stehen aus einem Meter
+Entfernung — dafür ist das Großformat das nützlichere Maß.
+
+Es bringt aber ein Problem mit: Über die volle Seitenbreite gesetzt kämen
+110 Zeichen in die Zeile. Gut lesbar sind 60 bis 75; ab etwa 90 verliert das
+Auge beim Zeilenwechsel den Anschluss und springt in dieselbe Zeile zurück.
+Korrigiert ist das von zwei Seiten: **12,5 pt** in `rezept_stile()` und
+**42 mm Außensteg** in `rezepte.yaml`. Zusammen ergibt das 72 Zeichen im
+Mittel. Nur an der Schrift zu drehen hätte 14,5 pt gebraucht, nur am Rand
+einen Außensteg von 95 mm.
+
+Wer am Format oder an den Rändern dreht, sollte die Zeilenlänge nachmessen —
+sie ist die Kennzahl, an der dieses Layout hängt.
 
 Die Seitenzahl wird automatisch gerade gemacht — bei ungerader Zahl baut das
 Skript einen zweiten Durchlauf mit Leerseite am Ende, weil KDP sonst selbst

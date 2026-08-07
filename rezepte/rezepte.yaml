@@ -13,14 +13,24 @@ cover_akzent: beere   # blatt | zitrone | beere
 
 slug: rezeptbuch
 
-# Gleiches Format wie Band 1, damit beide Bände zusammen im Regal stehen.
+# 8 × 10 Zoll — dasselbe Großformat wie Band 2. Für ein Kochbuch das
+# nützlichere Maß: Es liegt beim Kochen flach auf der Arbeitsfläche, und
+# Zutatenliste und Zubereitung stehen nebeneinander statt untereinander.
+#
+# Vorher stand hier 6 × 9 Zoll wie bei Band 1. Der Preis des Wechsels: Bei
+# 48 Prozent mehr Fläche je Seite fällt die Seitenzahl deutlich, und das Buch
+# wird ein dünnes Heft in großem Format.
+# Der Außensteg ist bewusst breit: Über die volle Seitenbreite gesetzt kämen
+# 110 Zeichen in die Zeile, lesbar sind 60 bis 75. Der freie Rand ist beim
+# Kochbuch kein verschenkter Platz, sondern der Daumen, mit dem man das Buch
+# offen hält, und Raum für eigene Notizen.
 seitenformat:
-  breite_mm: 152.4      # 6 Zoll
-  hoehe_mm: 228.6       # 9 Zoll
-  rand_innen_mm: 20.0
-  rand_aussen_mm: 16.0
-  rand_oben_mm: 18.0
-  rand_unten_mm: 18.0
+  breite_mm: 203.2      # 8 Zoll
+  hoehe_mm: 254.0       # 10 Zoll
+  rand_innen_mm: 22.0
+  rand_aussen_mm: 42.0
+  rand_oben_mm: 16.0
+  rand_unten_mm: 16.0
 
 impressum:
   name: "Mark von Daak"

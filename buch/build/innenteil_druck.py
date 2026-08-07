@@ -29,7 +29,7 @@ PT_JE_MM = 72 / 25.4
 BAENDE = [
     ("Band 1", "buch/out/stoffwechsel-reset.pdf", 152.4, 228.6),
     ("Band 2", "workbook/out/workbook.pdf", 203.2, 254.0),
-    ("Band 3", "rezepte/out/rezeptbuch.pdf", 152.4, 228.6),
+    ("Band 3", "rezepte/out/rezeptbuch.pdf", 203.2, 254.0),
 ]
 
 

@@ -173,10 +173,16 @@ Zum Tauschen, falls ein Begriff nach ein paar Wochen nichts bringt:
 | Untertitel | Das Rezeptbuch — 73 Gerichte ohne Salz und Zucker |
 | Serie | Der Stoffwechsel-Reset, Band 3 |
 | Beschreibung | `rezepte/cover/amazon-beschreibung.md` |
-| Trimmgröße | 15,24 × 22,86 cm (6″ × 9″) |
+| Trimmgröße | **8 × 10 Zoll** (20,32 × 25,4 cm) — steht in der Auswahlliste |
 | Seiten | 54 |
 | Papier | weiß |
-| Rückenbreite | 3,1 mm — kein Rückentext |
+| Druckfarbe | Schwarzweiß |
+| Rückenbreite | 3,1 mm — kein Rückentext (KDP erlaubt ihn ab 79 Seiten) |
+| Umschlag gesamt | 415,84 × 260,35 mm (16,372 × 10,250 Zoll) |
+
+Gleiches Format wie Band 2. Beim Kochen liegt das Buch flach auf der
+Arbeitsfläche — dafür ist das Großformat das nützlichere Maß. Band 1 bleibt
+bei 6 × 9 Zoll; es ist ein Lesebuch und soll in die Hand passen.
 
 **Kategorien:**
 
