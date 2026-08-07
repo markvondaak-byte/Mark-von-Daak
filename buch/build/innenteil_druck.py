@@ -24,9 +24,11 @@ from pathlib import Path
 WURZEL = Path(__file__).resolve().parents[2]
 PT_JE_MM = 72 / 25.4
 
+# Sollmaße als KDP-Trimmgrößen in Zoll gerechnet, nicht als runde Millimeter:
+# 6 × 9 Zoll und 8,27 × 11,69 Zoll. KDP prüft gegen diese Werte.
 BAENDE = [
     ("Band 1", "buch/out/stoffwechsel-reset.pdf", 152.4, 228.6),
-    ("Band 2", "workbook/out/workbook.pdf", 210.0, 297.0),
+    ("Band 2", "workbook/out/workbook.pdf", 210.058, 296.926),
     ("Band 3", "rezepte/out/rezeptbuch.pdf", 152.4, 228.6),
 ]
 
