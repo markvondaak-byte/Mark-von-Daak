@@ -106,10 +106,33 @@ Zum Tauschen, falls ein Begriff nach ein paar Wochen nichts bringt:
 | Untertitel | Das 12-Wochen-Workbook |
 | Serie | Der Stoffwechsel-Reset, Band 2 |
 | Beschreibung | `workbook/cover/amazon-beschreibung.md` |
-| Trimmgröße | 21,0 × 29,7 cm (A4) |
+| Trimmgröße | **8,27 × 11,69 Zoll** (21,01 × 29,69 cm) — benutzerdefiniert |
 | Seiten | 88 |
 | Papier | weiß |
+| Druckfarbe | Schwarzweiß |
 | Rückenbreite | 5,0 mm — Rückentext gesetzt |
+| Umschlag gesamt | 431,50 × 303,28 mm (16,988 × 11,940 Zoll) |
+
+**Diese Größe steht nicht in der Auswahlliste.** Bei KDP unter „Trimmgröße" auf
+*Benutzerdefiniert* umschalten und 8,27 × 11,69 Zoll eintragen. Wer stattdessen
+eine Größe aus der Liste nimmt, bekommt den Umschlag zurückgewiesen — KDP
+prüft ihn gegen die im Formular gewählte Trimmgröße, nicht gegen die Datei.
+
+Ebenfalls wichtig: **Schwarzweiß**. Standardfarbe bietet KDP für dieses Format
+nicht an, und jede andere Papier- oder Farbwahl ändert die Rückenbreite und
+damit die Sollbreite des Umschlags.
+
+Zur Kontrolle — was KDP bei 88 Seiten erwartet, je nach Auswahl:
+
+| Trimmgröße | Papier | Umschlag gesamt |
+|---|---|---|
+| 8,27 × 11,69 Zoll | weiß | **431,5 × 303,3 mm** ← unsere Datei |
+| 8,27 × 11,69 Zoll | creme | 432,1 × 303,3 mm |
+| 8,5 × 11 Zoll | weiß | 443,2 × 285,8 mm |
+| 8 × 10 Zoll | weiß | 417,8 × 260,3 mm |
+
+Nennt KDP eine Sollgröße, die hier in einer anderen Zeile steht, ist im
+Formular die falsche Trimmgröße oder das falsche Papier eingestellt.
 
 **Kategorien:** dieselben wie Band 1.
 
