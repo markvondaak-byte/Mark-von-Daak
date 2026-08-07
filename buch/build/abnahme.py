@@ -36,6 +36,48 @@ def text_von(pdf):
     return [(s.extract_text() or "") for s in PdfReader(str(pdf)).pages]
 
 
+# Quellen je Band: Ändert sich hier etwas, ist das PDF daneben veraltet.
+# buch/build zählt überall mit, weil dort die gemeinsamen Absatzformate
+# liegen — genau darüber ist das Workbook einmal unbemerkt von 88 auf 103
+# Seiten gewachsen, während die Abnahme das alte PDF geprüft und
+# durchgewinkt hat.
+QUELLEN = {
+    "buch": ["buch/buch.yaml", "buch/kapitel", "buch/build"],
+    "workbook": ["workbook/workbook.yaml", "workbook/rahmen",
+                 "workbook/build", "buch/build"],
+    "rezepte": ["rezepte/rezepte.yaml", "rezepte/rezepte", "rezepte/rahmen",
+                "rezepte/build", "buch/build"],
+}
+
+# Prüfer und Nachbearbeitung stehen zwar in denselben Verzeichnissen, gehen
+# aber nicht in den Innenteil ein. Ohne diese Ausnahme meldet die Prüfung
+# sich selbst als Grund, neu zu bauen.
+KEINE_QUELLE = {"abnahme.py", "claim_check.py", "zutaten_check.py",
+                "cover_flach.py", "innenteil_druck.py", "build_cover.py",
+                "illustration.py"}
+
+
+def aktueller_als_quellen(bezeichnung, pdf, band):
+    """Meldet Quelldateien, die jünger sind als das gebaute PDF.
+
+    Ohne diese Prüfung sagt die Abnahme nur, dass irgendein früher gebautes
+    PDF in Ordnung war — nicht, dass das aktuelle es ist.
+    """
+    stand = pdf.stat().st_mtime
+    juenger = []
+    for eintrag in QUELLEN[band]:
+        pfad = WURZEL / eintrag
+        dateien = ([pfad] if pfad.is_file()
+                   else [d for d in pfad.rglob("*") if d.is_file()])
+        juenger += [d.relative_to(WURZEL) for d in dateien
+                    if d.name not in KEINE_QUELLE
+                    and "__pycache__" not in d.parts
+                    and d.stat().st_mtime > stand]
+    pruefe(f"{bezeichnung}: PDF ist auf dem Stand der Quellen", not juenger,
+           f"neuer als das PDF: {', '.join(str(d) for d in sorted(juenger)[:3])}"
+           if juenger else "")
+
+
 def fast_leere_seiten(seiten, mindestzeichen=60):
     """Seiten, die außer Kolumnentitel und Seitenzahl nichts tragen.
 
@@ -96,6 +138,7 @@ def buch_pruefen():
     pruefe("PDF vorhanden", pdf.exists(), str(pdf.relative_to(WURZEL)))
     if not pdf.exists():
         return
+    aktueller_als_quellen("Band 1", pdf, "buch")
 
     seiten = text_von(pdf)
     pruefe("Seitenzahl gerade (KDP rundet sonst auf)", len(seiten) % 2 == 0,
@@ -156,6 +199,8 @@ def workbook_pruefen():
     pruefe("PDF vorhanden", pdf.exists(), str(pdf.relative_to(WURZEL)))
     if not pdf.exists():
         return
+
+    aktueller_als_quellen("Band 2", pdf, "workbook")
 
     seiten = text_von(pdf)
     volltext = "\n".join(seiten)
@@ -341,6 +386,8 @@ def rezeptbuch_pruefen():
     pruefe("PDF vorhanden", pdf.exists(), str(pdf.relative_to(WURZEL)))
     if not pdf.exists():
         return
+
+    aktueller_als_quellen("Band 3", pdf, "rezepte")
 
     seiten = text_von(pdf)
     volltext = "\n".join(seiten)

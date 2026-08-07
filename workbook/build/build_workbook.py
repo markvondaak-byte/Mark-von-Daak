@@ -289,9 +289,27 @@ def woche_bauen(doc, woche, breite_mm):
 
 
 # --- Zusammenbau -------------------------------------------------------------
+# Eigene Werte statt der Vorgaben aus stile.py. Das Workbook ist auf diese
+# Typografie ausgemessen: Bei größerem Schriftgrad und weiterem Durchschuss
+# laufen die Wochenauftakte um zwei bis drei Schreiblinien über, und die
+# stehen dann allein auf der Folgeseite — dreizehnmal im Heft. Band 1 hat
+# andere Vorgaben, weil dort die Seitenzahl das Ziel ist; die beiden dürfen
+# sich nicht mehr gegenseitig verstellen.
+TYPOGRAFIE = {
+    "Fliesstext": {"groesse": 10.5, "nach": 5, "zeilen": 1.10},
+    "FliesstextEng": {"groesse": 10.5, "zeilen": 1.10},
+    "Einzug": {"groesse": 10.5},
+    "Zitat": {"groesse": 10.5},
+    "Punkt": {"groesse": 10.5},
+    "Nummer": {"groesse": 10.5},
+    "KastenText": {"zeilen": 1.10},
+    "Abschnitt": {"groesse": 12.5, "vor": 11, "nach": 4},
+}
+
+
 def bauen(cfg, rahmen, ziel):
     sf = cfg["seitenformat"]
-    doc = stile.dokument_anlegen(sf)
+    doc = stile.dokument_anlegen(sf, TYPOGRAFIE)
     workbook_stile(doc)
     breite = sf["breite_mm"] - sf["rand_innen_mm"] - sf["rand_aussen_mm"]
     renderer = Renderer(doc, breite)

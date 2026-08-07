@@ -32,6 +32,17 @@ python3 buch/build/abnahme.py              # Endabnahme aller drei Bände
 Die Umschläge müssen **nach** dem jeweiligen Innenteil gebaut werden — die
 Rückenbreite errechnet sich aus der Seitenzahl des fertigen PDFs.
 
+**Typografie je Band festzurren, nicht in `stile.py` drehen.** Die
+Absatzformate in `buch/build/stile.py` gelten für alle drei Bände. Wird dort
+am Schriftgrad oder am Durchschuss gedreht, um die Seitenzahl eines Bandes zu
+treffen, verstellt das die anderen mit — das Workbook ist auf diesem Weg
+einmal unbemerkt von 88 auf 103 Seiten gewachsen und hatte wieder dreizehn
+fast leere Seiten. `dokument_anlegen()` nimmt deshalb einen zweiten Parameter
+mit Abweichungen je Format; Band 2 setzt seine Werte in `TYPOGRAFIE` in
+`workbook/build/build_workbook.py`. `abnahme.py` prüft zusätzlich, dass kein
+PDF älter ist als seine Quellen — sonst prüft die Abnahme einen alten Stand
+und winkt ihn durch.
+
 **Zu KDP hochgeladen wird `cover-druck.pdf`, nicht `cover.pdf`.** Die
 Vektorfassung enthält Radialverläufe und transparente Schlagschatten; die
 KDP-Prüfung verlangt reduzierte Ebenen ohne Transparenz und lehnt sie ab.

@@ -43,17 +43,22 @@ TAGESFARBEN = {
 
 
 # --- Dokument und Satzspiegel ------------------------------------------------
-def dokument_anlegen(seitenformat):
+def dokument_anlegen(seitenformat, stilwerte=None):
     """Erzeugt ein Dokument mit KDP-Satzspiegel und allen Absatzformaten.
 
     `seitenformat` ist das Dict aus buch.yaml / workbook.yaml.
+
+    `stilwerte` überschreibt einzelne Felder einzelner Formate, z. B.
+    ``{"Fliesstext": {"groesse": 10.5}}``. Damit kann ein Band seine
+    Typografie festzurren, ohne die der anderen zu verändern — siehe
+    STILE.
     """
     doc = Document()
     _leeren(doc)
     _spiegelraender_aktivieren(doc)
     _gerade_ungerade_kopfzeilen(doc)
     seite_einrichten(doc.sections[0], seitenformat)
-    _stile_definieren(doc)
+    _stile_definieren(doc, stilwerte)
     return doc
 
 
@@ -139,74 +144,93 @@ def _stil(doc, name, *, schrift, groesse, fett=False, kursiv=False,
     return stil
 
 
-def _stile_definieren(doc):
-    mitte = WD_ALIGN_PARAGRAPH.CENTER
+_MITTE = WD_ALIGN_PARAGRAPH.CENTER
 
+# Absatzformate als Tabelle statt als Folge von Aufrufen. Der Grund ist nicht
+# Eleganz, sondern ein Fehler, der genau einmal zu viel passiert ist: Die
+# Formate gelten für alle drei Bände, und die Seitenzahl von Band 1 wurde über
+# Schriftgrad und Durchschuss justiert. Damit wanderte jede Feinjustage
+# ungefragt in Band 2 und 3 — das Workbook wuchs von 88 auf 103 Seiten und
+# hatte wieder dreizehn fast leere Seiten. Über `stilwerte` setzt jeder Band
+# die Werte, auf die er ausgemessen ist; siehe workbook/build/build_workbook.py.
+STILE = {
     # Titelei
-    _stil(doc, "BuchTitel", schrift=SANS, groesse=26, fett=True,
-          farbe=FARBEN["blatt"], vor=0, nach=8, zeilen=1.0, ausrichtung=mitte)
-    _stil(doc, "BuchUntertitel", schrift=SANS, groesse=14,
-          farbe=FARBEN["gedaempft"], vor=0, nach=24, zeilen=1.2, ausrichtung=mitte)
-    _stil(doc, "BuchAutor", schrift=SANS, groesse=13, fett=True,
-          vor=0, nach=0, ausrichtung=mitte)
+    "BuchTitel": dict(schrift=SANS, groesse=26, fett=True,
+                      farbe=FARBEN["blatt"], vor=0, nach=8, zeilen=1.0,
+                      ausrichtung=_MITTE),
+    "BuchUntertitel": dict(schrift=SANS, groesse=14, farbe=FARBEN["gedaempft"],
+                           vor=0, nach=24, zeilen=1.2, ausrichtung=_MITTE),
+    "BuchAutor": dict(schrift=SANS, groesse=13, fett=True, vor=0, nach=0,
+                      ausrichtung=_MITTE),
 
     # Gliederung
-    _stil(doc, "Teilnummer", schrift=SANS, groesse=11, fett=True,
-          farbe=FARBEN["blatt_hell"], vor=0, nach=4, ausrichtung=mitte)
-    _stil(doc, "Teiltitel", schrift=SANS, groesse=22, fett=True,
-          farbe=FARBEN["blatt"], vor=0, nach=0, zeilen=1.1, ausrichtung=mitte)
-    _stil(doc, "KapitelNummer", schrift=SANS, groesse=10, fett=True,
-          farbe=FARBEN["blatt_hell"], vor=0, nach=3)
-    _stil(doc, "Kapitel", schrift=SANS, groesse=19, fett=True,
-          farbe=FARBEN["blatt"], vor=0, nach=10, zeilen=1.1, zusammenhalten=True)
-    _stil(doc, "Abschnitt", schrift=SANS, groesse=13, fett=True,
-          vor=13, nach=5, zeilen=1.15, zusammenhalten=True)
-    _stil(doc, "Unterabschnitt", schrift=SANS, groesse=10.5, fett=True,
-          farbe=FARBEN["gedaempft"], vor=8, nach=3, zusammenhalten=True)
+    "Teilnummer": dict(schrift=SANS, groesse=11, fett=True,
+                       farbe=FARBEN["blatt_hell"], vor=0, nach=4,
+                       ausrichtung=_MITTE),
+    "Teiltitel": dict(schrift=SANS, groesse=22, fett=True,
+                      farbe=FARBEN["blatt"], vor=0, nach=0, zeilen=1.1,
+                      ausrichtung=_MITTE),
+    "KapitelNummer": dict(schrift=SANS, groesse=10, fett=True,
+                          farbe=FARBEN["blatt_hell"], vor=0, nach=3),
+    "Kapitel": dict(schrift=SANS, groesse=19, fett=True, farbe=FARBEN["blatt"],
+                    vor=0, nach=10, zeilen=1.1, zusammenhalten=True),
+    "Abschnitt": dict(schrift=SANS, groesse=13, fett=True, vor=13, nach=5,
+                      zeilen=1.15, zusammenhalten=True),
+    "Unterabschnitt": dict(schrift=SANS, groesse=10.5, fett=True,
+                           farbe=FARBEN["gedaempft"], vor=8, nach=3,
+                           zusammenhalten=True),
 
     # Fließtext
-    _stil(doc, "Fliesstext", schrift=SERIF, groesse=11, vor=0, nach=6,
-          zeilen=1.15)
-    _stil(doc, "FliesstextEng", schrift=SERIF, groesse=11, vor=0, nach=2,
-          zeilen=1.15)
-    _stil(doc, "Einzug", schrift=SERIF, groesse=11, vor=0, nach=5,
-          zeilen=1.10, einzug_links=8)
-    _stil(doc, "Klein", schrift=SERIF, groesse=9, farbe=FARBEN["gedaempft"],
-          vor=0, nach=5)
-    _stil(doc, "KleinMitte", schrift=SERIF, groesse=9, farbe=FARBEN["gedaempft"],
-          vor=0, nach=5, ausrichtung=mitte)
-    _stil(doc, "Zitat", schrift=SERIF, groesse=11, kursiv=True,
-          farbe=FARBEN["gedaempft"], vor=6, nach=10, einzug_links=6)
+    "Fliesstext": dict(schrift=SERIF, groesse=11, vor=0, nach=6, zeilen=1.15),
+    "FliesstextEng": dict(schrift=SERIF, groesse=11, vor=0, nach=2, zeilen=1.15),
+    "Einzug": dict(schrift=SERIF, groesse=11, vor=0, nach=5, zeilen=1.10,
+                   einzug_links=8),
+    "Klein": dict(schrift=SERIF, groesse=9, farbe=FARBEN["gedaempft"],
+                  vor=0, nach=5),
+    "KleinMitte": dict(schrift=SERIF, groesse=9, farbe=FARBEN["gedaempft"],
+                       vor=0, nach=5, ausrichtung=_MITTE),
+    "Zitat": dict(schrift=SERIF, groesse=11, kursiv=True,
+                  farbe=FARBEN["gedaempft"], vor=6, nach=10, einzug_links=6),
 
     # Listen
-    _stil(doc, "Punkt", schrift=SERIF, groesse=11, vor=0, nach=2,
-          zeilen=1.10, einzug_links=6)
-    _stil(doc, "Nummer", schrift=SERIF, groesse=11, vor=0, nach=2,
-          zeilen=1.10, einzug_links=6)
+    "Punkt": dict(schrift=SERIF, groesse=11, vor=0, nach=2, zeilen=1.10,
+                  einzug_links=6),
+    "Nummer": dict(schrift=SERIF, groesse=11, vor=0, nach=2, zeilen=1.10,
+                   einzug_links=6),
 
     # Kästen und Tabellen
-    _stil(doc, "KastenTitel", schrift=SANS, groesse=10, fett=True,
-          farbe=FARBEN["blatt"], vor=0, nach=3, zusammenhalten=True)
-    _stil(doc, "KastenText", schrift=SERIF, groesse=9.5, vor=0, nach=3,
-          zeilen=1.15)
-    _stil(doc, "TabellenKopf", schrift=SANS, groesse=9, fett=True,
-          vor=2, nach=2, zeilen=1.05)
-    _stil(doc, "TabellenZelle", schrift=SERIF, groesse=9, vor=2, nach=2,
-          zeilen=1.05)
+    "KastenTitel": dict(schrift=SANS, groesse=10, fett=True,
+                        farbe=FARBEN["blatt"], vor=0, nach=3,
+                        zusammenhalten=True),
+    "KastenText": dict(schrift=SERIF, groesse=9.5, vor=0, nach=3, zeilen=1.15),
+    "TabellenKopf": dict(schrift=SANS, groesse=9, fett=True, vor=2, nach=2,
+                         zeilen=1.05),
+    "TabellenZelle": dict(schrift=SERIF, groesse=9, vor=2, nach=2, zeilen=1.05),
 
-    # Inhaltsverzeichnis
-    # Enger als der Fließtext: 32 Einträge sollen auf eine Seite passen.
-    # Sonst steht der letzte Eintrag allein auf einer zweiten Seite und
-    # sieht nach einem Satzfehler aus.
-    _stil(doc, "InhaltTeil", schrift=SANS, groesse=10, fett=True,
-          farbe=FARBEN["blatt"], vor=8, nach=2)
-    _stil(doc, "InhaltKapitel", schrift=SERIF, groesse=10, vor=0, nach=1.5)
+    # Inhaltsverzeichnis — enger als der Fließtext: 32 Einträge sollen auf
+    # eine Seite passen. Sonst steht der letzte Eintrag allein auf einer
+    # zweiten Seite und sieht nach einem Satzfehler aus.
+    "InhaltTeil": dict(schrift=SANS, groesse=10, fett=True,
+                       farbe=FARBEN["blatt"], vor=8, nach=2),
+    "InhaltKapitel": dict(schrift=SERIF, groesse=10, vor=0, nach=1.5),
 
     # Kopf- und Fußzeile
-    _stil(doc, "Kopfzeile", schrift=SANS, groesse=8, farbe=FARBEN["gedaempft"],
-          vor=0, nach=0)
-    _stil(doc, "Fusszeile", schrift=SANS, groesse=9, farbe=FARBEN["gedaempft"],
-          vor=0, nach=0)
+    "Kopfzeile": dict(schrift=SANS, groesse=8, farbe=FARBEN["gedaempft"],
+                      vor=0, nach=0),
+    "Fusszeile": dict(schrift=SANS, groesse=9, farbe=FARBEN["gedaempft"],
+                      vor=0, nach=0),
+}
+
+
+def _stile_definieren(doc, anpassungen=None):
+    unbekannt = set(anpassungen or ()) - set(STILE)
+    if unbekannt:
+        raise KeyError(f"unbekannte Absatzformate: {sorted(unbekannt)}")
+
+    for name, werte in STILE.items():
+        werte = dict(werte)
+        werte.update((anpassungen or {}).get(name, {}))
+        _stil(doc, name, **werte)
 
     # Standardschrift des Dokuments, damit auch nicht formatierte Läufe passen
     normal = doc.styles["Normal"]
