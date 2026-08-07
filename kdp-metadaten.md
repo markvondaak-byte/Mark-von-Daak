@@ -198,6 +198,43 @@ schnelle eiweißgerichte abends
 
 ---
 
+## Kindle-Ausgaben
+
+Bei KDP ein **eigener Titel** je Band, nicht dieselbe Produktseite: Taschenbuch
+und E-Book werden getrennt angelegt und von Amazon anschließend verknüpft.
+Titel, Untertitel, Serie, Beschreibung, Kategorien und Stichwörter sind
+dieselben wie beim Taschenbuch.
+
+| Feld | Band 1 | Band 2 |
+|---|---|---|
+| Manuskript | `buch/out/stoffwechsel-reset-kindle.epub` | `workbook/out/workbook-kindle.epub` |
+| Titelbild | `buch/out/kindle-cover.jpg` | `workbook/out/kindle-cover.jpg` |
+| Bauart | fließender Text | feste Seiten |
+| Dateigröße | rund 0,3 MB | rund 5 MB |
+
+Beide Titelbilder sind 1600 × 2560 Pixel im JPEG-Format — Amazons empfohlenes
+Maß. Es wird **nicht** der Taschenbuchumschlag hochgeladen: Der enthält
+Rückseite, Buchrücken und Anschnitt, die beim E-Book nichts zu suchen haben.
+
+**Keine ISBN eintragen.** Für Kindle-Bücher vergibt Amazon eine ASIN; eine
+ISBN ist weder nötig noch erwünscht.
+
+**DRM:** eine Entscheidung, die sich nicht rückgängig machen lässt — sie wird
+beim Anlegen getroffen und bleibt für die Lebensdauer des Titels bestehen.
+
+**Zum Preis:** Die 70-Prozent-Tantieme gilt bei Amazon.de nur zwischen 2,99 €
+und 9,99 €; außerhalb dieser Spanne sind es 35 Prozent. Bei Band 2 kommt die
+Übertragungsgebühr hinzu, weil die Datei mit rund 5 MB deutlich größer ist als
+die von Band 1 — das ist der Preis der festen Seiten.
+
+**Band 2 ist als E-Book ein Kompromiss.** Ein Heft zum Ausfüllen, in dem man
+nicht schreiben kann, verkauft sich als Ergänzung zum gedruckten Heft, nicht
+als Ersatz. Wenn du es einstellst, sollte die Beschreibung das sagen — sonst
+kommen Rezensionen, die genau das bemängeln.
+
+**Band 3** hat noch keine Kindle-Ausgabe. Ein Rezeptbuch eignet sich dafür gut
+(fließender Text wie Band 1); gebaut ist es bisher nicht.
+
 ## Was beim Anlegen nicht hineingehört
 
 **Keine fremde Marke in Titel, Untertitel oder Keywords.** „cellRESET" und

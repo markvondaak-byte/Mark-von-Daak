@@ -24,6 +24,9 @@ python3 rezepte/build/build_cover.py       # Umschlag Band 3
 
 python3 buch/build/cover_flach.py          # Umschläge in die KDP-Druckfassung
 
+python3 buch/build/kindle_cover.py         # Titelbilder für die Kindle-Ausgaben
+python3 buch/build/build_epub.py           # Kindle-Ausgaben Band 1 und 2
+
 python3 buch/build/claim_check.py          # HCVO-Prüfung, muss ohne Fehler laufen
 python3 rezepte/build/zutaten_check.py     # Rezepte gegen die Phasenregeln
 python3 buch/build/abnahme.py              # Endabnahme aller drei Bände
@@ -49,6 +52,42 @@ KDP-Prüfung verlangt reduzierte Ebenen ohne Transparenz und lehnt sie ab.
 `cover_flach.py` rastert den Umschlag bei 300 dpi und legt ihn als einzelnes
 Bild in ein PDF exakter Größe — ohne Transparenz, Verläufe, Schriften und
 Ebenen. Die Vektorfassung bleibt die Quelle für Korrekturen.
+
+## Kindle-Ausgaben
+
+Ein Kindle-Buch ist nicht das Druck-PDF in anderer Verpackung. KDP verlangt
+zwei eigene Dateien je Band: ein **EPUB** und ein **Titelbild** — ein reines
+Vorderseitenbild, kein aufgeklappter Umschlag.
+
+| | Band 1 | Band 2 |
+|---|---|---|
+| Bauart | fließender Text (reflowable) | feste Seiten (pre-paginated) |
+| Quelle | `buch/kapitel/*.md` | `workbook/out/workbook.pdf` |
+| Ausgabe | `buch/out/stoffwechsel-reset-kindle.epub` | `workbook/out/workbook-kindle.epub` |
+
+**Warum zwei Bauarten.** Band 1 ist ein Lesebuch: Der Leser stellt Schriftgröße
+und Rand selbst ein, der Text läuft neu um. Seitenzahlen, Kopfzeilen und ein
+Inhaltsverzeichnis mit Seitenangaben gibt es dort nicht. Band 2 besteht aus
+Tageskarten und Schreiblinien — umflossener Text macht daraus eine Liste von
+Beschriftungen ohne die Felder, zu denen sie gehören. Deshalb wird jede
+Druckseite als Bild eingelegt.
+
+**Band 2 als E-Book ist ein Kompromiss**, und das sollte man wissen, bevor man
+es einstellt: Man kann darin nicht schreiben. Sinnvoll ist die Ausgabe als
+Leseprobe und als Nachschlagefassung neben dem gedruckten Heft, nicht als
+Ersatz dafür. Band 3 hat aus demselben Grund keine Kindle-Ausgabe — dort wäre
+sie sinnvoll, aber sie ist bisher nicht gebaut.
+
+Die Titelbilder werden **neu gesetzt**, nicht aus dem Umschlag-PDF
+ausgeschnitten: Amazon empfiehlt das Seitenverhältnis 1,6, die gedruckten
+Bände haben 1,5 (6 × 9 Zoll) und 1,25 (8 × 10 Zoll). Beim Ausschneiden müsste
+man oben und unten Fläche wegnehmen und würde die Lebensmittelauslage
+anschneiden. `kindle_cover.py` zeichnet stattdessen mit denselben Funktionen
+wie der gedruckte Umschlag auf eine Leinwand mit Buchbreite und 1,6-Höhe.
+
+Erzeugt wird EPUB, nicht MOBI oder KPF. KDP nimmt EPUB für Kindle-Bücher
+entgegen und wandelt selbst; ein Konverter ist in dieser Bauumgebung weder
+vorhanden noch nötig.
 
 ## Umschlaggestaltung
 

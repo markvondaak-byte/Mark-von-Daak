@@ -54,7 +54,7 @@ QUELLEN = {
 # sich selbst als Grund, neu zu bauen.
 KEINE_QUELLE = {"abnahme.py", "claim_check.py", "zutaten_check.py",
                 "cover_flach.py", "innenteil_druck.py", "build_cover.py",
-                "illustration.py"}
+                "illustration.py", "build_epub.py", "kindle_cover.py"}
 
 
 def aktueller_als_quellen(bezeichnung, pdf, band):
@@ -441,6 +441,82 @@ def rezeptbuch_pruefen():
     cover_pruefen("Band 3", basis / "out" / "cover.pdf", cfg, len(seiten))
 
 
+def kindle_pruefen():
+    """Die E-Book-Ausgaben — andere Dateien, andere Vorgaben als der Druck."""
+    import zipfile
+
+    print("\nKindle-Ausgaben")
+    print("-" * 66)
+
+    sys.path.insert(0, str(WURZEL / "buch" / "build"))
+    import build_epub
+    import kindle_cover
+
+    baende = [
+        ("Band 1", "buch/out/stoffwechsel-reset-kindle.epub",
+         "buch/out/kindle-cover.jpg", None),
+        ("Band 2", "workbook/out/workbook-kindle.epub",
+         "workbook/out/kindle-cover.jpg", "workbook/out/workbook.pdf"),
+    ]
+
+    for name, epub_pfad, bild_pfad, druck_pfad in baende:
+        epub = WURZEL / epub_pfad
+        bild = WURZEL / bild_pfad
+        pruefe(f"{name}: EPUB vorhanden", epub.exists(), epub_pfad)
+        pruefe(f"{name}: Titelbild vorhanden", bild.exists(), bild_pfad)
+        if not (epub.exists() and bild.exists()):
+            continue
+
+        befunde = build_epub.pruefen(epub)
+        pruefe(f"{name}: EPUB-Struktur", not befunde, "; ".join(befunde))
+
+        befunde = kindle_cover.pruefen(bild)
+        pruefe(f"{name}: Titelbild nach Amazons Vorgaben", not befunde,
+               "; ".join(befunde))
+
+        with zipfile.ZipFile(epub) as archiv:
+            namen = archiv.namelist()
+            opf = archiv.read("OEBPS/inhalt.opf").decode("utf-8")
+            volltext = "\n".join(
+                archiv.read(n).decode("utf-8") for n in namen
+                if n.endswith(".xhtml"))
+
+        # Ein Kindle-Buch ohne Navigation ist bei KDP ein Ablehnungsgrund.
+        punkte = len(re.findall(r"<navPoint ", archiv_lesen(epub, "OEBPS/toc.ncx")))
+        pruefe(f"{name}: Navigationspunkte vorhanden", punkte >= 5,
+               f"{punkte} Punkte")
+
+        if druck_pfad:
+            # Feste Seiten: Jede Druckseite muss als Bild drin sein.
+            gedruckt = len(PdfReader(str(WURZEL / druck_pfad)).pages)
+            gesetzt = len([n for n in namen
+                           if re.fullmatch(r"OEBPS/s\d+\.xhtml", n)])
+            pruefe(f"{name}: alle Druckseiten im E-Book",
+                   gesetzt == gedruckt, f"{gesetzt} von {gedruckt}")
+            pruefe(f"{name}: als feste Seiten deklariert",
+                   "pre-paginated" in opf)
+        else:
+            # Fließender Text: keine Marker, keine Rechtstexte verloren.
+            offen = re.findall(r"\{\{[A-ZÄÖÜ]+\}\}", volltext)
+            pruefe(f"{name}: keine offenen Marker", not offen,
+                   ", ".join(sorted(set(offen))))
+            for bezeichnung, nadel in (
+                    ("Schwangerschaft", "Schwangerschaft"),
+                    ("Eigenverantwortung", "eigener Verantwortung"),
+                    ("Markenhinweis", "PM-International AG")):
+                pruefe(f"{name}: Rechtstext {bezeichnung}", nadel in volltext)
+
+        pruefe(f"{name}: Titelbild im Paket verzeichnet",
+               'properties="cover-image"' in opf)
+
+
+def archiv_lesen(epub, name):
+    import zipfile
+
+    with zipfile.ZipFile(epub) as archiv:
+        return archiv.read(name).decode("utf-8")
+
+
 def website_unberuehrt():
     print("\nWebsite")
     print("-" * 66)
@@ -460,6 +536,7 @@ def main():
     buch_pruefen()
     workbook_pruefen()
     rezeptbuch_pruefen()
+    kindle_pruefen()
     website_unberuehrt()
 
     fehler = [e for e in ergebnisse if not e[0]]
