@@ -296,9 +296,13 @@ def vorderseite_schiefer(c, x, y, breite, hoehe, cfg, titelbild=None,
     c.drawCentredString(x + breite / 2, y + hoehe * 0.135, cfg["autor"])
 
 
-#: Grundgrößen des Rückseitentexts: (Schlagzeile, Fließtext, Stichpunkt,
-#: Autorenzeile). Werden gemeinsam verkleinert, wenn der Platz nicht reicht.
-RUECKEN_GROESSEN = (17.0, 10.5, 10.0, 9.5)
+#: Grundgrößen des Rückseitentexts: (Schlagzeile, Fließtext, Stichpunkt).
+#: Werden gemeinsam verkleinert, wenn der Platz nicht reicht. Betrifft nur die
+#: Rückseite — Titel, Untertitel und Rücken haben eigene Größen.
+#:
+#: Der Platz für die größeren Werte kommt daher, dass die Autorenzeile
+#: („… begleitet Menschen bei der Umstellung ihrer Ernährung.") entfallen ist.
+RUECKEN_GROESSEN = (19.0, 12.0, 11.5)
 
 
 def _rueckseite_hoehe(c, kopf, absaetze, punkte, textbreite, faktor):
@@ -308,7 +312,7 @@ def _rueckseite_hoehe(c, kopf, absaetze, punkte, textbreite, faktor):
     enden, und ein Umschlag, bei dem beides übereinanderliegt, fällt in der
     PDF-Vorschau leicht durch, im Druck aber teuer auf.
     """
-    g_kopf, g_text, g_punkt, g_autor = (g * faktor for g in RUECKEN_GROESSEN)
+    g_kopf, g_text, g_punkt = (g * faktor for g in RUECKEN_GROESSEN)
     hoehe = 0.0
     if kopf.get("schlagzeile"):
         hoehe += len(umbrechen(c, kopf["schlagzeile"], "Sans-Bold", g_kopf,
@@ -320,7 +324,6 @@ def _rueckseite_hoehe(c, kopf, absaetze, punkte, textbreite, faktor):
     for punkt in punkte:
         hoehe += len(umbrechen(c, punkt, "Serif", g_punkt,
                                textbreite - 14)) * g_punkt * 1.35 + 3
-    hoehe += 10 + g_autor * 2.3
     return hoehe
 
 
@@ -332,11 +335,28 @@ def rueckseite_schiefer(c, x, y, breite, hoehe, cfg, kopf, absaetze, punkte):
     hinweis_y = y + BARCODE_H_MM * mm + rand * 0.5
     platz = oben - (hinweis_y + 16)
 
+    def passt(faktor):
+        return _rueckseite_hoehe(c, kopf, absaetze, punkte, textbreite,
+                                 faktor) <= platz
+
+    # Der Text sucht sich seine Größe selbst. Nach unten, damit ein langer
+    # Klappentext nicht in den Markenhinweis läuft; nach oben, weil die
+    # Rückseite von Band 2 im A4-Format sonst zu zwei Dritteln leer bleibt —
+    # bei gleicher Textmenge auf deutlich mehr Fläche. Die Grenzen halten den
+    # Abstand zwischen den Bänden klein: Die drei sollen als Reihe erkennbar
+    # bleiben, nicht wie drei verschiedene Bücher aussehen.
     faktor = 1.0
-    while faktor > 0.72 and _rueckseite_hoehe(
-            c, kopf, absaetze, punkte, textbreite, faktor) > platz:
-        faktor -= 0.02
-    g_kopf, g_text, g_punkt, g_autor = (g * faktor for g in RUECKEN_GROESSEN)
+    if passt(faktor):
+        while faktor < 1.30 and passt(faktor + 0.02):
+            faktor += 0.02
+    else:
+        while faktor > 0.72 and not passt(faktor):
+            faktor -= 0.02
+    g_kopf, g_text, g_punkt = (g * faktor for g in RUECKEN_GROESSEN)
+    if faktor != 1.0:
+        wort = "vergrößert" if faktor > 1 else "verkleinert"
+        print(f"  Rückseitentext auf {faktor:.0%} {wort} "
+              f"(Fließtext {g_text:.1f} pt)")
 
     cursor = oben
     if kopf.get("schlagzeile"):
@@ -364,13 +384,7 @@ def rueckseite_schiefer(c, x, y, breite, hoehe, cfg, kopf, absaetze, punkte):
             cursor -= g_punkt * 1.35
         cursor -= 3
 
-    cursor -= 10
-    c.setFillColor(ill.SCHIEFER["text_leise"])
-    c.setFont("Serif-Italic", g_autor)
-    c.drawString(x + rand, cursor, f"{cfg['autor']} begleitet Menschen bei der")
-    c.drawString(x + rand, cursor - g_autor * 1.3, "Umstellung ihrer Ernährung.")
-
-    if cursor - g_autor * 1.3 < hinweis_y + 12:
+    if cursor < hinweis_y + 12:
         print("  ACHTUNG: Rückseitentext reicht bis an den Markenhinweis — "
               "Klappentext kürzen.")
 
@@ -444,14 +458,6 @@ def rueckseite(c, x, y, breite, hoehe, cfg, kopf, absaetze, punkte):
             c.drawString(x + rand + 14, cursor, zeile)
             cursor -= 13.5
         cursor -= 3
-
-    # Autorenzeile
-    cursor -= 10
-    c.setFillColor(HexColor("#5A6455"))
-    c.setFont("Serif-Italic", 9.5)
-    c.drawString(x + rand, cursor,
-                 f"{cfg['autor']} begleitet Menschen bei der")
-    c.drawString(x + rand, cursor - 12, "Umstellung ihrer Ernährung.")
 
     # Markenhinweis über dem Barcode-Feld
     hinweis_y = y + BARCODE_H_MM * mm + rand * 0.5
