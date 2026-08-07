@@ -77,17 +77,24 @@ nicht steht.
 3. Ratgeber › Gesundheit & Medizin › Stoffwechsel *(oder eine vergleichbar
    enge Nische — dort ist eine Platzierung realistisch)*
 
-**Keywords** — Wortgruppen, keine Einzelwörter, nichts aus dem Titel wiederholen:
+**Keywords** — sieben Felder à 50 Zeichen. Wortgruppen statt Einzelwörter, und
+kein Wort, das schon in Titel oder Untertitel steht: Amazon indexiert die
+ohnehin, eine Wiederholung verschenkt ein Feld.
 
 ```
-stoffwechsel umstellen ernährung
-4 phasen ernährungskonzept
-abnehmen ohne hungern buch
-eiweißreiche ernährung plan
-ernährungsumstellung 90 tage
-ohne salz und zucker kochen
-jojo effekt vermeiden
+ernährungsumstellung dauerhaft durchhalten
+abnehmen ohne hungern ohne diät
+eiweißreiche ernährung plan anleitung
+kohlenhydratarm essen alltagstauglich
+kochen ohne salz und zucker
+jojo effekt vermeiden ernährung
+ratgeber gesunde ernährung einsteiger
 ```
+
+Zum Tauschen, falls ein Begriff nach ein paar Wochen nichts bringt:
+`vier mahlzeiten am tag konzept` · `ernährungsplan zum nachmachen` ·
+`gesund abnehmen ratgeber` · `fettstoffwechsel ernährung buch` ·
+`ernährungskonzept selbstständig umsetzen`
 
 ---
 
