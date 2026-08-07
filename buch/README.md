@@ -22,6 +22,8 @@ python3 workbook/build/build_cover.py      # Umschlag Band 2
 python3 rezepte/build/build_rezepte.py     # Band 3: .docx und .pdf
 python3 rezepte/build/build_cover.py       # Umschlag Band 3
 
+python3 buch/build/cover_flach.py          # Umschläge in die KDP-Druckfassung
+
 python3 buch/build/claim_check.py          # HCVO-Prüfung, muss ohne Fehler laufen
 python3 rezepte/build/zutaten_check.py     # Rezepte gegen die Phasenregeln
 python3 buch/build/abnahme.py              # Endabnahme aller drei Bände
@@ -29,6 +31,13 @@ python3 buch/build/abnahme.py              # Endabnahme aller drei Bände
 
 Die Umschläge müssen **nach** dem jeweiligen Innenteil gebaut werden — die
 Rückenbreite errechnet sich aus der Seitenzahl des fertigen PDFs.
+
+**Zu KDP hochgeladen wird `cover-druck.pdf`, nicht `cover.pdf`.** Die
+Vektorfassung enthält Radialverläufe und transparente Schlagschatten; die
+KDP-Prüfung verlangt reduzierte Ebenen ohne Transparenz und lehnt sie ab.
+`cover_flach.py` rastert den Umschlag bei 300 dpi und legt ihn als einzelnes
+Bild in ein PDF exakter Größe — ohne Transparenz, Verläufe, Schriften und
+Ebenen. Die Vektorfassung bleibt die Quelle für Korrekturen.
 
 ## Umschlaggestaltung
 

@@ -215,6 +215,58 @@ def workbook_pruefen():
     cover_pruefen("Band 2", basis / "out" / "cover.pdf", cfg, len(seiten))
 
 
+def druckfassung_pruefen(bezeichnung, pdf, soll_b, soll_h):
+    """Die Datei, die tatsächlich zu KDP hochgeladen wird.
+
+    Die Vektorfassung des Umschlags enthält Radialverläufe und transparente
+    Schlagschatten. Am Bildschirm ist das die bessere Datei — beim Upload
+    wurde sie abgelehnt: KDP verlangt reduzierte Ebenen ohne Transparenz.
+    `cover_flach.py` rastert sie deshalb bei 300 dpi.
+
+    Hier wird geprüft, dass in der Druckfassung wirklich nichts davon übrig
+    ist. Der erste Versuch hatte noch eine nicht eingebettete Helvetica aus
+    dem Seitenvorspann des PDF-Erzeugers darin — dieselbe Ursache, anderer
+    Auslöser.
+    """
+    if not pdf.exists():
+        pruefe(f"{bezeichnung}: Druckfassung des Umschlags vorhanden", False,
+               "cover_flach.py laufen lassen")
+        return
+
+    reader = PdfReader(str(pdf))
+    seite = reader.pages[0]
+    kiste = seite.mediabox
+    ist_b = float(kiste.width) / 72 * 25.4
+    ist_h = float(kiste.height) / 72 * 25.4
+    pruefe(f"{bezeichnung}: Druckfassung hat die Umschlagmaße",
+           len(reader.pages) == 1
+           and abs(ist_b - soll_b) < 0.5 and abs(ist_h - soll_h) < 0.5,
+           f"{ist_b:.1f} x {ist_h:.1f} mm")
+
+    res = seite.get("/Resources", {})
+    if hasattr(res, "get_object"):
+        res = res.get_object()
+
+    befunde = []
+    zustand = res.get("/ExtGState")
+    if zustand:
+        for schluessel in zustand.get_object():
+            eintrag = zustand.get_object()[schluessel].get_object()
+            if any(feld in eintrag and float(eintrag[feld]) < 1.0
+                   for feld in ("/ca", "/CA")):
+                befunde.append("Transparenz")
+                break
+    if res.get("/Shading"):
+        befunde.append("Verläufe")
+    if res.get("/Font"):
+        befunde.append("Schriften")
+    if res.get("/Pattern"):
+        befunde.append("Muster")
+
+    pruefe(f"{bezeichnung}: Druckfassung ohne Transparenz und Verläufe",
+           not befunde, ", ".join(befunde) if befunde else "")
+
+
 def cover_pruefen(bezeichnung, pdf, cfg, seiten):
     if not pdf.exists():
         pruefe(f"{bezeichnung}: Umschlag vorhanden", False)
@@ -234,6 +286,9 @@ def cover_pruefen(bezeichnung, pdf, cfg, seiten):
            f"{ist_b:.1f} mm (Soll {soll_b:.1f}, Rücken {ruecken:.1f})")
     pruefe(f"{bezeichnung}: Umschlaghöhe", abs(ist_h - soll_h) < 0.5,
            f"{ist_h:.1f} mm (Soll {soll_h:.1f})")
+
+    druckfassung_pruefen(bezeichnung, pdf.with_name("cover-druck.pdf"),
+                         soll_b, soll_h)
 
     # Auch der Umschlag muss alle Schriften mitbringen. reportlab schreibt
     # sonst einen Seitenvorspann mit Helvetica in die Ressourcen — er setzt
