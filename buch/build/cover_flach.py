@@ -107,6 +107,7 @@ def pruefen(pdf):
 def main():
     quellen = sys.argv[1:] or [
         WURZEL / "buch" / "out" / "cover.pdf",
+        WURZEL / "buch" / "out" / "cover-hardcover.pdf",
         WURZEL / "workbook" / "out" / "cover.pdf",
         WURZEL / "rezepte" / "out" / "cover.pdf",
     ]

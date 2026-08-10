@@ -30,6 +30,23 @@ WURZEL = Path(__file__).resolve().parents[2]
 BESCHNITT_MM = 3.175          # Anschnitt ringsum
 RUECKEN_PRO_SEITE_MM = 0.0572  # weißes Papier
 RUECKENTEXT_AB_SEITEN = 79     # darunter erlaubt KDP keinen Text auf dem Rücken
+
+# --- Hardcover ---------------------------------------------------------------
+# Beim Hardcover wird der Umschlag nicht beschnitten, sondern um die Buchdecke
+# geschlagen. Statt 3,175 mm Anschnitt braucht er 18 mm Umschlagrand ringsum,
+# und der Rücken ist nicht der Buchblock, sondern die Decke: Buchblock plus
+# zwei Deckelpappen und die Falzrillen, zusammen 9 mm.
+#
+# Gegenprobe an KDPs eigener Vorlage für 6 x 9 Zoll mit 76 Seiten:
+#   Breite  2·152,4 + (76·0,0572 + 9) + 2·18 = 354,13 mm = 13,942 Zoll
+#   Höhe                       228,6 + 2·18  = 264,59 mm = 10,417 Zoll
+# In Zoll definiert und erst dann umgerechnet: KDP rechnet in Zoll, und runde
+# Millimeterwerte (18,0 / 9,0) treffen die Sollbreite um 0,03 mm daneben.
+WRAP_ZOLL = 0.7085
+BUCHDECKE_ZOLL = 0.354
+WRAP_MM = WRAP_ZOLL * 25.4
+BUCHDECKE_MM = BUCHDECKE_ZOLL * 25.4
+HARDCOVER_MIN_SEITEN = 75      # weniger nimmt KDP als Hardcover nicht an
 BARCODE_B_MM, BARCODE_H_MM = 50.8, 30.5  # 2,0 x 1,2 Zoll, bleibt frei
 
 SCHRIFTEN = {
@@ -344,18 +361,23 @@ def auslage_oben(c, x, y, breite, hoehe, *, bezug, wiederholungen):
 
 
 def vorderseite_schiefer(c, x, y, breite, hoehe, cfg, titelbild=None,
-                         *, kennung=None, titel_maximal=46):
+                         *, kennung=None, titel_maximal=46, ueberstand=0):
     """Titelseite im Schieferstil: Titel im freien Grund unter der Auslage.
 
     Die Auslage selbst zeichnet cover_bauen über den ganzen Umschlag.
     `kennung` ist die Bandkennzeichnung über dem Titel („REZEPTBUCH · …"),
     die Band 2 und 3 voneinander und von Band 1 unterscheidbar macht.
+
+    `ueberstand` ist der Anschnitt beim Taschenbuch und der Umschlagrand beim
+    Hardcover. Das Titelfoto läuft um diesen Betrag über die Trimmkante nach
+    oben und nach außen hinaus — sonst bliebe dort ein Streifen Grundton
+    stehen: beim Taschenbuch 3,2 mm, beim Hardcover 18 mm.
     """
     rand = breite * 0.09
 
     if titelbild:
         titelbild_zeichnen(c, titelbild, x, y + hoehe * 0.60,
-                           breite, hoehe * 0.40,
+                           breite + ueberstand, hoehe * 0.40 + ueberstand,
                            ausblenden=ill.SCHIEFER["grund"])
 
     if kennung:
@@ -572,13 +594,17 @@ def rueckseite(c, x, y, breite, hoehe, cfg, kopf, absaetze, punkte):
     return x + breite - rand - BARCODE_B_MM * mm, y + rand
 
 
-def cover_bauen(cfg, seiten, klappentext_pfad, ziel):
+def cover_bauen(cfg, seiten, klappentext_pfad, ziel, *, hardcover=False):
     schriften_laden()
 
     trim_b = cfg["seitenformat"]["breite_mm"] * mm
     trim_h = cfg["seitenformat"]["hoehe_mm"] * mm
-    anschnitt = BESCHNITT_MM * mm
-    ruecken_b = seiten * RUECKEN_PRO_SEITE_MM * mm
+    if hardcover:
+        anschnitt = WRAP_MM * mm
+        ruecken_b = (seiten * RUECKEN_PRO_SEITE_MM + BUCHDECKE_MM) * mm
+    else:
+        anschnitt = BESCHNITT_MM * mm
+        ruecken_b = seiten * RUECKEN_PRO_SEITE_MM * mm
 
     gesamt_b = 2 * trim_b + ruecken_b + 2 * anschnitt
     gesamt_h = trim_h + 2 * anschnitt
@@ -605,7 +631,10 @@ def cover_bauen(cfg, seiten, klappentext_pfad, ziel):
 
     kopf, absaetze, punkte = klappentext_laden(klappentext_pfad)
     titelbild = titelbild_suchen(Path(klappentext_pfad).parent)
-    mit_ruecken_text = seiten >= RUECKENTEXT_AB_SEITEN
+    # Beim Hardcover ist der Rücken immer breit genug: Die Buchdecke bringt
+    # allein 9 mm mit, die 79-Seiten-Schwelle des Taschenbuchs greift hier
+    # nicht. Bei 76 Seiten sind es 13,3 mm — reichlich Platz für Schrift.
+    mit_ruecken_text = hardcover or seiten >= RUECKENTEXT_AB_SEITEN
 
     if stil == "schiefer":
         # Die Auslage zuerst und über den ganzen Umschlag — Rückseite, Rücken
@@ -620,7 +649,8 @@ def cover_bauen(cfg, seiten, klappentext_pfad, ziel):
                          cfg, mit_ruecken_text)
         vorderseite_schiefer(c, anschnitt + trim_b + ruecken_b, anschnitt,
                              trim_b, trim_h, cfg, titelbild,
-                             kennung="DAS BUCH · 4 PHASEN")
+                             kennung="DAS BUCH · 4 PHASEN",
+                             ueberstand=anschnitt)
     else:
         rueckseite(c, anschnitt, anschnitt, trim_b, trim_h, cfg,
                    kopf, absaetze, punkte)
@@ -651,19 +681,31 @@ def main():
     buch = WURZEL / "buch"
     cfg = yaml.safe_load((buch / "buch.yaml").read_text(encoding="utf-8"))
     seiten = seitenzahl(buch / "out" / f"{cfg['slug']}.pdf")
+    klappentext = buch / "cover" / "klappentext.md"
 
-    ziel = buch / "out" / "cover.pdf"
-    masse = cover_bauen(cfg, seiten, buch / "cover" / "klappentext.md", ziel)
-    png = vorschau(ziel, buch / "out" / "cover-vorschau.png")
+    for hardcover in (False, True):
+        art = "Hardcover" if hardcover else "Taschenbuch"
+        name = "cover-hardcover" if hardcover else "cover"
+        if hardcover and seiten < HARDCOVER_MIN_SEITEN:
+            print(f"\n{art}: übersprungen — KDP verlangt mindestens "
+                  f"{HARDCOVER_MIN_SEITEN} Seiten, der Band hat {seiten}.")
+            continue
 
-    b, h = masse["gesamt_mm"]
-    print(f"Innenteil: {seiten} Seiten")
-    print(f"Rückenbreite: {masse['ruecken_mm']:.1f} mm"
-          f"  (Rückentext: {'ja' if masse['ruecken_text'] else 'nein'})")
-    print(f"Umschlag gesamt: {b:.1f} x {h:.1f} mm inkl. {BESCHNITT_MM} mm Anschnitt")
-    titelbild_melden(cfg, masse["titelbild"])
-    print(f"  → {ziel.relative_to(WURZEL)}")
-    print(f"  → {png.relative_to(WURZEL)}")
+        ziel = buch / "out" / f"{name}.pdf"
+        masse = cover_bauen(cfg, seiten, klappentext, ziel, hardcover=hardcover)
+        png = vorschau(ziel, buch / "out" / f"{name}-vorschau.png")
+
+        b, h = masse["gesamt_mm"]
+        rand = WRAP_MM if hardcover else BESCHNITT_MM
+        randname = "Umschlagrand um die Buchdecke" if hardcover else "Anschnitt"
+        print(f"\n{art} — Innenteil: {seiten} Seiten")
+        print(f"Rückenbreite: {masse['ruecken_mm']:.1f} mm"
+              f"  (Rückentext: {'ja' if masse['ruecken_text'] else 'nein'})")
+        print(f"Umschlag gesamt: {b:.2f} x {h:.2f} mm "
+              f"= {b/25.4:.3f} x {h/25.4:.3f} Zoll, inkl. {rand} mm {randname}")
+        titelbild_melden(cfg, masse["titelbild"])
+        print(f"  → {ziel.relative_to(WURZEL)}")
+        print(f"  → {png.relative_to(WURZEL)}")
 
 
 if __name__ == "__main__":

@@ -189,7 +189,8 @@ def cover_bauen(cfg, seiten, klappentext_pfad, ziel):
                          f"{cfg['titel']} — WORKBOOK   ·   {cfg['autor']}")
         vorderseite_schiefer(c, anschnitt + trim_b + ruecken_b, anschnitt,
                              trim_b, trim_h, cfg, titelbild,
-                             kennung="WORKBOOK · 12 WOCHEN", titel_maximal=52)
+                             kennung="WORKBOOK · 12 WOCHEN",
+                             titel_maximal=52, ueberstand=anschnitt)
     else:
         rueckseite(c, anschnitt, anschnitt, trim_b, trim_h, cfg,
                    kopf, absaetze, punkte)

@@ -70,6 +70,26 @@ nicht steht.
 | Papier | weiß |
 | Rückenbreite | 4,3 mm — **kein Rückentext**, KDP erlaubt ihn erst ab 79 Seiten |
 
+**Hardcover-Fassung** — bei KDP ein eigener Titel neben dem Taschenbuch,
+gleiche Beschreibung, gleiche Kategorien, gleiche Stichwörter:
+
+| Feld | Wert |
+|---|---|
+| Trimmgröße | 6 × 9 Zoll (15,24 × 22,86 cm) |
+| Seiten | 76 |
+| Papier / Druckfarbe | weiß / Schwarzweiß |
+| Rücken der Buchdecke | 13,3 mm — **mit** Rückentext |
+| Umschlag gesamt | **13,942 × 10,417 Zoll** (354,13 × 264,59 mm) |
+| Datei | `buch/out/cover-hardcover-druck.pdf` |
+
+Der Umschlag ist deutlich größer als beim Taschenbuch, weil er nicht
+beschnitten, sondern um die Buchdecke geschlagen wird: 18 mm Umschlagrand
+ringsum statt 3,175 mm Anschnitt. Der Rücken enthält zusätzlich 9 mm für die
+Deckelpappen und die Falzrillen.
+
+KDP nimmt Hardcover **erst ab 75 Seiten** an — mit 76 liegt Band 1 knapp
+darüber. Band 2 (92 Seiten) käme ebenfalls infrage, Band 3 (54 Seiten) nicht.
+
 **Kategorien** — eine breite, zwei enge:
 
 1. Ratgeber › Gesundheit & Medizin › Ernährung

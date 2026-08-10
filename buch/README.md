@@ -46,6 +46,27 @@ mit Abweichungen je Format; Band 2 setzt seine Werte in `TYPOGRAFIE` in
 PDF älter ist als seine Quellen — sonst prüft die Abnahme einen alten Stand
 und winkt ihn durch.
 
+### Hardcover
+
+`buch/build/build_cover.py` baut für Band 1 **zwei** Umschläge: `cover.pdf`
+fürs Taschenbuch und `cover-hardcover.pdf` fürs gebundene Buch. Beim Hardcover
+rechnet KDP anders, und zwar in zwei Punkten:
+
+| | Taschenbuch | Hardcover |
+|---|---|---|
+| Rand ringsum | 3,175 mm Anschnitt (wird abgeschnitten) | 18,0 mm Umschlagrand (wird um die Decke geschlagen) |
+| Rücken | Buchblock: Seiten × 0,0572 mm | Buchdecke: Seiten × 0,0572 mm **+ 9 mm** für Pappen und Falzrillen |
+| Rückentext | erst ab 79 Seiten | immer — die Decke bringt allein 9 mm mit |
+
+Bei 76 Seiten ergibt das **354,13 × 264,59 mm = 13,942 × 10,417 Zoll** mit
+einem Rücken von 13,3 mm. Die Konstanten stehen in Zoll und werden erst dann
+umgerechnet: KDP rechnet in Zoll, und runde Millimeterwerte (18,0 / 9,0)
+treffen die Sollbreite um 0,03 mm daneben.
+
+KDP nimmt Hardcover erst **ab 75 Seiten** an; darunter überspringt das Skript
+die Fassung mit einem Hinweis. Band 2 und 3 haben bisher keine
+Hardcover-Fassung — der Aufruf wäre derselbe.
+
 **Zu KDP hochgeladen wird `cover-druck.pdf`, nicht `cover.pdf`.** Die
 Vektorfassung enthält Radialverläufe und transparente Schlagschatten; die
 KDP-Prüfung verlangt reduzierte Ebenen ohne Transparenz und lehnt sie ab.

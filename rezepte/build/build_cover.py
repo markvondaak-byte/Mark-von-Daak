@@ -207,7 +207,7 @@ def cover_bauen(cfg, seiten, klappentext_pfad, ziel):
         vorderseite_schiefer(c, anschnitt + trim_b + ruecken_b, anschnitt,
                              trim_b, trim_h, cfg, titelbild,
                              kennung=f"REZEPTBUCH · {anzahl} GERICHTE",
-                             titel_maximal=42)
+                             titel_maximal=42, ueberstand=anschnitt)
     else:
         rueckseite(c, anschnitt, anschnitt, trim_b, trim_h, cfg,
                    kopf, absaetze, punkte)

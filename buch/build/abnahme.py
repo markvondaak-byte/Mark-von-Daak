@@ -22,6 +22,8 @@ import wochenplan as wp  # noqa: E402
 
 BESCHNITT_MM = 3.175
 RUECKEN_PRO_SEITE_MM = 0.0572
+WRAP_MM = 0.7085 * 25.4        # Hardcover: Umschlagrand statt Anschnitt
+BUCHDECKE_MM = 0.354 * 25.4    # Hardcover: Pappen und Falzrillen im Rücken
 
 ergebnisse = []
 
@@ -188,6 +190,8 @@ def buch_pruefen():
                             cfg["seitenformat"]["breite_mm"],
                             cfg["seitenformat"]["hoehe_mm"])
     cover_pruefen("Band 1", basis / "out" / "cover.pdf", cfg, len(seiten))
+    cover_pruefen("Band 1 Hardcover", basis / "out" / "cover-hardcover.pdf",
+                  cfg, len(seiten), hardcover=True)
 
 
 def workbook_pruefen():
@@ -346,7 +350,7 @@ def druckfassung_pruefen(bezeichnung, pdf, soll_b, soll_h):
            not befunde, ", ".join(befunde) if befunde else "")
 
 
-def cover_pruefen(bezeichnung, pdf, cfg, seiten):
+def cover_pruefen(bezeichnung, pdf, cfg, seiten, *, hardcover=False):
     if not pdf.exists():
         pruefe(f"{bezeichnung}: Umschlag vorhanden", False)
         return
@@ -357,16 +361,24 @@ def cover_pruefen(bezeichnung, pdf, cfg, seiten):
     ist_b = float(kiste.width) / 72 * 25.4
     ist_h = float(kiste.height) / 72 * 25.4
 
-    ruecken = seiten * RUECKEN_PRO_SEITE_MM
-    soll_b = 2 * cfg["seitenformat"]["breite_mm"] + ruecken + 2 * BESCHNITT_MM
-    soll_h = cfg["seitenformat"]["hoehe_mm"] + 2 * BESCHNITT_MM
+    # Hardcover rechnet anders: Umschlagrand statt Anschnitt, und der Rücken
+    # ist die Buchdecke, nicht der Buchblock.
+    if hardcover:
+        rand = WRAP_MM
+        ruecken = seiten * RUECKEN_PRO_SEITE_MM + BUCHDECKE_MM
+    else:
+        rand = BESCHNITT_MM
+        ruecken = seiten * RUECKEN_PRO_SEITE_MM
+    soll_b = 2 * cfg["seitenformat"]["breite_mm"] + ruecken + 2 * rand
+    soll_h = cfg["seitenformat"]["hoehe_mm"] + 2 * rand
 
     pruefe(f"{bezeichnung}: Umschlagbreite", abs(ist_b - soll_b) < 0.5,
            f"{ist_b:.1f} mm (Soll {soll_b:.1f}, Rücken {ruecken:.1f})")
     pruefe(f"{bezeichnung}: Umschlaghöhe", abs(ist_h - soll_h) < 0.5,
            f"{ist_h:.1f} mm (Soll {soll_h:.1f})")
 
-    druckfassung_pruefen(bezeichnung, pdf.with_name("cover-druck.pdf"),
+    druckfassung_pruefen(bezeichnung,
+                         pdf.with_name(pdf.stem + "-druck.pdf"),
                          soll_b, soll_h)
 
     # Auch der Umschlag muss alle Schriften mitbringen. reportlab schreibt
