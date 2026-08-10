@@ -124,8 +124,17 @@ davon meldet KDP beim Hochladen eine zu niedrige Auflösung.
 **Ein eigenes Titelfoto einsetzen:** Leg die Datei unter
 `buch/cover/titelbild.jpg` ab (auch `.png` und `.webp` werden erkannt) und bau
 den Umschlag neu. Sie ersetzt dann das obere Illustrationsband und wird mittig
-auf das Format beschnitten. Für den Druck sind mindestens **1800 × 2700 px**
-nötig; darunter warnt das Skript.
+auf das Format beschnitten.
+
+Wie groß das Foto sein muss, rechnet `titelbild_sollmasse()` aus der
+Seitengröße aus — das Foto füllt nur das obere Band, nicht den ganzen
+Umschlag. Bei 300 dpi sind das **1838 × 1118 px** für Band 1 und
+**2438 × 1238 px** für Band 2 und 3. Vorher stand hier ein fester Wert von
+1800 × 2700 px, abgeleitet aus dem ganzen Umschlag; der hätte brauchbare
+Bilder als „zu klein" gemeldet.
+
+Wird ein KI-erzeugtes Foto eingesetzt, ist das bei KDP anzugeben — siehe
+`kdp-metadaten.md`, Abschnitt „KI-erzeugte Inhalte melden".
 
 Auf dem Umschlag dürfen nur Lebensmittel erscheinen, die das Konzept auch
 erlaubt — keine Banane, Weintraube, Ananas oder Karotte. Fremde Marken

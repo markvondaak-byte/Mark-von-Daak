@@ -241,6 +241,26 @@ kommen Rezensionen, die genau das bemängeln.
 **Band 3** hat noch keine Kindle-Ausgabe. Ein Rezeptbuch eignet sich dafür gut
 (fließender Text wie Band 1); gebaut ist es bisher nicht.
 
+## KI-erzeugte Inhalte melden
+
+KDP fragt beim Anlegen eines Titels ab, ob Text, Bilder oder Übersetzungen
+**KI-erzeugt** sind. Die Angabe ist verpflichtend und erscheint nicht auf der
+Produktseite — sie geht nur an Amazon.
+
+Der Unterschied, auf den es ankommt: *KI-erzeugt* ist Material, das ein
+Werkzeug erstellt hat und das man anschließend höchstens bearbeitet hat.
+*KI-unterstützt* ist eigenes Material, bei dem ein Werkzeug beim Überarbeiten
+geholfen hat — das ist nicht meldepflichtig.
+
+Für dieses Projekt heißt das: Wird ein mit Higgsfield erzeugtes Titelfoto
+eingesetzt, ist beim Umschlag **„KI-erzeugte Bilder: ja"** anzugeben. Der
+Text der Bücher ist selbst geschrieben und fällt nicht darunter. Ohne
+Titelfoto sind die Umschläge Vektorzeichnungen aus `illustration.py` und
+ebenfalls nicht meldepflichtig.
+
+Eine Falschangabe ist nach Amazons Bedingungen ein Grund, das Konto zu
+sperren. Der Aufwand für die richtige Angabe ist ein Klick.
+
 ## Was beim Anlegen nicht hineingehört
 
 **Keine fremde Marke in Titel, Untertitel oder Keywords.** „cellRESET" und

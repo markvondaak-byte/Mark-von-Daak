@@ -136,6 +136,25 @@ def titelbild_suchen(cover_verzeichnis):
     return None
 
 
+def titelbild_sollmasse(cfg, dpi=300):
+    """Wie groß das Titelfoto mindestens sein muss.
+
+    Gerechnet, nicht geraten: Das Foto füllt nicht den ganzen Umschlag,
+    sondern das obere Band der Vorderseite — bei AUSLAGE_HOEHE von 0,30
+    ergibt vorderseite_schiefer() daraus 40 Prozent der Trimmhöhe. Dazu der
+    Anschnitt oben und außen.
+
+    Vorher stand hier ein fester Wert von 1800 x 2700 px, abgeleitet aus dem
+    ganzen Umschlag. Der war für dieses Band deutlich zu hoch gegriffen und
+    hätte brauchbare Bilder als „zu klein" gemeldet.
+    """
+    sf = cfg["seitenformat"]
+    breite_mm = sf["breite_mm"] + BESCHNITT_MM
+    hoehe_mm = sf["hoehe_mm"] * 0.40 + BESCHNITT_MM
+    je_mm = dpi / 25.4
+    return round(breite_mm * je_mm), round(hoehe_mm * je_mm)
+
+
 def titelbild_zeichnen(c, pfad, x, y, breite, hoehe):
     """Zeichnet das Foto formatfüllend in den Rahmen, mittig beschnitten."""
     from PIL import Image
@@ -564,16 +583,18 @@ def main():
           f"  (Rückentext: {'ja' if masse['ruecken_text'] else 'nein'})")
     print(f"Umschlag gesamt: {b:.1f} x {h:.1f} mm inkl. {BESCHNITT_MM} mm Anschnitt")
     if masse["titelbild"]:
+        soll_b, soll_h = titelbild_sollmasse(cfg)
         from PIL import Image
         with Image.open(masse["titelbild"]) as bild:
-            gross_genug = bild.width >= 1800 and bild.height >= 2700
+            gross_genug = bild.width >= soll_b and bild.height >= soll_h
         print(f"Titelbild: {masse['titelbild'].name} "
-              f"({bild.width} x {bild.height} px)"
-              + ("" if gross_genug else "  — ACHTUNG: unter 1800 x 2700 px, "
-                                        "für den Druck zu klein"))
+              f"({bild.width} x {bild.height} px, nötig {soll_b} x {soll_h})"
+              + ("" if gross_genug else "  — ACHTUNG: für 300 dpi zu klein"))
     else:
+        b_soll, h_soll = titelbild_sollmasse(cfg)
         print("Titelbild: keins — es werden die Illustrationen verwendet. "
-              "Für ein Foto: buch/cover/titelbild.jpg ablegen.")
+              f"Für ein Foto: buch/cover/titelbild.jpg ablegen "
+              f"(mindestens {b_soll} x {h_soll} px).")
     print(f"  → {ziel.relative_to(WURZEL)}")
     print(f"  → {png.relative_to(WURZEL)}")
 
