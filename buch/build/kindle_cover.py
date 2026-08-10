@@ -30,15 +30,16 @@ JPEG_QUALITAET = 92
 
 BAENDE = [
     ("Band 1", "buch/buch.yaml", "buch/out/kindle-cover.jpg",
-     "DAS BUCH · 4 PHASEN"),
+     "DAS BUCH · 4 PHASEN", "buch/cover"),
     ("Band 2", "workbook/workbook.yaml", "workbook/out/kindle-cover.jpg",
-     "WORKBOOK · 12 WOCHEN"),
+     "WORKBOOK · 12 WOCHEN", "workbook/cover"),
     ("Band 3", "rezepte/rezepte.yaml", "rezepte/out/kindle-cover.jpg",
-     "REZEPTBUCH · 73 GERICHTE"),
+     "REZEPTBUCH · 73 GERICHTE", "rezepte/cover"),
 ]
 
 
-def titelbild_bauen(cfg, ziel, kennung, breite_px=BREITE_PX, hoehe_px=HOEHE_PX):
+def titelbild_bauen(cfg, ziel, kennung, cover_verzeichnis,
+                    breite_px=BREITE_PX, hoehe_px=HOEHE_PX):
     import io
 
     import fitz
@@ -67,20 +68,26 @@ def titelbild_bauen(cfg, ziel, kennung, breite_px=BREITE_PX, hoehe_px=HOEHE_PX):
                       initialFontName="Serif")
     c.setTitle(f"{cfg['titel']} — Kindle")
 
+    # Dasselbe Titelfoto wie beim Taschenbuch. Im Amazon-Katalog stehen
+    # Taschenbuch und Kindle-Ausgabe nebeneinander; unterschiedliche Motive
+    # sähen nach zwei verschiedenen Büchern aus.
+    titelbild = bc.titelbild_suchen(cover_verzeichnis)
+
     if cfg.get("cover_stil") == "schiefer":
         ill.schiefergrund(c, 0, 0, breite_pt, hoehe_pt)
-        # bezug=breite_pt statt der Trimmbreite: Die Auslage soll über die
-        # Bildbreite dieselbe Dichte haben wie auf dem gedruckten Umschlag
-        # über eine Buchbreite.
-        bc.auslage_oben(c, 0, hoehe_pt * (1 - bc.AUSLAGE_HOEHE),
-                        breite_pt, hoehe_pt * bc.AUSLAGE_HOEHE,
-                        bezug=breite_pt, wiederholungen=1)
-        bc.vorderseite_schiefer(c, 0, 0, breite_pt, hoehe_pt, cfg,
+        if not titelbild:
+            # bezug=breite_pt statt der Trimmbreite: Die Auslage soll über die
+            # Bildbreite dieselbe Dichte haben wie auf dem gedruckten Umschlag
+            # über eine Buchbreite.
+            bc.auslage_oben(c, 0, hoehe_pt * (1 - bc.AUSLAGE_HOEHE),
+                            breite_pt, hoehe_pt * bc.AUSLAGE_HOEHE,
+                            bezug=breite_pt, wiederholungen=1)
+        bc.vorderseite_schiefer(c, 0, 0, breite_pt, hoehe_pt, cfg, titelbild,
                                 kennung=kennung)
     else:
         c.setFillColor(ill.PALETTE["papier"])
         c.rect(0, 0, breite_pt, hoehe_pt, stroke=0, fill=1)
-        bc.vorderseite(c, 0, 0, breite_pt, hoehe_pt, cfg)
+        bc.vorderseite(c, 0, 0, breite_pt, hoehe_pt, cfg, titelbild)
 
     c.showPage()
     c.save()
@@ -123,9 +130,9 @@ def pruefen(pfad):
 def main():
     import yaml
 
-    for name, yaml_pfad, ziel, kennung in BAENDE:
+    for name, yaml_pfad, ziel, kennung, cover in BAENDE:
         cfg = yaml.safe_load((WURZEL / yaml_pfad).read_text(encoding="utf-8"))
-        ergebnis = titelbild_bauen(cfg, WURZEL / ziel, kennung)
+        ergebnis = titelbild_bauen(cfg, WURZEL / ziel, kennung, WURZEL / cover)
         befunde = pruefen(ergebnis["ziel"])
         b, h = ergebnis["px"]
         print(f"{name}: {b} x {h} px · {ergebnis['kb']:.0f} KB")

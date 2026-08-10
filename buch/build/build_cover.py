@@ -125,14 +125,23 @@ def block_schreiben(c, text, x, y, breite, schrift, groesse, zeilenhoehe,
 def titelbild_suchen(cover_verzeichnis):
     """Sucht ein eigenes Titelfoto.
 
-    Liegt in buch/cover/ eine Datei namens `titelbild.jpg` (oder .png/.webp),
-    wird sie anstelle des oberen Illustrationsbands eingesetzt. Für den Druck
-    sollte sie mindestens 1800 x 2700 px haben — darunter warnt das Skript.
+    Gesucht wird zuerst im Umschlagverzeichnis des Bandes, dann in
+    buch/cover/. Damit reicht **eine** Datei für alle drei Bände — sie ist
+    dasselbe Motiv, und drei Kopien im Repository würden nur auseinanderlaufen.
+    Ein Band, der ein eigenes Motiv bekommen soll, legt seine Datei einfach
+    daneben; die gewinnt.
+
+    Wie groß das Bild sein muss, rechnet titelbild_sollmasse() aus.
     """
-    for endung in (".jpg", ".jpeg", ".png", ".webp"):
-        pfad = cover_verzeichnis / f"titelbild{endung}"
-        if pfad.exists():
-            return pfad
+    orte = [Path(cover_verzeichnis)]
+    gemeinsam = WURZEL / "buch" / "cover"
+    if gemeinsam not in orte:
+        orte.append(gemeinsam)
+    for ort in orte:
+        for endung in (".jpg", ".jpeg", ".png", ".webp"):
+            pfad = ort / f"titelbild{endung}"
+            if pfad.exists():
+                return pfad
     return None
 
 
@@ -155,8 +164,42 @@ def titelbild_sollmasse(cfg, dpi=300):
     return round(breite_mm * je_mm), round(hoehe_mm * je_mm)
 
 
-def titelbild_zeichnen(c, pfad, x, y, breite, hoehe):
-    """Zeichnet das Foto formatfüllend in den Rahmen, mittig beschnitten."""
+def titelbild_melden(cfg, pfad):
+    """Sagt beim Bauen, welches Titelfoto benutzt wird und wie es dasteht."""
+    soll_b, soll_h = titelbild_sollmasse(cfg)
+    if not pfad:
+        print("Titelbild: keins — es werden die Illustrationen verwendet. "
+              f"Für ein Foto: buch/cover/titelbild.jpg ablegen "
+              f"(mindestens {soll_b} x {soll_h} px).")
+        return
+
+    from PIL import Image
+    with Image.open(pfad) as bild:
+        breite, hoehe = bild.size
+    print(f"Titelbild: {Path(pfad).relative_to(WURZEL)} "
+          f"({breite} x {hoehe} px, nötig {soll_b} x {soll_h})")
+    if breite < soll_b or hoehe < soll_h:
+        # Der Beschnitt bestimmt, was übrig bleibt — deshalb hier dieselbe
+        # Rechnung wie in titelbild_zeichnen und nicht nur ein Größenvergleich.
+        band = soll_b / soll_h
+        nutz_b = round(hoehe * band) if breite / hoehe > band else breite
+        print(f"  {nutz_b / (soll_b / 300):.0f} dpi statt 300 — wird auf "
+              f"{soll_b} px hochgerechnet. Das erfindet keine Schärfe, es "
+              "verhindert die KDP-Meldung „Auflösung zu niedrig\".")
+
+
+def titelbild_zeichnen(c, pfad, x, y, breite, hoehe, dpi=300,
+                       ausblenden=None):
+    """Zeichnet das Foto formatfüllend in den Rahmen, mittig beschnitten.
+
+    Bleibt nach dem Beschnitt weniger als `dpi` übrig, wird hochgerechnet.
+    Dazu offen gesagt: Das erfindet keine Bildinformation. Es verhindert nur,
+    dass die KDP-Prüfung eine zu niedrige Auflösung meldet, und bei den hier
+    anfallenden Faktoren (rund 1,2) ist der Unterschied im Druck nicht zu
+    sehen. Wird der Faktor deutlich größer, ist das ein Zeichen dafür, dass
+    das Motiv für dieses Format zu klein ist — dann hilft nur ein größeres
+    Original.
+    """
     from PIL import Image
     from reportlab.lib.utils import ImageReader
 
@@ -172,8 +215,43 @@ def titelbild_zeichnen(c, pfad, x, y, breite, hoehe):
             neu = int(bild.width / soll)
             oben = (bild.height - neu) // 2
             bild = bild.crop((0, oben, bild.width, oben + neu))
+
+        ziel_b = round(breite / 72 * dpi)
+        hochgerechnet = None
+        if bild.width < ziel_b:
+            ziel_h = round(hoehe / 72 * dpi)
+            hochgerechnet = (bild.width, ziel_b)
+            bild = bild.resize((ziel_b, ziel_h), Image.LANCZOS)
+
+        if ausblenden:
+            bild = _unterkante_ausblenden(bild, ausblenden)
+
         c.drawImage(ImageReader(bild), x, y, breite, hoehe,
                     preserveAspectRatio=False, mask=None)
+    return hochgerechnet
+
+
+def _unterkante_ausblenden(bild, farbe, anteil=0.14):
+    """Blendet die unteren Bildzeilen in die Grundfarbe des Umschlags aus.
+
+    Ohne das steht zwischen Foto und Grund eine harte Kante quer über den
+    Umschlag. Sie fällt umso mehr auf, je näher sich die beiden Töne sind —
+    und das Schiefergrau des Fotos liegt dicht am Grundton.
+
+    Gerechnet wird im Bild, nicht als transparenter Verlauf darüber: Die
+    KDP-Druckfassung darf keine Transparenz enthalten, und was hier schon
+    fertig verrechnet ist, kann in der Rasterfassung keine mehr erzeugen.
+    """
+    from PIL import Image
+
+    hoehe = max(1, int(bild.height * anteil))
+    ziel = Image.new("RGB", (bild.width, hoehe),
+                     tuple(round(k * 255) for k in farbe.rgb()))
+    maske = Image.linear_gradient("L").resize((bild.width, hoehe))
+    unten = bild.crop((0, bild.height - hoehe, bild.width, bild.height))
+    bild.paste(Image.composite(ziel, unten, maske),
+               (0, bild.height - hoehe))
+    return bild
 
 
 def vorderseite(c, x, y, breite, hoehe, cfg, titelbild=None):
@@ -277,7 +355,8 @@ def vorderseite_schiefer(c, x, y, breite, hoehe, cfg, titelbild=None,
 
     if titelbild:
         titelbild_zeichnen(c, titelbild, x, y + hoehe * 0.60,
-                           breite, hoehe * 0.40)
+                           breite, hoehe * 0.40,
+                           ausblenden=ill.SCHIEFER["grund"])
 
     if kennung:
         # Als gefüllter Balken, nicht als feine Schrift auf dem Grund: Im
@@ -582,19 +661,7 @@ def main():
     print(f"Rückenbreite: {masse['ruecken_mm']:.1f} mm"
           f"  (Rückentext: {'ja' if masse['ruecken_text'] else 'nein'})")
     print(f"Umschlag gesamt: {b:.1f} x {h:.1f} mm inkl. {BESCHNITT_MM} mm Anschnitt")
-    if masse["titelbild"]:
-        soll_b, soll_h = titelbild_sollmasse(cfg)
-        from PIL import Image
-        with Image.open(masse["titelbild"]) as bild:
-            gross_genug = bild.width >= soll_b and bild.height >= soll_h
-        print(f"Titelbild: {masse['titelbild'].name} "
-              f"({bild.width} x {bild.height} px, nötig {soll_b} x {soll_h})"
-              + ("" if gross_genug else "  — ACHTUNG: für 300 dpi zu klein"))
-    else:
-        b_soll, h_soll = titelbild_sollmasse(cfg)
-        print("Titelbild: keins — es werden die Illustrationen verwendet. "
-              f"Für ein Foto: buch/cover/titelbild.jpg ablegen "
-              f"(mindestens {b_soll} x {h_soll} px).")
+    titelbild_melden(cfg, masse["titelbild"])
     print(f"  → {ziel.relative_to(WURZEL)}")
     print(f"  → {png.relative_to(WURZEL)}")
 

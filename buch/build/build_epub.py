@@ -574,8 +574,8 @@ def main():
 
 def kindle_cover_bauen():
     import kindle_cover
-    fehlt = [z for _, _, z, _ in kindle_cover.BAENDE
-             if not (WURZEL / z).exists()]
+    fehlt = [eintrag[2] for eintrag in kindle_cover.BAENDE
+             if not (WURZEL / eintrag[2]).exists()]
     if fehlt:
         print("Titelbilder fehlen — erst kindle_cover.py laufen lassen.")
         raise SystemExit(1)

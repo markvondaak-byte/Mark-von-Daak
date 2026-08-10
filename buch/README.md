@@ -121,10 +121,18 @@ Der Untergrund ist ein Vektorverlauf, kein Bild. Ein Rasterhintergrund über
 den ganzen Umschlag bräuchte für 300 dpi rund zehn Megapixel — und unterhalb
 davon meldet KDP beim Hochladen eine zu niedrige Auflösung.
 
-**Ein eigenes Titelfoto einsetzen:** Leg die Datei unter
-`buch/cover/titelbild.jpg` ab (auch `.png` und `.webp` werden erkannt) und bau
-den Umschlag neu. Sie ersetzt dann das obere Illustrationsband und wird mittig
-auf das Format beschnitten.
+**Titelfoto.** Unter `buch/cover/titelbild.jpg` liegt das Foto, das alle drei
+Bände tragen (auch `.png` und `.webp` werden erkannt). Gesucht wird zuerst im
+Umschlagverzeichnis des jeweiligen Bandes, dann in `buch/cover/` — **eine**
+Datei genügt also für die ganze Reihe, und ein Band, der ein eigenes Motiv
+bekommen soll, legt seine Datei einfach daneben.
+
+Das Foto ersetzt das obere Illustrationsband, wird mittig auf das Format
+beschnitten und an der Unterkante in den Grundton ausgeblendet. Ohne diese
+Ausblendung steht eine harte Kante quer über den Umschlag; sie fällt umso
+mehr auf, je näher sich Foto- und Grundton sind. Gerechnet wird sie **ins
+Bild**, nicht als transparenter Verlauf darüber — die KDP-Druckfassung darf
+keine Transparenz enthalten.
 
 Wie groß das Foto sein muss, rechnet `titelbild_sollmasse()` aus der
 Seitengröße aus — das Foto füllt nur das obere Band, nicht den ganzen
@@ -133,8 +141,17 @@ Umschlag. Bei 300 dpi sind das **1838 × 1118 px** für Band 1 und
 1800 × 2700 px, abgeleitet aus dem ganzen Umschlag; der hätte brauchbare
 Bilder als „zu klein" gemeldet.
 
-Wird ein KI-erzeugtes Foto eingesetzt, ist das bei KDP anzugeben — siehe
-`kdp-metadaten.md`, Abschnitt „KI-erzeugte Inhalte melden".
+Reicht die Auflösung nach dem Beschnitt nicht für 300 dpi, wird beim Bauen
+hochgerechnet und das gemeldet. Das erfindet keine Schärfe — es verhindert
+die KDP-Meldung „Auflösung zu niedrig". Bei Faktoren um 1,2 ist der
+Unterschied im Druck nicht zu sehen; wird der Faktor deutlich größer, ist das
+Motiv für dieses Format schlicht zu klein.
+
+Herkunft des Fotos klären, bevor es eingesetzt wird: Ist es KI-erzeugt, ist
+das bei KDP anzugeben — siehe `kdp-metadaten.md`, Abschnitt „KI-erzeugte
+Inhalte melden". Stammt es von einem Bildanbieter, muss die Lizenz die
+kommerzielle Nutzung auf einem Buchumschlag abdecken; viele Standardlizenzen
+schließen genau das aus.
 
 Auf dem Umschlag dürfen nur Lebensmittel erscheinen, die das Konzept auch
 erlaubt — keine Banane, Weintraube, Ananas oder Karotte. Fremde Marken

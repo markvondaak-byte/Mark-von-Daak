@@ -28,7 +28,8 @@ from build_cover import (AUSLAGE_HOEHE, BESCHNITT_MM, BARCODE_H_MM,  # noqa: E40
                          auslage_oben, block_schreiben, groesse_einpassen,
                          klappentext_laden, rueckseite_schiefer,
                          ruecken_schiefer, schriften_laden, seitenzahl,
-                         umbrechen, vorderseite_schiefer, vorschau)
+                         titelbild_melden, titelbild_suchen, umbrechen,
+                         vorderseite_schiefer, vorschau)
 
 # Komposition für Band 2 — bewusst anders angeordnet als beim Buch.
 BAND_OBEN_WORKBOOK = [
@@ -171,21 +172,23 @@ def cover_bauen(cfg, seiten, klappentext_pfad, ziel):
         c.rect(0, 0, gesamt_b, gesamt_h, stroke=0, fill=1)
 
     kopf, absaetze, punkte = klappentext_laden(klappentext_pfad)
+    titelbild = titelbild_suchen(Path(klappentext_pfad).parent)
     mit_ruecken_text = seiten >= RUECKENTEXT_AB_SEITEN
 
     if stil == "schiefer":
-        # A4 ist breiter als 6x9 — vier Durchgänge halten die Motive in
-        # derselben Größe wie bei den anderen Bänden.
-        auslage_oben(c, 0, gesamt_h * (1 - AUSLAGE_HOEHE),
-                     gesamt_b, gesamt_h * AUSLAGE_HOEHE,
-                     bezug=trim_b * 0.78, wiederholungen=4)
+        if not titelbild:
+            # Das Format ist breiter als 6x9 — vier Durchgänge halten die
+            # Motive in derselben Größe wie bei den anderen Bänden.
+            auslage_oben(c, 0, gesamt_h * (1 - AUSLAGE_HOEHE),
+                         gesamt_b, gesamt_h * AUSLAGE_HOEHE,
+                         bezug=trim_b * 0.78, wiederholungen=4)
         rueckseite_schiefer(c, anschnitt, anschnitt, trim_b, trim_h, cfg,
                             kopf, absaetze, punkte)
         ruecken_schiefer(c, anschnitt + trim_b, anschnitt, ruecken_b, trim_h,
                          cfg, mit_ruecken_text,
                          f"{cfg['titel']} — WORKBOOK   ·   {cfg['autor']}")
         vorderseite_schiefer(c, anschnitt + trim_b + ruecken_b, anschnitt,
-                             trim_b, trim_h, cfg,
+                             trim_b, trim_h, cfg, titelbild,
                              kennung="WORKBOOK · 12 WOCHEN", titel_maximal=52)
     else:
         rueckseite(c, anschnitt, anschnitt, trim_b, trim_h, cfg,
@@ -218,6 +221,7 @@ def main():
     print(f"Rückenbreite: {masse['ruecken_mm']:.1f} mm"
           f"  (Rückentext: {'ja' if masse['ruecken_text'] else 'nein'})")
     print(f"Umschlag gesamt: {b:.1f} x {h:.1f} mm inkl. {BESCHNITT_MM} mm Anschnitt")
+    titelbild_melden(cfg, titelbild_suchen(basis / "cover"))
     print(f"  → {ziel.relative_to(WURZEL)}")
     print(f"  → {png.relative_to(WURZEL)}")
 

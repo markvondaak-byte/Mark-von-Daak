@@ -27,7 +27,7 @@ from build_cover import (AUSLAGE_HOEHE, BESCHNITT_MM, BARCODE_H_MM,  # noqa: E40
                          auslage_oben, block_schreiben, groesse_einpassen,
                          klappentext_laden, rueckseite_schiefer,
                          ruecken_schiefer, schriften_laden, seitenzahl,
-                         titelbild_suchen, titelbild_zeichnen, umbrechen,
+                         titelbild_melden, titelbild_suchen, titelbild_zeichnen, umbrechen,
                          vorderseite_schiefer, vorschau)
 
 # Dritte Komposition — Kräuter und Gewürzträger stehen im Vordergrund,
@@ -243,6 +243,7 @@ def main():
         print(f"  Hinweis: KDP erlaubt Rückentext erst ab "
               f"{RUECKENTEXT_AB_SEITEN} Seiten — der Rücken bleibt einfarbig.")
     print(f"Umschlag gesamt: {b:.1f} x {h:.1f} mm inkl. {BESCHNITT_MM} mm Anschnitt")
+    titelbild_melden(cfg, titelbild_suchen(basis / "cover"))
     print(f"  → {ziel.relative_to(WURZEL)}")
     print(f"  → {png.relative_to(WURZEL)}")
 
