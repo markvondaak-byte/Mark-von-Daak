@@ -14,17 +14,17 @@ erfüllt es die KDP-Mindestseitenzahl für Hardcover (mind. 75 Seiten).
 | Datei | Zweck | Format |
 |---|---|---|
 | `innenteil.pdf` | Buchblock (identisch zum Taschenbuch) | 76 Seiten, 15,24 × 22,86 cm (6 × 9″) |
-| `cover.pdf` | Hardcover-Umschlag (Case Laminate, Full-Wrap) | **34,94 × 26,46 cm** (13,754 × 10,418″) |
+| `cover.pdf` | Hardcover-Umschlag (Case Laminate, Full-Wrap) | **35,41 × 26,46 cm** (13,942 × 10,417″) |
 
 ---
 
-## Cover-Maße (nach KDP-Hardcover-Formel, 6 × 9″, 76 Seiten, weiß)
+## Cover-Maße (exakte KDP-Hardcover-Vorlage, 6 × 9″, 76 Seiten, weiß)
 
-- **Rückenbreite:** 76 × 0,002347″ = **0,178″** (≈ 0,45 cm) – zu schmal für Rückentext (KDP erlaubt Rückentext erst ab 79 Seiten)
+- **Gesamtgröße:** **13,942 × 10,417″** (35,41 × 26,46 cm) – exakt nach KDP-Vorlage
+- **Vorder- und Rückseite:** je 6 × 9″
+- **Case-Buchrücken:** **0,366″** mittig – zu schmal für Rückentext (KDP erlaubt Rückentext erst ab 79 Seiten)
 - **Wrap (Umschlag um die Deckel):** 0,591″ (15 mm) an allen Außenkanten
-- **Scharnier (Hinge):** 0,197″ je Seite neben dem Rücken
-- **Gesamtbreite:** 2 × 6″ + 0,178″ + 0,394″ + 2 × 0,591″ = **13,754″**
-- **Gesamthöhe:** 9″ + 0,236″ + 2 × 0,591″ = **10,418″**
+- **Scharnier (Hinge):** neben dem Rücken (Inhalte halten Abstand)
 
 Alle wichtigen Inhalte (Titel, Klappentext) liegen mit großzügigem
 Sicherheitsabstand innerhalb von Wrap und Scharnier. Unten rechts auf der
