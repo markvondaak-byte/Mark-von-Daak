@@ -15,42 +15,17 @@ Die Druckangaben stammen aus dem letzten Build. Ändert sich der Innenteil,
 
 ## Autorenbiografie
 
-Ein eigenes Feld bei KDP, getrennt von der Buchbeschreibung. Sie erscheint
-unter „Über den Autor" und im Autorenprofil. Zwei Längen, inhaltlich deckungs-
-gleich mit dem Kapitel „Über den Autor" in Band 1 — nichts behaupten, was dort
-nicht steht.
+Steht in `autorenbiografie.md` — vier Längen von einer Zeile bis zur vollen
+Fassung, dazu die Kurzfassung als KDP-taugliches HTML für den Block „Über den
+Autor" am Ende der Buchbeschreibung.
 
-**Kurz (für das KDP-Feld, rund 400 Zeichen)**
+Die Biografie gilt für alle Bände gemeinsam und wird **nicht** im Formular
+eingetragen, in dem der Titel angelegt wird: Das Feld liegt im Autorenkonto
+bei Author Central (`author.amazon.de`), von dort speist Amazon den Abschnitt
+„Über den Autor" auf allen verknüpften Produktseiten.
 
-> Mark von Daak lebt in Wolfsburg und begleitet Menschen bei der Umstellung
-> ihrer Ernährung. Er ist kein Arzt und kein Ernährungsberater mit
-> Kammerzulassung — was er mitbringt, ist die Praxis: die Erfahrung aus der
-> Begleitung derer, die dieses Konzept tatsächlich umgesetzt haben. Daraus sind
-> seine Bücher entstanden. Wo sie an ihre Grenzen kommen, sagen sie das und
-> verweisen dorthin, wo es hingehört.
-
-**Lang (für Author Central, rund 900 Zeichen)**
-
-> Mark von Daak lebt in Wolfsburg und begleitet Menschen bei der Umstellung
-> ihrer Ernährung.
->
-> Er ist kein Arzt, kein Ökotrophologe und kein Ernährungsberater mit
-> Kammerzulassung. Was er mitbringt, ist die Praxis: die Erfahrung aus der
-> Begleitung von Menschen, die ein Ernährungskonzept über Monate umgesetzt
-> haben — mit allem, was dabei schiefgehen kann, und mit den Fragen, die immer
-> wieder auftauchen.
->
-> Genau daraus sind seine Bücher entstanden. Sie beantworten die Fragen, die in
-> der Praxis wirklich gestellt werden, und beschreiben die Stolpersteine, über
-> die Menschen tatsächlich stolpern — nicht die, die sich theoretisch denken
-> lassen. Sie enthalten keine Produktempfehlungen und kein Versprechen über
-> Kilogramm.
->
-> Als selbstständiger Vertriebspartner für Nahrungsergänzungsmittel hat er ein
-> wirtschaftliches Interesse an diesem Themenfeld. Er schreibt das in seine
-> Bücher hinein, statt es zu verschweigen.
->
-> Kontakt: markvondaak@icloud.com
+Inhaltlich deckungsgleich mit dem Kapitel „Ein Wort in eigener Sache" in
+Band 1 — nichts behaupten, was dort nicht steht.
 
 ---
 
