@@ -15,12 +15,13 @@ nicht steht — wer das Kapitel ändert, prüft diese Datei mit.
 
 **Wohin welche Fassung gehört**
 
-| Fassung | Ort |
-|---|---|
-| Eine Zeile | Umschlagrückseite, Beiträge, Signatur |
-| Kurz | Ende der Amazon-Beschreibung, als Block „Über den Autor" |
-| Mittel | Autorenprofil, wenn es knapp gehalten sein soll |
-| Lang | Author Central — Biografie |
+| Fassung | Person | Ort |
+|---|---|---|
+| Eine Zeile | 3. | Umschlagrückseite, Beiträge, Signatur |
+| Kurz | 3. | Ende der Amazon-Beschreibung, als Block „Über den Autor" |
+| Mittel | 3. | Autorenprofil, wenn es knapp gehalten sein soll |
+| **Ich-Fassung** | **1.** | **Author Central — Biografie** |
+| Lang | 3. | dieselbe Länge, falls die Ich-Form nicht gewollt ist |
 
 Das Feld für die Biografie liegt **nicht** im KDP-Formular, in dem der Titel
 angelegt wird, sondern im Autorenkonto bei Author Central
@@ -105,11 +106,69 @@ die auf dem Umschlag steht.
 
 ---
 
-## Lang — die Fassung für Author Central (1921 Zeichen)
+## Ich-Fassung für Author Central (1856 Zeichen)
 
-Diese hier kommt in das Biografie-Feld auf `author.amazon.de`. Zum Kopieren
-ohne die Zitatstriche: der Fließtext beginnt bei „Muss ich wirklich" und endet
-bei der E-Mail-Adresse.
+Dieselbe Biografie, selbst erzählt. Sie trifft den Ton der Bücher genauer: Das
+Kapitel „Ein Wort in eigener Sache" spricht in der Ich-Form und den Leser mit
+„du" an — diese Fassung tut dasselbe. Wer von der Produktseite auf die
+Autorenseite klickt, hört dieselbe Stimme wie im Buch.
+
+Amazon schreibt keine Person vor. Üblicher ist im Abschnitt „Über den Autor"
+die dritte Person, weil dort auch Verlagstexte stehen; erlaubt und verbreitet
+ist beides. Die Entscheidung ist eine Geschmacksfrage mit einer sachlichen
+Nebenwirkung: In der Ich-Form wird die Offenlegung zur eigenen Aussage
+(„ich verdiene daran") statt zu einer Angabe über einen Dritten — und genau so
+steht sie im Buch.
+
+**Nimm eine von beiden und bleib dabei.** Beide Fassungen an verschiedenen
+Stellen zu mischen, wirkt unentschlossen. Ausnahme ist der Block am Ende der
+Buchbeschreibung: Dort steht „Der Autor ist selbstständiger Vertriebspartner"
+bereits in der dritten Person, und das bleibt auch so — ein Klappentext
+spricht über das Buch, nicht als der Autor.
+
+> „Muss ich wirklich alle vier Mahlzeiten essen?" Diese Frage bekomme ich jede
+> Woche gestellt. Sie steht in keinem Konzeptpapier, aber sie entscheidet
+> darüber, ob jemand nach drei Wochen weitermacht oder aufgibt.
+>
+> Ich lebe in Wolfsburg und begleite Menschen bei der Umstellung ihrer
+> Ernährung. Nicht in der Theorie, sondern über Monate: durch die erste Woche,
+> durch die Tage, an denen die Waage stillsteht, und durch die Phase danach,
+> die fast alle weglassen.
+>
+> Ich bin kein Arzt, kein Ökotrophologe und kein Ernährungsberater mit
+> Kammerzulassung. Was ich mitbringe, ist die Praxis — und die Überzeugung,
+> dass ein Konzept nur so viel wert ist, wie im Alltag davon übrig bleibt.
+>
+> Genau daraus sind meine Bücher entstanden. Sie beantworten die Fragen, die
+> mir wirklich gestellt werden, und beschreiben die Stolpersteine, über die
+> Menschen tatsächlich stolpern — nicht die, die sich am Schreibtisch ausdenken
+> lassen. Die Regeln stehen vollständig darin, mit Mengen, Listen und
+> Übergängen, damit niemand raten muss.
+>
+> Was nicht darin steht, ist mir genauso wichtig: keine Produktempfehlung,
+> keine Marke, keine Zahl, die ich dir verspreche. Wie dein Körper reagiert,
+> hängt von zu vielen Dingen ab, die weder du noch ich kennen.
+>
+> Ich bin selbstständiger Vertriebspartner für Nahrungsergänzungsmittel und
+> habe damit ein wirtschaftliches Interesse an diesem Themenfeld. Das schreibe
+> ich lieber offen hin, als dass du es später herausfindest — und deshalb nennt
+> das Kapitel über Nährstoffe Qualitätskriterien statt Präparate. Damit kannst
+> du jedes Produkt prüfen, auch eines, mit dem ich nichts zu tun habe.
+>
+> Wo ein Ratgeber an seine Grenze kommt, sage ich das. Bei Beschwerden,
+> Medikamenten und Diagnosen ist deine Ärztin oder dein Arzt die richtige
+> Adresse — nicht ich und nicht ein Buch.
+>
+> Fragen zu den Büchern beantworte ich, so gut ich kann: markvondaak@icloud.com
+
+---
+
+## Lang in der dritten Person (1921 Zeichen)
+
+Dieselbe Biografie wie oben, nur über den Autor gesprochen statt von ihm.
+Nimm sie, wenn dir die Ich-Form zu nah ist oder wenn der Text an eine Stelle
+soll, an der über dich berichtet wird — eine Buchhandlung, eine Pressemappe,
+eine Veranstaltungsankündigung.
 
 > „Muss ich wirklich alle vier Mahlzeiten essen?" — Fragen wie diese bekommt
 > Mark von Daak jede Woche gestellt. Sie stehen in keinem Konzeptpapier, aber
