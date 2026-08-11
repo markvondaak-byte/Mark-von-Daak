@@ -1,6 +1,6 @@
 ---
 verwendung: Autorenprofil bei Amazon (Author Central) und „Über den Autor"
-grenze: Author-Central-Biografie 2500 Zeichen
+grenze: Author-Central-Biografie rund 2500 Zeichen — die Anzeige im Feld gilt
 ---
 
 # Autorenbiografie
@@ -33,6 +33,37 @@ und Autorenkonto verknüpft hat; das dauert nach der Veröffentlichung ein paar
 Tage. Bis dahin ist die Kurzfassung am Ende der Buchbeschreibung die einzige
 Stelle, an der ein Leser erfährt, wer da schreibt — deshalb steht sie dort
 auch dauerhaft.
+
+### Beim Eintragen in Author Central
+
+**Es ist ein reines Textfeld.** Kein Fettdruck, keine Links, keine Aufzählung.
+Was an Auszeichnung hineinkopiert wird, landet entweder als sichtbares
+Zeichensalat-Tag im Text oder wird stillschweigend verworfen. Die Fassung
+unten ist deshalb bewusst ohne jede Auszeichnung geschrieben.
+
+**Absätze nach dem Speichern nachsehen.** Amazon hat die Behandlung von
+Leerzeilen in diesem Feld über die Jahre mehrfach geändert; es kommt vor, dass
+der Text auf der Produktseite zu einem Block zusammenläuft, während er in der
+Vorschau noch getrennt aussah. Nach dem ersten Speichern eine Produktseite
+aufrufen und nachsehen. Läuft alles zusammen, ist die mittlere Fassung die
+bessere Wahl — ein Block von 850 Zeichen ist lesbar, einer von 1900 nicht.
+
+**Die Längenangabe im Feld gilt, nicht meine.** Amazon nennt für die Biografie
+je nach Oberfläche unterschiedliche Obergrenzen, meist rund 2500 Zeichen. Die
+lange Fassung liegt mit 1921 Zeichen darunter — sollte das Feld beim Speichern
+trotzdem abschneiden, kürzt du von hinten: Der letzte Absatz mit der
+E-Mail-Adresse kann entfallen, die Offenlegung als Vertriebspartner nicht.
+
+**Author Central ist nach Marktplatz getrennt.** Ein Profil auf `amazon.de`
+bedient die deutsche Produktseite. Erscheinen die Bücher zusätzlich auf
+`amazon.com` oder `amazon.co.uk`, ist die Biografie dort separat einzutragen —
+prüfe nach dem Speichern, welche Marktplätze dein Konto abdeckt, statt es
+anzunehmen.
+
+**Das Foto ist Teil der Wirkung.** Die Biografie steht auf der Autorenseite
+neben dem Bild; ohne Foto wirkt das Profil unfertig. Ein sachliches Porträt
+genügt — es muss kein Studiobild sein, aber es sollte dieselbe Person zeigen,
+die auf dem Umschlag steht.
 
 ---
 
@@ -74,7 +105,11 @@ auch dauerhaft.
 
 ---
 
-## Lang (rund 1900 Zeichen, für Author Central)
+## Lang — die Fassung für Author Central (1921 Zeichen)
+
+Diese hier kommt in das Biografie-Feld auf `author.amazon.de`. Zum Kopieren
+ohne die Zitatstriche: der Fließtext beginnt bei „Muss ich wirklich" und endet
+bei der E-Mail-Adresse.
 
 > „Muss ich wirklich alle vier Mahlzeiten essen?" — Fragen wie diese bekommt
 > Mark von Daak jede Woche gestellt. Sie stehen in keinem Konzeptpapier, aber
