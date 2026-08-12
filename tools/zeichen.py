@@ -1,23 +1,31 @@
 #!/usr/bin/env python3
-"""Misst die Verkaufstexte gegen die Grenzen, die Amazon durchsetzt.
+"""Prüft die Verkaufstexte gegen die Regeln, die Amazon durchsetzt.
 
     python3 tools/zeichen.py
 
-Hintergrund: Zwei Felder bei Amazon sind hart begrenzt, und beide schneiden
-ohne Warnung ab.
+Zwei Sorten Regeln, beide ohne Vorwarnung durchgesetzt:
+
+Längen. Die Felder schneiden ab oder nehmen den Text gar nicht an.
 
   Buchbeschreibung   4000 Zeichen, Auszeichnung zählt mit. Soll der Block
                      „Über den Autor" ans Ende, teilen sich Klappentext und
                      Biografie diese 4000 Zeichen.
-  Author-Central-Biografie   rund 2500 Zeichen. Amazon nennt je nach
-                     Oberfläche unterschiedliche Werte — die Anzeige im Feld
-                     gilt, diese Zahl ist die vorsichtige Annahme.
+  Author-Central-Biografie   100 bis 2500 Zeichen. Amazon empfiehlt zusätzlich,
+                     unter 1000 zu bleiben, damit die Anzeige auf kleinen
+                     Geräten lesbar ist — das ist hier ein Hinweis, kein Fehler.
+
+Inhalt. Author Central nimmt in der Biografie keine Kontaktdaten, keine
+Web-Adressen und keine Werbung an; eingereichte Texte mit E-Mail-Adresse
+werden abgelehnt. Für die Buchbeschreibung gilt dasselbe Verbot von
+Kontaktdaten. Dieses Skript findet die Fälle, die sich maschinell erkennen
+lassen — E-Mail, URL, Telefonnummer. Werbliche Formulierungen muss ein Mensch
+beurteilen.
 
 Gemessen wird, was tatsächlich ins Feld kopiert wird: bei den Beschreibungen
 der HTML-Block, bei der Biografie der Fließtext ohne die Zitatstriche des
 Markdowns.
 
-Exit-Code 1, sobald eine Kombination über ihrer Grenze liegt.
+Exit-Code 1 bei jeder Längenüberschreitung und jedem Regelverstoß.
 """
 
 import re
@@ -28,6 +36,19 @@ WURZEL = Path(__file__).resolve().parents[1]
 
 GRENZE_BESCHREIBUNG = 4000
 GRENZE_BIOGRAFIE = 2500
+EMPFEHLUNG_BIOGRAFIE = 1000
+MINDEST_BIOGRAFIE = 100
+
+# Was Amazon in Biografie und Beschreibung nicht zulässt, soweit maschinell
+# erkennbar. Die Umgehung "name at icloud dot com" steht bewusst mit drin:
+# Sie verstößt gegen dieselbe Regel, nur unauffälliger.
+VERBOTEN = {
+    r"[\w.+-]+@[\w-]+\.[\w.]+": "E-Mail-Adresse",
+    r"\b[\w.+-]+\s+(?:at|\(at\))\s+[\w-]+\s+(?:dot|\(dot\))\s+\w+":
+        "umschriebene E-Mail-Adresse",
+    r"https?://|\bwww\.\w|\b\w+\.(?:de|com|net|org)\b": "Web-Adresse",
+    r"\+49[\d /-]{6,}|\b0\d{3,4}[ /-]?\d{5,}\b": "Telefonnummer",
+}
 
 BIOGRAFIE = WURZEL / "autorenbiografie.md"
 
@@ -81,6 +102,16 @@ def zeile(name, laenge, grenze):
     return rest >= 0
 
 
+def regelverstoesse(name, text):
+    """Meldet Kontaktdaten und Web-Adressen. True, wenn der Text sauber ist."""
+    sauber = True
+    for muster, was in VERBOTEN.items():
+        for treffer in re.finditer(muster, text, re.IGNORECASE):
+            print(f"  RAUS  {name:<34} {was}: „{treffer.group(0)}“")
+            sauber = False
+    return sauber
+
+
 def main():
     if not BIOGRAFIE.is_file():
         raise SystemExit(f"Nicht gefunden: {BIOGRAFIE}")
@@ -88,14 +119,23 @@ def main():
     gut = True
 
     print("Author-Central-Biografie")
-    for ueberschrift in ("Ich-Fassung für Author Central",
+    for ueberschrift in ("Ich-Fassung kurz — die für Author Central",
+                         "Ich-Fassung lang",
                          "Lang in der dritten Person"):
         text = zitat(BIOGRAFIE, ueberschrift)
         if text is None:
             print(f"  ??    {ueberschrift} — Abschnitt fehlt")
             gut = False
             continue
-        gut &= zeile(ueberschrift, len(text), GRENZE_BIOGRAFIE)
+        kurz = ueberschrift.split(" —")[0]
+        gut &= zeile(kurz, len(text), GRENZE_BIOGRAFIE)
+        gut &= regelverstoesse(kurz, text)
+        if len(text) < MINDEST_BIOGRAFIE:
+            print(f"  KURZ  {kurz:<34} unter {MINDEST_BIOGRAFIE} Zeichen")
+            gut = False
+        elif len(text) > EMPFEHLUNG_BIOGRAFIE:
+            print(f"  hin.  {kurz:<34} über Amazons Empfehlung von "
+                  f"{EMPFEHLUNG_BIOGRAFIE} — auf dem Telefon eine Textwand")
 
     bio_html = html_bloecke(BIOGRAFIE)
     if len(bio_html) < 2:
@@ -114,6 +154,10 @@ def main():
         gut &= zeile(f"{band} allein", len(beschreibung), GRENZE_BESCHREIBUNG)
         gut &= zeile(f"{band} + Bio {'AB'[nummer]}",
                      len(beschreibung) + len(block) + 1, GRENZE_BESCHREIBUNG)
+        gut &= regelverstoesse(f"{band} Beschreibung", beschreibung)
+
+    for i, block in enumerate(bio_html[:2]):
+        gut &= regelverstoesse(f"Bio-Block {'AB'[i]}", block)
 
     if not gut:
         print("\nMindestens ein Text liegt über seiner Grenze.")

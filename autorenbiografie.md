@@ -1,6 +1,6 @@
 ---
 verwendung: Autorenprofil bei Amazon (Author Central) und „Über den Autor"
-grenze: Author-Central-Biografie rund 2500 Zeichen — die Anzeige im Feld gilt
+grenze: Author-Central-Biografie max. 2500 Zeichen, empfohlen unter 1000
 ---
 
 # Autorenbiografie
@@ -15,21 +15,51 @@ Verfügung steht.
 |---|---|---|
 | Eine Zeile | 3. | Umschlagrückseite, Beiträge, Signatur |
 | Kurz | 3. | Ende der Amazon-Beschreibung, als Block „Über den Autor" |
-| Mittel | 3. | Autorenprofil, wenn es knapp gehalten sein soll |
-| **Ich-Fassung** | **1.** | **Author Central — Biografie** |
-| Lang | 3. | dieselbe Länge, falls die Ich-Form nicht gewollt ist |
+| **Ich-Fassung kurz** | **1.** | **Author Central — Biografie** |
+| Ich-Fassung lang | 1. | dieselbe Stelle, wenn dir die kurze zu knapp ist |
+| Lang | 3. | Pressemappe, Buchhandel, Veranstaltungen |
 
 Das Feld für die Biografie liegt **nicht** im KDP-Formular, in dem der Titel
 angelegt wird, sondern im Autorenkonto bei Author Central
 (`author.amazon.de`). Von dort speist Amazon den Abschnitt „Über den Autor"
-auf den Produktseiten aller verknüpften Titel. Das Feld nimmt reinen Text —
-Auszeichnung wird verworfen, Absätze bleiben erhalten.
+auf den Produktseiten aller verknüpften Titel.
 
 Auf der Produktseite selbst erscheint die Biografie erst, wenn Amazon Titel
 und Autorenkonto verknüpft hat; das dauert nach der Veröffentlichung ein paar
 Tage. Bis dahin ist die Kurzfassung am Ende der Buchbeschreibung die einzige
 Stelle, an der ein Leser erfährt, wer da schreibt — deshalb steht sie dort
 auch dauerhaft.
+
+## Was Amazon im Biografie-Feld nicht zulässt
+
+Nachgeschlagen, nicht geraten — und der Grund, warum in den Fassungen unten
+keine E-Mail-Adresse mehr steht.
+
+| Regel | Folge |
+|---|---|
+| **Keine E-Mail-Adressen** | Bio wird abgelehnt |
+| Keine Telefonnummern, keine Postanschrift | Bio wird abgelehnt |
+| Keine Web-Adressen und keine Links | Bio wird abgelehnt |
+| Keine Werbung, keine Preise, keine Verfügbarkeitsangaben | Bio wird abgelehnt |
+| Keine zeitgebundenen Aussagen („ab sofort", „demnächst") | Bio wird abgelehnt |
+| Reiner Text — kein Fettdruck, kein HTML | Auszeichnung wird verworfen |
+| Mindestens 100, höchstens 2500 Zeichen | Feld nimmt es sonst nicht an |
+| Empfehlung von Amazon: unter 1000 Zeichen | zeigt sonst auf kleinen Geräten schlecht an |
+
+**Die Umgehung nicht mitmachen.** Es kursiert der Rat, die Adresse als „name
+at icloud dot com" zu schreiben, um den Filter auszutricksen. Das umgeht eine
+Regel, die Amazon bewusst gesetzt hat, und es steht in demselben Konto, in dem
+drei Titel hängen. Der Preis für ein bisschen Bequemlichkeit ist hier zu hoch.
+
+**Der Kontakt fehlt dadurch nirgends.** Er steht im Impressum jedes Buchs, wo
+er nach deutschem Recht ohnehin hingehört — inklusive Anschrift. Wer den Autor
+erreichen will, hat das Buch bereits in der Hand.
+
+**Zur Ich-Form:** Amazon schreibt keine Person vor, beides ist zulässig. Die
+dritte Person ist die Konvention und wirkt auf einer Verkaufsseite eine Spur
+distanzierter; die Ich-Form trifft den Ton deiner Bücher. Da du ausdrücklich
+eine Autobiografie wolltest, steht sie unten an erster Stelle — die dritte
+Person daneben, falls du es dir anders überlegst.
 
 ## Die Angaben, auf denen alles steht
 
@@ -93,18 +123,43 @@ Glaubwürdigkeit, die die elf Jahre erzeugen.
 
 ---
 
-## Ich-Fassung für Author Central
+## Ich-Fassung kurz — die für Author Central
 
-Diese kommt in das Biografie-Feld auf `author.amazon.de`. Sie trifft den Ton
-der Bücher genauer: Das Kapitel „Ein Wort in eigener Sache" spricht in der
-Ich-Form und den Leser mit „du" an — diese Fassung tut dasselbe. Wer von der
-Produktseite auf die Autorenseite klickt, hört dieselbe Stimme wie im Buch.
+**Das ist die Fassung zum Eintragen.** Sie liegt unter Amazons empfohlenen
+1000 Zeichen, enthält keine Kontaktdaten und keine Auszeichnung. Sie trifft
+den Ton der Bücher: Das Kapitel „Ein Wort in eigener Sache" spricht in der
+Ich-Form und den Leser mit „du" an — hier steht dieselbe Stimme.
 
-Amazon schreibt keine Person vor. Üblicher ist im Abschnitt „Über den Autor"
-die dritte Person, weil dort auch Verlagstexte stehen; erlaubt und verbreitet
-ist beides. Die Ich-Form hat eine sachliche Nebenwirkung: Die Offenlegung wird
-zur eigenen Aussage („ich verdiene daran") statt zu einer Angabe über einen
+Die Ich-Form hat dabei eine sachliche Nebenwirkung: Die Offenlegung wird zur
+eigenen Aussage („ich verdiene daran") statt zu einer Angabe über einen
 Dritten — und genau so steht sie im Buch.
+
+> „Muss ich wirklich alle vier Mahlzeiten essen?" Diese Frage bekomme ich jede
+> Woche gestellt. Sie steht in keinem Konzeptpapier und entscheidet trotzdem
+> darüber, ob jemand nach drei Wochen weitermacht.
+>
+> Ich bin Jahrgang 1990, lebe in Wolfsburg und arbeite seit elf Jahren als
+> Fitness- und Gesundheitstrainer. Dabei habe ich vor allem eines gesehen: Am
+> Training scheitert kaum jemand. Es scheitert am Essen.
+>
+> Deshalb begleite ich Menschen bei der Umstellung ihrer Ernährung, über
+> Monate und mit allem, was dabei schiefgeht. Als Vater von zwei Kindern kenne
+> ich den Maßstab, der zählt: Es muss neben Terminen und einem vollen
+> Arbeitstag funktionieren.
+>
+> Ich bin kein Arzt und kein Ernährungsberater mit Kammerzulassung. Was ich
+> mitbringe, ist die Praxis. Nebenberuflich baue ich mir eine Selbstständigkeit
+> als Vertriebspartner für Nahrungsergänzungsmittel auf und habe damit ein
+> wirtschaftliches Interesse an diesem Themenfeld — das schreibe ich lieber
+> offen hin, als dass du es später herausfindest.
+
+---
+
+## Ich-Fassung lang
+
+Unter der harten Grenze von 2500 Zeichen, aber über Amazons Empfehlung von
+1000. Zulässig ist sie; auf einem Telefon ist sie eine Wand aus Text. Nimm sie
+nur, wenn dir die kurze Fassung zu wenig ist.
 
 > „Muss ich wirklich alle vier Mahlzeiten essen?" Diese Frage bekomme ich jede
 > Woche gestellt. Sie steht in keinem Konzeptpapier, aber sie entscheidet
@@ -146,8 +201,6 @@ Dritten — und genau so steht sie im Buch.
 > Wo ein Ratgeber an seine Grenze kommt, sage ich das. Bei Beschwerden,
 > Medikamenten und Diagnosen ist deine Ärztin oder dein Arzt die richtige
 > Adresse — nicht ich und nicht ein Buch.
->
-> Fragen zu den Büchern beantworte ich, so gut ich kann: markvondaak@icloud.com
 
 ---
 
@@ -194,8 +247,6 @@ Veranstaltungsankündigung.
 > Wo ein Ratgeber an seine Grenze kommt, sagt er das. Bei Beschwerden,
 > Medikamenten und Diagnosen ist die Ärztin oder der Arzt die richtige Adresse
 > — nicht ein Buch.
->
-> Fragen zu den Büchern beantwortet er, so gut er kann: markvondaak@icloud.com
 
 ---
 
@@ -309,9 +360,35 @@ belegbar und tragen die Biografie allein.
 ist die ganze Angabe. Alles Weitere sind Daten von Personen, die nicht gefragt
 wurden.
 
-**Die Postanschrift gehört ins Impressum, nicht in die Biografie.** Im Buch
-steht sie, weil sie dort hingehört. Im Autorenprofil steht sie ohne Anlass
-öffentlich; die E-Mail-Adresse genügt.
+**Keine Kontaktdaten — das ist Amazons Regel, nicht meine.** Weder
+E-Mail-Adresse noch Telefonnummer noch Postanschrift noch Web-Adresse, und
+zwar in der Biografie *und* in der Buchbeschreibung. Author Central lehnt
+Biografien mit E-Mail-Adresse ab; in der Beschreibung untersagen die
+Metadaten-Richtlinien dasselbe. `tools/zeichen.py` prüft das mit.
+
+---
+
+## Woher die Regeln stammen
+
+Nachgeschlagen im August 2026. Amazon ändert Hilfeseiten ohne Ankündigung —
+wenn eine Angabe hier alt aussieht, gilt die Anzeige im Feld, nicht diese
+Datei.
+
+- KDP, Metadaten-Richtlinien für Bücher — Verbot von Telefonnummern,
+  Postanschriften, E-Mail-Adressen und Web-Adressen in Titel, Beschreibung
+  und Aufzählungspunkten der Produktseite:
+  `kdp.amazon.com/en_US/help/topic/G201097560`
+- KDP, Inhaltsrichtlinien — Verbot von Inhalten, die vorrangig andere Produkte
+  oder Dienstleistungen bewerben: `kdp.amazon.com/en_US/help/topic/G200672390`
+- Author Central: keine Telefonnummern, E-Mail-Adressen, Postanschriften,
+  Web-Adressen, zeitgebundenen Aussagen, Werbung, Preis- oder
+  Verfügbarkeitsangaben in der Biografie; reiner Text ohne Auszeichnung;
+  100 bis 2500 Zeichen bei einer Empfehlung von unter 1000.
+
+Die Author-Central-Angaben stammen aus mehreren übereinstimmenden
+Sekundärquellen, nicht aus Amazons eigener Hilfeseite: `kdp.amazon.com` ist
+aus dieser Arbeitsumgebung nicht erreichbar. Sie decken sich mit dem, was das
+Feld selbst anzeigt — beim ersten Speichern trotzdem einmal gegenlesen.
 
 ---
 
