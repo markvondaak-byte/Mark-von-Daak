@@ -1,0 +1,887 @@
+<title>Dienstplan Fitnessstudio</title>
+<style>
+  :root {
+    --grund: #F4F6F9;
+    --flaeche: #FFFFFF;
+    --flaeche-2: #EDF1F5;
+    --tinte: #131820;
+    --gedaempft: #5A6572;
+    --linie: #DBE1E8;
+    --linie-stark: #C3CCD6;
+    --akzent: #1B4F72;
+    --frueh: #2F6F9B;
+    --frueh-fl: #E4EEF6;
+    --spaet: #A96420;
+    --spaet-fl: #F8EBDC;
+    --zwischen: #3B7A4A;
+    --zwischen-fl: #E3F0E5;
+    --tages: #67518F;
+    --tages-fl: #ECE7F5;
+    --zusatz: #5A6572;
+    --zusatz-fl: #E9EDF1;
+    --schatten: 0 1px 2px rgba(19, 24, 32, .06), 0 6px 16px -10px rgba(19, 24, 32, .18);
+
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --grund: #0F141A;
+      --flaeche: #171E26;
+      --flaeche-2: #1E2731;
+      --tinte: #E7EDF3;
+      --gedaempft: #96A3B1;
+      --linie: #29333E;
+      --linie-stark: #3A4753;
+      --akzent: #7FB0D4;
+      --frueh: #7EB6DC;
+      --frueh-fl: #1A2B39;
+      --spaet: #DFA265;
+      --spaet-fl: #322416;
+      --zwischen: #82BE8F;
+      --zwischen-fl: #1B2C21;
+      --tages: #B0A0D6;
+      --tages-fl: #262138;
+      --zusatz: #96A3B1;
+      --zusatz-fl: #212A34;
+      --schatten: 0 1px 2px rgba(0, 0, 0, .4), 0 8px 20px -12px rgba(0, 0, 0, .6);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --grund: #0F141A;
+    --flaeche: #171E26;
+    --flaeche-2: #1E2731;
+    --tinte: #E7EDF3;
+    --gedaempft: #96A3B1;
+    --linie: #29333E;
+    --linie-stark: #3A4753;
+    --akzent: #7FB0D4;
+    --frueh: #7EB6DC;
+    --frueh-fl: #1A2B39;
+    --spaet: #DFA265;
+    --spaet-fl: #322416;
+    --zwischen: #82BE8F;
+    --zwischen-fl: #1B2C21;
+    --tages: #B0A0D6;
+    --tages-fl: #262138;
+    --zusatz: #96A3B1;
+    --zusatz-fl: #212A34;
+    --schatten: 0 1px 2px rgba(0, 0, 0, .4), 0 8px 20px -12px rgba(0, 0, 0, .6);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--grund);
+    color: var(--tinte);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .huelle {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 52px;
+  }
+
+  /* --- Kopf --- */
+  .kopf { display: flex; flex-direction: column; gap: 18px; }
+
+  .augenbraue {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--akzent);
+  }
+
+  h1 {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: clamp(30px, 5.4vw, 46px);
+    line-height: 1.1;
+    letter-spacing: -.015em;
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  .vorspann {
+    margin: 0;
+    max-width: 62ch;
+    color: var(--gedaempft);
+    font-size: 16px;
+  }
+
+  .fakten {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    background: var(--flaeche);
+    border: 1px solid var(--linie);
+    margin-top: 6px;
+  }
+
+  .fakt {
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    border-right: 1px solid var(--linie);
+    border-bottom: 1px solid var(--linie);
+  }
+
+  .fakt-wert {
+    font-family: var(--mono);
+    font-size: 22px;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -.02em;
+  }
+
+  .fakt-name {
+    font-size: 12px;
+    color: var(--gedaempft);
+    letter-spacing: .02em;
+  }
+
+  /* --- Abschnitte --- */
+  section { display: flex; flex-direction: column; gap: 18px; }
+
+  h2 {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 24px;
+    letter-spacing: -.01em;
+    margin: 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--akzent);
+  }
+
+  h3 {
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 14px;
+    margin: 0;
+    letter-spacing: .01em;
+  }
+
+  .hinweis { margin: 0; color: var(--gedaempft); font-size: 14px; max-width: 68ch; }
+
+  /* --- Wochenwahl --- */
+  .wochen-leiste {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .wochen-knopf {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--gedaempft);
+    background: var(--flaeche);
+    border: 1px solid var(--linie-stark);
+    padding: 9px 15px;
+    cursor: pointer;
+    transition: color .15s, border-color .15s, background .15s;
+  }
+
+  .wochen-knopf:hover { color: var(--tinte); border-color: var(--akzent); }
+
+  .wochen-knopf[aria-selected="true"] {
+    background: var(--akzent);
+    border-color: var(--akzent);
+    color: var(--grund);
+  }
+
+  .wochen-knopf:focus-visible {
+    outline: 2px solid var(--akzent);
+    outline-offset: 2px;
+  }
+
+  .wochen-titel {
+    font-size: 14px;
+    color: var(--gedaempft);
+    font-style: italic;
+    font-family: var(--serif);
+  }
+
+  /* --- Planraster --- */
+  .rollbereich { overflow-x: auto; border: 1px solid var(--linie); background: var(--flaeche); }
+
+  .raster {
+    display: grid;
+    grid-template-columns: 168px repeat(7, minmax(126px, 1fr));
+    min-width: 900px;
+  }
+
+  .zelle {
+    border-right: 1px solid var(--linie);
+    border-bottom: 1px solid var(--linie);
+    padding: 9px 10px;
+  }
+
+  .raster > .zelle:nth-child(8n) { border-right: none; }
+
+  .kopf-zelle {
+    background: var(--flaeche-2);
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    position: sticky;
+    top: 0;
+  }
+
+  .kopf-tag { font-weight: 600; font-size: 14px; }
+
+  .kopf-zeit {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--gedaempft);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .kopf-wochenende .kopf-tag { color: var(--tages); }
+
+  .person {
+    background: var(--flaeche-2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    border-right: 1px solid var(--linie-stark);
+  }
+
+  .person-name { font-weight: 600; font-size: 14px; }
+
+  .person-meta {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--gedaempft);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .tag-zelle { display: flex; flex-direction: column; gap: 4px; min-height: 74px; }
+
+  .block {
+    border: 1px solid;
+    border-radius: 2px;
+    padding: 4px 7px;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .block-zeit {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -.02em;
+    font-weight: 600;
+  }
+
+  .block-name { font-size: 11px; opacity: .85; }
+
+  .b-F { background: var(--frueh-fl); border-color: var(--frueh); color: var(--frueh); }
+  .b-S { background: var(--spaet-fl); border-color: var(--spaet); color: var(--spaet); }
+  .b-Z { background: var(--zwischen-fl); border-color: var(--zwischen); color: var(--zwischen); }
+  .b-T { background: var(--tages-fl); border-color: var(--tages); color: var(--tages); }
+  .b-B, .b-P, .b-V {
+    background: var(--zusatz-fl);
+    border-color: var(--linie-stark);
+    color: var(--zusatz);
+    border-style: dashed;
+  }
+
+  .frei {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--gedaempft);
+    opacity: .55;
+    align-self: center;
+    margin: auto 0;
+  }
+
+  .tages-summe {
+    margin-top: auto;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--gedaempft);
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* --- Tabellen --- */
+  .tabelle-huelle { overflow-x: auto; border: 1px solid var(--linie); background: var(--flaeche); }
+
+  table { border-collapse: collapse; width: 100%; min-width: 620px; }
+
+  th, td {
+    text-align: right;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--linie);
+    font-variant-numeric: tabular-nums;
+  }
+
+  th {
+    background: var(--flaeche-2);
+    font-size: 11px;
+    font-family: var(--mono);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--gedaempft);
+    font-weight: 500;
+  }
+
+  th:first-child, td:first-child { text-align: left; }
+  td:first-child { font-weight: 600; }
+  td { font-family: var(--mono); font-size: 13px; }
+  td:first-child, td:last-child { font-family: var(--sans); }
+  td:last-child { text-align: left; color: var(--gedaempft); font-size: 13px; }
+  tbody tr:last-child td { border-bottom: none; }
+  tr.summe td { background: var(--flaeche-2); font-weight: 600; }
+
+  .konto-plus { color: var(--spaet); }
+  .konto-null { color: var(--zwischen); }
+
+  /* --- Besetzung --- */
+  .besetzung { display: flex; flex-direction: column; gap: 3px; }
+
+  .bes-zeile { display: grid; grid-template-columns: 42px 1fr; align-items: center; gap: 10px; }
+
+  .bes-tag {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--gedaempft);
+    font-weight: 600;
+  }
+
+  .bes-balken { display: grid; grid-template-columns: repeat(36, 1fr); gap: 1px; height: 22px; }
+
+  .bes-feld { background: var(--flaeche-2); }
+  .bes-1 { background: var(--frueh); opacity: .45; }
+  .bes-2 { background: var(--frueh); }
+
+  .bes-lineal {
+    display: grid;
+    grid-template-columns: 42px 1fr;
+    gap: 10px;
+    margin-top: 4px;
+  }
+
+  .bes-marken {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--gedaempft);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .bes-marken span { border-left: 1px solid var(--linie-stark); padding-left: 4px; }
+
+  /* --- Legende --- */
+  .legende {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    background: var(--flaeche);
+    border: 1px solid var(--linie);
+  }
+
+  .leg-karte {
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    border-right: 1px solid var(--linie);
+    border-bottom: 1px solid var(--linie);
+  }
+
+  .leg-kopf { display: flex; align-items: baseline; gap: 9px; }
+
+  .leg-code {
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 13px;
+    width: 20px;
+    height: 20px;
+    display: grid;
+    place-items: center;
+    border: 1px solid;
+    border-radius: 2px;
+    flex: none;
+  }
+
+  .leg-name { font-weight: 600; font-size: 14px; }
+
+  .leg-zeiten {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--gedaempft);
+    font-variant-numeric: tabular-nums;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  /* --- Regelwerk --- */
+  .regeln { display: flex; flex-direction: column; gap: 0; border-top: 1px solid var(--linie); }
+
+  .regel {
+    display: grid;
+    grid-template-columns: 190px 1fr;
+    gap: 20px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--linie);
+  }
+
+  .regel-name { font-weight: 600; font-size: 14px; }
+  .regel-quelle { font-family: var(--mono); font-size: 11px; color: var(--akzent); display: block; margin-top: 2px; }
+  .regel-text { margin: 0; color: var(--gedaempft); font-size: 14px; }
+
+  .fuss {
+    color: var(--gedaempft);
+    font-size: 13px;
+    border-top: 1px solid var(--linie);
+    padding-top: 20px;
+    max-width: 68ch;
+  }
+
+  @media (max-width: 720px) {
+    .huelle { padding: 28px 14px 60px; gap: 40px; }
+    .regel { grid-template-columns: 1fr; gap: 4px; }
+    .fakt-wert { font-size: 19px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+</style>
+
+<div class="huelle">
+
+  <header class="kopf">
+    <div class="augenbraue">4-Wochen-Rotation · 5 Beschäftigte</div>
+    <h1>Dienstplan Fitnessstudio</h1>
+    <p class="vorspann">
+      Rollierender Plan für zwei Vollzeit-, zwei Teilzeit- und eine Minijob-Kraft.
+      Er deckt 102 Öffnungsstunden pro Woche ab, hält abends eine Doppelbesetzung
+      vor und läuft nach Woche 4 wieder von vorn los.
+    </p>
+    <div class="fakten">
+      <div class="fakt"><span class="fakt-wert">102 h</span><span class="fakt-name">Öffnung je Woche</span></div>
+      <div class="fakt"><span class="fakt-wert">129,25 h</span><span class="fakt-name">geplante Arbeit je Woche</span></div>
+      <div class="fakt"><span class="fakt-wert">19</span><span class="fakt-name">Schichten je Woche</span></div>
+      <div class="fakt"><span class="fakt-wert">22,5 h</span><span class="fakt-name">Doppelbesetzung abends</span></div>
+    </div>
+  </header>
+
+  <section>
+    <h2>Der Plan</h2>
+    <div class="wochen-leiste" role="tablist" aria-label="Woche wählen">
+      <button class="wochen-knopf" role="tab" aria-selected="true" data-woche="1">Woche 1</button>
+      <button class="wochen-knopf" role="tab" aria-selected="false" data-woche="2">Woche 2</button>
+      <button class="wochen-knopf" role="tab" aria-selected="false" data-woche="3">Woche 3</button>
+      <button class="wochen-knopf" role="tab" aria-selected="false" data-woche="4">Woche 4</button>
+    </div>
+    <p class="wochen-titel" id="wochen-titel"></p>
+    <div class="rollbereich">
+      <div class="raster" id="raster"></div>
+    </div>
+    <p class="hinweis">
+      Angegeben ist die Anwesenheit. Die Pause ist in den Stunden am Fuß jeder
+      Zelle bereits abgezogen. Gestrichelte Blöcke sind Büro- und Aufgabenzeit
+      ohne Thekendienst.
+    </p>
+  </section>
+
+  <section>
+    <h2>Besetzung im Tagesverlauf</h2>
+    <p class="hinweis">
+      Wie viele Personen zwischen 06:00 und 24:00 im Studio stehen. Das Raster
+      ist in allen vier Wochen gleich — die Rotation tauscht nur, wer die
+      Schicht übernimmt.
+    </p>
+    <div class="besetzung" id="besetzung"></div>
+    <div class="bes-lineal">
+      <span></span>
+      <div class="bes-marken">
+        <span>06</span><span>09</span><span>12</span><span>15</span><span>18</span><span>21</span>
+      </div>
+    </div>
+    <p class="hinweis">
+      Blass = eine Person, kräftig = zwei. Die Doppelbesetzung liegt auf der
+      Abendspitze und auf der Stunde, in der Früh- und Spätdienst sich übergeben.
+    </p>
+  </section>
+
+  <section>
+    <h2>Stundenkonto</h2>
+    <p class="hinweis">
+      Die Wochenstunden schwanken, weil der Wochenenddienst wandert. Über vier
+      Wochen trifft jede Person ihren Vertrag.
+    </p>
+    <div class="tabelle-huelle">
+      <table>
+        <thead>
+          <tr>
+            <th>Mitarbeiter/in</th><th>W 1</th><th>W 2</th><th>W 3</th><th>W 4</th>
+            <th>Ist</th><th>Soll</th><th>Konto</th>
+          </tr>
+        </thead>
+        <tbody id="konto"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Wochenende</h2>
+    <p class="hinweis">
+      Über den Zyklus arbeitet jede Person zwei Wochenendtage. Niemand hat zwei
+      Wochenenden hintereinander voll besetzt, und die Minijob-Kraft bleibt außen
+      vor — zwei feste Abenddienste passen besser zu neun Stunden.
+    </p>
+    <div class="tabelle-huelle">
+      <table>
+        <thead><tr><th>Woche</th><th>Samstag</th><th>Sonntag</th><th>frei am ganzen Wochenende</th></tr></thead>
+        <tbody>
+          <tr><td>Woche 1</td><td>TZ 1</td><td>TZ 2</td><td>VZ 1, VZ 2, MJ</td></tr>
+          <tr><td>Woche 2</td><td>TZ 2</td><td>TZ 1</td><td>VZ 1, VZ 2, MJ</td></tr>
+          <tr><td>Woche 3</td><td>VZ 2</td><td>VZ 1</td><td>TZ 1, TZ 2, MJ</td></tr>
+          <tr><td>Woche 4</td><td>VZ 1</td><td>VZ 2</td><td>TZ 1, TZ 2, MJ</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Schichten</h2>
+    <div class="legende">
+      <div class="leg-karte">
+        <div class="leg-kopf">
+          <span class="leg-code b-F">F</span><span class="leg-name">Frühdienst</span>
+        </div>
+        <div class="leg-zeiten">
+          <span>Mo · Mi · Fr &nbsp;06:00–14:30</span>
+          <span>Di · Do &nbsp;08:00–16:30</span>
+          <span>8,0 h · 30 min Pause</span>
+        </div>
+      </div>
+      <div class="leg-karte">
+        <div class="leg-kopf">
+          <span class="leg-code b-S">S</span><span class="leg-name">Spätdienst</span>
+        </div>
+        <div class="leg-zeiten">
+          <span>Mo · Mi · Fr &nbsp;13:30–22:00</span>
+          <span>Di · Do &nbsp;15:30–24:00</span>
+          <span>8,0 h · 30 min Pause</span>
+        </div>
+      </div>
+      <div class="leg-karte">
+        <div class="leg-kopf">
+          <span class="leg-code b-Z">Z</span><span class="leg-name">Zwischendienst</span>
+        </div>
+        <div class="leg-zeiten">
+          <span>Mo · Mi · Fr &nbsp;16:30–21:00</span>
+          <span>Di · Do &nbsp;17:30–22:00</span>
+          <span>4,5 h · ohne Pause</span>
+        </div>
+      </div>
+      <div class="leg-karte">
+        <div class="leg-kopf">
+          <span class="leg-code b-T">T</span><span class="leg-name">Tagesdienst</span>
+        </div>
+        <div class="leg-zeiten">
+          <span>Sa · So &nbsp;09:00–20:00</span>
+          <span>10,0 h · 60 min Pause</span>
+        </div>
+      </div>
+      <div class="leg-karte">
+        <div class="leg-kopf">
+          <span class="leg-code b-B">B</span><span class="leg-name">Bürozeit</span>
+        </div>
+        <div class="leg-zeiten">
+          <span>an den Frühdienst angehängt</span>
+          <span>1,0 h · Vollzeit</span>
+        </div>
+      </div>
+      <div class="leg-karte">
+        <div class="leg-kopf">
+          <span class="leg-code b-P">P</span><span class="leg-name">Studioaufgaben</span>
+        </div>
+        <div class="leg-zeiten">
+          <span>vor dem Zwischendienst</span>
+          <span>1,5 h · Probetraining, Gerätecheck</span>
+        </div>
+      </div>
+      <div class="leg-karte">
+        <div class="leg-kopf">
+          <span class="leg-code b-V">V</span><span class="leg-name">Verwaltung</span>
+        </div>
+        <div class="leg-zeiten">
+          <span>vor dem Zwischendienst, 30 min Pause dazwischen</span>
+          <span>3,5 h · Vollzeit</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Was der Plan einhält</h2>
+    <div class="regeln">
+      <div class="regel">
+        <div>
+          <div class="regel-name">Ruhezeit</div>
+          <span class="regel-quelle">§ 5 ArbZG</span>
+        </div>
+        <p class="regel-text">
+          Mindestens 11 Stunden zwischen zwei Diensten. Deshalb folgt auf einen
+          Spätdienst nie ein Frühdienst am nächsten Tag — und wer sonntags bis
+          20:00 arbeitet, hat am Montag frei.
+        </p>
+      </div>
+      <div class="regel">
+        <div>
+          <div class="regel-name">Höchstarbeitszeit</div>
+          <span class="regel-quelle">§ 3 ArbZG</span>
+        </div>
+        <p class="regel-text">
+          Höchstens 10 Stunden am Tag. Der Wochenend-Tagesdienst nutzt diesen
+          Rahmen aus; der Ausgleich auf 8 Stunden im Sechs-Monats-Schnitt ist
+          durch die übrigen Wochen gedeckt.
+        </p>
+      </div>
+      <div class="regel">
+        <div>
+          <div class="regel-name">Pausen</div>
+          <span class="regel-quelle">§ 4 ArbZG</span>
+        </div>
+        <p class="regel-text">
+          30 Minuten bei mehr als 6 Stunden, 45 Minuten bei mehr als 9 Stunden.
+          Der Zwischendienst bleibt mit 4,5 Stunden darunter.
+        </p>
+      </div>
+      <div class="regel">
+        <div>
+          <div class="regel-name">Nachtarbeit</div>
+          <span class="regel-quelle">§ 2 Abs. 4 ArbZG</span>
+        </div>
+        <p class="regel-text">
+          Der Spätdienst an Di und Do endet um 24:00 und liegt damit nur eine
+          Stunde in der Nachtzeit. Das ist keine Nachtarbeit im Rechtssinn — es
+          entsteht kein Anspruch auf Nachtzuschlag.
+        </p>
+      </div>
+      <div class="regel">
+        <div>
+          <div class="regel-name">Sonntagsarbeit</div>
+          <span class="regel-quelle">§ 10 Abs. 1 Nr. 4 ArbZG</span>
+        </div>
+        <p class="regel-text">
+          Im Sportbetrieb zulässig. Der Ersatzruhetag liegt jeweils in derselben
+          Woche. Auf 13 Sonntagsdienste im Jahr kommen 39 freie Sonntage —
+          gefordert sind 15.
+        </p>
+      </div>
+      <div class="regel">
+        <div>
+          <div class="regel-name">Geringfügigkeitsgrenze</div>
+          <span class="regel-quelle">603 € im Monat, 2026</span>
+        </div>
+        <p class="regel-text">
+          9,0 Stunden pro Woche sind 39,0 Stunden im Monat. Bei 13,90 €
+          Mindestlohn ergibt das 542,10 € — rund 61 € Abstand zur Grenze. Der
+          trägt auch Monate mit fünf Abrechnungswochen und eine gelegentliche
+          Vertretungsschicht.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Gesetzte Annahmen</h2>
+    <p class="hinweis">
+      Diese Punkte waren nicht vorgegeben. Sie sind so gesetzt, dass der Plan
+      aufgeht — bitte gegen die tatsächlichen Verträge prüfen.
+    </p>
+    <div class="regeln">
+      <div class="regel">
+        <div class="regel-name">Teilzeit: 20 h</div>
+        <p class="regel-text">Je 20 Wochenstunden für beide Teilzeitkräfte.</p>
+      </div>
+      <div class="regel">
+        <div class="regel-name">Minijob: 9 h</div>
+        <p class="regel-text">
+          Statt der rechnerisch möglichen 10 Stunden, damit die
+          Geringfügigkeitsgrenze auch in langen Monaten sicher hält.
+        </p>
+      </div>
+      <div class="regel">
+        <div class="regel-name">Mindestbesetzung</div>
+        <p class="regel-text">
+          Eine Person während der gesamten Öffnungszeit, abends zwei.
+        </p>
+      </div>
+      <div class="regel">
+        <div class="regel-name">Nicht eingerechnet</div>
+        <p class="regel-text">
+          Urlaub, Krankheit, Feiertage, Kurse und Reinigung durch Dienstleister.
+          Fällt jemand aus, ist der Zwischendienst der erste Posten zum
+          Streichen — die Öffnung bleibt dann trotzdem besetzt.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <p class="fuss">
+    Der Plan ist als Arbeitsgrundlage gedacht und ersetzt keine
+    arbeitsrechtliche Beratung. Tarifverträge, Betriebsvereinbarungen und
+    einzelne Arbeitsverträge können strengere Regeln enthalten als das
+    Arbeitszeitgesetz.
+  </p>
+
+</div>
+
+<script>
+  const PLAN = {"tage":["Mo","Di","Mi","Do","Fr","Sa","So"],"oeffnung":{"Mo":["06:00","22:00"],"Di":["08:00","24:00"],"Mi":["06:00","22:00"],"Do":["08:00","24:00"],"Fr":["06:00","22:00"],"Sa":["09:00","20:00"],"So":["09:00","20:00"]},"team":[{"k":"VZ 1","name":"VZ 1 — Studioleitung","vertrag":"Vollzeit","std":40.0},{"k":"VZ 2","name":"VZ 2 — Trainer/in","vertrag":"Vollzeit","std":40.0},{"k":"TZ 1","name":"TZ 1 — Trainer/in","vertrag":"Teilzeit","std":20.0},{"k":"TZ 2","name":"TZ 2 — Trainer/in","vertrag":"Teilzeit","std":20.0},{"k":"MJ","name":"MJ — Aushilfe Theke","vertrag":"Minijob","std":9.0}],"wochen":{"1":{"titel":"Woche 1 — VZ 1 Frühwoche · VZ 2 Spätwoche · Wochenende TZ 1 / TZ 2","personen":{"VZ 1":{"Mo":{"bloecke":[{"code":"F","von":"06:00","bis":"14:30","h":8.0}],"std":8.0},"Di":{"bloecke":[{"code":"F","von":"08:00","bis":"16:30","h":8.0}],"std":8.0},"Mi":{"bloecke":[{"code":"F","von":"06:00","bis":"14:30","h":8.0},{"code":"B","von":"14:30","bis":"15:30","h":1.0}],"std":9.0},"Do":{"bloecke":[{"code":"F","von":"08:00","bis":"16:30","h":8.0}],"std":8.0},"Fr":{"bloecke":[{"code":"F","von":"06:00","bis":"14:30","h":8.0}],"std":8.0},"Sa":{"bloecke":[],"std":0},"So":{"bloecke":[],"std":0}},"VZ 2":{"Mo":{"bloecke":[{"code":"B","von":"12:30","bis":"13:30","h":1.0},{"code":"S","von":"13:30","bis":"22:00","h":8.0}],"std":9.0},"Di":{"bloecke":[{"code":"S","von":"15:30","bis":"24:00","h":8.0}],"std":8.0},"Mi":{"bloecke":[{"code":"S","von":"13:30","bis":"22:00","h":8.0}],"std":8.0},"Do":{"bloecke":[{"code":"S","von":"15:30","bis":"24:00","h":8.0}],"std":8.0},"Fr":{"bloecke":[{"code":"V","von":"12:30","bis":"16:00","h":3.5},{"code":"Z","von":"16:30","bis":"21:00","h":4.5}],"std":8.0},"Sa":{"bloecke":[],"std":0},"So":{"bloecke":[],"std":0}},"TZ 1":{"Mo":{"bloecke":[{"code":"P","von":"15:00","bis":"16:30","h":1.5},{"code":"Z","von":"16:30","bis":"21:00","h":4.5}],"std":6.0},"Di":{"bloecke":[],"std":0},"Mi":{"bloecke":[],"std":0},"Do":{"bloecke":[],"std":0},"Fr":{"bloecke":[{"code":"S","von":"13:30","bis":"22:00","h":8.0}],"std":8.0},"Sa":{"bloecke":[{"code":"T","von":"09:00","bis":"20:00","h":10.0}],"std":10.0},"So":{"bloecke":[],"std":0}},"TZ 2":{"Mo":{"bloecke":[],"std":0},"Di":{"bloecke":[{"code":"P","von":"16:00","bis":"17:30","h":1.5},{"code":"Z","von":"17:30","bis":"22:00","h":4.5}],"std":6.0},"Mi":{"bloecke":[],"std":0},"Do":{"bloecke":[],"std":0},"Fr":{"bloecke":[],"std":0},"Sa":{"bloecke":[],"std":0},"So":{"bloecke":[{"code":"T","von":"09:00","bis":"20:00","h":10.0}],"std":10.0}},"MJ":{"Mo":{"bloecke":[],"std":0},"Di":{"bloecke":[],"std":0},"Mi":{"bloecke":[{"code":"Z","von":"16:30","bis":"21:00","h":4.5}],"std":4.5},"Do":{"bloecke":[{"code":"Z","von":"17:30","bis":"22:00","h":4.5}],"std":4.5},"Fr":{"bloecke":[],"std":0},"Sa":{"bloecke":[],"std":0},"So":{"bloecke":[],"std":0}}}},"2":{"titel":"Woche 2 — VZ 2 Frühwoche · VZ 1 Spätwoche · Wochenende TZ 2 / TZ 1","personen":{"VZ 1":{"Mo":{"bloecke":[{"code":"B","von":"12:30","bis":"13:30","h":1.0},{"code":"S","von":"13:30","bis":"22:00","h":8.0}],"std":9.0},"Di":{"bloecke":[{"code":"S","von":"15:30","bis":"24:00","h":8.0}],"std":8.0},"Mi":{"bloecke":[{"code":"S","von":"13:30","bis":"22:00","h":8.0}],"std":8.0},"Do":{"bloecke":[{"code":"S","von":"15:30","bis":"24:00","h":8.0}],"std":8.0},"Fr":{"bloecke":[{"code":"V","von":"12:30","bis":"16:00","h":3.5},{"code":"Z","von":"16:30","bis":"21:00","h":4.5}],"std":8.0},"Sa":{"bloecke":[],"std":0},"So":{"bloecke":[],"std":0}},"VZ 2":{"Mo":{"bloecke":[{"code":"F","von":"06:00","bis":"14:30","h":8.0}],"std":8.0},"Di":{"bloecke":[{"code":"F","von":"08:00","bis":"16:30","h":8.0}],"std":8.0},"Mi":{"bloecke":[{"code":"F","von":"06:00","bis":"14:30","h":8.0},{"code":"B","von":"14:30","bis":"15:30","h":1.0}],"std":9.0},"Do":{"bloecke":[{"code":"F","von":"08:00","bis":"16:30","h":8.0}],"std":8.0},"Fr":{"bloecke":[{"code":"F","von":"06:00","bis":"14:30","h":8.0}],"std":8.0},"Sa":{"bloecke":[],"std":0},"So":{"bloecke":[],"std":0}},"TZ 1":{"Mo":{"bloecke":[],"std":0},"Di":{"bloecke":[{"code":"P","von":"16:00","bis":"17:30","h":1.5},{"code":"Z","von":"17:30","bis":"22:00","h":4.5}],"std":6.0},"Mi":{"bloecke":[],"std":0},"Do":{"bloecke":[],"std":0},"Fr":{"bloecke":[],"std":0},"Sa":{"bloecke":[],"std":0},"So":{"bloecke":[{"code":"T","von":"09:00","bis":"20:00","h":10.0}],"std":10.0}},"TZ 2":{"Mo":{"bloecke":[{"code":"P","von":"15:00","bis":"16:30","h":1.5},{"code":"Z","von":"16:30","bis":"21:00","h":4.5}],"std":6.0},"Di":{"bloecke":[],"std":0},"Mi":{"bloecke":[],"std":0},"Do":{"bloecke":[],"std":0},"Fr":{"bloecke":[{"code":"S","von":"13:30","bis":"22:00","h":8.0}],"std":8.0},"Sa":{"bloecke":[{"code":"T","von":"09:00","bis":"20:00","h":10.0}],"std":10.0},"So":{"bloecke":[],"std":0}},"MJ":{"Mo":{"bloecke":[],"std":0},"Di":{"bloecke":[],"std":0},"Mi":{"bloecke":[{"code":"Z","von":"16:30","bis":"21:00","h":4.5}],"std":4.5},"Do":{"bloecke":[{"code":"Z","von":"17:30","bis":"22:00","h":4.5}],"std":4.5},"Fr":{"bloecke":[],"std":0},"Sa":{"bloecke":[],"std":0},"So":{"bloecke":[],"std":0}}}},"3":{"titel":"Woche 3 — Wochenenddienst der Vollzeitkräfte (VZ 2 Sa / VZ 1 So)","personen":{"VZ 1":{"Mo":{"bloecke":[],"std":0},"Di":{"bloecke":[{"code":"B","von":"14:30","bis":"15:30","h":1.0},{"code":"S","von":"15:30","bis":"24:00","h":8.0}],"std":9.0},"Mi":{"bloecke":[{"code":"S","von":"13:30","bis":"22:00","h":8.0}],"std":8.0},"Do":{"bloecke":[{"code":"S","von":"15:30","bis":"24:00","h":8.0}],"std":8.0},"Fr":{"bloecke":[{"code":"S","von":"13:30","bis":"22:00","h":8.0}],"std":8.0},"Sa":{"bloecke":[],"std":0},"So":{"bloecke":[{"code":"T","von":"09:00","bis":"20:00","h":10.0}],"std":10.0}},"VZ 2":{"Mo":{"bloecke":[],"std":0},"Di":{"bloecke":[{"code":"F","von":"08:00","bis":"16:30","h":8.0}],"std":8.0},"Mi":{"bloecke":[{"code":"F","von":"06:00","bis":"14:30","h":8.0},{"code":"B","von":"14:30","bis":"15:30","h":1.0}],"std":9.0},"Do":{"bloecke":[{"code":"F","von":"08:00","bis":"16:30","h":8.0}],"std":8.0},"Fr":{"bloecke":[],"std":0},"Sa":{"bloecke":[{"code":"T","von":"09:00","bis":"20:00","h":10.0}],"std":10.0},"So":{"bloecke":[],"std":0}},"TZ 1":{"Mo":{"bloecke":[{"code":"S","von":"13:30","bis":"22:00","h":8.0}],"std":8.0},"Di":{"bloecke":[],"std":0},"Mi":{"bloecke":[],"std":0},"Do":{"bloecke":[{"code":"Z","von":"17:30","bis":"22:00","h":4.5}],"std":4.5},"Fr":{"bloecke":[{"code":"P","von":"15:00","bis":"16:30","h":1.5},{"code":"Z","von":"16:30","bis":"21:00","h":4.5}],"std":6.0},"Sa":{"bloecke":[],"std":0},"So":{"bloecke":[],"std":0}},"TZ 2":{"Mo":{"bloecke":[{"code":"F","von":"06:00","bis":"14:30","h":8.0}],"std":8.0},"Di":{"bloecke":[{"code":"P","von":"16:00","bis":"17:30","h":1.5},{"code":"Z","von":"17:30","bis":"22:00","h":4.5}],"std":6.0},"Mi":{"bloecke":[],"std":0},"Do":{"bloecke":[],"std":0},"Fr":{"bloecke":[{"code":"F","von":"06:00","bis":"14:30","h":8.0}],"std":8.0},"Sa":{"bloecke":[],"std":0},"So":{"bloecke":[],"std":0}},"MJ":{"Mo":{"bloecke":[{"code":"Z","von":"16:30","bis":"21:00","h":4.5}],"std":4.5},"Di":{"bloecke":[],"std":0},"Mi":{"bloecke":[{"code":"Z","von":"16:30","bis":"21:00","h":4.5}],"std":4.5},"Do":{"bloecke":[],"std":0},"Fr":{"bloecke":[],"std":0},"Sa":{"bloecke":[],"std":0},"So":{"bloecke":[],"std":0}}}},"4":{"titel":"Woche 4 — Wochenenddienst der Vollzeitkräfte (VZ 1 Sa / VZ 2 So)","personen":{"VZ 1":{"Mo":{"bloecke":[],"std":0},"Di":{"bloecke":[{"code":"F","von":"08:00","bis":"16:30","h":8.0}],"std":8.0},"Mi":{"bloecke":[{"code":"F","von":"06:00","bis":"14:30","h":8.0},{"code":"B","von":"14:30","bis":"15:30","h":1.0}],"std":9.0},"Do":{"bloecke":[{"code":"F","von":"08:00","bis":"16:30","h":8.0}],"std":8.0},"Fr":{"bloecke":[],"std":0},"Sa":{"bloecke":[{"code":"T","von":"09:00","bis":"20:00","h":10.0}],"std":10.0},"So":{"bloecke":[],"std":0}},"VZ 2":{"Mo":{"bloecke":[],"std":0},"Di":{"bloecke":[{"code":"B","von":"14:30","bis":"15:30","h":1.0},{"code":"S","von":"15:30","bis":"24:00","h":8.0}],"std":9.0},"Mi":{"bloecke":[{"code":"S","von":"13:30","bis":"22:00","h":8.0}],"std":8.0},"Do":{"bloecke":[{"code":"S","von":"15:30","bis":"24:00","h":8.0}],"std":8.0},"Fr":{"bloecke":[{"code":"S","von":"13:30","bis":"22:00","h":8.0}],"std":8.0},"Sa":{"bloecke":[],"std":0},"So":{"bloecke":[{"code":"T","von":"09:00","bis":"20:00","h":10.0}],"std":10.0}},"TZ 1":{"Mo":{"bloecke":[{"code":"F","von":"06:00","bis":"14:30","h":8.0}],"std":8.0},"Di":{"bloecke":[{"code":"P","von":"16:00","bis":"17:30","h":1.5},{"code":"Z","von":"17:30","bis":"22:00","h":4.5}],"std":6.0},"Mi":{"bloecke":[],"std":0},"Do":{"bloecke":[],"std":0},"Fr":{"bloecke":[{"code":"F","von":"06:00","bis":"14:30","h":8.0}],"std":8.0},"Sa":{"bloecke":[],"std":0},"So":{"bloecke":[],"std":0}},"TZ 2":{"Mo":{"bloecke":[{"code":"S","von":"13:30","bis":"22:00","h":8.0}],"std":8.0},"Di":{"bloecke":[],"std":0},"Mi":{"bloecke":[],"std":0},"Do":{"bloecke":[{"code":"Z","von":"17:30","bis":"22:00","h":4.5}],"std":4.5},"Fr":{"bloecke":[{"code":"P","von":"15:00","bis":"16:30","h":1.5},{"code":"Z","von":"16:30","bis":"21:00","h":4.5}],"std":6.0},"Sa":{"bloecke":[],"std":0},"So":{"bloecke":[],"std":0}},"MJ":{"Mo":{"bloecke":[{"code":"Z","von":"16:30","bis":"21:00","h":4.5}],"std":4.5},"Di":{"bloecke":[],"std":0},"Mi":{"bloecke":[{"code":"Z","von":"16:30","bis":"21:00","h":4.5}],"std":4.5},"Do":{"bloecke":[],"std":0},"Fr":{"bloecke":[],"std":0},"Sa":{"bloecke":[],"std":0},"So":{"bloecke":[],"std":0}}}}},"besetzung":{"Mo":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,1,1,1,1,2,2,2,2,2,2,2,2,2,1,1,0,0,0,0],"Di":[0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,1,1,2,2,2,2,2,2,2,2,2,1,1,1,1],"Mi":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,1,1,1,1,2,2,2,2,2,2,2,2,2,1,1,0,0,0,0],"Do":[0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,1,1,2,2,2,2,2,2,2,2,2,1,1,1,1],"Fr":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,1,1,1,1,2,2,2,2,2,2,2,2,2,1,1,0,0,0,0],"Sa":[0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0],"So":[0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0]}};
+
+  const NAMEN = { F: "Frühdienst", S: "Spätdienst", Z: "Zwischendienst",
+                  T: "Tagesdienst", B: "Bürozeit", P: "Aufgaben", V: "Verwaltung" };
+
+  const zahl = n => n.toLocaleString("de-DE", { minimumFractionDigits: 1, maximumFractionDigits: 2 });
+
+  function baueRaster(woche) {
+    const raster = document.getElementById("raster");
+    raster.replaceChildren();
+    document.getElementById("wochen-titel").textContent = PLAN.wochen[woche].titel;
+
+    const ecke = document.createElement("div");
+    ecke.className = "zelle kopf-zelle";
+    ecke.innerHTML = '<span class="kopf-tag">Woche ' + woche + '</span>' +
+                     '<span class="kopf-zeit">Öffnung</span>';
+    raster.append(ecke);
+
+    for (const tag of PLAN.tage) {
+      const [von, bis] = PLAN.oeffnung[tag];
+      const k = document.createElement("div");
+      k.className = "zelle kopf-zelle" + (tag === "Sa" || tag === "So" ? " kopf-wochenende" : "");
+      k.innerHTML = '<span class="kopf-tag">' + tag + '</span>' +
+                    '<span class="kopf-zeit">' + von + '–' + bis + '</span>';
+      raster.append(k);
+    }
+
+    for (const person of PLAN.team) {
+      const daten = PLAN.wochen[woche].personen[person.k];
+      const summe = PLAN.tage.reduce((s, t) => s + daten[t].std, 0);
+
+      const p = document.createElement("div");
+      p.className = "zelle person";
+      p.innerHTML = '<span class="person-name">' + person.k + '</span>' +
+                    '<span class="person-meta">' + person.vertrag + ' · ' + zahl(summe) + ' h</span>';
+      raster.append(p);
+
+      for (const tag of PLAN.tage) {
+        const z = document.createElement("div");
+        z.className = "zelle tag-zelle";
+        const bloecke = daten[tag].bloecke;
+        if (!bloecke.length) {
+          const f = document.createElement("span");
+          f.className = "frei";
+          f.textContent = "frei";
+          z.append(f);
+        } else {
+          for (const b of bloecke) {
+            const el = document.createElement("div");
+            el.className = "block b-" + b.code;
+            el.innerHTML = '<span class="block-zeit">' + b.von + '–' + b.bis + '</span>' +
+                           '<span class="block-name">' + NAMEN[b.code] + '</span>';
+            z.append(el);
+          }
+          const s = document.createElement("span");
+          s.className = "tages-summe";
+          s.textContent = zahl(daten[tag].std) + " h";
+          z.append(s);
+        }
+        raster.append(z);
+      }
+    }
+  }
+
+  function baueBesetzung() {
+    const ziel = document.getElementById("besetzung");
+    for (const tag of PLAN.tage) {
+      const zeile = document.createElement("div");
+      zeile.className = "bes-zeile";
+      const label = document.createElement("span");
+      label.className = "bes-tag";
+      label.textContent = tag;
+      const balken = document.createElement("div");
+      balken.className = "bes-balken";
+      PLAN.besetzung[tag].forEach((n, i) => {
+        const feld = document.createElement("span");
+        feld.className = "bes-feld" + (n ? " bes-" + Math.min(n, 2) : "");
+        const stunde = 6 + Math.floor(i / 2);
+        const minute = i % 2 ? "30" : "00";
+        feld.title = tag + " " + String(stunde).padStart(2, "0") + ":" + minute +
+                     " — " + (n ? n + (n === 1 ? " Person" : " Personen") : "geschlossen");
+        balken.append(feld);
+      });
+      zeile.append(label, balken);
+      ziel.append(zeile);
+    }
+  }
+
+  function baueKonto() {
+    const koerper = document.getElementById("konto");
+    let gesamtIst = 0, gesamtSoll = 0;
+    for (const person of PLAN.team) {
+      const wochen = [1, 2, 3, 4].map(w =>
+        PLAN.tage.reduce((s, t) => s + PLAN.wochen[w].personen[person.k][t].std, 0));
+      const ist = wochen.reduce((a, b) => a + b, 0);
+      const soll = person.std * 4;
+      gesamtIst += ist;
+      gesamtSoll += soll;
+      const konto = ist - soll;
+      const zeile = document.createElement("tr");
+      zeile.innerHTML =
+        "<td>" + person.name + "</td>" +
+        wochen.map(h => "<td>" + zahl(h) + "</td>").join("") +
+        "<td>" + zahl(ist) + "</td><td>" + zahl(soll) + "</td>" +
+        '<td class="' + (konto ? "konto-plus" : "konto-null") + '">' +
+        (konto > 0 ? "+" : "") + zahl(konto) + " h</td>";
+      koerper.append(zeile);
+    }
+    const summe = document.createElement("tr");
+    summe.className = "summe";
+    summe.innerHTML = "<td>Studio gesamt</td>" +
+      [1, 2, 3, 4].map(w => "<td>" + zahl(PLAN.team.reduce((s, p) =>
+        s + PLAN.tage.reduce((x, t) => x + PLAN.wochen[w].personen[p.k][t].std, 0), 0)) + "</td>").join("") +
+      "<td>" + zahl(gesamtIst) + "</td><td>" + zahl(gesamtSoll) + "</td>" +
+      "<td>" + (gesamtIst - gesamtSoll > 0 ? "+" : "") + zahl(gesamtIst - gesamtSoll) + " h</td>";
+    koerper.append(summe);
+  }
+
+  document.querySelectorAll(".wochen-knopf").forEach(knopf => {
+    knopf.addEventListener("click", () => {
+      document.querySelectorAll(".wochen-knopf").forEach(k =>
+        k.setAttribute("aria-selected", String(k === knopf)));
+      baueRaster(Number(knopf.dataset.woche));
+    });
+  });
+
+  baueRaster(1);
+  baueBesetzung();
+  baueKonto();
+</script>
