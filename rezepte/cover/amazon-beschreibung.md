@@ -96,3 +96,56 @@ Band 3 — Das Rezeptbuch: dieses Buch.
 <b>Band 2 &mdash; Das 12-Wochen-Workbook:</b> 84 Tageskarten zum Ausf&uuml;llen.<br>
 <b>Band 3 &mdash; Das Rezeptbuch:</b> dieses Buch.</p>
 ```
+
+---
+
+## Kurzfassung
+
+Für alle Stellen, an denen wenig Platz ist: die ersten Zeilen der
+Amazon-Beschreibung, bevor „Mehr lesen" abschneidet, ein Newsletter, ein
+Beitrag, ein Gespräch.
+
+**Zusammenfassung in drei Sätzen**
+
+> Die Regeln des Konzepts sind schnell gelernt — schwierig wird es abends vor
+> dem offenen Kühlschrank, wenn Salz, Zucker, Getreide und Zwiebeln wegfallen.
+> Dieses Rezeptbuch beantwortet die Frage 73-mal und sortiert die Gerichte nach
+> den Tagesfarben des Konzepts: Du schlägst den Teil für deinen heutigen Tag
+> auf und kochst, ohne nachzuschlagen, ob eine Zutat gerade erlaubt ist. Bei
+> jedem Gericht stehen Portionen, Zeit und Eiweißgehalt, dazu ein Hinweis aus
+> der Praxis — und ein eigenes Kapitel erklärt, was Salz ersetzt.
+
+**Kurze Produktbeschreibung** (rund 900 Zeichen)
+
+> **Ohne Salz. Ohne Zucker. 73-mal beantwortet.**
+>
+> Die Regeln kennst du nach zehn Minuten. Die Frage ist, was du am
+> Mittwochabend um halb sieben damit anfängst.
+>
+> Dieses Buch nimmt dir die Entscheidung ab. Die Gerichte stehen nach
+> Tagesfarben sortiert: 26 für weiße Tage, 22 für grüne, 12 erweiterte ab der
+> Stabilisierungsphase, dazu 5 Frühstücke und 8 Grundrezepte — salzfreie
+> Gewürzmischungen, Dressings, selbst gemachter Senf, Seitan. Du schlägst den
+> Teil für heute auf und kochst.
+>
+> Bei jedem Rezept stehen Portionen, Zubereitungszeit und Eiweißgehalt, damit
+> du die Menge auf dein Körpergewicht umrechnen kannst. Das Kapitel „Kochen im
+> Konzept" erklärt, was Salz ersetzt — Säure, Röstaromen, Schärfe, Kräuter in
+> doppelter Menge, getrocknete Pilze — und was nicht funktioniert.
+>
+> Alle Zutaten aus dem normalen Supermarkt. Ohne Produktempfehlungen.
+>
+> *Enthält unter anderem Eier, Fisch, Schalentiere, Nüsse, Soja und
+> glutenhaltigen Dinkelkleber — jedes Rezept vor der Zubereitung auf
+> Unverträglichkeiten prüfen. Kein medizinischer Ratgeber.*
+
+**Kurzfassung für das KDP-Feld**
+
+```html
+<h4>Ohne Salz. Ohne Zucker. 73-mal beantwortet.</h4>
+<p>Die Regeln kennst du nach zehn Minuten. Die Frage ist, was du am Mittwochabend um halb sieben damit anf&auml;ngst.</p>
+<p>Dieses Buch nimmt dir die Entscheidung ab. Die Gerichte stehen nach Tagesfarben sortiert: <b>26</b> f&uuml;r wei&szlig;e Tage, <b>22</b> f&uuml;r gr&uuml;ne, <b>12</b> erweiterte ab der Stabilisierungsphase, dazu <b>5 Fr&uuml;hst&uuml;cke</b> und <b>8 Grundrezepte</b> &mdash; salzfreie Gew&uuml;rzmischungen, Dressings, selbst gemachter Senf, Seitan. Du schl&auml;gst den Teil f&uuml;r heute auf und kochst.</p>
+<p>Bei jedem Rezept stehen Portionen, Zubereitungszeit und Eiwei&szlig;gehalt, damit du die Menge auf dein K&ouml;rpergewicht umrechnen kannst. Das Kapitel &bdquo;Kochen im Konzept&ldquo; erkl&auml;rt, was Salz ersetzt &mdash; S&auml;ure, R&ouml;staromen, Sch&auml;rfe, Kr&auml;uter in doppelter Menge, getrocknete Pilze &mdash; und was nicht funktioniert.</p>
+<p><b>Alle Zutaten aus dem normalen Supermarkt. Ohne Produktempfehlungen.</b></p>
+<p><i>Enth&auml;lt unter anderem Eier, Fisch, Schalentiere, N&uuml;sse, Soja und glutenhaltigen Dinkelkleber &mdash; jedes Rezept vor der Zubereitung auf Unvertr&auml;glichkeiten pr&uuml;fen. Kein medizinischer Ratgeber.</i></p>
+```
