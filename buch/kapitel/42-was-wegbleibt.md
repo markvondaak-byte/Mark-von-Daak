@@ -23,7 +23,7 @@ sind erlaubt.
 
 **Zucker in jeder Form**
 Süßigkeiten, Schokolade, Kuchen, Limonaden, Fruchtsäfte, Honig, Sirup,
-Kaugummi. Auch als „zuckerfrei" beworbene Produkte — sie enthalten in der Regel
+Kaugummi. Auch als „zuckerfrei“ beworbene Produkte — sie enthalten in der Regel
 Zusatzstoffe, die ebenfalls wegbleiben sollen.
 
 **Salz**
@@ -66,7 +66,7 @@ außer an roten Tagen.
 
 ## Die drei häufigsten Stolperfallen
 
-**Die Gewürzmischung.** „Hähnchengewürz", „Kräuter der Provence", „Grillgewürz"
+**Die Gewürzmischung.** „Hähnchengewürz“, „Kräuter der Provence“, „Grillgewürz“
 — fast alle enthalten Salz, viele auch Zucker und getrocknete Zwiebeln. Lies
 die Zutatenliste oder mische selbst. Es gibt ausdrücklich salzfreie Mischungen
 im Handel.
@@ -75,7 +75,7 @@ im Handel.
 Balsamico ebenfalls — er hat zu viele Kohlenhydrate. Nimm Apfelessig,
 Weißweinessig oder Rotweinessig.
 
-**Das „gesunde" Fertigprodukt.** Low-Carb-Brot, Proteinriegel, zuckerfreie
+**Das „gesunde“ Fertigprodukt.** Low-Carb-Brot, Proteinriegel, zuckerfreie
 Süßigkeiten: Diese Produkte sind für die Aktivierungsphase nicht gedacht. Sie
 enthalten Zusatzstoffe, Süßungsmittel und oft doch Salz — und sie halten die
 Gewöhnung an Süße aufrecht, die sich gerade zurückstellen soll.

@@ -19,7 +19,7 @@ mehr wert als Abwechslung.
 
 Vier Mahlzeiten am Tag, kein Gemüse, kein Obst. Was hier nach Wiederholung
 aussieht, ist keine: Sieben Tage sind schnell vorbei, und die Auswahl im Teil
-„Weiße Tage" reicht für mehr als eine Runde.
+„Weiße Tage“ reicht für mehr als eine Runde.
 
 | Tag | Mittag | Nachmittag | Abend |
 |---|---|---|---|

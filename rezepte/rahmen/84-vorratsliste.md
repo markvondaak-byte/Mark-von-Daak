@@ -66,7 +66,7 @@ einfrieren. Tofu und Tempeh halten sich ungeöffnet mehrere Wochen.
 
 ## Was sich vorzubereiten lohnt
 
-Diese vier stehen im Teil „Grundrezepte" und verkürzen fast jedes andere
+Diese vier stehen im Teil „Grundrezepte“ und verkürzen fast jedes andere
 Rezept:
 
 | | hält sich |

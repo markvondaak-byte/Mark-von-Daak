@@ -9,7 +9,7 @@ Geprüfte Zahlen aus `rezepte/rezepte/*.yaml`: 73 Rezepte, davon 5 Frühstücke,
 26 für weiße Tage, 22 für grüne Tage, 12 ab der Stabilisierungsphase und
 8 Grundrezepte. 72 Seiten, Großformat 20,3 × 25,4 cm.
 
-Der Nutzen, den dieses Listing verkauft, ist nicht „viele Rezepte", sondern:
+Der Nutzen, den dieses Listing verkauft, ist nicht „viele Rezepte“, sondern:
 Du musst bei keinem Gericht nachschlagen, ob es heute erlaubt ist. Genau das
 ist im Alltag die Hürde, an der das Konzept scheitert.
 
@@ -48,10 +48,10 @@ den Unterschied macht.
 
 **Ein eigenes Kapitel für das größte Problem**
 
-„Kochen im Konzept" erklärt, was Salz ersetzt: Säure, Röstaromen, Schärfe,
+„Kochen im Konzept“ erklärt, was Salz ersetzt: Säure, Röstaromen, Schärfe,
 Kräuter in der doppelten Menge, Knoblauch, getrocknete Pilze für herzhafte
 Tiefe. Und was nicht funktioniert — Kräutersalz, Gemüsebrühe, Sojasauce und
-alles, was „würzt".
+alles, was „würzt“.
 
 Dazu drei Register: alphabetisch, nach Zubereitungszeit und nach Eiweißgehalt.
 
@@ -102,9 +102,9 @@ Band 3 — Das Rezeptbuch: dieses Buch.
 ## Allgemeine Fassung — für Käufer ohne Vorkenntnis
 
 Die Fassung oben spricht jemanden an, der das Konzept schon kennt: Sie beginnt
-mit „Die Regeln kennst du" und benutzt die Tagesfarben als bekannt. Das ist
+mit „Die Regeln kennst du“ und benutzt die Tagesfarben als bekannt. Das ist
 richtig für Leser, die von Band 1 kommen — und falsch für alle anderen. Wer
-über eine Suche nach „low carb Kochbuch" auf der Seite landet, versteht die
+über eine Suche nach „low carb Kochbuch“ auf der Seite landet, versteht die
 Hälfte nicht und klickt weiter.
 
 Diese Fassung setzt nichts voraus. Sie beschreibt zuerst, was die Rezepte
@@ -148,7 +148,7 @@ macht.
 **Das Kapitel, das den Unterschied macht**
 
 Wer zum ersten Mal ohne Salz kocht, findet das Essen fad. Das liegt nicht am
-Rezept. „Kochen im Konzept" erklärt, was an die Stelle von Salz tritt — Säure,
+Rezept. „Kochen im Konzept“ erklärt, was an die Stelle von Salz tritt — Säure,
 Röstaromen, Schärfe, Kräuter in doppelter Menge, getrocknete Pilze — und was
 nicht funktioniert: Kräutersalz, Gemüsebrühe, Sojasauce.
 
@@ -198,7 +198,7 @@ zum Ausfüllen, Band 3 ist dieses Kochbuch. Jeder Band funktioniert für sich.
 ## Kurzfassung
 
 Für alle Stellen, an denen wenig Platz ist: die ersten Zeilen der
-Amazon-Beschreibung, bevor „Mehr lesen" abschneidet, ein Newsletter, ein
+Amazon-Beschreibung, bevor „Mehr lesen“ abschneidet, ein Newsletter, ein
 Beitrag, ein Gespräch.
 
 **Zusammenfassung in drei Sätzen**
@@ -226,7 +226,7 @@ Beitrag, ein Gespräch.
 >
 > Bei jedem Rezept stehen Portionen, Zubereitungszeit und Eiweißgehalt, damit
 > du die Menge auf dein Körpergewicht umrechnen kannst. Das Kapitel „Kochen im
-> Konzept" erklärt, was Salz ersetzt — Säure, Röstaromen, Schärfe, Kräuter in
+> Konzept“ erklärt, was Salz ersetzt — Säure, Röstaromen, Schärfe, Kräuter in
 > doppelter Menge, getrocknete Pilze — und was nicht funktioniert.
 >
 > Alle Zutaten aus dem normalen Supermarkt. Ohne Produktempfehlungen.

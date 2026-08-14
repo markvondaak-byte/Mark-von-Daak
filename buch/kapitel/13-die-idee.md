@@ -57,7 +57,7 @@ Es behandelt auch keine Krankheiten: Das Konzept ist eine Ernährungsform, kein
 Heilmittel, und ersetzt keine Diagnose, keine Therapie und kein Medikament. Und
 es ist nicht für jeden geeignet — in Schwangerschaft und Stillzeit nicht, für
 Kinder und Jugendliche nicht, bei einer Reihe von Erkrankungen nur nach
-ärztlicher Abklärung. Das Kapitel „Wichtige Hinweise und Haftungsausschluss"
+ärztlicher Abklärung. Das Kapitel „Wichtige Hinweise und Haftungsausschluss“
 führt das aus; schlag dort nach, bevor du beginnst.
 
 ## Was du dafür mitbringen musst

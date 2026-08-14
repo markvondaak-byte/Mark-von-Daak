@@ -8,8 +8,8 @@ kopfzeile: Lebensmittel
 # Lebensmittel, die dich tragen
 
 Diese Listen sind zum Nachschlagen gedacht — beim Einkauf, beim Kochen, im
-Zweifelsfall. Die Spalte „Aktivierung" gilt für die 28 Tage und für alle
-weißen Tage danach. Die Spalte „ab Stabilisierung" zeigt, was zusätzlich
+Zweifelsfall. Die Spalte „Aktivierung“ gilt für die 28 Tage und für alle
+weißen Tage danach. Die Spalte „ab Stabilisierung“ zeigt, was zusätzlich
 möglich wird.
 
 > Die einfachste Faustregel:

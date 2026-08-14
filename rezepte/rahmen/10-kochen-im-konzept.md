@@ -39,7 +39,7 @@ herzhafte Note, die sonst schwer zu erreichen ist.
 > Was nicht funktioniert:
 >
 > Kräutersalz, Meersalz, Steinsalz, Gemüsebrühe, Sojasauce, Fertigmischungen
-> und alles, was „würzt". Prüf die Zutatenliste — Salz steht dort in fast
+> und alles, was „würzt“. Prüf die Zutatenliste — Salz steht dort in fast
 > jedem Produkt, oft an erster Stelle.
 
 ## Die Öle richtig einsetzen

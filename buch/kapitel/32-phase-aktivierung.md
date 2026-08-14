@@ -61,7 +61,7 @@ Gemüse und Salat pro Tag.
 Salz, Zucker und Süßstoffe, Getreide, Hülsenfrüchte, Wurzel- und Knollengemüse,
 Zwiebeln und Lauch, Milchprodukte außer dem Joghurt am Morgen, Nüsse außer
 Mandeln, Schweinefleisch und Geräuchertes, Alkohol, Fertiggerichte,
-Eiweißshakes — und Suppen. Das Kapitel „Was in den vier Wochen wegbleibt"
+Eiweißshakes — und Suppen. Das Kapitel „Was in den vier Wochen wegbleibt“
 führt jede Gruppe einzeln auf, samt der drei häufigsten Stolperfallen.
 
 ## Der Vorabend

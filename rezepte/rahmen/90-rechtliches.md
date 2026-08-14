@@ -96,7 +96,7 @@ Hersteller.
 
 ## Markenhinweis
 
-„cellRESET" und „FitLine" sind eingetragene Marken der PM-International AG.
+„cellRESET“ und „FitLine“ sind eingetragene Marken der PM-International AG.
 Dieses Buch steht in keiner geschäftlichen Verbindung zu diesem Unternehmen
 und wird von ihm weder herausgegeben noch autorisiert noch unterstützt. Die
 Nennung erfolgt rein beschreibend.

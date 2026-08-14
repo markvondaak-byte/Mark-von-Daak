@@ -59,15 +59,15 @@ mitten in der Stabilisierung. Der letzte Termin zeigt, ob das Erreichte trägt.
 
 ## Ein Ziel, das trägt
 
-Formuliere zum Schluss ein Ziel — aber ohne Zahl. „Zehn Kilo bis Ostern" ist
+Formuliere zum Schluss ein Ziel — aber ohne Zahl. „Zehn Kilo bis Ostern“ ist
 ein schlechtes Ziel: Es liegt nicht in deiner Hand, es setzt dich unter Druck,
 und es macht jeden Tag, an dem die Waage nicht mitspielt, zu einem Misserfolg.
 
 Besser sind Ziele, die du selbst beeinflussen kannst:
 
-- „Ich halte die vier Wochen vollständig durch, ohne zu improvisieren."
-- „Ich will morgens aufwachen und ausgeruht sein."
-- „Ich will den Nachmittag ohne das Loch um vier Uhr überstehen."
+- „Ich halte die vier Wochen vollständig durch, ohne zu improvisieren.“
+- „Ich will morgens aufwachen und ausgeruht sein.“
+- „Ich will den Nachmittag ohne das Loch um vier Uhr überstehen.“
 
 Solche Ziele erreichst du durch dein eigenes Verhalten. Das Gewicht folgt oder
 folgt nicht — aber es entscheidet nicht darüber, ob du erfolgreich warst.

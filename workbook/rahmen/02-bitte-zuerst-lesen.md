@@ -30,4 +30,4 @@ Erfahrungen einzelner Anwenderinnen und Anwender lassen sich nicht auf andere
 übertragen. Dieses Workbook verspricht kein bestimmtes Ergebnis.
 
 Die ausführlichen Hinweise stehen am Ende im Kapitel „Wichtige Hinweise und
-Haftungsausschluss". Bitte lies sie, bevor du beginnst.
+Haftungsausschluss“. Bitte lies sie, bevor du beginnst.

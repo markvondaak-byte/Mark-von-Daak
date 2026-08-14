@@ -32,4 +32,4 @@ Erfahrungen einzelner Anwenderinnen und Anwender lassen sich nicht auf andere
 bestimmte Gewichtsabnahme noch eine bestimmte Wirkung.
 
 Die ausführlichen Hinweise stehen am Ende des Buches im Kapitel „Wichtige
-Hinweise und Haftungsausschluss". Bitte lies es, bevor du beginnst.
+Hinweise und Haftungsausschluss“. Bitte lies es, bevor du beginnst.

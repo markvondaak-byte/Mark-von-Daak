@@ -16,5 +16,5 @@ und einen Rückblick.
 - **Das Konzept in fünf Minuten** — damit dieses Heft auch allein funktioniert
 - **Verlaufstabellen** für zwölf Wochen auf einen Blick
 
-Das Begleitheft zum Buch „Der Stoffwechsel-Reset". Ohne
+Das Begleitheft zum Buch „Der Stoffwechsel-Reset“. Ohne
 Produktempfehlungen, ohne Versprechen über Kilos.

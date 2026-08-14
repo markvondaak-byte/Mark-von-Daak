@@ -20,7 +20,7 @@ Rhythmus aus grünen und weißen Tagen.
 entwickelt wurde, und der Grund, warum die weiße Woche möglich ist.
 
 Entscheide dich bewusst für einen der beiden Wege und halte ihn durch: Die
-Mischung aus „weiße Woche machen" und „Nährstoffe weglassen" ist die eine
+Mischung aus „weiße Woche machen“ und „Nährstoffe weglassen“ ist die eine
 Variante, die nicht aufgeht.
 
 ## Die Bausteine

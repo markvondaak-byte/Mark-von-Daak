@@ -32,4 +32,4 @@ Schalentiere, Nüsse, Soja und glutenhaltigen Dinkelkleber. Wer eine bekannte
 Allergie hat, tauscht die betroffene Zutat aus oder lässt das Rezept weg.
 
 Die ausführlichen Hinweise stehen am Ende im Kapitel „Wichtige Hinweise und
-Haftungsausschluss".
+Haftungsausschluss“.

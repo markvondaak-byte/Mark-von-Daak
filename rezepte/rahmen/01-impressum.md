@@ -22,7 +22,7 @@ Alle Rechte vorbehalten. Kein Teil dieses Buches darf ohne schriftliche
 Zustimmung des Autors vervielfältigt, in Datenverarbeitungsanlagen gespeichert
 oder verbreitet werden.
 
-**Markenhinweis:** „cellRESET" und „FitLine" sind eingetragene Marken der
+**Markenhinweis:** „cellRESET“ und „FitLine“ sind eingetragene Marken der
 PM-International AG. Dieses Buch wird von diesem Unternehmen weder
 herausgegeben noch autorisiert noch unterstützt. Die Nennung erfolgt
 ausschließlich beschreibend.
@@ -42,5 +42,5 @@ Dieses Rezeptbuch ist Band 3 einer Reihe:
 - **Band 2 — Das 12-Wochen-Workbook.** 84 Tageskarten zum Ausfüllen.
 - **Band 3 — Das Rezeptbuch.** Dieser Band.
 
-Jeder Band funktioniert für sich. Das Kapitel „Kochen im Konzept" fasst die
+Jeder Band funktioniert für sich. Das Kapitel „Kochen im Konzept“ fasst die
 Regeln zusammen, die du zum Kochen brauchst.

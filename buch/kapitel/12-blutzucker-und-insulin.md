@@ -47,7 +47,7 @@ Fettsäuren selbst nichts anfangen kann.
 Das hat einen Vorteil, den viele deutlich spüren: Die Energieversorgung wird
 gleichmäßiger, weil der Körper aus einem Vorrat zieht, der Tag und Nacht
 verfügbar ist. Die Achterbahn hört auf. Der Umbau braucht ein paar Tage, und
-die können unangenehm sein — mehr dazu im Kapitel „Die ersten Tage".
+die können unangenehm sein — mehr dazu im Kapitel „Die ersten Tage“.
 
 ## Warum vier Mahlzeiten und nicht zwei
 

@@ -16,7 +16,7 @@ Welche Farbe wann dran ist, ergibt sich aus der Phase.
 An einem weißen Tag isst du ausschließlich eiweißreiche Lebensmittel. Kein
 Gemüse, kein Salat, kein Obst. Kein Salz, kein Zucker.
 
-Die Farbe kommt vom „weißen Fleisch" — Geflügel —, das eine der Hauptquellen
+Die Farbe kommt vom „weißen Fleisch“ — Geflügel —, das eine der Hauptquellen
 an diesen Tagen ist. Neben Geflügel stehen Eier, Fisch, Meeresfrüchte, Rind
 und Wild sowie die vegetarischen Varianten zur Auswahl. Dazu der probiotische
 Joghurt am Morgen.
@@ -26,7 +26,7 @@ Umstellung, in der Stabilisierung der Ausgleichstag nach einem roten Tag, im
 Lifestyle genügen zwei bis vier im Monat. Wichtig: Ein weißer Tag ist immer ein
 weißer Tag. Auch Monate später gelten
 dieselben Regeln — kein Salz, kein Zucker, vier Mahlzeiten. Einfach nur
-„eiweißreich essen" ist kein weißer Tag.
+„eiweißreich essen“ ist kein weißer Tag.
 
 ## Der grüne Tag — Energietag
 
@@ -87,4 +87,4 @@ pro Woche. In der Stabilisierung ist Grün die Basis, dazu ein bis zwei rote
 Tage pro Woche, jeder durch einen weißen ausgeglichen. Im Lifestyle isst du
 frei und legst zwei bis vier weiße Tage im Monat ein. Wo die weißen Tage in der
 Aktivierungsphase genau liegen, steht im Kapitel „Phase 2: Die
-Aktivierung".
+Aktivierung“.

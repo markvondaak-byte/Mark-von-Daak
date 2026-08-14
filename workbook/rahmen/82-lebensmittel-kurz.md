@@ -68,7 +68,7 @@ Zwiebelpulver. Zutatenliste lesen oder selbst mischen.
 Balsamico hat zu viele Kohlenhydrate — nimm Apfel-, Weißwein- oder
 Rotweinessig.
 
-**Das „gesunde" Fertigprodukt.** Low-Carb-Brot, Proteinriegel, zuckerfreie
+**Das „gesunde“ Fertigprodukt.** Low-Carb-Brot, Proteinriegel, zuckerfreie
 Süßigkeiten gehören nicht in die Aktivierungsphase.
 
 ## Der Vorabend — drei Handgriffe

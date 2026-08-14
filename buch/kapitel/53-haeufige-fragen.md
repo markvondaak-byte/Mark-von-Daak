@@ -71,9 +71,9 @@ Stoffwechselstörungen muss die Menge ärztlich festgelegt werden.
 ## Zum Befinden
 
 Müdigkeit und Kopfschmerzen in den ersten drei bis zehn Tagen sind normal — das
-Kapitel „Die ersten Tage" sagt, was hilft und wann du abbrechen solltest. Steht
+Kapitel „Die ersten Tage“ sagt, was hilft und wann du abbrechen solltest. Steht
 die Waage tagelang still, ist das ein Plateau; Näheres im Kapitel „Wenn die
-Waage stillsteht".
+Waage stillsteht“.
 
 **Was unterstützt das Ergebnis sonst noch?**
 
@@ -110,4 +110,4 @@ fehlenden Nährstoffen funktioniert nicht.
 **Ich bin Vegetarier oder Veganer.**
 
 Das geht. Eiweißquellen und angepasste Mengen stehen im Kapitel „Vegetarisch
-und vegan".
+und vegan“.

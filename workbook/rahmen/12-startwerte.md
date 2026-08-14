@@ -20,7 +20,7 @@ Startdatum: ______________________
 {{LEERZEILE}}
 
 Ein gutes Ziel ist eines, das du selbst in der Hand hast. „Ich halte die vier
-Wochen vollständig durch" ist besser als „zehn Kilo bis Ostern".
+Wochen vollständig durch“ ist besser als „zehn Kilo bis Ostern“.
 
 ## Wie es mir heute geht
 

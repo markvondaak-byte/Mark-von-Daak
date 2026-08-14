@@ -27,7 +27,7 @@ Stabilisierungsphase kohlenhydratarme Milchprodukte.
 
 Weil Tofu nur etwa halb so viel Eiweiß liefert wie Geflügel, brauchst du
 entsprechend größere Portionen. Rechne nach der Formel aus dem Kapitel „Deine
-Eiweißmenge berechnen" und lege die Portionen darauf aus.
+Eiweißmenge berechnen“ und lege die Portionen darauf aus.
 
 Ein Beispiel bei 70 Kilogramm Körpergewicht und einem Zielwert von rund 80
 Gramm Eiweiß am Tag:

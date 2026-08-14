@@ -134,7 +134,7 @@ willst, dann nicht in der Überschrift und nicht in den ersten Zeilen, sondern
 als letzter Absatz und immer mit Hinweis:
 
 > Das hier beschriebene Konzept ist auch als cellRESET-Ernährungskonzept
-> bekannt. „cellRESET" und „FitLine" sind Marken der PM-International AG.
+> bekannt. „cellRESET“ und „FitLine“ sind Marken der PM-International AG.
 > Dieses Buch wird von diesem Unternehmen weder herausgegeben noch autorisiert
 > noch unterstützt.
 
@@ -147,7 +147,7 @@ Einschätzung aus diesem Repository.
 ## Kurzfassung
 
 Für alle Stellen, an denen wenig Platz ist: die ersten Zeilen der
-Amazon-Beschreibung, bevor „Mehr lesen" abschneidet, ein Newsletter, ein
+Amazon-Beschreibung, bevor „Mehr lesen“ abschneidet, ein Newsletter, ein
 Beitrag, ein Gespräch.
 
 **Zusammenfassung in drei Sätzen**

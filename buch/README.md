@@ -27,6 +27,7 @@ python3 buch/build/cover_flach.py          # Umschläge in die KDP-Druckfassung
 python3 buch/build/kindle_cover.py         # Titelbilder für die Kindle-Ausgaben
 python3 buch/build/build_epub.py           # Kindle-Ausgaben aller drei Bände
 
+python3 buch/build/rechtschreibung.py      # Rechtschreibung und Typografie
 python3 buch/build/claim_check.py          # HCVO-Prüfung, muss ohne Fehler laufen
 python3 rezepte/build/zutaten_check.py     # Rezepte gegen die Phasenregeln
 python3 buch/build/abnahme.py              # Endabnahme aller drei Bände
@@ -310,6 +311,26 @@ ein Kochbuch ohnehin haben sollte:
 Die beiden neuen Register kommen aus denselben Rezeptdaten wie die Rezepte
 selbst — sie können also nicht auseinanderlaufen. Wer Rezepte ergänzt oder
 Zeiten korrigiert, muss nichts nachpflegen.
+
+## Rechtschreibung und Typografie
+
+`buch/build/rechtschreibung.py` prüft alle Quelltexte — nicht die PDFs, denn im
+Markdown lässt sich ein Fund direkt korrigieren.
+
+Ein Wortlistenprüfer allein taugt für Deutsch wenig: „Eiweißmenge" steht in
+keiner Liste und ist trotzdem richtig. Deshalb zerlegt das Skript unbekannte
+Wörter in bekannte Teile (auch mit Fugen-s) und meldet nur, was danach übrig
+bleibt. Von 24 870 Wörtern bleiben so rund 200 zum Durchsehen statt mehrerer
+Tausend. Geprüfte Fachbegriffe stehen in `FACHWORTE`.
+
+Zusätzlich läuft eine Typografieprüfung. Die hat den bisher einzigen echten
+Fund gebracht: Die Bücher öffneten mit dem deutschen „ und schlossen mit einem
+geraden `"` — 63-mal, quer durch alle drei Bände. Wer neue Texte schreibt,
+sollte das Skript laufen lassen, bevor er baut.
+
+Was das Skript **nicht** findet: Wörter, die es gibt, aber falsch am Platz
+stehen. Für „das" statt „dass" und ein paar andere Klassiker gibt es gezielte
+Suchen am Ende der Ausgabe; die Treffer muss man lesen, nicht zählen.
 
 ## Rechtliche Leitplanken
 

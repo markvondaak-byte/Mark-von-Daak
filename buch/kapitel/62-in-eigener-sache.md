@@ -23,7 +23,7 @@ Genau deshalb steht hier keine einzige Produktempfehlung. Ein Buch, das dir
 erst ein Konzept erklärt und dich am Ende zu bestimmten Produkten führt, ist
 kein Ratgeber mehr, sondern ein Verkaufsprospekt.
 
-Das Kapitel „Nährstoffe — worauf es ankommt" nennt deshalb Kategorien und
+Das Kapitel „Nährstoffe — worauf es ankommt“ nennt deshalb Kategorien und
 Qualitätskriterien, keine Marken. Die Kriterien sind so gewählt, dass du damit
 jedes Präparat prüfen kannst — auch eines, mit dem ich nichts zu tun habe.
 
@@ -33,7 +33,7 @@ Das hier beschriebene Vier-Phasen-Konzept ist nicht auf meinem Mist gewachsen.
 Es ist als cellRESET-Ernährungskonzept bekannt geworden und wird seit Jahren
 von vielen Menschen angewendet.
 
-„cellRESET" und „FitLine" sind eingetragene Marken der PM-International AG.
+„cellRESET“ und „FitLine“ sind eingetragene Marken der PM-International AG.
 Dieses Buch wird von diesem Unternehmen weder herausgegeben noch autorisiert
 noch unterstützt. Ich nenne die Bezeichnung nur, damit du weißt, wovon die Rede
 ist, wenn dir der Begriff anderswo begegnet.
