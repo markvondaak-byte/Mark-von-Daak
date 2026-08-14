@@ -25,7 +25,7 @@ python3 rezepte/build/build_cover.py       # Umschlag Band 3
 python3 buch/build/cover_flach.py          # Umschläge in die KDP-Druckfassung
 
 python3 buch/build/kindle_cover.py         # Titelbilder für die Kindle-Ausgaben
-python3 buch/build/build_epub.py           # Kindle-Ausgaben Band 1 und 2
+python3 buch/build/build_epub.py           # Kindle-Ausgaben aller drei Bände
 
 python3 buch/build/claim_check.py          # HCVO-Prüfung, muss ohne Fehler laufen
 python3 rezepte/build/zutaten_check.py     # Rezepte gegen die Phasenregeln
@@ -80,11 +80,11 @@ Ein Kindle-Buch ist nicht das Druck-PDF in anderer Verpackung. KDP verlangt
 zwei eigene Dateien je Band: ein **EPUB** und ein **Titelbild** — ein reines
 Vorderseitenbild, kein aufgeklappter Umschlag.
 
-| | Band 1 | Band 2 |
-|---|---|---|
-| Bauart | fließender Text (reflowable) | feste Seiten (pre-paginated) |
-| Quelle | `buch/kapitel/*.md` | `workbook/out/workbook.pdf` |
-| Ausgabe | `buch/out/stoffwechsel-reset-kindle.epub` | `workbook/out/workbook-kindle.epub` |
+| | Band 1 | Band 2 | Band 3 |
+|---|---|---|---|
+| Bauart | fließender Text | feste Seiten | fließender Text |
+| Quelle | `buch/kapitel/*.md` | `workbook/out/workbook.pdf` | `rezepte/rezepte/*.yaml` |
+| Ausgabe | `stoffwechsel-reset-kindle.epub` | `workbook-kindle.epub` | `rezeptbuch-kindle.epub` |
 
 **Warum zwei Bauarten.** Band 1 ist ein Lesebuch: Der Leser stellt Schriftgröße
 und Rand selbst ein, der Text läuft neu um. Seitenzahlen, Kopfzeilen und ein
@@ -96,8 +96,14 @@ Druckseite als Bild eingelegt.
 **Band 2 als E-Book ist ein Kompromiss**, und das sollte man wissen, bevor man
 es einstellt: Man kann darin nicht schreiben. Sinnvoll ist die Ausgabe als
 Leseprobe und als Nachschlagefassung neben dem gedruckten Heft, nicht als
-Ersatz dafür. Band 3 hat aus demselben Grund keine Kindle-Ausgabe — dort wäre
-sie sinnvoll, aber sie ist bisher nicht gebaut.
+Ersatz dafür.
+
+**Band 3 gewinnt umgekehrt durch die E-Book-Fassung.** Im Druck sind die drei
+Register Listen zum Nachschlagen; im E-Book sind es Verweise zum Antippen, die
+direkt beim Rezept landen. Jedes der 73 Rezepte ist ein eigenes Sprungziel,
+und jeder Rezeptteil beginnt mit einer Übersicht seiner Gerichte. Die Anker
+werden aus den Rezeptnamen gebildet — `abnahme.py` prüft, dass keiner der
+219 Verweise ins Leere zeigt.
 
 Die Titelbilder werden **neu gesetzt**, nicht aus dem Umschlag-PDF
 ausgeschnitten: Amazon empfiehlt das Seitenverhältnis 1,6, die gedruckten

@@ -250,12 +250,12 @@ und E-Book werden getrennt angelegt und von Amazon anschließend verknüpft.
 Titel, Untertitel, Serie, Beschreibung, Kategorien und Stichwörter sind
 dieselben wie beim Taschenbuch.
 
-| Feld | Band 1 | Band 2 |
-|---|---|---|
-| Manuskript | `buch/out/stoffwechsel-reset-kindle.epub` | `workbook/out/workbook-kindle.epub` |
-| Titelbild | `buch/out/kindle-cover.jpg` | `workbook/out/kindle-cover.jpg` |
-| Bauart | fließender Text | feste Seiten |
-| Dateigröße | rund 0,3 MB | rund 5 MB |
+| Feld | Band 1 | Band 2 | Band 3 |
+|---|---|---|---|
+| Manuskript | `buch/out/stoffwechsel-reset-kindle.epub` | `workbook/out/workbook-kindle.epub` | `rezepte/out/rezeptbuch-kindle.epub` |
+| Titelbild | `buch/out/kindle-cover.jpg` | `workbook/out/kindle-cover.jpg` | `rezepte/out/kindle-cover.jpg` |
+| Bauart | fließender Text | feste Seiten | fließender Text |
+| Dateigröße | rund 0,5 MB | rund 5 MB | rund 0,5 MB |
 
 Beide Titelbilder sind 1600 × 2560 Pixel im JPEG-Format — Amazons empfohlenes
 Maß. Es wird **nicht** der Taschenbuchumschlag hochgeladen: Der enthält
@@ -277,8 +277,11 @@ nicht schreiben kann, verkauft sich als Ergänzung zum gedruckten Heft, nicht
 als Ersatz. Wenn du es einstellst, sollte die Beschreibung das sagen — sonst
 kommen Rezensionen, die genau das bemängeln.
 
-**Band 3** hat noch keine Kindle-Ausgabe. Ein Rezeptbuch eignet sich dafür gut
-(fließender Text wie Band 1); gebaut ist es bisher nicht.
+**Band 3 profitiert von der E-Book-Fassung mehr als die anderen beiden.** Die
+drei Register sind dort keine Listen zum Nachschlagen, sondern Verweise zum
+Antippen: Wer im Register „nach Zeit" auf ein Gericht tippt, landet direkt beim
+Rezept. Das ist ein Argument, das in die Produktbeschreibung der Kindle-Ausgabe
+gehört.
 
 ## KI-erzeugte Inhalte melden
 

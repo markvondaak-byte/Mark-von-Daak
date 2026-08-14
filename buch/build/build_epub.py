@@ -383,6 +383,195 @@ def band1_bauen(cfg, kapitel, umschlagbild, ziel):
     return epub_schreiben(ziel, dateien), eintraege
 
 
+# --- Band 3: fließender Text mit verlinkten Registern ------------------------
+STIL_REZEPTE = STIL_FLIESSEND + """
+/* Rezeptblock. Anders als im Druck steht der Name als Sprungziel: Im E-Book
+   sind die Register keine Seitenzahlen zum Nachschlagen, sondern Verweise
+   zum Antippen — das ist der eine Punkt, in dem die Ausgabe dem Druck
+   überlegen ist. */
+.rezept { margin: 1.8em 0 0; }
+.rezept h2 { margin: 0 0 0.1em; font-size: 1.25em; }
+.rezept .meta { font-family: sans-serif; font-size: 0.78em; color: #5A5A5A;
+                letter-spacing: 0.04em; text-transform: uppercase;
+                border-bottom: 1px solid #C8C8C8; padding-bottom: 0.4em;
+                margin: 0 0 0.8em; }
+.rezept h3 { font-size: 0.8em; letter-spacing: 0.08em; color: #6FA85E;
+             margin: 1em 0 0.3em; }
+.rezept ul { list-style: none; margin-left: 0.2em; }
+.rezept ul li::before { content: "·  "; color: #6FA85E; }
+.rezept ol { margin-left: 1.4em; }
+.rezept .tipp { font-size: 0.9em; font-style: italic; color: #5A5A5A;
+                margin-top: 0.6em; }
+/* columns mit Mindestbreite statt fester Spaltenzahl: Auf einem breiten
+   Bildschirm stehen zwei Spalten, auf einem schmalen E-Reader eine. Feste
+   `columns: 2` würden dort zwei unlesbar enge Spalten erzwingen. */
+.teilinhalt { list-style: none; margin: 1.2em 0 0 0; padding: 0;
+              columns: 15em; column-gap: 1.5em; }
+.teilinhalt li { margin-bottom: 0.3em; break-inside: avoid; font-size: 0.95em; }
+.teilinhalt a { text-decoration: none; color: #1A1A1A; }
+.register { list-style: none; margin-left: 0; padding: 0; }
+.register li { margin-bottom: 0.35em; }
+.register a { text-decoration: none; color: #1A1A1A; }
+.register .wert { font-family: sans-serif; font-size: 0.82em; color: #5A5A5A; }
+"""
+
+
+def marke(text):
+    """Sprungziel aus einem Rezeptnamen — stabil und ohne Sonderzeichen."""
+    ersatz = {"ä": "ae", "ö": "oe", "ü": "ue", "ß": "ss"}
+    klein = "".join(ersatz.get(z, z) for z in text.lower())
+    return "r-" + re.sub(r"[^a-z0-9]+", "-", klein).strip("-")
+
+
+def rezept_xhtml(rezept, farbmarke):
+    zeilen = [f'<div class="rezept" id="{marke(rezept["name"])}">',
+              f'<h2>{html.escape(rezept["name"])}</h2>']
+    teile = [farbmarke[rezept["tagesfarbe"]][0],
+             f'{rezept["portionen"]} Portion'
+             + ("en" if rezept["portionen"] > 1 else "")]
+    if rezept.get("zeit_min"):
+        teile.append(f'{rezept["zeit_min"]} Min.')
+    if rezept.get("eiweiss_g"):
+        teile.append(f'ca. {rezept["eiweiss_g"]} g Eiweiß')
+    zeilen.append('<p class="meta">' + " · ".join(html.escape(t) for t in teile)
+                  + "</p>")
+
+    zeilen.append("<h3>ZUTATEN</h3><ul>")
+    zeilen += [f"<li>{html.escape(z)}</li>" for z in rezept["zutaten"]]
+    zeilen.append("</ul>")
+
+    zeilen.append("<h3>ZUBEREITUNG</h3><ol>")
+    zeilen += [f"<li>{html.escape(s)}</li>" for s in rezept["schritte"]]
+    zeilen.append("</ol>")
+
+    if rezept.get("tipp"):
+        zeilen.append(f'<p class="tipp"><b>Tipp:</b> '
+                      f'{html.escape(rezept["tipp"])}</p>')
+    zeilen.append("</div>")
+    return "\n".join(zeilen)
+
+
+def register_xhtml(register, art):
+    """Register als Liste von Verweisen statt als Tabelle mit Seitenzahlen."""
+    if art == "zeit":
+        gruppen = [(10, "In 10 Minuten oder schneller"),
+                   (20, "11 bis 20 Minuten"), (30, "21 bis 30 Minuten"),
+                   (10**6, "Länger als 30 Minuten")]
+        schluessel = lambda e: e["zeit"] or 10**6            # noqa: E731
+        wert = lambda e: f'{e["zeit"]} Min.' if e["zeit"] else "—"  # noqa: E731
+    elif art == "eiweiss":
+        gruppen = [(-30, "30 Gramm und mehr"), (-20, "20 bis 29 Gramm"),
+                   (-10, "10 bis 19 Gramm"), (0, "Unter 10 Gramm"),
+                   (10**6, "Ohne Angabe")]
+        schluessel = lambda e: -(e["eiweiss"] or 0) if e["eiweiss"] else 10**6  # noqa: E731
+        wert = lambda e: f'{e["eiweiss"]} g' if e["eiweiss"] else "—"  # noqa: E731
+    else:
+        zeilen = ['<ul class="register">']
+        for e in sorted(register, key=lambda x: x["name"].lower()):
+            zeilen.append(
+                f'<li><a href="{e["datei"]}#{marke(e["name"])}">'
+                f'{html.escape(e["name"])}</a> '
+                f'<span class="wert">{html.escape(e["teil"])}</span></li>')
+        zeilen.append("</ul>")
+        return "\n".join(zeilen)
+
+    zeilen, offen = [], sorted(register, key=lambda e: (schluessel(e),
+                                                        e["name"].lower()))
+    for grenze, titel in gruppen:
+        teil = [e for e in offen if schluessel(e) <= grenze]
+        if not teil:
+            continue
+        offen = [e for e in offen if e not in teil]
+        zeilen.append(f"<h3>{html.escape(titel.upper())}</h3>")
+        zeilen.append('<ul class="register">')
+        for e in teil:
+            zeilen.append(
+                f'<li><a href="{e["datei"]}#{marke(e["name"])}">'
+                f'{html.escape(e["name"])}</a> '
+                f'<span class="wert">{html.escape(wert(e))}</span></li>')
+        zeilen.append("</ul>")
+    return "\n".join(zeilen)
+
+
+def band3_bauen(cfg, rahmen, abschnitte, farbmarke, umschlagbild, ziel):
+    dateien = {
+        "mimetype": b"application/epub+zip",
+        "META-INF/container.xml": CONTAINER,
+        "OEBPS/stil.css": STIL_REZEPTE,
+        "OEBPS/cover.jpg": Path(umschlagbild).read_bytes(),
+    }
+    eintraege = [{"id": "umschlag", "datei": "umschlag.xhtml",
+                  "titel": "Umschlag", "im_verzeichnis": False}]
+    dateien["OEBPS/umschlag.xhtml"] = seite_bauen(
+        cfg["titel"],
+        f'<div class="umschlag"><img src="cover.jpg" '
+        f'alt="{html.escape(cfg["titel"])}"/></div>', klasse="umschlag")
+
+    vorne = [k for k in rahmen if k["meta"].get("position", "vorne") == "vorne"]
+    hinten = [k for k in rahmen if k["meta"].get("position") == "hinten"]
+
+    for nummer, kap in enumerate(vorne, 1):
+        name = f"v{nummer:02d}"
+        klasse = ("titelseite" if kap["meta"].get("layout") == "titelseite"
+                  else "")
+        dateien[f"OEBPS/{name}.xhtml"] = seite_bauen(
+            kap["meta"].get("titel", cfg["titel"]),
+            markdown_zu_xhtml(kap["text"]), klasse=klasse)
+        eintraege.append({
+            "id": name, "datei": f"{name}.xhtml",
+            "titel": kap["meta"].get("titel", ""),
+            "im_verzeichnis": nummer > 1, "ist_teil": False})
+
+    # Rezeptteile — je Teil eine Datei, jedes Rezept ein Sprungziel darin.
+    register = []
+    for nummer, abschnitt in enumerate(abschnitte, 1):
+        name = f"teil{nummer}"
+        datei = f"{name}.xhtml"
+        rumpf = [f'<h1>{html.escape(abschnitt["teil"])}</h1>']
+        if abschnitt.get("einleitung"):
+            rumpf.append(markdown_zu_xhtml(abschnitt["einleitung"]))
+        rumpf.append('<ul class="teilinhalt">')
+        rumpf += [f'<li><a href="#{marke(r["name"])}">'
+                  f'{html.escape(r["name"])}</a></li>'
+                  for r in abschnitt["rezepte"]]
+        rumpf.append("</ul>")
+        for r in abschnitt["rezepte"]:
+            rumpf.append(rezept_xhtml(r, farbmarke))
+            register.append({"name": r["name"], "teil": abschnitt["teil"],
+                             "zeit": r.get("zeit_min"),
+                             "eiweiss": r.get("eiweiss_g"), "datei": datei})
+        dateien[f"OEBPS/{datei}"] = seite_bauen(
+            abschnitt["teil"], "\n".join(rumpf))
+        eintraege.append({"id": name, "datei": datei,
+                          "titel": abschnitt["teil"],
+                          "im_verzeichnis": True, "ist_teil": True})
+
+    for nummer, kap in enumerate(hinten, 1):
+        name = f"h{nummer:02d}"
+        text = kap["text"]
+        for marker, art in (("{{REZEPTREGISTER}}", "alphabetisch"),
+                            ("{{REGISTER_ZEIT}}", "zeit"),
+                            ("{{REGISTER_EIWEISS}}", "eiweiss")):
+            if marker in text:
+                text = text.replace(marker, "\n\n{{PLATZ}}\n\n")
+                rumpf = markdown_zu_xhtml(text).replace(
+                    "<p>{{PLATZ}}</p>", register_xhtml(register, art))
+                break
+        else:
+            rumpf = markdown_zu_xhtml(text)
+        dateien[f"OEBPS/{name}.xhtml"] = seite_bauen(
+            kap["meta"].get("titel", ""), rumpf)
+        eintraege.append({"id": name, "datei": f"{name}.xhtml",
+                          "titel": kap["meta"].get("titel", ""),
+                          "im_verzeichnis": True, "ist_teil": False})
+
+    kennung = KENNUNG.format(band="b003", jahr=cfg["jahr"])
+    dateien["OEBPS/nav.xhtml"] = nav_bauen(cfg, eintraege)
+    dateien["OEBPS/toc.ncx"] = ncx_bauen(cfg, kennung, eintraege)
+    dateien["OEBPS/inhalt.opf"] = opf_bauen(cfg, kennung, eintraege)
+    return epub_schreiben(ziel, dateien), eintraege, register
+
+
 # --- Band 2: feste Seiten ----------------------------------------------------
 STIL_FEST = """/* pre-paginated: Jede Seite ist ein Bild, das die Fläche füllt. */
 html, body { margin: 0; padding: 0; height: 100%; }
@@ -570,6 +759,22 @@ def main():
     verzeichnis2 = sum(1 for e in eintraege2 if e["im_verzeichnis"])
     bericht("Band 2 — feste Seiten", ziel2,
             f"{seiten} Seiten als Bild, {verzeichnis2} Navigationspunkte")
+
+    # Band 3
+    sys.path.insert(0, str(WURZEL / "rezepte" / "build"))
+    import build_rezepte as br
+
+    basis3 = WURZEL / "rezepte"
+    cfg3 = yaml.safe_load((basis3 / "rezepte.yaml").read_text(encoding="utf-8"))
+    rahmen3 = kapitel_laden(basis3 / "rahmen")
+    abschnitte3 = br.rezeptdateien_laden(basis3 / "rezepte")
+    ziel3 = basis3 / "out" / "rezeptbuch-kindle.epub"
+    ziel3, eintraege3, register3 = band3_bauen(
+        cfg3, rahmen3, abschnitte3, br.FARBMARKE,
+        basis3 / "out" / "kindle-cover.jpg", ziel3)
+    verzeichnis3 = sum(1 for e in eintraege3 if e["im_verzeichnis"])
+    bericht("Band 3 — fließender Text", ziel3,
+            f"{len(register3)} Rezepte, {verzeichnis3} Navigationspunkte")
 
 
 def kindle_cover_bauen():

@@ -469,6 +469,8 @@ def kindle_pruefen():
          "buch/out/kindle-cover.jpg", None),
         ("Band 2", "workbook/out/workbook-kindle.epub",
          "workbook/out/kindle-cover.jpg", "workbook/out/workbook.pdf"),
+        ("Band 3", "rezepte/out/rezeptbuch-kindle.epub",
+         "rezepte/out/kindle-cover.jpg", None),
     ]
 
     for name, epub_pfad, bild_pfad, druck_pfad in baende:
@@ -520,6 +522,17 @@ def kindle_pruefen():
 
         pruefe(f"{name}: Titelbild im Paket verzeichnet",
                'properties="cover-image"' in opf)
+
+        # Verweise innerhalb des Buchs müssen ein Ziel haben. Bei Band 3
+        # verlinken drei Register auf 73 Rezepte — ein einziger toter Anker
+        # fällt beim Durchblättern nicht auf, beim Antippen sofort.
+        anker = set(re.findall(r'id="([^"]+)"', volltext))
+        tot = sorted({f"{d}#{a}" for d, a in
+                      re.findall(r'href="([^"#]+)#([^"]+)"', volltext)
+                      if a not in anker})
+        if tot or "#" in volltext:
+            pruefe(f"{name}: keine toten Verweise", not tot,
+                   ", ".join(tot[:3]) if tot else "")
 
 
 def archiv_lesen(epub, name):
