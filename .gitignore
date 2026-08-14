@@ -10,3 +10,6 @@ rezepte/out/
 
 # Netlify-Build
 dist/
+
+# Versehentlich heruntergeladene Pakete
+*.tar.gz
