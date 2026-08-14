@@ -210,17 +210,36 @@ bei 6 × 9 Zoll; es ist ein Lesebuch und soll in die Hand passen.
 2. Kochen & Genießen › Gesunde Küche
 3. Ratgeber › Gesundheit & Medizin › Ernährung
 
-**Keywords:**
+**Keywords** — sieben Felder à 50 Zeichen, nach denselben Regeln wie bei
+Band 1 und 2: Wortgruppen statt Einzelwörter, kein Wort aus Titel oder
+Untertitel.
+
+Band 3 zielt auf Kochsuchen, nicht auf Konzeptsuchen. Band 1 wird von Leuten
+gesucht, die verstehen wollen, Band 2 von Leuten, die etwas zum Ausfüllen
+suchen, Band 3 von Leuten, die heute Abend etwas kochen wollen. Nur so stehen
+die drei Bände nicht in denselben Trefferlisten gegeneinander.
 
 ```
-kochen ohne salz rezepte
-low carb ohne zucker
-eiweißreiche rezepte einfach
-rezepte ernährungsumstellung
-salzfrei kochen anleitung
-gerichte ohne getreide
-schnelle eiweißgerichte abends
+low carb kochbuch wenig kohlenhydrate
+high protein rezepte eiweißreich kochen
+salzfrei kochen würzen mit kräutern
+zuckerfrei kochbuch alltagstauglich
+abnehmen mit eiweiß alltagsrezepte
+getreidefrei kochen reis nudeln ersetzen
+schnelle abendessen wenige zutaten
 ```
+
+**„glutenfrei" gehört nicht hinein**, so naheliegend es bei einem Buch ohne
+Getreide wirkt: Acht Rezepte arbeiten mit Seitan aus Dinkelkleber, und der ist
+reines Gluten. Ein Käufer mit Zöliakie, der über dieses Stichwort kommt, hat
+einen berechtigten Grund für eine Rezension und für eine Beschwerde bei Amazon.
+Dasselbe gilt für „vegan" — es gibt vegane Rezepte im Buch, aber es ist kein
+veganes Kochbuch.
+
+Zum Tauschen, falls ein Begriff nach ein paar Wochen nichts bringt:
+`kohlenhydratarm kochen abendessen` · `eiweißbrot ersatz rezepte` ·
+`gewürzmischung selber machen ohne salz` · `meal prep eiweißreich` ·
+`kochbuch stoffwechselkur alternative`
 
 ---
 
