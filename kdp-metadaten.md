@@ -88,7 +88,7 @@ ringsum statt 3,175 mm Anschnitt. Der Rücken enthält zusätzlich 9 mm für die
 Deckelpappen und die Falzrillen.
 
 KDP nimmt Hardcover **erst ab 75 Seiten** an — mit 76 liegt Band 1 knapp
-darüber. Band 2 (92 Seiten) käme ebenfalls infrage, Band 3 (54 Seiten) nicht.
+darüber. Band 2 (92 Seiten) und Band 3 (72 Seiten) kämen ebenfalls infrage.
 
 **Kategorien** — eine breite, zwei enge:
 
@@ -194,11 +194,11 @@ Zum Tauschen, falls ein Begriff nach ein paar Wochen nichts bringt:
 | Serie | Der Stoffwechsel-Reset, Band 3 |
 | Beschreibung | `rezepte/cover/amazon-beschreibung.md` |
 | Trimmgröße | **8 × 10 Zoll** (20,32 × 25,4 cm) — steht in der Auswahlliste |
-| Seiten | 54 |
+| Seiten | 72 |
 | Papier | weiß |
 | Druckfarbe | Schwarzweiß |
-| Rückenbreite | 3,1 mm — kein Rückentext (KDP erlaubt ihn ab 79 Seiten) |
-| Umschlag gesamt | 415,84 × 260,35 mm (16,372 × 10,250 Zoll) |
+| Rückenbreite | 4,1 mm — kein Rückentext (KDP erlaubt ihn ab 79 Seiten) |
+| Umschlag gesamt | 416,87 × 260,35 mm (16,412 × 10,250 Zoll) |
 
 Gleiches Format wie Band 2. Beim Kochen liegt das Buch flach auf der
 Arbeitsfläche — dafür ist das Großformat das nützlichere Maß. Band 1 bleibt

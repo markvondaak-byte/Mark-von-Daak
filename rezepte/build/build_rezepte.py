@@ -16,6 +16,7 @@ import sys
 from pathlib import Path
 
 import yaml
+from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.shared import Mm, Pt
 
 WURZEL = Path(__file__).resolve().parents[2]
@@ -63,6 +64,12 @@ def rezept_stile(doc):
                 vor=0, nach=1.5, zeilen=1.10, einzug_links=4)
     stile._stil(doc, "RezeptSchritt", schrift=stile.SERIF, groesse=12.5,
                 vor=0, nach=4, zeilen=1.15, einzug_links=6)
+    # Die rechte Spalte der Register. Eigenes Format, weil „Klein" mit 9 pt
+    # neben dem 12,5-pt-Rezeptnamen oben in der Zeile klebt statt auf der
+    # Grundlinie zu sitzen.
+    stile._stil(doc, "RegisterWert", schrift=stile.SANS, groesse=10.5,
+                farbe=stile.FARBEN["gedaempft"], vor=0, nach=1.5,
+                zeilen=1.10, ausrichtung=WD_ALIGN_PARAGRAPH.RIGHT)
     stile._stil(doc, "RezeptTipp", schrift=stile.SERIF, groesse=10.5,
                 kursiv=True, farbe=stile.FARBEN["gedaempft"],
                 vor=4, nach=2, zeilen=1.12, einzug_links=4)
@@ -179,10 +186,19 @@ def bauen(cfg, rahmen, abschnitte, ziel, leerseite=False):
         doc.add_paragraph(style="Kapitel").add_run(abschnitt["teil"])
         if abschnitt.get("einleitung"):
             renderer.rendern(abschnitt["einleitung"])
+        # Der Teilauftakt bekommt eine eigene Seite. Im kleinen Format war das
+        # Verschwendung; auf 8 x 10 Zoll trägt die Seite den Einleitungstext
+        # und gibt dem Teil einen sichtbaren Anfang, statt ihn über die erste
+        # Rezeptseite zu quetschen.
+        stile.seitenumbruch(doc)
 
         for rezept in abschnitt["rezepte"]:
             rezept_setzen(doc, rezept, breite)
-            register.append((rezept["name"], abschnitt["teil"]))
+            register.append({
+                "name": rezept["name"], "teil": abschnitt["teil"],
+                "zeit": rezept.get("zeit_min"),
+                "eiweiss": rezept.get("eiweiss_g"),
+            })
 
     # Anhang
     for kap in hinten:
@@ -190,13 +206,7 @@ def bauen(cfg, rahmen, abschnitte, ziel, leerseite=False):
         stile.kopf_und_fusszeile(doc, section, links_text=cfg["titel"],
                                  rechts_text=kap["meta"]["kopfzeile"])
         text = kap["text"]
-        if "{{REZEPTREGISTER}}" in text:
-            vor, nach = text.split("{{REZEPTREGISTER}}", 1)
-            renderer.rendern(vor)
-            register_setzen(doc, register, breite)
-            renderer.rendern(nach)
-        else:
-            renderer.rendern(text)
+        marker_rendern(doc, renderer, text, register, breite)
 
     if leerseite:
         # KDP verlangt eine gerade Seitenzahl und schiebt sonst selbst ein
@@ -214,25 +224,103 @@ def bauen(cfg, rahmen, abschnitte, ziel, leerseite=False):
     return ziel, register
 
 
-def register_setzen(doc, register, breite_mm):
-    """Alphabetisches Rezeptregister mit Angabe des Teils."""
+MARKER = {
+    "{{REZEPTREGISTER}}": "alphabetisch",
+    "{{REGISTER_ZEIT}}": "zeit",
+    "{{REGISTER_EIWEISS}}": "eiweiss",
+}
+
+
+def marker_rendern(doc, renderer, text, register, breite_mm):
+    """Rendert einen Rahmentext und setzt an den Markern die Register ein."""
+    rest = text
+    while True:
+        treffer = [(rest.find(m), m) for m in MARKER if m in rest]
+        if not treffer:
+            renderer.rendern(rest)
+            return
+        pos, marker = min(treffer)
+        renderer.rendern(rest[:pos])
+        register_setzen(doc, register, breite_mm, art=MARKER[marker])
+        rest = rest[pos + len(marker):]
+
+
+def register_setzen(doc, register, breite_mm, art="alphabetisch"):
+    """Rezeptregister in drei Ordnungen.
+
+    Alphabetisch zum Nachschlagen eines bekannten Namens, nach Zeit für die
+    Frage „was schaffe ich heute noch", nach Eiweißgehalt für die Frage „womit
+    komme ich auf meine Menge". Alle drei kommen aus denselben Rezeptdaten —
+    sie können also nicht auseinanderlaufen.
+    """
+    if art == "zeit":
+        return _register_gruppiert(
+            doc, register, breite_mm,
+            schluessel=lambda e: e["zeit"] or 999,
+            gruppen=[(10, "In 10 Minuten oder schneller"),
+                     (20, "11 bis 20 Minuten"),
+                     (30, "21 bis 30 Minuten"),
+                     (999, "Länger als 30 Minuten")],
+            wert=lambda e: f"{e['zeit']} Min." if e["zeit"] else "—")
+    if art == "eiweiss":
+        return _register_gruppiert(
+            doc, register, breite_mm,
+            schluessel=lambda e: -(e["eiweiss"] or 0),
+            gruppen=[(-30, "30 Gramm und mehr"),
+                     (-20, "20 bis 29 Gramm"),
+                     (-10, "10 bis 19 Gramm"),
+                     (1, "Unter 10 Gramm"),
+                     (999, "Ohne Angabe")],
+            wert=lambda e: f"{e['eiweiss']} g" if e["eiweiss"] else "—")
+    return _register_alphabetisch(doc, register, breite_mm)
+
+
+def _registertabelle(doc, breite_mm):
     tabelle = doc.add_table(rows=0, cols=2)
     tabelle.autofit = False
     stile.spaltenbreiten(tabelle, [breite_mm * 0.62, breite_mm * 0.38])
     stile.zellenrand(tabelle, oben=0.6, unten=0.6, links=0, rechts=1)
     stile.tabellenraender(tabelle, hexfarbe="E4E4E4", staerke=2)
+    return tabelle
 
-    for name, teil in sorted(register, key=lambda e: e[0].lower()):
-        zeile = tabelle.add_row()
-        stile.zeile_zusammenhalten(zeile)
-        for zelle, text, stil in ((zeile.cells[0], name, "RezeptZutat"),
-                                  (zeile.cells[1], teil, "Klein")):
-            absatz = zelle.paragraphs[0]
-            for lauf in list(absatz.runs):
-                lauf._r.getparent().remove(lauf._r)
-            absatz.style = doc.styles[stil]
-            absatz.paragraph_format.left_indent = Mm(0)
-            absatz.add_run(text)
+
+def _registerzeile(doc, tabelle, links, rechts):
+    zeile = tabelle.add_row()
+    stile.zeile_zusammenhalten(zeile)
+    for zelle, text, stil in ((zeile.cells[0], links, "RezeptZutat"),
+                              (zeile.cells[1], rechts, "RegisterWert")):
+        absatz = zelle.paragraphs[0]
+        for lauf in list(absatz.runs):
+            lauf._r.getparent().remove(lauf._r)
+        absatz.style = doc.styles[stil]
+        absatz.paragraph_format.left_indent = Mm(0)
+        absatz.add_run(text)
+    return zeile
+
+
+def _register_gruppiert(doc, register, breite_mm, *, schluessel, gruppen, wert):
+    eintraege = sorted(register, key=lambda e: (schluessel(e), e["name"].lower()))
+    offen = list(eintraege)
+    for grenze, titel in gruppen:
+        teil = [e for e in offen if schluessel(e) <= grenze]
+        if not teil:
+            continue
+        offen = [e for e in offen if e not in teil]
+        ueberschrift = doc.add_paragraph(style="RezeptRubrik")
+        ueberschrift.add_run(titel.upper())
+        ueberschrift.paragraph_format.keep_with_next = True
+        tabelle = _registertabelle(doc, breite_mm)
+        for e in teil:
+            _registerzeile(doc, tabelle, e["name"], wert(e))
+        doc.add_paragraph(style="FliesstextEng")
+    return None
+
+
+def _register_alphabetisch(doc, register, breite_mm):
+    """Alphabetisches Rezeptregister mit Angabe des Teils."""
+    tabelle = _registertabelle(doc, breite_mm)
+    for e in sorted(register, key=lambda x: x["name"].lower()):
+        _registerzeile(doc, tabelle, e["name"], e["teil"])
     doc.add_paragraph(style="FliesstextEng")
     return tabelle
 

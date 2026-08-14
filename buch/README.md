@@ -287,6 +287,24 @@ Die Seitenzahl wird automatisch gerade gemacht — bei ungerader Zahl baut das
 Skript einen zweiten Durchlauf mit Leerseite am Ende, weil KDP sonst selbst
 ein unbeschriftetes Blatt einschiebt.
 
+**Mindestens 72 Seiten.** Das ist die Untergrenze, die KDP für 8 × 10 Zoll
+verlangt. Mit den 73 Rezepten allein kam der Band auf 54 — die Differenz ist
+**nicht** über Durchschuss und Leerraum aufgefüllt, sondern über Inhalt, den
+ein Kochbuch ohnehin haben sollte:
+
+| Kapitel | Seiten |
+|---|---|
+| Teilauftakt je Rezeptteil auf eigener Seite | 5 |
+| Register nach Zubereitungszeit | 3 |
+| Register nach Eiweißgehalt | 3 |
+| Zwei Beispielwochen | 3 |
+| Was immer da sein sollte (Vorrat) | 3 |
+| Die Reihe · Über den Autor | 2 |
+
+Die beiden neuen Register kommen aus denselben Rezeptdaten wie die Rezepte
+selbst — sie können also nicht auseinanderlaufen. Wer Rezepte ergänzt oder
+Zeiten korrigiert, muss nichts nachpflegen.
+
 ## Rechtliche Leitplanken
 
 - **Eigenständigkeit:** Fakten, Mengen und Listen stammen aus dem

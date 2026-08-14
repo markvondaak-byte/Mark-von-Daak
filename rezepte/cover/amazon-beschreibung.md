@@ -7,7 +7,7 @@ grenze: 4000 Zeichen inklusive Auszeichnung
 
 Geprüfte Zahlen aus `rezepte/rezepte/*.yaml`: 73 Rezepte, davon 5 Frühstücke,
 26 für weiße Tage, 22 für grüne Tage, 12 ab der Stabilisierungsphase und
-8 Grundrezepte. 54 Seiten, Großformat 20,3 × 25,4 cm.
+8 Grundrezepte. 72 Seiten, Großformat 20,3 × 25,4 cm.
 
 Der Nutzen, den dieses Listing verkauft, ist nicht „viele Rezepte", sondern:
 Du musst bei keinem Gericht nachschlagen, ob es heute erlaubt ist. Genau das
@@ -53,7 +53,7 @@ Kräuter in der doppelten Menge, Knoblauch, getrocknete Pilze für herzhafte
 Tiefe. Und was nicht funktioniert — Kräutersalz, Gemüsebrühe, Sojasauce und
 alles, was „würzt".
 
-Dazu ein alphabetisches Register aller 73 Gerichte mit Angabe des Tagestyps.
+Dazu drei Register: alphabetisch, nach Zubereitungszeit und nach Eiweißgehalt.
 
 **Ohne Produktempfehlungen.** Alle Zutaten bekommst du im normalen Supermarkt.
 
@@ -88,7 +88,7 @@ Band 3 — Das Rezeptbuch: dieses Buch.
 <h5>Bei jedem Gericht steht, was du wissen musst</h5>
 <p>Portionen, Zubereitungszeit und der Eiwei&szlig;gehalt &mdash; damit du die Menge auf dein K&ouml;rpergewicht umrechnen kannst, ohne nachzuschlagen. Dazu bei fast jedem Rezept ein Hinweis aus der Praxis: warum Lein&ouml;l nicht in die Pfanne geh&ouml;rt, warum Brokkoli aus dem Ofen mehr hergibt als gekochter, warum portionsweises Anbraten den Unterschied macht.</p>
 <h5>Ein eigenes Kapitel f&uuml;r das gr&ouml;&szlig;te Problem</h5>
-<p>&bdquo;Kochen im Konzept&ldquo; erkl&auml;rt, was Salz ersetzt: S&auml;ure, R&ouml;staromen, Sch&auml;rfe, Kr&auml;uter in der doppelten Menge, Knoblauch, getrocknete Pilze f&uuml;r herzhafte Tiefe. Und was nicht funktioniert &mdash; Kr&auml;utersalz, Gem&uuml;sebr&uuml;he, Sojasauce und alles, was &bdquo;w&uuml;rzt&ldquo;. Dazu ein alphabetisches Register aller 73 Gerichte mit Angabe des Tagestyps.</p>
+<p>&bdquo;Kochen im Konzept&ldquo; erkl&auml;rt, was Salz ersetzt: S&auml;ure, R&ouml;staromen, Sch&auml;rfe, Kr&auml;uter in der doppelten Menge, Knoblauch, getrocknete Pilze f&uuml;r herzhafte Tiefe. Und was nicht funktioniert &mdash; Kr&auml;utersalz, Gem&uuml;sebr&uuml;he, Sojasauce und alles, was &bdquo;w&uuml;rzt&ldquo;. Dazu drei Register: alphabetisch, nach Zubereitungszeit und nach Eiweißgehalt.</p>
 <p><b>Ohne Produktempfehlungen.</b> Alle Zutaten bekommst du im normalen Supermarkt.</p>
 <p><i>Die Rezepte verwenden unter anderem Eier, Fisch, Krusten- und Weichtiere, Milch, N&uuml;sse, Sesam, Soja und glutenhaltigen Dinkelkleber. Pr&uuml;fe jedes Rezept vor der Zubereitung auf Zutaten, die du nicht vertr&auml;gst. Nicht geeignet in Schwangerschaft und Stillzeit, nicht f&uuml;r Kinder und Jugendliche. Dieses Buch ist kein medizinischer Ratgeber.</i></p>
 <h5>Die Reihe</h5>
@@ -152,7 +152,7 @@ Rezept. „Kochen im Konzept" erklärt, was an die Stelle von Salz tritt — Sä
 Röstaromen, Schärfe, Kräuter in doppelter Menge, getrocknete Pilze — und was
 nicht funktioniert: Kräutersalz, Gemüsebrühe, Sojasauce.
 
-Dazu ein alphabetisches Register aller 73 Gerichte.
+Dazu drei Register: alphabetisch, nach Zubereitungszeit und nach Eiweißgehalt.
 
 **Ohne Produktempfehlungen.** Kein Hersteller, keine Marke, kein Versprechen
 über Kilogramm.
@@ -186,7 +186,7 @@ zum Ausfüllen, Band 3 ist dieses Kochbuch. Jeder Band funktioniert für sich.
 <h5>Bei jedem Gericht steht, was du wissen musst</h5>
 <p>Portionen, Zubereitungszeit und der Eiwei&szlig;gehalt in Gramm &mdash; damit du die Menge auf dein K&ouml;rpergewicht umrechnen kannst. Dazu bei fast jedem Rezept ein Hinweis aus der Praxis: warum Lein&ouml;l nicht in die Pfanne geh&ouml;rt, warum Brokkoli aus dem Ofen mehr hergibt als gekochter, warum portionsweises Anbraten den Unterschied macht.</p>
 <h5>Das Kapitel, das den Unterschied macht</h5>
-<p>Wer zum ersten Mal ohne Salz kocht, findet das Essen fad. Das liegt nicht am Rezept. &bdquo;Kochen im Konzept&ldquo; erkl&auml;rt, was an die Stelle von Salz tritt &mdash; S&auml;ure, R&ouml;staromen, Sch&auml;rfe, Kr&auml;uter in doppelter Menge, getrocknete Pilze &mdash; und was nicht funktioniert: Kr&auml;utersalz, Gem&uuml;sebr&uuml;he, Sojasauce. Dazu ein alphabetisches Register aller 73 Gerichte.</p>
+<p>Wer zum ersten Mal ohne Salz kocht, findet das Essen fad. Das liegt nicht am Rezept. &bdquo;Kochen im Konzept&ldquo; erkl&auml;rt, was an die Stelle von Salz tritt &mdash; S&auml;ure, R&ouml;staromen, Sch&auml;rfe, Kr&auml;uter in doppelter Menge, getrocknete Pilze &mdash; und was nicht funktioniert: Kr&auml;utersalz, Gem&uuml;sebr&uuml;he, Sojasauce. Dazu drei Register: alphabetisch, nach Zubereitungszeit und nach Eiweißgehalt.</p>
 <p><b>Ohne Produktempfehlungen.</b> Kein Hersteller, keine Marke, kein Versprechen &uuml;ber Kilogramm.</p>
 <p><i>Enth&auml;lt unter anderem Eier, Fisch, Krusten- und Weichtiere, Milch, N&uuml;sse, Sesam, Soja und glutenhaltigen Dinkelkleber &mdash; pr&uuml;fe jedes Rezept vor der Zubereitung auf Zutaten, die du nicht vertr&auml;gst. Nicht geeignet in Schwangerschaft und Stillzeit, nicht f&uuml;r Kinder und Jugendliche. Kein medizinischer Ratgeber.</i></p>
 <h5>Teil einer Reihe</h5>
