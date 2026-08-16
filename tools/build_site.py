@@ -33,6 +33,7 @@ DATEIEN = [
 VERZEICHNISSE = [
     ("assets", set()),
     ("app", {"build"}),
+    ("business", {"build"}),
 ]
 
 
@@ -83,6 +84,9 @@ def pruefen():
                "app/manifest.webmanifest", "app/daten/programm.json",
                "app/daten/rezepte.json", "app/daten/wissen.json",
                "app/icons/icon-192.png", "app/icons/icon-512.png",
+               "business/index.html", "business/app.js", "business/app.css",
+               "business/sw.js", "business/manifest.webmanifest",
+               "business/icons/icon-192.png", "business/icons/icon-512.png",
                "index.html"]
     fehlt = [p for p in pflicht if not (ZIEL / p).exists()]
     if fehlt:

@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
 
-# Die App ist ein persönliches Werkzeug, kein Inhalt für Suchmaschinen.
+# Die Apps sind persönliche Werkzeuge, kein Inhalt für Suchmaschinen.
 Disallow: /app/
+Disallow: /business/

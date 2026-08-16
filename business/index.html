@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FitLine Business</title>
+<meta name="description" content="Kontaktdatenbank und Follow-up für Kunden und Teampartner.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0E6B70">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Business">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- iOS rundet das Apple-Touch-Icon selbst — es wird deshalb randfüllend
+     und ohne Transparenz geliefert. 180px ist die von Apple erwartete Größe. -->
+<link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="stylesheet" href="app.css">
+<script>
+/* Setzt den Farbmodus, bevor das erste Pixel gezeichnet wird. Ohne das
+   blitzt beim Start kurz die helle Variante auf, auch wenn dunkel
+   eingestellt ist. Muss deshalb inline im <head> stehen und darf nichts
+   nachladen. */
+(function () {
+  var wahl = null;
+  try { wahl = localStorage.getItem('fitline-business.modus'); } catch (e) {}
+  var dunkel = wahl === 'dunkel' ||
+    (wahl !== 'hell' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.theme = dunkel ? 'dark' : 'light';
+})();
+</script>
+</head>
+<body>
+
+<!-- Ikonen einmal definiert, per <use> referenziert -->
+<svg style="display:none" aria-hidden="true">
+  <symbol id="i-heute" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/><circle cx="12" cy="15.5" r="2"/>
+  </symbol>
+  <symbol id="i-kontakte" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20v-1.5A4.5 4.5 0 0 1 8.5 14h2A4.5 4.5 0 0 1 15 18.5V20"/>
+    <circle cx="9.5" cy="8.5" r="3.5"/>
+    <path d="M17 13.6a4 4 0 0 1 3 3.9V20M16.2 5.4a3.2 3.2 0 0 1 0 6"/>
+  </symbol>
+  <symbol id="i-followup" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="8.5"/><path d="M12 7.2V12l3.2 2"/>
+  </symbol>
+  <symbol id="i-team" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="4.6" r="2.6"/><circle cx="5" cy="19.4" r="2.6"/><circle cx="19" cy="19.4" r="2.6"/>
+    <path d="M12 7.2v4.4M5 16.8v-2.2a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v2.2"/>
+  </symbol>
+  <symbol id="i-zahlen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 20h18"/><path d="M6.5 20v-6M11.5 20V7M16.5 20v-9"/>
+  </symbol>
+  <symbol id="i-haken" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 12.5 9.5 18 20 6.5"/>
+  </symbol>
+  <symbol id="i-zurueck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M15 5l-7 7 7 7"/>
+  </symbol>
+  <symbol id="i-weiter" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 5l7 7-7 7"/>
+  </symbol>
+  <symbol id="i-schliessen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 6l12 12M18 6L6 18"/>
+  </symbol>
+  <symbol id="i-zahnrad" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="3"/>
+    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6h.09A1.65 1.65 0 0 0 10 3.09V3a2 2 0 1 1 4 0v.09A1.65 1.65 0 0 0 15 4.6a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9v.09a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+  </symbol>
+  <symbol id="i-sonne" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="4"/>
+    <path d="M12 2v2M12 20v2M22 12h-2M4 12H2M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4M19.1 19.1l-1.4-1.4M6.3 6.3 4.9 4.9"/>
+  </symbol>
+  <symbol id="i-mond" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+  </symbol>
+  <symbol id="i-system" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="2.5" y="4" width="19" height="13" rx="2"/><path d="M8 20.5h8M12 17v3.5"/>
+  </symbol>
+  <symbol id="i-suche" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="11" cy="11" r="7"/><path d="M16.5 16.5 21 21"/>
+  </symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 5v14M5 12h14"/>
+  </symbol>
+  <symbol id="i-telefon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6.2 3.5h3l1.5 3.8-2 1.4a12 12 0 0 0 5.6 5.6l1.4-2 3.8 1.5v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.2 5.7a2 2 0 0 1 2-2.2z"/>
+  </symbol>
+  <symbol id="i-nachricht" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M20.5 11.6a8 8 0 0 1-11.7 7.1L4 20l1.3-4.6A8 8 0 1 1 20.5 11.6z"/>
+  </symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m3.6 7 8.4 6 8.4-6"/>
+  </symbol>
+  <symbol id="i-treffen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 21s-7-4.7-7-10a7 7 0 1 1 14 0c0 5.3-7 10-7 10z"/><circle cx="12" cy="10.6" r="2.6"/>
+  </symbol>
+  <symbol id="i-paket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M20.5 7.8v8.4L12 21l-8.5-4.8V7.8L12 3z"/><path d="m3.7 7.6 8.3 4.6 8.3-4.6M12 12.2V21"/>
+  </symbol>
+  <symbol id="i-geschenk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3" y="8.5" width="18" height="4" rx="1"/><path d="M4.8 12.5V20a1 1 0 0 0 1 1h12.4a1 1 0 0 0 1-1v-7.5M12 8.5V21"/>
+    <path d="M12 8.5S10.8 3 8.4 3a2.2 2.2 0 0 0 0 5.5zM12 8.5S13.2 3 15.6 3a2.2 2.2 0 0 1 0 5.5z"/>
+  </symbol>
+  <symbol id="i-stift" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M15.5 4.5 19.5 8.5M4 20l.9-3.6L16 5.3a1.6 1.6 0 0 1 2.3 0l1.4 1.4a1.6 1.6 0 0 1 0 2.3L8.6 19.1z"/>
+  </symbol>
+  <symbol id="i-uhr-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M20.4 13.4A8.5 8.5 0 1 1 12 3.5"/><path d="M12 7.2V12l2.8 1.7M17 3v5M14.5 5.5h5"/>
+  </symbol>
+  <symbol id="i-warnung" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3.8 21 19.5H3z"/><path d="M12 9.6v4.2M12 16.8h.01"/>
+  </symbol>
+  <symbol id="i-leer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="8.5"/><path d="M9 14.5s1.1-1.2 3-1.2 3 1.2 3 1.2M9.2 9.6h.01M14.8 9.6h.01"/>
+  </symbol>
+  <symbol id="i-muell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6.5h16M9.5 6.5V4.2a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v2.3"/>
+    <path d="M6.5 6.5 7.3 20a1 1 0 0 0 1 .9h7.4a1 1 0 0 0 1-.9l.8-13.5"/>
+  </symbol>
+  <symbol id="i-archiv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3" y="4" width="18" height="4.5" rx="1"/><path d="M5 8.5V19a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8.5M10 12.5h4"/>
+  </symbol>
+</svg>
+
+<div class="app">
+  <header class="kopf">
+    <div class="kopf__zeile">
+      <div style="flex:1;min-width:0">
+        <h1 id="kopf-titel">Heute</h1>
+        <div class="kopf__sub" id="kopf-sub"></div>
+      </div>
+      <button class="ikon-knopf" id="knopf-suche" aria-label="Kontakt suchen">
+        <svg><use href="#i-suche"/></svg>
+      </button>
+      <button class="ikon-knopf" id="knopf-einstellungen" aria-label="Einstellungen">
+        <svg><use href="#i-zahnrad"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="inhalt" id="inhalt" tabindex="-1"></main>
+
+  <button class="schnellknopf" id="knopf-neu" aria-label="Neuer Kontakt">
+    <svg><use href="#i-plus"/></svg>
+  </button>
+
+  <nav class="tabs" role="tablist" aria-label="Hauptbereiche">
+    <button class="tab" role="tab" data-ansicht="heute" aria-selected="true">
+      <svg><use href="#i-heute"/></svg>Heute
+    </button>
+    <button class="tab" role="tab" data-ansicht="kontakte" aria-selected="false">
+      <svg><use href="#i-kontakte"/></svg>Kontakte
+    </button>
+    <button class="tab" role="tab" data-ansicht="followup" aria-selected="false">
+      <svg><use href="#i-followup"/></svg>Follow-up
+    </button>
+    <button class="tab" role="tab" data-ansicht="team" aria-selected="false">
+      <svg><use href="#i-team"/></svg>Team
+    </button>
+    <button class="tab" role="tab" data-ansicht="zahlen" aria-selected="false">
+      <svg><use href="#i-zahlen"/></svg>Zahlen
+    </button>
+  </nav>
+</div>
+
+<div id="blatt-halter"></div>
+
+<script src="app.js"></script>
+</body>
+</html>

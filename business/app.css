@@ -1,0 +1,673 @@
+/* =========================================================================
+   FitLine Business — Kontakte & Follow-up
+
+   Dasselbe Designsystem wie die Programm-App nebenan (Poppins für
+   Überschriften, Instrument Sans für Fließtext, gleiche Radien und Schatten),
+   aber mit eigener Akzentfarbe. Das ist Absicht: Beide Apps liegen am Ende
+   nebeneinander auf demselben Homescreen und müssen auf einen Blick
+   auseinanderzuhalten sein. Rot ist die Kundenapp, Petrol das Werkzeug fürs
+   Geschäft.
+   ========================================================================= */
+
+:root {
+  --bg:         #FFFFFF;
+  --bg-2:       #F1F3F2;
+  --surface:    #FFFFFF;
+  --surface-2:  #F5F7F6;
+  --ink:        #16201F;
+  --ink-soft:   #5B6867;
+  --line:       #E1E7E5;
+  --accent:     #0E6B70;
+  --accent-ink: #0A5459;
+  --on-accent:  #FFFFFF;
+
+  /* Statusfarben. Nie allein tragend — immer zusammen mit Text, sonst ist
+     die Information für Farbfehlsichtige nicht da. */
+  --warn:      #FBE7E4;   /* überfällig */
+  --warn-ink:  #A32A1C;
+  --acht:      #FBF0DC;   /* heute fällig */
+  --acht-ink:  #8A6416;
+  --gut:       #E2F0DB;   /* erledigt, Kunde */
+  --gut-ink:   #35722B;
+  --ruhe:      #ECEFEE;   /* ruhend, archiviert */
+  --ruhe-ink:  #67716F;
+  --info:      #DDEEEE;   /* Partner, Termin */
+  --info-ink:  #0A5459;
+
+  --radius:    18px;
+  --radius-sm: 12px;
+  --maxw:      560px;
+
+  --display: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --body:    "Instrument Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+
+  --shadow:    0 1px 2px rgba(15,32,31,.05), 0 14px 34px -18px rgba(15,32,31,.28);
+  --shadow-sm: 0 1px 2px rgba(15,32,31,.06), 0 6px 16px -12px rgba(15,32,31,.3);
+
+  --tabbar-h: 62px;
+}
+
+/* Dunkelmodus.
+   Gesetzt über data-theme am <html> durch das Skript im <head>, noch vor dem
+   ersten Zeichnen — deshalb blitzt nichts auf.
+
+   Zur Akzentfarbe: Auf dunklem Grund muss sie zwei Aufgaben erfüllen, die
+   sich widersprechen — als Text lesbar sein und weiße Schrift auf Knöpfen
+   tragen. Eine einzige Farbe schafft beides nicht, deshalb zwei:
+     --accent      Flächen (Knöpfe, Haken, aktive Zustände)
+     --accent-ink  Text und Symbole auf dunklem Grund */
+:root[data-theme="dark"] {
+  --bg:         #0F1615;
+  --bg-2:       #0A100F;
+  --surface:    #18211F;
+  --surface-2:  #202B29;
+  --ink:        #ECF1EF;
+  --ink-soft:   #A8B5B3;
+  --line:       #2B3634;
+  --accent:     #17858B;
+  --accent-ink: #58CBD1;
+  --on-accent:  #FFFFFF;
+
+  --warn:      #3A211C;
+  --warn-ink:  #FF9B8C;
+  --acht:      #362D1B;
+  --acht-ink:  #E5C275;
+  --gut:       #223318;
+  --gut-ink:   #9BCB83;
+  --ruhe:      #242C2B;
+  --ruhe-ink:  #9CA8A6;
+  --info:      #14312F;
+  --info-ink:  #6FD3D8;
+
+  --shadow:    0 1px 2px rgba(0,0,0,.4), 0 22px 46px -22px rgba(0,0,0,.72);
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.4), 0 8px 20px -14px rgba(0,0,0,.7);
+}
+
+/* Rückfallebene, falls das Skript im <head> nicht läuft. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --bg: #0F1615; --bg-2: #0A100F; --surface: #18211F; --surface-2: #202B29;
+    --ink: #ECF1EF; --ink-soft: #A8B5B3; --line: #2B3634;
+    --accent: #17858B; --accent-ink: #58CBD1;
+    --warn: #3A211C; --warn-ink: #FF9B8C;
+    --acht: #362D1B; --acht-ink: #E5C275;
+    --gut: #223318; --gut-ink: #9BCB83;
+    --ruhe: #242C2B; --ruhe-ink: #9CA8A6;
+    --info: #14312F; --info-ink: #6FD3D8;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 22px 46px -22px rgba(0,0,0,.72);
+    --shadow-sm: 0 1px 2px rgba(0,0,0,.4), 0 8px 20px -14px rgba(0,0,0,.7);
+  }
+}
+
+* { box-sizing: border-box; }
+
+/* Inline-SVG ohne width/height fällt sonst auf 300x150 zurück und sprengt
+   jedes Flex-Layout. Basisgröße setzen, Einzelfälle überschreiben sie. */
+svg { width: 20px; height: 20px; flex: 0 0 auto; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg-2);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: none;
+}
+
+h1, h2, h3, h4 { font-family: var(--display); font-weight: 700; margin: 0; }
+
+button, input, select, textarea { font: inherit; color: inherit; }
+
+/* --- Grundgerüst -------------------------------------------------------- */
+.app {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  min-height: 100dvh;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+}
+
+.kopf {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  padding: calc(env(safe-area-inset-top) + 14px) 18px 12px;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: saturate(160%) blur(14px);
+  -webkit-backdrop-filter: saturate(160%) blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+.kopf__zeile { display: flex; align-items: center; gap: 8px; }
+.kopf h1 { font-size: 22px; letter-spacing: -.02em; }
+.kopf__sub { color: var(--ink-soft); font-size: 13px; margin-top: 2px; }
+
+.inhalt {
+  flex: 1;
+  padding: 16px 18px calc(var(--tabbar-h) + env(safe-area-inset-bottom) + 24px);
+}
+
+/* --- Tableiste ---------------------------------------------------------- */
+.tabs {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 30;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding-bottom: env(safe-area-inset-bottom);
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  backdrop-filter: saturate(160%) blur(16px);
+  -webkit-backdrop-filter: saturate(160%) blur(16px);
+  border-top: 1px solid var(--line);
+}
+
+.tab {
+  appearance: none;
+  border: 0;
+  background: none;
+  padding: 9px 2px 8px;
+  height: var(--tabbar-h);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  color: var(--ink-soft);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: .01em;
+  cursor: pointer;
+  position: relative;
+  transition: color .15s;
+}
+.tab svg { width: 22px; height: 22px; stroke-width: 1.8; }
+.tab[aria-selected="true"] { color: var(--accent-ink); }
+.tab:active { opacity: .6; }
+
+/* Zähler auf dem Follow-up-Reiter: offene Aufgaben sollen sichtbar sein,
+   ohne dass man den Reiter erst öffnen muss. */
+.tab__punkt {
+  position: absolute;
+  top: 6px; left: 50%;
+  transform: translateX(6px);
+  min-width: 17px; height: 17px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 10px; font-weight: 700; line-height: 17px;
+  text-align: center;
+}
+.tab__punkt--warn { background: #C0392B; }
+:root[data-theme="dark"] .tab__punkt--warn { background: #D8453A; }
+
+/* --- Schnellknopf ------------------------------------------------------- */
+.schnellknopf {
+  position: fixed;
+  z-index: 29;
+  right: max(18px, calc(50vw - var(--maxw) / 2 + 18px));
+  bottom: calc(var(--tabbar-h) + env(safe-area-inset-bottom) + 16px);
+  width: 52px; height: 52px;
+  border: 0; border-radius: 50%;
+  background: var(--accent); color: var(--on-accent);
+  display: grid; place-items: center;
+  cursor: pointer;
+  box-shadow: 0 8px 22px -8px color-mix(in srgb, var(--accent) 75%, transparent);
+  transition: transform .12s, opacity .15s;
+}
+.schnellknopf svg { width: 24px; height: 24px; stroke-width: 2.2; }
+.schnellknopf:active { transform: scale(.93); }
+
+/* --- Karten ------------------------------------------------------------- */
+.karte {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 14px;
+}
+.karte--flach { box-shadow: none; }
+.karte__titel {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 15px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.karte__titel .zaehler {
+  margin-left: auto;
+  font-family: var(--body);
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.abschnitt-titel {
+  font-family: var(--display);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin: 22px 2px 10px;
+  display: flex; align-items: center; gap: 8px;
+}
+.abschnitt-titel:first-child { margin-top: 4px; }
+.abschnitt-titel .zaehler {
+  margin-left: auto; font-family: var(--body); font-weight: 600;
+  font-size: 12px; letter-spacing: 0; text-transform: none;
+}
+.abschnitt-titel--warn { color: var(--warn-ink); }
+
+/* --- Tageskarte --------------------------------------------------------- */
+.held {
+  background: linear-gradient(160deg,
+    color-mix(in srgb, var(--accent) 88%, #000) 0%,
+    var(--accent) 58%,
+    color-mix(in srgb, var(--accent) 78%, #4FA98A) 100%);
+  color: var(--on-accent);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+:root[data-theme="dark"] .held {
+  background: linear-gradient(160deg,
+    color-mix(in srgb, var(--accent) 60%, #000) 0%,
+    color-mix(in srgb, var(--accent) 82%, #000) 58%,
+    color-mix(in srgb, var(--accent) 70%, #2C6B58) 100%);
+}
+.held::after {
+  content: "";
+  position: absolute;
+  inset: auto -40px -70px auto;
+  width: 190px; height: 190px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.10);
+}
+.held__datum { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; opacity: .82; }
+.held__zeile { font-family: var(--display); font-size: 27px; line-height: 1.12; letter-spacing: -.02em; margin-top: 6px; }
+.held__sub { opacity: .86; font-size: 13.5px; margin-top: 5px; }
+.held__zahlen {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 8px; margin-top: 17px;
+  position: relative; z-index: 1;
+}
+.held__zahl {
+  background: rgba(255,255,255,.15);
+  border: 1px solid rgba(255,255,255,.22);
+  border-radius: var(--radius-sm);
+  padding: 9px 8px 8px;
+  text-align: center;
+}
+.held__zahl b { display: block; font-family: var(--display); font-size: 19px; line-height: 1.1; }
+.held__zahl span { font-size: 10.5px; opacity: .86; letter-spacing: .02em; }
+
+/* --- Plaketten ---------------------------------------------------------- */
+.plakette {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+.plakette--interessent { background: var(--acht);  color: var(--acht-ink); }
+.plakette--kunde       { background: var(--gut);   color: var(--gut-ink); }
+.plakette--partner     { background: var(--info);  color: var(--info-ink); }
+.plakette--ruhend      { background: var(--ruhe);  color: var(--ruhe-ink); }
+.plakette--warn        { background: var(--warn);  color: var(--warn-ink); }
+.plakette--neutral     { background: var(--surface-2); color: var(--ink-soft); border-color: var(--line); }
+
+/* --- Kontaktzeile ------------------------------------------------------- */
+.zeile {
+  display: flex; align-items: center; gap: 12px;
+  width: 100%; text-align: left;
+  appearance: none; cursor: pointer;
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 12px 13px; margin-bottom: 9px;
+  box-shadow: var(--shadow-sm);
+  transition: transform .1s;
+}
+.zeile:active { transform: scale(.99); }
+.zeile--warn { border-color: color-mix(in srgb, var(--warn-ink) 38%, transparent); }
+.zeile__text { flex: 1; min-width: 0; }
+.zeile__name {
+  font-family: var(--display); font-weight: 700; font-size: 14.5px;
+  line-height: 1.3;
+  display: flex; align-items: center; gap: 7px; flex-wrap: wrap;
+}
+/* Zwei Zeilen statt einer mit Auslassungspunkten: In den Untertexten steht
+   regelmäßig Wesentliches („seit 26 Tagen kein Kontakt"), das nach einem
+   Dreipunkt abgeschnitten wäre. */
+.zeile__meta {
+  font-size: 12px; color: var(--ink-soft); margin-top: 3px;
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+.zeile__meta--warn { color: var(--warn-ink); font-weight: 600; }
+.zeile__meta--acht { color: var(--acht-ink); font-weight: 600; }
+.zeile__pfeil { color: var(--ink-soft); flex: 0 0 auto; }
+.zeile__pfeil svg { width: 17px; height: 17px; stroke-width: 2.2; }
+
+/* Initialenkreis statt Foto: keine Bilddateien, kein Speicherproblem, und
+   die Liste bleibt auch mit 300 Kontakten schnell. */
+.initialen {
+  flex: 0 0 auto;
+  width: 40px; height: 40px; border-radius: 50%;
+  display: grid; place-items: center;
+  font-family: var(--display); font-weight: 700; font-size: 14px;
+  letter-spacing: .02em;
+  background: var(--surface-2); color: var(--ink-soft);
+  border: 1px solid var(--line);
+}
+.initialen--interessent { background: var(--acht); color: var(--acht-ink); border-color: transparent; }
+.initialen--kunde       { background: var(--gut);  color: var(--gut-ink);  border-color: transparent; }
+.initialen--partner     { background: var(--info); color: var(--info-ink); border-color: transparent; }
+.initialen--ruhend      { background: var(--ruhe); color: var(--ruhe-ink); border-color: transparent; }
+.initialen--gross { width: 56px; height: 56px; font-size: 19px; }
+
+/* --- Aufgabenzeile ------------------------------------------------------ */
+.aufgabe {
+  display: flex; align-items: flex-start; gap: 11px;
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 12px 13px; margin-bottom: 9px;
+  box-shadow: var(--shadow-sm);
+}
+.aufgabe--warn { border-color: color-mix(in srgb, var(--warn-ink) 38%, transparent); }
+.aufgabe--erledigt { opacity: .55; box-shadow: none; }
+.aufgabe__text { flex: 1; min-width: 0; cursor: pointer; }
+.aufgabe__name { font-family: var(--display); font-weight: 700; font-size: 14.5px; line-height: 1.3; }
+.aufgabe__was { font-size: 13px; margin-top: 2px; }
+.aufgabe__meta { font-size: 11.5px; color: var(--ink-soft); margin-top: 3px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.aufgabe__meta--warn { color: var(--warn-ink); font-weight: 600; }
+.aufgabe__meta--acht { color: var(--acht-ink); font-weight: 600; }
+.aufgabe__knoepfe { display: flex; gap: 6px; margin-top: 9px; flex-wrap: wrap; }
+
+.haken {
+  appearance: none;
+  flex: 0 0 auto;
+  width: 26px; height: 26px;
+  border-radius: 9px;
+  border: 2px solid var(--line);
+  background: var(--surface);
+  cursor: pointer;
+  display: grid; place-items: center;
+  margin-top: 2px;
+  transition: background .15s, border-color .15s, transform .1s;
+}
+.haken:active { transform: scale(.9); }
+.haken[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); }
+.haken svg { width: 15px; height: 15px; stroke: #fff; stroke-width: 3; opacity: 0; transition: opacity .15s; }
+.haken[aria-pressed="true"] svg { opacity: 1; }
+
+/* --- Schnellaktionen (anrufen, schreiben, mailen) ----------------------- */
+.aktionen { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 14px 0 4px; }
+.aktion {
+  appearance: none; cursor: pointer; text-decoration: none;
+  border: 1px solid var(--line); background: var(--surface-2); color: var(--ink);
+  border-radius: var(--radius-sm); padding: 11px 6px 9px;
+  display: flex; flex-direction: column; align-items: center; gap: 5px;
+  font-size: 12px; font-weight: 600;
+  transition: transform .1s, opacity .15s;
+}
+.aktion svg { width: 19px; height: 19px; stroke-width: 1.9; color: var(--accent-ink); }
+.aktion:active { transform: scale(.96); }
+.aktion[aria-disabled="true"] { opacity: .38; pointer-events: none; }
+
+/* --- Formularfelder ----------------------------------------------------- */
+.feld { margin-bottom: 12px; }
+.feld > label {
+  display: block; font-size: 12px; font-weight: 600;
+  color: var(--ink-soft); margin-bottom: 5px;
+}
+.feld__hilfe { font-size: 11.5px; color: var(--ink-soft); margin-top: 4px; }
+.eingabe, textarea.eingabe, select.eingabe {
+  width: 100%;
+  padding: 11px 13px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  color: var(--ink);
+  outline: none;
+  transition: border-color .15s, box-shadow .15s;
+}
+.eingabe:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+textarea.eingabe { min-height: 76px; resize: vertical; }
+
+.suchfeld { position: relative; margin-bottom: 12px; }
+.suchfeld .eingabe { padding-left: 38px; }
+.suchfeld svg {
+  position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+  width: 18px; height: 18px; color: var(--ink-soft); pointer-events: none;
+}
+
+/* --- Schaltflächen ------------------------------------------------------ */
+.knopf {
+  appearance: none; border: 0; cursor: pointer;
+  background: var(--accent); color: var(--on-accent);
+  padding: 13px 20px; border-radius: 999px;
+  font-family: var(--display); font-weight: 700; font-size: 15px;
+  width: 100%;
+  box-shadow: 0 6px 16px -10px color-mix(in srgb, var(--accent) 60%, transparent);
+  transition: transform .1s, opacity .15s;
+}
+.knopf:active { transform: scale(.98); opacity: .9; }
+.knopf--zweit {
+  background: var(--surface-2); color: var(--ink);
+  border: 1px solid var(--line); box-shadow: none;
+}
+.knopf--warn { background: transparent; color: var(--warn-ink); border: 1px solid color-mix(in srgb, var(--warn-ink) 40%, transparent); box-shadow: none; }
+.knopf--klein { width: auto; padding: 8px 14px; font-size: 13px; border-radius: 999px; }
+
+/* --- Chips / Filter ----------------------------------------------------- */
+.filter { display: flex; gap: 7px; overflow-x: auto; padding: 2px 0 12px; scrollbar-width: none; }
+.filter::-webkit-scrollbar { display: none; }
+.chip {
+  appearance: none; cursor: pointer; white-space: nowrap;
+  border: 1px solid var(--line); background: var(--surface-2);
+  color: var(--ink-soft); padding: 7px 14px; border-radius: 999px;
+  font-size: 13px; font-weight: 600; transition: all .12s;
+}
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+
+.marken { display: flex; flex-wrap: wrap; gap: 6px; }
+.marke {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: var(--surface-2); border: 1px solid var(--line);
+  color: var(--ink-soft); border-radius: 999px;
+  padding: 4px 10px; font-size: 12px; font-weight: 600;
+}
+.marke button {
+  appearance: none; border: 0; background: none; cursor: pointer;
+  color: var(--ink-soft); padding: 0; line-height: 1; font-size: 15px;
+}
+
+/* --- Pipeline-Stufen ---------------------------------------------------- */
+.stufen { display: flex; flex-direction: column; gap: 6px; }
+.stufe {
+  appearance: none; cursor: pointer; text-align: left;
+  display: flex; align-items: center; gap: 10px;
+  border: 1px solid var(--line); background: var(--surface-2);
+  border-radius: var(--radius-sm); padding: 10px 12px;
+  transition: all .12s;
+}
+.stufe__nr {
+  flex: 0 0 22px; height: 22px; border-radius: 50%;
+  background: var(--surface); border: 1px solid var(--line);
+  color: var(--ink-soft);
+  display: grid; place-items: center;
+  font-size: 11.5px; font-weight: 700; font-family: var(--display);
+}
+.stufe__text { flex: 1; font-size: 13.5px; font-weight: 600; }
+.stufe__note { display: block; font-size: 11.5px; color: var(--ink-soft); font-weight: 400; margin-top: 1px; }
+.stufe--erreicht .stufe__nr { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.stufe--aktiv {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, var(--surface));
+}
+.stufe--aktiv .stufe__text { color: var(--accent-ink); }
+
+/* --- Verlauf (Kontakthistorie) ----------------------------------------- */
+.verlauf { position: relative; padding-left: 22px; }
+.verlauf::before {
+  content: ""; position: absolute; left: 7px; top: 6px; bottom: 6px;
+  width: 2px; background: var(--line); border-radius: 1px;
+}
+.eintrag { position: relative; padding: 7px 0 9px; }
+.eintrag::before {
+  content: ""; position: absolute; left: -19px; top: 13px;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--accent); border: 2px solid var(--surface);
+}
+.eintrag__kopf { display: flex; align-items: baseline; gap: 8px; }
+.eintrag__art { font-family: var(--display); font-weight: 700; font-size: 13px; }
+.eintrag__datum { font-size: 11.5px; color: var(--ink-soft); margin-left: auto; }
+.eintrag__text { font-size: 13.5px; margin-top: 2px; white-space: pre-wrap; }
+
+/* --- Kennzahlen --------------------------------------------------------- */
+.werte { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.werte--drei { grid-template-columns: repeat(3, 1fr); }
+.wert {
+  background: var(--surface-2); border: 1px solid var(--line);
+  border-radius: var(--radius-sm); padding: 12px;
+}
+.wert__label { font-size: 11.5px; color: var(--ink-soft); font-weight: 600; }
+.wert__zahl { font-family: var(--display); font-weight: 700; font-size: 22px; margin-top: 2px; letter-spacing: -.02em; }
+.wert__note { font-size: 11.5px; color: var(--ink-soft); margin-top: 1px; }
+.wert__note--gut { color: var(--gut-ink); font-weight: 600; }
+.wert__note--warn { color: var(--warn-ink); font-weight: 600; }
+
+/* --- Trichter ----------------------------------------------------------- */
+.trichter { display: flex; flex-direction: column; gap: 8px; }
+.trichter__stufe { display: flex; align-items: center; gap: 10px; }
+.trichter__name { flex: 0 0 108px; font-size: 12.5px; font-weight: 600; }
+.trichter__balken-aussen { flex: 1; height: 22px; background: var(--surface-2); border-radius: 7px; overflow: hidden; }
+.trichter__balken {
+  height: 100%; border-radius: 7px; min-width: 3px;
+  background: var(--accent);
+  transition: width .4s;
+}
+.trichter__zahl { flex: 0 0 26px; text-align: right; font-family: var(--display); font-weight: 700; font-size: 13.5px; }
+
+/* --- Diagramm ----------------------------------------------------------- */
+.diagramm { width: 100%; height: 150px; display: block; }
+.diagramm .saeule { fill: var(--accent); }
+.diagramm .saeule--schwach { fill: color-mix(in srgb, var(--accent) 32%, transparent); }
+.diagramm .achse { stroke: var(--line); stroke-width: 1; }
+.diagramm .beschriftung { fill: var(--ink-soft); font-size: 9.5px; font-family: var(--body); }
+
+/* --- Leerzustand -------------------------------------------------------- */
+.leer { text-align: center; padding: 38px 20px; color: var(--ink-soft); }
+.leer svg { width: 42px !important; height: 42px !important; opacity: .35; margin-bottom: 12px; }
+.leer__titel { font-family: var(--display); font-weight: 700; font-size: 16px; color: var(--ink); margin-bottom: 5px; }
+.leer p { font-size: 14px; margin: 0 auto; max-width: 32ch; }
+.leer--klein { padding: 20px 12px; }
+.leer--klein svg { display: none; }
+
+/* --- Overlay ------------------------------------------------------------ */
+.blatt {
+  position: fixed; inset: 0; z-index: 60;
+  background: var(--bg);
+  max-width: var(--maxw); margin: 0 auto;
+  display: flex; flex-direction: column;
+  animation: hoch .26s cubic-bezier(.32,.72,0,1);
+}
+@keyframes hoch { from { transform: translateY(100%); } to { transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) { .blatt { animation: none; } }
+
+.blatt__kopf {
+  display: flex; align-items: center; gap: 10px;
+  padding: calc(env(safe-area-inset-top) + 12px) 16px 12px;
+  border-bottom: 1px solid var(--line);
+}
+.blatt__kopf h2 { font-size: 17px; flex: 1; letter-spacing: -.01em; min-width: 0; }
+.blatt__inhalt { flex: 1; overflow-y: auto; padding: 16px 18px calc(env(safe-area-inset-bottom) + 30px); -webkit-overflow-scrolling: touch; }
+
+.ikon-knopf {
+  appearance: none; border: 0; background: var(--surface-2);
+  width: 34px; height: 34px; border-radius: 50%;
+  display: grid; place-items: center; cursor: pointer; color: var(--ink);
+  flex: 0 0 auto;
+}
+.ikon-knopf:active { opacity: .6; }
+.ikon-knopf svg { width: 17px; height: 17px; stroke-width: 2.2; }
+.ikon-knopf--warn { color: var(--warn-ink); }
+
+/* --- Meldung ------------------------------------------------------------ */
+/* Kurzer Hinweis am unteren Rand, etwa nach „erledigt" oder „gespeichert".
+   Verschwindet von selbst — nichts zum Wegklicken. */
+.meldung {
+  position: fixed; z-index: 80;
+  left: 50%; transform: translateX(-50%);
+  bottom: calc(var(--tabbar-h) + env(safe-area-inset-bottom) + 78px);
+  background: var(--ink); color: var(--bg);
+  padding: 10px 18px; border-radius: 999px;
+  font-size: 13.5px; font-weight: 600;
+  box-shadow: var(--shadow);
+  max-width: calc(100% - 36px);
+  animation: einblenden .2s ease-out;
+}
+@keyframes einblenden { from { opacity: 0; transform: translate(-50%, 8px); } to { opacity: 1; transform: translate(-50%, 0); } }
+@media (prefers-reduced-motion: reduce) { .meldung { animation: none; } }
+
+/* --- Kleinkram ---------------------------------------------------------- */
+.fusstext { font-size: 11.5px; color: var(--ink-soft); line-height: 1.45; margin-top: 18px; }
+.trenner { height: 1px; background: var(--line); margin: 16px 0; border: 0; }
+.reihe { display: flex; gap: 10px; }
+.reihe > * { flex: 1; }
+.reihe--eng { gap: 6px; }
+.mitte { text-align: center; }
+.versteckt { display: none !important; }
+
+.datenzeile { display: flex; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+.datenzeile:last-child { border-bottom: 0; }
+.datenzeile__label { flex: 0 0 118px; color: var(--ink-soft); font-size: 13px; }
+.datenzeile__wert { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.datenzeile a { color: var(--accent-ink); text-decoration: none; }
+
+.hinweis {
+  background: var(--surface-2);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 12px 14px; margin: 0 0 14px;
+}
+.hinweis--warn { border-left-color: var(--warn-ink); }
+.hinweis__titel { font-family: var(--display); font-weight: 700; font-size: 13.5px; color: var(--accent-ink); margin-bottom: 4px; }
+.hinweis--warn .hinweis__titel { color: var(--warn-ink); }
+.hinweis p { margin: 0; font-size: 13.5px; }
+
+/* --- Umschaltung hell/dunkel -------------------------------------------- */
+.modus { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
+.modus button {
+  appearance: none; cursor: pointer;
+  border: 1px solid var(--line); background: var(--surface-2); color: var(--ink);
+  border-radius: var(--radius-sm); padding: 13px 6px 11px;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  font-size: 12.5px; font-weight: 600; transition: all .12s;
+}
+.modus button svg { width: 19px; height: 19px; stroke-width: 1.8; color: var(--ink-soft); }
+.modus button[aria-pressed="true"] {
+  border-color: var(--accent); color: var(--accent-ink);
+  background: color-mix(in srgb, var(--accent) 10%, var(--surface));
+}
+.modus button[aria-pressed="true"] svg { color: var(--accent-ink); }

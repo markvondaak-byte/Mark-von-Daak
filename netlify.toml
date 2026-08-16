@@ -62,11 +62,44 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+# --- Business-App -------------------------------------------------------------
+# Kontakte und Follow-up. Dieselben Regeln wie bei der Programm-App: nichts
+# lange cachen außer den Icons, damit ein Update ankommt.
+[[headers]]
+  for = "/business/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    # Ein persönliches Arbeitsmittel gehört in keinen Suchindex und in kein
+    # Archiv, auch nicht über einen zufällig geteilten Link.
+    X-Robots-Tag = "noindex, nofollow, noarchive"
+
+[[headers]]
+  for = "/business/sw.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    Service-Worker-Allowed = "/business/"
+
+[[headers]]
+  for = "/business/manifest.webmanifest"
+  [headers.values]
+    Content-Type = "application/manifest+json; charset=utf-8"
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/business/icons/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
 # --- Umleitungen ---------------------------------------------------------------
-# Bequemer Kurzlink zur App.
+# Bequeme Kurzlinks zu den beiden Apps.
 [[redirects]]
   from = "/app"
   to = "/app/"
+  status = 301
+
+[[redirects]]
+  from = "/business"
+  to = "/business/"
   status = 301
 
 # Die Buchquellen sind gar nicht erst im dist. Falls jemand danach sucht,
