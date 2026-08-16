@@ -6,6 +6,7 @@
 |---|---|
 | `/` | Website (`index.html`, Impressum, Datenschutz) |
 | `/app/` | Die Stoffwechsel-Reset-App |
+| `/business/` | Kontakte und Follow-up — persönliches Arbeitsmittel, nicht verlinkt und aus Suchmaschinen ausgeschlossen |
 | `/assets/` | Bilddateien |
 | `/404.html` | Fehlerseite im Look der Website |
 
