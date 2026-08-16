@@ -10,8 +10,8 @@
 | `/assets/` | Bilddateien |
 | `/404.html` | Fehlerseite im Look der Website |
 
-**Nicht** veröffentlicht werden die Buchquellen unter `buch/`, `workbook/` und
-`rezepte/` sowie sämtliche Build-Skripte. Dafür sorgt `tools/build_site.py`:
+**Nicht** veröffentlicht werden die Buchquellen unter `buch/`, `workbook/`,
+`rezepte/` und `ki/` sowie sämtliche Build-Skripte. Dafür sorgt `tools/build_site.py`:
 Es kopiert gezielt nur das Auszuliefernde nach `dist/` und bricht mit einem
 Fehler ab, falls doch eine Buchquelle darin landet.
 

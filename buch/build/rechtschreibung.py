@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Rechtschreibprüfung über alle Quelltexte der drei Bände.
+"""Rechtschreibprüfung über alle Quelltexte aller Bücher.
 
     pip install pyspellchecker
     python3 buch/build/rechtschreibung.py
@@ -35,10 +35,44 @@ QUELLEN = [
     ("Band 2", "workbook/rahmen", "*.md"),
     ("Band 3", "rezepte/rahmen", "*.md"),
     ("Band 3", "rezepte/rezepte", "*.yaml"),
+    ("KI-Buch", "ki/kapitel", "*.md"),
     ("Umschlag", "buch/cover", "klappentext.md"),
     ("Umschlag", "workbook/cover", "klappentext.md"),
     ("Umschlag", "rezepte/cover", "klappentext.md"),
+    ("Umschlag", "ki/cover", "klappentext.md"),
 ]
+
+# Fachbegriffe des KI-Buches: englische Bezeichnungen ohne deutsche
+# Entsprechung, Eigennamen und Wortbildungen, die eine Wortliste nicht kennt.
+# Getrennt geführt, weil sie mit der Stoffwechsel-Reihe nichts zu tun haben.
+KI_FACHWORTE = {
+    "llm", "token", "transformer", "transformers", "deep", "learning",
+    "chatbot", "cloud", "app", "audio", "screening", "loitering",
+    "science", "fiction", "and", "stop", "dartmouth", "colorado",
+    "robotik", "onkologie", "dermatologie", "sepsis", "neurons",
+    "begleiterkrankungen", "beipackzettel", "untertitelung",
+    "sehbeeinträchtigung", "hörbeeinträchtigung", "sprech",
+    "lernschwierigkeiten", "lernschwelle", "lerngegenstand", "lernzeiten",
+    "erklärwerkzeug", "programmierunterricht", "programmierberufe",
+    "schulalltag", "lehrstücke", "wegbeschreibung", "belegbarkeit",
+    "nachweisbarkeit", "beurteilbarkeit", "erklärbarkeit",
+    "versicherbarkeit", "kuratierung", "prüfkapazität", "prüffrage",
+    "prüfschritt", "prüfschritte", "prüfpflichten", "aufsichts",
+    "auskunfts", "dokumentations", "genauigkeits", "vorpriorisierung",
+    "vorsortieren", "vorsortiert", "altsysteme", "abkündigung",
+    "abgekündigt", "bezahlschranken", "bewerter", "förderprogramme",
+    "fördermittel", "kontrollbruch", "kontrollverlust", "rückprall",
+    "rückrechnen", "rückrechnungsverfahren", "rüstungskontrollverträge",
+    "dekarbonisierung", "elektroschrott", "gaskraftwerke", "ausbringung",
+    "lieferverkehren", "notbremsassistent", "totwinkelwarnung",
+    "heizungs", "lüftungs", "schwingungs", "bewegungs", "kleinteilig",
+    "verschriftlichung", "eingeschliffen", "jahrzehntealt", "körperlos",
+    "unwirtschaftlich", "verkraftbar", "umverteilt", "umschlägt",
+    "auszuspielen", "beschicken", "aggregiert", "aggregierte", "flacht",
+    "gestuft", "existenzen", "kennwörter", "lektorat", "warnern",
+    "naheliegendste", "spekulativste", "fünftens", "unüberwachtes", "ern",
+    "rebound", "effect",
+}
 
 # Begriffe, die richtig sind, aber in keiner Wortliste stehen: Marken,
 # Fachbegriffe des Konzepts, Zutaten, Eigennamen.
@@ -142,7 +176,7 @@ def main():
 
     pruefer = SpellChecker(language="de")
     bekannt = set(pruefer.word_frequency.dictionary)
-    bekannt |= FACHWORTE
+    bekannt |= FACHWORTE | KI_FACHWORTE
 
     zeilen = texte_sammeln()
     print(f"{len(zeilen)} Zeilen aus {len({z[1] for z in zeilen})} Dateien\n")

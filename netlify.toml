@@ -1,7 +1,7 @@
 # Netlify-Konfiguration
 #
 # Der Build kopiert nur das Auszuliefernde nach dist/ — die Buchquellen unter
-# buch/, workbook/ und rezepte/ bleiben draußen. Siehe tools/build_site.py.
+# buch/, workbook/, rezepte/ und ki/ bleiben draußen. Siehe tools/build_site.py.
 
 [build]
   command = "python3 tools/build_site.py"
@@ -116,5 +116,10 @@
 
 [[redirects]]
   from = "/rezepte/*"
+  to = "/404.html"
+  status = 404
+
+[[redirects]]
+  from = "/ki/*"
   to = "/404.html"
   status = 404

@@ -8,6 +8,11 @@ Zwei eigenständige Bände, gemeinsame Build-Basis:
 | 2 — Das Workbook | `workbook/` | 8″ × 10″ | `workbook/out/workbook.{docx,pdf}` |
 | 3 — Das Rezeptbuch | `rezepte/` | 8″ × 10″ | `rezepte/out/rezeptbuch.{docx,pdf}` |
 
+Daneben liegt unter `ki/` ein **eigenständiges Sachbuch** über Künstliche
+Intelligenz. Es gehört nicht zu dieser Reihe, nutzt aber dieselbe
+Satz-Werkstatt aus `buch/build/`. Eigene Anleitung: `ki/README.md`. Wer hier an
+`stile.py` dreht, verstellt es mit.
+
 ## Bauen
 
 ```bash

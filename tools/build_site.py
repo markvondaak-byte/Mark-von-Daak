@@ -4,7 +4,7 @@
     python3 tools/build_site.py
 
 Warum überhaupt ein Build: Im Repository liegen neben der Website auch die
-Quellen der drei Bücher (buch/, workbook/, rezepte/) und die Build-Skripte.
+Quellen der Bücher (buch/, workbook/, rezepte/, ki/) und die Build-Skripte.
 Die gehören nicht ins Netz. Dieses Skript kopiert deshalb gezielt nur das,
 was ausgeliefert werden soll, nach dist/.
 
@@ -72,7 +72,8 @@ def kopieren():
 
 def pruefen():
     """Sicherheitsnetz: Wenn Buchquellen im dist landen, ist etwas faul."""
-    verboten = ["buch", "workbook", "rezepte", "tools", ".git", ".claude"]
+    verboten = ["buch", "workbook", "rezepte", "ki", "tools", ".git",
+                ".claude"]
     treffer = [v for v in verboten if (ZIEL / v).exists()]
     if treffer:
         print(f"\nFEHLER: Diese Verzeichnisse dürfen nicht veröffentlicht "
