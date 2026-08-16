@@ -25,9 +25,16 @@ Fehler ab, falls doch eine Buchquelle darin landet.
 
    | Feld | Wert |
    |---|---|
-   | Branch to deploy | `main` |
+   | Branch to deploy | `claude/hihi-mdd42r` |
    | Build command | `python3 tools/build_site.py` |
    | Publish directory | `dist` |
+
+   **Zum Branch:** Dieses Repository hat keinen Branch `main`. Der
+   Standard-Branch heißt `claude/hihi-mdd42r`, und nur was dort liegt, wird
+   gebaut. Steht in Netlify ein anderer Name, passiert bei einem Push gar
+   nichts — ohne Fehlermeldung, weil Netlify auf einen Branch wartet, den es
+   nicht gibt. Zu ändern unter **Site configuration → Build & deploy →
+   Branches and deploy contexts → Production branch**.
 
 4. **Deploy site**. Der erste Build dauert etwa eine Minute.
 
@@ -64,8 +71,8 @@ es weder Offline-Betrieb noch die Installation auf dem Homescreen.
 
 ## Nach jedem Update
 
-Ein `git push` auf `main` löst automatisch einen neuen Build aus. Zwei Dinge
-sind dabei zu beachten:
+Ein `git push` auf den Standard-Branch (`claude/hihi-mdd42r`) löst automatisch
+einen neuen Build aus. Zwei Dinge sind dabei zu beachten:
 
 **1. Nach Änderungen an den Büchern die App-Daten neu erzeugen:**
 
