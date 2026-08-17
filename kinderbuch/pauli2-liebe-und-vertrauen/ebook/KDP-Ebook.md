@@ -19,7 +19,8 @@ EPUB 3** für Amazon Kindle (Text fließt, passt sich jeder Schriftgröße an).
 
 ## Veröffentlichen
 1. KDP → **„+ Kindle eBook erstellen"** → Details eintragen (KI-Angabe: Ja).
-2. Inhalt: **`Pauli-und-der-kleine-Igel.epub`** hochladen (Cover ist enthalten).
+2. Inhalt (zwei Felder): **eBook-Manuskript** = **`Pauli-und-der-kleine-Igel.epub`**;
+   **eBook-Cover** = **`ebook-cover.jpg`** (JPEG, 1600 × 2560 px – KDP-Wunschformat).
 3. Mit dem **Kindle Previewer** prüfen, Preis (z. B. **3,99 €**) festlegen, veröffentlichen.
    - 70 % Tantiemen im Preisband 2,60 – 9,99 € · optional **KDP Select** (Kindle Unlimited).
 

@@ -45,11 +45,11 @@ Ausfüllblatt) – die funktionieren nur im gedruckten Buch.
 2. **Details:** Titel, Untertitel, Autor, Beschreibung, Keywords, Kategorien,
    Lesealter eintragen (KI-Frage wahrheitsgemäß beantworten – Text und Bilder
    sind KI-erstellt).
-3. **Inhalt:**
-   - Manuskript: **`Pauli-und-das-kleine-Licht.epub`** hochladen.
-   - Cover: ist im EPUB enthalten; du kannst es zusätzlich als Bilddatei
-     hochladen (aus `../buch-6x9/` lässt sich bei Bedarf ein reines Cover-PNG
-     erzeugen – sag mir Bescheid).
+3. **Inhalt (zwei Upload-Felder):**
+   - **eBook-Manuskript (= Innenteil):** **`Pauli-und-das-kleine-Licht.epub`** hochladen.
+   - **eBook-Cover:** **`ebook-cover.jpg`** hochladen (JPEG, 1600 × 2560 px –
+     genau das KDP-Wunschformat). Das Cover steckt zwar auch im EPUB, aber KDP
+     möchte es zusätzlich als separates Bild für Produktseite und Thumbnail.
 4. **Vorschau:** Mit dem **Kindle Previewer** (bzw. der Online-Vorschau) einmal
    durch alle Kapitel klettern – prüfen, ob Bilder laden und der Text sauber fließt.
 5. **Preis** festlegen (Abschnitt oben), Länder wählen, **veröffentlichen**.
