@@ -314,6 +314,14 @@ def linie(c, x, y, breite, farbe=None, staerke=0.6):
 ABSTAND_UEBER_VERSALHOEHE = 20.0
 ABSTAND_TITEL_STRICH = 26.0
 ABSTAND_UNTERTITEL_AUTOR = 34.0
+# Der Titelblock sitzt nicht genau in der Mitte des freien Feldes, sondern um
+# diesen Anteil der Feldhöhe darüber. Zwei Gründe: Ein Block, der geometrisch
+# mittig steht, wirkt in einem hohen Feld zu tief — das ist der alte Satz vom
+# optischen gegenüber dem rechnerischen Mittelpunkt. Und hier kommt hinzu, dass
+# das Motiv oben Gewicht hat; der Titel darf ihm entgegenkommen, statt am
+# unteren Rand allein zu stehen.
+BLOCK_HEBUNG = 0.12
+
 UNTERTITEL_GROESSE = 14.0
 UNTERTITEL_ZEILE = 19.0
 AUTOR_UNTER_GRUNDLINIE = 4.0     # Unterlänge der Autorenzeile
@@ -358,8 +366,10 @@ def vorderseite(c, x, y, breite, hoehe, cfg, *, motiv_unterkante):
         + AUTOR_UNTER_GRUNDLINIE
     )
 
-    # Im freien Feld zwischen Motivunterkante und Seitenfuß zentrieren.
-    feld_mitte = (motiv_unterkante + y) / 2
+    # Im freien Feld zwischen Motivunterkante und Seitenfuß ausrichten — um
+    # BLOCK_HEBUNG über dessen Mitte, nicht genau darin.
+    feldhoehe = motiv_unterkante - y
+    feld_mitte = y + feldhoehe / 2 + feldhoehe * BLOCK_HEBUNG
     autor_y = feld_mitte - blockhoehe / 2 + AUTOR_UNTER_GRUNDLINIE
 
     c.setFillColor(PALETTE["titel"])

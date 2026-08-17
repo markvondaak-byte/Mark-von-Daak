@@ -138,9 +138,12 @@ von einem Bildanbieter, muss die Lizenz die kommerzielle Nutzung auf einem
 Buchumschlag abdecken; viele Standardlizenzen schließen genau das aus.
 
 **Vorderseite.** Titel, Trennstrich, Untertitel und Autorenzeile bilden einen
-Block, der erst ausgemessen und dann in der Höhe zentriert wird — nicht auf der
-Seite, sondern im freien Feld zwischen der Unterkante des Motivs und der
-unteren Trimmkante. Auf die Seitenmitte bezogen säße er halb im Netz; an festen
+Block, der erst ausgemessen und dann in der Höhe ausgerichtet wird — nicht auf
+der Seite, sondern im freien Feld zwischen der Unterkante des Motivs und der
+unteren Trimmkante. Und nicht genau mittig darin, sondern um `BLOCK_HEBUNG`
+(0,12 der Feldhöhe, rund 13 mm) darüber: Ein geometrisch zentrierter Block
+wirkt in einem hohen Feld zu tief, und das Motiv hat oben Gewicht, dem der
+Titel entgegenkommen darf. Auf die Seitenmitte bezogen säße er halb im Netz; an festen
 Bruchteilen der Seitenhöhe aufgehängt sitzt er zu tief. Gemessen wird über die
 Versalhöhe der obersten Titelzeile, nicht über die Oberkante des Schriftkastens
 — optisch zentriert ist ein Titel an seinen Großbuchstaben, nicht an der
