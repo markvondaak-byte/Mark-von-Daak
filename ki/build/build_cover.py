@@ -37,7 +37,8 @@ sys.path.insert(0, str(WURZEL / "buch" / "build"))
 from build_cover import (  # noqa: E402
     BARCODE_B_MM, BARCODE_H_MM, BESCHNITT_MM, RUECKENTEXT_AB_SEITEN,
     RUECKEN_PRO_SEITE_MM, block_schreiben, groesse_einpassen,
-    klappentext_laden, schriften_laden, seitenzahl, umbrechen, vorschau,
+    klappentext_laden, schriften_laden, seitenzahl, titelbild_zeichnen,
+    umbrechen, vorschau,
 )
 
 KI = WURZEL / "ki"
@@ -83,6 +84,62 @@ def grund(c, breite, hoehe, streifen=140):
         )
         c.rect(0, hoehe * i / streifen, breite,
                hoehe / streifen + 1, stroke=0, fill=1)
+
+
+# --- Titelbild ---------------------------------------------------------------
+def titelbild_suchen():
+    """Sucht ein Titelbild in ki/cover/.
+
+    Bewusst **ohne** den Rückgriff auf buch/cover/, den
+    buch/build/build_cover.py macht: Dort liegt das Lebensmittelfoto der
+    Stoffwechsel-Reihe, und das auf diesem Umschlag zu finden wäre kein
+    Fundstück, sondern ein Unfall.
+    """
+    for endung in (".jpg", ".jpeg", ".png", ".webp"):
+        pfad = KI / "cover" / f"titelbild{endung}"
+        if pfad.exists():
+            return pfad
+    return None
+
+
+def titelbild_sollmasse(cfg, dpi=300):
+    """Mindestmaße des Titelbilds in Pixeln.
+
+    Gerechnet, nicht geraten: Das Bild füllt nicht den Umschlag, sondern das
+    obere Band der Vorderseite — NETZ_HOEHE der Gesamthöhe, über die
+    Seitenbreite plus Anschnitt oben und außen.
+    """
+    sf = cfg["seitenformat"]
+    breite_mm = sf["breite_mm"] + BESCHNITT_MM
+    hoehe_mm = (sf["hoehe_mm"] + 2 * BESCHNITT_MM) * NETZ_HOEHE
+    je_mm = dpi / 25.4
+    return round(breite_mm * je_mm), round(hoehe_mm * je_mm)
+
+
+def titelbild_melden(cfg, pfad):
+    """Sagt beim Bauen, welches Motiv verwendet wird — und was daraus folgt."""
+    soll_b, soll_h = titelbild_sollmasse(cfg)
+    if not pfad:
+        print(f"Motiv: gezeichnetes Netz. Für ein Bild stattdessen "
+              f"ki/cover/titelbild.jpg ablegen (mindestens {soll_b} x {soll_h} px).")
+        print("  KDP-Meldung „KI-erzeugte Bilder\": nein")
+        return
+
+    from PIL import Image
+    with Image.open(pfad) as bild:
+        breite, hoehe = bild.size
+    print(f"Motiv: {Path(pfad).relative_to(WURZEL)} "
+          f"({breite} x {hoehe} px, nötig {soll_b} x {soll_h})")
+    if breite < soll_b or hoehe < soll_h:
+        band = soll_b / soll_h
+        nutz_b = round(hoehe * band) if breite / hoehe > band else breite
+        print(f"  {nutz_b / (soll_b / 300):.0f} dpi statt 300 — wird auf "
+              f"{soll_b} px hochgerechnet. Das erfindet keine Schärfe, es "
+              "verhindert die KDP-Meldung „Auflösung zu niedrig\".")
+    print("  Herkunft klären: Ist das Bild KI-erzeugt, ist bei KDP "
+          "„KI-erzeugte Bilder\": ja anzugeben — und die Offenlegung in "
+          "ki/kapitel/01-impressum.md und 63-hinweise.md zu ergänzen. "
+          "Siehe ki/kdp-metadaten.md.")
 
 
 # --- Motiv -------------------------------------------------------------------
@@ -377,7 +434,23 @@ def cover_bauen(cfg, seiten, klappentext_pfad, ziel):
     c.setTitle(f"{cfg['titel']} — Umschlag")
 
     grund(c, gesamt_b, gesamt_h)
-    netz(c, 0, gesamt_h * (1 - NETZ_HOEHE), gesamt_b, gesamt_h * NETZ_HOEHE)
+
+    band_h = gesamt_h * NETZ_HOEHE
+    band_y = gesamt_h - band_h
+    titelbild = titelbild_suchen()
+    if titelbild:
+        # Das Bild füllt das obere Band der **Vorderseite**, samt Anschnitt
+        # oben und außen. Rückseite und Rücken bleiben im Grundton — genauso
+        # macht es die Stoffwechsel-Reihe, und aus demselben Grund: Ein Motiv,
+        # das am Rücken in ein anderes übergeht, hat quer über den flach
+        # ausgelegten Umschlag eine Kante. Ein Bild über die volle Breite wäre
+        # die Alternative, bräuchte aber ein Seitenverhältnis von 4,5:1.
+        titelbild_zeichnen(c, titelbild,
+                           anschnitt + trim_b + ruecken_b, band_y,
+                           trim_b + anschnitt, band_h,
+                           ausblenden=PALETTE["grund_oben"])
+    else:
+        netz(c, 0, band_y, gesamt_b, band_h)
 
     kopf, absaetze, punkte = klappentext_laden(klappentext_pfad)
     mit_ruecken_text = seiten >= RUECKENTEXT_AB_SEITEN
@@ -427,7 +500,14 @@ def kindle_titelbild(cfg, ziel):
                       initialFontName="Serif")
     c.setTitle(f"{cfg['titel']} — Kindle")
     grund(c, breite_pt, hoehe_pt)
-    netz(c, 0, hoehe_pt * (1 - NETZ_HOEHE), breite_pt, hoehe_pt * NETZ_HOEHE)
+    band_h = hoehe_pt * NETZ_HOEHE
+    titelbild = titelbild_suchen()
+    if titelbild:
+        titelbild_zeichnen(c, titelbild, 0, hoehe_pt - band_h,
+                           breite_pt, band_h,
+                           ausblenden=PALETTE["grund_oben"])
+    else:
+        netz(c, 0, hoehe_pt - band_h, breite_pt, band_h)
     vorderseite(c, 0, 0, breite_pt, hoehe_pt, cfg,
                 motiv_unterkante=hoehe_pt * (1 - NETZ_HOEHE))
     c.showPage()
@@ -457,6 +537,7 @@ def main():
           f"  (Rückentext: {'ja' if masse['ruecken_text'] else 'nein'})")
     print(f"Umschlag gesamt: {b:.2f} x {h:.2f} mm "
           f"= {b/25.4:.3f} x {h/25.4:.3f} Zoll, inkl. {BESCHNITT_MM} mm Anschnitt")
+    titelbild_melden(cfg, titelbild_suchen())
     print(f"  → {ziel.relative_to(WURZEL)}")
     print(f"  → {png.relative_to(WURZEL)}")
 

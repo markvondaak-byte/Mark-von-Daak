@@ -83,6 +83,33 @@ Der Untergrund ist ein Verlauf aus 140 Streifen, kein Shading-Objekt.
 reportlab würde für einen echten Verlauf genau das anlegen, was `cover_flach.py`
 anschließend als Beanstandung meldet.
 
+**Titelbild statt Netz.** Liegt in `ki/cover/` eine Datei `titelbild.jpg`
+(auch `.jpeg`, `.png`, `.webp`), tritt sie an die Stelle des gezeichneten
+Netzes: Sie füllt das obere Band der **Vorderseite** samt Anschnitt oben und
+außen, Rückseite und Rücken bleiben im Grundton. Nötig sind mindestens
+**1838 × 832 px**; `build_cover.py` rechnet das Maß aus der Seitengröße aus und
+meldet beim Bauen, was vorliegt und was fehlt.
+
+Warum nur die Vorderseite: Ein Motiv, das am Rücken in ein anderes übergeht,
+hat quer über den flach ausgelegten Umschlag eine sichtbare Kante. Ein Bild
+über die volle Umschlagbreite wäre die Alternative, bräuchte aber ein
+Seitenverhältnis von 4,5:1 — dafür gibt es kaum brauchbares Material. Die
+Stoffwechsel-Reihe löst es genauso.
+
+Die Unterkante des Bildes wird **ins Bild hinein** in den Grundton
+ausgeblendet, nicht als transparenter Verlauf darüber: Die KDP-Druckfassung
+darf keine Transparenz enthalten. Ohne diese Ausblendung steht eine harte Kante
+quer über den Umschlag, und sie fällt umso mehr auf, je näher sich Bild- und
+Grundton sind.
+
+**Herkunft des Bildes klären, bevor es eingesetzt wird.** Ist es KI-erzeugt,
+ist das bei KDP anzugeben (`ki/kdp-metadaten.md`, Abschnitt „KI-erzeugte
+Inhalte melden"), und die Offenlegung in `ki/kapitel/01-impressum.md` und
+`63-hinweise.md` ist zu ergänzen — ein Buch, das von anderen Transparenz über
+KI-Einsatz verlangt, kann sie beim eigenen Umschlag nicht weglassen. Stammt es
+von einem Bildanbieter, muss die Lizenz die kommerzielle Nutzung auf einem
+Buchumschlag abdecken; viele Standardlizenzen schließen genau das aus.
+
 **Vorderseite.** Titel, Trennstrich, Untertitel und Autorenzeile bilden einen
 Block, der erst ausgemessen und dann in der Höhe zentriert wird — nicht auf der
 Seite, sondern im freien Feld zwischen der Unterkante des Motivs und der

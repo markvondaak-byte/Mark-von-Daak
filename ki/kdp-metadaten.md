@@ -103,8 +103,22 @@ Für dieses Buch heißt das:
 | Bestandteil | Angabe |
 |---|---|
 | Text | KI-**unterstützt**, nicht KI-erzeugt — siehe Kapitel „Wichtige Hinweise“ |
-| Umschlag | keine KI-erzeugten Bilder; das Netzmotiv ist in `build_cover.py` gezeichnet |
+| Umschlag | **hängt vom Motiv ab** — siehe unten |
 | Übersetzung | entfällt |
+
+**Zum Umschlag.** Solange das gezeichnete Netzmotiv verwendet wird, lautet die
+Angabe **nein**: Es entsteht aus Zeichenbefehlen in `build_cover.py`, kein
+Bildmodell ist daran beteiligt.
+
+Sobald unter `ki/cover/titelbild.*` ein Bild liegt, das ein Bildmodell erzeugt
+hat, lautet sie **ja**. Dann sind zusätzlich zwei Stellen im Buch zu ergänzen,
+weil die Offenlegung dort bisher nur den Text abdeckt:
+
+- `ki/kapitel/01-impressum.md`, Abschnitt „Zur Entstehung“
+- `ki/kapitel/63-hinweise.md`, Abschnitt „Zur Entstehung des Buches“
+
+`build_cover.py` meldet bei jedem Lauf, welcher der beiden Fälle vorliegt —
+die Angabe muss nicht aus dem Gedächtnis rekonstruiert werden.
 
 Bei einem Buch über KI wird diese Frage genauer gelesen als bei anderen
 Titeln. Die Offenlegung im Buch (Impressum und Kapitel „Wichtige Hinweise“)
