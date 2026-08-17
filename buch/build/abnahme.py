@@ -31,6 +31,10 @@ BUCHDECKE_MM = 0.354 * 25.4    # Hardcover: Pappen und Falzrillen im Rücken
 # selbst übereinstimmt. Diese Zahlen kommen aus KDPs Vorgabe.
 BARCODE_B_MM, BARCODE_H_MM = 50.8, 30.5
 BARCODE_RAND_MM = 6.35
+# Hardcover: 0,25 Zoll Abstand gelten dort nicht zum Rücken, sondern zum
+# Scharnier — und das ist 0,4 Zoll breit. Das Feld rückt also 10,2 mm weiter
+# nach innen als beim Taschenbuch.
+BARCODE_SCHARNIER_MM = 0.4 * 25.4
 
 ergebnisse = []
 
@@ -357,7 +361,7 @@ def druckfassung_pruefen(bezeichnung, pdf, soll_b, soll_h):
            not befunde, ", ".join(befunde) if befunde else "")
 
 
-def barcodefeld_pruefen(bezeichnung, pdf, rand_mm, trim_b_mm):
+def barcodefeld_pruefen(bezeichnung, pdf, rand_mm, trim_b_mm, hardcover):
     """Die Fläche, auf die KDP den Barcode druckt, muss leer und hell sein.
 
     `rand_mm` ist der Anschnitt beziehungsweise der Umschlagrand beim
@@ -381,15 +385,17 @@ def barcodefeld_pruefen(bezeichnung, pdf, rand_mm, trim_b_mm):
     breite, hoehe = BARCODE_B_MM * pt, BARCODE_H_MM * pt
     # Rückseite liegt links; das Feld sitzt an ihrer rechten unteren
     # Trimmecke. fitz zählt y von oben, reportlab von unten.
-    rechts = (rand_mm + trim_b_mm - BARCODE_RAND_MM) * pt
+    seitlich = BARCODE_RAND_MM + (BARCODE_SCHARNIER_MM if hardcover else 0)
+    rechts = (rand_mm + trim_b_mm - seitlich) * pt
     unten = seite.rect.height - (rand_mm + BARCODE_RAND_MM) * pt
     feld = fitz.Rect(rechts - breite, unten - hoehe, rechts, unten)
 
     stoerer = sorted({w[4] for w in seite.get_text("words")
                       if fitz.Rect(w[:4]).intersects(feld)})
     pruefe(f"{bezeichnung}: Barcodefeld textfrei", not stoerer,
-           f"{BARCODE_B_MM} x {BARCODE_H_MM} mm, {BARCODE_RAND_MM} mm von der "
-           "Trimmecke" if not stoerer
+           f"{BARCODE_B_MM} x {BARCODE_H_MM} mm, {seitlich:.2f} mm von der "
+           f"Rückenkante{' (inkl. Scharnier)' if hardcover else ''}"
+           if not stoerer
            else f"{len(stoerer)} Wörter darin: {' '.join(stoerer[:6])}")
 
     bild = seite.get_pixmap(clip=feld, dpi=120)
@@ -430,7 +436,7 @@ def cover_pruefen(bezeichnung, pdf, cfg, seiten, *, hardcover=False):
            f"{ist_h:.1f} mm (Soll {soll_h:.1f})")
 
     barcodefeld_pruefen(bezeichnung, pdf, rand,
-                        cfg["seitenformat"]["breite_mm"])
+                        cfg["seitenformat"]["breite_mm"], hardcover)
 
     druckfassung_pruefen(bezeichnung,
                          pdf.with_name(pdf.stem + "-druck.pdf"),

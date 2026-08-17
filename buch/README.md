@@ -77,9 +77,18 @@ und beide werden von `abnahme.py` geprüft:
 | | Wert | warum |
 |---|---|---|
 | Größe | 50,8 × 30,5 mm (2 × 1,2 Zoll) | KDPs Mindestmaß |
-| Abstand zur Trimmecke | 6,35 mm (0,25 Zoll) | gemessen ab der Papierkante, nicht ab dem Anschnitt |
+| Abstand nach unten | 6,35 mm (0,25 Zoll) | gemessen ab der Trimmkante, nicht ab dem Anschnitt |
+| Abstand zum Rücken, Taschenbuch | 6,35 mm (0,25 Zoll) | |
+| Abstand zum Rücken, **Hardcover** | 16,51 mm (0,65 Zoll) | 0,4 Zoll Scharnier plus 0,25 Zoll Abstand davon |
 | Inhalt | nichts | kein Text, kein Bild, kein Designelement |
 | Grund | Volltonweiß | schwarze Strichschrift auf dem Schiefergrund wäre nicht zu scannen |
+
+**Warum das Hardcover anders rechnet.** Zwischen Rücken und Nutzfläche liegt
+auf beiden Deckeln ein Scharnier von 0,4 Zoll — der Streifen, der sich beim
+Aufschlagen bewegt. KDP verlangt beim Hardcover 0,25 Zoll Abstand nicht zum
+Rücken, sondern **zum Scharnier**. Das Feld rückt dadurch 10,2 mm weiter nach
+innen als beim Taschenbuch. Ohne diese Unterscheidung liegt es dort, wo der
+Deckel knickt, und deckt nicht, wo KDP den Barcode tatsächlich setzt.
 
 Das weiße Feld wird 0,5 mm größer angelegt als die geforderte Fläche. Ohne
 diesen Überstand läge die Kante zwischen Weiß und Schiefergrund genau auf der

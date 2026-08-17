@@ -59,6 +59,14 @@ HARDCOVER_MIN_SEITEN = 75      # weniger nimmt KDP als Hardcover nicht an
 BARCODE_B_MM, BARCODE_H_MM = 50.8, 30.5   # 2,0 x 1,2 Zoll — KDPs Mindestmaß
 BARCODE_RAND_MM = 6.35                    # 0,25 Zoll zur Trimmkante
 BARCODE_LUFT_MM = 4.0                     # Abstand, den Text zur Fläche hält
+
+# Hardcover hat neben der Trimmkante noch eine zweite Grenze: das Scharnier.
+# Zwischen Rücken und Nutzfläche liegt auf beiden Deckeln ein Streifen von
+# 0,4 Zoll, der sich beim Aufschlagen bewegt. KDP verlangt, den Barcode
+# mindestens 0,25 Zoll **vom Scharnier** entfernt zu halten — beim Taschenbuch
+# dagegen 0,25 Zoll vom Rücken. Der Unterschied sind 10,2 mm, um die das Feld
+# beim Hardcover weiter nach innen rückt.
+BARCODE_SCHARNIER_MM = 0.4 * 25.4
 # Das helle Feld wird einen halben Millimeter größer angelegt als die
 # geforderte Fläche. Sonst liegt die Kante zwischen Weiß und Schiefergrund
 # genau auf der Feldgrenze, und was im Druck an Passertoleranz dazukommt,
@@ -161,19 +169,25 @@ def block_schreiben(c, text, x, y, breite, schrift, groesse, zeilenhoehe,
     return y
 
 
-def barcodefeld(x, y, breite):
+def barcodefeld(x, y, breite, *, hardcover=False):
     """Das Rechteck unten rechts auf der Rückseite, das frei bleibt.
 
     `x`, `y`, `breite` sind Ursprung und Breite der **Rückseite in
     Trimmgröße** — nicht des ganzen Umschlags. Zurück kommt (x, y, b, h) in
     Punkt, so wie reportlab rechnet.
+
+    Beim Hardcover kommt zum seitlichen Abstand das Scharnier hinzu: Der
+    Barcode darf nicht in den Streifen geraten, der sich beim Aufschlagen
+    bewegt. Ohne diese Unterscheidung liegt das Feld beim Hardcover 10,2 mm
+    zu weit rechts und deckt nicht, wo KDP den Barcode tatsächlich setzt.
     """
     b, h = BARCODE_B_MM * mm, BARCODE_H_MM * mm
-    return (x + breite - BARCODE_RAND_MM * mm - b,
+    seitlich = BARCODE_RAND_MM + (BARCODE_SCHARNIER_MM if hardcover else 0)
+    return (x + breite - seitlich * mm - b,
             y + BARCODE_RAND_MM * mm, b, h)
 
 
-def barcodefeld_freistellen(c, x, y, breite, farbe=None):
+def barcodefeld_freistellen(c, x, y, breite, farbe=None, *, hardcover=False):
     """Legt die Barcodefläche als helles Feld an.
 
     Auf hellem Grund macht das Feld nichts sichtbar — der Umschlag ist dort
@@ -184,7 +198,7 @@ def barcodefeld_freistellen(c, x, y, breite, farbe=None):
     Transparenz: Die Druckfassung für KDP darf keine Transparenz enthalten,
     und ein Scanner braucht harten Kontrast, keinen weichen Rand.
     """
-    fx, fy, fb, fh = barcodefeld(x, y, breite)
+    fx, fy, fb, fh = barcodefeld(x, y, breite, hardcover=hardcover)
     u = BARCODE_UEBERSTAND_MM * mm
     c.setFillColor(farbe or HexColor("#FFFFFF"))
     c.rect(fx - u, fy - u, fb + 2 * u, fh + 2 * u, stroke=0, fill=1)
@@ -192,7 +206,7 @@ def barcodefeld_freistellen(c, x, y, breite, farbe=None):
 
 
 def markenhinweis_setzen(c, x, y, breite, textbreite, farbe, groesse=7,
-                         zeilenhoehe=9):
+                         zeilenhoehe=9, *, hardcover=False):
     """Setzt den Markenhinweis so tief wie möglich, aber über dem Barcodefeld.
 
     Der Hinweis lief vorher mit den letzten beiden Zeilen quer durch die
@@ -201,7 +215,7 @@ def markenhinweis_setzen(c, x, y, breite, textbreite, farbe, groesse=7,
     der ersten: Der Block wächst nach unten, also muss von unten gerechnet
     werden.
     """
-    _, fy, _, fh = barcodefeld(x, y, breite)
+    _, fy, _, fh = barcodefeld(x, y, breite, hardcover=hardcover)
     zeilen = umbrechen(c, MARKENHINWEIS, "Serif", groesse, textbreite)
     # Unterlängen (g, p, ß) reichen unter die Grundlinie — sonst berührt der
     # Hinweis die Feldkante genau dort, wo er es nicht darf.
@@ -523,7 +537,7 @@ def _rueckseite_hoehe(c, kopf, absaetze, punkte, textbreite, faktor):
 
 
 def rueckseite_schiefer(c, x, y, breite, hoehe, cfg, kopf, absaetze, punkte,
-                        *, auslage=True):
+                        *, auslage=True, hardcover=False):
     rand = breite * 0.11
     textbreite = breite - 2 * rand
     if auslage:
@@ -539,10 +553,10 @@ def rueckseite_schiefer(c, x, y, breite, hoehe, cfg, kopf, absaetze, punkte,
 
     # Barcodefeld zuerst: Es ist der einzige Bereich der Rückseite, dessen
     # Lage nicht verhandelbar ist. Alles andere ordnet sich darüber an.
-    barcodefeld_freistellen(c, x, y, breite)
+    barcodefeld_freistellen(c, x, y, breite, hardcover=hardcover)
     hinweis_hoehe = (len(umbrechen(c, MARKENHINWEIS, "Serif", 7, textbreite))
                      * 9)
-    _, fy, _, fh = barcodefeld(x, y, breite)
+    _, fy, _, fh = barcodefeld(x, y, breite, hardcover=hardcover)
     hinweis_y = fy + fh + BARCODE_LUFT_MM * mm + hinweis_hoehe
     platz = oben - (hinweis_y + 16)
 
@@ -606,7 +620,7 @@ def rueckseite_schiefer(c, x, y, breite, hoehe, cfg, kopf, absaetze, punkte,
               "Klappentext kürzen.")
 
     markenhinweis_setzen(c, x, y, breite, textbreite,
-                         ill.SCHIEFER["text_leise"])
+                         ill.SCHIEFER["text_leise"], hardcover=hardcover)
 
 
 def ruecken_schiefer(c, x, y, breite, hoehe, cfg, mit_text, text=None):
@@ -638,7 +652,8 @@ def ruecken(c, x, y, breite, hoehe, cfg, mit_text):
     c.restoreState()
 
 
-def rueckseite(c, x, y, breite, hoehe, cfg, kopf, absaetze, punkte):
+def rueckseite(c, x, y, breite, hoehe, cfg, kopf, absaetze, punkte,
+               *, hardcover=False):
     rand = breite * 0.11
     textbreite = breite - 2 * rand
     cursor = y + hoehe - rand * 1.5
@@ -672,8 +687,9 @@ def rueckseite(c, x, y, breite, hoehe, cfg, kopf, absaetze, punkte):
 
     # Markenhinweis über dem Barcodefeld — die Fläche selbst ist auf dem
     # hellen Grund schon Papierweiß und muss nur freigehalten werden.
-    markenhinweis_setzen(c, x, y, breite, textbreite, HexColor("#6B7566"))
-    return barcodefeld(x, y, breite)
+    markenhinweis_setzen(c, x, y, breite, textbreite, HexColor("#6B7566"),
+                         hardcover=hardcover)
+    return barcodefeld(x, y, breite, hardcover=hardcover)
 
 
 def cover_bauen(cfg, seiten, klappentext_pfad, ziel, *, hardcover=False):
@@ -727,7 +743,7 @@ def cover_bauen(cfg, seiten, klappentext_pfad, ziel, *, hardcover=False):
                          bezug=trim_b, wiederholungen=2)
         rueckseite_schiefer(c, anschnitt, anschnitt, trim_b, trim_h, cfg,
                             kopf, absaetze, punkte,
-                            auslage=not titelbild)
+                            auslage=not titelbild, hardcover=hardcover)
         ruecken_schiefer(c, anschnitt + trim_b, anschnitt, ruecken_b, trim_h,
                          cfg, mit_ruecken_text)
         vorderseite_schiefer(c, anschnitt + trim_b + ruecken_b, anschnitt,
@@ -736,7 +752,7 @@ def cover_bauen(cfg, seiten, klappentext_pfad, ziel, *, hardcover=False):
                              ueberstand=anschnitt)
     else:
         rueckseite(c, anschnitt, anschnitt, trim_b, trim_h, cfg,
-                   kopf, absaetze, punkte)
+                   kopf, absaetze, punkte, hardcover=hardcover)
         ruecken(c, anschnitt + trim_b, anschnitt, ruecken_b, trim_h, cfg,
                 mit_text=mit_ruecken_text)
         vorderseite(c, anschnitt + trim_b + ruecken_b, anschnitt,
