@@ -200,7 +200,8 @@ def cover_bauen(cfg, seiten, klappentext_pfad, ziel):
                          gesamt_b, gesamt_h * AUSLAGE_HOEHE,
                          bezug=trim_b, wiederholungen=3)
         rueckseite_schiefer(c, anschnitt, anschnitt, trim_b, trim_h, cfg,
-                            kopf, absaetze, punkte)
+                            kopf, absaetze, punkte,
+                            auslage=not titelbild)
         ruecken_schiefer(c, anschnitt + trim_b, anschnitt, ruecken_b, trim_h,
                          cfg, mit_ruecken_text,
                          f"{cfg['titel']} — REZEPTBUCH   ·   {cfg['autor']}")

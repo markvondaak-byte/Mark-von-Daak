@@ -68,6 +68,29 @@ KDP nimmt Hardcover erst **ab 75 Seiten** an; darunter überspringt das Skript
 die Fassung mit einem Hinweis. Band 2 und 3 haben bisher keine
 Hardcover-Fassung — der Aufruf wäre derselbe.
 
+### Das Barcodefeld auf der Rückseite
+
+KDP druckt den Barcode selbst, unten rechts auf die Rückseite, schwarz und
+ohne eigenen Hintergrund. Die Fläche muss deshalb zwei Bedingungen erfüllen,
+und beide werden von `abnahme.py` geprüft:
+
+| | Wert | warum |
+|---|---|---|
+| Größe | 50,8 × 30,5 mm (2 × 1,2 Zoll) | KDPs Mindestmaß |
+| Abstand zur Trimmecke | 6,35 mm (0,25 Zoll) | gemessen ab der Papierkante, nicht ab dem Anschnitt |
+| Inhalt | nichts | kein Text, kein Bild, kein Designelement |
+| Grund | Volltonweiß | schwarze Strichschrift auf dem Schiefergrund wäre nicht zu scannen |
+
+Das weiße Feld wird 0,5 mm größer angelegt als die geforderte Fläche. Ohne
+diesen Überstand läge die Kante zwischen Weiß und Schiefergrund genau auf der
+Feldgrenze, und die Passertoleranz im Druck zöge dort einen dunklen
+Haarstrich an den Rand des Barcodes.
+
+Der Markenhinweis endet 4 mm über dem Feld. Er lief lange Zeit mit seinen
+letzten beiden Zeilen quer hindurch — in der PDF-Vorschau kaum zu sehen, im
+gedruckten Buch ein Barcode über Text. `abnahme.py` misst das jetzt: Wörter
+im Feld und die Helligkeit der Fläche, je Umschlag zwei Prüfungen.
+
 **Zu KDP hochgeladen wird `cover-druck.pdf`, nicht `cover.pdf`.** Die
 Vektorfassung enthält Radialverläufe und transparente Schlagschatten; die
 KDP-Prüfung verlangt reduzierte Ebenen ohne Transparenz und lehnt sie ab.
