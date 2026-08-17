@@ -55,30 +55,24 @@ PALETTE = {
     "untertitel": HexColor("#AFC2D2"),
     "leise": HexColor("#8FA3B5"),
     "akzent": HexColor("#4A9BD4"),
+    "akzent_hell": HexColor("#74CBF7"),   # die vordersten Knoten
+
     "akzent_tief": HexColor("#2E6E9E"),
+    "gitter": HexColor("#4E8FC4"),   # Linien und matte Knoten
     "kante": HexColor("#2A4459"),
 }
 
-# Zwei Höhen, weil zwei verschiedene Flächen bespielt werden.
-#
-# NETZ_HOEHE gilt für das gezeichnete Netz. Es läuft über den **ganzen**
-# Umschlag, also auch über die Rückseite, und nimmt dem Klappentext dort Platz
-# weg: Wer den Wert erhöht, verkleinert die Schrift der Rückseite, bis sie
-# unter 8 pt fällt und niemand sie mehr liest. 0,30 wie das Illustrationsband
-# der Stoffwechsel-Reihe.
-#
-# BILD_HOEHE gilt für ein Titelbild. Das steht nur auf der **Vorderseite**,
-# kostet die Rückseite also nichts und darf deutlich mehr Fläche einnehmen —
-# ein Motiv, das man erkennen soll, braucht sie. Bei 0,46 bleibt unter der
-# Bildkante noch gut die Hälfte der Seite für den zentrierten Titelblock.
-NETZ_HOEHE = 0.30
-BILD_HOEHE = 0.46
+# Das Motiv — gezeichnetes Gitter wie Titelbild — steht auf der
+# **Vorderseite**, nicht über den ganzen Umschlag. Anfangs lief das Gitter
+# durchgehend über Rückseite, Rücken und Vorderseite; das sah als aufgeklappte
+# Fläche gut aus und kostete Platz an der einzigen Stelle, an der er knapp ist:
+# Der Klappentext musste sich auf 98 Prozent verkleinern. Auf die Vorderseite
+# beschränkt darf das Motiv fast die halbe Seite nehmen, und die Rückseite
+# behält ihren vollen Satzspiegel.
+MOTIV_HOEHE = 0.46
 
-# Was die Rückseite oben frei lässt, wenn das Motiv sie gar nicht erreicht:
-# ein ruhiger Kopfsteg statt der vollen Bandhöhe.
+# Was die Rückseite oben frei lässt: ein ruhiger Kopfsteg.
 RUECKEN_KOPFSTEG = 0.10
-NETZ_KEIM = 20260816    # fester Keim: gleicher Umschlag bei jedem Lauf
-
 
 # --- Grund -------------------------------------------------------------------
 def grundton_aus_bild(pfad, anteil=0.10):
@@ -159,12 +153,12 @@ def titelbild_sollmasse(cfg, dpi=300):
     """Mindestmaße des Titelbilds in Pixeln.
 
     Gerechnet, nicht geraten: Das Bild füllt nicht den Umschlag, sondern das
-    obere Band der Vorderseite — NETZ_HOEHE der Gesamthöhe, über die
+    obere Band der Vorderseite — MOTIV_HOEHE der Gesamthöhe, über die
     Seitenbreite plus Anschnitt oben und außen.
     """
     sf = cfg["seitenformat"]
     breite_mm = sf["breite_mm"] + BESCHNITT_MM
-    hoehe_mm = (sf["hoehe_mm"] + 2 * BESCHNITT_MM) * BILD_HOEHE
+    hoehe_mm = (sf["hoehe_mm"] + 2 * BESCHNITT_MM) * MOTIV_HOEHE
     je_mm = dpi / 25.4
     return round(breite_mm * je_mm), round(hoehe_mm * je_mm)
 
@@ -202,54 +196,103 @@ def titelbild_melden(cfg, pfad):
 
 
 # --- Motiv -------------------------------------------------------------------
-# Ein Knoten je so viel Fläche in Punkt². Der Wert ist an der Umschlagbreite
-# eines 6-x-9-Bandes ausgemessen und bewusst als Dichte formuliert, nicht als
-# feste Knotenzahl: Das Kindle-Titelbild ist halb so breit, und mit einer
-# festen Zahl hätte es entweder ein Gewimmel oder — wie im ersten Versuch —
-# einzelne Punkte ohne Verbindungen gezeigt.
-FLAECHE_JE_KNOTEN = 950.0
-NACHBARSCHAFT = 1.8      # Reichweite einer Kante, in mittleren Knotenabständen
+# Ein Knoten je so viel Fläche in Punkt². Als Dichte formuliert und nicht als
+# feste Knotenzahl: Das Kindle-Titelbild ist halb so breit wie der aufgeklappte
+# Umschlag, und mit einer festen Zahl zeigte es im ersten Versuch einzelne
+# Punkte ohne Verbindungen.
+#
+# Der Wert ist am Aussehen ausgemessen: Bei 520 las sich das Gitter nicht als
+# Gewebe, sondern als einzelne große Punkte mit Strichen dazwischen. Diese
+# Motive leben von vielen kleinen Knoten und feinen Linien.
+FLAECHE_JE_KNOTEN = 120.0
+
+# Jeder Knoten wird mit seinen nächsten Nachbarn verbunden. Nicht „alles
+# innerhalb eines Radius": Das ergibt in dichten Bereichen ein Knäuel und in
+# dünnen gar nichts. Über die nächsten Nachbarn entsteht ein gleichmäßig
+# trianguliertes Gitter.
+NACHBARN = 4
+
+# Zwei Ebenen übereinander erzeugen Tiefe: eine ferne, kleinere und dunklere
+# hinter einer nahen, kräftigen. Ohne sie wirkt das Gitter wie eine flach
+# aufgelegte Folie.
+EBENEN = (
+    # (Anteil der Knoten, Größe, Deckkraft, Linienstärke)
+    (0.58, 0.60, 0.40, 0.70),   # fern
+    (0.42, 1.00, 1.00, 1.00),   # nah
+)
+
+NETZ_KEIM = 20260816    # fester Keim: gleicher Umschlag bei jedem Lauf
+
+
+def _knoten_streuen(zufall, anzahl, x, y, breite, hoehe):
+    """Punkte mit nach unten abnehmender Dichte.
+
+    Das Quadrat der Zufallszahl schiebt die Punkte nach oben; unten läuft das
+    Gitter dadurch aus, statt an einer Kante abzubrechen. Vorher stand hier
+    die Wurzel — die ließ das untere Drittel noch deutlich bevölkert, und
+    darunter steht der Titel.
+    """
+    punkte = []
+    for _ in range(anzahl):
+        px = zufall.uniform(x - breite * 0.02, x + breite * 1.02)
+        py = y + hoehe * (1 - zufall.random() ** 2)
+        punkte.append((px, py))
+    return punkte
+
+
+def _kanten(punkte, nachbarn=NACHBARN):
+    """Kanten zu den nächsten Nachbarn, jede nur einmal.
+
+    Bei den hier anfallenden Knotenzahlen (einige hundert) ist der einfache
+    Vergleich aller Paare schnell genug; ein Suchbaum wäre mehr Code als
+    Gewinn.
+    """
+    kanten = set()
+    for i, (x1, y1) in enumerate(punkte):
+        abstaende = sorted(
+            ((math.hypot(x2 - x1, y2 - y1), j)
+             for j, (x2, y2) in enumerate(punkte) if j != i),
+            key=lambda e: e[0],
+        )
+        for _, j in abstaende[:nachbarn]:
+            kanten.add((min(i, j), max(i, j)))
+    return kanten
 
 
 def netz(c, x, y, breite, hoehe):
-    """Ein Netz aus Knoten und Kanten über die volle Umschlagbreite.
+    """Ein trianguliertes Gitter aus Knoten und Kanten.
 
-    Die Knotendichte nimmt nach oben zu und nach unten ab, damit das Motiv
-    unten ausläuft statt an einer Kante abzubrechen. Verbunden wird nur, was
-    nahe beieinander liegt — sonst entsteht ein Wollknäuel statt einer
-    Struktur.
+    Oben dicht und hell, nach unten ausdünnend und dunkler, in zwei Ebenen für
+    die Tiefe. Die Helligkeit jedes Elements hängt an seiner Höhe im Band —
+    dadurch löst sich das Motiv nach unten auf, statt an der Ausblendkante
+    abgeschnitten zu wirken.
     """
-    knoten = max(24, round(breite * hoehe / FLAECHE_JE_KNOTEN))
-    nachbarschaft = NACHBARSCHAFT * math.sqrt(breite * hoehe / knoten)
-
+    gesamt = max(40, round(breite * hoehe / FLAECHE_JE_KNOTEN))
     zufall = random.Random(NETZ_KEIM)
-    punkte = []
-    for _ in range(knoten):
-        px = zufall.uniform(x, x + breite)
-        # Wurzel der Zufallszahl schiebt die Punkte nach oben.
-        py = y + hoehe * (1 - math.sqrt(zufall.random()))
-        punkte.append((px, py, zufall.random()))
 
-    # Kanten zuerst, damit die Knoten darauf liegen.
     c.setLineCap(1)
-    for i, (x1, y1, _) in enumerate(punkte):
-        for x2, y2, _ in punkte[i + 1:]:
-            abstand = math.hypot(x2 - x1, y2 - y1)
-            if abstand > nachbarschaft:
-                continue
-            # Je kürzer die Kante, desto kräftiger — das gibt dem Netz Tiefe.
-            staerke = 1 - abstand / nachbarschaft
-            c.setStrokeColor(PALETTE["kante"], alpha=0.30 + 0.55 * staerke)
-            c.setLineWidth(0.25 * mm * (0.4 + 0.9 * staerke))
+    for anteil, groesse, deckkraft, strichstaerke in EBENEN:
+        punkte = _knoten_streuen(zufall, max(12, round(gesamt * anteil)),
+                                 x, y, breite, hoehe)
+
+        for i, j in _kanten(punkte):
+            x1, y1 = punkte[i]
+            x2, y2 = punkte[j]
+            # Höhe im Band, 0 unten bis 1 oben.
+            hoch = max(0.0, min(1.0, ((y1 + y2) / 2 - y) / hoehe))
+            c.setStrokeColor(PALETTE["gitter"],
+                             alpha=deckkraft * (0.07 + 0.80 * hoch ** 1.5))
+            c.setLineWidth(0.13 * mm * strichstaerke)
             c.line(x1, y1, x2, y2)
 
-    for px, py, gewicht in punkte:
-        hoch = (py - y) / hoehe
-        c.setFillColor(PALETTE["akzent"] if gewicht > 0.82
-                       else PALETTE["akzent_tief"],
-                       alpha=0.35 + 0.6 * hoch)
-        radius = (0.5 + 1.5 * gewicht) * mm * (0.5 + 0.7 * hoch)
-        c.circle(px, py, radius, stroke=0, fill=1)
+        for px, py in punkte:
+            hoch = max(0.0, min(1.0, (py - y) / hoehe))
+            hell = zufall.random() > 0.62
+            c.setFillColor(PALETTE["akzent_hell"] if hell else PALETTE["akzent"],
+                           alpha=deckkraft * (0.10 + 0.90 * hoch ** 1.2))
+            radius = ((0.16 + 0.50 * zufall.random() ** 2) * mm * groesse
+                      * (0.5 + 0.7 * hoch))
+            c.circle(px, py, radius, stroke=0, fill=1)
 
 
 # --- Bausteine ---------------------------------------------------------------
@@ -345,7 +388,7 @@ def vorderseite(c, x, y, breite, hoehe, cfg, *, motiv_unterkante):
 
     # Läuft der Titel ins Motiv, ist er nicht mehr freigestellt. Bei zentriertem
     # Block kann das nur passieren, wenn der Block höher ist als das freie Feld —
-    # dann muss der Titel kürzer oder NETZ_HOEHE kleiner werden.
+    # dann muss der Titel kürzer oder MOTIV_HOEHE kleiner werden.
     if oberste_titelzeile + groesse > motiv_unterkante:
         print("  ACHTUNG: Titelblock reicht ins Netzmotiv hinein.")
 
@@ -500,7 +543,7 @@ def cover_bauen(cfg, seiten, klappentext_pfad, ziel):
     c.setTitle(f"{cfg['titel']} — Umschlag")
 
     titelbild = titelbild_suchen()
-    band_h = gesamt_h * (BILD_HOEHE if titelbild else NETZ_HOEHE)
+    band_h = gesamt_h * MOTIV_HOEHE
     band_y = gesamt_h - band_h
 
     # Bei einem Titelbild richtet sich der Umschlaggrund nach dem Bild, nicht
@@ -520,14 +563,15 @@ def cover_bauen(cfg, seiten, klappentext_pfad, ziel):
                            trim_b + anschnitt, band_h,
                            ausblenden=ton)
     else:
-        netz(c, 0, band_y, gesamt_b, band_h)
+        netz(c, anschnitt + trim_b + ruecken_b, band_y,
+             trim_b + anschnitt, band_h)
 
     kopf, absaetze, punkte = klappentext_laden(klappentext_pfad)
     mit_ruecken_text = seiten >= RUECKENTEXT_AB_SEITEN
 
     rueckseite(c, anschnitt, anschnitt, trim_b, trim_h, cfg,
                kopf, absaetze, punkte,
-               kopfsteg=RUECKEN_KOPFSTEG if titelbild else NETZ_HOEHE * 1.02)
+               kopfsteg=RUECKEN_KOPFSTEG)
     ruecken(c, anschnitt + trim_b, anschnitt, ruecken_b, trim_h, cfg,
             mit_ruecken_text)
     vorderseite(c, anschnitt + trim_b + ruecken_b, anschnitt,
@@ -570,7 +614,7 @@ def kindle_titelbild(cfg, ziel):
                       initialFontName="Serif")
     c.setTitle(f"{cfg['titel']} — Kindle")
     titelbild = titelbild_suchen()
-    band_h = hoehe_pt * (BILD_HOEHE if titelbild else NETZ_HOEHE)
+    band_h = hoehe_pt * MOTIV_HOEHE
     ton = grundton_aus_bild(titelbild) if titelbild else None
     grund(c, breite_pt, hoehe_pt, oben=ton, unten=ton)
     if titelbild:

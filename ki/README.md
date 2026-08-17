@@ -73,11 +73,19 @@ festen Zufallskeim (`NETZ_KEIM`): Der Umschlag sieht bei jedem Lauf gleich
 aus — sonst ließe sich eine Textkorrektur nicht von einer Bildänderung
 unterscheiden.
 
-Die Knotenzahl ergibt sich aus der **Fläche**, nicht als feste Zahl. Das
-Kindle-Titelbild ist halb so breit wie der aufgeklappte Umschlag; mit einer
-festen Knotenzahl zeigte es im ersten Versuch einzelne Punkte ohne
-Verbindungen, weil die Reichweite einer Kante an der Breite hing. Wer
-`FLAECHE_JE_KNOTEN` ändert, sollte beide Ausgaben ansehen.
+Verbunden wird jeder Knoten mit seinen **nächsten Nachbarn**, nicht mit allem
+innerhalb eines Radius: Ein fester Radius ergibt in dichten Bereichen ein
+Knäuel und in dünnen gar nichts. Über die nächsten Nachbarn entsteht ein
+gleichmäßig trianguliertes Gitter. Gezeichnet wird es in zwei Ebenen — eine
+ferne, kleinere und dunklere hinter einer nahen, kräftigen; ohne sie wirkt das
+Netz wie eine flach aufgelegte Folie.
+
+Die Knotenzahl ergibt sich aus der **Fläche** (`FLAECHE_JE_KNOTEN`), nicht als
+feste Zahl. Das Kindle-Titelbild ist halb so breit wie der aufgeklappte
+Umschlag; mit einer festen Knotenzahl zeigte es im ersten Versuch einzelne
+Punkte ohne Verbindungen. Der Wert ist am Aussehen ausgemessen: Bei 520 las
+sich das Gitter nicht als Gewebe, sondern als einzelne große Punkte mit
+Strichen dazwischen. Wer daran dreht, sollte beide Ausgaben ansehen.
 
 Der Untergrund ist ein Verlauf aus 140 Streifen, kein Shading-Objekt.
 reportlab würde für einen echten Verlauf genau das anlegen, was `cover_flach.py`
@@ -90,13 +98,14 @@ außen, Rückseite und Rücken bleiben im Grundton. Nötig sind mindestens
 **1838 × 1276 px**; `build_cover.py` rechnet das Maß aus der Seitengröße aus
 und meldet beim Bauen, was vorliegt und was fehlt.
 
-**Zwei Höhen, zwei Flächen.** `NETZ_HOEHE` (0,30) gilt fürs gezeichnete Netz:
-Das läuft über den ganzen Umschlag, also auch über die Rückseite, und jeder
-Zuwachs geht dort vom Klappentext ab. `BILD_HOEHE` (0,46) gilt fürs Titelbild:
-Das steht nur auf der Vorderseite, kostet die Rückseite nichts und darf
-deutlich mehr Fläche nehmen — ein Motiv, das man erkennen soll, braucht sie.
-Die Rückseite bekommt dann statt der Bandhöhe nur einen ruhigen Kopfsteg
-(`RUECKEN_KOPFSTEG`), und der Klappentext steht wieder in voller Größe.
+**Das Motiv steht auf der Vorderseite, nicht über dem ganzen Umschlag.**
+Anfangs lief das Gitter durchgehend über Rückseite, Rücken und Vorderseite. Als
+aufgeklappte Fläche sah das gut aus und kostete Platz an der einzigen Stelle,
+an der er knapp ist: Der Klappentext musste sich auf 98 Prozent verkleinern.
+Auf die Vorderseite beschränkt (`MOTIV_HOEHE` 0,46) darf das Motiv fast die
+halbe Seite nehmen, die Rückseite behält ihren vollen Satzspiegel und lässt
+oben nur einen ruhigen Kopfsteg frei (`RUECKEN_KOPFSTEG`). Für ein Titelbild
+gilt dieselbe Fläche — beide Motivarten sind austauschbar.
 
 Der Titelblock richtet sich automatisch danach: Er wird im freien Feld unter
 der Motivunterkante zentriert, und die wird übergeben — an `BILD_HOEHE` zu
