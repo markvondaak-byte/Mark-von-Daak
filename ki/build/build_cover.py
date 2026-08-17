@@ -166,57 +166,99 @@ def linie(c, x, y, breite, farbe=None, staerke=0.6):
 
 
 # --- Vorderseite -------------------------------------------------------------
-def vorderseite(c, x, y, breite, hoehe, cfg):
+# Abstände im Titelblock, von oben nach unten. Als Konstanten und nicht als
+# Zahlen im Satzcode, weil der Block als Ganzes ausgemessen und dann zentriert
+# wird — wer einen Wert ändert, verschiebt nicht den Blocksatz, sondern nur
+# den Abstand.
+# Zwei davon werden über die **Versalhöhe** gemessen, nicht über die
+# Grundlinie: Balken und Trennstrich stehen über Großbuchstaben, und deren
+# Höhe ist die Schriftgröße. Ein fester Grundlinienabstand würde beim großen
+# Titel zu eng und beim kleinen Untertitel zu weit ausfallen.
+ABSTAND_UEBER_VERSALHOEHE = 20.0
+ABSTAND_TITEL_STRICH = 26.0
+ABSTAND_UNTERTITEL_AUTOR = 34.0
+UNTERTITEL_GROESSE = 14.0
+UNTERTITEL_ZEILE = 19.0
+BALKEN_UEBER_GRUNDLINIE = 10.5   # Oberkante des Balkens über seiner Grundlinie
+AUTOR_UNTER_GRUNDLINIE = 4.0     # Unterlänge der Autorenzeile
+
+
+def vorderseite(c, x, y, breite, hoehe, cfg, *, motiv_unterkante):
     """Titelseite: Kennungsbalken, Titel, Trennstrich, Untertitel, Autor.
 
-    Aufgebaut wird von unten: Der Autor steht auf fester Höhe, darüber der
-    Untertitel, darüber der Titel. So kann ein längerer Titel nach oben in den
-    freien Grund wachsen, statt den Untertitel zu überschreiben — der Fehler,
-    der bei fester Oberkante entsteht.
+    Der Block wird zuerst ausgemessen und dann **in der Höhe zentriert** — und
+    zwar nicht auf der Seite, sondern im freien Feld unter dem Netzmotiv. Auf
+    die Seitenmitte bezogen säße er halb im Motiv; an festen Bruchteilen der
+    Seitenhöhe aufgehängt (so war es vorher) sitzt er zu tief, und über dem
+    Titel bleibt ein leeres Drittel stehen.
+
+    `motiv_unterkante` ist die Unterkante des Netzes in denselben Koordinaten
+    wie `y`. Sie wird übergeben und nicht hier ausgerechnet: Beim gedruckten
+    Umschlag ist das Netz auf die Gesamthöhe samt Anschnitt bezogen, beim
+    Kindle-Titelbild auf eine Leinwand mit anderem Seitenverhältnis. Aus der
+    Seitenhöhe allein ließe sie sich nicht bestimmen.
     """
     rand = breite * 0.11
     textbreite = breite - 2 * rand
     mitte = x + breite / 2
 
-    c.setFillColor(PALETTE["titel"])
-    c.setFont("Sans-Bold", 17)
-    c.drawCentredString(mitte, y + hoehe * 0.095, cfg["autor"])
-
-    # Untertitel
-    untertitel = umbrechen(c, cfg["untertitel"], "Sans", 14, textbreite)
-    cursor = y + hoehe * 0.205 + (len(untertitel) - 1) * 19
-    c.setFillColor(PALETTE["untertitel"])
-    for zeile in untertitel:
-        c.setFont("Sans", 14)
-        c.drawCentredString(mitte, cursor, zeile)
-        cursor -= 19
-    oberkante_untertitel = y + hoehe * 0.205 + (len(untertitel) - 1) * 19 + 14
-
-    # Trennstrich
-    strich_y = oberkante_untertitel + 20
-    linie(c, mitte - textbreite * 0.16, strich_y, textbreite * 0.32)
-
-    # Titel. 34 pt ist die Obergrenze: Darüber läuft ein dreizeiliger Titel in
-    # das Netzmotiv, und der Kennungsbalken hat keinen Platz mehr.
+    untertitel = umbrechen(c, cfg["untertitel"], "Sans", UNTERTITEL_GROESSE,
+                           textbreite)
+    # 34 pt ist die Obergrenze: Darüber wird ein dreizeiliger Titel höher als
+    # das freie Feld, und der Kennungsbalken hat keinen Platz mehr.
     groesse, zeilen = groesse_einpassen(
         c, cfg["titel"], "Sans-Bold", textbreite, maximal=34, minimal=20)
     zeilenhoehe = groesse * 1.16
-    cursor = strich_y + 26 + (len(zeilen) - 1) * zeilenhoehe
-    oberkante_titel = cursor + groesse
+
+    # Abstände von der jeweils obersten Grundlinie aus, Versalhöhe eingerechnet.
+    balken_ueber_titel = groesse + ABSTAND_UEBER_VERSALHOEHE
+    strich_ueber_untertitel = UNTERTITEL_GROESSE + ABSTAND_UEBER_VERSALHOEHE
+
+    # Höhe des Blocks von der Balkenoberkante bis zur Unterlänge des Autors.
+    blockhoehe = (
+        BALKEN_UEBER_GRUNDLINIE
+        + balken_ueber_titel + (len(zeilen) - 1) * zeilenhoehe
+        + ABSTAND_TITEL_STRICH
+        + strich_ueber_untertitel + (len(untertitel) - 1) * UNTERTITEL_ZEILE
+        + ABSTAND_UNTERTITEL_AUTOR
+        + AUTOR_UNTER_GRUNDLINIE
+    )
+
+    # Im freien Feld zwischen Motivunterkante und Seitenfuß zentrieren.
+    feld_mitte = (motiv_unterkante + y) / 2
+    autor_y = feld_mitte - blockhoehe / 2 + AUTOR_UNTER_GRUNDLINIE
+
+    c.setFillColor(PALETTE["titel"])
+    c.setFont("Sans-Bold", 17)
+    c.drawCentredString(mitte, autor_y, cfg["autor"])
+
+    cursor = autor_y + ABSTAND_UNTERTITEL_AUTOR \
+        + (len(untertitel) - 1) * UNTERTITEL_ZEILE
+    oberste_untertitelzeile = cursor
+    c.setFillColor(PALETTE["untertitel"])
+    for zeile in untertitel:
+        c.setFont("Sans", UNTERTITEL_GROESSE)
+        c.drawCentredString(mitte, cursor, zeile)
+        cursor -= UNTERTITEL_ZEILE
+
+    strich_y = oberste_untertitelzeile + strich_ueber_untertitel
+    linie(c, mitte - textbreite * 0.16, strich_y, textbreite * 0.32)
+
+    cursor = strich_y + ABSTAND_TITEL_STRICH + (len(zeilen) - 1) * zeilenhoehe
+    oberste_titelzeile = cursor
     c.setFillColor(PALETTE["titel"])
     for zeile in zeilen:
         c.setFont("Sans-Bold", groesse)
         c.drawCentredString(mitte, cursor, zeile)
         cursor -= zeilenhoehe
 
-    kennung_y = oberkante_titel + 20
+    kennung_y = oberste_titelzeile + balken_ueber_titel
     kennungsbalken(c, "SACHBUCH · KÜNSTLICHE INTELLIGENZ", mitte, kennung_y)
 
-    # Das Netz reicht von oben bis auf diese Höhe herunter. Läuft der Titel
-    # hinein, ist er nicht mehr freigestellt — dann muss der Titel kürzer oder
-    # NETZ_HOEHE kleiner werden.
-    netz_unterkante = y + hoehe - hoehe * NETZ_HOEHE * 1.02
-    if kennung_y + 16 > netz_unterkante:
+    # Läuft der Titel ins Motiv, ist er nicht mehr freigestellt. Bei zentriertem
+    # Block kann das nur passieren, wenn der Block höher ist als das freie Feld —
+    # dann muss der Titel kürzer oder NETZ_HOEHE kleiner werden.
+    if kennung_y + BALKEN_UEBER_GRUNDLINIE > motiv_unterkante:
         print("  ACHTUNG: Titelblock reicht ins Netzmotiv hinein.")
 
 
@@ -373,7 +415,8 @@ def cover_bauen(cfg, seiten, klappentext_pfad, ziel):
     ruecken(c, anschnitt + trim_b, anschnitt, ruecken_b, trim_h, cfg,
             mit_ruecken_text)
     vorderseite(c, anschnitt + trim_b + ruecken_b, anschnitt,
-                trim_b, trim_h, cfg)
+                trim_b, trim_h, cfg,
+                motiv_unterkante=gesamt_h * (1 - NETZ_HOEHE))
 
     c.showPage()
     c.save()
@@ -413,7 +456,8 @@ def kindle_titelbild(cfg, ziel):
     c.setTitle(f"{cfg['titel']} — Kindle")
     grund(c, breite_pt, hoehe_pt)
     netz(c, 0, hoehe_pt * (1 - NETZ_HOEHE), breite_pt, hoehe_pt * NETZ_HOEHE)
-    vorderseite(c, 0, 0, breite_pt, hoehe_pt, cfg)
+    vorderseite(c, 0, 0, breite_pt, hoehe_pt, cfg,
+                motiv_unterkante=hoehe_pt * (1 - NETZ_HOEHE))
     c.showPage()
     c.save()
 
