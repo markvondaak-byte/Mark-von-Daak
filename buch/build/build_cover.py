@@ -47,7 +47,30 @@ BUCHDECKE_ZOLL = 0.354
 WRAP_MM = WRAP_ZOLL * 25.4
 BUCHDECKE_MM = BUCHDECKE_ZOLL * 25.4
 HARDCOVER_MIN_SEITEN = 75      # weniger nimmt KDP als Hardcover nicht an
-BARCODE_B_MM, BARCODE_H_MM = 50.8, 30.5  # 2,0 x 1,2 Zoll, bleibt frei
+
+# --- Barcodefeld -------------------------------------------------------------
+# KDP druckt den Barcode selbst auf die Rückseite, unten rechts, ohne eigenen
+# Hintergrund. Die Fläche muss deshalb zweierlei sein: frei von Text, Bild und
+# Grafik — und hell, sonst steht schwarze Strichschrift auf dem Schiefergrund
+# dieser Reihe und ist nicht mehr zu scannen.
+#
+# Gemessen wird ab der Trimmkante, nicht ab dem Anschnitt: Nach dem Beschneiden
+# ist die Trimmkante die Papierkante, und von dort rechnet KDP.
+BARCODE_B_MM, BARCODE_H_MM = 50.8, 30.5   # 2,0 x 1,2 Zoll — KDPs Mindestmaß
+BARCODE_RAND_MM = 6.35                    # 0,25 Zoll zur Trimmkante
+BARCODE_LUFT_MM = 4.0                     # Abstand, den Text zur Fläche hält
+# Das helle Feld wird einen halben Millimeter größer angelegt als die
+# geforderte Fläche. Sonst liegt die Kante zwischen Weiß und Schiefergrund
+# genau auf der Feldgrenze, und was im Druck an Passertoleranz dazukommt,
+# zieht einen dunklen Haarstrich an den Rand des Barcodes.
+BARCODE_UEBERSTAND_MM = 0.5
+
+MARKENHINWEIS = (
+    "„cellRESET“ und „FitLine“ sind Marken der PM-International AG. "
+    "Dieses Buch wird von diesem Unternehmen weder herausgegeben noch "
+    "autorisiert. Kein medizinischer Ratgeber — bitte die Hinweise im "
+    "Buch beachten."
+)
 
 SCHRIFTEN = {
     "Sans": "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf",
@@ -136,6 +159,58 @@ def block_schreiben(c, text, x, y, breite, schrift, groesse, zeilenhoehe,
             c.drawString(x, y, zeile)
         y -= zeilenhoehe
     return y
+
+
+def barcodefeld(x, y, breite):
+    """Das Rechteck unten rechts auf der Rückseite, das frei bleibt.
+
+    `x`, `y`, `breite` sind Ursprung und Breite der **Rückseite in
+    Trimmgröße** — nicht des ganzen Umschlags. Zurück kommt (x, y, b, h) in
+    Punkt, so wie reportlab rechnet.
+    """
+    b, h = BARCODE_B_MM * mm, BARCODE_H_MM * mm
+    return (x + breite - BARCODE_RAND_MM * mm - b,
+            y + BARCODE_RAND_MM * mm, b, h)
+
+
+def barcodefeld_freistellen(c, x, y, breite, farbe=None):
+    """Legt die Barcodefläche als helles Feld an.
+
+    Auf hellem Grund macht das Feld nichts sichtbar — der Umschlag ist dort
+    ohnehin schon Papierweiß. Auf dem Schiefergrund ist es das, was den
+    Barcode überhaupt lesbar macht.
+
+    Gezeichnet wird ein volltonweißes Rechteck ohne Verlauf und ohne
+    Transparenz: Die Druckfassung für KDP darf keine Transparenz enthalten,
+    und ein Scanner braucht harten Kontrast, keinen weichen Rand.
+    """
+    fx, fy, fb, fh = barcodefeld(x, y, breite)
+    u = BARCODE_UEBERSTAND_MM * mm
+    c.setFillColor(farbe or HexColor("#FFFFFF"))
+    c.rect(fx - u, fy - u, fb + 2 * u, fh + 2 * u, stroke=0, fill=1)
+    return fx, fy, fb, fh
+
+
+def markenhinweis_setzen(c, x, y, breite, textbreite, farbe, groesse=7,
+                         zeilenhoehe=9):
+    """Setzt den Markenhinweis so tief wie möglich, aber über dem Barcodefeld.
+
+    Der Hinweis lief vorher mit den letzten beiden Zeilen quer durch die
+    Barcodefläche — im PDF unauffällig, im Druck ein Barcode über Text. Die
+    Grundlinie der **letzten** Zeile bestimmt deshalb die Position, nicht die
+    der ersten: Der Block wächst nach unten, also muss von unten gerechnet
+    werden.
+    """
+    _, fy, _, fh = barcodefeld(x, y, breite)
+    zeilen = umbrechen(c, MARKENHINWEIS, "Serif", groesse, textbreite)
+    # Unterlängen (g, p, ß) reichen unter die Grundlinie — sonst berührt der
+    # Hinweis die Feldkante genau dort, wo er es nicht darf.
+    unterlaenge = groesse * 0.25
+    hinweis_y = (fy + fh + BARCODE_LUFT_MM * mm + unterlaenge
+                 + (len(zeilen) - 1) * zeilenhoehe)
+    block_schreiben(c, MARKENHINWEIS, x + (breite - textbreite) / 2, hinweis_y,
+                    textbreite, "Serif", groesse, zeilenhoehe, farbe)
+    return hinweis_y
 
 
 # --- Zeichnen ----------------------------------------------------------------
@@ -447,12 +522,28 @@ def _rueckseite_hoehe(c, kopf, absaetze, punkte, textbreite, faktor):
     return hoehe
 
 
-def rueckseite_schiefer(c, x, y, breite, hoehe, cfg, kopf, absaetze, punkte):
+def rueckseite_schiefer(c, x, y, breite, hoehe, cfg, kopf, absaetze, punkte,
+                        *, auslage=True):
     rand = breite * 0.11
     textbreite = breite - 2 * rand
-    # Text beginnt unter der Auslage, nicht am Seitenkopf.
-    oben = y + hoehe * (1 - AUSLAGE_HOEHE) - rand * 0.6
-    hinweis_y = y + BARCODE_H_MM * mm + rand * 0.5
+    if auslage:
+        # Text beginnt unter der Auslage, nicht am Seitenkopf.
+        oben = y + hoehe * (1 - AUSLAGE_HOEHE) - rand * 0.6
+    else:
+        # Beim Fotocover steht das Titelbild nur auf der Vorderseite, die
+        # Auslage entfällt — und damit auch der Grund, das obere Drittel der
+        # Rückseite freizulassen. Ohne diese Unterscheidung blieben dort
+        # 70 mm leerer Grund stehen, während sich der Klappentext darunter
+        # zusammenquetscht.
+        oben = y + hoehe - rand * 0.85
+
+    # Barcodefeld zuerst: Es ist der einzige Bereich der Rückseite, dessen
+    # Lage nicht verhandelbar ist. Alles andere ordnet sich darüber an.
+    barcodefeld_freistellen(c, x, y, breite)
+    hinweis_hoehe = (len(umbrechen(c, MARKENHINWEIS, "Serif", 7, textbreite))
+                     * 9)
+    _, fy, _, fh = barcodefeld(x, y, breite)
+    hinweis_y = fy + fh + BARCODE_LUFT_MM * mm + hinweis_hoehe
     platz = oben - (hinweis_y + 16)
 
     def passt(faktor):
@@ -478,7 +569,13 @@ def rueckseite_schiefer(c, x, y, breite, hoehe, cfg, kopf, absaetze, punkte):
         print(f"  Rückseitentext auf {faktor:.0%} {wort} "
               f"(Fließtext {g_text:.1f} pt)")
 
-    cursor = oben
+    # Was nach dem Wachsen übrig bleibt, wird oben und unten gleich verteilt.
+    # Sonst klebt der Text am oberen Rand und lässt über dem Markenhinweis
+    # eine Lücke — bei gedeckelter Schriftgröße der Normalfall, nicht die
+    # Ausnahme.
+    rest = platz - _rueckseite_hoehe(c, kopf, absaetze, punkte, textbreite,
+                                     faktor)
+    cursor = oben - max(0.0, rest) / 2
     if kopf.get("schlagzeile"):
         cursor = block_schreiben(c, kopf["schlagzeile"], x + rand, cursor,
                                  textbreite, "Sans-Bold", g_kopf,
@@ -508,14 +605,8 @@ def rueckseite_schiefer(c, x, y, breite, hoehe, cfg, kopf, absaetze, punkte):
         print("  ACHTUNG: Rückseitentext reicht bis an den Markenhinweis — "
               "Klappentext kürzen.")
 
-    block_schreiben(
-        c,
-        "„cellRESET“ und „FitLine“ sind Marken der PM-International AG. "
-        "Dieses Buch wird von diesem Unternehmen weder herausgegeben noch "
-        "autorisiert. Kein medizinischer Ratgeber — bitte die Hinweise im "
-        "Buch beachten.",
-        x + rand, hinweis_y, textbreite, "Serif", 7, 9,
-        ill.SCHIEFER["text_leise"])
+    markenhinweis_setzen(c, x, y, breite, textbreite,
+                         ill.SCHIEFER["text_leise"])
 
 
 def ruecken_schiefer(c, x, y, breite, hoehe, cfg, mit_text, text=None):
@@ -579,19 +670,10 @@ def rueckseite(c, x, y, breite, hoehe, cfg, kopf, absaetze, punkte):
             cursor -= 13.5
         cursor -= 3
 
-    # Markenhinweis über dem Barcode-Feld
-    hinweis_y = y + BARCODE_H_MM * mm + rand * 0.5
-    c.setFillColor(HexColor("#6B7566"))
-    block_schreiben(
-        c,
-        "„cellRESET“ und „FitLine“ sind Marken der PM-International AG. "
-        "Dieses Buch wird von diesem Unternehmen weder herausgegeben noch "
-        "autorisiert. Kein medizinischer Ratgeber — bitte die Hinweise im "
-        "Buch beachten.",
-        x + rand, hinweis_y, textbreite, "Serif", 7, 9, HexColor("#6B7566"))
-
-    # Freifläche für den KDP-Barcode markieren (nur als Kontrolle im Layout)
-    return x + breite - rand - BARCODE_B_MM * mm, y + rand
+    # Markenhinweis über dem Barcodefeld — die Fläche selbst ist auf dem
+    # hellen Grund schon Papierweiß und muss nur freigehalten werden.
+    markenhinweis_setzen(c, x, y, breite, textbreite, HexColor("#6B7566"))
+    return barcodefeld(x, y, breite)
 
 
 def cover_bauen(cfg, seiten, klappentext_pfad, ziel, *, hardcover=False):
@@ -644,7 +726,8 @@ def cover_bauen(cfg, seiten, klappentext_pfad, ziel, *, hardcover=False):
                          gesamt_b, gesamt_h * AUSLAGE_HOEHE,
                          bezug=trim_b, wiederholungen=2)
         rueckseite_schiefer(c, anschnitt, anschnitt, trim_b, trim_h, cfg,
-                            kopf, absaetze, punkte)
+                            kopf, absaetze, punkte,
+                            auslage=not titelbild)
         ruecken_schiefer(c, anschnitt + trim_b, anschnitt, ruecken_b, trim_h,
                          cfg, mit_ruecken_text)
         vorderseite_schiefer(c, anschnitt + trim_b + ruecken_b, anschnitt,

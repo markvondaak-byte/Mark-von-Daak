@@ -25,6 +25,13 @@ RUECKEN_PRO_SEITE_MM = 0.0572
 WRAP_MM = 0.7085 * 25.4        # Hardcover: Umschlagrand statt Anschnitt
 BUCHDECKE_MM = 0.354 * 25.4    # Hardcover: Pappen und Falzrillen im Rücken
 
+# Barcodefeld unten rechts auf der Rückseite. Die Werte stehen hier noch
+# einmal und werden bewusst nicht aus build_cover importiert: Ein Prüfer, der
+# die Zahlen des Erzeugers übernimmt, prüft nur, ob der Erzeuger mit sich
+# selbst übereinstimmt. Diese Zahlen kommen aus KDPs Vorgabe.
+BARCODE_B_MM, BARCODE_H_MM = 50.8, 30.5
+BARCODE_RAND_MM = 6.35
+
 ergebnisse = []
 
 
@@ -350,6 +357,51 @@ def druckfassung_pruefen(bezeichnung, pdf, soll_b, soll_h):
            not befunde, ", ".join(befunde) if befunde else "")
 
 
+def barcodefeld_pruefen(bezeichnung, pdf, rand_mm, trim_b_mm):
+    """Die Fläche, auf die KDP den Barcode druckt, muss leer und hell sein.
+
+    `rand_mm` ist der Anschnitt beziehungsweise der Umschlagrand beim
+    Hardcover, `trim_b_mm` die Trimmbreite einer Umschlagseite. Zusammen
+    ergeben sie die Trimmkanten der Rückseite, und von denen misst KDP.
+
+    Geprüft wird zweierlei, weil beides schiefgehen kann und nur eines davon
+    im Text steht:
+
+    1. Kein Wort ragt in die Fläche. Der Markenhinweis tat genau das mit
+       seinen letzten beiden Zeilen — in der PDF-Vorschau kaum zu sehen, im
+       gedruckten Buch ein Barcode über Text.
+    2. Die Fläche ist gleichmäßig hell. Ein Verlauf oder der Schiefergrund
+       wäre textfrei und trotzdem unbrauchbar: KDP druckt den Barcode
+       schwarz und ohne eigenen Hintergrund.
+    """
+    import fitz
+
+    seite = fitz.open(str(pdf))[0]
+    pt = 72 / 25.4
+    breite, hoehe = BARCODE_B_MM * pt, BARCODE_H_MM * pt
+    # Rückseite liegt links; das Feld sitzt an ihrer rechten unteren
+    # Trimmecke. fitz zählt y von oben, reportlab von unten.
+    rechts = (rand_mm + trim_b_mm - BARCODE_RAND_MM) * pt
+    unten = seite.rect.height - (rand_mm + BARCODE_RAND_MM) * pt
+    feld = fitz.Rect(rechts - breite, unten - hoehe, rechts, unten)
+
+    stoerer = sorted({w[4] for w in seite.get_text("words")
+                      if fitz.Rect(w[:4]).intersects(feld)})
+    pruefe(f"{bezeichnung}: Barcodefeld textfrei", not stoerer,
+           f"{BARCODE_B_MM} x {BARCODE_H_MM} mm, {BARCODE_RAND_MM} mm von der "
+           "Trimmecke" if not stoerer
+           else f"{len(stoerer)} Wörter darin: {' '.join(stoerer[:6])}")
+
+    bild = seite.get_pixmap(clip=feld, dpi=120)
+    proben = [min(bild.pixel(sx, sy))
+              for sy in range(0, bild.height, max(1, bild.height // 40))
+              for sx in range(0, bild.width, max(1, bild.width // 40))]
+    dunkelste, hellste = min(proben), max(proben)
+    pruefe(f"{bezeichnung}: Barcodefeld hell und einfarbig",
+           dunkelste >= 235 and hellste - dunkelste <= 6,
+           f"dunkelster Kanalwert {dunkelste}, hellster {hellste} von 255")
+
+
 def cover_pruefen(bezeichnung, pdf, cfg, seiten, *, hardcover=False):
     if not pdf.exists():
         pruefe(f"{bezeichnung}: Umschlag vorhanden", False)
@@ -376,6 +428,9 @@ def cover_pruefen(bezeichnung, pdf, cfg, seiten, *, hardcover=False):
            f"{ist_b:.1f} mm (Soll {soll_b:.1f}, Rücken {ruecken:.1f})")
     pruefe(f"{bezeichnung}: Umschlaghöhe", abs(ist_h - soll_h) < 0.5,
            f"{ist_h:.1f} mm (Soll {soll_h:.1f})")
+
+    barcodefeld_pruefen(bezeichnung, pdf, rand,
+                        cfg["seitenformat"]["breite_mm"])
 
     druckfassung_pruefen(bezeichnung,
                          pdf.with_name(pdf.stem + "-druck.pdf"),
