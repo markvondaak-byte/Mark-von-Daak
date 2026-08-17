@@ -85,10 +85,22 @@ anschließend als Beanstandung meldet.
 
 **Titelbild statt Netz.** Liegt in `ki/cover/` eine Datei `titelbild.jpg`
 (auch `.jpeg`, `.png`, `.webp`), tritt sie an die Stelle des gezeichneten
-Netzes: Sie füllt das obere Band der **Vorderseite** samt Anschnitt oben und
+Netzes: Sie füllt den oberen Teil der **Vorderseite** samt Anschnitt oben und
 außen, Rückseite und Rücken bleiben im Grundton. Nötig sind mindestens
-**1838 × 832 px**; `build_cover.py` rechnet das Maß aus der Seitengröße aus und
-meldet beim Bauen, was vorliegt und was fehlt.
+**1838 × 1276 px**; `build_cover.py` rechnet das Maß aus der Seitengröße aus
+und meldet beim Bauen, was vorliegt und was fehlt.
+
+**Zwei Höhen, zwei Flächen.** `NETZ_HOEHE` (0,30) gilt fürs gezeichnete Netz:
+Das läuft über den ganzen Umschlag, also auch über die Rückseite, und jeder
+Zuwachs geht dort vom Klappentext ab. `BILD_HOEHE` (0,46) gilt fürs Titelbild:
+Das steht nur auf der Vorderseite, kostet die Rückseite nichts und darf
+deutlich mehr Fläche nehmen — ein Motiv, das man erkennen soll, braucht sie.
+Die Rückseite bekommt dann statt der Bandhöhe nur einen ruhigen Kopfsteg
+(`RUECKEN_KOPFSTEG`), und der Klappentext steht wieder in voller Größe.
+
+Der Titelblock richtet sich automatisch danach: Er wird im freien Feld unter
+der Motivunterkante zentriert, und die wird übergeben — an `BILD_HOEHE` zu
+drehen verschiebt ihn mit, ohne dass etwas nachzurechnen wäre.
 
 Warum nur die Vorderseite: Ein Motiv, das am Rücken in ein anderes übergeht,
 hat quer über den flach ausgelegten Umschlag eine sichtbare Kante. Ein Bild

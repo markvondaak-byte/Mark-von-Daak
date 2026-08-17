@@ -59,10 +59,24 @@ PALETTE = {
     "kante": HexColor("#2A4459"),
 }
 
-NETZ_HOEHE = 0.30       # Anteil der Umschlaghöhe, den das Motiv einnimmt
-#   0,30 wie das Illustrationsband der Stoffwechsel-Reihe. Wer den Wert
-#   erhöht, nimmt ihn dem Klappentext weg: Die Rückseite verkleinert dann
-#   ihre Schrift, bis der Text unter 8 pt fällt und niemand ihn mehr liest.
+# Zwei Höhen, weil zwei verschiedene Flächen bespielt werden.
+#
+# NETZ_HOEHE gilt für das gezeichnete Netz. Es läuft über den **ganzen**
+# Umschlag, also auch über die Rückseite, und nimmt dem Klappentext dort Platz
+# weg: Wer den Wert erhöht, verkleinert die Schrift der Rückseite, bis sie
+# unter 8 pt fällt und niemand sie mehr liest. 0,30 wie das Illustrationsband
+# der Stoffwechsel-Reihe.
+#
+# BILD_HOEHE gilt für ein Titelbild. Das steht nur auf der **Vorderseite**,
+# kostet die Rückseite also nichts und darf deutlich mehr Fläche einnehmen —
+# ein Motiv, das man erkennen soll, braucht sie. Bei 0,46 bleibt unter der
+# Bildkante noch gut die Hälfte der Seite für den zentrierten Titelblock.
+NETZ_HOEHE = 0.30
+BILD_HOEHE = 0.46
+
+# Was die Rückseite oben frei lässt, wenn das Motiv sie gar nicht erreicht:
+# ein ruhiger Kopfsteg statt der vollen Bandhöhe.
+RUECKEN_KOPFSTEG = 0.10
 NETZ_KEIM = 20260816    # fester Keim: gleicher Umschlag bei jedem Lauf
 
 
@@ -150,7 +164,7 @@ def titelbild_sollmasse(cfg, dpi=300):
     """
     sf = cfg["seitenformat"]
     breite_mm = sf["breite_mm"] + BESCHNITT_MM
-    hoehe_mm = (sf["hoehe_mm"] + 2 * BESCHNITT_MM) * NETZ_HOEHE
+    hoehe_mm = (sf["hoehe_mm"] + 2 * BESCHNITT_MM) * BILD_HOEHE
     je_mm = dpi / 25.4
     return round(breite_mm * je_mm), round(hoehe_mm * je_mm)
 
@@ -390,13 +404,20 @@ def _rueckseite_hoehe(c, kopf, absaetze, punkte, textbreite, faktor):
     return hoehe
 
 
-def rueckseite(c, x, y, breite, hoehe, cfg, kopf, absaetze, punkte):
+def rueckseite(c, x, y, breite, hoehe, cfg, kopf, absaetze, punkte, *,
+               kopfsteg):
+    """`kopfsteg` ist der oben frei bleibende Anteil der Seitenhöhe.
+
+    Beim gezeichneten Netz ist das dessen Bandhöhe — es läuft über die
+    Rückseite mit. Ein Titelbild steht dagegen nur auf der Vorderseite; dann
+    genügt ein ruhiger Kopfsteg, und der Klappentext bekommt den Rest.
+    """
     rand = breite * 0.115
     textbreite = breite - 2 * rand
     links = x + rand
 
-    # Text beginnt unter dem Netz und endet über dem Barcodefeld.
-    oben = y + hoehe - hoehe * NETZ_HOEHE * 1.02 - rand * 0.5
+    # Text beginnt unter dem Kopfsteg und endet über dem Barcodefeld.
+    oben = y + hoehe - hoehe * kopfsteg - rand * 0.5
     feld_b, feld_h = BARCODE_B_MM * mm, BARCODE_H_MM * mm
     feld_y = y + hoehe * 0.035
     unten = feld_y + feld_h + 14
@@ -478,9 +499,9 @@ def cover_bauen(cfg, seiten, klappentext_pfad, ziel):
                       initialFontName="Serif")
     c.setTitle(f"{cfg['titel']} — Umschlag")
 
-    band_h = gesamt_h * NETZ_HOEHE
-    band_y = gesamt_h - band_h
     titelbild = titelbild_suchen()
+    band_h = gesamt_h * (BILD_HOEHE if titelbild else NETZ_HOEHE)
+    band_y = gesamt_h - band_h
 
     # Bei einem Titelbild richtet sich der Umschlaggrund nach dem Bild, nicht
     # umgekehrt. Sonst trennt eine Tonkante Vorder- und Rückseite.
@@ -505,12 +526,12 @@ def cover_bauen(cfg, seiten, klappentext_pfad, ziel):
     mit_ruecken_text = seiten >= RUECKENTEXT_AB_SEITEN
 
     rueckseite(c, anschnitt, anschnitt, trim_b, trim_h, cfg,
-               kopf, absaetze, punkte)
+               kopf, absaetze, punkte,
+               kopfsteg=RUECKEN_KOPFSTEG if titelbild else NETZ_HOEHE * 1.02)
     ruecken(c, anschnitt + trim_b, anschnitt, ruecken_b, trim_h, cfg,
             mit_ruecken_text)
     vorderseite(c, anschnitt + trim_b + ruecken_b, anschnitt,
-                trim_b, trim_h, cfg,
-                motiv_unterkante=gesamt_h * (1 - NETZ_HOEHE))
+                trim_b, trim_h, cfg, motiv_unterkante=band_y)
 
     c.showPage()
     c.save()
@@ -548,8 +569,8 @@ def kindle_titelbild(cfg, ziel):
     c = canvas.Canvas(puffer, pagesize=(breite_pt, hoehe_pt),
                       initialFontName="Serif")
     c.setTitle(f"{cfg['titel']} — Kindle")
-    band_h = hoehe_pt * NETZ_HOEHE
     titelbild = titelbild_suchen()
+    band_h = hoehe_pt * (BILD_HOEHE if titelbild else NETZ_HOEHE)
     ton = grundton_aus_bild(titelbild) if titelbild else None
     grund(c, breite_pt, hoehe_pt, oben=ton, unten=ton)
     if titelbild:
@@ -558,7 +579,7 @@ def kindle_titelbild(cfg, ziel):
     else:
         netz(c, 0, hoehe_pt - band_h, breite_pt, band_h)
     vorderseite(c, 0, 0, breite_pt, hoehe_pt, cfg,
-                motiv_unterkante=hoehe_pt * (1 - NETZ_HOEHE))
+                motiv_unterkante=hoehe_pt - band_h)
     c.showPage()
     c.save()
 
