@@ -96,11 +96,17 @@ hat quer über den flach ausgelegten Umschlag eine sichtbare Kante. Ein Bild
 Seitenverhältnis von 4,5:1 — dafür gibt es kaum brauchbares Material. Die
 Stoffwechsel-Reihe löst es genauso.
 
-Die Unterkante des Bildes wird **ins Bild hinein** in den Grundton
+**Der Umschlaggrund richtet sich nach dem Bild, nicht umgekehrt.**
+`grundton_aus_bild()` misst den Median des unteren Bildrandes — dort ist das
+Motiv ausgelaufen, dort steht nur noch der Grund — und färbt Rückseite und
+Rücken damit ein. Ohne das trennt eine Tonkante Vorder- und Rückseite quer über
+den flach ausgelegten Umschlag; schon wenige Prozent Unterschied sind zu sehen.
+Gemeldet wird der übernommene Ton bei jedem Lauf, und ist er zu hell für die
+weiße Umschlagschrift, sagt das Skript das ebenfalls.
+
+Die Unterkante des Bildes wird **ins Bild hinein** in genau diesen Ton
 ausgeblendet, nicht als transparenter Verlauf darüber: Die KDP-Druckfassung
-darf keine Transparenz enthalten. Ohne diese Ausblendung steht eine harte Kante
-quer über den Umschlag, und sie fällt umso mehr auf, je näher sich Bild- und
-Grundton sind.
+darf keine Transparenz enthalten.
 
 **Herkunft des Bildes klären, bevor es eingesetzt wird.** Ist es KI-erzeugt,
 ist das bei KDP anzugeben (`ki/kdp-metadaten.md`, Abschnitt „KI-erzeugte

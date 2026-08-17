@@ -67,14 +67,53 @@ NETZ_KEIM = 20260816    # fester Keim: gleicher Umschlag bei jedem Lauf
 
 
 # --- Grund -------------------------------------------------------------------
-def grund(c, breite, hoehe, streifen=140):
+def grundton_aus_bild(pfad, anteil=0.10):
+    """Mittlere Farbe des unteren Bildrandes.
+
+    Der Umschlaggrund wird darauf gesetzt, wenn ein Titelbild verwendet wird.
+    Ohne das steht am Rücken eine sichtbare Kante: Das Bild füllt nur die
+    Vorderseite, und schon ein paar Prozent Unterschied im Grundton trennen
+    Vorder- und Rückseite quer über den flach ausgelegten Umschlag.
+
+    Gemessen wird der untere Rand, weil dort das Motiv ausgelaufen ist und nur
+    noch der Grund steht — der Mittelwert über das ganze Bild wäre von den
+    hellen Knoten nach oben gezogen.
+    """
+    from PIL import Image
+
+    with Image.open(pfad) as bild:
+        bild = bild.convert("RGB")
+        streifen = bild.crop((0, int(bild.height * (1 - anteil)),
+                              bild.width, bild.height))
+        # Median statt Mittelwert: Ein einzelner heller Fleck im Randstreifen
+        # zieht den Mittelwert spürbar hoch, den Median nicht.
+        #
+        # tobytes() statt getdata(): getdata() ist seit Pillow 11 als veraltet
+        # markiert und fällt mit Pillow 14 weg. tobytes() liefert dasselbe und
+        # ist stabil.
+        roh = streifen.resize((64, 8)).tobytes()
+        anzahl = len(roh) // 3
+        kanaele = [sorted(roh[i::3])[anzahl // 2] for i in range(3)]
+    return HexColor("#%02X%02X%02X" % tuple(kanaele))
+
+
+def _helligkeit(farbe):
+    """Relative Leuchtdichte nach WCAG — für die Kontrollfrage unten."""
+    def kanal(k):
+        return k / 12.92 if k <= 0.03928 else ((k + 0.055) / 1.055) ** 2.4
+    r, g, b = farbe.rgb()
+    return 0.2126 * kanal(r) + 0.7152 * kanal(g) + 0.0722 * kanal(b)
+
+
+def grund(c, breite, hoehe, oben=None, unten=None, streifen=140):
     """Vertikaler Verlauf, gezeichnet als Streifen statt als Shading-Objekt.
 
     reportlab würde für einen echten Verlauf ein Shading anlegen — genau das,
     was cover_flach.py später als Beanstandung meldet. Bei 140 Streifen ist
     der Übergang im Druck nicht als Stufe erkennbar.
     """
-    o, u = PALETTE["grund_oben"], PALETTE["grund_unten"]
+    o = oben or PALETTE["grund_oben"]
+    u = unten or PALETTE["grund_unten"]
     for i in range(streifen):
         anteil = i / (streifen - 1)
         c.setFillColorRGB(
@@ -136,6 +175,12 @@ def titelbild_melden(cfg, pfad):
         print(f"  {nutz_b / (soll_b / 300):.0f} dpi statt 300 — wird auf "
               f"{soll_b} px hochgerechnet. Das erfindet keine Schärfe, es "
               "verhindert die KDP-Meldung „Auflösung zu niedrig\".")
+    ton = grundton_aus_bild(pfad)
+    print(f"  Umschlaggrund übernommen: {ton.hexval()[2:].upper()}")
+    if _helligkeit(ton) > 0.18:
+        print("  ACHTUNG: Dieser Grund ist zu hell für die weiße Schrift des "
+              "Umschlags. Entweder ein dunkleres Motiv wählen oder die "
+              "Textfarben in PALETTE nachziehen.")
     print("  Herkunft klären: Ist das Bild KI-erzeugt, ist bei KDP "
           "„KI-erzeugte Bilder\": ja anzugeben — und die Offenlegung in "
           "ki/kapitel/01-impressum.md und 63-hinweise.md zu ergänzen. "
@@ -433,11 +478,15 @@ def cover_bauen(cfg, seiten, klappentext_pfad, ziel):
                       initialFontName="Serif")
     c.setTitle(f"{cfg['titel']} — Umschlag")
 
-    grund(c, gesamt_b, gesamt_h)
-
     band_h = gesamt_h * NETZ_HOEHE
     band_y = gesamt_h - band_h
     titelbild = titelbild_suchen()
+
+    # Bei einem Titelbild richtet sich der Umschlaggrund nach dem Bild, nicht
+    # umgekehrt. Sonst trennt eine Tonkante Vorder- und Rückseite.
+    ton = grundton_aus_bild(titelbild) if titelbild else None
+    grund(c, gesamt_b, gesamt_h, oben=ton, unten=ton)
+
     if titelbild:
         # Das Bild füllt das obere Band der **Vorderseite**, samt Anschnitt
         # oben und außen. Rückseite und Rücken bleiben im Grundton — genauso
@@ -448,7 +497,7 @@ def cover_bauen(cfg, seiten, klappentext_pfad, ziel):
         titelbild_zeichnen(c, titelbild,
                            anschnitt + trim_b + ruecken_b, band_y,
                            trim_b + anschnitt, band_h,
-                           ausblenden=PALETTE["grund_oben"])
+                           ausblenden=ton)
     else:
         netz(c, 0, band_y, gesamt_b, band_h)
 
@@ -499,13 +548,13 @@ def kindle_titelbild(cfg, ziel):
     c = canvas.Canvas(puffer, pagesize=(breite_pt, hoehe_pt),
                       initialFontName="Serif")
     c.setTitle(f"{cfg['titel']} — Kindle")
-    grund(c, breite_pt, hoehe_pt)
     band_h = hoehe_pt * NETZ_HOEHE
     titelbild = titelbild_suchen()
+    ton = grundton_aus_bild(titelbild) if titelbild else None
+    grund(c, breite_pt, hoehe_pt, oben=ton, unten=ton)
     if titelbild:
         titelbild_zeichnen(c, titelbild, 0, hoehe_pt - band_h,
-                           breite_pt, band_h,
-                           ausblenden=PALETTE["grund_oben"])
+                           breite_pt, band_h, ausblenden=ton)
     else:
         netz(c, 0, hoehe_pt - band_h, breite_pt, band_h)
     vorderseite(c, 0, 0, breite_pt, hoehe_pt, cfg,
