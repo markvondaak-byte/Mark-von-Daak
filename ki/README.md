@@ -83,6 +83,15 @@ Der Untergrund ist ein Verlauf aus 140 Streifen, kein Shading-Objekt.
 reportlab würde für einen echten Verlauf genau das anlegen, was `cover_flach.py`
 anschließend als Beanstandung meldet.
 
+**Vorderseite.** Titel, Trennstrich, Untertitel und Autorenzeile bilden einen
+Block, der erst ausgemessen und dann in der Höhe zentriert wird — nicht auf der
+Seite, sondern im freien Feld zwischen der Unterkante des Motivs und der
+unteren Trimmkante. Auf die Seitenmitte bezogen säße er halb im Netz; an festen
+Bruchteilen der Seitenhöhe aufgehängt sitzt er zu tief. Gemessen wird über die
+Versalhöhe der obersten Titelzeile, nicht über die Oberkante des Schriftkastens
+— optisch zentriert ist ein Titel an seinen Großbuchstaben, nicht an der
+unsichtbaren Oberlänge darüber.
+
 **Rückseite.** Der Klappentext sucht sich seine Schriftgröße selbst: Er muss
 über dem freizuhaltenden Barcodefeld enden, und ein Umschlag, bei dem beides
 übereinanderliegt, fällt am Bildschirm kaum auf und im Druck teuer. Fällt die

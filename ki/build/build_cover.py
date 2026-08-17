@@ -56,7 +56,6 @@ PALETTE = {
     "akzent": HexColor("#4A9BD4"),
     "akzent_tief": HexColor("#2E6E9E"),
     "kante": HexColor("#2A4459"),
-    "balken_text": HexColor("#0D1621"),
 }
 
 NETZ_HOEHE = 0.30       # Anteil der Umschlaghöhe, den das Motiv einnimmt
@@ -138,27 +137,6 @@ def netz(c, x, y, breite, hoehe):
 
 
 # --- Bausteine ---------------------------------------------------------------
-def kennungsbalken(c, text, mitte_x, y, groesse=8.5, sperrung=2.2):
-    """Gefüllter Balken mit gesperrter Schrift — die Bandkennung."""
-    c.setFont("Sans-Bold", groesse)
-    breite = c.stringWidth(text, "Sans-Bold", groesse) + sperrung * len(text)
-    hoehe = groesse + 7
-    c.setFillColor(PALETTE["akzent"])
-    c.roundRect(mitte_x - breite / 2 - 7, y - 5, breite + 14, hoehe,
-                2 * mm, stroke=0, fill=1)
-    c.setFillColor(PALETTE["balken_text"])
-    gesperrt_zentriert(c, text, mitte_x, y, "Sans-Bold", groesse, sperrung)
-
-
-def gesperrt_zentriert(c, text, mitte_x, y, schrift, groesse, sperrung):
-    c.setFont(schrift, groesse)
-    breite = c.stringWidth(text, schrift, groesse) + sperrung * len(text)
-    x = mitte_x - breite / 2
-    for zeichen in text:
-        c.drawString(x, y, zeichen)
-        x += c.stringWidth(zeichen, schrift, groesse) + sperrung
-
-
 def linie(c, x, y, breite, farbe=None, staerke=0.6):
     c.setStrokeColor(farbe or PALETTE["akzent"])
     c.setLineWidth(staerke * mm)
@@ -170,21 +148,20 @@ def linie(c, x, y, breite, farbe=None, staerke=0.6):
 # Zahlen im Satzcode, weil der Block als Ganzes ausgemessen und dann zentriert
 # wird — wer einen Wert ändert, verschiebt nicht den Blocksatz, sondern nur
 # den Abstand.
-# Zwei davon werden über die **Versalhöhe** gemessen, nicht über die
-# Grundlinie: Balken und Trennstrich stehen über Großbuchstaben, und deren
-# Höhe ist die Schriftgröße. Ein fester Grundlinienabstand würde beim großen
-# Titel zu eng und beim kleinen Untertitel zu weit ausfallen.
+# Der Abstand des Trennstrichs wird über die **Versalhöhe** gemessen, nicht
+# über die Grundlinie: Der Strich steht unter Großbuchstaben, und deren Höhe
+# ist die Schriftgröße. Aus demselben Grund zählt die Versalhöhe der obersten
+# Titelzeile in die Blockhöhe hinein — sie ist die Oberkante des Blocks.
 ABSTAND_UEBER_VERSALHOEHE = 20.0
 ABSTAND_TITEL_STRICH = 26.0
 ABSTAND_UNTERTITEL_AUTOR = 34.0
 UNTERTITEL_GROESSE = 14.0
 UNTERTITEL_ZEILE = 19.0
-BALKEN_UEBER_GRUNDLINIE = 10.5   # Oberkante des Balkens über seiner Grundlinie
 AUTOR_UNTER_GRUNDLINIE = 4.0     # Unterlänge der Autorenzeile
 
 
 def vorderseite(c, x, y, breite, hoehe, cfg, *, motiv_unterkante):
-    """Titelseite: Kennungsbalken, Titel, Trennstrich, Untertitel, Autor.
+    """Titelseite: Titel, Trennstrich, Untertitel, Autor.
 
     Der Block wird zuerst ausgemessen und dann **in der Höhe zentriert** — und
     zwar nicht auf der Seite, sondern im freien Feld unter dem Netzmotiv. Auf
@@ -205,19 +182,17 @@ def vorderseite(c, x, y, breite, hoehe, cfg, *, motiv_unterkante):
     untertitel = umbrechen(c, cfg["untertitel"], "Sans", UNTERTITEL_GROESSE,
                            textbreite)
     # 34 pt ist die Obergrenze: Darüber wird ein dreizeiliger Titel höher als
-    # das freie Feld, und der Kennungsbalken hat keinen Platz mehr.
+    # das freie Feld unter dem Motiv.
     groesse, zeilen = groesse_einpassen(
         c, cfg["titel"], "Sans-Bold", textbreite, maximal=34, minimal=20)
     zeilenhoehe = groesse * 1.16
 
-    # Abstände von der jeweils obersten Grundlinie aus, Versalhöhe eingerechnet.
-    balken_ueber_titel = groesse + ABSTAND_UEBER_VERSALHOEHE
     strich_ueber_untertitel = UNTERTITEL_GROESSE + ABSTAND_UEBER_VERSALHOEHE
 
-    # Höhe des Blocks von der Balkenoberkante bis zur Unterlänge des Autors.
+    # Höhe des Blocks von der Versalhöhe der obersten Titelzeile bis zur
+    # Unterlänge des Autors.
     blockhoehe = (
-        BALKEN_UEBER_GRUNDLINIE
-        + balken_ueber_titel + (len(zeilen) - 1) * zeilenhoehe
+        groesse + (len(zeilen) - 1) * zeilenhoehe
         + ABSTAND_TITEL_STRICH
         + strich_ueber_untertitel + (len(untertitel) - 1) * UNTERTITEL_ZEILE
         + ABSTAND_UNTERTITEL_AUTOR
@@ -252,13 +227,10 @@ def vorderseite(c, x, y, breite, hoehe, cfg, *, motiv_unterkante):
         c.drawCentredString(mitte, cursor, zeile)
         cursor -= zeilenhoehe
 
-    kennung_y = oberste_titelzeile + balken_ueber_titel
-    kennungsbalken(c, "SACHBUCH · KÜNSTLICHE INTELLIGENZ", mitte, kennung_y)
-
     # Läuft der Titel ins Motiv, ist er nicht mehr freigestellt. Bei zentriertem
     # Block kann das nur passieren, wenn der Block höher ist als das freie Feld —
     # dann muss der Titel kürzer oder NETZ_HOEHE kleiner werden.
-    if kennung_y + BALKEN_UEBER_GRUNDLINIE > motiv_unterkante:
+    if oberste_titelzeile + groesse > motiv_unterkante:
         print("  ACHTUNG: Titelblock reicht ins Netzmotiv hinein.")
 
 
