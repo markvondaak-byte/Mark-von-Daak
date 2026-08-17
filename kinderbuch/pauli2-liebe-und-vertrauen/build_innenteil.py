@@ -1,0 +1,549 @@
+#!/usr/bin/env python3
+# Generator fuer den 6x9-Innenteil von "Pauli und der kleine Igel"
+# (Thema Liebe & Vertrauen). Gleicher Stil wie Buch 1. Nur Inline-SVG.
+
+BOOK_TITLE = "Pauli und der kleine Igel"
+BOOK_SUB = "Eine Geschichte über Liebe und Vertrauen"
+
+PALETTE = [
+    ("#2F9BD6", "#EAF7FF", "#2F9BD6", "#ffffff"),  # blue
+    ("#E86A8E", "#ffeaf1", "#E86A8E", "#ffffff"),  # rose
+    ("#17B6A0", "#e5f8f4", "#17B6A0", "#ffffff"),  # teal
+    ("#C08457", "#f6ece1", "#a86a3d", "#ffffff"),  # igel-braun
+    ("#8C7AE6", "#efeafc", "#8C7AE6", "#ffffff"),  # violet
+]
+
+def color_css(n):
+    out = []
+    for i in range(1, n + 1):
+        bubble, panel, k, txt = PALETTE[(i - 1) % len(PALETTE)]
+        out.append(
+            f".c{i} .num-bubble{{background:{bubble};color:{txt}}} "
+            f".c{i} .panel{{background:{panel}}} "
+            f".k{i}c{{color:{k}}} .c{i} .story strong{{color:{k}}}")
+    return "\n  ".join(out)
+
+DEFS = r'''
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="gDawn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFDCA8"/><stop offset="1" stop-color="#FFF1DC"/></linearGradient>
+    <linearGradient id="gDusk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a2f63"/><stop offset=".55" stop-color="#8f5f7e"/><stop offset="1" stop-color="#e39a72"/></linearGradient>
+    <linearGradient id="gNight" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b2a52"/><stop offset="1" stop-color="#3a4a86"/></linearGradient>
+    <linearGradient id="gForest" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#20463d"/><stop offset="1" stop-color="#356054"/></linearGradient>
+    <linearGradient id="gStorm" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#26303a"/><stop offset="1" stop-color="#48555f"/></linearGradient>
+    <linearGradient id="gHome" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE4A6"/><stop offset="1" stop-color="#FFF6E2"/></linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#FFE9A0" stop-opacity=".95"/><stop offset="1" stop-color="#FFE9A0" stop-opacity="0"/></radialGradient>
+    <symbol id="mouse" viewBox="0 0 120 120">
+      <path d="M92 96 q24 -4 20 -28" stroke="#AEB6C0" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <ellipse cx="58" cy="90" rx="34" ry="26" fill="#B9C0C9"/>
+      <circle cx="40" cy="42" r="15" fill="#C7CDD5"/><circle cx="40" cy="42" r="8" fill="#F6B7C8"/>
+      <circle cx="76" cy="42" r="15" fill="#C7CDD5"/><circle cx="76" cy="42" r="8" fill="#F6B7C8"/>
+      <circle cx="58" cy="60" r="27" fill="#C7CDD5"/>
+      <circle cx="50" cy="58" r="3.6" fill="#2b2b2b"/><circle cx="66" cy="58" r="3.6" fill="#2b2b2b"/>
+      <circle cx="58" cy="70" r="4" fill="#F0728F"/>
+      <path d="M58 74 v5" stroke="#8a909a" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="firefly" viewBox="0 0 60 60">
+      <circle cx="34" cy="36" r="20" fill="url(#glow)"/>
+      <ellipse cx="21" cy="20" rx="7" ry="5" fill="#eef8dc" opacity=".85" transform="rotate(-25 21 20)"/>
+      <ellipse cx="31" cy="18" rx="7" ry="5" fill="#eef8dc" opacity=".85" transform="rotate(15 31 18)"/>
+      <ellipse cx="28" cy="28" rx="11" ry="9" fill="#93cf50"/>
+      <circle cx="24" cy="27" r="1.9" fill="#2b2b2b"/><circle cx="32" cy="27" r="1.9" fill="#2b2b2b"/>
+      <path d="M24 33 q4 3 8 0" stroke="#3f6b1f" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+      <circle cx="34" cy="36" r="6.5" fill="#FFD23F"/>
+    </symbol>
+    <symbol id="toad" viewBox="0 0 160 110">
+      <ellipse cx="34" cy="100" rx="13" ry="7" fill="#4f9e4b"/><ellipse cx="126" cy="100" rx="13" ry="7" fill="#4f9e4b"/>
+      <ellipse cx="80" cy="76" rx="60" ry="31" fill="#5fb35a"/><ellipse cx="80" cy="68" rx="52" ry="25" fill="#74c46e"/>
+      <circle cx="60" cy="84" r="3" fill="#4a9147"/><circle cx="95" cy="90" r="3" fill="#4a9147"/><circle cx="80" cy="80" r="3" fill="#4a9147"/>
+      <circle cx="52" cy="42" r="16" fill="#74c46e"/><circle cx="108" cy="42" r="16" fill="#74c46e"/>
+      <circle cx="52" cy="40" r="9" fill="#FFF"/><circle cx="52" cy="41" r="5" fill="#2b2b2b"/>
+      <circle cx="108" cy="40" r="9" fill="#FFF"/><circle cx="108" cy="41" r="5" fill="#2b2b2b"/>
+      <path d="M56 74 q24 20 48 0" stroke="#2f6b34" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="flower" viewBox="0 0 120 150">
+      <path d="M60 150 V72" stroke="#4a9147" stroke-width="7" fill="none"/>
+      <path d="M60 116 q-24 -4 -32 -22 q24 -4 32 14 Z" fill="#5fb35a"/>
+      <path d="M60 104 q24 -4 32 -22 q-24 -4 -32 14 Z" fill="#5fb35a"/>
+      <circle cx="60" cy="54" r="46" fill="url(#glow)"/>
+      <g fill="#F6B93B"><ellipse cx="60" cy="26" rx="10" ry="17"/><ellipse cx="84" cy="38" rx="10" ry="17" transform="rotate(45 84 38)"/><ellipse cx="92" cy="60" rx="17" ry="10"/><ellipse cx="84" cy="82" rx="10" ry="17" transform="rotate(-45 84 82)"/><ellipse cx="60" cy="94" rx="10" ry="17"/><ellipse cx="36" cy="82" rx="10" ry="17" transform="rotate(45 36 82)"/><ellipse cx="28" cy="60" rx="17" ry="10"/><ellipse cx="36" cy="38" rx="10" ry="17" transform="rotate(-45 36 38)"/></g>
+      <circle cx="60" cy="60" r="17" fill="#FFD23F"/><circle cx="60" cy="60" r="9" fill="#FFF3C4"/>
+    </symbol>
+    <symbol id="tree" viewBox="0 0 100 130"><rect x="44" y="72" width="12" height="55" rx="4" fill="#7a5b3a"/><circle cx="50" cy="46" r="34" fill="#4f9d55"/><circle cx="28" cy="58" r="22" fill="#5aa85f"/><circle cx="72" cy="58" r="22" fill="#5aa85f"/></symbol>
+    <symbol id="spark" viewBox="0 0 40 40"><path d="M20 2 L24 16 L38 20 L24 24 L20 38 L16 24 L2 20 L16 16 Z" fill="#FFD23F"/></symbol>
+    <symbol id="heart" viewBox="0 0 40 40"><path d="M20 36 C4 24 6 8 20 14 C34 8 36 24 20 36 Z" fill="#E86A8E"/></symbol>
+    <symbol id="house" viewBox="0 0 100 90"><ellipse cx="50" cy="60" rx="40" ry="30" fill="#C79A5B"/><path d="M18 60 Q50 20 82 60 Z" fill="#a9814a"/><ellipse cx="50" cy="70" rx="12" ry="16" fill="#5b432a"/></symbol>
+    <!-- Ida der Igel (aufgerollt offen), Schnauze links -->
+    <symbol id="hedgehog" viewBox="0 0 150 100">
+      <ellipse cx="78" cy="92" rx="11" ry="5" fill="#6f5230"/><ellipse cx="110" cy="92" rx="11" ry="5" fill="#6f5230"/>
+      <ellipse cx="88" cy="64" rx="54" ry="31" fill="#b4834f"/>
+      <g fill="#6f5230">
+        <path d="M46 44 l9 -22 l9 22 Z"/><path d="M64 38 l9 -24 l9 24 Z"/><path d="M84 36 l9 -26 l9 26 Z"/><path d="M104 38 l9 -24 l9 24 Z"/><path d="M124 46 l8 -18 l8 18 Z"/>
+        <path d="M54 56 l8 -18 l8 18 Z"/><path d="M74 52 l8 -20 l8 20 Z"/><path d="M94 52 l8 -20 l8 20 Z"/><path d="M114 58 l8 -16 l8 16 Z"/>
+      </g>
+      <ellipse cx="34" cy="70" rx="24" ry="18" fill="#efdcc0"/>
+      <circle cx="13" cy="70" r="4.5" fill="#2b2b2b"/>
+      <circle cx="34" cy="63" r="3.2" fill="#2b2b2b"/>
+      <path d="M28 79 q7 5 14 0" stroke="#c0a279" stroke-width="2" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <!-- Ida aufgerollt (Stachelkugel) -->
+    <symbol id="hedgeball" viewBox="0 0 110 110">
+      <g fill="#6f5230">
+        <g transform="rotate(0 55 60)"><path d="M51 30 L55 12 L59 30 Z"/></g>
+        <g transform="rotate(30 55 60)"><path d="M51 30 L55 12 L59 30 Z"/></g>
+        <g transform="rotate(60 55 60)"><path d="M51 30 L55 12 L59 30 Z"/></g>
+        <g transform="rotate(90 55 60)"><path d="M51 30 L55 12 L59 30 Z"/></g>
+        <g transform="rotate(120 55 60)"><path d="M51 30 L55 12 L59 30 Z"/></g>
+        <g transform="rotate(150 55 60)"><path d="M51 30 L55 12 L59 30 Z"/></g>
+        <g transform="rotate(180 55 60)"><path d="M51 30 L55 12 L59 30 Z"/></g>
+        <g transform="rotate(210 55 60)"><path d="M51 30 L55 12 L59 30 Z"/></g>
+        <g transform="rotate(240 55 60)"><path d="M51 30 L55 12 L59 30 Z"/></g>
+        <g transform="rotate(270 55 60)"><path d="M51 30 L55 12 L59 30 Z"/></g>
+        <g transform="rotate(300 55 60)"><path d="M51 30 L55 12 L59 30 Z"/></g>
+        <g transform="rotate(330 55 60)"><path d="M51 30 L55 12 L59 30 Z"/></g>
+      </g>
+      <circle cx="55" cy="60" r="34" fill="#b4834f"/>
+      <ellipse cx="42" cy="66" rx="16" ry="12" fill="#efdcc0"/>
+      <circle cx="34" cy="64" r="3" fill="#2b2b2b"/><circle cx="49" cy="63" r="3" fill="#2b2b2b"/>
+      <path d="M36 72 q6 3 11 0" stroke="#c0a279" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    </symbol>
+  </defs>
+</svg>
+'''
+
+# ---------- Bausteine fuer Szenen ----------
+DAWN = '<rect width="400" height="300" fill="url(#gDawn)"/><ellipse cx="200" cy="296" rx="220" ry="44" fill="#BFD98E"/>'
+DUSK = '<rect width="400" height="300" fill="url(#gDusk)"/><ellipse cx="200" cy="296" rx="220" ry="42" fill="#4b3a55"/><circle cx="330" cy="70" r="24" fill="#FDE9B8"/>'
+NIGHT = '<rect width="400" height="300" fill="url(#gNight)"/><circle cx="335" cy="60" r="26" fill="#FDF3C4"/><circle cx="326" cy="54" r="22" fill="url(#gNight)" opacity=".9"/><g fill="#FFF" opacity=".8"><use href="#spark" x="60" y="40" width="12" height="12"/><use href="#spark" x="150" y="30" width="10" height="10"/><use href="#spark" x="260" y="48" width="10" height="10"/></g><ellipse cx="200" cy="296" rx="220" ry="44" fill="#20304f"/>'
+STORM = '<rect width="400" height="300" fill="url(#gStorm)"/><g stroke="#cdd6dd" stroke-width="2" opacity=".55" stroke-linecap="round"><path d="M40 40 l-16 40"/><path d="M110 30 l-16 40"/><path d="M180 45 l-16 40"/><path d="M250 30 l-16 40"/><path d="M320 45 l-16 40"/><path d="M360 30 l-16 40"/><path d="M80 120 l-14 34"/><path d="M300 130 l-14 34"/></g><ellipse cx="200" cy="298" rx="220" ry="40" fill="#2b3038"/>'
+BUSH = '<g><ellipse cx="210" cy="212" rx="120" ry="68" fill="#25402f"/><ellipse cx="150" cy="204" rx="72" ry="50" fill="#2c4d38"/><ellipse cx="272" cy="206" rx="82" ry="54" fill="#2c4d38"/></g><g fill="#5a3a63"><circle cx="150" cy="186" r="4"/><circle cx="252" cy="182" r="4"/><circle cx="206" cy="214" r="4"/></g>'
+
+SCENES = {}
+SCENES["friends"] = DUSK + '<use href="#flower" x="168" y="40" width="70" height="88"/><g><use href="#heart" x="104" y="70" width="26" height="26"/><use href="#heart" x="286" y="80" width="22" height="22"/></g><use href="#toad" x="240" y="150" width="128" height="86"/><use href="#mouse" x="86" y="176" width="76" height="76"/><use href="#firefly" x="176" y="150" width="46" height="46"/>'
+SCENES["bush"] = NIGHT + BUSH + '<use href="#hedgeball" x="176" y="182" width="74" height="74"/><use href="#firefly" x="112" y="150" width="46" height="46"/>'
+SCENES["reveal"] = DAWN + '<g><ellipse cx="300" cy="216" rx="96" ry="56" fill="#2c4d38"/></g><use href="#hedgehog" x="250" y="150" width="132" height="88"/><use href="#mouse" x="70" y="176" width="72" height="72"/><use href="#firefly" x="140" y="156" width="42" height="42"/><use href="#toad" x="150" y="182" width="110" height="74"/>'
+SCENES["home"] = '<rect width="400" height="300" fill="url(#gHome)"/><ellipse cx="200" cy="296" rx="220" ry="46" fill="#C9A876"/><path d="M-10 300 Q60 160 30 300 Z" fill="#7a5b3a"/><path d="M410 300 Q340 160 370 300 Z" fill="#7a5b3a"/><g stroke="#FFD23F" stroke-width="5" opacity=".55" stroke-linecap="round"><path d="M200 116 V40"/><path d="M200 116 L140 60"/><path d="M200 116 L260 60"/><path d="M200 116 L120 108"/><path d="M200 116 L280 108"/></g><use href="#house" x="36" y="200" width="72" height="62"/><use href="#house" x="300" y="204" width="70" height="58"/><use href="#flower" x="158" y="70" width="86" height="108"/><use href="#mouse" x="110" y="200" width="56" height="56"/><use href="#mouse" x="252" y="204" width="54" height="54"/>'
+SCENES["bybush"] = DAWN + '<g><ellipse cx="290" cy="214" rx="100" ry="58" fill="#2c4d38"/></g><use href="#hedgeball" x="248" y="192" width="70" height="70"/><use href="#mouse" x="96" y="176" width="76" height="76"/><circle cx="196" cy="250" r="9" fill="#c98a5a"/><circle cx="196" cy="250" r="9" fill="none" stroke="#8a5a34" stroke-width="1.5"/>'
+SCENES["sidebyside"] = DAWN + '<g fill="#FFFFFF" opacity=".8"><ellipse cx="90" cy="70" rx="40" ry="18"/><ellipse cx="300" cy="55" rx="46" ry="20"/></g><use href="#mouse" x="110" y="176" width="80" height="80"/><use href="#hedgehog" x="196" y="170" width="132" height="88"/>'
+SCENES["duskshare"] = DUSK + '<g fill="#FFF" opacity=".8"><use href="#spark" x="70" y="50" width="12" height="12"/><use href="#spark" x="150" y="34" width="10" height="10"/></g><use href="#mouse" x="96" y="176" width="80" height="80"/><use href="#hedgehog" x="182" y="172" width="130" height="86"/>'
+SCENES["nightcare"] = NIGHT + BUSH + '<use href="#firefly" x="150" y="96" width="70" height="70"/><use href="#hedgehog" x="120" y="176" width="130" height="86"/><use href="#toad" x="250" y="182" width="120" height="80"/><ellipse cx="300" cy="196" rx="10" ry="6" fill="#3a2b22"/>'
+SCENES["storm"] = STORM + '<use href="#hedgeball" x="180" y="176" width="80" height="80"/><use href="#mouse" x="96" y="188" width="70" height="70"/>'
+SCENES["throughstorm"] = STORM + '<use href="#firefly" x="300" y="120" width="48" height="48"/><use href="#toad" x="230" y="170" width="140" height="94"/><use href="#hedgehog" x="150" y="186" width="120" height="80"/><use href="#mouse" x="86" y="196" width="66" height="66"/>'
+SCENES["searchwoods"] = DAWN + '<use href="#tree" x="4" y="70" width="96" height="128"/><use href="#tree" x="304" y="80" width="104" height="132"/><path d="M60 296 Q200 250 340 260" stroke="#C9A876" stroke-width="16" fill="none" opacity=".7" stroke-linecap="round"/><use href="#mouse" x="96" y="184" width="66" height="66"/><use href="#firefly" x="156" y="166" width="40" height="40"/><use href="#hedgehog" x="196" y="178" width="120" height="80"/><use href="#toad" x="286" y="186" width="110" height="74"/>'
+SCENES["reunion"] = DAWN + '<path d="M0 300 Q120 210 260 240 Q340 256 400 240 V300 Z" fill="#cdb083"/><use href="#hedgehog" x="70" y="150" width="150" height="100"/><use href="#hedgehog" x="200" y="158" width="132" height="88"/><use href="#hedgehog" x="286" y="176" width="96" height="64"/><g><use href="#heart" x="188" y="120" width="24" height="24"/><use href="#heart" x="150" y="140" width="18" height="18"/></g>'
+SCENES["welcome"] = '<rect width="400" height="300" fill="url(#gHome)"/><ellipse cx="200" cy="296" rx="220" ry="46" fill="#C9A876"/><use href="#house" x="30" y="200" width="70" height="60"/><use href="#house" x="300" y="204" width="70" height="58"/><use href="#flower" x="166" y="66" width="76" height="96"/><use href="#mouse" x="104" y="204" width="52" height="52"/><use href="#hedgehog" x="196" y="188" width="126" height="84"/><g><use href="#heart" x="150" y="120" width="20" height="20"/><use href="#heart" x="250" y="128" width="18" height="18"/></g>'
+SCENES["finale"] = DUSK + '<use href="#flower" x="168" y="30" width="70" height="88"/><g><use href="#heart" x="96" y="70" width="26" height="26"/><use href="#heart" x="286" y="76" width="24" height="24"/><use href="#heart" x="200" y="56" width="18" height="18"/></g><use href="#toad" x="250" y="164" width="122" height="82"/><use href="#mouse" x="70" y="180" width="70" height="70"/><use href="#hedgehog" x="128" y="178" width="126" height="84"/><use href="#firefly" x="196" y="150" width="44" height="44"/>'
+
+def vig_svg(chars):
+    tmpl = {
+        "mouse":   '<use href="#mouse" x="{x}" y="72" width="88" height="88"/>',
+        "firefly": '<use href="#firefly" x="{x}" y="82" width="56" height="56"/>',
+        "toad":    '<use href="#toad" x="{x}" y="80" width="116" height="78"/>',
+        "hedgehog":'<use href="#hedgehog" x="{x}" y="86" width="126" height="84"/>',
+        "hedgeball":'<use href="#hedgeball" x="{x}" y="78" width="86" height="86"/>',
+        "flower":  '<use href="#flower" x="{x}" y="40" width="76" height="96"/>',
+    }
+    widths = {"mouse":88,"firefly":56,"toad":116,"hedgehog":126,"hedgeball":86,"flower":76}
+    total = sum(widths[c] for c in chars) + 14 * (len(chars) - 1)
+    x = 150 - total / 2
+    parts = []
+    for c in chars:
+        parts.append(tmpl[c].format(x=round(x)))
+        x += widths[c] + 14
+    return ('<svg class="vscene" viewBox="0 0 300 210">'
+            '<ellipse cx="150" cy="176" rx="120" ry="18" fill="#000" opacity=".05"/>'
+            + "".join(parts) + '</svg>')
+
+P = lambda *ps: list(ps)
+
+CH = [
+ dict(title="Ein ganz gewöhnlicher Abend", scene="friends",
+   pages=[
+     P("""Im Dorf unter der Wurzel war es Abend geworden. Die Leuchtblume auf dem Dorfplatz strahlte golden und warm, und überall roch es nach frischem Eichelbrot und Tautee.""",
+       """Seit Pauli einst den Funken vom Nebelberg geholt hatte, war das Dorf ein besonders glücklicher Ort. Und Pauli – einst die kleinste und schüchternste Maus – hatte nun etwas, das schöner war als alles andere: echte Freunde."""),
+     P("""Da war Luna, das Glühwürmchen, das immer ein Licht für Pauli hatte. Und Bruno, der brummige Kröterich, dessen Herz so weich war wie Moos.""",
+       """An diesem Abend saßen die drei am Rand des Dorfes und schauten in den Sternenhimmel. „Ist das nicht ein wunderbarer Abend?“, seufzte Pauli glücklich. Doch da hörten sie plötzlich ein Geräusch, das gar nicht zum Abend passen wollte."""),
+   ],
+   vig=(["mouse","firefly","toad"], "Das Schönste, was Pauli je gefunden hatte, waren echte Freunde.")),
+
+ dict(title="Ein Weinen im Gebüsch", scene="bush",
+   pages=[
+     P("""Es war ein leises, trauriges Wimmern. Es kam aus dem Brombeergebüsch am Waldrand. „Hört ihr das auch?“, flüsterte Pauli. Luna flog vorsichtig voraus und leuchtete zwischen die dunklen Zweige.""",
+       """Dort, ganz tief im Gestrüpp, kauerte etwas Kleines, Rundes, Stacheliges. Und es zitterte am ganzen Körper."""),
+     P("""„Hallo?“, sagte Pauli ganz sanft. „Wir tun dir nichts. Warum weinst du denn?“ Doch kaum hatte das kleine Wesen Paulis Stimme gehört, rollte es sich zu einer festen, stacheligen Kugel zusammen.""",
+       """„Geht weg!“, piepste eine dünne Stimme aus der Kugel. „Lasst mich in Ruhe!“ Pauli und seine Freunde schauten sich an. Was war das nur für ein trauriges kleines Wesen?"""),
+   ],
+   vig=(["hedgeball"], "Manchmal versteckt sich hinter spitzen Stacheln nur ein ängstliches Herz.")),
+
+ dict(title="Der kleine Igel", scene="reveal",
+   pages=[
+     P("""Bruno beugte sich vor. „Das“, brummte er ganz leise, „ist ein Igel. Ein noch sehr junger.“ Vorsichtig setzten sich die drei ein Stück entfernt hin – nah genug, um da zu sein, weit genug, um niemanden zu erschrecken.""",
+       """Lange geschah gar nichts. Dann, ganz langsam, schob sich zwischen den Stacheln eine kleine, spitze Schnauze hervor. Zwei ängstliche Augen blinzelten heraus."""),
+     P("""„Ich… ich heiße Ida“, flüsterte der kleine Igel. „Und ich will niemandem mehr vertrauen. Nie wieder.“ Bei diesen Worten kullerte eine Träne über ihre Nase.""",
+       """„Das ist in Ordnung“, sagte Pauli leise. „Du musst uns nicht vertrauen. Wir bleiben trotzdem hier, falls du uns brauchst.“ Ida sagte nichts. Aber sie rollte sich auch nicht wieder ganz ein."""),
+   ],
+   vig=(["mouse","hedgehog"], "Du musst mir nicht vertrauen, sagte Pauli. Ich bleibe trotzdem.")),
+
+ dict(title="Die anderen haben Angst", scene="home",
+   pages=[
+     P("""Am nächsten Morgen sprach sich im Dorf schnell herum, dass ein fremdes, stacheliges Wesen am Waldrand saß. Die Mäuse tuschelten ängstlich. „Ein Igel! Der hat Stacheln! Der sticht bestimmt!“""",
+       """„Schick ihn weg, Pauli“, riefen einige. „So etwas Fremdes gehört nicht hierher.“ Pauli aber schüttelte entschieden den Kopf."""),
+     P("""„Erinnert ihr euch“, sagte Pauli, „wie ich früher war? Die kleinste, die schüchternste Maus. Alle dachten, ich sei zu gar nichts zu gebrauchen.“ Da wurden die Mäuse ganz still.""",
+       """„Ida ist nicht gefährlich. Sie hat nur Angst. Und wer Angst hat, braucht keine Angst zurück – sondern Geduld.“"""),
+     P("""Frau Federbart, die alte Bürgermeisterin, nickte langsam. „Gib ihr Zeit, Pauli“, sagte sie. „Vertrauen ist wie eine scheue Blume. Man kann sie nicht zwingen zu blühen. Man kann sie nur pflegen und geduldig warten.“""",
+       """Pauli nickte. Genau das wollte es tun."""),
+   ],
+   vig=(["mouse"], "Wer Angst hat, braucht keine Angst zurück – sondern Geduld.")),
+
+ dict(title="Pauli bleibt", scene="bybush",
+   pages=[
+     P("""Von diesem Tag an ging Pauli jeden Morgen zum Brombeergebüsch. Es setzte sich in sicherem Abstand hin und erzählte einfach – vom Dorf, von den Sternen, von Luna und Bruno. Es verlangte gar nichts.""",
+       """Manchmal legte Pauli eine Haselnuss in die Mitte und zog sich wieder zurück. Und jedes Mal, wenn es später nachschaute, war die Nuss verschwunden."""),
+     P("""Ida blieb misstrauisch. „Warum tust du das?“, fragte sie eines Tages aus ihrer Stachelkugel. „Was willst du von mir?“ „Nichts“, sagte Pauli. „Ich möchte nur, dass du weißt: Du bist nicht allein.“""",
+       """Ida schwieg lange. „Das“, flüsterte sie schließlich, „hat noch nie jemand zu mir gesagt.“"""),
+   ],
+   vig=(["mouse","hedgeball"], "Ich möchte nur, dass du weißt: Du bist nicht allein.")),
+
+ dict(title="Ein erstes bisschen Vertrauen", scene="sidebyside",
+   pages=[
+     P("""Es dauerte viele, viele Tage. Doch eines Morgens saß Ida nicht mehr tief im Gebüsch, sondern ein kleines Stück davor. Und sie war nicht eingerollt.""",
+       """„Guten Morgen, Ida“, sagte Pauli ganz vorsichtig. „Guten Morgen, Pauli“, antwortete Ida – und zum allerersten Mal lächelte sie ein winziges bisschen."""),
+     P("""An diesem Tag saßen sie zum ersten Mal nebeneinander. Nicht zu nah – Ida brauchte ihren Platz. Aber nah genug, um gemeinsam die Wolken zu betrachten.""",
+       """„Weißt du“, sagte Ida leise, „meine Stacheln stellen sich ganz von allein auf, wenn ich Angst habe. Ich kann nichts dagegen tun.“ „Das macht nichts“, sagte Pauli. „Ich mag dich auch mit Stacheln.“"""),
+   ],
+   vig=(["hedgehog"], "Ich mag dich auch mit Stacheln.")),
+
+ dict(title="Warum Ida sich versteckt", scene="duskshare",
+   pages=[
+     P("""Nach und nach erzählte Ida ihre Geschichte. In einer stürmischen Nacht war sie von ihrer Familie getrennt worden. Der Wind hatte sie fortgetragen, weit weg, bis in dieses fremde Gebüsch.""",
+       """„Ich habe sie gesucht“, flüsterte sie. „Tagelang. Aber ich habe sie nicht gefunden. Und die Tiere, die ich fragte, lachten über meine Stacheln oder liefen weg.“"""),
+     P("""„Da habe ich beschlossen, niemandem mehr zu vertrauen“, sagte Ida. „Wer niemandem vertraut, den kann auch niemand mehr verletzen.“ Pauli rückte ein kleines Stück näher.""",
+       """„Das verstehe ich gut“, sagte es sanft. „Aber weißt du was? Wer niemandem vertraut, den kann auch niemand mehr liebhaben. Und das wäre viel zu schade um ein Herz wie deins.“"""),
+     P("""„Nur einen Freund“, flüsterte Pauli, „mehr braucht ein Herz nicht, um wieder zu vertrauen. Einen einzigen, der bleibt.“ Ida sah Pauli lange an. In ihren Augen glänzte etwas Neues – vorsichtig, wie das erste Grün nach dem Winter.""",
+       """„Bleibst du?“, fragte sie ganz leise. „Ich bleibe“, sagte Pauli. Und diesmal rollte sich Ida nicht ein."""),
+   ],
+   vig=(["mouse","hedgehog"], "Wer niemandem vertraut, den kann auch niemand mehr liebhaben.")),
+
+ dict(title="Luna leuchtet, Bruno brummt", scene="nightcare",
+   pages=[
+     P("""Langsam lernte Ida auch die anderen kennen. Luna setzte sich abends auf einen Zweig über ihr und leuchtete ganz sanft, bis Ida einschlief. „Damit die Dunkelheit dir keine Angst macht“, sagte das Glühwürmchen.""",
+       """Und Bruno? Der brachte ihr jeden Tag die dicksten, saftigsten Käfer und brummte dabei ganz verlegen: „Ist ja nur, weil die sonst keiner haben will.“"""),
+     P("""Ida merkte: Diese drei waren anders. Sie drängten nicht. Sie lachten nicht. Sie waren einfach da – Tag für Tag.""",
+       """Und ganz langsam, ohne dass sie es selbst bemerkte, stellten sich Idas Stacheln immer seltener auf. Ihr kleines Herz begann, den Freunden zu vertrauen."""),
+   ],
+   vig=(["firefly","toad"], "Wahre Freunde drängen nicht. Sie sind einfach da.")),
+
+ dict(title="Der Sturm kehrt zurück", scene="storm",
+   pages=[
+     P("""Doch dann, an einem schwülen Nachmittag, verdunkelte sich der Himmel. Ein Sturm zog auf – genau wie in jener Nacht, in der Ida ihre Familie verloren hatte.""",
+       """Der Wind heulte, die Zweige peitschten, und Ida bekam große Angst. Sofort rollte sie sich zusammen, so fest sie nur konnte. „Nicht schon wieder!“, wimmerte sie."""),
+     P("""„Ida!“, rief Pauli gegen den Wind an. „Hier draußen bist du nicht sicher, das Gebüsch schützt dich nicht! Komm mit uns ins Dorf, unter die Wurzel – dort sind wir geborgen!“""",
+       """Aber Ida traute sich nicht. Mitkommen hieße vertrauen. Und das Letzte, dem sie vertraut hatte, war der Boden unter ihren Füßen gewesen – und der hatte sie im Sturm im Stich gelassen."""),
+     P("""„Ich… ich kann nicht!“, schluchzte Ida. „Was, wenn ich euch auch noch verliere?“ Der Regen prasselte, ein Ast krachte zu Boden. Ganz ruhig streckte Pauli seine kleine Pfote aus.""",
+       """„Dann verlieren wir uns eben gemeinsam“, sagte Pauli fest. „Aber ich glaube, gemeinsam verliert man sich nie. Vertrau mir – nur dieses eine Mal. Nimm meine Pfote.“"""),
+   ],
+   vig=(["mouse","hedgehog"], "Vertrau mir – nur dieses eine Mal. Nimm meine Pfote.")),
+
+ dict(title="Vertrauen heißt festhalten", scene="throughstorm",
+   pages=[
+     P("""Einen langen Augenblick rührte sich Ida nicht. Der Sturm tobte. Und dann – ganz langsam – rollte sie sich auf. Zitternd streckte sie eine kleine Pfote aus und legte sie in Paulis.""",
+       """„So ist es gut“, sagte Pauli warm. „Ich lasse nicht los. Versprochen.“ Und Pfote in Pfote, ganz dicht beieinander, kämpften sie sich durch den Sturm."""),
+     P("""Luna flog voraus und zeigte den Weg, ihr Licht ein winziger Leuchtturm im Regen. Und Bruno ging hinterher und schirmte die beiden Kleinen mit seinem breiten Rücken vor dem Wind ab.""",
+       """Schritt für Schritt, ganz fest aneinander, erreichten sie das Dorf unter der Wurzel. Und als sie endlich im Trockenen waren, merkte Ida etwas: Sie hatte losgelassen – und niemand hatte sie fallen lassen."""),
+   ],
+   vig=(["mouse","hedgehog"], "Gemeinsam verliert man sich nie.")),
+
+ dict(title="Die Suche nach Idas Familie", scene="searchwoods",
+   pages=[
+     P("""Am nächsten Morgen war der Sturm vorüber, und die ganze Welt roch frisch und neu. Ida saß mitten im warmen Licht der Leuchtblume – zum ersten Mal seit langer Zeit ohne einen einzigen aufgestellten Stachel.""",
+       """„Danke“, sagte sie leise zu Pauli. „Ihr habt mir geholfen. Jetzt möchte ich es auch versuchen: Helft ihr mir, meine Familie zu suchen?“"""),
+     P("""„Natürlich“, sagte Pauli, ohne auch nur einen Moment zu zögern. „Genau dafür sind Freunde da.“ Und so zogen sie los – Pauli, Luna, Bruno und Ida – hinaus in den weiten Wald.""",
+       """Sie fragten die Eichhörnchen und die Amseln und folgten jeder Spur. „Igel? Ja“, zwitscherte endlich eine alte Amsel, „eine ganze Familie, ganz traurig, sucht seit Wochen ein verlorenes Kind – drüben am Haselhang.“"""),
+   ],
+   vig=(["mouse","hedgehog"], "Genau dafür sind Freunde da.")),
+
+ dict(title="Ein Wiedersehen", scene="reunion",
+   pages=[
+     P("""Am Haselhang blieb Ida wie angewurzelt stehen. Dort, zwischen den Wurzeln, schnüffelte eine Familie Igel im Laub. „Mama?“, flüsterte sie. „Papa?“""",
+       """Die großen Igel drehten sich um. Einen Herzschlag lang stand die ganze Welt still. Dann riefen sie alle durcheinander: „Ida! Unsere Ida!“ – und rollten sich vor lauter Freude fast selbst zu Kugeln."""),
+     P("""Ida rannte los, so schnell ihre kleinen Beine sie trugen, mitten hinein in die Arme ihrer Familie. Sie lachten und weinten zugleich, und Pauli spürte, wie ihm selbst ganz warm ums Herz wurde.""",
+       """„Wir haben dich nie aufgegeben“, schluchzte Idas Mama. „Keinen einzigen Tag. Denn wen man liebt, den sucht das Herz für immer.“"""),
+   ],
+   vig=(["hedgehog"], "Wen man liebt, den sucht das Herz für immer.")),
+
+ dict(title="Die Wahl des Herzens", scene="welcome",
+   pages=[
+     P("""Als die erste Freude vorüber war, wurde Ida ganz still. Sie schaute zu ihrer Familie – und dann zu Pauli, Luna und Bruno. „Ich habe jetzt zwei Zuhause“, sagte sie leise. „Wie soll ich mich nur entscheiden?“""",
+       """Pauli lächelte. „Das musst du gar nicht“, sagte es. „Ein Herz ist doch kein kleiner Korb, in den nur eine einzige Sache passt. Ein Herz wird größer mit jedem, den es liebhat.“"""),
+     P("""Und so kam es, dass Idas Familie vom Haselhang an den Rand des Mäusedorfes zog, gleich neben das Brombeergebüsch, wo einst alles begonnen hatte. Nah genug für die Familie, nah genug für die Freunde.""",
+       """Die Mäuse, die Ida einst weggeschickt hatten, brachten Willkommensbrot und schämten sich ein wenig. Ida aber trug ihnen nichts nach. „Vertrauen“, sagte sie, „kann man auch neu wachsen lassen.“"""),
+     P("""Am Abend saß Ida zwischen ihrer Igelmama und Pauli und schaute in die goldene Leuchtblume. „Früher dachte ich, Vertrauen sei gefährlich“, sagte sie. „Jetzt weiß ich: Vertrauen ist wie dieses Licht. Man muss es teilen, damit es nicht ausgeht.“""",
+       """Frau Federbart, die alles gehört hatte, wischte sich gerührt eine Träne aus dem Fell. „Aus dem Mund eines kleinen Igels“, murmelte sie, „die klügsten Worte des ganzen Dorfes.“"""),
+   ],
+   vig=(["mouse","hedgehog"], "Ein Herz wird größer mit jedem, den es liebhat.")),
+
+ dict(title="Das Band der Herzen", scene="finale",
+   pages=[
+     P("""Es wurde der schönste Abend, den das Dorf seit langem erlebt hatte. Unter der golden strahlenden Leuchtblume saßen sie alle beisammen: die Mäuse, die Igelfamilie, ein Glühwürmchen und ein Kröterich.""",
+       """„Weißt du noch“, fragte Ida, „wie ich niemandem vertrauen wollte?“ Pauli nickte. „Und jetzt?“, fragte es. Ida schaute in die vielen freundlichen Gesichter. „Jetzt“, sagte sie, „ist mein Herz voller, als es je war.“"""),
+     P("""Pauli lehnte sich zufrieden zurück. Es hatte einmal gelernt, was Mut ist. Und nun wusste es auch das hier: Liebe heißt, geduldig zu sein und dazubleiben. Und Vertrauen ist das schönste Geschenk, das ein Herz dem anderen machen kann.""",
+       """Und immer, wenn die Leuchtblume abends golden strahlte, saßen sie beieinander – eine kleine Maus, ein Glühwürmchen, ein Kröterich und ein Igel, der endlich verstanden hatte: Man muss seine Stacheln nicht wegwerfen, um geliebt zu werden. Man muss nur ein einziges Herz finden, dem man sie zeigen darf."""),
+   ],
+   vig=(["hedgehog","mouse"], "Man muss seine Stacheln nicht wegwerfen, um geliebt zu werden.")),
+]
+
+# ---------- Sheet-Bausteine (mit Seitenzahlen) ----------
+def sheet_illo(cls, scene_svg, num, title, folio):
+    return (f'<div class="sheet illo-sheet {cls}"><div class="panel">'
+            f'<svg class="scene" viewBox="0 0 400 300">{scene_svg}</svg>'
+            f'<div class="cap"><span class="num-bubble">{num}</span><h2>{title}</h2>'
+            f'<span class="cap-num">{folio}</span></div></div></div>')
+
+def sheet_text(cls, num, title, paras, kicker, last, folio):
+    kick = f'<p class="kicker k{num}c">Kapitel {num} · {title}</p>' if kicker else ''
+    body = "".join(f'<p>{p}</p>' for p in paras)
+    fl = '<div class="flourish">♥ ♥ ♥</div>' if last else ''
+    return (f'<div class="sheet text-sheet {cls}"><div class="story">{kick}{body}</div>{fl}'
+            f'<div class="folio">{folio}</div></div>')
+
+def sheet_vig(cls, chars, caption, folio):
+    return (f'<div class="sheet illo-sheet vignette {cls}"><div class="panel">'
+            f'{vig_svg(chars)}<p class="vcap">„{caption}“</p>'
+            f'<div class="folio">{folio}</div></div></div>')
+
+sheets = []
+def with_folio(html):
+    pg = len(sheets) + 1
+    h = html.rstrip()
+    return h[:-6] + f'<div class="folio">{pg}</div></div>'
+def addf(html):
+    sheets.append(with_folio(html))
+
+# ---------- Front matter ----------
+sheets.append(f'''<div class="sheet center title-page">
+  <svg class="hero-mini" viewBox="0 0 400 210">
+    <rect width="400" height="210" rx="20" fill="url(#gDusk)"/>
+    <g fill="#FFF" opacity=".85"><use href="#spark" x="40" y="24" width="16" height="16"/><use href="#spark" x="330" y="36" width="20" height="20"/><use href="#spark" x="300" y="16" width="10" height="10"/></g>
+    <g><use href="#heart" x="60" y="150" width="20" height="20"/><use href="#heart" x="330" y="150" width="18" height="18"/></g>
+    <ellipse cx="200" cy="205" rx="150" ry="24" fill="#3a2c1e"/>
+    <use href="#flower" x="176" y="40" width="70" height="90"/>
+    <use href="#toad" x="250" y="128" width="120" height="82"/>
+    <use href="#mouse" x="70" y="140" width="82" height="82"/>
+    <use href="#hedgehog" x="128" y="140" width="126" height="84"/>
+    <use href="#firefly" x="196" y="108" width="44" height="44"/>
+  </svg>
+  <h1>Pauli und<br/>der kleine Igel</h1>
+  <div class="sub">{BOOK_SUB}</div>
+  <div class="author">Mark von Daak</div>
+</div>''')
+
+sheets.append(f'''<div class="sheet imprint"><div class="box">
+  <h3>{BOOK_TITLE}</h3>
+  <p>{BOOK_SUB}</p>
+  <p>Text und Illustrationen: Mark von Daak</p>
+  <p class="small">1. Auflage · 2026<br/>© 2026 Mark von Daak. Alle Rechte vorbehalten.<br/>Kein Teil dieses Buches darf ohne schriftliche Genehmigung des Autors reproduziert oder verbreitet werden.<br/><br/>Die Figuren und die Handlung dieses Buches sind frei erfunden.<br/>Independently published.</p>
+</div></div>''')
+
+sheets.append('''<div class="sheet center dedication"><p>Für alle, die erst wieder lernen mussten zu vertrauen –<br/>und für die, die geduldig an ihrer Seite blieben.</p></div>''')
+
+sheets.append(f'''<div class="sheet center halftitle"><div class="deco">♥</div><h2>{BOOK_TITLE}</h2></div>''')
+
+sheets.append('''<div class="sheet figpage"><h2 class="figtitle">Die Freunde dieser Geschichte</h2>
+  <div class="fig"><svg viewBox="0 0 120 120"><use href="#mouse" x="14" y="14" width="92" height="92"/></svg>
+    <div class="txt"><h3>Pauli</h3><p>Die kleine Maus, die einst selbst die Ängstlichste war. Heute weiß Pauli: Geduld und ein offenes Herz können jede Angst besiegen.</p></div></div>
+  <div class="fig"><svg viewBox="0 0 150 100"><use href="#hedgehog" x="6" y="8" width="138" height="92"/></svg>
+    <div class="txt"><h3>Ida</h3><p>Ein junger Igel, der seine Familie verloren hat und niemandem mehr traut. Hinter ihren Stacheln steckt ein sehr weiches Herz.</p></div></div>
+</div>''')
+
+sheets.append('''<div class="sheet figpage"><h2 class="figtitle">… und die treuen Gefährten</h2>
+  <div class="fig"><svg viewBox="0 0 60 60"><use href="#firefly" x="4" y="4" width="52" height="52"/></svg>
+    <div class="txt"><h3>Luna</h3><p>Das Glühwürmchen, das mit seinem sanften Licht jede Dunkelheit ein bisschen kleiner macht.</p></div></div>
+  <div class="fig"><svg viewBox="0 0 160 120"><use href="#toad" x="10" y="18" width="140" height="94"/></svg>
+    <div class="txt"><h3>Bruno</h3><p>Der brummige Kröterich mit dem weichsten Herzen des ganzen Waldes – auch wenn er das niemals zugeben würde.</p></div></div>
+</div>''')
+
+# ---------- Kapitel ----------
+for i, ch in enumerate(CH, start=1):
+    cls = f"c{i}"
+    sheets.append(sheet_illo(cls, SCENES[ch["scene"]], i, ch["title"], len(sheets) + 1))
+    n = len(ch["pages"])
+    for j, paras in enumerate(ch["pages"]):
+        sheets.append(sheet_text(cls, i, ch["title"], paras, (j == 0), (j == n - 1), len(sheets) + 1))
+    chars, cap = ch["vig"]
+    sheets.append(sheet_vig(cls, chars, cap, len(sheets) + 1))
+
+# ---------- Back matter ----------
+addf('''<div class="sheet center theend-sheet"><div><div class="bigstar">♥</div><div class="endword">Ende</div><p class="endsub">…und die Liebe? Die wächst weiter – Tag für Tag.</p></div></div>''')
+
+addf('''<div class="sheet mp"><h2 class="mph">Ein kleines Herzens-Gedicht</h2>
+  <div class="poem">
+    <p>Ein Igel rollt sich ein aus Angst,<br/>wenn er der Welt nicht trauen kann.</p>
+    <p>Doch bleibt ein Freund ganz still dabei,<br/>rollt sich das kleine Herz herbei.</p>
+    <p>Denn Liebe drängt nicht, Liebe wartet –<br/>bis aus den Stacheln Nähe startet.</p>
+  </div></div>''')
+
+addf('''<div class="sheet mp"><h2 class="mph">Das kleine Herz-Einmaleins</h2>
+  <ul class="lessons">
+    <li><b>Vertrauen wächst langsam</b> – wie eine scheue Blume. Man kann es nicht erzwingen, nur geduldig pflegen.</li>
+    <li><b>Liebe heißt,</b> geduldig zu sein und dazubleiben – auch wenn der andere noch Stacheln zeigt.</li>
+    <li><b>Wer verletzt wurde,</b> braucht Zeit – und einen Freund, der einfach wartet.</li>
+    <li><b>Ein Herz wird nicht kleiner,</b> wenn es teilt. Es wird größer mit jedem, den es liebhat.</li>
+  </ul></div>''')
+
+addf('''<div class="sheet mp"><h2 class="mph">♥ Zum Weiterreden</h2>
+  <p class="mpi">Nach dem Lesen könnt ihr gemeinsam überlegen:</p>
+  <ul class="qlist">
+    <li>Warum vertraut Ida am Anfang niemandem? Kannst du sie verstehen?</li>
+    <li>Was tut Pauli, damit Ida ihm ganz langsam vertrauen kann?</li>
+    <li>Idas Stacheln stellen sich bei Angst auf. Wann „igelst" du dich selbst ein?</li>
+    <li>Ida sagt, sie habe zwei Zuhause. Kann man mehrere Menschen gleichzeitig liebhaben?</li>
+    <li>Gab es jemanden, dem du erst nicht – und dann doch vertraut hast?</li>
+  </ul></div>''')
+
+addf('''<div class="sheet mp"><h2 class="mph">Kennst du die Geschichte?</h2>
+  <p class="mpi">Ein kleines Quiz – erinnerst du dich?</p>
+  <ol class="qlist">
+    <li>Welches Tier findet Pauli weinend im Gebüsch?</li>
+    <li>Wie heißt der kleine Igel?</li>
+    <li>Was tut Ida immer, wenn sie Angst hat?</li>
+    <li>Wie hat Ida ihre Familie verloren?</li>
+    <li>Was lernt Pauli am Ende über Liebe und Vertrauen?</li>
+  </ol>
+  <p class="hint">Tipp: Alle Antworten stehen in der Geschichte – blättere ruhig zurück!</p></div>''')
+
+addf('''<div class="sheet mp"><h2 class="mph">Finde den Weg zu Idas Familie</h2>
+  <p class="mpi">Hilf Ida durch den Wald zurück zu ihrer Familie.</p>
+  <svg class="maze" viewBox="0 0 300 300">
+    <rect x="6" y="6" width="288" height="288" rx="10" fill="#f6efe6" stroke="#C08457" stroke-width="4"/>
+    <g stroke="#c9b79f" stroke-width="4" stroke-linecap="round" fill="none">
+      <path d="M6 60 H210"/><path d="M90 60 V150"/><path d="M90 150 H294"/>
+      <path d="M60 6 V110"/><path d="M60 110 H150"/><path d="M150 110 V60"/>
+      <path d="M6 210 H150"/><path d="M150 210 V294"/>
+      <path d="M210 150 V240"/><path d="M210 240 H294"/>
+      <path d="M240 60 V180"/><path d="M120 210 H180 V150"/>
+    </g>
+    <use href="#hedgeball" x="12" y="14" width="46" height="46"/>
+    <use href="#hedgehog" x="238" y="250" width="54" height="40"/>
+    <text x="60" y="34" font-size="11" fill="#a86a3d">Ida</text>
+    <text x="232" y="248" font-size="11" fill="#a86a3d">Familie</text>
+  </svg></div>''')
+
+addf('''<div class="sheet mp coloring"><h2 class="mph">Male den kleinen Igel aus</h2>
+  <p class="mpi">Welche Farben hat <em>dein</em> Lieblingsigel?</p>
+  <svg class="outline" viewBox="0 0 240 170">
+    <g fill="none" stroke="#333" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+      <ellipse cx="130" cy="118" rx="14" ry="7"/><ellipse cx="170" cy="118" rx="14" ry="7"/>
+      <ellipse cx="140" cy="96" rx="78" ry="44"/>
+      <path d="M66 78 l14 -34 l14 34"/><path d="M92 66 l14 -38 l14 38"/><path d="M120 60 l14 -40 l14 40"/><path d="M148 62 l14 -38 l14 38"/><path d="M176 72 l13 -30 l13 30"/>
+      <ellipse cx="54" cy="104" rx="34" ry="26"/>
+      <circle cx="24" cy="104" r="5"/>
+      <circle cx="54" cy="94" r="4"/>
+      <path d="M46 116 q9 6 18 0"/>
+    </g>
+  </svg></div>''')
+
+addf('''<div class="sheet mp"><h2 class="mph">Wer war wer?</h2>
+  <div class="recap">
+    <div class="rrow"><svg viewBox="0 0 120 120"><use href="#mouse" x="14" y="14" width="92" height="92"/></svg><span><b>Pauli</b> – die geduldige kleine Maus.</span></div>
+    <div class="rrow"><svg viewBox="0 0 150 100"><use href="#hedgehog" x="8" y="8" width="134" height="90"/></svg><span><b>Ida</b> – der Igel, der wieder vertrauen lernt.</span></div>
+    <div class="rrow"><svg viewBox="0 0 60 60"><use href="#firefly" x="4" y="4" width="52" height="52"/></svg><span><b>Luna</b> – das sanfte Glühwürmchen.</span></div>
+    <div class="rrow"><svg viewBox="0 0 160 110"><use href="#toad" x="14" y="12" width="132" height="90"/></svg><span><b>Bruno</b> – der gutmütige Kröterich.</span></div>
+  </div></div>''')
+
+addf('''<div class="sheet mp"><h2 class="mph">Mein Herzens-Versprechen</h2>
+  <p class="mpi">Wie Pauli kannst auch du Liebe und Vertrauen schenken:</p>
+  <div class="promise">
+    <p class="pl">Ich schenke mein Vertrauen, wenn …</p>
+    <div class="wl"></div><div class="wl"></div>
+    <p class="pl">Ich zeige jemandem Liebe, indem ich …</p>
+    <div class="wl"></div><div class="wl"></div>
+    <p class="pl">Wenn ein Freund traurig ist, dann …</p>
+    <div class="wl"></div><div class="wl"></div>
+  </div>
+  <p class="hint">Denk daran: Liebe drängt nicht – Liebe wartet. ♥</p></div>''')
+
+sheets.append('''<div class="sheet center colo"><div>
+  <div style="font-size:30pt;margin-bottom:.12in">🐭 ♥ 🦔</div>
+  <p>Geschrieben und illustriert für alle, die geduldig genug sind, ein scheues Herz zu gewinnen.</p>
+  <p style="margin-top:.25in;color:#8a93a0;font-size:10pt">Pauli und der kleine Igel · © 2026 Mark von Daak</p>
+</div></div>''')
+
+# ---------- STYLE ----------
+STYLE = r'''
+  @page { size: 6in 9in; margin: 0.5in; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { font-family: "Trebuchet MS", "Segoe UI", Verdana, sans-serif; color: #263445; }
+  .sheet { position: relative; width: 5in; height: 8in; page-break-after: always; overflow: hidden; display: flex; flex-direction: column; }
+  .sheet:last-child { page-break-after: auto; }
+  .center { align-items: center; justify-content: center; text-align: center; }
+  .title-page h1 { font-size: 34pt; line-height: 1.06; color: #E86A8E; margin: 0 0 .16in; }
+  .title-page .sub { font-size: 13.5pt; color: #5D6B7B; margin-bottom: .3in; }
+  .title-page .author { font-size: 13pt; color: #263445; margin-top: .3in; }
+  .hero-mini { width: 3.5in; height: auto; margin: .1in auto; }
+  .imprint { justify-content: center; }
+  .imprint .box { font-size: 9.5pt; line-height: 1.7; color: #4a5563; max-width: 4.3in; margin: 0 auto; text-align: center; }
+  .imprint h3 { color: #E86A8E; font-size: 11.5pt; margin: 0 0 .12in; }
+  .imprint .small { font-size: 8.5pt; color: #7a8290; margin-top: .22in; }
+  .dedication p { font-size: 15pt; font-style: italic; color: #5D6B7B; line-height: 1.6; max-width: 4in; }
+  .halftitle h2 { font-size: 22pt; color: #17B6A0; margin: 0; }
+  .halftitle .deco { font-size: 30pt; margin-bottom: .1in; color: #E86A8E; }
+  .figpage { padding: .1in .1in; }
+  .figtitle { font-size: 16pt; color: #E86A8E; margin: 0 0 .28in; text-align: center; }
+  .fig { display: flex; align-items: center; gap: .2in; margin-bottom: .34in; }
+  .fig > svg { width: 1.3in; height: 1.3in; flex: 0 0 auto; }
+  .fig .txt h3 { margin: 0 0 .06in; font-size: 14pt; color: #17B6A0; }
+  .fig .txt p { margin: 0; font-size: 11.5pt; line-height: 1.45; }
+  .illo-sheet { padding: 0; }
+  .panel { flex: 1; border-radius: 22px; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+  .panel svg.scene { width: 100%; height: auto; display: block; }
+  .cap { position: absolute; left: 0; right: 0; bottom: 0; display: flex; align-items: center; gap: .14in; padding: .2in .28in; background: rgba(255,255,255,.92); }
+  .num-bubble { flex: 0 0 auto; width: .55in; height: .55in; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18pt; color: #fff; }
+  .cap h2 { margin: 0; font-size: 16pt; color: #263445; line-height: 1.12; }
+  .vignette .panel { justify-content: center; padding: .35in; }
+  .vignette .vscene { width: 74%; height: auto; display: block; margin: 0 auto; }
+  .vcap { text-align: center; font-size: 15pt; line-height: 1.5; margin: .3in auto 0; max-width: 3.6in; font-style: italic; color: #3a4553; }
+  .text-sheet { padding: .12in .18in .36in; justify-content: flex-start; }
+  .kicker { font-size: 9.5pt; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700; margin: 0 0 .16in; text-align: center; }
+  .story { text-align: center; }
+  .story p { font-size: 13pt; line-height: 1.56; margin: 0 0 .14in; text-align: center; }
+  .story p:last-child { margin-bottom: 0; }
+  .story strong { font-weight: 800; }
+  .flourish { text-align: center; font-size: 12pt; color: #f0b9c8; margin-top: .2in; letter-spacing: .1in; }
+  .folio { position: absolute; left: 0; right: 0; bottom: .16in; text-align: center; font-size: 9pt; color: #9aa7b4; }
+  .cap-num { margin-left: auto; align-self: center; font-size: 11pt; font-weight: 700; color: #8a95a1; }
+  .theend-sheet { align-items: center; justify-content: center; text-align: center; }
+  .bigstar { font-size: 40pt; color: #E86A8E; }
+  .endword { font-size: 30pt; font-weight: 800; color: #E86A8E; letter-spacing: 3px; margin: .1in 0; }
+  .endsub { font-size: 12pt; color: #5D6B7B; font-style: italic; max-width: 3.6in; }
+  .mp { padding: .3in .28in; }
+  .mph { font-size: 17pt; color: #E86A8E; margin: 0 0 .2in; text-align: center; }
+  .mpi { font-size: 11.5pt; color: #5D6B7B; margin: 0 0 .18in; text-align: center; }
+  .poem { text-align: center; }
+  .poem p { font-size: 14pt; line-height: 1.7; margin: 0 0 .2in; color: #3a4553; }
+  .lessons { font-size: 12.5pt; line-height: 1.5; padding-left: .26in; margin: 0; }
+  .lessons li { margin-bottom: .16in; }
+  .lessons b { color: #17B6A0; }
+  .qlist { font-size: 12pt; line-height: 1.5; padding-left: .28in; margin: 0; }
+  .qlist li { margin-bottom: .13in; }
+  .hint { font-size: 10.5pt; color: #8a93a0; font-style: italic; margin-top: .18in; text-align: center; }
+  .maze { width: 3.4in; height: 3.4in; display: block; margin: .12in auto 0; }
+  .outline { width: 3.2in; height: auto; display: block; margin: .1in auto 0; }
+  .recap { margin-top: .1in; }
+  .rrow { display: flex; align-items: center; gap: .18in; margin-bottom: .2in; font-size: 12.5pt; }
+  .rrow > svg { width: 1in; height: 1in; flex: 0 0 auto; }
+  .rrow b { color: #17B6A0; }
+  .promise { margin-top: .1in; }
+  .promise .pl { font-size: 12.5pt; font-weight: 700; color: #17B6A0; margin: .18in 0 .16in; }
+  .promise .wl { border-bottom: 1.5px dotted #d9b9c5; height: .34in; }
+  .colo p { font-size: 11pt; color: #5D6B7B; font-style: italic; max-width: 4in; margin: 0 auto .16in; }
+  ''' + color_css(len(CH))
+
+html = ('<!DOCTYPE html>\n<html lang="de">\n<head>\n<meta charset="UTF-8" />\n'
+        f'<title>{BOOK_TITLE} — Innenteil</title>\n<style>' + STYLE +
+        '\n</style>\n</head>\n<body>\n' + DEFS + "\n" + "\n".join(sheets) +
+        "\n</body>\n</html>\n")
+
+with open("innenteil.html", "w", encoding="utf-8") as f:
+    f.write(html)
+print("Sheets total:", len(sheets))
