@@ -33,8 +33,10 @@ BARCODE_B_MM, BARCODE_H_MM = 50.8, 30.5
 BARCODE_RAND_MM = 6.35
 # Hardcover: 0,25 Zoll Abstand gelten dort nicht zum Rücken, sondern zum
 # Scharnier — und das ist 0,4 Zoll breit. Das Feld rückt also 10,2 mm weiter
-# nach innen als beim Taschenbuch.
+# nach innen als beim Taschenbuch, abzüglich der 3 mm, um die es nach
+# Sichtprüfung in KDPs Vorschau wieder zum Rücken hin gerückt wurde.
 BARCODE_SCHARNIER_MM = 0.4 * 25.4
+BARCODE_HARDCOVER_KORREKTUR_MM = 3.0
 
 ergebnisse = []
 
@@ -385,7 +387,9 @@ def barcodefeld_pruefen(bezeichnung, pdf, rand_mm, trim_b_mm, hardcover):
     breite, hoehe = BARCODE_B_MM * pt, BARCODE_H_MM * pt
     # Rückseite liegt links; das Feld sitzt an ihrer rechten unteren
     # Trimmecke. fitz zählt y von oben, reportlab von unten.
-    seitlich = BARCODE_RAND_MM + (BARCODE_SCHARNIER_MM if hardcover else 0)
+    seitlich = BARCODE_RAND_MM
+    if hardcover:
+        seitlich += BARCODE_SCHARNIER_MM - BARCODE_HARDCOVER_KORREKTUR_MM
     rechts = (rand_mm + trim_b_mm - seitlich) * pt
     unten = seite.rect.height - (rand_mm + BARCODE_RAND_MM) * pt
     feld = fitz.Rect(rechts - breite, unten - hoehe, rechts, unten)
