@@ -84,24 +84,62 @@ zwischen amazon.de und amazon.com — was tatsächlich zur Wahl steht, zeigt ers
 das KDP-Formular im Konto. Solche Abweichungen sind normal; entscheidend ist,
 dass jede der drei Gruppen einmal getroffen wird.
 
-**Keywords** — sieben Felder à 50 Zeichen. Wortgruppen statt Einzelwörter, und
-kein Wort, das schon in Titel oder Untertitel steht: Amazon indexiert die
-ohnehin, eine Wiederholung verschenkt ein Feld.
+**Keywords** — sieben Felder à 50 Zeichen. Jedes Feld deckt eine andere
+Suchabsicht ab; wer siebenmal dasselbe Thema umschreibt, verschenkt sechs
+Felder.
 
 ```
-ki verstehen ohne vorkenntnisse
-chancen und risiken neue technologie
-zukunft der arbeit automatisierung
-digitale ethik verantwortung
-sachbuch technik gesellschaft
+ki einfach erklärt ohne vorwissen
+chancen und risiken der digitalisierung
+zukunft der arbeit automatisierung berufe
 ki im unternehmen einführen
-ki einfach erklärt für einsteiger
+algorithmen ethik verantwortung haftung
+überwachung desinformation deepfakes
+sachbuch technik gesellschaft
 ```
 
-Zum Tauschen, falls ein Begriff nach ein paar Wochen nichts bringt:
-`algorithmen entscheiden über menschen` · `desinformation deepfakes erkennen` ·
-`ki regulierung europa` · `sprachmodelle verständlich erklärt` ·
-`technikfolgen abschätzen ratgeber`
+Was jedes Feld leisten soll:
+
+| Feld | Zeichen | Sucht nach |
+|---|---|---|
+| ki einfach erklärt ohne vorwissen | 33 | dem Einsteiger, der Angst vor einem Fachbuch hat |
+| chancen und risiken der digitalisierung | 39 | der Abwägung — dem eigentlichen Versprechen des Buches |
+| zukunft der arbeit automatisierung berufe | 41 | der Sorge um den eigenen Beruf |
+| ki im unternehmen einführen | 27 | dem betrieblichen Entscheider |
+| algorithmen ethik verantwortung haftung | 39 | der Verantwortungsfrage |
+| überwachung desinformation deepfakes | 36 | den konkreten Schäden aus Teil III |
+| sachbuch technik gesellschaft | 29 | der Gattung, für Stöbernde |
+
+**Kein Wort aus Titel oder Untertitel.** „Künstliche Intelligenz", „Nutzen",
+„Kosten", „Maschine" indexiert Amazon ohnehin; sie hier zu wiederholen kostet
+ein Feld und bringt nichts. Die Abkürzung **KI** steht dagegen *nicht* im
+Titel und ist der häufigere Sucheingabewert — deshalb kommt sie vor.
+
+**Warum „ki" trotzdem zweimal steht.** Die Regel, kein Wort über zwei Felder zu
+wiederholen, gilt für die Wortkombination, die Amazon aus allen Feldern bildet.
+Bei Suchphrasen, die Kunden genau so eintippen — „ki einfach erklärt" und
+„ki im unternehmen" —, wiegt die Phrasenübereinstimmung schwerer als das eine
+verlorene Wort. Bewusste Ausnahme, keine Nachlässigkeit.
+
+**Nicht verwendet, weil Amazon es untersagt oder abstraft:** subjektive
+Behauptungen („bestes Buch", „Bestseller"), Namen anderer Autoren oder Titel,
+fremde Marken, Angaben zur Aktualität („neu", „2026") und Wiederholungen des
+Kategorienamens.
+
+Zum Tauschen, falls ein Begriff nach ein paar Wochen nichts bringt — die
+Reihenfolge ist die empfohlene, jeweils mit der Zeichenzahl:
+
+```
+ki regulierung europa ai act        (28)
+sprachmodelle verständlich erklärt  (34)
+technikfolgen abschätzen            (24)
+digitaler wandel arbeitsmarkt       (29)
+ki chancen risiken gesellschaft     (31)
+```
+
+Welche Felder tatsächlich etwas bringen, zeigt sich erst im Bericht nach
+einigen Wochen. Tausche dann einzeln, nicht alle auf einmal — sonst lässt sich
+die Wirkung nicht zuordnen.
 
 ---
 
