@@ -25,15 +25,16 @@ os.makedirs(IMG)
 os.makedirs(os.path.join(BUILD, "META-INF"))
 
 # ---------- Bild-Rendering ----------
-def render(html_str, out_png, w, h, scale=2):
+def render(html_str, out_png, w, h, scale=2, bg=None):
     tmp = os.path.join(ROOT, "_tmp_render.html")
     with open(tmp, "w", encoding="utf-8") as f:
         f.write(html_str)
-    subprocess.run(
-        [CHROME, "--headless=new", "--no-sandbox", "--disable-gpu", "--hide-scrollbars",
-         f"--force-device-scale-factor={scale}", f"--window-size={w},{h}",
-         f"--screenshot={out_png}", "file://" + tmp],
-        check=True, stderr=subprocess.DEVNULL)
+    cmd = [CHROME, "--headless=new", "--no-sandbox", "--disable-gpu", "--hide-scrollbars",
+           f"--force-device-scale-factor={scale}", f"--window-size={w},{h}"]
+    if bg:  # Basisfarbe (statt Weiss), damit unten kein weisser Rand bleibt
+        cmd.append(f"--default-background-color={bg}")
+    cmd += [f"--screenshot={out_png}", "file://" + tmp]
+    subprocess.run(cmd, check=True, stderr=subprocess.DEVNULL)
     os.remove(tmp)
 
 def scene_html(inner, w, h, vb="0 0 400 300"):
@@ -64,6 +65,8 @@ COVER_HTML = ('<!DOCTYPE html><html><head><meta charset="utf-8"><style>'
   'font-family:"Trebuchet MS","Segoe UI",Verdana,sans-serif;'
   'background:linear-gradient(180deg,#4a3d78 0%,#7d5f92 52%,#d99a8f 100%)}'
   '.wrap{position:relative;width:800px;height:1280px;overflow:hidden}'
+  '.bgfill{position:absolute;top:0;left:0;width:800px;height:1280px;z-index:0;'
+  'background:linear-gradient(180deg,#4a3d78 0%,#7d5f92 52%,#d99a8f 100%)}'
   '.ground{position:absolute;left:0;bottom:0;width:100%;height:320px}'
   '.inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;'
   'text-align:center;padding:70px 56px 60px}'
@@ -75,6 +78,7 @@ COVER_HTML = ('<!DOCTYPE html><html><head><meta charset="utf-8"><style>'
   '.badge span{background:#E86A8E;color:#ffffff;font-weight:800;font-size:22px;padding:9px 26px;border-radius:999px}'
   '</style></head><body>' + b.DEFS +
   '<div class="wrap">'
+  '<div class="bgfill"></div>'
   '<svg style="position:absolute;inset:0" viewBox="0 0 800 1280" preserveAspectRatio="none">'
   '<g fill="#FFFFFF" opacity=".28">'
   '<use href="#heart" x="80" y="120" width="34" height="34"/><use href="#heart" x="300" y="90" width="24" height="24"/>'
@@ -105,7 +109,7 @@ COVER_HTML = ('<!DOCTYPE html><html><head><meta charset="utf-8"><style>'
   '<div class="author">Mark von Daak</div>'
   '<div class="badge"><span>Bilderbuch · ab 6 Jahren</span></div>'
   '</div></body></html>')
-render(COVER_HTML, os.path.join(IMG, "cover.png"), 800, 1280, scale=2)
+render(COVER_HTML, os.path.join(IMG, "cover.png"), 800, 1280, scale=2, bg="d99a8fff")
 
 # ---------- XHTML-Helfer ----------
 def page(title, body, cls=""):
