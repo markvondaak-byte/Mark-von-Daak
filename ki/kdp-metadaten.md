@@ -39,16 +39,50 @@ die dafür nötige Umschlaggeometrie nicht. `buch/build/build_cover.py` kann es
 für die Stoffwechsel-Reihe; wer es hier will, überträgt von dort die
 Konstanten `WRAP_ZOLL` und `BUCHDECKE_ZOLL` und rechnet den Umschlag neu.
 
-**Kategorien** — eine breite, zwei enge:
+**Kategorien** — jede steht für eine der drei Lesergruppen, nicht für ein
+Thema des Buches. Das ist der Unterschied, an dem die Auswahl hängt: Amazon
+sortiert Käufer, nicht Inhalte.
 
-1. Computer & Internet › Künstliche Intelligenz
-2. Politik & Geschichte › Politik › Technologiepolitik *(oder Sachbuch ›
-   Gesellschaft & Politik)*
-3. Wirtschaft › Arbeitswelt & Zukunft der Arbeit
+| # | Kategoriebereich | Wen sie erreicht | Aussicht |
+|---|---|---|---|
+| 1 | Computer & Internet › Künstliche Intelligenz | wer gezielt ein KI-Buch sucht | Suchabdeckung, keine Platzierung |
+| 2 | Politik & Geschichte › Politik › Technologiepolitik | den gesellschaftlich interessierten Sachbuchleser | mittel |
+| 3 | Wirtschaft / Business › Arbeitswelt & Zukunft der Arbeit | wer beruflich entscheiden muss | beste Platzierungschance |
 
-Die dritte Kategorie ist die interessanteste: Dort steht das Buch neben
-Zukunft-der-Arbeit-Titeln statt neben Programmierbüchern, und genau dort ist
-seine Leserschaft.
+**Zu 1 — die breite.** Deckt die Suchintention ab und ist deshalb gesetzt. Eine
+vordere Platzierung ist dort unrealistisch: Der Bereich ist voll und liegt
+neben Fach- und Programmierbüchern. Sie ist die Kategorie, über die das Buch
+gefunden, nicht die, über die es entdeckt wird.
+
+**Zu 2 — die inhaltlich richtige.** Teil III und IV sind zusammen fast die
+Hälfte des Buches und politisch, nicht technisch: Überwachung, Diskriminierung,
+Haftung, Regulierung. Hier steht es neben Büchern, deren Leser dieselbe Frage
+stellen. Ausweichbereiche, falls der Zweig im Formular fehlt: *Sachbuch ›
+Gesellschaft & Politik* oder *Politik › Spezialthemen*.
+
+**Zu 3 — die wichtigste.** Genau diese Leserschaft nennt das Buch selbst als
+seine Zielgruppe, und Teil V ist für sie geschrieben. Die Nische ist enger, die
+Platzierung dadurch realistisch — und Kategorien, in denen man tatsächlich
+vorne landet, bringen den Bestseller-Hinweis und damit Sichtbarkeit, die eine
+überfüllte Hauptkategorie nie liefert. Ausweichbereiche: *Business & Karriere ›
+Wirtschaft* oder *Management › Digitalisierung*.
+
+**Die Logik: eine breite, zwei enge.** Die breite deckt die Suche ab, die engen
+bringen Platzierung. Alle drei auf denselben überfüllten Bereich zu setzen
+verschenkt zwei Plätze.
+
+**Was bewusst nicht gewählt wird:** Programmier-, Entwickler- und
+IT-Fachkategorien. Das Buch enthält keine Zeile Code und keine Anleitung. Wer
+dort sucht, wird enttäuscht, und Enttäuschung wird bei Amazon in Sternen
+ausgedrückt — eine falsche Kategorie kostet mehr, als sie an Sichtbarkeit
+bringt. Dasselbe gilt für Ratgeber-Kategorien, die ein Versprechen nahelegen,
+das der Text ausdrücklich ablehnt.
+
+**Vorbehalt.** Die Pfade oben sind ein Suchraster, keine Abschrift. Amazon
+benennt seine Kategoriebäume regelmäßig um, und die Auswahl unterscheidet sich
+zwischen amazon.de und amazon.com — was tatsächlich zur Wahl steht, zeigt erst
+das KDP-Formular im Konto. Solche Abweichungen sind normal; entscheidend ist,
+dass jede der drei Gruppen einmal getroffen wird.
 
 **Keywords** — sieben Felder à 50 Zeichen. Wortgruppen statt Einzelwörter, und
 kein Wort, das schon in Titel oder Untertitel steht: Amazon indexiert die
