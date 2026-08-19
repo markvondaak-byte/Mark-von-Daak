@@ -79,7 +79,7 @@ und beide werden von `abnahme.py` geprüft:
 | Größe | 50,8 × 30,5 mm (2 × 1,2 Zoll) | KDPs Mindestmaß |
 | Abstand nach unten | 6,35 mm (0,25 Zoll) | gemessen ab der Trimmkante, nicht ab dem Anschnitt |
 | Abstand zum Rücken, Taschenbuch | 6,35 mm (0,25 Zoll) | |
-| Abstand zum Rücken, **Hardcover** | 13,51 mm | 0,4 Zoll Scharnier plus 0,25 Zoll, minus 3 mm nach Sichtprüfung |
+| Abstand zum Rücken, **Hardcover** | 12,51 mm | 0,4 Zoll Scharnier plus 0,25 Zoll, minus 4 mm nach Sichtprüfung |
 | Inhalt | nichts | kein Text, kein Bild, kein Designelement |
 | Grund | Volltonweiß | schwarze Strichschrift auf dem Schiefergrund wäre nicht zu scannen |
 
@@ -90,10 +90,10 @@ Rücken, sondern **zum Scharnier**. Das Feld rückt dadurch 10,2 mm weiter nach
 innen als beim Taschenbuch. Ohne diese Unterscheidung liegt es dort, wo der
 Deckel knickt, und deckt nicht, wo KDP den Barcode tatsächlich setzt.
 
-Rein nach der Vorgabe gerechnet lag es dann allerdings 3 mm zu weit innen:
+Rein nach der Vorgabe gerechnet lag es dann allerdings 4 mm zu weit innen:
 Die 0,25 Zoll sind eine Untergrenze, keine Position. `BARCODE_HARDCOVER_
-KORREKTUR_MM` holt diese 3 mm zurück — abgeglichen mit KDPs Vorschau, nicht
-mit der Vorgabe. Zwischen Feldkante und Scharnier bleiben damit 3,4 statt
+KORREKTUR_MM` holt diese 4 mm zurück — abgeglichen mit KDPs Vorschau, nicht
+mit der Vorgabe. Zwischen Feldkante und Scharnier bleiben damit 2,4 statt
 6,4 mm. Wer den Wert ändert, sieht danach wieder in die Vorschau.
 
 Das weiße Feld wird 0,5 mm größer angelegt als die geforderte Fläche. Ohne

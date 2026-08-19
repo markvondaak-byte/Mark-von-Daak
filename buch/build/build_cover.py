@@ -69,13 +69,13 @@ BARCODE_LUFT_MM = 4.0                     # Abstand, den Text zur Fläche hält
 BARCODE_SCHARNIER_MM = 0.4 * 25.4
 
 # Nachjustierung gegen KDPs Vorschau: Rein nach der Vorgabe gerechnet lag das
-# Feld 3 mm weiter innen als der Barcode, den KDP tatsächlich setzt. Die 0,25
+# Feld 4 mm weiter innen als der Barcode, den KDP tatsächlich setzt. Die 0,25
 # Zoll sind eine Untergrenze, keine Position — wo der Barcode wirklich landet,
 # zeigt nur die Vorschau. Offen gesagt: Damit bleiben zwischen Feldkante und
-# Scharnier 3,4 statt 6,4 mm. Das unterschreitet KDPs Mindestabstand, deckt
+# Scharnier 2,4 statt 6,4 mm. Das unterschreitet KDPs Mindestabstand, deckt
 # dafür den Barcode. Wer den Wert ändert, sollte danach wieder in die
 # KDP-Vorschau sehen und nicht nur in die Vorgabe.
-BARCODE_HARDCOVER_KORREKTUR_MM = 3.0
+BARCODE_HARDCOVER_KORREKTUR_MM = 4.0
 # Das helle Feld wird einen halben Millimeter größer angelegt als die
 # geforderte Fläche. Sonst liegt die Kante zwischen Weiß und Schiefergrund
 # genau auf der Feldgrenze, und was im Druck an Passertoleranz dazukommt,

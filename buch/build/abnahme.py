@@ -33,10 +33,10 @@ BARCODE_B_MM, BARCODE_H_MM = 50.8, 30.5
 BARCODE_RAND_MM = 6.35
 # Hardcover: 0,25 Zoll Abstand gelten dort nicht zum Rücken, sondern zum
 # Scharnier — und das ist 0,4 Zoll breit. Das Feld rückt also 10,2 mm weiter
-# nach innen als beim Taschenbuch, abzüglich der 3 mm, um die es nach
+# nach innen als beim Taschenbuch, abzüglich der 4 mm, um die es nach
 # Sichtprüfung in KDPs Vorschau wieder zum Rücken hin gerückt wurde.
 BARCODE_SCHARNIER_MM = 0.4 * 25.4
-BARCODE_HARDCOVER_KORREKTUR_MM = 3.0
+BARCODE_HARDCOVER_KORREKTUR_MM = 4.0
 
 ergebnisse = []
 
