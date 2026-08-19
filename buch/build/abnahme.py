@@ -37,6 +37,11 @@ BARCODE_RAND_MM = 6.35
 # Sichtprüfung in KDPs Vorschau wieder zum Rücken hin gerückt wurde.
 BARCODE_SCHARNIER_MM = 0.4 * 25.4
 BARCODE_HARDCOVER_KORREKTUR_MM = 4.0
+# Nach unten misst KDP nicht ab der Trimmkante, sondern ab der Unterkante der
+# Datei: mindestens 0,76 Zoll. Beim Taschenbuch liegen darunter nur 3,175 mm
+# Anschnitt, das Feld muss also 16,1 mm über der Trimmkante sitzen; beim
+# Hardcover bringen 18 mm Umschlagrand die Vorgabe schon mit.
+BARCODE_UNTEN_AB_DATEIKANTE_MM = 0.76 * 25.4
 
 ergebnisse = []
 
@@ -390,8 +395,9 @@ def barcodefeld_pruefen(bezeichnung, pdf, rand_mm, trim_b_mm, hardcover):
     seitlich = BARCODE_RAND_MM
     if hardcover:
         seitlich += BARCODE_SCHARNIER_MM - BARCODE_HARDCOVER_KORREKTUR_MM
+    unten_mm = max(BARCODE_RAND_MM, BARCODE_UNTEN_AB_DATEIKANTE_MM - rand_mm)
     rechts = (rand_mm + trim_b_mm - seitlich) * pt
-    unten = seite.rect.height - (rand_mm + BARCODE_RAND_MM) * pt
+    unten = seite.rect.height - (rand_mm + unten_mm) * pt
     feld = fitz.Rect(rechts - breite, unten - hoehe, rechts, unten)
 
     stoerer = sorted({w[4] for w in seite.get_text("words")
@@ -410,6 +416,15 @@ def barcodefeld_pruefen(bezeichnung, pdf, rand_mm, trim_b_mm, hardcover):
     pruefe(f"{bezeichnung}: Barcodefeld hell und einfarbig",
            dunkelste >= 235 and hellste - dunkelste <= 6,
            f"dunkelster Kanalwert {dunkelste}, hellster {hellste} von 255")
+
+    # Die Vorgabe selbst, nicht nur die eigene Rechnung: KDPs Vorschau
+    # markiert alles unterhalb von 0,76 Zoll ab der Dateikante rot. Genau
+    # dort saß das Feld beim Taschenbuch, bis es jemand in der Vorschau sah.
+    ab_dateikante = rand_mm + unten_mm
+    pruefe(f"{bezeichnung}: Barcodefeld weit genug von der Unterkante",
+           ab_dateikante >= BARCODE_UNTEN_AB_DATEIKANTE_MM - 0.01,
+           f"{ab_dateikante:.2f} mm = {ab_dateikante / 25.4:.3f} Zoll "
+           f"(gefordert {BARCODE_UNTEN_AB_DATEIKANTE_MM / 25.4:.2f})")
 
 
 def cover_pruefen(bezeichnung, pdf, cfg, seiten, *, hardcover=False):
