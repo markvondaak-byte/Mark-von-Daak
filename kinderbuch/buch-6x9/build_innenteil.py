@@ -331,8 +331,23 @@ sheets.append('''<div class="sheet center title-page">
 sheets.append('''<div class="sheet imprint"><div class="box">
   <h3>Pauli und das kleine Licht</h3>
   <p>Eine Geschichte über Mut und Freundschaft</p>
-  <p>Text und Illustrationen: Mark von Daak</p>
-  <p class="small">1. Auflage · 2026<br/>© 2026 Mark von Daak. Alle Rechte vorbehalten.<br/>Kein Teil dieses Buches darf ohne schriftliche Genehmigung des Autors reproduziert oder verbreitet werden.<br/><br/>Die Figuren und die Handlung dieses Buches sind frei erfunden.<br/>Independently published.</p>
+  <p class="small">
+    1. Auflage 2026<br/>
+    © 2026 Mark von Daak. Alle Rechte vorbehalten.<br/><br/>
+    Text und Illustrationen: Mark von Daak<br/>
+    Umschlaggestaltung: Mark von Daak<br/><br/>
+    <b>Autor und Herausgeber</b> (verantwortlich i.S.d.P.):<br/>
+    Mark von Daak<br/>
+    [Straße und Hausnummer]<br/>
+    [PLZ und Ort], Deutschland<br/>
+    Kontakt: [E-Mail-Adresse]<br/><br/>
+    Herstellung und Vertrieb:<br/>
+    Amazon Media EU S.à r.l.,<br/>
+    38 avenue John F. Kennedy, L-1855 Luxembourg<br/>
+    (über Amazon Kindle Direct Publishing)<br/><br/>
+    ISBN: [wird bei der Veröffentlichung vergeben]<br/><br/>
+    Das Werk einschließlich aller seiner Teile ist urheberrechtlich geschützt. Jede Verwertung außerhalb der engen Grenzen des Urheberrechtsgesetzes ist ohne Zustimmung des Autors unzulässig. Die Figuren und die Handlung dieses Buches sind frei erfunden.
+  </p>
 </div></div>''')
 
 sheets.append('''<div class="sheet center dedication"><p>Für alle kleinen Mäuse,<br/>die glauben, sie seien nicht mutig genug.<br/>Ihr seid es.</p></div>''')
