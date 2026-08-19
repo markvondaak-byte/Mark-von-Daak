@@ -74,6 +74,20 @@ MOTIV_HOEHE = 0.46
 # Was die Rückseite oben frei lässt: ein ruhiger Kopfsteg.
 RUECKEN_KOPFSTEG = 0.10
 
+# Barcodefeld. KDP setzt den Code selbst ein und richtet ihn an der Trimmkante
+# der Rückseite aus — nicht am Textrand. Genau das war der Fehler: Das weiße
+# Feld hing am Textrand und saß dadurch 17,5 statt 6,35 mm von der Kante
+# entfernt; der Code ragte um die Differenz auf den dunklen Grund hinaus und
+# war dort nicht scannbar.
+BARCODE_KANTE_MM = 6.35     # 0,25 Zoll, KDPs Richtwert zur Trimmkante
+
+# Reserve ringsum den Code. Ohne sie ist das weiße Feld exakt so groß wie der
+# Barcode, und jede Abweichung in KDPs Platzierung lässt sofort dunklen Grund
+# durchscheinen. Da sich die Vorgabe in dieser Bauumgebung nicht an der Quelle
+# prüfen lässt — kdp.amazon.com ist gesperrt —, tritt die Reserve an die Stelle
+# dieser Gewissheit.
+BARCODE_RESERVE_MM = 6.0
+
 # --- Grund -------------------------------------------------------------------
 def grundton_aus_bild(pfad, anteil=0.10):
     """Mittlere Farbe des unteren Bildrandes.
@@ -457,6 +471,19 @@ def _rueckseite_hoehe(c, kopf, absaetze, punkte, textbreite, faktor):
     return hoehe
 
 
+def barcode_feld(x, y, breite):
+    """Lage und Größe des weißen Barcodefelds, in Punkt.
+
+    Eigene Funktion, damit main() dieselbe Rechnung melden kann, die
+    rueckseite() zeichnet — zwei getrennte Rechnungen laufen irgendwann
+    auseinander, und dann meldet der Build etwas anderes, als im PDF steht.
+    """
+    feld_b = (BARCODE_B_MM + 2 * BARCODE_RESERVE_MM) * mm
+    feld_h = (BARCODE_H_MM + 2 * BARCODE_RESERVE_MM) * mm
+    kante = (BARCODE_KANTE_MM - BARCODE_RESERVE_MM) * mm
+    return x + breite - kante - feld_b, y + kante, feld_b, feld_h
+
+
 def rueckseite(c, x, y, breite, hoehe, cfg, kopf, absaetze, punkte, *,
                kopfsteg):
     """`kopfsteg` ist der oben frei bleibende Anteil der Seitenhöhe.
@@ -471,8 +498,11 @@ def rueckseite(c, x, y, breite, hoehe, cfg, kopf, absaetze, punkte, *,
 
     # Text beginnt unter dem Kopfsteg und endet über dem Barcodefeld.
     oben = y + hoehe - hoehe * kopfsteg - rand * 0.5
-    feld_b, feld_h = BARCODE_B_MM * mm, BARCODE_H_MM * mm
-    feld_y = y + hoehe * 0.035
+    # Feld samt Reserve, ausgerichtet an der Trimmkante der Rückseite. Die
+    # rechte Kante liegt (BARCODE_KANTE_MM - BARCODE_RESERVE_MM) von der
+    # Trimmkante entfernt, also praktisch bündig — damit sitzt die Sollposition
+    # des Codes mittig in der Reserve.
+    feld_x, feld_y, feld_b, feld_h = barcode_feld(x, y, breite)
     unten = feld_y + feld_h + 14
     platz = oben - unten
 
@@ -526,8 +556,7 @@ def rueckseite(c, x, y, breite, hoehe, cfg, kopf, absaetze, punkte, *,
     # auf weißem Grund. Wird das Feld nicht weiß angelegt, druckt der Code auf
     # den dunklen Grund und ist nicht scannbar.
     c.setFillColor(HexColor("#FFFFFF"))
-    c.rect(x + breite - rand - feld_b, feld_y, feld_b, feld_h,
-           stroke=0, fill=1)
+    c.rect(feld_x, feld_y, feld_b, feld_h, stroke=0, fill=1)
 
     c.setFillColor(PALETTE["leise"])
     c.setFont("Sans-Bold", 8.5)
@@ -648,6 +677,29 @@ def kindle_titelbild(cfg, ziel):
     return ziel, bild.size
 
 
+def barcode_melden(cfg):
+    """Sagt beim Bauen, wo das weiße Barcodefeld sitzt.
+
+    Ohne diese Zeile fällt ein falsch platziertes Feld erst beim Hochladen auf —
+    genau so ist der Fehler entdeckt worden, den BARCODE_KANTE_MM behebt.
+    Gemeldet wird, was auch gezeichnet wird: beides kommt aus barcode_feld().
+    """
+    trim_b = cfg["seitenformat"]["breite_mm"] * mm
+    anschnitt = BESCHNITT_MM * mm
+    feld_x, feld_y, feld_b, feld_h = barcode_feld(anschnitt, anschnitt, trim_b)
+
+    rechts = (anschnitt + trim_b - (feld_x + feld_b)) / mm
+    unten = (feld_y - anschnitt) / mm
+    # Rand, der dem Code an seiner Sollposition ringsum bleibt.
+    reserve = BARCODE_RESERVE_MM
+
+    print(f"Barcodefeld: {feld_b/mm:.1f} x {feld_h/mm:.1f} mm, "
+          f"{rechts:.1f} mm von der rechten und {unten:.1f} mm von der "
+          f"unteren Trimmkante")
+    print(f"  Der Code sitzt an KDPs Sollposition ({BARCODE_KANTE_MM} mm von "
+          f"den Kanten) mit {reserve:.1f} mm Rand ringsum im Feld.")
+
+
 def main():
     cfg = yaml.safe_load((KI / "ki.yaml").read_text(encoding="utf-8"))
     seiten = seitenzahl(KI / "out" / f"{cfg['slug']}.pdf")
@@ -661,6 +713,7 @@ def main():
           f"  (Rückentext: {'ja' if masse['ruecken_text'] else 'nein'})")
     print(f"Umschlag gesamt: {b:.2f} x {h:.2f} mm "
           f"= {b/25.4:.3f} x {h/25.4:.3f} Zoll, inkl. {BESCHNITT_MM} mm Anschnitt")
+    barcode_melden(cfg)
     titelbild_melden(cfg, titelbild_suchen())
     print(f"  → {ziel.relative_to(WURZEL)}")
     print(f"  → {png.relative_to(WURZEL)}")
