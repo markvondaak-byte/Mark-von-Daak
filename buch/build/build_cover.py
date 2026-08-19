@@ -60,6 +60,20 @@ BARCODE_B_MM, BARCODE_H_MM = 50.8, 30.5   # 2,0 x 1,2 Zoll — KDPs Mindestmaß
 BARCODE_RAND_MM = 6.35                    # 0,25 Zoll zur Trimmkante
 BARCODE_LUFT_MM = 4.0                     # Abstand, den Text zur Fläche hält
 
+# Nach unten gilt eine zweite, strengere Grenze: mindestens 0,76 Zoll von der
+# **Unterkante der Datei** — nicht von der Trimmkante. Das ist derselbe Abstand
+# wie Anschnitt plus Sicherheitsrand, und KDP markiert alles darunter in der
+# Vorschau rot.
+#
+# Aus einer Regel werden dadurch zwei Ergebnisse, weil unter der Trimmkante je
+# nach Bindeart verschieden viel liegt:
+#   Taschenbuch  3,175 mm Anschnitt    → 19,3 − 3,2 = 16,1 mm über der Trimmkante
+#   Hardcover   18,0   mm Umschlagrand → 19,3 − 18,0 =  1,3 mm, also greifen
+#                                        weiter die 6,35 mm von oben
+# Deshalb gerechnet und nicht je Bindeart eingetragen: Wer den Anschnitt
+# ändert, bekommt den richtigen Abstand automatisch mit.
+BARCODE_UNTEN_AB_DATEIKANTE_MM = 0.76 * 25.4
+
 # Hardcover hat neben der Trimmkante noch eine zweite Grenze: das Scharnier.
 # Zwischen Rücken und Nutzfläche liegt auf beiden Deckeln ein Streifen von
 # 0,4 Zoll, der sich beim Aufschlagen bewegt. KDP verlangt, den Barcode
@@ -194,8 +208,17 @@ def barcodefeld(x, y, breite, *, hardcover=False):
     seitlich = BARCODE_RAND_MM
     if hardcover:
         seitlich += BARCODE_SCHARNIER_MM - BARCODE_HARDCOVER_KORREKTUR_MM
+
+    # `y` ist der Trimmursprung über der Dateikante — beim Taschenbuch der
+    # Anschnitt, beim Hardcover der Umschlagrand. Damit steht hier ohne
+    # zusätzliches Argument, wie viel unterhalb der Trimmkante noch Papier
+    # liegt, und die 0,76-Zoll-Regel lässt sich direkt anwenden.
+    unter_der_trimmkante_mm = y / mm
+    unten = max(BARCODE_RAND_MM,
+                BARCODE_UNTEN_AB_DATEIKANTE_MM - unter_der_trimmkante_mm)
+
     return (x + breite - seitlich * mm - b,
-            y + BARCODE_RAND_MM * mm, b, h)
+            y + unten * mm, b, h)
 
 
 def barcodefeld_freistellen(c, x, y, breite, farbe=None, *, hardcover=False):

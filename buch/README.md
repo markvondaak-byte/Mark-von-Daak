@@ -77,13 +77,27 @@ und beide werden von `abnahme.py` geprüft:
 | | Wert | warum |
 |---|---|---|
 | Größe | 50,8 × 30,5 mm (2 × 1,2 Zoll) | KDPs Mindestmaß |
-| Abstand nach unten | 6,35 mm (0,25 Zoll) | gemessen ab der Trimmkante, nicht ab dem Anschnitt |
+| Abstand nach unten | **19,3 mm (0,76 Zoll) ab der Dateikante** | die einzige Grenze, die KDP nicht ab der Trimmkante misst |
 | Abstand zum Rücken, Taschenbuch | 6,35 mm (0,25 Zoll) | |
 | Abstand zum Rücken, **Hardcover** | 12,51 mm | 0,4 Zoll Scharnier plus 0,25 Zoll, minus 4 mm nach Sichtprüfung |
 | Inhalt | nichts | kein Text, kein Bild, kein Designelement |
 | Grund | Volltonweiß | schwarze Strichschrift auf dem Schiefergrund wäre nicht zu scannen |
 
-**Warum das Hardcover anders rechnet.** Zwischen Rücken und Nutzfläche liegt
+**Warum nach unten anders gemessen wird.** Seitlich zählt die Trimmkante,
+nach unten die **Unterkante der Datei** — alles darunter markiert KDP in der
+Vorschau rot. Aus der einen Regel werden zwei Werte, weil unter der Trimmkante
+je nach Bindeart verschieden viel Papier liegt:
+
+| | unter der Trimmkante | Feld über der Trimmkante |
+|---|---|---|
+| Taschenbuch | 3,175 mm Anschnitt | 19,3 − 3,2 = **16,1 mm** |
+| Hardcover | 18,0 mm Umschlagrand | 19,3 − 18,0 = 1,3 mm → es greifen die 6,35 mm |
+
+Deshalb steht in `barcodefeld()` eine Rechnung und kein Wert je Bindeart. Das
+Feld saß beim Taschenbuch lange 9,5 mm über der Dateikante — im PDF unauffällig,
+in KDPs Vorschau ein rotes Warnband unter dem Barcode.
+
+**Warum das Hardcover seitlich anders rechnet.** Zwischen Rücken und Nutzfläche liegt
 auf beiden Deckeln ein Scharnier von 0,4 Zoll — der Streifen, der sich beim
 Aufschlagen bewegt. KDP verlangt beim Hardcover 0,25 Zoll Abstand nicht zum
 Rücken, sondern **zum Scharnier**. Das Feld rückt dadurch 10,2 mm weiter nach
