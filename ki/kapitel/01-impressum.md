@@ -7,34 +7,23 @@ kopfzeile: Impressum
 ## Impressum
 
 Mark von Daak
+
 Rabenbergstraße 16
+
 38444 Wolfsburg
-Deutschland
 
-E-Mail: markvondaak@icloud.com
-Umsatzsteuer-Identifikationsnummer: DE319920422
+markvondaak@icloud.com
 
-1. Auflage 2026
+{{LEERZEILE}}
 
-Umschlaggestaltung und Satz: Mark von Daak
+Verantwortlich für den Inhalt nach den Pressegesetzen.
 
-Alle Rechte vorbehalten. Kein Teil dieses Buches darf ohne schriftliche
-Zustimmung des Autors vervielfältigt, in Datenverarbeitungsanlagen gespeichert
-oder verbreitet werden.
+© Mark von Daak. Alle Rechte vorbehalten.
 
-**Markenhinweis:** Alle in diesem Buch genannten Produkt-, Firmen- und
-Markennamen sind Eigentum ihrer jeweiligen Inhaber. Sie werden ausschließlich
-beschreibend verwendet, um Verfahren, Anwendungen oder Marktverhältnisse zu
-bezeichnen. Eine Verbindung zu den genannten Unternehmen besteht nicht, eine
-Empfehlung ist damit nicht ausgesprochen.
+Vervielfältigung nur mit Genehmigung des Autors.
 
-**Stand der Angaben:** Dieses Buch wurde im Jahr 2026 abgeschlossen. Der
-Gegenstand verändert sich schnell. Wo Zahlen, Gesetzesstände oder
-Leistungsdaten genannt werden, sind sie als Größenordnung zu lesen, nicht als
-tagesaktueller Wert — Näheres im Kapitel „Wichtige Hinweise“.
+{{LEERZEILE}}
 
-**Zur Entstehung:** Der Autor hat beim Schreiben dieses Buches
-KI-Werkzeuge eingesetzt — für Recherchewege, Gliederungsvarianten und
-Formulierungsvorschläge. Auswahl, Prüfung, Aufbau und Verantwortung für jeden
-Satz liegen beim Autor. Das Kapitel „Zu diesem Buch“ legt offen, wie das
-geschehen ist.
+Dieses Buch dient der Information und der eigenen Urteilsbildung. Es ersetzt
+keine Rechts-, Steuer- oder Anlageberatung und keine medizinische Beratung.
+Näheres im Kapitel „Wichtige Hinweise“.
