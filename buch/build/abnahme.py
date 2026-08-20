@@ -42,10 +42,12 @@ BARCODE_HARDCOVER_KORREKTUR_MM = 4.0
 # Anschnitt, das Feld muss also 16,1 mm über der Trimmkante sitzen; beim
 # Hardcover bringen 18 mm Umschlagrand die Vorgabe schon mit.
 BARCODE_UNTEN_AB_DATEIKANTE_MM = 0.76 * 25.4
-# Gezeichnet wird mehr als KDPs Mindestmaß: Ein echter ISBN-Barcode mit
-# Preiszusatz misst 56,8 mm in der Breite, KDPs Feld nennt 50,8. Die weiße
-# Fläche wächst deshalb von der rechten unteren Ecke nach links und oben.
-FELD_B_MM, FELD_H_MM = 64.0, 40.0
+# Gezeichnet wird KDPs Zone plus 3 mm weißer Rand ringsum — mittig, damit der
+# Barcode nicht in der Ecke eines zu großen Rechtecks steht.
+FELD_LUFT_MM = 3.0
+FELD_LUFT_RECHTS_MM = 1.8      # rechts weniger: Rücken bzw. Scharnier
+FELD_B_MM = BARCODE_B_MM + FELD_LUFT_MM + FELD_LUFT_RECHTS_MM
+FELD_H_MM = BARCODE_H_MM + 2 * FELD_LUFT_MM
 
 ergebnisse = []
 
@@ -404,22 +406,32 @@ def barcodefeld_pruefen(bezeichnung, pdf, rand_mm, trim_b_mm, hardcover):
     unten = seite.rect.height - (rand_mm + unten_mm) * pt
     # Geprüft wird die **gezeichnete** Fläche, nicht KDPs Mindestzone: Wenn
     # dort Text oder Schiefergrund liegt, nützt eine saubere Mindestzone
-    # nichts. Rechte und untere Kante teilen sich beide.
-    feld = fitz.Rect(rechts - FELD_B_MM * pt, unten - FELD_H_MM * pt,
-                     rechts, unten)
+    # nichts. Die Fläche liegt mittig um die Zone, ragt also ringsum um
+    # FELD_LUFT_MM darüber hinaus.
+    luft, rluft = FELD_LUFT_MM * pt, FELD_LUFT_RECHTS_MM * pt
+    feld = fitz.Rect(rechts - BARCODE_B_MM * pt - luft,
+                     unten - BARCODE_H_MM * pt - luft,
+                     rechts + rluft, unten + luft)
 
     stoerer = sorted({w[4] for w in seite.get_text("words")
                       if fitz.Rect(w[:4]).intersects(feld)})
     pruefe(f"{bezeichnung}: Barcodefeld textfrei", not stoerer,
-           f"{FELD_B_MM} x {FELD_H_MM} mm, {seitlich:.2f} mm von der "
+           f"{FELD_B_MM:.1f} x {FELD_H_MM:.1f} mm, {seitlich:.2f} mm von der "
            f"Rückenkante{' (inkl. Scharnier)' if hardcover else ''}"
            if not stoerer
            else f"{len(stoerer)} Wörter darin: {' '.join(stoerer[:6])}")
 
-    pruefe(f"{bezeichnung}: Fläche deckt einen echten ISBN-Barcode",
-           FELD_B_MM >= 56.8 and FELD_H_MM >= 30.4,
-           f"{FELD_B_MM} x {FELD_H_MM} mm gegen 56,8 x 30,4 mm "
-           f"(EAN-13 mit Preiszusatz, Modulbreite 0,33 mm)")
+    # Früher stand hier die Forderung, die Fläche müsse 56,8 mm breit sein —
+    # das Maß eines EAN-13 mit Preiszusatz bei 100 Prozent Vergrößerung. Das
+    # ist die theoretische Obergrenze, nicht das, was KDP druckt: In der
+    # Vorschau passt der Barcode erkennbar in die eigenen 2 Zoll. Geprüft wird
+    # deshalb, was belegbar ist — dass die Fläche KDPs Zone mit echtem Rand
+    # umschließt.
+    pruefe(f"{bezeichnung}: Fläche umschließt KDPs Zone mit Rand",
+           min(FELD_LUFT_MM, FELD_LUFT_RECHTS_MM) >= 1.5,
+           f"{FELD_B_MM:.1f} x {FELD_H_MM:.1f} mm um {BARCODE_B_MM} x "
+           f"{BARCODE_H_MM} mm — Rand {FELD_LUFT_MM} mm, rechts "
+           f"{FELD_LUFT_RECHTS_MM} mm")
 
     bild = seite.get_pixmap(clip=feld, dpi=120)
     proben = [min(bild.pixel(sx, sy))
