@@ -42,12 +42,9 @@ BARCODE_HARDCOVER_KORREKTUR_MM = 4.0
 # Anschnitt, das Feld muss also 16,1 mm über der Trimmkante sitzen; beim
 # Hardcover bringen 18 mm Umschlagrand die Vorgabe schon mit.
 BARCODE_UNTEN_AB_DATEIKANTE_MM = 0.76 * 25.4
-# Gezeichnet wird KDPs Zone plus 3 mm weißer Rand ringsum — mittig, damit der
-# Barcode nicht in der Ecke eines zu großen Rechtecks steht.
-FELD_LUFT_MM = 3.0
-FELD_LUFT_RECHTS_MM = 1.8      # rechts weniger: Rücken bzw. Scharnier
-FELD_B_MM = BARCODE_B_MM + FELD_LUFT_MM + FELD_LUFT_RECHTS_MM
-FELD_H_MM = BARCODE_H_MM + 2 * FELD_LUFT_MM
+# Gezeichnet wird exakt KDPs Zone — ohne Rand. KDP bringt seine eigene weiße
+# Box mit; alles, was darüber hinausgeht, steht als weißer Rand um den Barcode.
+FELD_B_MM, FELD_H_MM = BARCODE_B_MM, BARCODE_H_MM
 
 ergebnisse = []
 
@@ -408,10 +405,8 @@ def barcodefeld_pruefen(bezeichnung, pdf, rand_mm, trim_b_mm, hardcover):
     # dort Text oder Schiefergrund liegt, nützt eine saubere Mindestzone
     # nichts. Die Fläche liegt mittig um die Zone, ragt also ringsum um
     # FELD_LUFT_MM darüber hinaus.
-    luft, rluft = FELD_LUFT_MM * pt, FELD_LUFT_RECHTS_MM * pt
-    feld = fitz.Rect(rechts - BARCODE_B_MM * pt - luft,
-                     unten - BARCODE_H_MM * pt - luft,
-                     rechts + rluft, unten + luft)
+    feld = fitz.Rect(rechts - FELD_B_MM * pt, unten - FELD_H_MM * pt,
+                     rechts, unten)
 
     stoerer = sorted({w[4] for w in seite.get_text("words")
                       if fitz.Rect(w[:4]).intersects(feld)})
@@ -421,19 +416,19 @@ def barcodefeld_pruefen(bezeichnung, pdf, rand_mm, trim_b_mm, hardcover):
            if not stoerer
            else f"{len(stoerer)} Wörter darin: {' '.join(stoerer[:6])}")
 
-    # Früher stand hier die Forderung, die Fläche müsse 56,8 mm breit sein —
-    # das Maß eines EAN-13 mit Preiszusatz bei 100 Prozent Vergrößerung. Das
-    # ist die theoretische Obergrenze, nicht das, was KDP druckt: In der
-    # Vorschau passt der Barcode erkennbar in die eigenen 2 Zoll. Geprüft wird
-    # deshalb, was belegbar ist — dass die Fläche KDPs Zone mit echtem Rand
-    # umschließt.
-    pruefe(f"{bezeichnung}: Fläche umschließt KDPs Zone mit Rand",
-           min(FELD_LUFT_MM, FELD_LUFT_RECHTS_MM) >= 1.5,
-           f"{FELD_B_MM:.1f} x {FELD_H_MM:.1f} mm um {BARCODE_B_MM} x "
-           f"{BARCODE_H_MM} mm — Rand {FELD_LUFT_MM} mm, rechts "
-           f"{FELD_LUFT_RECHTS_MM} mm")
+    # Die gezeichnete Fläche darf KDPs Box nicht überragen — jeder Millimeter
+    # mehr steht auf dem gedruckten Umschlag als weißer Rand um den Barcode.
+    pruefe(f"{bezeichnung}: Weißfläche ohne Rand um KDPs Box",
+           FELD_B_MM <= BARCODE_B_MM and FELD_H_MM <= BARCODE_H_MM,
+           f"{FELD_B_MM:.1f} x {FELD_H_MM:.1f} mm, deckungsgleich mit "
+           f"{BARCODE_B_MM} x {BARCODE_H_MM} mm")
 
-    bild = seite.get_pixmap(clip=feld, dpi=120)
+    # Innen messen, nicht auf der Kante: Die Fläche ist exakt so groß wie der
+    # Messrahmen, und beim Rastern mischt die Randreihe Weiß mit dem
+    # Schiefergrund dahinter. Das ist ein Artefakt der Messung, kein Fehler im
+    # Umschlag — 0,6 mm Einzug misst die Fläche und nicht ihren Rand.
+    feld_innen = feld + (0.6 * pt, 0.6 * pt, -0.6 * pt, -0.6 * pt)
+    bild = seite.get_pixmap(clip=feld_innen, dpi=120)
     proben = [min(bild.pixel(sx, sy))
               for sy in range(0, bild.height, max(1, bild.height // 40))
               for sx in range(0, bild.width, max(1, bild.width // 40))]

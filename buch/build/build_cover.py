@@ -90,41 +90,29 @@ BARCODE_SCHARNIER_MM = 0.4 * 25.4
 # dafür den Barcode. Wer den Wert ändert, sollte danach wieder in die
 # KDP-Vorschau sehen und nicht nur in die Vorgabe.
 BARCODE_HARDCOVER_KORREKTUR_MM = 4.0
-# Die tatsächlich gezeichnete weiße Fläche ist größer als KDPs Vorgabe — und
-# das ist kein Sicherheitszuschlag, sondern Notwendigkeit. Nachgerechnet mit
-# der Modulbreite 0,33 mm der EAN-Spezifikation:
+# Die gezeichnete weiße Fläche hat **exakt** das Maß von KDPs Box — kein Rand,
+# kein Zuschlag. Der Weg dahin ging über zwei Irrtümer, die beide plausibel
+# klangen:
 #
-#   EAN-13 inkl. Ruhezonen   113 Module  = 37,3 mm
-#   Lücke + EAN-5 („90000")   59 Module  = 19,5 mm
-#   zusammen                             = 56,8 mm
+# 1. Erst war die Fläche zu klein (genau 50,8 x 30,5) und der Barcode stand
+#    über. Daraus wurde geschlossen, KDPs Maß sei zu knapp — nachgerechnet
+#    misst ein EAN-13 mit Preiszusatz bei 100 Prozent tatsächlich 56,8 mm.
+#    Also auf 64 x 40 mm vergrößert.
+# 2. Damit passte der Barcode, aber es stand weiß darum herum. Auf 55,6 x
+#    36,5 verkleinert und mittig um die Zone gelegt — immer noch sichtbar.
 #
-# In KDPs 50,8-mm-Feld passt das erst bei 89 Prozent Verkleinerung. In der
-# Höhe ist es genauso knapp: Symbol und Klarschrift brauchen 25,9 mm, mit der
-# ISBN-Zeile darüber 30,4 mm — die Vorgabe nennt 30,5. Wer sich auf die
-# 2 x 1,2 Zoll verlässt, bekommt einen Barcode, der links und oben übersteht.
+# Der Denkfehler in beiden: KDP druckt den Barcode nicht nackt auf den
+# Umschlag, sondern „in a 2 x 1,2 inch white box". Die weiße Fläche bringt KDP
+# selbst mit, und was hier gezeichnet wird, liegt *darunter*. Jeder Millimeter
+# Übergröße schaut unter KDPs Box hervor und ist der weiße Rand, den man auf
+# dem fertigen Umschlag sieht. Der Barcode „passte" also nie schlecht — es war
+# von Anfang an die eigene Fläche, die daneben lag.
 #
-# Die Fläche ist deshalb größer als die Zone — aber sie liegt **mittig um
-# sie herum**, nicht an einer Ecke. Ein erster Versuch ließ sie von der
-# rechten unteren Ecke nach links und oben wachsen; der Barcode klebte dann
-# in der Ecke eines viel zu großen Rechtecks, mit breitem Weiß links und
-# oben. Deckend war das, gut aussehen tat es nicht.
-#
-# Ein umlaufender Rand von 3 mm ist das Maß, das man auf Buchrücken sonst
-# auch sieht: genug, dass der Scanner die Ruhezone sicher hat, wenig genug,
-# dass die Fläche nicht als weißer Kasten auf dem Umschlag steht.
-FELD_LUFT_MM = 3.0
+# Deckungsgleich verschwindet sie unter KDPs Box und bleibt trotzdem die
+# Rückversicherung, falls KDP ohne eigene Box druckt: Schwarze Strichschrift
+# auf dem Schiefergrund wäre nicht zu scannen.
 
-# Nach rechts ist weniger Platz, weil die Zone dort schon nah an ihrer Grenze
-# sitzt. Mit den vollen 3 mm stünde die Fläche beim Taschenbuch 2,9 mm vor dem
-# Rücken und ragte beim Hardcover 1,2 mm ins Scharnier — genau in die Rille,
-# in der sich der Deckel bewegt. 1,8 mm passen in beiden Fällen; der Barcode
-# steht damit 1,2 mm aus der Mitte, was man nicht sieht.
-FELD_LUFT_RECHTS_MM = 1.8
-
-# Zusätzlich ein halber Millimeter Überstand ringsum. Sonst liegt die Kante
-# zwischen Weiß und Schiefergrund genau auf der Feldgrenze, und was im Druck
-# an Passertoleranz dazukommt, zieht einen dunklen Haarstrich an den Rand.
-BARCODE_UEBERSTAND_MM = 0.5
+BARCODE_UEBERSTAND_MM = 0.0
 
 MARKENHINWEIS = (
     "„cellRESET“ und „FitLine“ sind Marken der PM-International AG. "
@@ -252,16 +240,13 @@ def barcodefeld(x, y, breite, *, hardcover=False):
 
 
 def weissflaeche(x, y, breite, *, hardcover=False):
-    """Die weiße Fläche, die tatsächlich gezeichnet wird.
+    """Die weiße Fläche, die gezeichnet wird — deckungsgleich mit KDPs Box.
 
-    KDPs Barcodezone plus weißer Rand ringsum — um sie herum, nicht von einer
-    Ecke aus angewachsen. Die Zone selbst bleibt dort, wo sie gegen KDPs
-    Vorschau eingemessen wurde; nach rechts fällt der Rand schmaler aus, weil
-    dort Rücken und Scharnier im Weg sind.
+    Kein Rand, kein Zuschlag: Jeder Millimeter, den diese Fläche größer ist
+    als KDPs eigene weiße Box, steht auf dem gedruckten Umschlag als weißer
+    Rand um den Barcode.
     """
-    zx, zy, zb, zh = barcodefeld(x, y, breite, hardcover=hardcover)
-    luft, rechts = FELD_LUFT_MM * mm, FELD_LUFT_RECHTS_MM * mm
-    return zx - luft, zy - luft, zb + luft + rechts, zh + 2 * luft
+    return barcodefeld(x, y, breite, hardcover=hardcover)
 
 
 def barcodefeld_freistellen(c, x, y, breite, farbe=None, *, hardcover=False):
@@ -276,9 +261,8 @@ def barcodefeld_freistellen(c, x, y, breite, farbe=None, *, hardcover=False):
     und ein Scanner braucht harten Kontrast, keinen weichen Rand.
     """
     fx, fy, fb, fh = weissflaeche(x, y, breite, hardcover=hardcover)
-    u = BARCODE_UEBERSTAND_MM * mm
     c.setFillColor(farbe or HexColor("#FFFFFF"))
-    c.rect(fx - u, fy - u, fb + 2 * u, fh + 2 * u, stroke=0, fill=1)
+    c.rect(fx, fy, fb, fh, stroke=0, fill=1)
     return fx, fy, fb, fh
 
 
