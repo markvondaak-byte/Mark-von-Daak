@@ -76,12 +76,33 @@ und beide werden von `abnahme.py` geprüft:
 
 | | Wert | warum |
 |---|---|---|
-| Größe | 50,8 × 30,5 mm (2 × 1,2 Zoll) | KDPs Mindestmaß |
+| Gezeichnete Fläche | **64 × 40 mm** | so groß ist ein echter ISBN-Barcode, siehe unten |
+| KDPs Mindestmaß | 50,8 × 30,5 mm (2 × 1,2 Zoll) | zu klein — reicht in der Praxis nicht |
 | Abstand nach unten | **19,3 mm (0,76 Zoll) ab der Dateikante** | die einzige Grenze, die KDP nicht ab der Trimmkante misst |
 | Abstand zum Rücken, Taschenbuch | 6,35 mm (0,25 Zoll) | |
 | Abstand zum Rücken, **Hardcover** | 12,51 mm | 0,4 Zoll Scharnier plus 0,25 Zoll, minus 4 mm nach Sichtprüfung |
 | Inhalt | nichts | kein Text, kein Bild, kein Designelement |
 | Grund | Volltonweiß | schwarze Strichschrift auf dem Schiefergrund wäre nicht zu scannen |
+
+**Warum KDPs Mindestmaß nicht reicht.** Die 2 × 1,2 Zoll sind für einen
+echten ISBN-Barcode zu knapp. Nachgerechnet mit der Modulbreite 0,33 mm der
+EAN-Spezifikation:
+
+| | Module | mm |
+|---|---|---|
+| EAN-13 inkl. Ruhezonen | 113 | 37,3 |
+| Lücke + EAN-5 („90000") | 59 | 19,5 |
+| **zusammen** | | **56,8** |
+
+In 50,8 mm passt das erst bei 89 Prozent Verkleinerung. In der Höhe genauso
+knapp: Symbol und Klarschrift brauchen 25,9 mm, mit der ISBN-Zeile darüber
+30,4 mm — die Vorgabe nennt 30,5. Gezeichnet werden deshalb **64 × 40 mm**.
+
+Die Fläche wächst dabei nach **links und oben**. Rechte und untere Kante
+bleiben, wo sie sind: Beide sind gegen KDPs Vorschau eingemessen, der Barcode
+sitzt dort bündig, und was zu viel ist, steht folglich auf der anderen Seite
+über. `barcodefeld()` liefert weiter KDPs Mindestzone für die Prüfung,
+`weissflaeche()` die tatsächlich gezeichnete Fläche.
 
 **Warum nach unten anders gemessen wird.** Seitlich zählt die Trimmkante,
 nach unten die **Unterkante der Datei** — alles darunter markiert KDP in der
