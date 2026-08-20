@@ -86,7 +86,13 @@ BARCODE_KANTE_MM = 6.35     # 0,25 Zoll, KDPs Richtwert zur Trimmkante
 # durchscheinen. Da sich die Vorgabe in dieser Bauumgebung nicht an der Quelle
 # prüfen lässt — kdp.amazon.com ist gesperrt —, tritt die Reserve an die Stelle
 # dieser Gewissheit.
-BARCODE_RESERVE_MM = 6.0
+#
+# Anfangs standen hier 6 mm. In der KDP-Vorschau war das Feld damit sichtbar
+# größer als der Code und fiel auf dem dunklen Umschlag als weißer Kasten auf.
+# 3 mm decken die Ruhezone des Codes weiterhin ab und halbieren die weiße
+# Fläche um ihn herum. Unter 2 mm sollte der Wert nicht fallen — dann liegt die
+# Ruhezone frei, und der Code wird unzuverlässig lesbar.
+BARCODE_RESERVE_MM = 3.0
 
 # --- Grund -------------------------------------------------------------------
 def grundton_aus_bild(pfad, anteil=0.10):
