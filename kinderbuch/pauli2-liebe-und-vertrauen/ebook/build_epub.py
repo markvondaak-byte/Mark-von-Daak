@@ -148,10 +148,12 @@ write("copyright.xhtml",
       page("Impressum",
            '<div class="imprint">'
            '<p><strong>Pauli und der kleine Igel</strong><br/>Eine Geschichte über Liebe und Vertrauen</p>'
-           '<p>Text und Illustrationen: Mark von Daak</p>'
-           '<p class="small">1. Auflage · 2026<br/>© 2026 Mark von Daak. Alle Rechte vorbehalten.<br/>'
-           'Kein Teil dieses Buches darf ohne schriftliche Genehmigung des Autors reproduziert '
-           'oder verbreitet werden.<br/><br/>Die Figuren und die Handlung sind frei erfunden.</p></div>'),
+           '<p class="small"><strong>Impressum</strong><br/><br/>'
+           'Mark von Daak<br/>Rabenbergstraße 16<br/>38444 Wolfsburg<br/>markvondaak@icloud.com<br/><br/>'
+           'Verantwortlich für den Inhalt nach den Pressegesetzen.<br/><br/>'
+           '© 2026 Mark von Daak. Alle Rechte vorbehalten.<br/>'
+           'Vervielfältigung nur mit Genehmigung des Autors.<br/><br/>'
+           'Die Figuren und die Handlung dieses Buches sind frei erfunden.</p></div>'),
       "copyright")
 
 # Widmung

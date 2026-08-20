@@ -340,8 +340,17 @@ sheets.append(f'''<div class="sheet center title-page">
 sheets.append(f'''<div class="sheet imprint"><div class="box">
   <h3>{BOOK_TITLE}</h3>
   <p>{BOOK_SUB}</p>
-  <p>Text und Illustrationen: Mark von Daak</p>
-  <p class="small">1. Auflage · 2026<br/>© 2026 Mark von Daak. Alle Rechte vorbehalten.<br/>Kein Teil dieses Buches darf ohne schriftliche Genehmigung des Autors reproduziert oder verbreitet werden.<br/><br/>Die Figuren und die Handlung dieses Buches sind frei erfunden.<br/>Independently published.</p>
+  <p class="small">
+    <b>Impressum</b><br/><br/>
+    Mark von Daak<br/>
+    Rabenbergstraße 16<br/>
+    38444 Wolfsburg<br/>
+    markvondaak@icloud.com<br/><br/>
+    Verantwortlich für den Inhalt nach den Pressegesetzen.<br/><br/>
+    © 2026 Mark von Daak. Alle Rechte vorbehalten.<br/>
+    Vervielfältigung nur mit Genehmigung des Autors.<br/><br/>
+    Die Figuren und die Handlung dieses Buches sind frei erfunden.
+  </p>
 </div></div>''')
 
 sheets.append('''<div class="sheet center dedication"><p>Für alle, die erst wieder lernen mussten zu vertrauen –<br/>und für die, die geduldig an ihrer Seite blieben.</p></div>''')
