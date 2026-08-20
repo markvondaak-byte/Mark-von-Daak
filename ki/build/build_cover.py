@@ -81,18 +81,22 @@ RUECKEN_KOPFSTEG = 0.10
 # war dort nicht scannbar.
 BARCODE_KANTE_MM = 6.35     # 0,25 Zoll, KDPs Richtwert zur Trimmkante
 
-# Reserve ringsum den Code. Ohne sie ist das weiße Feld exakt so groß wie der
-# Barcode, und jede Abweichung in KDPs Platzierung lässt sofort dunklen Grund
-# durchscheinen. Da sich die Vorgabe in dieser Bauumgebung nicht an der Quelle
-# prüfen lässt — kdp.amazon.com ist gesperrt —, tritt die Reserve an die Stelle
-# dieser Gewissheit.
+# Reserve ringsum den Code, zusätzlich zu dessen eigener Fläche.
 #
-# Anfangs standen hier 6 mm. In der KDP-Vorschau war das Feld damit sichtbar
-# größer als der Code und fiel auf dem dunklen Umschlag als weißer Kasten auf.
-# 3 mm decken die Ruhezone des Codes weiterhin ab und halbieren die weiße
-# Fläche um ihn herum. Unter 2 mm sollte der Wert nicht fallen — dann liegt die
-# Ruhezone frei, und der Code wird unzuverlässig lesbar.
-BARCODE_RESERVE_MM = 3.0
+# 0 heißt: Das weiße Feld ist exakt so groß wie die von KDP vorgegebene Fläche
+# von 2 x 1,2 Zoll. Das ist die passende Einstellung, solange man dieser Angabe
+# traut — die Ruhezone des Codes liegt innerhalb dieser Fläche, nicht außerhalb.
+# (Eine frühere Fassung dieses Kommentars behauptete das Gegenteil und riet von
+# Werten unter 2 mm ab. Das war falsch: Unterschritten würde die Ruhezone erst,
+# wenn man das Feld kleiner als 2 x 1,2 Zoll macht, und das tut hier niemand.)
+#
+# Der Preis für die exakte Passung: Es gibt keinen Puffer mehr. Setzt KDP den
+# Code auch nur einen Millimeter neben die angenommene Position, steht an einer
+# Seite dunkler Grund unter ihm. Wer diesen Puffer will, setzt hier 2 bis 3 mm —
+# dann ist das Feld entsprechend größer und auf dunklem Umschlag als weißer
+# Kasten sichtbar. Genau diese Abwägung ist der Grund, warum der Wert eine
+# eigene Konstante ist und nicht in der Rechnung steht.
+BARCODE_RESERVE_MM = 0.0
 
 # --- Grund -------------------------------------------------------------------
 def grundton_aus_bild(pfad, anteil=0.10):
@@ -696,14 +700,19 @@ def barcode_melden(cfg):
 
     rechts = (anschnitt + trim_b - (feld_x + feld_b)) / mm
     unten = (feld_y - anschnitt) / mm
-    # Rand, der dem Code an seiner Sollposition ringsum bleibt.
-    reserve = BARCODE_RESERVE_MM
 
     print(f"Barcodefeld: {feld_b/mm:.1f} x {feld_h/mm:.1f} mm, "
           f"{rechts:.1f} mm von der rechten und {unten:.1f} mm von der "
           f"unteren Trimmkante")
-    print(f"  Der Code sitzt an KDPs Sollposition ({BARCODE_KANTE_MM} mm von "
-          f"den Kanten) mit {reserve:.1f} mm Rand ringsum im Feld.")
+    if BARCODE_RESERVE_MM:
+        print(f"  Der Code sitzt an KDPs Sollposition ({BARCODE_KANTE_MM} mm "
+              f"von den Kanten) mit {BARCODE_RESERVE_MM:.1f} mm Rand ringsum.")
+    else:
+        # Der Hinweis gehört dazu: Ohne Reserve trägt die Passung allein auf
+        # der Annahme, dass KDP den Code genau dort aussetzt.
+        print(f"  Deckungsgleich mit KDPs Sollfläche ({BARCODE_B_MM} x "
+              f"{BARCODE_H_MM} mm, {BARCODE_KANTE_MM} mm von den Kanten) — "
+              f"ohne Puffer. Weicht KDP ab, steht dunkler Grund unter dem Code.")
 
 
 def main():
