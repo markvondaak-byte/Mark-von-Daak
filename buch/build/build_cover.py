@@ -103,11 +103,23 @@ BARCODE_HARDCOVER_KORREKTUR_MM = 4.0
 # ISBN-Zeile darüber 30,4 mm — die Vorgabe nennt 30,5. Wer sich auf die
 # 2 x 1,2 Zoll verlässt, bekommt einen Barcode, der links und oben übersteht.
 #
-# Die Fläche wird deshalb nach **links und oben** vergrößert. Die rechte und
-# die untere Kante bleiben, wo sie sind: Beide sind gegen KDPs Vorschau
-# eingemessen, und der Barcode sitzt dort bündig — was zu viel ist, steht
-# folglich auf der anderen Seite über.
-FELD_B_MM, FELD_H_MM = 64.0, 40.0
+# Die Fläche ist deshalb größer als die Zone — aber sie liegt **mittig um
+# sie herum**, nicht an einer Ecke. Ein erster Versuch ließ sie von der
+# rechten unteren Ecke nach links und oben wachsen; der Barcode klebte dann
+# in der Ecke eines viel zu großen Rechtecks, mit breitem Weiß links und
+# oben. Deckend war das, gut aussehen tat es nicht.
+#
+# Ein umlaufender Rand von 3 mm ist das Maß, das man auf Buchrücken sonst
+# auch sieht: genug, dass der Scanner die Ruhezone sicher hat, wenig genug,
+# dass die Fläche nicht als weißer Kasten auf dem Umschlag steht.
+FELD_LUFT_MM = 3.0
+
+# Nach rechts ist weniger Platz, weil die Zone dort schon nah an ihrer Grenze
+# sitzt. Mit den vollen 3 mm stünde die Fläche beim Taschenbuch 2,9 mm vor dem
+# Rücken und ragte beim Hardcover 1,2 mm ins Scharnier — genau in die Rille,
+# in der sich der Deckel bewegt. 1,8 mm passen in beiden Fällen; der Barcode
+# steht damit 1,2 mm aus der Mitte, was man nicht sieht.
+FELD_LUFT_RECHTS_MM = 1.8
 
 # Zusätzlich ein halber Millimeter Überstand ringsum. Sonst liegt die Kante
 # zwischen Weiß und Schiefergrund genau auf der Feldgrenze, und was im Druck
@@ -242,14 +254,14 @@ def barcodefeld(x, y, breite, *, hardcover=False):
 def weissflaeche(x, y, breite, *, hardcover=False):
     """Die weiße Fläche, die tatsächlich gezeichnet wird.
 
-    Teilt rechte und untere Kante mit `barcodefeld()` — die beiden sind gegen
-    KDPs Vorschau eingemessen — und wächst von dort nach links und oben auf
-    FELD_B_MM x FELD_H_MM. Ein echter ISBN-Barcode mit Preiszusatz ist breiter
-    und höher, als KDPs Mindestmaß vermuten lässt.
+    KDPs Barcodezone plus weißer Rand ringsum — um sie herum, nicht von einer
+    Ecke aus angewachsen. Die Zone selbst bleibt dort, wo sie gegen KDPs
+    Vorschau eingemessen wurde; nach rechts fällt der Rand schmaler aus, weil
+    dort Rücken und Scharnier im Weg sind.
     """
     zx, zy, zb, zh = barcodefeld(x, y, breite, hardcover=hardcover)
-    b, h = FELD_B_MM * mm, FELD_H_MM * mm
-    return zx + zb - b, zy, b, h
+    luft, rechts = FELD_LUFT_MM * mm, FELD_LUFT_RECHTS_MM * mm
+    return zx - luft, zy - luft, zb + luft + rechts, zh + 2 * luft
 
 
 def barcodefeld_freistellen(c, x, y, breite, farbe=None, *, hardcover=False):

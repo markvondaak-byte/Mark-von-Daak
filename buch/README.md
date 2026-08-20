@@ -76,33 +76,38 @@ und beide werden von `abnahme.py` geprüft:
 
 | | Wert | warum |
 |---|---|---|
-| Gezeichnete Fläche | **64 × 40 mm** | so groß ist ein echter ISBN-Barcode, siehe unten |
-| KDPs Mindestmaß | 50,8 × 30,5 mm (2 × 1,2 Zoll) | zu klein — reicht in der Praxis nicht |
+| Gezeichnete Fläche | **55,6 × 36,5 mm** | KDPs Zone plus 3 mm Rand, rechts 1,8 mm |
+| KDPs Zone darin | 50,8 × 30,5 mm (2 × 1,2 Zoll) | die Fläche, die KDP freigehalten haben will |
 | Abstand nach unten | **19,3 mm (0,76 Zoll) ab der Dateikante** | die einzige Grenze, die KDP nicht ab der Trimmkante misst |
 | Abstand zum Rücken, Taschenbuch | 6,35 mm (0,25 Zoll) | |
 | Abstand zum Rücken, **Hardcover** | 12,51 mm | 0,4 Zoll Scharnier plus 0,25 Zoll, minus 4 mm nach Sichtprüfung |
 | Inhalt | nichts | kein Text, kein Bild, kein Designelement |
 | Grund | Volltonweiß | schwarze Strichschrift auf dem Schiefergrund wäre nicht zu scannen |
 
-**Warum KDPs Mindestmaß nicht reicht.** Die 2 × 1,2 Zoll sind für einen
-echten ISBN-Barcode zu knapp. Nachgerechnet mit der Modulbreite 0,33 mm der
-EAN-Spezifikation:
+**Warum die Fläche größer ist als KDPs Zone.** Die 2 × 1,2 Zoll sind das
+Feld, das KDP freigehalten haben will — und der Barcode füllt es praktisch
+ganz aus. Wer die Fläche genau so groß zeichnet, bekommt einen Barcode ohne
+jeden Rand, und schon eine kleine Verschiebung lässt ihn überstehen. Genau das
+ist passiert.
 
-| | Module | mm |
-|---|---|---|
-| EAN-13 inkl. Ruhezonen | 113 | 37,3 |
-| Lücke + EAN-5 („90000") | 59 | 19,5 |
-| **zusammen** | | **56,8** |
+Die Fläche ist deshalb KDPs Zone **plus 3 mm Rand ringsum** — das Maß, das
+man auf Buchrückseiten sonst auch sieht: genug, dass die Ruhezone des Scanners
+sicher liegt, wenig genug, dass kein weißer Kasten auf dem Umschlag steht.
 
-In 50,8 mm passt das erst bei 89 Prozent Verkleinerung. In der Höhe genauso
-knapp: Symbol und Klarschrift brauchen 25,9 mm, mit der ISBN-Zeile darüber
-30,4 mm — die Vorgabe nennt 30,5. Gezeichnet werden deshalb **64 × 40 mm**.
+Nach rechts sind es nur 1,8 mm, weil die Zone dort schon nah an ihrer Grenze
+sitzt. Mit den vollen 3 mm stünde die Fläche beim Taschenbuch 2,9 mm vor dem
+Rücken und ragte beim Hardcover 1,2 mm ins Scharnier — in die Rille, in der
+sich der Deckel bewegt. Der Barcode steht dadurch 1,2 mm aus der Mitte, was
+man nicht sieht.
 
-Die Fläche wächst dabei nach **links und oben**. Rechte und untere Kante
-bleiben, wo sie sind: Beide sind gegen KDPs Vorschau eingemessen, der Barcode
-sitzt dort bündig, und was zu viel ist, steht folglich auf der anderen Seite
-über. `barcodefeld()` liefert weiter KDPs Mindestzone für die Prüfung,
-`weissflaeche()` die tatsächlich gezeichnete Fläche.
+Ein Zwischenschritt lohnt die Erwähnung, weil er plausibel klang und trotzdem
+falsch war: erst wuchs die Fläche auf 64 × 40 mm, von der rechten unteren Ecke
+aus nach links und oben. Deckend war das, aber der Barcode klebte in der Ecke
+eines viel zu großen Rechtecks. Eine Fläche muss nicht nur groß genug sein,
+sie muss auch um das Richtige herum liegen.
+
+`barcodefeld()` liefert KDPs Zone für die Prüfung, `weissflaeche()` die
+tatsächlich gezeichnete Fläche.
 
 **Warum nach unten anders gemessen wird.** Seitlich zählt die Trimmkante,
 nach unten die **Unterkante der Datei** — alles darunter markiert KDP in der
@@ -139,7 +144,8 @@ Haarstrich an den Rand des Barcodes.
 Der Markenhinweis endet 4 mm über dem Feld. Er lief lange Zeit mit seinen
 letzten beiden Zeilen quer hindurch — in der PDF-Vorschau kaum zu sehen, im
 gedruckten Buch ein Barcode über Text. `abnahme.py` misst das jetzt: Wörter
-im Feld und die Helligkeit der Fläche, je Umschlag zwei Prüfungen.
+im Feld, die Helligkeit der Fläche, den Abstand zur Unterkante und den Rand
+um KDPs Zone — je Umschlag vier Prüfungen.
 
 **Zu KDP hochgeladen wird `cover-druck.pdf`, nicht `cover.pdf`.** Die
 Vektorfassung enthält Radialverläufe und transparente Schlagschatten; die
