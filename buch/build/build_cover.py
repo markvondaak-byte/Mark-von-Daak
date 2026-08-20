@@ -90,10 +90,28 @@ BARCODE_SCHARNIER_MM = 0.4 * 25.4
 # dafür den Barcode. Wer den Wert ändert, sollte danach wieder in die
 # KDP-Vorschau sehen und nicht nur in die Vorgabe.
 BARCODE_HARDCOVER_KORREKTUR_MM = 4.0
-# Das helle Feld wird einen halben Millimeter größer angelegt als die
-# geforderte Fläche. Sonst liegt die Kante zwischen Weiß und Schiefergrund
-# genau auf der Feldgrenze, und was im Druck an Passertoleranz dazukommt,
-# zieht einen dunklen Haarstrich an den Rand des Barcodes.
+# Die tatsächlich gezeichnete weiße Fläche ist größer als KDPs Vorgabe — und
+# das ist kein Sicherheitszuschlag, sondern Notwendigkeit. Nachgerechnet mit
+# der Modulbreite 0,33 mm der EAN-Spezifikation:
+#
+#   EAN-13 inkl. Ruhezonen   113 Module  = 37,3 mm
+#   Lücke + EAN-5 („90000")   59 Module  = 19,5 mm
+#   zusammen                             = 56,8 mm
+#
+# In KDPs 50,8-mm-Feld passt das erst bei 89 Prozent Verkleinerung. In der
+# Höhe ist es genauso knapp: Symbol und Klarschrift brauchen 25,9 mm, mit der
+# ISBN-Zeile darüber 30,4 mm — die Vorgabe nennt 30,5. Wer sich auf die
+# 2 x 1,2 Zoll verlässt, bekommt einen Barcode, der links und oben übersteht.
+#
+# Die Fläche wird deshalb nach **links und oben** vergrößert. Die rechte und
+# die untere Kante bleiben, wo sie sind: Beide sind gegen KDPs Vorschau
+# eingemessen, und der Barcode sitzt dort bündig — was zu viel ist, steht
+# folglich auf der anderen Seite über.
+FELD_B_MM, FELD_H_MM = 64.0, 40.0
+
+# Zusätzlich ein halber Millimeter Überstand ringsum. Sonst liegt die Kante
+# zwischen Weiß und Schiefergrund genau auf der Feldgrenze, und was im Druck
+# an Passertoleranz dazukommt, zieht einen dunklen Haarstrich an den Rand.
 BARCODE_UEBERSTAND_MM = 0.5
 
 MARKENHINWEIS = (
@@ -221,6 +239,19 @@ def barcodefeld(x, y, breite, *, hardcover=False):
             y + unten * mm, b, h)
 
 
+def weissflaeche(x, y, breite, *, hardcover=False):
+    """Die weiße Fläche, die tatsächlich gezeichnet wird.
+
+    Teilt rechte und untere Kante mit `barcodefeld()` — die beiden sind gegen
+    KDPs Vorschau eingemessen — und wächst von dort nach links und oben auf
+    FELD_B_MM x FELD_H_MM. Ein echter ISBN-Barcode mit Preiszusatz ist breiter
+    und höher, als KDPs Mindestmaß vermuten lässt.
+    """
+    zx, zy, zb, zh = barcodefeld(x, y, breite, hardcover=hardcover)
+    b, h = FELD_B_MM * mm, FELD_H_MM * mm
+    return zx + zb - b, zy, b, h
+
+
 def barcodefeld_freistellen(c, x, y, breite, farbe=None, *, hardcover=False):
     """Legt die Barcodefläche als helles Feld an.
 
@@ -232,7 +263,7 @@ def barcodefeld_freistellen(c, x, y, breite, farbe=None, *, hardcover=False):
     Transparenz: Die Druckfassung für KDP darf keine Transparenz enthalten,
     und ein Scanner braucht harten Kontrast, keinen weichen Rand.
     """
-    fx, fy, fb, fh = barcodefeld(x, y, breite, hardcover=hardcover)
+    fx, fy, fb, fh = weissflaeche(x, y, breite, hardcover=hardcover)
     u = BARCODE_UEBERSTAND_MM * mm
     c.setFillColor(farbe or HexColor("#FFFFFF"))
     c.rect(fx - u, fy - u, fb + 2 * u, fh + 2 * u, stroke=0, fill=1)
@@ -249,7 +280,7 @@ def markenhinweis_setzen(c, x, y, breite, textbreite, farbe, groesse=7,
     der ersten: Der Block wächst nach unten, also muss von unten gerechnet
     werden.
     """
-    _, fy, _, fh = barcodefeld(x, y, breite, hardcover=hardcover)
+    _, fy, _, fh = weissflaeche(x, y, breite, hardcover=hardcover)
     zeilen = umbrechen(c, MARKENHINWEIS, "Serif", groesse, textbreite)
     # Unterlängen (g, p, ß) reichen unter die Grundlinie — sonst berührt der
     # Hinweis die Feldkante genau dort, wo er es nicht darf.
@@ -590,7 +621,7 @@ def rueckseite_schiefer(c, x, y, breite, hoehe, cfg, kopf, absaetze, punkte,
     barcodefeld_freistellen(c, x, y, breite, hardcover=hardcover)
     hinweis_hoehe = (len(umbrechen(c, MARKENHINWEIS, "Serif", 7, textbreite))
                      * 9)
-    _, fy, _, fh = barcodefeld(x, y, breite, hardcover=hardcover)
+    _, fy, _, fh = weissflaeche(x, y, breite, hardcover=hardcover)
     hinweis_y = fy + fh + BARCODE_LUFT_MM * mm + hinweis_hoehe
     platz = oben - (hinweis_y + 16)
 
