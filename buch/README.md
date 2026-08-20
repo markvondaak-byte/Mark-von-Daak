@@ -76,38 +76,35 @@ und beide werden von `abnahme.py` geprüft:
 
 | | Wert | warum |
 |---|---|---|
-| Gezeichnete Fläche | **55,6 × 36,5 mm** | KDPs Zone plus 3 mm Rand, rechts 1,8 mm |
-| KDPs Zone darin | 50,8 × 30,5 mm (2 × 1,2 Zoll) | die Fläche, die KDP freigehalten haben will |
+| Gezeichnete Fläche | **50,8 × 30,5 mm** | deckungsgleich mit KDPs Box, kein Rand |
 | Abstand nach unten | **19,3 mm (0,76 Zoll) ab der Dateikante** | die einzige Grenze, die KDP nicht ab der Trimmkante misst |
 | Abstand zum Rücken, Taschenbuch | 6,35 mm (0,25 Zoll) | |
 | Abstand zum Rücken, **Hardcover** | 12,51 mm | 0,4 Zoll Scharnier plus 0,25 Zoll, minus 4 mm nach Sichtprüfung |
 | Inhalt | nichts | kein Text, kein Bild, kein Designelement |
-| Grund | Volltonweiß | schwarze Strichschrift auf dem Schiefergrund wäre nicht zu scannen |
+| Grund | Volltonweiß | Rückversicherung, falls KDP ohne eigene Box druckt |
 
-**Warum die Fläche größer ist als KDPs Zone.** Die 2 × 1,2 Zoll sind das
-Feld, das KDP freigehalten haben will — und der Barcode füllt es praktisch
-ganz aus. Wer die Fläche genau so groß zeichnet, bekommt einen Barcode ohne
-jeden Rand, und schon eine kleine Verschiebung lässt ihn überstehen. Genau das
-ist passiert.
+**Warum die Fläche exakt KDPs Maß hat — und warum das drei Anläufe brauchte.**
+KDP druckt den Barcode nicht nackt auf den Umschlag, sondern „in a 2 × 1,2
+inch white box". Die weiße Fläche bringt KDP selbst mit; was hier gezeichnet
+wird, liegt **darunter**. Jeder Millimeter Übergröße schaut unter KDPs Box
+hervor — und ist der weiße Rand, den man auf dem Umschlag sieht.
 
-Die Fläche ist deshalb KDPs Zone **plus 3 mm Rand ringsum** — das Maß, das
-man auf Buchrückseiten sonst auch sieht: genug, dass die Ruhezone des Scanners
-sicher liegt, wenig genug, dass kein weißer Kasten auf dem Umschlag steht.
+| Anlauf | Fläche | was man sah |
+|---|---|---|
+| 1 | 50,8 × 30,5, falsch platziert | Barcode stand über |
+| 2 | 64 × 40, von der Ecke gewachsen | Barcode klebte in der Ecke |
+| 3 | 55,6 × 36,5, mittig | weißer Rand ringsum |
+| **4** | **50,8 × 30,5, richtig platziert** | **nichts — sie liegt unter KDPs Box** |
 
-Nach rechts sind es nur 1,8 mm, weil die Zone dort schon nah an ihrer Grenze
-sitzt. Mit den vollen 3 mm stünde die Fläche beim Taschenbuch 2,9 mm vor dem
-Rücken und ragte beim Hardcover 1,2 mm ins Scharnier — in die Rille, in der
-sich der Deckel bewegt. Der Barcode steht dadurch 1,2 mm aus der Mitte, was
-man nicht sieht.
+Anlauf 2 entstand aus einer Rechnung, die stimmte und trotzdem in die Irre
+führte: Ein EAN-13 mit Preiszusatz misst bei 100 Prozent Vergrößerung 56,8 mm,
+also mehr als KDPs 50,8. Nur druckt KDP nicht bei 100 Prozent — der Barcode
+passt in die eigene Box. Der Überstand kam nie vom Barcode, sondern immer von
+der eigenen Fläche.
 
-Ein Zwischenschritt lohnt die Erwähnung, weil er plausibel klang und trotzdem
-falsch war: erst wuchs die Fläche auf 64 × 40 mm, von der rechten unteren Ecke
-aus nach links und oben. Deckend war das, aber der Barcode klebte in der Ecke
-eines viel zu großen Rechtecks. Eine Fläche muss nicht nur groß genug sein,
-sie muss auch um das Richtige herum liegen.
-
-`barcodefeld()` liefert KDPs Zone für die Prüfung, `weissflaeche()` die
-tatsächlich gezeichnete Fläche.
+`barcodefeld()` liefert die Geometrie, `weissflaeche()` gibt sie unverändert
+weiter — der Name bleibt, damit sichtbar ist, dass hier bewusst nichts
+addiert wird.
 
 **Warum nach unten anders gemessen wird.** Seitlich zählt die Trimmkante,
 nach unten die **Unterkante der Datei** — alles darunter markiert KDP in der
@@ -136,16 +133,18 @@ KORREKTUR_MM` holt diese 4 mm zurück — abgeglichen mit KDPs Vorschau, nicht
 mit der Vorgabe. Zwischen Feldkante und Scharnier bleiben damit 2,4 statt
 6,4 mm. Wer den Wert ändert, sieht danach wieder in die Vorschau.
 
-Das weiße Feld wird 0,5 mm größer angelegt als die geforderte Fläche. Ohne
-diesen Überstand läge die Kante zwischen Weiß und Schiefergrund genau auf der
-Feldgrenze, und die Passertoleranz im Druck zöge dort einen dunklen
-Haarstrich an den Rand des Barcodes.
+Früher lag ein halber Millimeter Überstand ringsum an, gegen einen dunklen
+Haarstrich durch Passertoleranz. Auch der ist weg: Dafür liegt KDPs eigene Box
+darüber, und als weißer Rand wäre er sichtbar.
 
 Der Markenhinweis endet 4 mm über dem Feld. Er lief lange Zeit mit seinen
 letzten beiden Zeilen quer hindurch — in der PDF-Vorschau kaum zu sehen, im
 gedruckten Buch ein Barcode über Text. `abnahme.py` misst das jetzt: Wörter
-im Feld, die Helligkeit der Fläche, den Abstand zur Unterkante und den Rand
-um KDPs Zone — je Umschlag vier Prüfungen.
+im Feld, die Helligkeit der Fläche, den Abstand zur Unterkante und dass die
+Fläche KDPs Box nicht überragt — je Umschlag vier Prüfungen. Die Helligkeit
+wird 0,6 mm innerhalb der Kante gemessen: Fläche und Messrahmen sind exakt
+gleich groß, und die Randreihe mischt beim Rastern Weiß mit dem Grund
+dahinter.
 
 **Zu KDP hochgeladen wird `cover-druck.pdf`, nicht `cover.pdf`.** Die
 Vektorfassung enthält Radialverläufe und transparente Schlagschatten; die
