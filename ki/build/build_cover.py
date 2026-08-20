@@ -81,22 +81,20 @@ RUECKEN_KOPFSTEG = 0.10
 # war dort nicht scannbar.
 BARCODE_KANTE_MM = 6.35     # 0,25 Zoll, KDPs Richtwert zur Trimmkante
 
-# Reserve ringsum den Code, zusätzlich zu dessen eigener Fläche.
+# Zwei verschiedene Flächen, die man nicht verwechseln darf:
 #
-# 0 heißt: Das weiße Feld ist exakt so groß wie die von KDP vorgegebene Fläche
-# von 2 x 1,2 Zoll. Das ist die passende Einstellung, solange man dieser Angabe
-# traut — die Ruhezone des Codes liegt innerhalb dieser Fläche, nicht außerhalb.
-# (Eine frühere Fassung dieses Kommentars behauptete das Gegenteil und riet von
-# Werten unter 2 mm ab. Das war falsch: Unterschritten würde die Ruhezone erst,
-# wenn man das Feld kleiner als 2 x 1,2 Zoll macht, und das tut hier niemand.)
+# BARCODE_B_MM x BARCODE_H_MM (50,8 x 30,5 mm, importiert) ist die Fläche, die
+# KDP **freigehalten** haben will. Dort darf kein Gestaltungselement liegen.
 #
-# Der Preis für die exakte Passung: Es gibt keinen Puffer mehr. Setzt KDP den
-# Code auch nur einen Millimeter neben die angenommene Position, steht an einer
-# Seite dunkler Grund unter ihm. Wer diesen Puffer will, setzt hier 2 bis 3 mm —
-# dann ist das Feld entsprechend größer und auf dunklem Umschlag als weißer
-# Kasten sichtbar. Genau diese Abwägung ist der Grund, warum der Wert eine
-# eigene Konstante ist und nicht in der Rechnung steht.
-BARCODE_RESERVE_MM = 0.0
+# BARCODE_FELD_* ist das weiße Rechteck, das hier tatsächlich **gezeichnet**
+# wird. Es ist kleiner, weil KDPs gedrucktes Symbol kleiner ist als die
+# reservierte Fläche: Deckt das weiße Feld die volle Reservefläche ab, steht auf
+# einem dunklen Umschlag ringsum sichtbar Weiß über, und das sieht nach Versehen
+# aus statt nach Gestaltung.
+#
+# Das Feld wird in der Reservefläche zentriert — dort sitzt auch das Symbol.
+BARCODE_FELD_B_MM = 46.0
+BARCODE_FELD_H_MM = 26.0
 
 # --- Grund -------------------------------------------------------------------
 def grundton_aus_bild(pfad, anteil=0.10):
@@ -488,10 +486,15 @@ def barcode_feld(x, y, breite):
     rueckseite() zeichnet — zwei getrennte Rechnungen laufen irgendwann
     auseinander, und dann meldet der Build etwas anderes, als im PDF steht.
     """
-    feld_b = (BARCODE_B_MM + 2 * BARCODE_RESERVE_MM) * mm
-    feld_h = (BARCODE_H_MM + 2 * BARCODE_RESERVE_MM) * mm
-    kante = (BARCODE_KANTE_MM - BARCODE_RESERVE_MM) * mm
-    return x + breite - kante - feld_b, y + kante, feld_b, feld_h
+    # Reservefläche zuerst — sie bestimmt die Lage.
+    reserve_x = x + breite - (BARCODE_KANTE_MM + BARCODE_B_MM) * mm
+    reserve_y = y + BARCODE_KANTE_MM * mm
+
+    # Das gezeichnete Feld darin zentrieren.
+    feld_b, feld_h = BARCODE_FELD_B_MM * mm, BARCODE_FELD_H_MM * mm
+    feld_x = reserve_x + ((BARCODE_B_MM * mm) - feld_b) / 2
+    feld_y = reserve_y + ((BARCODE_H_MM * mm) - feld_h) / 2
+    return feld_x, feld_y, feld_b, feld_h
 
 
 def rueckseite(c, x, y, breite, hoehe, cfg, kopf, absaetze, punkte, *,
@@ -508,10 +511,8 @@ def rueckseite(c, x, y, breite, hoehe, cfg, kopf, absaetze, punkte, *,
 
     # Text beginnt unter dem Kopfsteg und endet über dem Barcodefeld.
     oben = y + hoehe - hoehe * kopfsteg - rand * 0.5
-    # Feld samt Reserve, ausgerichtet an der Trimmkante der Rückseite. Die
-    # rechte Kante liegt (BARCODE_KANTE_MM - BARCODE_RESERVE_MM) von der
-    # Trimmkante entfernt, also praktisch bündig — damit sitzt die Sollposition
-    # des Codes mittig in der Reserve.
+    # Lage und Größe kommen aus barcode_feld(), damit die Meldung beim Bauen
+    # und das gezeichnete Rechteck nicht auseinanderlaufen können.
     feld_x, feld_y, feld_b, feld_h = barcode_feld(x, y, breite)
     unten = feld_y + feld_h + 14
     platz = oben - unten
@@ -704,15 +705,16 @@ def barcode_melden(cfg):
     print(f"Barcodefeld: {feld_b/mm:.1f} x {feld_h/mm:.1f} mm, "
           f"{rechts:.1f} mm von der rechten und {unten:.1f} mm von der "
           f"unteren Trimmkante")
-    if BARCODE_RESERVE_MM:
-        print(f"  Der Code sitzt an KDPs Sollposition ({BARCODE_KANTE_MM} mm "
-              f"von den Kanten) mit {BARCODE_RESERVE_MM:.1f} mm Rand ringsum.")
-    else:
-        # Der Hinweis gehört dazu: Ohne Reserve trägt die Passung allein auf
-        # der Annahme, dass KDP den Code genau dort aussetzt.
-        print(f"  Deckungsgleich mit KDPs Sollfläche ({BARCODE_B_MM} x "
-              f"{BARCODE_H_MM} mm, {BARCODE_KANTE_MM} mm von den Kanten) — "
-              f"ohne Puffer. Weicht KDP ab, steht dunkler Grund unter dem Code.")
+    # Wie weit das gezeichnete Feld hinter KDPs Reservefläche zurückbleibt.
+    schmaler = (BARCODE_B_MM - BARCODE_FELD_B_MM) / 2
+    niedriger = (BARCODE_H_MM - BARCODE_FELD_H_MM) / 2
+    print(f"  Zentriert in KDPs Reservefläche ({BARCODE_B_MM} x "
+          f"{BARCODE_H_MM} mm), auf jeder Seite {schmaler:.1f} mm schmaler "
+          f"und {niedriger:.1f} mm niedriger.")
+    if schmaler > 0 or niedriger > 0:
+        print("  Ist das gedruckte Symbol größer als das Feld, steht an den "
+              "Rändern dunkler Grund unter dem Code — in der KDP-Vorschau "
+              "gegenprüfen.")
 
 
 def main():
