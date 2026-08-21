@@ -35,10 +35,10 @@ WURZEL = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(WURZEL / "buch" / "build"))
 
 from build_cover import (  # noqa: E402
-    BARCODE_B_MM, BARCODE_H_MM, BESCHNITT_MM, RUECKENTEXT_AB_SEITEN,
-    RUECKEN_PRO_SEITE_MM, block_schreiben, groesse_einpassen,
-    klappentext_laden, schriften_laden, seitenzahl, titelbild_zeichnen,
-    umbrechen, vorschau,
+    BARCODE_B_MM, BARCODE_H_MM, BESCHNITT_MM, BUCHDECKE_MM,
+    HARDCOVER_MIN_SEITEN, RUECKENTEXT_AB_SEITEN, RUECKEN_PRO_SEITE_MM,
+    WRAP_MM, block_schreiben, groesse_einpassen, klappentext_laden,
+    schriften_laden, seitenzahl, titelbild_zeichnen, umbrechen, vorschau,
 )
 
 KI = WURZEL / "ki"
@@ -577,13 +577,26 @@ def rueckseite(c, x, y, breite, hoehe, cfg, kopf, absaetze, punkte, *,
 
 
 # --- Zusammenbau -------------------------------------------------------------
-def cover_bauen(cfg, seiten, klappentext_pfad, ziel):
+def cover_bauen(cfg, seiten, klappentext_pfad, ziel, *, hardcover=False):
+    """Baut den Umschlag. `hardcover` schaltet auf KDPs andere Rechnung um.
+
+    Beim Taschenbuch wird der Umschlag beschnitten: 3,175 mm Anschnitt ringsum
+    fallen weg. Beim Hardcover wird er nicht beschnitten, sondern um die
+    Buchdecke geschlagen — dafür braucht er 18 mm Umschlagrand, und der Rücken
+    ist nicht der Buchblock, sondern die Decke: Buchblock plus zwei
+    Deckelpappen und Falzrillen, zusammen 9 mm.
+
+    Die Konstanten kommen aus buch/build/build_cover.py und stehen dort in
+    Zoll, nicht in Millimetern: KDP rechnet in Zoll, und runde Millimeterwerte
+    (18,0 / 9,0) treffen die Sollbreite um 0,03 mm daneben.
+    """
     schriften_laden()
 
     trim_b = cfg["seitenformat"]["breite_mm"] * mm
     trim_h = cfg["seitenformat"]["hoehe_mm"] * mm
-    anschnitt = BESCHNITT_MM * mm
-    ruecken_b = seiten * RUECKEN_PRO_SEITE_MM * mm
+    anschnitt = (WRAP_MM if hardcover else BESCHNITT_MM) * mm
+    ruecken_b = (seiten * RUECKEN_PRO_SEITE_MM
+                 + (BUCHDECKE_MM if hardcover else 0)) * mm
 
     gesamt_b = 2 * trim_b + ruecken_b + 2 * anschnitt
     gesamt_h = trim_h + 2 * anschnitt
@@ -617,7 +630,10 @@ def cover_bauen(cfg, seiten, klappentext_pfad, ziel):
              trim_b + anschnitt, band_h)
 
     kopf, absaetze, punkte = klappentext_laden(klappentext_pfad)
-    mit_ruecken_text = seiten >= RUECKENTEXT_AB_SEITEN
+    # Beim Hardcover ist der Rücken immer breit genug: Die Buchdecke bringt
+    # allein 9 mm mit. Die 79-Seiten-Schwelle des Taschenbuchs greift dort
+    # nicht.
+    mit_ruecken_text = hardcover or seiten >= RUECKENTEXT_AB_SEITEN
 
     rueckseite(c, anschnitt, anschnitt, trim_b, trim_h, cfg,
                kopf, absaetze, punkte,
@@ -631,7 +647,9 @@ def cover_bauen(cfg, seiten, klappentext_pfad, ziel):
     c.save()
     return {"gesamt_mm": (gesamt_b / mm, gesamt_h / mm),
             "ruecken_mm": ruecken_b / mm,
-            "ruecken_text": mit_ruecken_text}
+            "ruecken_text": mit_ruecken_text,
+            "rand_mm": anschnitt / mm,
+            "hardcover": hardcover}
 
 
 # --- Titelbild für die Kindle-Ausgabe ----------------------------------------
@@ -720,21 +738,35 @@ def barcode_melden(cfg):
 def main():
     cfg = yaml.safe_load((KI / "ki.yaml").read_text(encoding="utf-8"))
     seiten = seitenzahl(KI / "out" / f"{cfg['slug']}.pdf")
-    ziel = KI / "out" / "cover.pdf"
-    masse = cover_bauen(cfg, seiten, KI / "cover" / "klappentext.md", ziel)
-    png = vorschau(ziel, KI / "out" / "cover-vorschau.png")
+    klappentext = KI / "cover" / "klappentext.md"
+    print(f"Innenteil: {seiten} Seiten\n")
 
-    b, h = masse["gesamt_mm"]
-    print(f"Innenteil: {seiten} Seiten")
-    print(f"Rückenbreite: {masse['ruecken_mm']:.1f} mm"
-          f"  (Rückentext: {'ja' if masse['ruecken_text'] else 'nein'})")
-    print(f"Umschlag gesamt: {b:.2f} x {h:.2f} mm "
-          f"= {b/25.4:.3f} x {h/25.4:.3f} Zoll, inkl. {BESCHNITT_MM} mm Anschnitt")
-    barcode_melden(cfg)
+    for hardcover in (False, True):
+        art = "Hardcover" if hardcover else "Taschenbuch"
+        name = "cover-hardcover" if hardcover else "cover"
+        if hardcover and seiten < HARDCOVER_MIN_SEITEN:
+            print(f"{art}: übersprungen — KDP verlangt mindestens "
+                  f"{HARDCOVER_MIN_SEITEN} Seiten, der Band hat {seiten}.")
+            continue
+
+        ziel = KI / "out" / f"{name}.pdf"
+        masse = cover_bauen(cfg, seiten, klappentext, ziel,
+                            hardcover=hardcover)
+        png = vorschau(ziel, KI / "out" / f"{name}-vorschau.png")
+
+        b, h = masse["gesamt_mm"]
+        randname = ("Umschlagrand um die Buchdecke" if hardcover
+                    else "Anschnitt")
+        print(f"{art}")
+        print(f"  Rücken: {masse['ruecken_mm']:.1f} mm"
+              f"  (Rückentext: {'ja' if masse['ruecken_text'] else 'nein'})")
+        print(f"  Gesamt: {b:.2f} x {h:.2f} mm = {b/25.4:.3f} x "
+              f"{h/25.4:.3f} Zoll, inkl. {masse['rand_mm']:.1f} mm {randname}")
+        barcode_melden(cfg)
+        print(f"  → {ziel.relative_to(WURZEL)}")
+        print(f"  → {png.relative_to(WURZEL)}\n")
+
     titelbild_melden(cfg, titelbild_suchen())
-    print(f"  → {ziel.relative_to(WURZEL)}")
-    print(f"  → {png.relative_to(WURZEL)}")
-
     jpg, (px_b, px_h) = kindle_titelbild(cfg, KI / "out" / "kindle-cover.jpg")
     print(f"Kindle-Titelbild: {px_b} x {px_h} px "
           f"({jpg.stat().st_size / 1024:.0f} KB)")

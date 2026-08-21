@@ -8,7 +8,7 @@ eigenen Umschlag — geteilt wird nur die Satz-Werkstatt unter `buch/build/`.
 |---|---|
 | Format | 6″ × 9″, 124 Seiten |
 | Aufbau | 5 Teile, 34 Kapitel, rund 25 000 Wörter |
-| Ausgaben | Taschenbuch (PDF) und Kindle (EPUB) |
+| Ausgaben | Taschenbuch, Hardcover und Kindle |
 
 ## Bauen
 
@@ -16,8 +16,9 @@ eigenen Umschlag — geteilt wird nur die Satz-Werkstatt unter `buch/build/`.
 pip install -r buch/requirements.txt
 
 python3 ki/build/build_ki.py            # Innenteil: .docx und .pdf
-python3 ki/build/build_cover.py         # Umschlag und Kindle-Titelbild
-python3 buch/build/cover_flach.py ki/out/cover.pdf   # KDP-Druckfassung
+python3 ki/build/build_cover.py         # beide Umschläge und Kindle-Titelbild
+python3 buch/build/cover_flach.py \
+    ki/out/cover.pdf ki/out/cover-hardcover.pdf      # KDP-Druckfassungen
 python3 ki/build/build_epub.py          # Kindle-Ausgabe
 
 python3 buch/build/rechtschreibung.py   # prüft dieses Buch mit
@@ -27,7 +28,32 @@ Die Reihenfolge ist nicht beliebig: Die Rückenbreite des Umschlags errechnet
 sich aus der Seitenzahl des fertigen Innenteils, und das EPUB braucht das
 Titelbild, das `build_cover.py` erzeugt.
 
-**Zu KDP hochgeladen wird `cover-druck.pdf`, nicht `cover.pdf`.** Die
+### Hardcover
+
+`build_cover.py` baut **zwei** Umschläge: `cover.pdf` fürs Taschenbuch und
+`cover-hardcover.pdf` fürs gebundene Buch. KDP rechnet dafür anders, und zwar
+in zwei Punkten:
+
+| | Taschenbuch | Hardcover |
+|---|---|---|
+| Rand ringsum | 3,175 mm Anschnitt (wird abgeschnitten) | 18,0 mm Umschlagrand (wird um die Decke geschlagen) |
+| Rücken | Buchblock: Seiten × 0,0572 mm | Buchdecke: Seiten × 0,0572 mm **+ 9 mm** für Pappen und Falzrillen |
+| Rückentext | erst ab 79 Seiten | immer — die Decke bringt allein 9 mm mit |
+
+Bei 124 Seiten ergibt das **356,88 × 264,59 mm = 14,050 × 10,417 Zoll** mit
+einem Rücken von 16,1 mm. Die Konstanten kommen aus
+`buch/build/build_cover.py` und stehen dort in Zoll, nicht in Millimetern: KDP
+rechnet in Zoll, und runde Millimeterwerte (18,0 / 9,0) treffen die Sollbreite
+um 0,03 mm daneben.
+
+KDP nimmt Hardcover erst **ab 75 Seiten** an; darunter überspringt das Skript
+die Fassung mit einem Hinweis.
+
+**Der Innenteil ist für beide derselbe.** Nur der Umschlag unterscheidet sich —
+bei KDP sind Taschenbuch und Hardcover trotzdem zwei getrennte Titel.
+
+**Zu KDP hochgeladen wird `cover-druck.pdf`, nicht `cover.pdf`** (beim
+Hardcover entsprechend `cover-hardcover-druck.pdf`)**.** Die
 Vektorfassung enthält transparente Kanten im Netzmotiv; die KDP-Prüfung
 verlangt reduzierte Ebenen ohne Transparenz und lehnt sie ab. `cover_flach.py`
 rastert den Umschlag bei 300 dpi und meldet anschließend, ob die Datei sauber

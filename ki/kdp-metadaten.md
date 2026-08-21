@@ -33,11 +33,36 @@ Die Druckangaben stammen aus dem letzten Build. Ändert sich der Innenteil,
 | Innenteil | `ki/out/was-uns-die-maschine-abnimmt.pdf` |
 | Umschlag | `ki/out/cover-druck.pdf` — **nicht** `cover.pdf` |
 
-**Hardcover** wäre möglich: KDP nimmt es ab 75 Seiten an, der Band hat 124.
-Gebaut wird derzeit keine Hardcover-Fassung — `ki/build/build_cover.py` kennt
-die dafür nötige Umschlaggeometrie nicht. `buch/build/build_cover.py` kann es
-für die Stoffwechsel-Reihe; wer es hier will, überträgt von dort die
-Konstanten `WRAP_ZOLL` und `BUCHDECKE_ZOLL` und rechnet den Umschlag neu.
+---
+
+## Hardcover
+
+Bei KDP ein **eigener Titel** neben dem Taschenbuch — gleiche Beschreibung,
+gleiche Kategorien, gleiche Stichwörter, gleicher Innenteil. Nur der Umschlag
+ist ein anderer.
+
+| Feld | Wert |
+|---|---|
+| Trimmgröße | 15,24 × 22,86 cm (6″ × 9″) |
+| Seiten | 124 |
+| Papier / Druckfarbe | weiß / Schwarzweiß |
+| Rücken der Buchdecke | 16,1 mm — **mit** Rückentext |
+| Umschlag gesamt | **356,88 × 264,59 mm** (14,050 × 10,417 Zoll), inkl. 18,0 mm Umschlagrand |
+| Innenteil | `ki/out/was-uns-die-maschine-abnimmt.pdf` — dieselbe Datei wie beim Taschenbuch |
+| Umschlag | `ki/out/cover-hardcover-druck.pdf` |
+
+Der Umschlag ist deutlich größer als beim Taschenbuch, weil er nicht
+beschnitten, sondern um die Buchdecke geschlagen wird: 18 mm Umschlagrand
+ringsum statt 3,175 mm Anschnitt. Der Rücken enthält zusätzlich 9 mm für die
+Deckelpappen und die Falzrillen — deshalb 16,1 mm statt 7,1 mm bei gleicher
+Seitenzahl.
+
+Rückentext gibt es hier immer: Die 79-Seiten-Schwelle des Taschenbuchs greift
+nicht, weil die Buchdecke allein 9 mm mitbringt.
+
+KDP nimmt Hardcover erst **ab 75 Seiten** an; mit 124 liegt der Band deutlich
+darüber. Unterschreitet er die Grenze einmal, überspringt das Bauskript die
+Fassung mit einem Hinweis, statt eine unbrauchbare Datei zu erzeugen.
 
 **Kategorien** — jede steht für eine der drei Lesergruppen, nicht für ein
 Thema des Buches. Das ist der Unterschied, an dem die Auswahl hängt: Amazon
