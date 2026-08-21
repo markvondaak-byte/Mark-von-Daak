@@ -34,6 +34,12 @@ import stile  # noqa: E402
 WURZEL = Path(__file__).resolve().parents[2]
 BUCH = WURZEL / "buch"
 
+# Rahmenfarbe des Hinweiskastens. Als Modulwert und nicht fest im Renderer,
+# damit ein Band mit eigener Farbwelt sie umstellen kann, ohne die Klasse zu
+# kopieren — die Füllung liegt aus demselben Grund in stile.FARBEN["kasten"].
+# Der Vorgabewert ist der bisherige Wert der Reihe (helles Blattgrün).
+KASTEN_RAHMEN = "D3E3CC"
+
 
 # --- PDF-Erzeugung -----------------------------------------------------------
 def pdf_erzeugen(docx_pfad):
@@ -284,7 +290,8 @@ class Renderer:
             if letzter:
                 kanten.append("bottom")
             kanten += ["left", "right"]
-            stile.rahmen(absatz, "D3E3CC", staerke=6, seiten=tuple(kanten))
+            stile.rahmen(absatz, KASTEN_RAHMEN, staerke=6,
+                         seiten=tuple(kanten))
 
     # -- Tabelle --
     def _tabelle(self, tokens, start, ende):
@@ -386,9 +393,13 @@ def _layout(kap):
     return Renderer.LAYOUTS.get(name)
 
 
-def bauen(cfg, kapitel, ziel, toc_daten=None, leerseite=False):
+def bauen(cfg, kapitel, ziel, toc_daten=None, leerseite=False,
+          stilwerte=None):
+    """`stilwerte` zurrt die Typografie eines Bandes fest, ohne stile.py zu
+    verstellen — siehe buch/README.md. Band 1 gibt nichts mit und bekommt
+    damit unverändert die Vorgabewerte."""
     sf = cfg["seitenformat"]
-    doc = stile.dokument_anlegen(sf)
+    doc = stile.dokument_anlegen(sf, stilwerte)
     textbreite = sf["breite_mm"] - sf["rand_innen_mm"] - sf["rand_aussen_mm"]
     renderer = Renderer(doc, textbreite, toc_daten)
 

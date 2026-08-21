@@ -1,0 +1,43 @@
+# Metadaten Band 4 — Die Dopamin-Lüge.
+# Wird von build/build_dopamin.py und build/build_cover.py gelesen.
+
+titel: "Die Dopamin-Lüge"
+untertitel: "Warum das Glückshormon kein Glück macht — und wie Sie Ihren Antrieb zurückholen"
+autor: "Mark von Daak"
+sprache: de
+version: "1.0"
+jahr: 2026
+
+# Eigenständiger Titel außerhalb der Stoffwechsel-Reihe. Deshalb eine eigene
+# Farbwelt: Indigo statt Blattgrün, Molekülgrafik statt Lebensmittelauslage.
+cover_stil: schiefer
+
+# Dateiname ohne Endung für alles unter out/
+slug: dopamin-luege
+
+# KDP-Satzspiegel — 5 x 8 Zoll, das klassische Taschenbuchmaß.
+#
+# Nicht 6 x 9 wie Band 1: Ein Lesebuch aus reinem Fließtext, das man in der
+# Bahn und im Bett liest, gehört in die Hand, nicht auf den Tisch. 5 x 8 Zoll
+# steht in KDPs Auswahlliste der Trimmgrößen und muss nicht als
+# benutzerdefiniertes Maß eingetragen werden.
+#
+# Die Ränder sind auf die Zeilenlänge gerechnet: 127 - 17 - 13 = 97 mm
+# Satzspiegelbreite, bei 10,5 pt Serifenschrift rund 66 Zeichen je Zeile.
+# Das ist der Bereich, in dem das Auge den Zeilenwechsel ohne Suchen findet.
+seitenformat:
+  breite_mm: 127.0      # 5 Zoll
+  hoehe_mm: 203.2       # 8 Zoll
+  rand_innen_mm: 17.0
+  rand_aussen_mm: 13.0
+  rand_oben_mm: 15.0
+  rand_unten_mm: 16.0
+
+# Impressumsangaben — übernommen aus impressum.html, nicht frei erfunden.
+impressum:
+  name: "Mark von Daak"
+  strasse: "Rabenbergstraße 16"
+  ort: "38444 Wolfsburg"
+  land: "Deutschland"
+  email: "markvondaak@icloud.com"
+  ustid: "DE319920422"

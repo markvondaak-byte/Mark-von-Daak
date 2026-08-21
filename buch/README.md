@@ -1,12 +1,17 @@
-# Der Stoffwechsel-Reset — Buchprojekt
+# Buchprojekte
 
-Zwei eigenständige Bände, gemeinsame Build-Basis:
+Vier eigenständige Titel, gemeinsame Build-Basis:
 
 | Band | Quelle | Format | Ausgabe |
 |---|---|---|---|
 | 1 — Das Buch | `buch/kapitel/*.md` | 6″ × 9″ | `buch/out/stoffwechsel-reset.{docx,pdf}` |
 | 2 — Das Workbook | `workbook/` | 8″ × 10″ | `workbook/out/workbook.{docx,pdf}` |
 | 3 — Das Rezeptbuch | `rezepte/` | 8″ × 10″ | `rezepte/out/rezeptbuch.{docx,pdf}` |
+| 4 — Die Dopamin-Lüge | `dopamin/kapitel/*.md` | 5″ × 8″ | `dopamin/out/dopamin-luege.{docx,pdf}` |
+
+Die Bände 1 bis 3 sind eine Reihe zum selben Ernährungskonzept. **Band 4
+gehört nicht dazu** — anderes Thema, andere Zielgruppe, andere Farbwelt. Er
+teilt sich nur die Werkzeuge unter `buch/build/`.
 
 ## Bauen
 
@@ -21,6 +26,9 @@ python3 workbook/build/build_cover.py      # Umschlag Band 2
 
 python3 rezepte/build/build_rezepte.py     # Band 3: .docx und .pdf
 python3 rezepte/build/build_cover.py       # Umschlag Band 3
+
+python3 dopamin/build/build_dopamin.py     # Band 4: .docx und .pdf
+python3 dopamin/build/build_cover.py       # Umschlag Band 4
 
 python3 buch/build/cover_flach.py          # Umschläge in die KDP-Druckfassung
 
@@ -440,6 +448,82 @@ Die beiden neuen Register kommen aus denselben Rezeptdaten wie die Rezepte
 selbst — sie können also nicht auseinanderlaufen. Wer Rezepte ergänzt oder
 Zeiten korrigiert, muss nichts nachpflegen.
 
+## Band 4 — Die Dopamin-Lüge
+
+Ein eigenständiges Sachbuch über den Botenstoff Dopamin, 160 Seiten,
+27 Kapitel. Es steht **außerhalb** der Stoffwechsel-Reihe und wird bei KDP
+ohne Serienzuordnung angelegt.
+
+Die Quellen liegen wie bei Band 1 als Markdown mit Front Matter in
+`dopamin/kapitel/*.md`, und es gilt dieselbe Auszeichnungs-Teilmenge samt der
+drei Marker. Gebaut wird mit `dopamin/build/build_dopamin.py`, das den
+Renderer aus `buch/build/build_docx.py` benutzt.
+
+**Format 5″ × 8″.** Das klassische Taschenbuchmaß, nicht 6 × 9 wie Band 1: ein
+reines Lesebuch aus Fließtext, ohne Tabellenwerk, das man in der Bahn und im
+Bett liest. Das Maß steht in KDPs Auswahlliste und muss nicht als
+benutzerdefinierte Größe eingetragen werden.
+
+**Kein Hardcover.** KDP führt 5 × 8 Zoll ausschließlich als Taschenbuch. Für
+Hardcover gibt es 5,5×8,5 · 6×9 · 6,14×9,21 · 7×10 · 8,25×11 Zoll und sonst
+nichts — dieselbe Falle, in die Band 3 gelaufen ist. `build_cover.py` baut
+deshalb nur eine Fassung; wer den Band gebunden herausbringen will, muss
+zuerst die Trimmgröße wechseln und den Innenteil neu bauen.
+
+### Eigene Typografie und Farbwelt
+
+Der schmalere Satzspiegel (127 − 17 − 13 = 97 mm) verlangt einen kleineren
+Grad, sonst stehen keine 60 Zeichen in der Zeile. Die Werte stehen in
+`TYPOGRAFIE` in `build_dopamin.py` und werden `dokument_anlegen()` als
+Abweichung mitgegeben — **nicht** in `stile.py` gedreht, sonst verstellen sie
+die Bände 1 bis 3 mit. 10,5 pt auf 97 mm ergeben rund 66 Zeichen je Zeile.
+
+`build_docx.bauen()` nimmt dafür ein zusätzliches Argument `stilwerte`. Band 1
+gibt nichts mit und bekommt unverändert die Vorgabewerte.
+
+Die Leitfarbe ist Indigo statt Blattgrün. Zwei der Farben, die der Renderer
+benutzt, sind Modulwerte und keine Argumente — `stile.FARBEN["kasten"]`,
+`stile.FARBEN["blatt_hell"]` und `build_docx.KASTEN_RAHMEN`. `farbwelt_setzen()`
+stellt sie um. Das wirkt global, solange der Prozess läuft; je Prozess wird
+genau ein Band gebaut, deshalb ist das unkritisch. Wer beide Bände in einem
+Lauf baut, muss sie zurücksetzen.
+
+### Umschlag
+
+`dopamin/build/build_cover.py` ist eigenständig und übernimmt aus
+`buch/build/build_cover.py` nur die **Geometrie**: Anschnitt, Rückenbreite,
+Barcodefeld. Das sind KDP-Vorgaben und keine Gestaltungsfragen.
+
+Alles Sichtbare ist eigen. Das Motiv ist die Strukturformel des Dopamins, als
+Vektorgrafik gezeichnet — ein Benzolring mit zwei Hydroxylgruppen und einer
+Aminoethyl-Seitenkette. Die Lebensmittelauslage der Reihe wäre hier
+irreführend: Ein Buch über einen Botenstoff, das aussieht wie ein
+Ernährungsratgeber, landet im Vorschaubild im falschen Regal.
+
+Zwei Punkte, die beim Setzen aufgefallen sind und deshalb im Code stehen:
+
+- **`groesse_einpassen()` taugt für diesen Titel nicht.** Die Funktion bricht
+  um, statt zu verkleinern, und liefert deshalb bei jeder Größe ein Ergebnis
+  — der Titel stand zweizeilig da, mit einer ersten Zeile aus einem einzigen
+  Artikel. `einzeilig_einpassen()` sucht stattdessen die größte Größe, bei der
+  der Titel in eine Zeile passt.
+- **Die Ausdehnung der Strukturformel ist ausgerechnet, nicht geschätzt.**
+  Sie reicht links 2,4 Ringradien über die Ringmitte hinaus, rechts 3,9 —
+  daraus folgt ein Versatz von 0,75 Radien nach links, damit die Formel als
+  Ganzes mittig steht. Die Werte stehen als `MOLEKUEL_*`-Konstanten im Kopf
+  der Datei.
+
+### Was die Abnahme bei diesem Band zusätzlich prüft
+
+`abnahme.py` hat für Band 4 eigene Pflichtinhalte, weil die der Reihe hier
+nicht greifen. Geprüft werden im fertigen PDF unter anderem der Hinweis, dass
+das Buch kein medizinischer Ratgeber ist, der Haftungsausschluss — und die
+**Notrufnummern**. Sie sind der einzige Inhalt dieses Buches, bei dem ein
+Satzfehler unmittelbar schadet.
+
+Die Prüfung auf fast leere Seiten läuft nur über den Textteil: Die sechs
+Vorlagen im Anhang sind absichtlich leer und fielen sonst auf.
+
 ## Rechtschreibung und Typografie
 
 `buch/build/rechtschreibung.py` prüft alle Quelltexte — nicht die PDFs, denn im
@@ -467,6 +551,12 @@ Suchen am Ende der Ausgabe; die Treffer muss man lesen, nicht zählen.
   und keine Grafiken übernehmen.
 - **HCVO:** keine krankheitsbezogenen Aussagen, keine Wirkversprechen.
   `claim_check.py` prüft das automatisch und muss ohne Treffer durchlaufen.
+  Das gilt für die Bände 1 bis 3. **Band 4 läuft nicht mit** — dessen Muster
+  sind auf Lebensmittelwerbung gemünzt und schlügen hier reihenweise falsch
+  an, etwa beim Kapitel „Der Detox-Irrtum", das den Begriff ausdrücklich
+  auseinandernimmt. Band 4 ist stattdessen heilmittelwerberechtlich
+  angreifbar, und `abnahme.py` prüft dort auf Heil-, Linderungs- und
+  Präventionsversprechen im fertigen PDF.
 - **Marke:** „cellRESET" und „FitLine" sind Marken der PM-International AG und
   werden nur beschreibend genannt, nie im Titel.
 - Pflichthinweise (Schwangerschaft, ärztliche Abklärung, Eigenverantwortung)

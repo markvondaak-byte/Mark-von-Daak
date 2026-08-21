@@ -35,9 +35,11 @@ QUELLEN = [
     ("Band 2", "workbook/rahmen", "*.md"),
     ("Band 3", "rezepte/rahmen", "*.md"),
     ("Band 3", "rezepte/rezepte", "*.yaml"),
+    ("Band 4", "dopamin/kapitel", "*.md"),
     ("Umschlag", "buch/cover", "klappentext.md"),
     ("Umschlag", "workbook/cover", "klappentext.md"),
     ("Umschlag", "rezepte/cover", "klappentext.md"),
+    ("Umschlag", "dopamin/cover", "klappentext.md"),
 ]
 
 # Begriffe, die richtig sind, aber in keiner Wortliste stehen: Marken,
@@ -67,6 +69,75 @@ FACHWORTE = {
     "apfelessig", "weißweinessig", "rotweinessig", "maltodextrin",
     "hefeextrakt", "dinkelkleber", "zöliakie", "vergine",
     "kdp", "epub", "asin", "isbn", "dpi",
+}
+
+# Band 4 (Dopamin) bringt eine eigene Fachsprache mit: Anatomie, Botenstoffe,
+# Forschernamen — und die englischen Titel der Quellenliste, die eine deutsche
+# Wortliste zwangsläufig komplett anstreicht. Ohne diesen Block stehen rund
+# 300 zusätzliche Wörter in der Durchsicht und machen sie unbrauchbar.
+FACHWORTE |= {
+    # Anatomie und Physiologie
+    "dopamin", "dopamins", "dopaminsystem", "dopaminzellen", "dopaminspiegel",
+    "dopaminspiegeln", "dopaminrezeptoren", "dopaminausschüttung",
+    "dopaminentzüge", "dopaminforschung", "dopaminsignal", "dopaminschüben",
+    "dopaminbildenden", "dopaminhaltigen", "dopaminhaltiger", "dopaminerge",
+    "dopaminergen", "dopaminerger", "dopaminwirksame", "dopa", "levodopa",
+    "noradrenalin", "serotonin", "adenosin", "prolaktin", "prolaktinspiegel",
+    "opioiden", "endocannabinoiden", "tyrosin", "phenylalanin",
+    "accumbens", "striatum", "striatums", "nigra", "substantia", "tegmentum",
+    "ventrales", "ventralen", "vta", "hypothalamus", "vorderhirn",
+    "vorderhirnbündel", "nucleus", "mesolimbisch", "mesolimbische",
+    "mesolimbischen", "mesokortikal", "mesokortikalen", "nigrostriatal",
+    "nigrostriatale", "nigrostriatalen", "tuberoinfundibulär",
+    "tuberoinfundibuläre", "agonist", "agonisten", "antagonist",
+    "antipsychotika", "adhs", "anhedonie", "habituation", "prokrastination",
+    "impulskontrollstörungen", "psychoaktive", "aversiven", "pet",
+    "mucuna", "pruriens", "lux", "cortisolverlauf", "medikation",
+    "neurobiologie", "neurophysiologen", "neurowissenschaftler",
+    "pharmakologe", "lernalgorithmen", "sechserring", "markersubstanz",
+    "konsumatorische", "konsumatorischer", "motivationale", "motivationaler",
+    "wanting", "liking", "feed", "feeds", "detox",
+
+    # Eigennamen aus Forschung und Literatur
+    "olds", "milner", "berridge", "robinson", "schultz", "salamone", "correa",
+    "tinbergen", "tinbergens", "skinner", "ferster", "carlsson", "arvid",
+    "fiorillo", "tobler", "dayan", "montague", "volkow", "wise", "baler",
+    "nutt", "lingford", "hughes", "erritzoe", "stokes", "sapolsky", "lembke",
+    "lieberman", "raichle", "treadway", "zald", "orben", "przybylski", "ward",
+    "duke", "gneezy", "bos", "mark", "gudith", "klocke", "wilson", "timothy",
+    "terry", "burrhus", "frederic", "nikolaas", "schüll", "eyal", "simon",
+    "krause", "golden", "šrámek", "sramek", "mcgill", "michigan",
+    "connecticut", "virginia", "princeton", "vegas",
+
+    # Englische Titelwörter der Quellenliste
+    "the", "and", "of", "for", "from", "into", "other", "our", "how", "what",
+    "between", "years", "use", "think", "coding", "error", "prediction",
+    "reward", "neural", "substrate", "dopamine", "incentive", "salience",
+    "sensitization", "wanting", "hedonic", "impact", "learning", "role",
+    "addiction", "drug", "craving", "theory", "highs", "lows", "pleasure",
+    "systems", "brain", "science", "neuroscience", "nature", "neurons",
+    "probability", "uncertainty", "discrete", "reinforcement", "schedules",
+    "designing", "organizations", "rich", "world", "cost", "interrupted",
+    "work", "speed", "stress", "drain", "mere", "presence", "own", "reduces",
+    "available", "cognitive", "capacity", "association", "adolescent", "well",
+    "being", "digital", "technology", "mysterious", "motivational",
+    "functions", "mesolimbic", "reconsidering", "anhedonia", "depression",
+    "lessons", "translational", "biobehavioral", "default", "mode",
+    "network", "annual", "review", "human", "humans", "physiological",
+    "responses", "immersion", "water", "different", "temperatures",
+    "european", "journal", "applied", "physiology", "sleep", "deprived",
+    "efficacy", "light", "therapy", "treatment", "mood", "disorders",
+    "american", "psychiatry", "psychologist", "psychological", "psychology",
+    "comparative", "positive", "produced", "electrical", "stimulation",
+    "septal", "area", "regions", "rat", "study", "instinct", "machine",
+    "gambling", "design", "hooked", "build", "habit", "forming", "products",
+    "molecule", "more", "nation", "behave", "biology", "best", "worst",
+    "estimating", "reproducibility", "open", "collaboration", "clinical",
+    "dialogues", "research", "reviews", "press", "university", "acute",
+    "tyrosine", "phenylalanine", "depletion", "delay", "discounting",
+    "impulse", "control", "agonist", "food", "implications", "consumer",
+    "behaviour", "disengaged", "challenges", "just", "one", "ventral",
+    "tegmental", "nigrostriatal", "app", "apps", "tabs", "timer",
 }
 
 # Häufige Verwechslungen, die eine Wortliste nicht sieht. Jeder Treffer wird

@@ -1,4 +1,4 @@
-# KDP-Metadaten — alle drei Bände
+# KDP-Metadaten — alle Titel
 
 Alles, was beim Anlegen eines Titels bei Amazon KDP abgefragt wird, an einer
 Stelle zum Kopieren. Die langen Beschreibungstexte stehen in eigenen Dateien,
@@ -7,6 +7,7 @@ weil sie dort zusätzlich als KDP-taugliches HTML vorliegen:
 - `buch/cover/amazon-beschreibung.md`
 - `workbook/cover/amazon-beschreibung.md`
 - `rezepte/cover/amazon-beschreibung.md`
+- `dopamin/cover/amazon-beschreibung.md`
 
 Die Druckangaben stammen aus dem letzten Build. Ändert sich der Innenteil,
 ändern sich Seitenzahl und Rückenbreite — dann hier nachziehen.
@@ -274,6 +275,78 @@ Zum Tauschen, falls ein Begriff nach ein paar Wochen nichts bringt:
 `kohlenhydratarm kochen abendessen` · `eiweißbrot ersatz rezepte` ·
 `gewürzmischung selber machen ohne salz` · `meal prep eiweißreich` ·
 `kochbuch stoffwechselkur alternative`
+
+---
+
+## Band 4 — Die Dopamin-Lüge
+
+**Kein Teil der Stoffwechsel-Reihe.** Eigenständiger Titel, eigene Farbwelt,
+eigene Kategorien — und beim Anlegen **kein Serienname**. Wer ihn in die Reihe
+einträgt, bekommt ihn in den Trefferlisten der Bände 1 bis 3 als vierten Band
+angezeigt und verwirrt beide Zielgruppen.
+
+| Feld | Wert |
+|---|---|
+| Titel | Die Dopamin-Lüge |
+| Untertitel | Warum das Glückshormon kein Glück macht — und wie Sie Ihren Antrieb zurückholen |
+| Serie | *keine* |
+| Beschreibung | `dopamin/cover/amazon-beschreibung.md` |
+| Trimmgröße | **5 × 8 Zoll** (12,7 × 20,32 cm) — steht in der Auswahlliste |
+| Seiten | 160 |
+| Papier | cremefarben (Lesebuch aus reinem Fließtext) |
+| Druckfarbe | Schwarzweiß |
+| Rückenbreite | 9,2 mm — **mit** Rückentext (KDP erlaubt ihn ab 79 Seiten) |
+| Umschlag gesamt | 269,50 × 209,55 mm (10,610 × 8,250 Zoll) |
+| Innenteil | `dopamin/out/dopamin-luege-druck.pdf` |
+| Umschlag | `dopamin/out/cover-druck.pdf` |
+
+**Keine Hardcover-Fassung.** KDP führt 5 × 8 Zoll ausschließlich als
+Taschenbuch; für Hardcover gibt es 5,5×8,5 · 6×9 · 6,14×9,21 · 7×10 ·
+8,25×11 Zoll und sonst nichts. Wer den Band gebunden herausbringen will, muss
+zuerst die Trimmgröße wechseln und den Innenteil neu bauen — dieselbe Falle,
+in die Band 3 gelaufen ist.
+
+**Warum 5 × 8 und nicht 6 × 9 wie Band 1.** Der Band ist ein reines Lesebuch
+ohne Tabellenwerk, das man in der Bahn und im Bett liest. 5 × 8 Zoll ist das
+klassische Taschenbuchmaß und liegt besser in der Hand. Der Satzspiegel ist
+darauf gerechnet: 97 mm Textbreite bei 10,5 pt ergeben rund 66 Zeichen je
+Zeile.
+
+**Kategorien:**
+
+1. Ratgeber › Lebensführung › Selbsthilfe
+2. Sachbuch › Naturwissenschaften › Biologie › Neurowissenschaften
+3. Ratgeber › Psychologie › Angewandte Psychologie
+
+**Alterseinstufung:** keine Einschränkung. Das Buch nennt Substanz- und
+Verhaltenssüchte, behandelt sie aber ausschließlich abgrenzend und
+verweisend.
+
+**Keywords** — sieben Felder à 50 Zeichen. Wortgruppen statt Einzelwörter,
+kein Wort aus Titel oder Untertitel, und nichts, was ein Heilversprechen
+andeutet:
+
+```
+konzentration verbessern ohne app
+handysucht abgewöhnen erwachsene
+prokrastination überwinden buch
+gehirn verstehen alltag anwenden
+motivation zurückgewinnen antrieb
+digitale reizüberflutung reduzieren
+belohnungssystem gehirn sachbuch
+```
+
+**Was hier bewusst nicht steht:** `adhs`, `depression`, `sucht`, `burnout`.
+Alle vier sind naheliegende Suchbegriffe und alle vier wären falsch. Das Buch
+behandelt sie in einem einzigen Kapitel, und zwar mit der Aussage, dass sie in
+eine Praxis gehören. Ein Käufer, der über eines dieser Stichwörter kommt, hat
+einen berechtigten Grund für eine schlechte Rezension — und im Fall von
+Krankheitsbezug zusätzlich einen Ansatzpunkt für eine Abmahnung.
+
+Zum Tauschen, falls ein Begriff nach ein paar Wochen nichts bringt:
+`smartphone weniger nutzen anleitung` · `fokus finden tiefe arbeit` ·
+`gewohnheiten ändern 4 wochen` · `neurowissenschaft populär verständlich` ·
+`bildschirmzeit reduzieren erwachsene`
 
 ---
 

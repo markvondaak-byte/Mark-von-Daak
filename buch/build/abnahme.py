@@ -72,12 +72,15 @@ QUELLEN = {
                  "workbook/build", "buch/build"],
     "rezepte": ["rezepte/rezepte.yaml", "rezepte/rezepte", "rezepte/rahmen",
                 "rezepte/build", "buch/build"],
+    "dopamin": ["dopamin/dopamin.yaml", "dopamin/kapitel", "dopamin/build",
+                "buch/build"],
 }
 
 # Prüfer und Nachbearbeitung stehen zwar in denselben Verzeichnissen, gehen
 # aber nicht in den Innenteil ein. Ohne diese Ausnahme meldet die Prüfung
 # sich selbst als Grund, neu zu bauen.
 KEINE_QUELLE = {"abnahme.py", "claim_check.py", "zutaten_check.py",
+                "rechtschreibung.py",
                 "cover_flach.py", "innenteil_druck.py", "build_cover.py",
                 "illustration.py", "build_epub.py", "kindle_cover.py"}
 
@@ -680,13 +683,102 @@ def website_unberuehrt():
            ergebnis.stdout.strip() or "keine Änderungen")
 
 
+def dopamin_pruefen():
+    """Band 4 steht außerhalb der Stoffwechsel-Reihe und wird deshalb gegen
+    eigene Pflichtinhalte geprüft: die Hinweise, die ein Buch über ein
+    medizinnahes Thema tragen muss, und die Notrufnummern."""
+    print("\nBand 4 — Die Dopamin-Lüge")
+    print("-" * 66)
+    basis = WURZEL / "dopamin"
+    cfg = yaml.safe_load((basis / "dopamin.yaml").read_text(encoding="utf-8"))
+    pdf = basis / "out" / f"{cfg['slug']}.pdf"
+    pruefe("PDF vorhanden", pdf.exists(), str(pdf.relative_to(WURZEL)))
+    if not pdf.exists():
+        return
+    aktueller_als_quellen("Band 4", pdf, "dopamin")
+
+    seiten = text_von(pdf)
+    pruefe("Seitenzahl gerade (KDP rundet sonst auf)", len(seiten) % 2 == 0,
+           f"{len(seiten)} Seiten")
+    pruefe("Mindestseitenzahl 5 x 8 Zoll erreicht", len(seiten) >= 24,
+           f"{len(seiten)} Seiten")
+
+    volltext = "\n".join(seiten)
+
+    pruefe("Inhaltsverzeichnis aufgelöst",
+           "Wollen ist nicht Mögen" in volltext,
+           "keine unaufgelösten Word-Felder")
+
+    pflicht = {
+        "Wollen und Mögen": "Wollen ist nicht Mögen",
+        "Vorhersagefehler": "Vorhersagefehler",
+        "Vier-Wochen-Programm": "Woche 4 — Neu verankern",
+        "Vorlagen": "Reiz-Inventar",
+        "Glossar": "Glossar",
+        "Quellenliste": "Quellen und weiterführende Literatur",
+        "Grenzen der Evidenz": "Was wir nicht wissen",
+    }
+    for name, nadel in pflicht.items():
+        pruefe(f"Inhalt: {name}", nadel in volltext)
+
+    # Pflichthinweise. Sie dürfen nicht gekürzt werden — deshalb werden sie
+    # im fertigen PDF geprüft und nicht nur in der Quelle.
+    rechts = {
+        "Kein medizinischer Ratgeber": "kein medizinischer Ratgeber",
+        "Ärztliche Abklärung": "ärztlich",
+        "Kein Ersatz für Behandlung": "ersetz",
+        "Eigenverantwortung": "eigenverantwortlich",
+        "Haftungsausschluss": "Haftung",
+        "Medikamente nicht eigenmächtig ändern": "behandelnden Praxis",
+    }
+    for name, nadel in rechts.items():
+        pruefe(f"Rechtstext: {name}", nadel in volltext)
+
+    # Die Notrufnummern sind der einzige Inhalt dieses Buches, bei dem ein
+    # Satzfehler unmittelbar schadet.
+    for nummer in ("0800 111 0 111", "0800 111 0 222", "142", "143"):
+        pruefe(f"Hilfetelefon {nummer} genannt", nummer in volltext)
+
+    # Keine Heil-, Linderungs- oder Präventionsversprechen. Für Band 4 greift
+    # nicht die HCVO — die gilt für Lebensmittel, und dieses Buch bewirbt
+    # keines. Angreifbar wäre es heilmittelwerberechtlich: Das Buch nennt
+    # Depression, ADHS, Sucht und Parkinson, und zwar mit der Aussage, dass
+    # sie in eine Praxis gehören. Ein einziger Satz, der daraus ein
+    # Versprechen macht, kippt diese Abgrenzung. claim_check.py prüft das
+    # nicht mit, weil dessen Muster auf Lebensmittelwerbung gemünzt sind und
+    # hier reihenweise falsch anschlagen würden — etwa beim Kapitel „Der
+    # Detox-Irrtum", das den Begriff ausdrücklich auseinandernimmt.
+    versprechen = ("heilt", "Heilung", "lindert", "Linderung", "beugt vor",
+                   "vorbeugen", "garantiert", "Wundermittel")
+    gefunden = [w for w in versprechen if w in volltext]
+    pruefe("Keine Heil- oder Wirkversprechen", not gefunden,
+           ", ".join(gefunden) if gefunden else "")
+
+    fehlend = schriften_eingebettet(pdf)
+    pruefe("Alle Schriften eingebettet", not fehlend,
+           ", ".join(sorted(fehlend)) if fehlend else "")
+
+    # Die Vorlagen im Anhang sind absichtlich leer — sie fielen sonst als
+    # fast leere Seiten auf. Geprüft wird deshalb nur der Textteil davor.
+    bis_anhang = seiten[:len(seiten) - 40]
+    zu_leer = fast_leere_seiten(bis_anhang)
+    pruefe("Keine fast leeren Seiten im Textteil", not zu_leer,
+           f"Seiten {zu_leer}" if zu_leer else "")
+
+    innenteil_druck_pruefen("Band 4", pdf.with_name(pdf.stem + "-druck.pdf"),
+                            cfg["seitenformat"]["breite_mm"],
+                            cfg["seitenformat"]["hoehe_mm"])
+    cover_pruefen("Band 4", basis / "out" / "cover.pdf", cfg, len(seiten))
+
+
 def main():
     print("=" * 66)
-    print("ENDABNAHME — Der Stoffwechsel-Reset (drei Bände)")
+    print("ENDABNAHME — Stoffwechsel-Reihe (Bände 1–3) und Band 4")
     print("=" * 66)
     buch_pruefen()
     workbook_pruefen()
     rezeptbuch_pruefen()
+    dopamin_pruefen()
     kindle_pruefen()
     website_unberuehrt()
 
