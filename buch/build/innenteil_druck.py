@@ -30,6 +30,9 @@ BAENDE = [
     ("Band 1", "buch/out/stoffwechsel-reset.pdf", 152.4, 228.6),
     ("Band 2", "workbook/out/workbook.pdf", 203.2, 254.0),
     ("Band 3", "rezepte/out/rezeptbuch.pdf", 203.2, 254.0),
+    # Eigener Innenteil fürs Hardcover: KDP führt 8 x 10 Zoll nur als
+    # Taschenbuch, das Hardcover läuft auf 8,25 x 11 Zoll.
+    ("Band 3 Hardcover", "rezepte/out/rezeptbuch-hardcover.pdf", 209.55, 279.4),
 ]
 
 

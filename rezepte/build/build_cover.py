@@ -136,11 +136,16 @@ def cover_bauen(cfg, seiten, klappentext_pfad, ziel, *, hardcover=False):
 
     Die Hardcover-Geometrie ist dieselbe wie bei Band 1 und wird von dort
     importiert: Umschlagrand statt Anschnitt, Buchdecke statt Buchblock im
-    Rücken. Nur die Trimmgröße unterscheidet sich (8 x 10 statt 6 x 9 Zoll).
+    Rücken. Die Trimmgröße dagegen ist eine andere als beim Taschenbuch —
+    8,25 x 11 statt 8 x 10 Zoll, weil KDP 8 x 10 nicht als Hardcover führt.
     """
     schriften_laden()
-    trim_b = cfg["seitenformat"]["breite_mm"] * mm
-    trim_h = cfg["seitenformat"]["hoehe_mm"] * mm
+    # Hardcover hat ein eigenes Trimmformat: KDP führt 8 x 10 Zoll nur als
+    # Taschenbuch. Ohne diese Unterscheidung meldet der Upload „erwartete
+    # Covergröße 18.442 x 12.417" gegen eine Datei mit 17.942 x 11.417.
+    sf = cfg["hardcover_seitenformat"] if hardcover else cfg["seitenformat"]
+    trim_b = sf["breite_mm"] * mm
+    trim_h = sf["hoehe_mm"] * mm
     if hardcover:
         anschnitt = WRAP_MM * mm
         ruecken_b = (seiten * RUECKEN_PRO_SEITE_MM + BUCHDECKE_MM) * mm
@@ -211,13 +216,18 @@ def cover_bauen(cfg, seiten, klappentext_pfad, ziel, *, hardcover=False):
 def main():
     basis = WURZEL / "rezepte"
     cfg = yaml.safe_load((basis / "rezepte.yaml").read_text(encoding="utf-8"))
-    seiten = seitenzahl(basis / "out" / f"{cfg['slug']}.pdf")
-
     klappentext = basis / "cover" / "klappentext.md"
 
     for hardcover in (False, True):
         art = "Hardcover" if hardcover else "Taschenbuch"
         name = "cover-hardcover" if hardcover else "cover"
+
+        # Jede Bindeart liest ihre eigene Seitenzahl: Die Innenteile haben
+        # verschiedene Formate, und aus der Seitenzahl folgt der Rücken.
+        innenteil = (f"{cfg['slug']}-hardcover.pdf" if hardcover
+                     else f"{cfg['slug']}.pdf")
+        seiten = seitenzahl(basis / "out" / innenteil)
+
         if hardcover and seiten < HARDCOVER_MIN_SEITEN:
             print(f"\n{art}: übersprungen — KDP verlangt mindestens "
                   f"{HARDCOVER_MIN_SEITEN} Seiten, der Band hat {seiten}.")

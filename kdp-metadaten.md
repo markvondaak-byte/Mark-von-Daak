@@ -88,9 +88,10 @@ ringsum statt 3,175 mm Anschnitt. Der Rücken enthält zusätzlich 9 mm für die
 Deckelpappen und die Falzrillen.
 
 KDP nimmt Hardcover **erst ab 75 Seiten** an — mit 76 liegt Band 1 knapp
-darüber. Band 3 hatte 72 Seiten und war damit ausgeschlossen; das Kapitel
-„Vorkochen, aufbewahren, mitnehmen" bringt ihn auf 76. Band 2 (92 Seiten)
-hätte die Seitenzahl, hat aber noch keinen Hardcover-Umschlag.
+darüber, und 6 × 9 Zoll steht in KDPs Hardcover-Liste. Band 3 brauchte zwei
+Eingriffe: vier Seiten mehr und ein anderes Trimmformat — Näheres im Abschnitt
+zu Band 3. Band 2 (92 Seiten) hätte die Seitenzahl, hat aber noch keinen
+Hardcover-Umschlag und stünde vor demselben Formatproblem wie Band 3.
 
 **Kategorien** — eine breite, zwei enge:
 
@@ -208,17 +209,30 @@ Beschreibung, gleiche Kategorien, gleiche Stichwörter:
 
 | Feld | Wert |
 |---|---|
-| Trimmgröße | 8 × 10 Zoll (20,32 × 25,4 cm) |
+| Trimmgröße | **8,25 × 11 Zoll** (20,955 × 27,94 cm) — **nicht** 8 × 10 |
 | Seiten | 76 |
 | Papier / Druckfarbe | weiß / Schwarzweiß |
 | Rücken der Buchdecke | 13,3 mm — **mit** Rückentext |
-| Umschlag gesamt | **17,942 × 11,417 Zoll** (455,73 × 289,99 mm) |
-| Datei | `rezepte/out/cover-hardcover-druck.pdf` |
+| Umschlag gesamt | **18,442 × 12,417 Zoll** (468,43 × 315,39 mm) |
+| Innenteil | `rezepte/out/rezeptbuch-hardcover-druck.pdf` — **eigene Datei** |
+| Umschlag | `rezepte/out/cover-hardcover-druck.pdf` |
 
-Mit 72 Seiten lag Band 3 unter KDPs Hardcover-Grenze von 75. Das Kapitel
-„Vorkochen, aufbewahren, mitnehmen" bringt ihn auf 76 — und schließt zugleich
-die Lücke, an der das Konzept im Alltag am häufigsten scheitert: die dritte
-Mahlzeit am Nachmittag, die selten in der eigenen Küche stattfindet.
+**Achtung, hier weicht Band 3 von Band 1 ab:** KDP führt 8 × 10 Zoll nur als
+Taschenbuch. Für Hardcover gibt es 5,5×8,5 · 6×9 · 6,14×9,21 · 7×10 ·
+8,25×11 Zoll und sonst nichts. Band 3 läuft als Hardcover deshalb auf
+**8,25 × 11 Zoll** — mit einem eigenen Innenteil, nicht demselben wie das
+Taschenbuch. Band 1 (6 × 9) ist in der Liste enthalten und braucht nur eine
+Datei für beide Bindearten.
+
+Der Satzspiegel ist in beiden Fassungen identisch; die Formatdifferenz geht
+vollständig in die Ränder. Nur dadurch bleibt die Seitenzahl bei 76 — mit
+gleichen Rändern hätte die größere Fläche den Band auf rund 67 Seiten
+gedrückt und damit wieder unter KDPs Hardcover-Grenze von 75.
+
+Mit den ursprünglichen 72 Seiten war Band 3 ohnehin ausgeschlossen. Das
+Kapitel „Vorkochen, aufbewahren, mitnehmen" bringt ihn auf 76 — und schließt
+zugleich die Lücke, an der das Konzept im Alltag am häufigsten scheitert: die
+dritte Mahlzeit am Nachmittag, die selten in der eigenen Küche stattfindet.
 
 Gleiches Format wie Band 2. Beim Kochen liegt das Buch flach auf der
 Arbeitsfläche — dafür ist das Großformat das nützlichere Maß. Band 1 bleibt

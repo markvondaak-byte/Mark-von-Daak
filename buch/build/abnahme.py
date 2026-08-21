@@ -551,8 +551,26 @@ def rezeptbuch_pruefen():
                             cfg["seitenformat"]["breite_mm"],
                             cfg["seitenformat"]["hoehe_mm"])
     cover_pruefen("Band 3", basis / "out" / "cover.pdf", cfg, len(seiten))
-    cover_pruefen("Band 3 Hardcover", basis / "out" / "cover-hardcover.pdf",
-                  cfg, len(seiten), hardcover=True)
+    # Hardcover läuft in eigenem Format und mit eigenem Innenteil.
+    hc = cfg.get("hardcover_seitenformat")
+    if hc:
+        hc_pdf = basis / "out" / f"{cfg['slug']}-hardcover.pdf"
+        hc_seiten = len(text_von(hc_pdf)) if hc_pdf.exists() else 0
+        pruefe("Band 3 Hardcover: Innenteil vorhanden", hc_pdf.exists(),
+               f"{hc_seiten} Seiten" if hc_pdf.exists() else "fehlt")
+        pruefe("Band 3 Hardcover: gleiche Seitenzahl wie Taschenbuch",
+               hc_seiten == len(seiten),
+               f"{hc_seiten} gegen {len(seiten)} — bei gleichem Satzspiegel "
+               "müssen beide übereinstimmen")
+        pruefe("Band 3 Hardcover: über KDPs Mindestseitenzahl",
+               hc_seiten >= 75, f"{hc_seiten} Seiten, gefordert 75")
+        innenteil_druck_pruefen(
+            "Band 3 Hardcover",
+            hc_pdf.with_name(hc_pdf.stem + "-druck.pdf"),
+            hc["breite_mm"], hc["hoehe_mm"])
+        cover_pruefen("Band 3 Hardcover",
+                      basis / "out" / "cover-hardcover.pdf",
+                      dict(cfg, seitenformat=hc), hc_seiten, hardcover=True)
 
 
 def kindle_pruefen():
