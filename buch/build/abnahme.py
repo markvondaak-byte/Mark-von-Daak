@@ -45,6 +45,8 @@ BARCODE_UNTEN_AB_DATEIKANTE_MM = 0.76 * 25.4
 # Gezeichnet wird exakt KDPs Zone — ohne Rand. KDP bringt seine eigene weiße
 # Box mit; alles, was darüber hinausgeht, steht als weißer Rand um den Barcode.
 FELD_B_MM, FELD_H_MM = BARCODE_B_MM, BARCODE_H_MM
+# Beim Hardcover liegt gar keine eigene Weißfläche mehr unter KDPs Box.
+BARCODE_WEISSFLAECHE = {"taschenbuch": True, "hardcover": False}
 
 ergebnisse = []
 
@@ -416,26 +418,30 @@ def barcodefeld_pruefen(bezeichnung, pdf, rand_mm, trim_b_mm, hardcover):
            if not stoerer
            else f"{len(stoerer)} Wörter darin: {' '.join(stoerer[:6])}")
 
-    # Die gezeichnete Fläche darf KDPs Box nicht überragen — jeder Millimeter
-    # mehr steht auf dem gedruckten Umschlag als weißer Rand um den Barcode.
-    pruefe(f"{bezeichnung}: Weißfläche ohne Rand um KDPs Box",
-           FELD_B_MM <= BARCODE_B_MM and FELD_H_MM <= BARCODE_H_MM,
-           f"{FELD_B_MM:.1f} x {FELD_H_MM:.1f} mm, deckungsgleich mit "
-           f"{BARCODE_B_MM} x {BARCODE_H_MM} mm")
-
-    # Innen messen, nicht auf der Kante: Die Fläche ist exakt so groß wie der
-    # Messrahmen, und beim Rastern mischt die Randreihe Weiß mit dem
-    # Schiefergrund dahinter. Das ist ein Artefakt der Messung, kein Fehler im
+    # Innen messen, nicht auf der Kante: Beim Rastern mischt die Randreihe die
+    # Fläche mit dem Grund dahinter. Ein Artefakt der Messung, kein Fehler im
     # Umschlag — 0,6 mm Einzug misst die Fläche und nicht ihren Rand.
     feld_innen = feld + (0.6 * pt, 0.6 * pt, -0.6 * pt, -0.6 * pt)
     bild = seite.get_pixmap(clip=feld_innen, dpi=120)
-    proben = [min(bild.pixel(sx, sy))
+    proben = [bild.pixel(sx, sy)
               for sy in range(0, bild.height, max(1, bild.height // 40))
               for sx in range(0, bild.width, max(1, bild.width // 40))]
-    dunkelste, hellste = min(proben), max(proben)
-    pruefe(f"{bezeichnung}: Barcodefeld hell und einfarbig",
-           dunkelste >= 235 and hellste - dunkelste <= 6,
-           f"dunkelster Kanalwert {dunkelste}, hellster {hellste} von 255")
+    kanaele = [min(p) for p in proben]
+    dunkelste, hellste = min(kanaele), max(kanaele)
+
+    if BARCODE_WEISSFLAECHE["hardcover" if hardcover else "taschenbuch"]:
+        pruefe(f"{bezeichnung}: Barcodefeld hell und einfarbig",
+               dunkelste >= 235 and hellste - dunkelste <= 6,
+               f"dunkelster Kanalwert {dunkelste}, hellster {hellste} von 255")
+    else:
+        # Ohne eigene Weißfläche liegt dort der Umschlaggrund. Hell muss er
+        # nicht sein — KDP bringt die weiße Box mit. Ruhig muss er sein:
+        # Liefe eine Illustration oder eine harte Kante hindurch, stünde sie
+        # rings um KDPs Box und sähe nach Versehen aus.
+        pruefe(f"{bezeichnung}: Barcodefeld ohne eigene Weißfläche, "
+               "Grund ruhig", hellste - dunkelste <= 40,
+               f"Kanalwerte {dunkelste} bis {hellste} — KDP legt seine "
+               "weiße Box darauf")
 
     # Die Vorgabe selbst, nicht nur die eigene Rechnung: KDPs Vorschau
     # markiert alles unterhalb von 0,76 Zoll ab der Dateikante rot. Genau

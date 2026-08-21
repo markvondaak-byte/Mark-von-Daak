@@ -107,7 +107,8 @@ und beide werden von `abnahme.py` geprüft:
 | Abstand zum Rücken, Taschenbuch | 6,35 mm (0,25 Zoll) | |
 | Abstand zum Rücken, **Hardcover** | 12,51 mm | 0,4 Zoll Scharnier plus 0,25 Zoll, minus 4 mm nach Sichtprüfung |
 | Inhalt | nichts | kein Text, kein Bild, kein Designelement |
-| Grund | Volltonweiß | Rückversicherung, falls KDP ohne eigene Box druckt |
+| Grund, Taschenbuch | Volltonweiß | Rückversicherung, falls KDP ohne eigene Box druckt |
+| Grund, **Hardcover** | **Umschlaggrund, keine Weißfläche** | KDP bringt die Box mit |
 
 **Warum die Fläche exakt KDPs Maß hat — und warum das drei Anläufe brauchte.**
 KDP druckt den Barcode nicht nackt auf den Umschlag, sondern „in a 2 × 1,2
@@ -131,6 +132,21 @@ der eigenen Fläche.
 `barcodefeld()` liefert die Geometrie, `weissflaeche()` gibt sie unverändert
 weiter — der Name bleibt, damit sichtbar ist, dass hier bewusst nichts
 addiert wird.
+
+**Beim Hardcover liegt gar keine Weißfläche mehr darunter.** In KDPs Vorschau
+stand dort ein weißes Rechteck auf dem Schiefergrund; da KDP seine Box ohnehin
+mitbringt, war es doppelt. `BARCODE_WEISSFLAECHE` in `build_cover.py` schaltet
+das je Bindeart. Beim Taschenbuch bleibt die Fläche vorerst stehen — sie ist
+deckungsgleich mit KDPs Box und deshalb unsichtbar.
+
+Das Risiko dieser Entscheidung gehört dazugesagt: Sollte KDP den Barcode wider
+Erwarten ohne eigene Box drucken, stünde beim Hardcover schwarze Strichschrift
+auf dunkelgrauem Grund und wäre nicht zu scannen. Vorschau und Dokumentation
+zeigen die Box, im gedruckten Buch gesehen hat sie aber noch niemand — ein
+Blick aufs erste Belegexemplar lohnt. `abnahme.py` prüft beim Hardcover
+deshalb nicht mehr auf Helligkeit, sondern darauf, dass der Grund dort ruhig
+ist: Liefe eine Illustration oder eine harte Kante hindurch, stünde sie rings
+um KDPs Box und sähe nach Versehen aus.
 
 **Warum nach unten anders gemessen wird.** Seitlich zählt die Trimmkante,
 nach unten die **Unterkante der Datei** — alles darunter markiert KDP in der

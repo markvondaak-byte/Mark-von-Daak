@@ -114,6 +114,21 @@ BARCODE_HARDCOVER_KORREKTUR_MM = 4.0
 
 BARCODE_UEBERSTAND_MM = 0.0
 
+# Ob unter KDPs Box überhaupt noch eine eigene weiße Fläche liegt.
+#
+# Beim Hardcover nicht mehr: In KDPs Vorschau stand dort ein weißes Rechteck
+# auf dem Schiefergrund, und da KDP seine Box ohnehin mitbringt, war es
+# doppelt gemoppelt. Beim Taschenbuch bleibt sie vorerst stehen — deckungs-
+# gleich mit KDPs Box und deshalb unsichtbar.
+#
+# Das Risiko dieser Entscheidung, offen benannt: Sollte KDP den Barcode wider
+# Erwarten ohne eigene Box drucken, stünde beim Hardcover schwarze
+# Strichschrift auf dunkelgrauem Grund und wäre nicht zu scannen. Die
+# KDP-Vorschau zeigt die Box, die Dokumentation nennt sie ausdrücklich — im
+# gedruckten Buch gesehen hat sie aber noch niemand. Ein Blick aufs erste
+# Belegexemplar lohnt.
+BARCODE_WEISSFLAECHE = {"taschenbuch": True, "hardcover": False}
+
 MARKENHINWEIS = (
     "„cellRESET“ und „FitLine“ sind Marken der PM-International AG. "
     "Dieses Buch wird von diesem Unternehmen weder herausgegeben noch "
@@ -614,7 +629,10 @@ def rueckseite_schiefer(c, x, y, breite, hoehe, cfg, kopf, absaetze, punkte,
 
     # Barcodefeld zuerst: Es ist der einzige Bereich der Rückseite, dessen
     # Lage nicht verhandelbar ist. Alles andere ordnet sich darüber an.
-    barcodefeld_freistellen(c, x, y, breite, hardcover=hardcover)
+    # Freigehalten wird er immer — weiß hinterlegt nur dort, wo es die
+    # Tabelle vorsieht.
+    if BARCODE_WEISSFLAECHE["hardcover" if hardcover else "taschenbuch"]:
+        barcodefeld_freistellen(c, x, y, breite, hardcover=hardcover)
     hinweis_hoehe = (len(umbrechen(c, MARKENHINWEIS, "Serif", 7, textbreite))
                      * 9)
     _, fy, _, fh = weissflaeche(x, y, breite, hardcover=hardcover)
