@@ -28,7 +28,7 @@ import sys
 from pathlib import Path
 
 import yaml
-from reportlab.lib.colors import HexColor
+from reportlab.lib.colors import Color, HexColor
 from reportlab.lib.units import mm
 from reportlab.pdfgen import canvas
 
@@ -40,6 +40,7 @@ from build_cover import (BARCODE_LUFT_MM, BESCHNITT_MM,  # noqa: E402
                          RUECKEN_PRO_SEITE_MM, RUECKENTEXT_AB_SEITEN, WRAP_MM,
                          barcodefeld_freistellen, block_schreiben,
                          klappentext_laden, schriften_laden, seitenzahl,
+                         titelbild_zeichnen,
                          umbrechen, vorschau, weissflaeche)
 
 BAND = WURZEL / "dopamin"
@@ -69,6 +70,10 @@ VERLAUF_STUFEN = 220   # so fein, dass keine Bänder sichtbar bleiben
 MOLEKUEL_BREITE = 6.3
 MOLEKUEL_HOEHE = 3.2
 MOLEKUEL_VERSATZ = 0.75
+
+# Anteil der Vorderseitenhöhe, den ein Titelfoto einnimmt — von der Oberkante
+# nach unten. Darunter beginnt der freie Grund mit Akzentlinie und Titel.
+TITELBILD_BAND = 0.47
 
 MARKENHINWEIS = (
     "Kein medizinischer Ratgeber. Dieses Buch ersetzt keine ärztliche oder "
@@ -187,6 +192,69 @@ def molekuel(c, cx, cy, r, farbe, staerke, *, beschriftung=None,
     c.restoreState()
 
 
+# --- Titelfoto ---------------------------------------------------------------
+def titelbild_suchen():
+    """Sucht ein Titelfoto — **nur** im Umschlagverzeichnis dieses Bandes.
+
+    Bewusst ohne den Rückfall auf buch/cover/, den die Bände 1 bis 3 haben:
+    Dort liegt die Lebensmittelauslage der Stoffwechsel-Reihe. Auf diesem
+    Umschlag wäre sie nicht nur unpassend, sondern irreführend — und sie käme
+    ohne jede Warnung, weil der Rückfall stillschweigend greift.
+    """
+    for endung in (".jpg", ".jpeg", ".png", ".webp"):
+        pfad = BAND / "cover" / f"titelbild{endung}"
+        if pfad.exists():
+            return pfad
+    return None
+
+
+def titelbild_sollmasse(cfg, dpi=300):
+    """Wie groß das Titelfoto mindestens sein muss.
+
+    Gerechnet aus TITELBILD_BAND und nicht fest eingetragen: Wer das Band
+    höher zieht, bekommt die neue Mindestgröße automatisch gemeldet.
+    """
+    sf = cfg["seitenformat"]
+    breite_mm = sf["breite_mm"] + BESCHNITT_MM
+    hoehe_mm = sf["hoehe_mm"] * TITELBILD_BAND + BESCHNITT_MM
+    je_mm = dpi / 25.4
+    return round(breite_mm * je_mm), round(hoehe_mm * je_mm)
+
+
+def titelbild_melden(cfg, pfad):
+    soll_b, soll_h = titelbild_sollmasse(cfg)
+    if not pfad:
+        print("Titelbild: keins — es wird die Strukturformel gezeichnet. "
+              f"Für ein Foto: dopamin/cover/titelbild.png ablegen "
+              f"(mindestens {soll_b} x {soll_h} px).")
+        return
+    from PIL import Image
+    with Image.open(pfad) as bild:
+        breite, hoehe = bild.size
+    print(f"Titelbild: {Path(pfad).relative_to(WURZEL)} "
+          f"({breite} x {hoehe} px, nötig {soll_b} x {soll_h})")
+    if breite < soll_b or hoehe < soll_h:
+        band = soll_b / soll_h
+        nutz_b = round(hoehe * band) if breite / hoehe > band else breite
+        print(f"  ACHTUNG: {nutz_b / (soll_b / 300):.0f} dpi statt 300 — wird "
+              f"auf {soll_b} px hochgerechnet. Das erfindet keine Schärfe.")
+
+
+def grundfarbe_bei(y_abs, gesamt_h):
+    """Die Farbe des Verlaufs auf einer bestimmten Höhe.
+
+    Gebraucht wird sie für die Unterkante des Titelfotos: Es blendet in den
+    Grund aus, und der ist an dieser Stelle weder grund_oben noch
+    grund_unten, sondern der Zwischenwert. Mit einem der beiden Endwerte
+    stünde dort wieder eine sichtbare Kante — nur eine weichere.
+    """
+    t = max(0.0, min(1.0, (gesamt_h - y_abs) / gesamt_h))
+    o, u = FARBEN["grund_oben"], FARBEN["grund_unten"]
+    return Color(o.red + (u.red - o.red) * t,
+                 o.green + (u.green - o.green) * t,
+                 o.blue + (u.blue - o.blue) * t)
+
+
 # --- Vorderseite -------------------------------------------------------------
 def einzeilig_einpassen(c, text, schrift, breite, *, maximal, minimal):
     """Größte Schriftgröße, bei der `text` in **eine** Zeile passt."""
@@ -196,18 +264,28 @@ def einzeilig_einpassen(c, text, schrift, breite, *, maximal, minimal):
     return groesse
 
 
-def vorderseite(c, x, y, breite, hoehe, cfg):
+def vorderseite(c, x, y, breite, hoehe, cfg, titelbild=None,
+                ueberstand=0, ausblendfarbe=None):
     rand = breite * 0.11
     textbreite = breite - 2 * rand
 
-    # Das Motiv steht als Ganzes im oberen Drittel — nicht angeschnitten.
-    # Eine halbe Strukturformel liest sich im Vorschaubild wie ein Fehler.
-    # `r` und die Position kommen aus MOLEKUEL_BREITE/MOLEKUEL_HOEHE, damit
-    # die Formel bei einer anderen Trimmgröße nicht in den Titel läuft.
-    r = textbreite / MOLEKUEL_BREITE
-    molekuel(c, x + breite / 2 - MOLEKUEL_VERSATZ * r, y + hoehe * 0.735, r,
-             FARBEN["molekuel_hell"], r * 0.075,
-             beschriftung=FARBEN["molekuel_hell"], schriftgroesse=r * 0.40)
+    if titelbild:
+        # Das Foto füllt das obere Band bis in den Anschnitt — oben und
+        # rechts, nicht links: Links grenzt die Vorderseite an den Rücken,
+        # und dort darf nichts überstehen.
+        band_h = hoehe * TITELBILD_BAND
+        titelbild_zeichnen(c, titelbild, x, y + hoehe - band_h,
+                           breite + ueberstand, band_h + ueberstand,
+                           ausblenden=ausblendfarbe)
+    else:
+        # Ohne Foto die Strukturformel, als Ganzes und nicht angeschnitten:
+        # Eine halbe Formel liest sich im Vorschaubild wie ein Fehler. `r`
+        # und die Position kommen aus den MOLEKUEL_-Konstanten, damit die
+        # Formel bei einer anderen Trimmgröße nicht in den Titel läuft.
+        r = textbreite / MOLEKUEL_BREITE
+        molekuel(c, x + breite / 2 - MOLEKUEL_VERSATZ * r, y + hoehe * 0.735,
+                 r, FARBEN["molekuel_hell"], r * 0.075,
+                 beschriftung=FARBEN["molekuel_hell"], schriftgroesse=r * 0.40)
 
     # Akzentlinie als Trenner zwischen Motiv und Titel.
     c.setStrokeColor(FARBEN["akzent"])
@@ -376,20 +454,27 @@ def cover_bauen(cfg, seiten, klappentext_pfad, ziel, *, hardcover=False):
             FARBEN["grund_oben"], FARBEN["grund_unten"])
 
     kopf, absaetze, punkte = klappentext_laden(klappentext_pfad)
+    titelbild = titelbild_suchen()
     mit_ruecken_text = hardcover or seiten >= RUECKENTEXT_AB_SEITEN
+
+    # Die Farbe, in die das Foto ausblendet, wird an seiner Unterkante
+    # abgegriffen — siehe grundfarbe_bei().
+    band_unterkante = anschnitt + trim_h * (1 - TITELBILD_BAND)
 
     rueckseite(c, anschnitt, anschnitt, trim_b, trim_h, cfg,
                kopf, absaetze, punkte, hardcover=hardcover)
     ruecken(c, anschnitt + trim_b, anschnitt, ruecken_b, trim_h, cfg,
             mit_ruecken_text)
     vorderseite(c, anschnitt + trim_b + ruecken_b, anschnitt,
-                trim_b, trim_h, cfg)
+                trim_b, trim_h, cfg, titelbild, ueberstand=anschnitt,
+                ausblendfarbe=grundfarbe_bei(band_unterkante, gesamt_h))
 
     c.showPage()
     c.save()
     return {"gesamt_mm": (gesamt_b / mm, gesamt_h / mm),
             "ruecken_mm": ruecken_b / mm,
-            "ruecken_text": mit_ruecken_text}
+            "ruecken_text": mit_ruecken_text,
+            "titelbild": titelbild}
 
 
 def main():
@@ -425,6 +510,7 @@ def main():
               f"  (Rückentext: {'ja' if masse['ruecken_text'] else 'nein'})")
         print(f"Umschlag gesamt: {b:.2f} x {h:.2f} mm "
               f"= {b/25.4:.3f} x {h/25.4:.3f} Zoll, inkl. {rand} mm {randname}")
+        titelbild_melden(cfg, masse["titelbild"])
         print(f"  → {ziel.relative_to(WURZEL)}")
         print(f"  → {png.relative_to(WURZEL)}")
 

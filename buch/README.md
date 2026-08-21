@@ -513,6 +513,38 @@ Zwei Punkte, die beim Setzen aufgefallen sind und deshalb im Code stehen:
   Ganzes mittig steht. Die Werte stehen als `MOLEKUEL_*`-Konstanten im Kopf
   der Datei.
 
+### Titelfoto statt Strukturformel
+
+Der Umschlag hat zwei Zustände. Liegt unter `dopamin/cover/titelbild.{jpg,png,webp}`
+ein Bild, füllt es das obere Band der Vorderseite — `TITELBILD_BAND`, derzeit
+47 Prozent der Trimmhöhe — und blendet an seiner Unterkante in den Grund aus.
+Liegt dort nichts, wird die Strukturformel gezeichnet. Beides ist eine
+fertige Fassung; es gibt keinen halben Zustand.
+
+**Die Suche fällt hier nicht auf `buch/cover/` zurück**, anders als bei den
+Bänden 1 bis 3. Dort liegt die Lebensmittelauslage der Stoffwechsel-Reihe,
+und die wäre auf diesem Umschlag nicht nur unpassend, sondern irreführend —
+und käme ohne jede Warnung, weil der Rückfall stillschweigend greift.
+
+Mindestgröße bei 300 dpi: **1538 × 1166 px**. Der Wert wird aus
+`TITELBILD_BAND` gerechnet und beim Bauen gemeldet; wer das Band höher zieht,
+bekommt die neue Zahl automatisch. Reicht die Auflösung nicht, wird
+hochgerechnet und das gemeldet — das erfindet keine Schärfe, es verhindert
+die KDP-Meldung „Auflösung zu niedrig".
+
+Die Farbe, in die das Foto ausblendet, wird an seiner **Unterkante**
+abgegriffen (`grundfarbe_bei()`) und ist deshalb weder `grund_oben` noch
+`grund_unten`, sondern der Zwischenwert des Verlaufs. Mit einem der beiden
+Endwerte stünde dort wieder eine sichtbare Kante — nur eine weichere.
+
+Das Foto läuft oben und rechts in den Anschnitt, links nicht: Dort grenzt die
+Vorderseite an den Rücken.
+
+Zur Herkunft des Bildes: Ist es KI-erzeugt, ist das bei KDP anzugeben — siehe
+`kdp-metadaten.md`, Abschnitt „KI-erzeugte Inhalte melden". Stammt es von
+einem Bildanbieter, muss die Lizenz die kommerzielle Nutzung auf einem
+Buchumschlag abdecken; viele Standardlizenzen schließen genau das aus.
+
 ### Was die Abnahme bei diesem Band zusätzlich prüft
 
 `abnahme.py` hat für Band 4 eigene Pflichtinhalte, weil die der Reihe hier
