@@ -350,6 +350,33 @@ def main():
     print(f"  → {ziel.relative_to(WURZEL)}")
     print(f"  → {pdf.relative_to(WURZEL)}")
 
+    # Hardcover in eigenem Format. KDP führt 8 x 10 Zoll nur als Taschenbuch;
+    # die kleinste Hardcover-Größe darüber ist 8,25 x 11 Zoll. Der Satzspiegel
+    # ist derselbe — die Formatdifferenz geht vollständig in die Ränder —,
+    # deshalb muss die Seitenzahl gleich bleiben. Tut sie es nicht, ist das
+    # ein Fehler und keine Randnotiz: Unter 75 Seiten nimmt KDP kein Hardcover.
+    hc_format = cfg.get("hardcover_seitenformat")
+    if hc_format:
+        cfg_hc = dict(cfg, seitenformat=hc_format)
+        ziel_hc = basis / "out" / f"{cfg['slug']}-hardcover.docx"
+        for leer in (False, True):
+            bauen(cfg_hc, rahmen, abschnitte, ziel_hc, leerseite=leer)
+            pdf_hc = pdf_erzeugen(ziel_hc)
+            seiten_hc = len(PdfReader(str(pdf_hc)).pages)
+            if seiten_hc % 2 == 0:
+                break
+
+        print(f"\nHardcover-Innenteil: {hc_format['breite_mm']} x "
+              f"{hc_format['hoehe_mm']} mm, {seiten_hc} Seiten")
+        if seiten_hc != seiten:
+            print(f"  ACHTUNG: {seiten_hc} statt {seiten} Seiten — der "
+                  "Satzspiegel weicht ab, Ränder in rezepte.yaml prüfen.")
+        if seiten_hc < 75:
+            print(f"  ACHTUNG: KDP verlangt für Hardcover mindestens 75 "
+                  f"Seiten, es sind {seiten_hc}.")
+        print(f"  → {ziel_hc.relative_to(WURZEL)}")
+        print(f"  → {pdf_hc.relative_to(WURZEL)}")
+
 
 if __name__ == "__main__":
     main()

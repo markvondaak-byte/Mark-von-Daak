@@ -66,7 +66,25 @@ Bei 76 Seiten ergibt das:
 | | Trimmgröße | Umschlag gesamt | Rücken |
 |---|---|---|---|
 | Band 1 | 6 × 9 Zoll | **13,942 × 10,417 Zoll** (354,13 × 264,59 mm) | 13,3 mm |
-| Band 3 | 8 × 10 Zoll | **17,942 × 11,417 Zoll** (455,73 × 289,99 mm) | 13,3 mm |
+| Band 3 | **8,25 × 11 Zoll** | **18,442 × 12,417 Zoll** (468,43 × 315,39 mm) | 13,3 mm |
+
+**Band 3 wechselt fürs Hardcover das Format.** KDP führt 8 × 10 Zoll nur als
+Taschenbuch; für Hardcover gibt es 5,5×8,5 · 6×9 · 6,14×9,21 · 7×10 · 8,25×11
+Zoll und sonst nichts. Der Upload lehnt sonst mit „erwartete Covergröße
+18.442 × 12.417" ab. Band 1 (6 × 9) steht in der Liste und braucht nur einen
+Innenteil für beide Bindearten — Band 3 bekommt einen zweiten:
+
+```bash
+rezepte/out/rezeptbuch-druck.pdf              # Taschenbuch, 8 x 10 Zoll
+rezepte/out/rezeptbuch-hardcover-druck.pdf    # Hardcover,   8,25 x 11 Zoll
+```
+
+Der Satzspiegel ist in beiden identisch — `hardcover_seitenformat` in
+`rezepte.yaml` legt die ganze Formatdifferenz in die Ränder. Das ist keine
+Kosmetik: Bei gleichem Textblock brechen die Zeilen gleich um und die
+Seitenzahl bleibt bei 76. Mit gleichen Rändern hätte die größere Fläche den
+Band auf rund 67 Seiten gedrückt — und damit unter KDPs Hardcover-Grenze von
+75. `abnahme.py` vergleicht die beiden Seitenzahlen deshalb gegeneinander.
 
 Die Konstanten stehen in Zoll und werden erst dann umgerechnet: KDP rechnet
 in Zoll, und runde Millimeterwerte (18,0 / 9,0) treffen die Sollbreite um
