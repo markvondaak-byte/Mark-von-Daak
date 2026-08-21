@@ -81,20 +81,20 @@ RUECKEN_KOPFSTEG = 0.10
 # war dort nicht scannbar.
 BARCODE_KANTE_MM = 6.35     # 0,25 Zoll, KDPs Richtwert zur Trimmkante
 
-# Zwei verschiedene Flächen, die man nicht verwechseln darf:
+# Ob unter dem Barcode ein weißes Rechteck gezeichnet wird.
 #
-# BARCODE_B_MM x BARCODE_H_MM (50,8 x 30,5 mm, importiert) ist die Fläche, die
-# KDP **freigehalten** haben will. Dort darf kein Gestaltungselement liegen.
+# Nein — und das ist die Erkenntnis aus mehreren Anläufen: **KDP setzt den Code
+# mit eigenem weißen Grund ein.** Jedes zusätzliche Rechteck darunter ist
+# entweder deckungsgleich (dann überflüssig) oder größer (dann steht auf dem
+# dunklen Umschlag ein weißer Rahmen um den Code, der wie ein Satzfehler
+# aussieht). Genau dieser Rahmen war in der KDP-Vorschau zu sehen.
 #
-# BARCODE_FELD_* ist das weiße Rechteck, das hier tatsächlich **gezeichnet**
-# wird. Es ist kleiner, weil KDPs gedrucktes Symbol kleiner ist als die
-# reservierte Fläche: Deckt das weiße Feld die volle Reservefläche ab, steht auf
-# einem dunklen Umschlag ringsum sichtbar Weiß über, und das sieht nach Versehen
-# aus statt nach Gestaltung.
+# Die Fläche wird weiterhin **freigehalten** — der Klappentext richtet sich
+# daran aus, siehe barcode_feld(). Reserviert ist etwas anderes als bemalt.
 #
-# Das Feld wird in der Reservefläche zentriert — dort sitzt auch das Symbol.
-BARCODE_FELD_B_MM = 46.0
-BARCODE_FELD_H_MM = 26.0
+# Sollte auf einem gedruckten Exemplar der Code doch auf dunklem Grund stehen,
+# ist das hier der eine Schalter, der ihn wieder unterlegt.
+BARCODE_FELD_WEISS = False
 
 # --- Grund -------------------------------------------------------------------
 def grundton_aus_bild(pfad, anteil=0.10):
@@ -480,21 +480,21 @@ def _rueckseite_hoehe(c, kopf, absaetze, punkte, textbreite, faktor):
 
 
 def barcode_feld(x, y, breite):
-    """Lage und Größe des weißen Barcodefelds, in Punkt.
+    """KDPs Reservefläche für den Barcode, in Punkt: (x, y, breite, höhe).
 
-    Eigene Funktion, damit main() dieselbe Rechnung melden kann, die
-    rueckseite() zeichnet — zwei getrennte Rechnungen laufen irgendwann
-    auseinander, und dann meldet der Build etwas anderes, als im PDF steht.
+    Das ist die Fläche, die frei von Gestaltungselementen bleiben muss — nicht
+    das, was gezeichnet wird. Gezeichnet wird hier nämlich nichts mehr, siehe
+    BARCODE_FELD_WEISS.
+
+    Eigene Funktion, damit main() dieselbe Rechnung meldet, an der sich der
+    Textsatz der Rückseite ausrichtet. Zwei getrennte Rechnungen laufen
+    irgendwann auseinander, und dann meldet der Build etwas anderes, als im PDF
+    steht.
     """
-    # Reservefläche zuerst — sie bestimmt die Lage.
-    reserve_x = x + breite - (BARCODE_KANTE_MM + BARCODE_B_MM) * mm
-    reserve_y = y + BARCODE_KANTE_MM * mm
-
-    # Das gezeichnete Feld darin zentrieren.
-    feld_b, feld_h = BARCODE_FELD_B_MM * mm, BARCODE_FELD_H_MM * mm
-    feld_x = reserve_x + ((BARCODE_B_MM * mm) - feld_b) / 2
-    feld_y = reserve_y + ((BARCODE_H_MM * mm) - feld_h) / 2
-    return feld_x, feld_y, feld_b, feld_h
+    return (x + breite - (BARCODE_KANTE_MM + BARCODE_B_MM) * mm,
+            y + BARCODE_KANTE_MM * mm,
+            BARCODE_B_MM * mm,
+            BARCODE_H_MM * mm)
 
 
 def rueckseite(c, x, y, breite, hoehe, cfg, kopf, absaetze, punkte, *,
@@ -563,11 +563,12 @@ def rueckseite(c, x, y, breite, hoehe, cfg, kopf, absaetze, punkte, *,
         print("  ACHTUNG: Rückseitentext reicht ins Barcodefeld — "
               "Klappentext kürzen.")
 
-    # Barcodefeld freihalten: KDP legt dort selbst den Code hinein, und zwar
-    # auf weißem Grund. Wird das Feld nicht weiß angelegt, druckt der Code auf
-    # den dunklen Grund und ist nicht scannbar.
-    c.setFillColor(HexColor("#FFFFFF"))
-    c.rect(feld_x, feld_y, feld_b, feld_h, stroke=0, fill=1)
+    # Die Barcodefläche bleibt frei — bemalt wird sie nicht. KDP setzt den Code
+    # dort mit eigenem weißen Grund ein; ein Rechteck darunter erzeugte nur den
+    # weißen Rahmen, der auf dem dunklen Umschlag sichtbar war.
+    if BARCODE_FELD_WEISS:
+        c.setFillColor(HexColor("#FFFFFF"))
+        c.rect(feld_x, feld_y, feld_b, feld_h, stroke=0, fill=1)
 
     c.setFillColor(PALETTE["leise"])
     c.setFont("Sans-Bold", 8.5)
@@ -720,19 +721,15 @@ def barcode_melden(cfg):
     rechts = (anschnitt + trim_b - (feld_x + feld_b)) / mm
     unten = (feld_y - anschnitt) / mm
 
-    print(f"Barcodefeld: {feld_b/mm:.1f} x {feld_h/mm:.1f} mm, "
+    print(f"Barcodefläche: {feld_b/mm:.1f} x {feld_h/mm:.1f} mm freigehalten, "
           f"{rechts:.1f} mm von der rechten und {unten:.1f} mm von der "
           f"unteren Trimmkante")
-    # Wie weit das gezeichnete Feld hinter KDPs Reservefläche zurückbleibt.
-    schmaler = (BARCODE_B_MM - BARCODE_FELD_B_MM) / 2
-    niedriger = (BARCODE_H_MM - BARCODE_FELD_H_MM) / 2
-    print(f"  Zentriert in KDPs Reservefläche ({BARCODE_B_MM} x "
-          f"{BARCODE_H_MM} mm), auf jeder Seite {schmaler:.1f} mm schmaler "
-          f"und {niedriger:.1f} mm niedriger.")
-    if schmaler > 0 or niedriger > 0:
-        print("  Ist das gedruckte Symbol größer als das Feld, steht an den "
-              "Rändern dunkler Grund unter dem Code — in der KDP-Vorschau "
-              "gegenprüfen.")
+    if BARCODE_FELD_WEISS:
+        print("  Mit weißem Grund unterlegt.")
+    else:
+        print("  Ohne weißen Grund — KDP setzt den Code mit eigenem weißen "
+              "Grund ein. Ein Rechteck darunter ergäbe einen sichtbaren "
+              "Rahmen.")
 
 
 def main():
