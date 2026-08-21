@@ -17,11 +17,20 @@ Barcodefeld. Das sind KDP-Vorgaben und keine Gestaltungsfragen, und sie
 stehen in buch/build/build_cover.py samt der Begründung, wie sie zustande
 gekommen sind. Alles Sichtbare — Grund, Motiv, Schrift — ist hier eigen.
 
-Das Motiv ist die Strukturformel des Dopamins, als Vektorgrafik gezeichnet:
-ein Benzolring mit zwei Hydroxylgruppen und einer Aminoethyl-Seitenkette,
-also 4-(2-Aminoethyl)benzol-1,2-diol. Sie ist das einzige Bild, das dieses
-Buch braucht, und sie ist zugleich das Argument des Buches: ein sehr kleines
-Molekül, dem man nichts von Glück ansieht.
+Zwei Motive, beide als Vektorgrafik gezeichnet:
+
+* **Vorderseite: ein Kopf im Profil** mit sichtbarem Gehirn und leuchtenden
+  Punkten an den Synapsen. Umriss, Gehirn und Kleinhirn liegen als
+  Punktfolgen vor, aus denen _bezier_aus_punkten() glatte Kurven rechnet.
+* **Rückseite: die Strukturformel des Dopamins** — ein Benzolring mit zwei
+  Hydroxylgruppen und einer Aminoethyl-Seitenkette, also
+  4-(2-Aminoethyl)benzol-1,2-diol.
+
+Zusammen sagen sie, worum es im Buch geht: ein sehr kleines Molekül, dem man
+nichts von Glück ansieht, und was es in einem Kopf anrichtet.
+
+Liegt unter dopamin/cover/ ein Titelfoto, tritt es an die Stelle des Kopfes;
+die Formel bleibt davon unberührt.
 """
 
 import sys
@@ -57,23 +66,28 @@ FARBEN = {
     "akzent": HexColor("#8F86E8"),
     "molekuel": HexColor("#3B3868"),
     "molekuel_hell": HexColor("#6E67B8"),
+
+    # Der Kopf auf der Vorderseite. Kühle Struktur, ein warmer Ton für das
+    # Signal — mehr Farben verträgt der Umschlag nicht, und die beiden
+    # sagen zusammen genau das, worum es im Buch geht.
+    "kopf_fuell": HexColor("#232149"),
+    "kopf_linie": HexColor("#8C9BEF"),
+    "hirn_fuell": HexColor("#3A3676"),
+    "hirn_linie": HexColor("#8F86E8"),
+    "synapse": HexColor("#F2A65A"),
 }
 
 VERLAUF_STUFEN = 220   # so fein, dass keine Bänder sichtbar bleiben
 
-# Ausdehnung der Strukturformel, gemessen in Ringradien — aus der Geometrie
-# in molekuel() ausgerechnet, nicht geschätzt. Links reicht sie 2,4 Radien
-# über die Ringmitte hinaus (Bindung plus „HO"), rechts 3,9 (Kette plus
-# „NH2"), nach oben 1,0 und nach unten 2,2. Aus der Asymmetrie folgt der
-# Versatz: Die Ringmitte muss um 0,75 Radien nach links, damit die Formel
-# als Ganzes mittig steht.
-MOLEKUEL_BREITE = 6.3
-MOLEKUEL_HOEHE = 3.2
-MOLEKUEL_VERSATZ = 0.75
-
 # Anteil der Vorderseitenhöhe, den ein Titelfoto einnimmt — von der Oberkante
 # nach unten. Darunter beginnt der freie Grund mit Akzentlinie und Titel.
 TITELBILD_BAND = 0.47
+
+# Der gezeichnete Kopf: Höhe als Anteil der Vorderseitenhöhe, und auf welcher
+# Höhe seine Unterkante steht. Die Akzentlinie liegt bei 0,395 — zwischen ihr
+# und dem Halsansatz bleibt damit knapp ein Zentimeter Luft.
+KOPF_ANTEIL = 0.50
+KOPF_FUSS = 0.44
 
 MARKENHINWEIS = (
     "Kein medizinischer Ratgeber. Dieses Buch ersetzt keine ärztliche oder "
@@ -192,6 +206,288 @@ def molekuel(c, cx, cy, r, farbe, staerke, *, beschriftung=None,
     c.restoreState()
 
 
+# --- Kopf im Profil ----------------------------------------------------------
+# Umriss, Gehirn und Kleinhirn liegen als Punktfolgen in einem Einheitsraster:
+# x von 0 bis 1 über die Breite der Figur, y von 0 (Halsansatz unten) bis 1
+# (Scheitel). Skaliert wird erst beim Zeichnen.
+#
+# Warum Punktfolgen und keine von Hand gesetzten Bezierkurven: Ein Profil
+# lebt von wenigen Stellen — Nasenwurzel, Nasenspitze, Lippen, Kinn. Als
+# Koordinaten kann man sie lesen und um zwei Hundertstel verschieben; als
+# Kontrollpunkte einer Bezierkette könnte das niemand mehr nachvollziehen.
+# _bezier_aus_punkten() rechnet die Folge in Bezierstücke um. Ein doppelt
+# aufgeführter Punkt erzeugt dort eine Ecke, wo eine hingehört — an der
+# Nasenspitze und an der unteren Schnittkante des Halses.
+# Die Höhen der Gesichtspunkte folgen den üblichen Proportionen: Von der
+# Kinnunterkante (0,296) bis zum Scheitel (1,000) liegen Mundspalt bei einem
+# Siebtel, Nasenbasis bei einem Viertel, Nasenwurzel bei knapp der Hälfte und
+# der Haaransatz bei knapp drei Vierteln dieser Strecke.
+#
+# Die x-Ausschläge an Lippen und Kinn sind bewusst klein (rund 0,016). Ein
+# erster Entwurf hatte dort 0,03 auf engem Raum — daraus wurde beim Glätten
+# kein Mund, sondern eine Zickzacklinie.
+KOPF_UMRISS = [
+    (0.452, 1.000),                      # Scheitel
+    (0.614, 0.970),
+    (0.722, 0.896),                      # Stirn
+    (0.770, 0.804),                      # Haaransatz
+    (0.784, 0.694),                      # Braue
+    (0.752, 0.622),                      # Nasenwurzel
+    (0.796, 0.556),                      # Nasenrücken
+    (0.852, 0.512),
+    (0.880, 0.492),                      # Nasenspitze
+    (0.844, 0.476),
+    (0.796, 0.466),                      # Nasenbasis
+    (0.786, 0.428),                      # Mund — eine flache Mulde, keine
+    (0.792, 0.392),                      # zwei Lippen: Auf dieser Größe wird
+    (0.774, 0.356),                      # Kinnfalte     aus jedem Lippenpaar
+    (0.790, 0.318),                      # Kinn          eine Zickzacklinie
+    (0.748, 0.296),                      # Kinnunterkante
+    (0.672, 0.280),                      # Kieferunterkante
+    (0.620, 0.236),                      # Kieferwinkel
+    (0.610, 0.150),                      # Hals vorn
+    (0.616, 0.060),
+    # Der Hals läuft unter die Unterkante des Rasters und wird dort
+    # abgeschnitten — siehe kopf_zeichnen(). Eine gezeichnete Schnittkante
+    # wurde beim Glätten wellig, weil die Kurve an den Ecken ausschert.
+    (0.620, -0.090),
+    (0.258, -0.090),
+    (0.276, 0.120),
+    (0.302, 0.240),                      # Nacken
+    (0.292, 0.352),
+    (0.246, 0.452),                      # hinter dem Kiefer
+    (0.190, 0.586),
+    (0.152, 0.732),                      # Hinterkopf
+    (0.176, 0.858),
+    (0.286, 0.958),
+]
+
+KOPF_HIRN = [
+    (0.300, 0.900),
+    (0.430, 0.938),
+    (0.570, 0.925),
+    (0.665, 0.868),
+    (0.700, 0.790),
+    (0.672, 0.716),
+    (0.590, 0.668),
+    (0.470, 0.648),
+    (0.352, 0.652),
+    (0.262, 0.700),
+    (0.232, 0.790),
+    (0.248, 0.858),
+]
+
+# Kleinhirn: unten hinten, an der Unterkante des Großhirns anliegend, und
+# deutlich hinter dem Ohr. Im ersten Entwurf stand es frei darunter und
+# überschnitt sich mit dem Ohr — zwei gleich große Ovale nebeneinander, die
+# beide nach Ohr aussahen.
+KOPF_KLEINHIRN = [
+    (0.268, 0.678),
+    (0.348, 0.666),
+    (0.386, 0.628),
+    (0.362, 0.588),
+    (0.292, 0.580),
+    (0.248, 0.616),
+]
+
+# Leuchtpunkte im Gehirn, im selben Raster. Von Hand gesetzt und nicht
+# gewürfelt: Ein Zufallsmuster trifft regelmäßig die Kontur und sieht dann
+# nach Fehler aus. Die dritte Zahl ist der Radius als Anteil der Figurbreite.
+KOPF_SYNAPSEN = [
+    (0.360, 0.845, 0.019), (0.440, 0.885, 0.012), (0.512, 0.860, 0.023),
+    (0.582, 0.880, 0.011), (0.618, 0.806, 0.017), (0.478, 0.796, 0.015),
+    (0.392, 0.756, 0.013), (0.552, 0.742, 0.020), (0.640, 0.752, 0.010),
+    (0.306, 0.788, 0.011), (0.462, 0.702, 0.014), (0.664, 0.826, 0.009),
+]
+
+
+def _bezier_aus_punkten(punkte, geschlossen=True, spannung=6.0):
+    """Legt eine glatte Kurve durch die Punkte (Catmull-Rom als Bezier).
+
+    Gibt Stücke (p0, c1, c2, p1) zurück, wie reportlab sie für curveTo
+    braucht. `spannung` steuert, wie weit die Kontrollpunkte ausgreifen —
+    6,0 ist der klassische Wert; größere Zahlen ziehen die Kurve enger an
+    die Punkte und machen sie kantiger.
+    """
+    n = len(punkte)
+    stuecke = []
+    grenze = n if geschlossen else n - 1
+    for i in range(grenze):
+        p_vor = punkte[(i - 1) % n] if geschlossen else punkte[max(i - 1, 0)]
+        p0 = punkte[i]
+        p1 = punkte[(i + 1) % n]
+        p_nach = (punkte[(i + 2) % n] if geschlossen
+                  else punkte[min(i + 2, n - 1)])
+        c1 = (p0[0] + (p1[0] - p_vor[0]) / spannung,
+              p0[1] + (p1[1] - p_vor[1]) / spannung)
+        c2 = (p1[0] - (p_nach[0] - p0[0]) / spannung,
+              p1[1] - (p_nach[1] - p0[1]) / spannung)
+        stuecke.append((p0, c1, c2, p1))
+    return stuecke
+
+
+def _figurpfad(c, punkte, x, y, breite, hoehe, geschlossen=True,
+               spannung=6.0):
+    """Baut aus einer Punktfolge im Einheitsraster einen reportlab-Pfad."""
+    def ab(p):
+        return (x + p[0] * breite, y + p[1] * hoehe)
+
+    pfad = c.beginPath()
+    stuecke = _bezier_aus_punkten(punkte, geschlossen, spannung)
+    pfad.moveTo(*ab(stuecke[0][0]))
+    for p0, c1, c2, p1 in stuecke:
+        pfad.curveTo(*ab(c1), *ab(c2), *ab(p1))
+    if geschlossen:
+        pfad.close()
+    return pfad
+
+
+def _mischen(a, b, t):
+    """Farbe zwischen a und b; t = 0 ergibt a, t = 1 ergibt b."""
+    return Color(a.red + (b.red - a.red) * t,
+                 a.green + (b.green - a.green) * t,
+                 a.blue + (b.blue - a.blue) * t)
+
+
+def _glimmpunkt(c, x, y, r, kern, grund, ringe=9):
+    """Ein leuchtender Punkt mit weichem Hof, aus vollflächigen Kreisen.
+
+    Bewusst ohne Transparenz und ohne Radialverlauf, wie schon der
+    Hintergrund: Die KDP-Druckfassung darf beides nicht enthalten. Von außen
+    nach innen gezeichnet, damit der helle Kern zuletzt obenauf liegt.
+    """
+    for i in range(ringe, 0, -1):
+        t = i / ringe
+        c.setFillColor(_mischen(kern, grund, t ** 0.7))
+        c.circle(x, y, r * (0.35 + 0.65 * t), stroke=0, fill=1)
+
+
+def kopf_zeichnen(c, x, y, breite, hoehe):
+    """Zeichnet Kopf, Gehirn und Synapsen in den Rahmen (x, y, breite, hoehe).
+
+    Der Rahmen ist das Einheitsraster der Punktfolgen oben. Das Seiten-
+    verhältnis ist darin nicht erzwungen — wer die Figur verzerren will,
+    kann es, und wer sie unverzerrt will, gibt breite und hoehe im
+    Verhältnis der Punktfolgen an. kopf_masse() rechnet das aus.
+    """
+    c.saveState()
+    c.setLineJoin(1)
+    c.setLineCap(1)
+
+    # Der Hals läuft unter das Raster hinaus und wird hier abgeschnitten.
+    # Damit ist die untere Kante gerade — von der Beschneidung erzeugt und
+    # nicht von einer Kurve, die dort entlanglaufen müsste.
+    rahmen = c.beginPath()
+    rahmen.rect(x, y, breite, hoehe)
+    c.clipPath(rahmen, stroke=0, fill=0)
+
+    # Höhere Spannung als der Vorgabewert: An Lippen und Kinn wechselt die
+    # Richtung auf engem Raum, und mit 6,0 schoss die Kurve dort über die
+    # Punkte hinaus — aus dem Mund wurde eine Zickzacklinie.
+    umriss = _figurpfad(c, KOPF_UMRISS, x, y, breite, hoehe, spannung=7.5)
+
+    # Kopf als eigene Fläche, eine Spur heller als der Grund. Damit wirkt er
+    # als Volumen und nicht als Loch, und die Leuchtpunkte darin haben einen
+    # definierten Grund, in den sie ausblenden können.
+    c.setFillColor(FARBEN["kopf_fuell"])
+    c.drawPath(umriss, stroke=0, fill=1)
+
+    # Alles Weitere liegt im Kopf und wird daran beschnitten. Ohne das ragen
+    # die Gehirnwindungen an der Stirn heraus.
+    c.saveState()
+    c.clipPath(umriss, stroke=0, fill=0)
+
+    hirn = _figurpfad(c, KOPF_HIRN, x, y, breite, hoehe)
+    c.setFillColor(FARBEN["hirn_fuell"])
+    c.drawPath(hirn, stroke=0, fill=1)
+
+    # Hirnstamm vor dem Kleinhirn, damit dessen Fläche ihn oben überdeckt.
+    # Kurz gehalten und im Kleinhirn endend: Ein längerer Strich stand als
+    # Stiel frei im Schädel und sah nach Versehen aus.
+    c.setStrokeColor(FARBEN["hirn_fuell"])
+    c.setLineWidth(breite * 0.032)
+    c.line(x + 0.376 * breite, y + 0.676 * hoehe,
+           x + 0.352 * breite, y + 0.600 * hoehe)
+
+    klein = _figurpfad(c, KOPF_KLEINHIRN, x, y, breite, hoehe)
+    c.setFillColor(FARBEN["hirn_fuell"])
+    c.drawPath(klein, stroke=0, fill=1)
+
+    _windungen(c, x, y, breite, hoehe, hirn)
+
+    # Umrisse von Gehirn und Kleinhirn zuletzt, damit sie über den Windungen
+    # liegen.
+    c.setStrokeColor(FARBEN["hirn_linie"])
+    c.setLineWidth(breite * 0.011)
+    c.drawPath(hirn, stroke=1, fill=0)
+    c.drawPath(klein, stroke=1, fill=0)
+
+    for px, py, pr in KOPF_SYNAPSEN:
+        _glimmpunkt(c, x + px * breite, y + py * hoehe, pr * breite,
+                    FARBEN["synapse"], FARBEN["hirn_fuell"])
+
+    c.restoreState()
+
+    # Die Profillinie zum Schluss und über allem — sie ist die Kante, an der
+    # die Figur erkannt wird.
+    c.setStrokeColor(FARBEN["kopf_linie"])
+    c.setLineWidth(breite * 0.014)
+    c.drawPath(umriss, stroke=1, fill=0)
+
+    c.restoreState()
+
+
+def _windungen(c, x, y, breite, hoehe, hirnpfad, anzahl=8):
+    """Die Gehirnwindungen: flache Wellenlinien, am Gehirn beschnitten.
+
+    Gezeichnet wird über die volle Breite des Kopfes; sichtbar bleibt nur,
+    was innerhalb des Gehirnumrisses liegt. Das ist erheblich einfacher, als
+    jede Linie einzeln an die Kontur anzupassen — und sieht besser aus, weil
+    die Linien dadurch an der Kante sauber auslaufen.
+    """
+    import math
+
+    c.saveState()
+    c.clipPath(hirnpfad, stroke=0, fill=0)
+    c.setStrokeColor(FARBEN["hirn_linie"])
+    c.setLineWidth(breite * 0.009)
+
+    oben, unten = 0.925, 0.655
+    for i in range(anzahl):
+        basis = oben - (oben - unten) * (i + 0.5) / anzahl
+        pfad = c.beginPath()
+        schritte = 48
+        for s in range(schritte + 1):
+            u = 0.21 + (0.50 * s / schritte)
+            # Zwei überlagerte Wellen, damit kein Sinusmuster entsteht. Die
+            # Ausschläge bleiben kleiner als der Zeilenabstand, sonst laufen
+            # benachbarte Windungen ineinander.
+            v = (basis
+                 + 0.017 * math.sin(u * 26 + i * 1.7)
+                 + 0.008 * math.sin(u * 41 + i * 0.6))
+            px, py = x + u * breite, y + v * hoehe
+            if s == 0:
+                pfad.moveTo(px, py)
+            else:
+                pfad.lineTo(px, py)
+        c.drawPath(pfad, stroke=1, fill=0)
+    c.restoreState()
+
+
+def kopf_masse(hoehe):
+    """Die Breite, die die Figur bei gegebener Höhe unverzerrt braucht.
+
+    Die Punktfolgen laufen in x von 0,150 bis 0,888 und in y von 0 bis 1 —
+    die Figur ist also deutlich schmaler als ihr Raster. Ohne diese Rechnung
+    steht sie nicht dort, wo man sie hingesetzt hat.
+    """
+    return hoehe * (KOPF_RASTER_RECHTS - KOPF_RASTER_LINKS)
+
+
+KOPF_RASTER_LINKS = min(p[0] for p in KOPF_UMRISS)
+KOPF_RASTER_RECHTS = max(p[0] for p in KOPF_UMRISS)
+
+
 # --- Titelfoto ---------------------------------------------------------------
 def titelbild_suchen():
     """Sucht ein Titelfoto — **nur** im Umschlagverzeichnis dieses Bandes.
@@ -224,7 +520,7 @@ def titelbild_sollmasse(cfg, dpi=300):
 def titelbild_melden(cfg, pfad):
     soll_b, soll_h = titelbild_sollmasse(cfg)
     if not pfad:
-        print("Titelbild: keins — es wird die Strukturformel gezeichnet. "
+        print("Titelbild: keins — es wird der gezeichnete Kopf verwendet. "
               f"Für ein Foto: dopamin/cover/titelbild.png ablegen "
               f"(mindestens {soll_b} x {soll_h} px).")
         return
@@ -278,14 +574,15 @@ def vorderseite(c, x, y, breite, hoehe, cfg, titelbild=None,
                            breite + ueberstand, band_h + ueberstand,
                            ausblenden=ausblendfarbe)
     else:
-        # Ohne Foto die Strukturformel, als Ganzes und nicht angeschnitten:
-        # Eine halbe Formel liest sich im Vorschaubild wie ein Fehler. `r`
-        # und die Position kommen aus den MOLEKUEL_-Konstanten, damit die
-        # Formel bei einer anderen Trimmgröße nicht in den Titel läuft.
-        r = textbreite / MOLEKUEL_BREITE
-        molekuel(c, x + breite / 2 - MOLEKUEL_VERSATZ * r, y + hoehe * 0.735,
-                 r, FARBEN["molekuel_hell"], r * 0.075,
-                 beschriftung=FARBEN["molekuel_hell"], schriftgroesse=r * 0.40)
+        # Ohne Foto der gezeichnete Kopf. Die Figur steht als Ganzes im
+        # oberen Bereich und wird nicht angeschnitten — ein halber Kopf
+        # liest sich im Vorschaubild wie ein Fehler. Die Breite kommt aus
+        # der Höhe, damit sie bei einer anderen Trimmgröße nicht verzerrt.
+        figur_h = hoehe * KOPF_ANTEIL
+        figur_b = kopf_masse(figur_h)
+        kopf_zeichnen(c,
+                      x + (breite - figur_b) / 2 - KOPF_RASTER_LINKS * figur_h,
+                      y + hoehe * KOPF_FUSS, figur_h, figur_h)
 
     # Akzentlinie als Trenner zwischen Motiv und Titel.
     c.setStrokeColor(FARBEN["akzent"])

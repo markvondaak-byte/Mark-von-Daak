@@ -494,31 +494,57 @@ Lauf baut, muss sie zurücksetzen.
 `buch/build/build_cover.py` nur die **Geometrie**: Anschnitt, Rückenbreite,
 Barcodefeld. Das sind KDP-Vorgaben und keine Gestaltungsfragen.
 
-Alles Sichtbare ist eigen. Das Motiv ist die Strukturformel des Dopamins, als
-Vektorgrafik gezeichnet — ein Benzolring mit zwei Hydroxylgruppen und einer
-Aminoethyl-Seitenkette. Die Lebensmittelauslage der Reihe wäre hier
+Alles Sichtbare ist eigen. Die Lebensmittelauslage der Reihe wäre hier
 irreführend: Ein Buch über einen Botenstoff, das aussieht wie ein
 Ernährungsratgeber, landet im Vorschaubild im falschen Regal.
 
-Zwei Punkte, die beim Setzen aufgefallen sind und deshalb im Code stehen:
+Zwei Motive, beide gezeichnet: auf der **Vorderseite ein Kopf im Profil** mit
+sichtbarem Gehirn und leuchtenden Punkten an den Synapsen, auf der
+**Rückseite die Strukturformel des Dopamins**. Zusammen sagen sie, worum es
+im Buch geht — ein sehr kleines Molekül, dem man nichts von Glück ansieht,
+und was es in einem Kopf anrichtet.
 
-- **`groesse_einpassen()` taugt für diesen Titel nicht.** Die Funktion bricht
-  um, statt zu verkleinern, und liefert deshalb bei jeder Größe ein Ergebnis
-  — der Titel stand zweizeilig da, mit einer ersten Zeile aus einem einzigen
-  Artikel. `einzeilig_einpassen()` sucht stattdessen die größte Größe, bei der
-  der Titel in eine Zeile passt.
-- **Die Ausdehnung der Strukturformel ist ausgerechnet, nicht geschätzt.**
-  Sie reicht links 2,4 Ringradien über die Ringmitte hinaus, rechts 3,9 —
-  daraus folgt ein Versatz von 0,75 Radien nach links, damit die Formel als
-  Ganzes mittig steht. Die Werte stehen als `MOLEKUEL_*`-Konstanten im Kopf
-  der Datei.
+#### Der Kopf
 
-### Titelfoto statt Strukturformel
+Umriss, Gehirn und Kleinhirn liegen als **Punktfolgen** in einem
+Einheitsraster (`KOPF_UMRISS`, `KOPF_HIRN`, `KOPF_KLEINHIRN`);
+`_bezier_aus_punkten()` rechnet sie als Catmull-Rom-Spline in Bezierstücke
+um. Der Grund für Punktfolgen statt handgesetzter Kurven: Ein Profil lebt
+von wenigen Stellen — Nasenwurzel, Nasenspitze, Kinn. Als Koordinaten kann
+man sie lesen und um zwei Hundertstel verschieben; als Kontrollpunkte einer
+Bezierkette könnte das niemand mehr nachvollziehen.
+
+Vier Dinge daran haben mehrere Anläufe gebraucht und stehen deshalb als
+Kommentar im Code:
+
+| Problem | Ursache | Lösung |
+|---|---|---|
+| Aus dem Mund wurde eine Zickzacklinie | vier Punkte mit ±0,03 Ausschlag auf engem Raum, dazu Überschwingen der Spline | eine flache Mulde statt zweier Lippen, Spannung 7,5 statt 6,0 |
+| Knoten an Nasenspitze und Halskante | doppelt gesetzte Punkte, die eine Ecke erzwingen sollten | Ecken über eng gesetzte Nachbarpunkte, keine Dopplungen |
+| Wellige Halsunterkante | die Kurve schert an den Ecken der Schnittkante aus | der Hals läuft unter das Raster und wird beschnitten |
+| Kleinhirn und Ohr lasen sich als zwei Ohren | zwei gleich große Ovale nebeneinander | Ohr entfällt, Kleinhirn rückt an die Unterkante des Großhirns |
+
+Die Gehirnwindungen sind Wellenlinien über die volle Kopfbreite, am
+Gehirnumriss beschnitten — erheblich einfacher, als jede Linie an die Kontur
+anzupassen, und an der Kante sauberer. Die Leuchtpunkte sind von Hand
+gesetzt und nicht gewürfelt: Ein Zufallsmuster trifft regelmäßig die Kontur.
+Ihr Hof besteht aus vollflächigen Kreisen, nicht aus einem Radialverlauf mit
+Transparenz — dieselbe Regel wie beim Hintergrund, siehe `verlauf()`.
+
+#### Der Titel
+
+`groesse_einpassen()` aus Band 1 taugt für diesen Titel nicht: Die Funktion
+bricht um, statt zu verkleinern, und liefert deshalb bei jeder Größe ein
+Ergebnis — der Titel stand zweizeilig da, mit einer ersten Zeile aus einem
+einzigen Artikel. `einzeilig_einpassen()` sucht stattdessen die größte Größe,
+bei der der Titel in eine Zeile passt.
+
+### Titelfoto statt gezeichnetem Kopf
 
 Der Umschlag hat zwei Zustände. Liegt unter `dopamin/cover/titelbild.{jpg,png,webp}`
 ein Bild, füllt es das obere Band der Vorderseite — `TITELBILD_BAND`, derzeit
 47 Prozent der Trimmhöhe — und blendet an seiner Unterkante in den Grund aus.
-Liegt dort nichts, wird die Strukturformel gezeichnet. Beides ist eine
+Liegt dort nichts, wird der Kopf gezeichnet. Beides ist eine
 fertige Fassung; es gibt keinen halben Zustand.
 
 **Die Suche fällt hier nicht auf `buch/cover/` zurück**, anders als bei den
