@@ -22,12 +22,13 @@ WURZEL = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(WURZEL / "buch" / "build"))
 
 import illustration as ill  # noqa: E402
-from build_cover import (AUSLAGE_HOEHE, BESCHNITT_MM, BARCODE_H_MM,  # noqa: E402
+from build_cover import (AUSLAGE_HOEHE, BESCHNITT_MM,  # noqa: E402
+                         BUCHDECKE_MM, HARDCOVER_MIN_SEITEN, WRAP_MM,
                          RUECKEN_PRO_SEITE_MM, RUECKENTEXT_AB_SEITEN,
                          auslage_oben, block_schreiben, groesse_einpassen,
-                         klappentext_laden, rueckseite_schiefer,
+                         klappentext_laden, rueckseite, rueckseite_schiefer,
                          ruecken_schiefer, schriften_laden, seitenzahl,
-                         titelbild_melden, titelbild_suchen, titelbild_zeichnen, umbrechen,
+                         titelbild_melden, titelbild_suchen, titelbild_zeichnen,
                          vorderseite_schiefer, vorschau)
 
 # Dritte Komposition — Kräuter und Gewürzträger stehen im Vordergrund,
@@ -123,50 +124,29 @@ def ruecken(c, x, y, breite, hoehe, cfg, mit_text):
     c.restoreState()
 
 
-def rueckseite(c, x, y, breite, hoehe, cfg, kopf, absaetze, punkte):
-    rand = breite * 0.11
-    textbreite = breite - 2 * rand
-    cursor = y + hoehe - rand * 1.5
-
-    if kopf.get("schlagzeile"):
-        cursor = block_schreiben(c, kopf["schlagzeile"], x + rand, cursor,
-                                 textbreite, "Sans-Bold", 16, 21,
-                                 ill.PALETTE["blatt"])
-        cursor -= 14
-
-    for absatz in absaetze:
-        cursor = block_schreiben(c, absatz, x + rand, cursor, textbreite,
-                                 "Serif", 10.5, 14.5, HexColor("#26301F"))
-        cursor -= 8
-
-    cursor -= 4
-    for punkt in punkte:
-        c.setFillColor(ill.PALETTE["blatt_hell"])
-        c.setFont("Sans-Bold", 10.5)
-        c.drawString(x + rand, cursor, "•")
-        c.setFillColor(HexColor("#26301F"))
-        for zeile in umbrechen(c, punkt, "Serif", 10, textbreite - 14):
-            c.setFont("Serif", 10)
-            c.drawString(x + rand + 14, cursor, zeile)
-            cursor -= 13.5
-        cursor -= 3
-
-    hinweis_y = y + BARCODE_H_MM * mm + rand * 0.5
-    block_schreiben(
-        c,
-        "„cellRESET“ und „FitLine“ sind Marken der PM-International AG. "
-        "Dieses Buch wird von diesem Unternehmen weder herausgegeben noch "
-        "autorisiert. Kein medizinischer Ratgeber — bitte die Hinweise im "
-        "Buch beachten.",
-        x + rand, hinweis_y, textbreite, "Serif", 7, 9, HexColor("#6B7566"))
+# Die Rückseite im hellen Stil kommt aus buch/build/build_cover.py. Hier stand
+# lange eine Kopie — mit der alten Hinweisformel und ohne die Weißfläche fürs
+# Barcodefeld. Band 3 setzt zwar auf „schiefer", die Kopie wäre also nie
+# gelaufen; genau deshalb wäre sie beim nächsten Stilwechsel als stiller
+# Rückschritt aufgetaucht.
 
 
-def cover_bauen(cfg, seiten, klappentext_pfad, ziel):
+def cover_bauen(cfg, seiten, klappentext_pfad, ziel, *, hardcover=False):
+    """Umschlag Band 3, Taschenbuch oder Hardcover.
+
+    Die Hardcover-Geometrie ist dieselbe wie bei Band 1 und wird von dort
+    importiert: Umschlagrand statt Anschnitt, Buchdecke statt Buchblock im
+    Rücken. Nur die Trimmgröße unterscheidet sich (8 x 10 statt 6 x 9 Zoll).
+    """
     schriften_laden()
     trim_b = cfg["seitenformat"]["breite_mm"] * mm
     trim_h = cfg["seitenformat"]["hoehe_mm"] * mm
-    anschnitt = BESCHNITT_MM * mm
-    ruecken_b = seiten * RUECKEN_PRO_SEITE_MM * mm
+    if hardcover:
+        anschnitt = WRAP_MM * mm
+        ruecken_b = (seiten * RUECKEN_PRO_SEITE_MM + BUCHDECKE_MM) * mm
+    else:
+        anschnitt = BESCHNITT_MM * mm
+        ruecken_b = seiten * RUECKEN_PRO_SEITE_MM * mm
 
     gesamt_b = 2 * trim_b + ruecken_b + 2 * anschnitt
     gesamt_h = trim_h + 2 * anschnitt
@@ -176,7 +156,8 @@ def cover_bauen(cfg, seiten, klappentext_pfad, ziel):
     # kein Zeichen setzt, aber bei der KDP-Prüfung auffallen kann.
     c = canvas.Canvas(str(ziel), pagesize=(gesamt_b, gesamt_h),
                       initialFontName="Serif")
-    c.setTitle(f"{cfg['titel']} — Rezeptbuch — Umschlag")
+    c.setTitle(f"{cfg['titel']} — Rezeptbuch — Umschlag"
+               + (" (Hardcover)" if hardcover else ""))
 
     stil = cfg.get("cover_stil", "hell")
     ill.grund_setzen("dunkel" if stil == "schiefer" else "hell")
@@ -189,7 +170,7 @@ def cover_bauen(cfg, seiten, klappentext_pfad, ziel):
 
     kopf, absaetze, punkte = klappentext_laden(klappentext_pfad)
     titelbild = titelbild_suchen(Path(klappentext_pfad).parent)
-    mit_ruecken_text = seiten >= RUECKENTEXT_AB_SEITEN
+    mit_ruecken_text = hardcover or seiten >= RUECKENTEXT_AB_SEITEN
     anzahl = rezeptzahl()
 
     if stil == "schiefer":
@@ -201,7 +182,7 @@ def cover_bauen(cfg, seiten, klappentext_pfad, ziel):
                          bezug=trim_b, wiederholungen=3)
         rueckseite_schiefer(c, anschnitt, anschnitt, trim_b, trim_h, cfg,
                             kopf, absaetze, punkte,
-                            auslage=not titelbild)
+                            auslage=not titelbild, hardcover=hardcover)
         ruecken_schiefer(c, anschnitt + trim_b, anschnitt, ruecken_b, trim_h,
                          cfg, mit_ruecken_text,
                          f"{cfg['titel']} — REZEPTBUCH   ·   {cfg['autor']}")
@@ -211,7 +192,7 @@ def cover_bauen(cfg, seiten, klappentext_pfad, ziel):
                              titel_maximal=42, ueberstand=anschnitt)
     else:
         rueckseite(c, anschnitt, anschnitt, trim_b, trim_h, cfg,
-                   kopf, absaetze, punkte)
+                   kopf, absaetze, punkte, hardcover=hardcover)
         ruecken(c, anschnitt + trim_b, anschnitt, ruecken_b, trim_h, cfg,
                 mit_text=mit_ruecken_text)
         vorderseite(c, anschnitt + trim_b + ruecken_b, anschnitt,
@@ -232,21 +213,35 @@ def main():
     cfg = yaml.safe_load((basis / "rezepte.yaml").read_text(encoding="utf-8"))
     seiten = seitenzahl(basis / "out" / f"{cfg['slug']}.pdf")
 
-    ziel = basis / "out" / "cover.pdf"
-    masse = cover_bauen(cfg, seiten, basis / "cover" / "klappentext.md", ziel)
-    png = vorschau(ziel, basis / "out" / "cover-vorschau.png")
+    klappentext = basis / "cover" / "klappentext.md"
 
-    b, h = masse["gesamt_mm"]
-    print(f"Innenteil: {seiten} Seiten")
-    print(f"Rückenbreite: {masse['ruecken_mm']:.1f} mm"
-          f"  (Rückentext: {'ja' if masse['ruecken_text'] else 'nein'})")
-    if not masse["ruecken_text"]:
-        print(f"  Hinweis: KDP erlaubt Rückentext erst ab "
-              f"{RUECKENTEXT_AB_SEITEN} Seiten — der Rücken bleibt einfarbig.")
-    print(f"Umschlag gesamt: {b:.1f} x {h:.1f} mm inkl. {BESCHNITT_MM} mm Anschnitt")
-    titelbild_melden(cfg, titelbild_suchen(basis / "cover"))
-    print(f"  → {ziel.relative_to(WURZEL)}")
-    print(f"  → {png.relative_to(WURZEL)}")
+    for hardcover in (False, True):
+        art = "Hardcover" if hardcover else "Taschenbuch"
+        name = "cover-hardcover" if hardcover else "cover"
+        if hardcover and seiten < HARDCOVER_MIN_SEITEN:
+            print(f"\n{art}: übersprungen — KDP verlangt mindestens "
+                  f"{HARDCOVER_MIN_SEITEN} Seiten, der Band hat {seiten}.")
+            continue
+
+        ziel = basis / "out" / f"{name}.pdf"
+        masse = cover_bauen(cfg, seiten, klappentext, ziel,
+                            hardcover=hardcover)
+        png = vorschau(ziel, basis / "out" / f"{name}-vorschau.png")
+
+        b, h = masse["gesamt_mm"]
+        rand = WRAP_MM if hardcover else BESCHNITT_MM
+        randname = "Umschlagrand um die Buchdecke" if hardcover else "Anschnitt"
+        print(f"\n{art} — Innenteil: {seiten} Seiten")
+        print(f"Rückenbreite: {masse['ruecken_mm']:.1f} mm"
+              f"  (Rückentext: {'ja' if masse['ruecken_text'] else 'nein'})")
+        if not masse["ruecken_text"]:
+            print(f"  Hinweis: KDP erlaubt Rückentext erst ab "
+                  f"{RUECKENTEXT_AB_SEITEN} Seiten — der Rücken bleibt einfarbig.")
+        print(f"Umschlag gesamt: {b:.2f} x {h:.2f} mm "
+              f"= {b/25.4:.3f} x {h/25.4:.3f} Zoll, inkl. {rand} mm {randname}")
+        titelbild_melden(cfg, titelbild_suchen(basis / "cover"))
+        print(f"  → {ziel.relative_to(WURZEL)}")
+        print(f"  → {png.relative_to(WURZEL)}")
 
 
 if __name__ == "__main__":

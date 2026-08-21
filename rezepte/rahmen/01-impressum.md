@@ -25,7 +25,9 @@ oder verbreitet werden.
 **Markenhinweis:** „cellRESET“ und „FitLine“ sind eingetragene Marken der
 PM-International AG. Dieses Buch wird von diesem Unternehmen weder
 herausgegeben noch autorisiert noch unterstützt. Die Nennung erfolgt
-ausschließlich beschreibend.
+ausschließlich beschreibend, um das zugrunde liegende Ernährungskonzept zu
+bezeichnen. Alle weiteren genannten Marken sind Eigentum ihrer jeweiligen
+Inhaber.
 
 **Transparenzhinweis:** Der Autor ist als selbstständiger Vertriebspartner für
 Nahrungsergänzungsmittel tätig. Dieses Buch enthält keine
