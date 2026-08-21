@@ -49,9 +49,11 @@ und winkt ihn durch.
 
 ### Hardcover
 
-`buch/build/build_cover.py` baut für Band 1 **zwei** Umschläge: `cover.pdf`
-fürs Taschenbuch und `cover-hardcover.pdf` fürs gebundene Buch. Beim Hardcover
-rechnet KDP anders, und zwar in zwei Punkten:
+`buch/build/build_cover.py` (Band 1) und `rezepte/build/build_cover.py`
+(Band 3) bauen je **zwei** Umschläge: `cover.pdf` fürs Taschenbuch und
+`cover-hardcover.pdf` fürs gebundene Buch. Band 3 importiert die
+Hardcover-Konstanten aus Band 1 — nur die Trimmgröße unterscheidet sich.
+Beim Hardcover rechnet KDP anders, und zwar in zwei Punkten:
 
 | | Taschenbuch | Hardcover |
 |---|---|---|
@@ -59,14 +61,20 @@ rechnet KDP anders, und zwar in zwei Punkten:
 | Rücken | Buchblock: Seiten × 0,0572 mm | Buchdecke: Seiten × 0,0572 mm **+ 9 mm** für Pappen und Falzrillen |
 | Rückentext | erst ab 79 Seiten | immer — die Decke bringt allein 9 mm mit |
 
-Bei 76 Seiten ergibt das **354,13 × 264,59 mm = 13,942 × 10,417 Zoll** mit
-einem Rücken von 13,3 mm. Die Konstanten stehen in Zoll und werden erst dann
-umgerechnet: KDP rechnet in Zoll, und runde Millimeterwerte (18,0 / 9,0)
-treffen die Sollbreite um 0,03 mm daneben.
+Bei 76 Seiten ergibt das:
+
+| | Trimmgröße | Umschlag gesamt | Rücken |
+|---|---|---|---|
+| Band 1 | 6 × 9 Zoll | **13,942 × 10,417 Zoll** (354,13 × 264,59 mm) | 13,3 mm |
+| Band 3 | 8 × 10 Zoll | **17,942 × 11,417 Zoll** (455,73 × 289,99 mm) | 13,3 mm |
+
+Die Konstanten stehen in Zoll und werden erst dann umgerechnet: KDP rechnet
+in Zoll, und runde Millimeterwerte (18,0 / 9,0) treffen die Sollbreite um
+0,03 mm daneben.
 
 KDP nimmt Hardcover erst **ab 75 Seiten** an; darunter überspringt das Skript
-die Fassung mit einem Hinweis. Band 2 und 3 haben bisher keine
-Hardcover-Fassung — der Aufruf wäre derselbe.
+die Fassung mit einem Hinweis. Band 2 (92 Seiten) hätte die Seitenzahl, hat
+aber noch keinen Hardcover-Pfad im Umschlagskript — der Aufruf wäre derselbe.
 
 ### Das Barcodefeld auf der Rückseite
 
@@ -372,10 +380,11 @@ Die Seitenzahl wird automatisch gerade gemacht — bei ungerader Zahl baut das
 Skript einen zweiten Durchlauf mit Leerseite am Ende, weil KDP sonst selbst
 ein unbeschriftetes Blatt einschiebt.
 
-**Mindestens 72 Seiten.** Das ist die Untergrenze, die KDP für 8 × 10 Zoll
-verlangt. Mit den 73 Rezepten allein kam der Band auf 54 — die Differenz ist
-**nicht** über Durchschuss und Leerraum aufgefüllt, sondern über Inhalt, den
-ein Kochbuch ohnehin haben sollte:
+**Zwei Untergrenzen, nicht eine.** KDP verlangt für 8 × 10 Zoll mindestens
+72 Seiten — und für eine **Hardcover**-Fassung mindestens 75. Mit den 73
+Rezepten allein kam der Band auf 54. Die Differenz ist **nicht** über
+Durchschuss und Leerraum aufgefüllt, sondern über Inhalt, den ein Kochbuch
+ohnehin haben sollte:
 
 | Kapitel | Seiten |
 |---|---|
@@ -384,7 +393,14 @@ ein Kochbuch ohnehin haben sollte:
 | Register nach Eiweißgehalt | 3 |
 | Zwei Beispielwochen | 3 |
 | Was immer da sein sollte (Vorrat) | 3 |
+| Vorkochen, aufbewahren, mitnehmen | 4 |
 | Die Reihe · Über den Autor | 2 |
+
+Das letzte Kapitel kam erst dazu, als Band 3 auch als Hardcover erscheinen
+sollte: 72 Seiten reichen dafür nicht, 76 schon. Es füllt keine Seiten,
+sondern die Lücke, an der das Konzept im Alltag am häufigsten scheitert —
+die dritte Mahlzeit am Nachmittag, die selten in der eigenen Küche
+stattfindet.
 
 Die beiden neuen Register kommen aus denselben Rezeptdaten wie die Rezepte
 selbst — sie können also nicht auseinanderlaufen. Wer Rezepte ergänzt oder

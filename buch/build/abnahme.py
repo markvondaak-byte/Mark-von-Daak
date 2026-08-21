@@ -551,6 +551,8 @@ def rezeptbuch_pruefen():
                             cfg["seitenformat"]["breite_mm"],
                             cfg["seitenformat"]["hoehe_mm"])
     cover_pruefen("Band 3", basis / "out" / "cover.pdf", cfg, len(seiten))
+    cover_pruefen("Band 3 Hardcover", basis / "out" / "cover-hardcover.pdf",
+                  cfg, len(seiten), hardcover=True)
 
 
 def kindle_pruefen():
