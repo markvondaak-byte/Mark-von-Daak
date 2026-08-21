@@ -29,6 +29,7 @@ python3 rezepte/build/build_cover.py       # Umschlag Band 3
 
 python3 dopamin/build/build_dopamin.py     # Band 4: .docx und .pdf
 python3 dopamin/build/build_cover.py       # Umschlag Band 4
+python3 dopamin/build/titelbild.py         # nur die Probeansicht des Motivs
 
 python3 buch/build/cover_flach.py          # Umschläge in die KDP-Druckfassung
 
@@ -498,38 +499,50 @@ Alles Sichtbare ist eigen. Die Lebensmittelauslage der Reihe wäre hier
 irreführend: Ein Buch über einen Botenstoff, das aussieht wie ein
 Ernährungsratgeber, landet im Vorschaubild im falschen Regal.
 
-Zwei Motive, beide gezeichnet: auf der **Vorderseite ein Kopf im Profil** mit
-sichtbarem Gehirn und leuchtenden Punkten an den Synapsen, auf der
-**Rückseite die Strukturformel des Dopamins**. Zusammen sagen sie, worum es
-im Buch geht — ein sehr kleines Molekül, dem man nichts von Glück ansieht,
-und was es in einem Kopf anrichtet.
+Zwei Motive: auf der **Vorderseite ein Kopf im Profil** mit Nervennetz und
+leuchtenden Synapsen, auf der **Rückseite die Strukturformel des Dopamins**.
+Zusammen sagen sie, worum es im Buch geht — ein sehr kleines Molekül, dem man
+nichts von Glück ansieht, und was es in einem Kopf anrichtet.
 
-#### Der Kopf
+#### Der Kopf wird gerendert, nicht gezeichnet
 
-Umriss, Gehirn und Kleinhirn liegen als **Punktfolgen** in einem
-Einheitsraster (`KOPF_UMRISS`, `KOPF_HIRN`, `KOPF_KLEINHIRN`);
-`_bezier_aus_punkten()` rechnet sie als Catmull-Rom-Spline in Bezierstücke
-um. Der Grund für Punktfolgen statt handgesetzter Kurven: Ein Profil lebt
-von wenigen Stellen — Nasenwurzel, Nasenspitze, Kinn. Als Koordinaten kann
-man sie lesen und um zwei Hundertstel verschieben; als Kontrollpunkte einer
-Bezierkette könnte das niemand mehr nachvollziehen.
+`dopamin/build/titelbild.py` rechnet das Motiv mit Pillow als **Bild** und
+gibt es an `build_cover.py` weiter, das es wie ein Foto in das obere Band
+legt — einschließlich der Ausblendung nach unten.
 
-Vier Dinge daran haben mehrere Anläufe gebraucht und stehen deshalb als
-Kommentar im Code:
+Eine erste Fassung zeichnete den Kopf mit reportlab: Umriss, Gehirn und
+Windungen als Striche. Das war sauber und sah nach Piktogramm aus. Ein
+Sachbuchumschlag lebt aber von Licht — von einer Kante, die glüht, von einem
+Grund mit Tiefe, von Punkten mit einem Hof. Nichts davon lässt sich mit
+Strichen erzeugen, und Verläufe mit Transparenz sind in der KDP-Druckfassung
+ohnehin verboten. Als Pixel gerechnet ist beides kein Problem: Was ins PDF
+kommt, ist eine flache Rasterfläche.
 
-| Problem | Ursache | Lösung |
-|---|---|---|
-| Aus dem Mund wurde eine Zickzacklinie | vier Punkte mit ±0,03 Ausschlag auf engem Raum, dazu Überschwingen der Spline | eine flache Mulde statt zweier Lippen, Spannung 7,5 statt 6,0 |
-| Knoten an Nasenspitze und Halskante | doppelt gesetzte Punkte, die eine Ecke erzwingen sollten | Ecken über eng gesetzte Nachbarpunkte, keine Dopplungen |
-| Wellige Halsunterkante | die Kurve schert an den Ecken der Schnittkante aus | der Hals läuft unter das Raster und wird beschnitten |
-| Kleinhirn und Ohr lasen sich als zwei Ohren | zwei gleich große Ovale nebeneinander | Ohr entfällt, Kleinhirn rückt an die Unterkante des Großhirns |
+Der Aufbau in acht Schritten, nachzulesen in `rendern()`: Grundverlauf,
+Bokeh, Volumen der Figur, Gehirn, Nervennetz, Synapsen, Randlicht, Vignette
+und Korn. Vier Entscheidungen darin sind nicht offensichtlich:
 
-Die Gehirnwindungen sind Wellenlinien über die volle Kopfbreite, am
-Gehirnumriss beschnitten — erheblich einfacher, als jede Linie an die Kontur
-anzupassen, und an der Kante sauberer. Die Leuchtpunkte sind von Hand
-gesetzt und nicht gewürfelt: Ein Zufallsmuster trifft regelmäßig die Kontur.
-Ihr Hof besteht aus vollflächigen Kreisen, nicht aus einem Radialverlauf mit
-Transparenz — dieselbe Regel wie beim Hintergrund, siehe `verlauf()`.
+| Entscheidung | Grund |
+|---|---|
+| Doppelte Auflösung, dann verkleinern | PIL zeichnet Polygone ohne Kantenglättung; an einer Profillinie sieht man jede Treppe |
+| Knoten mit Mindestabstand, nicht rein zufällig | Ein Zufallsmuster ballt sich an einigen Stellen und lässt anderswo Löcher |
+| Hof der Synapsen nur dreifacher Kernradius | Bei fünffachem wurden daraus orange Flecken, die das Netz überdeckten |
+| Ein Prozent Korn zum Schluss | Ein glatter Verlauf über 30 cm zeigt im Druck Stufen; Rauschen bricht sie auf |
+
+Die Figurhöhe ist mit 0,78 der Bandhöhe knapper bemessen, als sie im
+Einzelbild aussieht: Auf dem Umschlag liegen die oberen 3,175 mm des Bandes
+im Anschnitt. Bei mehr Höhe stand der Scheitel nach dem Beschneiden 1,7 mm
+unter der Papierkante und wirkte angeschnitten.
+
+Die Geometrie selbst — Umriss, Gehirn, Kleinhirn — liegt als **Punktfolge**
+in einem Einheitsraster; ein Catmull-Rom-Spline macht daraus glatte Kurven.
+Ein Profil lebt von wenigen Stellen: Nasenwurzel, Nasenspitze, Kinn. Als
+Koordinaten kann man sie lesen und um zwei Hundertstel verschieben; als
+Kontrollpunkte einer Bezierkette könnte das niemand mehr nachvollziehen.
+Zwei Fallen stecken darin: Vier Punkte mit großem Ausschlag auf engem Raum
+ergaben statt Lippen eine Zickzacklinie — jetzt ist der Mund eine flache
+Mulde. Und doppelt aufgeführte Punkte, die eine Ecke erzwingen sollten,
+erzeugten Knoten; Ecken entstehen über eng gesetzte Nachbarpunkte.
 
 #### Der Titel
 
@@ -539,12 +552,12 @@ Ergebnis — der Titel stand zweizeilig da, mit einer ersten Zeile aus einem
 einzigen Artikel. `einzeilig_einpassen()` sucht stattdessen die größte Größe,
 bei der der Titel in eine Zeile passt.
 
-### Titelfoto statt gezeichnetem Kopf
+### Eigenes Titelfoto statt des gerechneten Motivs
 
 Der Umschlag hat zwei Zustände. Liegt unter `dopamin/cover/titelbild.{jpg,png,webp}`
 ein Bild, füllt es das obere Band der Vorderseite — `TITELBILD_BAND`, derzeit
 47 Prozent der Trimmhöhe — und blendet an seiner Unterkante in den Grund aus.
-Liegt dort nichts, wird der Kopf gezeichnet. Beides ist eine
+Liegt dort nichts, wird das Motiv aus `titelbild.py` gerechnet. Beides ist eine
 fertige Fassung; es gibt keinen halben Zustand.
 
 **Die Suche fällt hier nicht auf `buch/cover/` zurück**, anders als bei den

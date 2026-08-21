@@ -82,7 +82,8 @@ QUELLEN = {
 KEINE_QUELLE = {"abnahme.py", "claim_check.py", "zutaten_check.py",
                 "rechtschreibung.py",
                 "cover_flach.py", "innenteil_druck.py", "build_cover.py",
-                "illustration.py", "build_epub.py", "kindle_cover.py"}
+                "illustration.py", "titelbild.py",
+                "build_epub.py", "kindle_cover.py"}
 
 
 def aktueller_als_quellen(bezeichnung, pdf, band):
