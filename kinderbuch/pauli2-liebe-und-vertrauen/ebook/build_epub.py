@@ -63,10 +63,10 @@ COVER_HTML = ('<!DOCTYPE html><html><head><meta charset="utf-8"><style>'
   '*{margin:0;padding:0;box-sizing:border-box}'
   'html,body{width:800px;height:1280px;overflow:hidden;'
   'font-family:"Trebuchet MS","Segoe UI",Verdana,sans-serif;'
-  'background:linear-gradient(180deg,#4a3d78 0%,#7d5f92 52%,#d99a8f 100%)}'
+  'background:linear-gradient(180deg,#4a3d78 0%,#6f5591 34%,#c98a86 60%,#8a6a86 78%,#48335c 100%)}'
   '.wrap{position:relative;width:800px;height:1280px;overflow:hidden}'
   '.bgfill{position:absolute;top:0;left:0;width:800px;height:1280px;z-index:0;'
-  'background:linear-gradient(180deg,#4a3d78 0%,#7d5f92 52%,#d99a8f 100%)}'
+  'background:linear-gradient(180deg,#4a3d78 0%,#6f5591 34%,#c98a86 60%,#8a6a86 78%,#48335c 100%)}'
   '.ground{position:absolute;left:0;bottom:0;width:100%;height:440px}'
   '.inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;'
   'text-align:center;padding:70px 56px 60px}'
@@ -110,7 +110,7 @@ COVER_HTML = ('<!DOCTYPE html><html><head><meta charset="utf-8"><style>'
   '<div class="author">Mark von Daak</div>'
   '<div class="badge"><span>Bilderbuch · ab 6 Jahren</span></div>'
   '</div></body></html>')
-render(COVER_HTML, os.path.join(IMG, "cover.png"), 800, 1280, scale=2, bg="d99a8fff")
+render(COVER_HTML, os.path.join(IMG, "cover.png"), 800, 1280, scale=2, bg="48335cff")
 
 # ---------- XHTML-Helfer ----------
 def page(title, body, cls=""):
