@@ -27,19 +27,19 @@ python3 workbook/build/build_cover.py      # Umschlag Band 2
 python3 rezepte/build/build_rezepte.py     # Band 3: .docx und .pdf
 python3 rezepte/build/build_cover.py       # Umschlag Band 3
 
-python3 dopamin/build/build_dopamin.py     # Band 4: .docx und .pdf
-python3 dopamin/build/build_cover.py       # Umschlag Band 4
+python3 dopamin/build/build_dopamin.py     # Band 4: Taschenbuch und Hardcover
+python3 dopamin/build/build_cover.py       # Umschläge Band 4 + Kindle-Titelbild
 python3 dopamin/build/titelbild.py         # nur die Probeansicht des Motivs
 
 python3 buch/build/cover_flach.py          # Umschläge in die KDP-Druckfassung
 
 python3 buch/build/kindle_cover.py         # Titelbilder für die Kindle-Ausgaben
-python3 buch/build/build_epub.py           # Kindle-Ausgaben aller drei Bände
+python3 buch/build/build_epub.py           # Kindle-Ausgaben aller vier Bände
 
 python3 buch/build/rechtschreibung.py      # Rechtschreibung und Typografie
 python3 buch/build/claim_check.py          # HCVO-Prüfung, muss ohne Fehler laufen
 python3 rezepte/build/zutaten_check.py     # Rezepte gegen die Phasenregeln
-python3 buch/build/abnahme.py              # Endabnahme aller drei Bände
+python3 buch/build/abnahme.py              # Endabnahme aller vier Bände
 ```
 
 Die Umschläge müssen **nach** dem jeweiligen Innenteil gebaut werden — die
@@ -465,11 +465,38 @@ reines Lesebuch aus Fließtext, ohne Tabellenwerk, das man in der Bahn und im
 Bett liest. Das Maß steht in KDPs Auswahlliste und muss nicht als
 benutzerdefinierte Größe eingetragen werden.
 
-**Kein Hardcover.** KDP führt 5 × 8 Zoll ausschließlich als Taschenbuch. Für
-Hardcover gibt es 5,5×8,5 · 6×9 · 6,14×9,21 · 7×10 · 8,25×11 Zoll und sonst
-nichts — dieselbe Falle, in die Band 3 gelaufen ist. `build_cover.py` baut
-deshalb nur eine Fassung; wer den Band gebunden herausbringen will, muss
-zuerst die Trimmgröße wechseln und den Innenteil neu bauen.
+**Hardcover in eigenem Format.** KDP führt 5 × 8 Zoll ausschließlich als
+Taschenbuch. Für Hardcover gibt es 5,5×8,5 · 6×9 · 6,14×9,21 · 7×10 · 8,25×11
+Zoll und sonst nichts — dieselbe Falle, in die Band 3 gelaufen ist. Der Band
+läuft als Hardcover deshalb auf **5,5 × 8,5 Zoll**, dem kleinsten Schritt
+darüber, und bekommt einen zweiten Innenteil:
+
+```bash
+dopamin/out/dopamin-luege-druck.pdf              # Taschenbuch, 5 x 8 Zoll
+dopamin/out/dopamin-luege-hardcover-druck.pdf    # Hardcover,   5,5 x 8,5 Zoll
+```
+
+Der Satzspiegel ist in beiden identisch — `hardcover_seitenformat` in
+`dopamin.yaml` legt die ganze Formatdifferenz in die Ränder, je 6,35 mm auf
+jeder Seite. Bei gleichem Textblock brechen die Zeilen gleich um, und die
+Seitenzahl bleibt bei 160; aus ihr folgt die Rückenbreite. `abnahme.py`
+vergleicht die beiden Seitenzahlen deshalb gegeneinander.
+
+### Kindle-Ausgabe
+
+Band 4 ist wie Band 1 ein Lesebuch aus fließendem Text und nutzt in
+`build_epub.py` dieselbe Funktion. Sie nimmt dafür jetzt ein Argument `band`
+entgegen, das in die Kennung des Buches eingeht — zwei EPUBs mit derselben
+Kennung sind für Lesegeräte und für KDP dasselbe Buch.
+
+Das **Titelbild** kommt nicht aus `kindle_cover.py`, sondern aus
+`dopamin/build/build_cover.py`. Grund: `kindle_cover.py` zeichnet mit den
+Illustrationen und der Palette der Reihe, und beides trägt dieser Band nicht.
+`kindle_titelbild()` benutzt stattdessen dieselbe `vorderseite()` wie der
+gedruckte Umschlag, nur auf einer Leinwand im Verhältnis 1,6. Die Leinwand
+bekommt die echte Buchbreite in Punkt: Die Schriftgrößen sind absolute
+Punktwerte, und auf einer breiteren Leinwand bliebe alles außer dem Titel
+winzig.
 
 ### Eigene Typografie und Farbwelt
 

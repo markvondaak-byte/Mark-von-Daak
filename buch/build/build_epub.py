@@ -326,7 +326,14 @@ def verzeichnis_bauen(kapitel, namen):
     return "\n".join(zeilen)
 
 
-def band1_bauen(cfg, kapitel, umschlagbild, ziel):
+def band1_bauen(cfg, kapitel, umschlagbild, ziel, *, band="b001"):
+    """Baut ein EPUB aus fließendem Text.
+
+    `band` geht in die Kennung des Buches ein und muss je Titel verschieden
+    sein: Zwei EPUBs mit derselben Kennung sind für Lesegeräte und für KDP
+    dasselbe Buch. Band 4 nutzt dieselbe Bauart und deshalb dieselbe
+    Funktion — er ist wie Band 1 ein Lesebuch aus Fließtext.
+    """
     dateien = {
         "mimetype": b"application/epub+zip",
         "META-INF/container.xml": CONTAINER,
@@ -376,7 +383,7 @@ def band1_bauen(cfg, kapitel, umschlagbild, ziel):
             "im_verzeichnis": im_verzeichnis, "ist_teil": ist_teil,
         })
 
-    kennung = KENNUNG.format(band="b001", jahr=cfg["jahr"])
+    kennung = KENNUNG.format(band=band, jahr=cfg["jahr"])
     dateien["OEBPS/nav.xhtml"] = nav_bauen(cfg, eintraege)
     dateien["OEBPS/toc.ncx"] = ncx_bauen(cfg, kennung, eintraege)
     dateien["OEBPS/inhalt.opf"] = opf_bauen(cfg, kennung, eintraege)
@@ -775,6 +782,24 @@ def main():
     verzeichnis3 = sum(1 for e in eintraege3 if e["im_verzeichnis"])
     bericht("Band 3 — fließender Text", ziel3,
             f"{len(register3)} Rezepte, {verzeichnis3} Navigationspunkte")
+
+    # Band 4 — dieselbe Bauart wie Band 1: ein Lesebuch aus Fließtext, in dem
+    # der Leser Schriftgröße und Rand selbst einstellt. Sein Titelbild kommt
+    # aus dem eigenen Umschlagskript und nicht aus kindle_cover.py, weil der
+    # Band nicht die Illustrationen der Reihe trägt.
+    basis4 = WURZEL / "dopamin"
+    cfg4 = yaml.safe_load((basis4 / "dopamin.yaml").read_text(encoding="utf-8"))
+    cover4 = basis4 / "out" / "kindle-cover.jpg"
+    if not cover4.exists():
+        print("Band 4: kindle-cover.jpg fehlt — erst "
+              "dopamin/build/build_cover.py laufen lassen.")
+        return
+    kapitel4 = kapitel_laden(basis4 / "kapitel")
+    ziel4 = basis4 / "out" / f"{cfg4['slug']}-kindle.epub"
+    ziel4, eintraege4 = band1_bauen(cfg4, kapitel4, cover4, ziel4, band="b004")
+    verzeichnis4 = sum(1 for e in eintraege4 if e["im_verzeichnis"])
+    bericht("Band 4 — fließender Text", ziel4,
+            f"{len(kapitel4)} Kapitel, {verzeichnis4} Navigationspunkte")
 
 
 def kindle_cover_bauen():

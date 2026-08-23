@@ -300,11 +300,29 @@ angezeigt und verwirrt beide Zielgruppen.
 | Innenteil | `dopamin/out/dopamin-luege-druck.pdf` |
 | Umschlag | `dopamin/out/cover-druck.pdf` |
 
-**Keine Hardcover-Fassung.** KDP führt 5 × 8 Zoll ausschließlich als
-Taschenbuch; für Hardcover gibt es 5,5×8,5 · 6×9 · 6,14×9,21 · 7×10 ·
-8,25×11 Zoll und sonst nichts. Wer den Band gebunden herausbringen will, muss
-zuerst die Trimmgröße wechseln und den Innenteil neu bauen — dieselbe Falle,
-in die Band 3 gelaufen ist.
+**Hardcover-Fassung** — eigener Titel neben dem Taschenbuch, gleiche
+Beschreibung, gleiche Kategorien, gleiche Stichwörter:
+
+| Feld | Wert |
+|---|---|
+| Trimmgröße | **5,5 × 8,5 Zoll** (13,97 × 21,59 cm) — **nicht** 5 × 8 |
+| Seiten | 160 |
+| Papier / Druckfarbe | cremefarben / Schwarzweiß |
+| Rücken der Buchdecke | 18,1 mm — **mit** Rückentext |
+| Umschlag gesamt | **13,131 × 9,917 Zoll** (333,54 × 251,89 mm) |
+| Innenteil | `dopamin/out/dopamin-luege-hardcover-druck.pdf` — **eigene Datei** |
+| Umschlag | `dopamin/out/cover-hardcover-druck.pdf` |
+
+**Achtung, das Hardcover hat ein anderes Format als das Taschenbuch.** KDP
+führt 5 × 8 Zoll nur als Taschenbuch. Für Hardcover gibt es 5,5×8,5 · 6×9 ·
+6,14×9,21 · 7×10 · 8,25×11 Zoll und sonst nichts; 5,5 × 8,5 ist der kleinste
+Schritt darüber. Ohne den Formatwechsel lehnt der Upload mit „erwartete
+Covergröße …" ab — dieselbe Falle, in die Band 3 gelaufen ist.
+
+Der Satzspiegel ist in beiden Fassungen identisch (97 × 172,2 mm); die
+Formatdifferenz geht vollständig in die Ränder. Nur dadurch bleibt die
+Seitenzahl bei 160 — und aus ihr folgt die Rückenbreite. `abnahme.py`
+vergleicht die beiden Seitenzahlen deshalb gegeneinander.
 
 **Warum 5 × 8 und nicht 6 × 9 wie Band 1.** Der Band ist ein reines Lesebuch
 ohne Tabellenwerk, das man in der Bahn und im Bett liest. 5 × 8 Zoll ist das
@@ -357,14 +375,17 @@ und E-Book werden getrennt angelegt und von Amazon anschließend verknüpft.
 Titel, Untertitel, Serie, Beschreibung, Kategorien und Stichwörter sind
 dieselben wie beim Taschenbuch.
 
-| Feld | Band 1 | Band 2 | Band 3 |
-|---|---|---|---|
-| Manuskript | `buch/out/stoffwechsel-reset-kindle.epub` | `workbook/out/workbook-kindle.epub` | `rezepte/out/rezeptbuch-kindle.epub` |
-| Titelbild | `buch/out/kindle-cover.jpg` | `workbook/out/kindle-cover.jpg` | `rezepte/out/kindle-cover.jpg` |
-| Bauart | fließender Text | feste Seiten | fließender Text |
-| Dateigröße | rund 0,5 MB | rund 5 MB | rund 0,5 MB |
+| Feld | Band 1 | Band 2 | Band 3 | Band 4 |
+|---|---|---|---|---|
+| Manuskript | `buch/out/stoffwechsel-reset-kindle.epub` | `workbook/out/workbook-kindle.epub` | `rezepte/out/rezeptbuch-kindle.epub` | `dopamin/out/dopamin-luege-kindle.epub` |
+| Titelbild | `buch/out/kindle-cover.jpg` | `workbook/out/kindle-cover.jpg` | `rezepte/out/kindle-cover.jpg` | `dopamin/out/kindle-cover.jpg` |
+| Bauart | fließender Text | feste Seiten | fließender Text | fließender Text |
+| Dateigröße | rund 0,5 MB | rund 5 MB | rund 0,5 MB | rund 0,4 MB |
 
-Beide Titelbilder sind 1600 × 2560 Pixel im JPEG-Format — Amazons empfohlenes
+Bei Band 4 gilt der Satz über Serie und Kategorien nicht: Er gehört zu keiner
+Reihe, und seine Kategorien stehen im Abschnitt „Band 4".
+
+Alle Titelbilder sind 1600 × 2560 Pixel im JPEG-Format — Amazons empfohlenes
 Maß. Es wird **nicht** der Taschenbuchumschlag hochgeladen: Der enthält
 Rückseite, Buchrücken und Anschnitt, die beim E-Book nichts zu suchen haben.
 

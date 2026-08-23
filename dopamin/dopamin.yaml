@@ -33,6 +33,28 @@ seitenformat:
   rand_oben_mm: 15.0
   rand_unten_mm: 16.0
 
+# Hardcover in eigenem Format — 5,5 x 8,5 Zoll statt 5 x 8.
+#
+# KDP führt 5 x 8 Zoll ausschließlich als Taschenbuch. Für Hardcover gibt es
+# 5,5x8,5 · 6x9 · 6,14x9,21 · 7x10 · 8,25x11 Zoll und sonst nichts; 5,5 x 8,5
+# ist der kleinste Schritt darüber und bleibt damit am nächsten am
+# Taschenbuch. Band 3 ist genau an dieser Stelle einmal aufgelaufen — der
+# Upload lehnt mit „erwartete Covergröße …" ab.
+#
+# Die Ränder wachsen um exakt die halbe Formatdifferenz auf jeder Seite
+# (6,35 mm in Breite und Höhe). Der Satzspiegel bleibt dadurch
+# millimetergenau bei 97 x 172,2 mm: Bei gleichem Textblock brechen die
+# Zeilen gleich um, und die Seitenzahl bleibt bei 160. Das ist keine
+# Kosmetik — aus der Seitenzahl folgt die Rückenbreite, und beide Fassungen
+# sollen denselben Umfang haben.
+hardcover_seitenformat:
+  breite_mm: 139.7      # 5,5 Zoll
+  hoehe_mm: 215.9       # 8,5 Zoll
+  rand_innen_mm: 23.35
+  rand_aussen_mm: 19.35
+  rand_oben_mm: 21.35
+  rand_unten_mm: 22.35
+
 # Impressumsangaben — übernommen aus impressum.html, nicht frei erfunden.
 impressum:
   name: "Mark von Daak"

@@ -24,6 +24,7 @@ BESCHNITT_MM = 3.175
 RUECKEN_PRO_SEITE_MM = 0.0572
 WRAP_MM = 0.7085 * 25.4        # Hardcover: Umschlagrand statt Anschnitt
 BUCHDECKE_MM = 0.354 * 25.4    # Hardcover: Pappen und Falzrillen im Rücken
+HARDCOVER_MIN_SEITEN = 75      # weniger nimmt KDP als Hardcover nicht an
 
 # Barcodefeld unten rechts auf der Rückseite. Die Werte stehen hier noch
 # einmal und werden bewusst nicht aus build_cover importiert: Ein Prüfer, der
@@ -594,16 +595,28 @@ def kindle_pruefen():
     import build_epub
     import kindle_cover
 
+    # Die Pflichthinweise sind je Titel andere: Die Bände 1 bis 3 gehören zur
+    # Stoffwechsel-Reihe, Band 4 hat mit deren Konzept und Marken nichts zu
+    # tun. Ein gemeinsamer Satz Nadeln würde bei ihm zwangsläufig fehlschlagen.
+    reihe = (("Schwangerschaft", "Schwangerschaft"),
+             ("Eigenverantwortung", "eigener Verantwortung"),
+             ("Markenhinweis", "PM-International AG"))
+    band4 = (("Kein medizinischer Ratgeber", "kein medizinischer Ratgeber"),
+             ("Eigenverantwortung", "eigenverantwortlich"),
+             ("Hilfetelefon", "0800 111 0 111"))
+
     baende = [
         ("Band 1", "buch/out/stoffwechsel-reset-kindle.epub",
-         "buch/out/kindle-cover.jpg", None),
+         "buch/out/kindle-cover.jpg", None, reihe),
         ("Band 2", "workbook/out/workbook-kindle.epub",
-         "workbook/out/kindle-cover.jpg", "workbook/out/workbook.pdf"),
+         "workbook/out/kindle-cover.jpg", "workbook/out/workbook.pdf", reihe),
         ("Band 3", "rezepte/out/rezeptbuch-kindle.epub",
-         "rezepte/out/kindle-cover.jpg", None),
+         "rezepte/out/kindle-cover.jpg", None, reihe),
+        ("Band 4", "dopamin/out/dopamin-luege-kindle.epub",
+         "dopamin/out/kindle-cover.jpg", None, band4),
     ]
 
-    for name, epub_pfad, bild_pfad, druck_pfad in baende:
+    for name, epub_pfad, bild_pfad, druck_pfad, rechtstexte in baende:
         epub = WURZEL / epub_pfad
         bild = WURZEL / bild_pfad
         pruefe(f"{name}: EPUB vorhanden", epub.exists(), epub_pfad)
@@ -644,10 +657,7 @@ def kindle_pruefen():
             offen = re.findall(r"\{\{[A-ZÄÖÜ]+\}\}", volltext)
             pruefe(f"{name}: keine offenen Marker", not offen,
                    ", ".join(sorted(set(offen))))
-            for bezeichnung, nadel in (
-                    ("Schwangerschaft", "Schwangerschaft"),
-                    ("Eigenverantwortung", "eigener Verantwortung"),
-                    ("Markenhinweis", "PM-International AG")):
+            for bezeichnung, nadel in rechtstexte:
                 pruefe(f"{name}: Rechtstext {bezeichnung}", nadel in volltext)
 
         pruefe(f"{name}: Titelbild im Paket verzeichnet",
@@ -770,6 +780,33 @@ def dopamin_pruefen():
                             cfg["seitenformat"]["breite_mm"],
                             cfg["seitenformat"]["hoehe_mm"])
     cover_pruefen("Band 4", basis / "out" / "cover.pdf", cfg, len(seiten))
+
+    # Hardcover: eigener Innenteil in eigener Trimmgröße, weil KDP 5 x 8 Zoll
+    # nur als Taschenbuch führt. Der Satzspiegel ist in beiden identisch —
+    # deshalb müssen die Seitenzahlen übereinstimmen. Weichen sie ab, sind
+    # die Ränder in dopamin.yaml falsch, und die Rückenbreite des
+    # Hardcover-Umschlags stimmt nicht mehr.
+    hc_format = cfg.get("hardcover_seitenformat")
+    hc_pdf = basis / "out" / f"{cfg['slug']}-hardcover.pdf"
+    if hc_format and hc_pdf.exists():
+        hc_seiten = text_von(hc_pdf)
+        pruefe("Band 4 Hardcover: gleiche Seitenzahl wie das Taschenbuch",
+               len(hc_seiten) == len(seiten),
+               f"{len(hc_seiten)} statt {len(seiten)}")
+        pruefe("Band 4 Hardcover: Mindestseitenzahl erreicht",
+               len(hc_seiten) >= HARDCOVER_MIN_SEITEN,
+               f"{len(hc_seiten)} Seiten, KDP verlangt "
+               f"{HARDCOVER_MIN_SEITEN}")
+        innenteil_druck_pruefen(
+            "Band 4 Hardcover", hc_pdf.with_name(hc_pdf.stem + "-druck.pdf"),
+            hc_format["breite_mm"], hc_format["hoehe_mm"])
+        cover_pruefen("Band 4 Hardcover",
+                      basis / "out" / "cover-hardcover.pdf",
+                      dict(cfg, seitenformat=hc_format), len(hc_seiten),
+                      hardcover=True)
+    else:
+        pruefe("Band 4 Hardcover: Innenteil vorhanden", False,
+               str(hc_pdf.relative_to(WURZEL)))
 
 
 def main():

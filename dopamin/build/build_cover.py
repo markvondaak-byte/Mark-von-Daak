@@ -44,7 +44,8 @@ from reportlab.pdfgen import canvas
 WURZEL = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(WURZEL / "buch" / "build"))
 
-from build_cover import (BARCODE_LUFT_MM, BESCHNITT_MM,  # noqa: E402
+from build_cover import (BARCODE_LUFT_MM, BARCODE_WEISSFLAECHE,  # noqa: E402
+                         BESCHNITT_MM,
                          BUCHDECKE_MM, HARDCOVER_MIN_SEITEN,
                          RUECKEN_PRO_SEITE_MM, RUECKENTEXT_AB_SEITEN, WRAP_MM,
                          barcodefeld_freistellen, block_schreiben,
@@ -214,21 +215,24 @@ def titelbild_suchen():
     return None
 
 
-def titelbild_sollmasse(cfg, dpi=300):
+def titelbild_sollmasse(cfg, dpi=300, *, hardcover=False):
     """Wie groß das Titelfoto mindestens sein muss.
 
     Gerechnet aus TITELBILD_BAND und nicht fest eingetragen: Wer das Band
-    höher zieht, bekommt die neue Mindestgröße automatisch gemeldet.
+    höher zieht, bekommt die neue Mindestgröße automatisch gemeldet. Das
+    Hardcover braucht mehr — größere Trimmgröße und 18 mm Umschlagrand
+    statt 3,175 mm Anschnitt.
     """
-    sf = cfg["seitenformat"]
-    breite_mm = sf["breite_mm"] + BESCHNITT_MM
-    hoehe_mm = sf["hoehe_mm"] * TITELBILD_BAND + BESCHNITT_MM
+    sf = cfg["hardcover_seitenformat"] if hardcover else cfg["seitenformat"]
+    rand = WRAP_MM if hardcover else BESCHNITT_MM
+    breite_mm = sf["breite_mm"] + rand
+    hoehe_mm = sf["hoehe_mm"] * TITELBILD_BAND + rand
     je_mm = dpi / 25.4
     return round(breite_mm * je_mm), round(hoehe_mm * je_mm)
 
 
-def titelbild_melden(cfg, pfad):
-    soll_b, soll_h = titelbild_sollmasse(cfg)
+def titelbild_melden(cfg, pfad, *, hardcover=False):
+    soll_b, soll_h = titelbild_sollmasse(cfg, hardcover=hardcover)
     if not pfad:
         print("Titelbild: keins — es wird das Motiv aus titelbild.py "
               f"gerechnet. Für ein eigenes Foto: dopamin/cover/titelbild.png "
@@ -369,7 +373,11 @@ def rueckseite(c, x, y, breite, hoehe, cfg, kopf, absaetze, punkte,
     molekuel(c, x + breite * 0.78, y + hoehe * 0.895, breite * 0.10,
              FARBEN["molekuel"], breite * 0.008)
 
-    barcodefeld_freistellen(c, x, y, breite, hardcover=hardcover)
+    # Weiss hinterlegt wird nur beim Taschenbuch. Beim Hardcover bringt KDP
+    # seine eigene weisse Box mit, und ein zweites weisses Rechteck darunter
+    # stand in der Vorschau sichtbar auf dem Grund — siehe buch/README.md.
+    if BARCODE_WEISSFLAECHE["hardcover" if hardcover else "taschenbuch"]:
+        barcodefeld_freistellen(c, x, y, breite, hardcover=hardcover)
 
     hinweis_zeilen = len(umbrechen(c, MARKENHINWEIS, "Serif", 7, textbreite))
     _, fy, _, fh = weissflaeche(x, y, breite, hardcover=hardcover)
@@ -444,8 +452,12 @@ def rueckseite(c, x, y, breite, hoehe, cfg, kopf, absaetze, punkte,
 def cover_bauen(cfg, seiten, klappentext_pfad, ziel, *, hardcover=False):
     schriften_laden()
 
-    trim_b = cfg["seitenformat"]["breite_mm"] * mm
-    trim_h = cfg["seitenformat"]["hoehe_mm"] * mm
+    # Hardcover hat ein eigenes Trimmformat: KDP führt 5 x 8 Zoll nur als
+    # Taschenbuch. Ohne diese Unterscheidung lehnt der Upload mit
+    # „erwartete Covergröße …" ab — dieselbe Falle wie bei Band 3.
+    sf = cfg["hardcover_seitenformat"] if hardcover else cfg["seitenformat"]
+    trim_b = sf["breite_mm"] * mm
+    trim_h = sf["hoehe_mm"] * mm
     if hardcover:
         anschnitt = WRAP_MM * mm
         ruecken_b = (seiten * RUECKEN_PRO_SEITE_MM + BUCHDECKE_MM) * mm
@@ -487,21 +499,69 @@ def cover_bauen(cfg, seiten, klappentext_pfad, ziel, *, hardcover=False):
             "titelbild": foto}
 
 
+def kindle_titelbild(cfg, ziel, breite_px=1600, hoehe_px=2560, qualitaet=92):
+    """Das Titelbild der Kindle-Ausgabe: nur die Vorderseite, Verhältnis 1,6.
+
+    Ein Kindle-Buch braucht kein aufgeklapptes PDF mit Rückseite, Rücken und
+    Anschnitt, sondern ein einzelnes Bild. Amazon empfiehlt 1600 x 2560 px.
+
+    Gezeichnet wird mit **derselben** Funktion wie die gedruckte Vorderseite,
+    nur auf eine höhere Leinwand — im Katalog stehen Taschenbuch und
+    Kindle-Ausgabe nebeneinander und müssen als dasselbe Buch erkennbar sein.
+
+    Die Leinwand bekommt die echte Buchbreite in Punkt, die Höhe folgt aus
+    dem Verhältnis. Das ist nicht beliebig: Die Schriftgrößen sind absolute
+    Punktwerte, und auf einer breiteren Leinwand bliebe alles außer dem
+    Titel winzig.
+    """
+    import io
+
+    import fitz
+    from PIL import Image
+
+    schriften_laden()
+    breite_pt = cfg["seitenformat"]["breite_mm"] * mm
+    hoehe_pt = breite_pt * (hoehe_px / breite_px)
+
+    puffer = io.BytesIO()
+    c = canvas.Canvas(puffer, pagesize=(breite_pt, hoehe_pt),
+                      initialFontName="Serif")
+    c.setTitle(f"{cfg['titel']} — Kindle")
+
+    verlauf(c, 0, 0, breite_pt, hoehe_pt,
+            FARBEN["grund_oben"], FARBEN["grund_unten"])
+    vorderseite(c, 0, 0, breite_pt, hoehe_pt, cfg, titelbild_suchen(),
+                ausblendfarbe=grundfarbe_bei(
+                    hoehe_pt * (1 - TITELBILD_BAND), hoehe_pt))
+    c.showPage()
+    c.save()
+
+    dokument = fitz.open(stream=puffer.getvalue(), filetype="pdf")
+    pix = dokument[0].get_pixmap(
+        matrix=fitz.Matrix(breite_px / breite_pt, hoehe_px / hoehe_pt),
+        alpha=False)
+    bild = Image.frombytes("RGB", (pix.width, pix.height), pix.samples)
+
+    ziel = Path(ziel)
+    ziel.parent.mkdir(parents=True, exist_ok=True)
+    bild.save(ziel, format="JPEG", quality=qualitaet, optimize=True)
+    return {"ziel": ziel, "px": bild.size, "kb": ziel.stat().st_size / 1024}
+
+
 def main():
     cfg = yaml.safe_load((BAND / "dopamin.yaml").read_text(encoding="utf-8"))
-    seiten = seitenzahl(BAND / "out" / f"{cfg['slug']}.pdf")
     klappentext = BAND / "cover" / "klappentext.md"
 
-    # Nur Taschenbuch. KDP führt 5 x 8 Zoll ausschließlich als Taschenbuch;
-    # für Hardcover gibt es 5,5x8,5 · 6x9 · 6,14x9,21 · 7x10 · 8,25x11 Zoll
-    # und sonst nichts. Ein Hardcover-Umschlag in diesem Maß würde beim
-    # Hochladen mit der Meldung zur erwarteten Covergröße abgelehnt — Band 3
-    # ist genau darüber gestolpert, siehe buch/README.md. Wer den Band
-    # gebunden herausbringen will, muss zuerst die Trimmgröße wechseln und
-    # den Innenteil neu bauen.
-    for hardcover in (False,):
+    for hardcover in (False, True):
         art = "Hardcover" if hardcover else "Taschenbuch"
         name = "cover-hardcover" if hardcover else "cover"
+
+        # Jede Bindeart liest ihre eigene Seitenzahl. Die Innenteile haben
+        # verschiedene Trimmgrößen, und aus der Seitenzahl folgt der Rücken.
+        innenteil = (f"{cfg['slug']}-hardcover.pdf" if hardcover
+                     else f"{cfg['slug']}.pdf")
+        seiten = seitenzahl(BAND / "out" / innenteil)
+
         if hardcover and seiten < HARDCOVER_MIN_SEITEN:
             print(f"\n{art}: übersprungen — KDP verlangt mindestens "
                   f"{HARDCOVER_MIN_SEITEN} Seiten, der Band hat {seiten}.")
@@ -520,9 +580,14 @@ def main():
               f"  (Rückentext: {'ja' if masse['ruecken_text'] else 'nein'})")
         print(f"Umschlag gesamt: {b:.2f} x {h:.2f} mm "
               f"= {b/25.4:.3f} x {h/25.4:.3f} Zoll, inkl. {rand} mm {randname}")
-        titelbild_melden(cfg, masse["titelbild"])
+        titelbild_melden(cfg, masse["titelbild"], hardcover=hardcover)
         print(f"  → {ziel.relative_to(WURZEL)}")
         print(f"  → {png.relative_to(WURZEL)}")
+
+    kindle = kindle_titelbild(cfg, BAND / "out" / "kindle-cover.jpg")
+    b, h = kindle["px"]
+    print(f"\nKindle-Titelbild: {b} x {h} px · {kindle['kb']:.0f} KB")
+    print(f"  → {kindle['ziel'].relative_to(WURZEL)}")
 
 
 if __name__ == "__main__":

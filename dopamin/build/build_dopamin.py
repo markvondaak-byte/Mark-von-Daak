@@ -27,6 +27,7 @@ sys.path.insert(0, str(WURZEL / "buch" / "build"))
 
 import build_docx  # noqa: E402
 import stile  # noqa: E402
+from build_cover import HARDCOVER_MIN_SEITEN  # noqa: E402
 from build_docx import (bauen, kapitel_laden, pdf_erzeugen,  # noqa: E402
                         seitenzahlen_ermitteln)
 
@@ -123,6 +124,45 @@ def main():
     woerter = sum(len(k["text"].split()) for k in kapitel)
     print(f"{len(kapitel)} Kapitel, {len(toc)} Verzeichniseinträge, "
           f"{woerter} Wörter, {seiten} Seiten")
+    print(f"  → {ziel.relative_to(WURZEL)}")
+    print(f"  → {pdf.relative_to(WURZEL)}")
+
+    hardcover_bauen(cfg, kapitel, toc, seiten)
+
+
+def hardcover_bauen(cfg, kapitel, toc, seiten_taschenbuch):
+    """Zweiter Innenteil im Hardcover-Format — 5,5 x 8,5 statt 5 x 8 Zoll.
+
+    KDP führt 5 x 8 Zoll nur als Taschenbuch. Der Satzspiegel ist in beiden
+    Fassungen derselbe, die ganze Formatdifferenz liegt in den Rändern
+    (siehe dopamin.yaml). Deshalb **muss** die Seitenzahl gleich bleiben —
+    weicht sie ab, stimmen die Ränder nicht, und aus der Seitenzahl folgt
+    die Rückenbreite des Umschlags.
+    """
+    hc_format = cfg.get("hardcover_seitenformat")
+    if not hc_format:
+        return
+
+    from pypdf import PdfReader
+
+    cfg_hc = dict(cfg, seitenformat=hc_format)
+    ziel = BAND / "out" / f"{cfg['slug']}-hardcover.docx"
+    for leerseite in (False, True):
+        bauen(cfg_hc, kapitel, ziel, toc_daten=toc, leerseite=leerseite,
+              stilwerte=TYPOGRAFIE)
+        pdf = pdf_erzeugen(ziel)
+        seiten = len(PdfReader(str(pdf)).pages)
+        if seiten % 2 == 0:
+            break
+
+    print(f"\nHardcover-Innenteil: {hc_format['breite_mm']} x "
+          f"{hc_format['hoehe_mm']} mm, {seiten} Seiten")
+    if seiten != seiten_taschenbuch:
+        print(f"  ACHTUNG: {seiten} statt {seiten_taschenbuch} Seiten — der "
+              "Satzspiegel weicht ab, Ränder in dopamin.yaml prüfen.")
+    if seiten < HARDCOVER_MIN_SEITEN:
+        print(f"  ACHTUNG: KDP verlangt für Hardcover mindestens "
+              f"{HARDCOVER_MIN_SEITEN} Seiten, es sind {seiten}.")
     print(f"  → {ziel.relative_to(WURZEL)}")
     print(f"  → {pdf.relative_to(WURZEL)}")
 
