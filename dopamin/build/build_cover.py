@@ -313,9 +313,11 @@ def vorderseite(c, x, y, breite, hoehe, cfg, foto=None,
     c.drawString(x + rand, cursor, cfg["titel"])
     cursor -= groesse * 1.32
 
-    # Untertitel
+    # Untertitel. 14 pt ist die Obergrenze, bei der er noch zweizeilig
+    # steht: Ab 14,5 pt rutscht der Gedankenstrich an den Anfang der zweiten
+    # Zeile, und ein Zeilenanfang mit Gedankenstrich sieht nach Versehen aus.
     cursor = block_schreiben(c, cfg["untertitel"], x + rand, cursor,
-                             textbreite, "Serif", 12.5, 17,
+                             textbreite, "Serif", 14, 19,
                              FARBEN["text_leise"])
 
     # Autor unten, mit Linie darüber
