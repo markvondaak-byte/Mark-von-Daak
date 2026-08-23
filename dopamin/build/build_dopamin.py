@@ -50,6 +50,10 @@ TYPOGRAFIE = {
     "BuchUntertitel": {"groesse": 11.5},
     "BuchAutor": {"groesse": 11.5},
 
+    "ImpressumTitel": {"groesse": 15, "farbe": INDIGO},
+    "ImpressumKopf": {"groesse": 9.5},
+    "ImpressumZeile": {"groesse": 9.5},
+
     "Teilnummer": {"groesse": 10, "farbe": INDIGO_HELL},
     "Teiltitel": {"groesse": 18, "farbe": INDIGO},
     "KapitelNummer": {"groesse": 9.5, "farbe": INDIGO_HELL},

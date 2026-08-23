@@ -163,6 +163,19 @@ STILE = {
     "BuchAutor": dict(schrift=SANS, groesse=13, fett=True, vor=0, nach=0,
                       ausrichtung=_MITTE),
 
+    # Impressumsseite: Buchtitel als Kopf, darunter alles zentriert und
+    # gedämpft. Die Formate stehen hier und nicht in einem einzelnen Band,
+    # weil jeder der vier Titel eine solche Seite hat.
+    "ImpressumTitel": dict(schrift=SANS, groesse=15, fett=True,
+                           farbe=FARBEN["blatt"], vor=0, nach=5, zeilen=1.15,
+                           ausrichtung=_MITTE),
+    "ImpressumKopf": dict(schrift=SANS, groesse=10, fett=True,
+                          farbe=FARBEN["gedaempft"], vor=14, nach=6,
+                          ausrichtung=_MITTE),
+    "ImpressumZeile": dict(schrift=SANS, groesse=9.5,
+                           farbe=FARBEN["gedaempft"], vor=0, nach=4,
+                           zeilen=1.25, ausrichtung=_MITTE),
+
     # Gliederung
     "Teilnummer": dict(schrift=SANS, groesse=11, fett=True,
                        farbe=FARBEN["blatt_hell"], vor=0, nach=4,

@@ -108,17 +108,33 @@ class Renderer:
     UEBERSCHRIFT_TEIL = {
         "h1": "Teilnummer", "h2": "Teiltitel", "h3": "Unterabschnitt",
     }
-    LAYOUTS = {"titelseite": UEBERSCHRIFT_TITELSEITE, "teil": UEBERSCHRIFT_TEIL}
+    # Impressumsseite: H1 = Buchtitel, H2 = Untertitel, H3 = "Impressum".
+    # Die Absätze darunter werden über `absatzstil` im Front Matter
+    # zentriert — Überschriften allein reichen für diese Seite nicht.
+    UEBERSCHRIFT_IMPRESSUM = {
+        "h1": "ImpressumTitel", "h2": "BuchUntertitel", "h3": "ImpressumKopf",
+    }
+    LAYOUTS = {"titelseite": UEBERSCHRIFT_TITELSEITE, "teil": UEBERSCHRIFT_TEIL,
+               "impressum": UEBERSCHRIFT_IMPRESSUM}
 
     def __init__(self, doc, textbreite_mm, toc_daten=None):
         self.doc = doc
         self.textbreite_mm = textbreite_mm
         self.toc_daten = toc_daten
         self.ueberschrift_karte = self.UEBERSCHRIFT
+        self.absatzstil = "Fliesstext"
         self.md = MarkdownIt("commonmark").enable("table").enable("strikethrough")
 
-    def rendern(self, markdown_text, ueberschriften=None):
+    def rendern(self, markdown_text, ueberschriften=None, absatzstil=None):
+        """`absatzstil` setzt das Format der Absätze für dieses Kapitel.
+
+        Gebraucht für Seiten, die nicht im Fließtext stehen — die
+        Impressumsseite ist zentriert und gedämpft. Ohne den Parameter
+        bliebe nur, jeden Absatz einzeln auszuzeichnen, und dafür hat die
+        Markdown-Teilmenge keine Syntax.
+        """
         self.ueberschrift_karte = ueberschriften or self.UEBERSCHRIFT
+        self.absatzstil = absatzstil or "Fliesstext"
         tokens = self.md.parse(self._marker_isolieren(markdown_text))
         self._block(tokens, 0, len(tokens))
 
@@ -151,7 +167,7 @@ class Renderer:
                 if marker:
                     marker()
                 else:
-                    stilname = listenstil or "Fliesstext"
+                    stilname = listenstil or self.absatzstil
                     absatz = self.doc.add_paragraph(style=stilname)
                     if listenstil == "Punkt":
                         absatz.add_run("•  ")
@@ -412,7 +428,8 @@ def bauen(cfg, kapitel, ziel, toc_daten=None, leerseite=False,
     for nummer, kap in enumerate(titelei):
         if nummer:
             stile.seitenumbruch(doc)
-        renderer.rendern(kap["text"], _layout(kap))
+        renderer.rendern(kap["text"], _layout(kap),
+                         kap["meta"].get("absatzstil"))
 
     # Rumpf: je Kapitel ein eigener Abschnitt, damit die Kopfzeile den
     # Kapitelnamen tragen kann. Seitenzählung startet neu bei 1.
@@ -436,7 +453,8 @@ def bauen(cfg, kapitel, ziel, toc_daten=None, leerseite=False,
                 links_text=cfg["titel"],
                 rechts_text=kap["meta"]["kopfzeile"],
             )
-        renderer.rendern(kap["text"], _layout(kap))
+        renderer.rendern(kap["text"], _layout(kap),
+                         kap["meta"].get("absatzstil"))
 
     if leerseite:
         # KDP verlangt eine gerade Seitenzahl und schiebt sonst selbst ein
