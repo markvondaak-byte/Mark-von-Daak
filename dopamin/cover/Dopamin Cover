@@ -1,6 +1,0 @@
-git checkout claude/dopamin-taschenbuch-hook-87tmzl
-git pull
-cp ~/Downloads/<dateiname>.png dopamin/cover/titelbild.png
-git add dopamin/cover/titelbild.png
-git commit -m "Titelfoto für Band 4"
-git push
