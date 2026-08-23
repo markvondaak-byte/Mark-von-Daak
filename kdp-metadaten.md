@@ -291,12 +291,12 @@ angezeigt und verwirrt beide Zielgruppen.
 | Untertitel | Warum das Glückshormon kein Glück macht — und wie Sie Ihren Antrieb zurückholen |
 | Serie | *keine* |
 | Beschreibung | `dopamin/cover/amazon-beschreibung.md` |
-| Trimmgröße | **5 × 8 Zoll** (12,7 × 20,32 cm) — steht in der Auswahlliste |
-| Seiten | 160 |
+| Trimmgröße | **6 × 9 Zoll** (15,24 × 22,86 cm) — wie Band 1 |
+| Seiten | 138 |
 | Papier | cremefarben (Lesebuch aus reinem Fließtext) |
 | Druckfarbe | Schwarzweiß |
-| Rückenbreite | 9,2 mm — **mit** Rückentext (KDP erlaubt ihn ab 79 Seiten) |
-| Umschlag gesamt | 269,50 × 209,55 mm (10,610 × 8,250 Zoll) |
+| Rückenbreite | 7,9 mm — **mit** Rückentext (KDP erlaubt ihn ab 79 Seiten) |
+| Umschlag gesamt | 319,04 × 234,95 mm (12,561 × 9,250 Zoll) |
 | Innenteil | `dopamin/out/dopamin-luege-druck.pdf` |
 | Umschlag | `dopamin/out/cover-druck.pdf` |
 
@@ -305,30 +305,33 @@ Beschreibung, gleiche Kategorien, gleiche Stichwörter:
 
 | Feld | Wert |
 |---|---|
-| Trimmgröße | **5,5 × 8,5 Zoll** (13,97 × 21,59 cm) — **nicht** 5 × 8 |
-| Seiten | 160 |
+| Trimmgröße | **6 × 9 Zoll** — dieselbe wie beim Taschenbuch |
+| Seiten | 138 |
 | Papier / Druckfarbe | cremefarben / Schwarzweiß |
-| Rücken der Buchdecke | 18,1 mm — **mit** Rückentext |
-| Umschlag gesamt | **13,131 × 9,917 Zoll** (333,54 × 251,89 mm) |
+| Rücken der Buchdecke | 16,9 mm — **mit** Rückentext |
+| Umschlag gesamt | **14,082 × 10,417 Zoll** (357,68 × 264,59 mm) |
 | Innenteil | `dopamin/out/dopamin-luege-hardcover-druck.pdf` — **eigene Datei** |
 | Umschlag | `dopamin/out/cover-hardcover-druck.pdf` |
 
-**Achtung, das Hardcover hat ein anderes Format als das Taschenbuch.** KDP
-führt 5 × 8 Zoll nur als Taschenbuch. Für Hardcover gibt es 5,5×8,5 · 6×9 ·
-6,14×9,21 · 7×10 · 8,25×11 Zoll und sonst nichts; 5,5 × 8,5 ist der kleinste
-Schritt darüber. Ohne den Formatwechsel lehnt der Upload mit „erwartete
-Covergröße …" ab — dieselbe Falle, in die Band 3 gelaufen ist.
+Der Innenteil des Hardcovers ist eine eigene Datei, obwohl das Format
+dasselbe ist: KDP verlangt beim Hardcover eine gerade Seitenzahl, und der
+Bauplan setzt dafür bei Bedarf eine Vakatseite. Der Umschlag ist ohnehin ein
+anderer — 18 mm Umschlagrand um die Buchdecke statt 3,175 mm Anschnitt, und
+ein Rücken, der die 9 mm der Buchdecke mitrechnet.
 
-Der Satzspiegel ist in beiden Fassungen identisch (97 × 172,2 mm); die
-Formatdifferenz geht vollständig in die Ränder. Nur dadurch bleibt die
-Seitenzahl bei 160 — und aus ihr folgt die Rückenbreite. `abnahme.py`
-vergleicht die beiden Seitenzahlen deshalb gegeneinander.
+**Warum 6 × 9 und nicht 5 × 8.** Der Band stand zuerst auf 5 × 8 Zoll, dem
+klassischen Taschenbuchmaß. Umgestellt wurde er, weil das Taschenbuch bei KDP
+als 6 × 9 Zoll angelegt ist; die Auswahl im Formular und das Maß der Datei
+müssen übereinstimmen, sonst lehnt der Upload mit „erwartete Covergröße …"
+ab. Zwei Nebeneffekte, beide gut: Alle gedruckten Titel haben jetzt dasselbe
+Format, und für das Hardcover braucht es kein zweites Format mehr — 5 × 8
+Zoll führt KDP nur als Taschenbuch, 6 × 9 steht in beiden Listen.
 
-**Warum 5 × 8 und nicht 6 × 9 wie Band 1.** Der Band ist ein reines Lesebuch
-ohne Tabellenwerk, das man in der Bahn und im Bett liest. 5 × 8 Zoll ist das
-klassische Taschenbuchmaß und liegt besser in der Hand. Der Satzspiegel ist
-darauf gerechnet: 97 mm Textbreite bei 10,5 pt ergeben rund 66 Zeichen je
-Zeile.
+Mit dem Format ist auch die Typografie die der Reihe geworden: 116,4 mm
+Satzspiegel, Fließtext 11 pt, rund 63 Zeichen je Zeile. Der kleinere Grad,
+den der schmale 5 × 8-Satzspiegel gebraucht hatte, ist entfallen. Die
+Seitenzahl ging dadurch von 160 auf 138 zurück — der Text ist derselbe, er
+steht nur auf größeren Seiten.
 
 **Kategorien:**
 

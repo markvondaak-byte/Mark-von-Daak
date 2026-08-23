@@ -10,7 +10,7 @@ HTML, das KDP im Beschreibungsfeld akzeptiert. KDP erlaubt dort nur eine
 kleine Auswahl an Tags — `<b>`, `<i>`, `<br>`, `<p>`, `<h4>` bis `<h6>`,
 `<ul>`, `<li>`. Alles andere wird verworfen oder als Text ausgegeben.
 
-Jede Zahl in diesem Text ist gegen das fertige Buch geprüft: 160 Seiten,
+Jede Zahl in diesem Text ist gegen das fertige Buch geprüft: 138 Seiten,
 27 Kapitel, fünf Teile, acht Werkzeuge in Teil III, sechs Vorlagen im Anhang.
 Wer den Innenteil ändert, prüft sie neu.
 
@@ -104,7 +104,7 @@ zu jedem Kapitel die Arbeiten, an denen man das nachprüfen kann.
 Kein medizinischer Ratgeber. Keine Präparate. Kein Versprechen, das sich in
 einem Wochenende einlösen ließe.
 
-**160 Seiten. 27 Kapitel. Glossar, Quellenverzeichnis und sechs Vorlagen. Und
+**138 Seiten. 27 Kapitel. Glossar, Quellenverzeichnis und sechs Vorlagen. Und
 die Unterscheidung, die alles verändert.**
 
 ---
@@ -131,5 +131,5 @@ die Unterscheidung, die alles verändert.**
 <p>Nicht geschrieben ist es als Ersatz f&uuml;r &auml;rztliche oder psychotherapeutische Hilfe. ADHS, Depression, Suchterkrankungen und die Parkinson-Erkrankung kommen darin vor &mdash; aber mit der Aussage, dass sie in eine Praxis geh&ouml;ren, und mit den Anlaufstellen dazu.</p>
 <p><b>Und ein Kapitel dar&uuml;ber, was wir nicht wissen.</b> Ein erheblicher Teil dessen, was &uuml;ber Dopamin im Netz steht, ist aus Tierversuchen hochgerechnet, aus Einzelstudien aufgeblasen oder schlicht erfunden. Dieses Buch sagt zu jeder Aussage, wie belastbar sie ist &mdash; und nennt zu jedem Kapitel die Arbeiten, an denen man das nachpr&uuml;fen kann.</p>
 <p>Kein medizinischer Ratgeber. Keine Pr&auml;parate. Kein Versprechen, das sich in einem Wochenende einl&ouml;sen lie&szlig;e.</p>
-<p><b>160 Seiten. 27 Kapitel. Glossar, Quellenverzeichnis und sechs Vorlagen. Und die Unterscheidung, die alles ver&auml;ndert.</b></p>
+<p><b>138 Seiten. 27 Kapitel. Glossar, Quellenverzeichnis und sechs Vorlagen. Und die Unterscheidung, die alles ver&auml;ndert.</b></p>
 ```

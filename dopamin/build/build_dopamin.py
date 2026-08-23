@@ -6,14 +6,19 @@
 Der Band nutzt denselben Markdown-Renderer wie Band 1 — dieselbe
 Auszeichnungs-Teilmenge, dieselben Marker. Eigen sind ihm drei Dinge:
 
-* **Format 5 x 8 Zoll** statt 6 x 9. Ein reines Lesebuch gehört in die Hand.
-* **Eigene Typografie.** Der schmalere Satzspiegel (97 mm) braucht einen
-  kleineren Grad, sonst stehen keine 60 Zeichen in der Zeile. Die Werte
+* **Eigene Farbwelt.** Indigo statt Blattgrün: Der Band gehört nicht zur
+  Stoffwechsel-Reihe und soll im Regal auch nicht so aussehen. Die Werte
   stehen in TYPOGRAFIE und werden `dokument_anlegen()` als Abweichung
   mitgegeben — nicht in `stile.py` gedreht, sonst verstellen sie die Bände
   1 bis 3 mit. Siehe buch/README.md.
-* **Eigene Farbwelt.** Indigo statt Blattgrün: Der Band gehört nicht zur
-  Stoffwechsel-Reihe und soll im Regal auch nicht so aussehen.
+* **Zwei Innenteile.** Taschenbuch und Hardcover, siehe `hardcover_bauen()`.
+
+Format und Schriftgrade sind dagegen die der Reihe: 6 x 9 Zoll, Fließtext
+11 pt. Solange der Band auf 5 x 8 Zoll stand, trug TYPOGRAFIE zusätzlich
+einen um einen Grad kleineren Schriftsatz — auf 97 mm Satzspiegel standen
+sonst keine 60 Zeichen in der Zeile. Mit dem Formatwechsel ist der Grund
+entfallen: Die Seite ist jetzt dieselbe wie in Band 1, also gehört auch
+derselbe Grad darauf.
 """
 
 import sys
@@ -43,42 +48,24 @@ KASTEN_GRUND = "EDECF5"
 KASTEN_RAHMEN = "CFCDE6"
 
 # --- Typografie --------------------------------------------------------------
-# Nur die Abweichungen von stile.STILE. Grundsatz: ein Grad kleiner als Band 1
-# im Fließtext, deutlich kleinere Überschriften — auf 127 mm Seitenbreite
-# wirkt eine 19-pt-Kapitelzeile wie ein Plakat.
+# Nur die Abweichungen von stile.STILE, und die sind ausschließlich farbig:
+# Überall dort, wo die Reihe Blattgrün setzt, steht in diesem Band Indigo.
+# Schriftgrade, Durchschuss und Abstände bleiben unangetastet — der Band
+# teilt sich das Format mit Band 1 und soll auch aufgeschlagen so aussehen.
+#
+# `stilwerte` überschreibt Feld für Feld, nicht Format für Format: Ein
+# Eintrag mit nur „farbe" lässt Grad und Abstände des Grundformats stehen.
 TYPOGRAFIE = {
-    "BuchTitel": {"groesse": 22, "farbe": INDIGO},
-    "BuchUntertitel": {"groesse": 11.5},
-    "BuchAutor": {"groesse": 11.5},
+    "BuchTitel": {"farbe": INDIGO},
+    "ImpressumTitel": {"farbe": INDIGO},
 
-    "ImpressumTitel": {"groesse": 15, "farbe": INDIGO},
-    "ImpressumKopf": {"groesse": 9.5},
-    "ImpressumZeile": {"groesse": 9.5},
+    "Teilnummer": {"farbe": INDIGO_HELL},
+    "Teiltitel": {"farbe": INDIGO},
+    "KapitelNummer": {"farbe": INDIGO_HELL},
+    "Kapitel": {"farbe": INDIGO},
 
-    "Teilnummer": {"groesse": 10, "farbe": INDIGO_HELL},
-    "Teiltitel": {"groesse": 18, "farbe": INDIGO},
-    "KapitelNummer": {"groesse": 9.5, "farbe": INDIGO_HELL},
-    "Kapitel": {"groesse": 16, "farbe": INDIGO},
-    "Abschnitt": {"groesse": 11.5},
-    "Unterabschnitt": {"groesse": 10},
-
-    "Fliesstext": {"groesse": 10.5, "nach": 5},
-    "FliesstextEng": {"groesse": 10.5},
-    "Einzug": {"groesse": 10.5},
-    "Klein": {"groesse": 8.5},
-    "KleinMitte": {"groesse": 8.5},
-    "Zitat": {"groesse": 10.5},
-
-    "Punkt": {"groesse": 10.5},
-    "Nummer": {"groesse": 10.5},
-
-    "KastenTitel": {"groesse": 9.5, "farbe": INDIGO},
-    "KastenText": {"groesse": 9},
-    "TabellenKopf": {"groesse": 8.5},
-    "TabellenZelle": {"groesse": 8.5},
-
-    "InhaltTeil": {"groesse": 9.5, "farbe": INDIGO},
-    "InhaltKapitel": {"groesse": 9.5},
+    "KastenTitel": {"farbe": INDIGO},
+    "InhaltTeil": {"farbe": INDIGO},
 }
 
 
@@ -131,13 +118,13 @@ def main():
 
 
 def hardcover_bauen(cfg, kapitel, toc, seiten_taschenbuch):
-    """Zweiter Innenteil im Hardcover-Format — 5,5 x 8,5 statt 5 x 8 Zoll.
+    """Zweiter Innenteil für das Hardcover.
 
-    KDP führt 5 x 8 Zoll nur als Taschenbuch. Der Satzspiegel ist in beiden
-    Fassungen derselbe, die ganze Formatdifferenz liegt in den Rändern
-    (siehe dopamin.yaml). Deshalb **muss** die Seitenzahl gleich bleiben —
-    weicht sie ab, stimmen die Ränder nicht, und aus der Seitenzahl folgt
-    die Rückenbreite des Umschlags.
+    Format und Ränder sind dieselben wie beim Taschenbuch (siehe
+    dopamin.yaml), die Seitenzahl **muss** deshalb übereinstimmen; die
+    Prüfung unten bleibt trotzdem stehen, weil sie es ist, die einen
+    stillen Formatwechsel meldet. Der eigene Lauf lohnt sich für die
+    Vakatseite: KDP verlangt beim Hardcover eine gerade Seitenzahl.
     """
     hc_format = cfg.get("hardcover_seitenformat")
     if not hc_format:

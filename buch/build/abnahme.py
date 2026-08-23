@@ -711,7 +711,7 @@ def dopamin_pruefen():
     seiten = text_von(pdf)
     pruefe("Seitenzahl gerade (KDP rundet sonst auf)", len(seiten) % 2 == 0,
            f"{len(seiten)} Seiten")
-    pruefe("Mindestseitenzahl 5 x 8 Zoll erreicht", len(seiten) >= 24,
+    pruefe("Mindestseitenzahl 6 x 9 Zoll erreicht", len(seiten) >= 24,
            f"{len(seiten)} Seiten")
 
     volltext = "\n".join(seiten)
@@ -781,11 +781,11 @@ def dopamin_pruefen():
                             cfg["seitenformat"]["hoehe_mm"])
     cover_pruefen("Band 4", basis / "out" / "cover.pdf", cfg, len(seiten))
 
-    # Hardcover: eigener Innenteil in eigener Trimmgröße, weil KDP 5 x 8 Zoll
-    # nur als Taschenbuch führt. Der Satzspiegel ist in beiden identisch —
-    # deshalb müssen die Seitenzahlen übereinstimmen. Weichen sie ab, sind
-    # die Ränder in dopamin.yaml falsch, und die Rückenbreite des
-    # Hardcover-Umschlags stimmt nicht mehr.
+    # Hardcover: eigener Innenteil, seit dem Wechsel auf 6 x 9 Zoll in
+    # derselben Trimmgröße wie das Taschenbuch und nur um die Vakatseite
+    # verschieden. Die Seitenzahlen müssen deshalb übereinstimmen — weichen
+    # sie ab, ist eines der beiden Formate in dopamin.yaml verstellt, und
+    # die Rückenbreite des Hardcover-Umschlags stimmt nicht mehr.
     hc_format = cfg.get("hardcover_seitenformat")
     hc_pdf = basis / "out" / f"{cfg['slug']}-hardcover.pdf"
     if hc_format and hc_pdf.exists():

@@ -451,7 +451,7 @@ Zeiten korrigiert, muss nichts nachpflegen.
 
 ## Band 4 — Die Dopamin-Lüge
 
-Ein eigenständiges Sachbuch über den Botenstoff Dopamin, 160 Seiten,
+Ein eigenständiges Sachbuch über den Botenstoff Dopamin, 138 Seiten,
 27 Kapitel. Es steht **außerhalb** der Stoffwechsel-Reihe und wird bei KDP
 ohne Serienzuordnung angelegt.
 
@@ -460,27 +460,34 @@ Die Quellen liegen wie bei Band 1 als Markdown mit Front Matter in
 drei Marker. Gebaut wird mit `dopamin/build/build_dopamin.py`, das den
 Renderer aus `buch/build/build_docx.py` benutzt.
 
-**Format 5″ × 8″.** Das klassische Taschenbuchmaß, nicht 6 × 9 wie Band 1: ein
-reines Lesebuch aus Fließtext, ohne Tabellenwerk, das man in der Bahn und im
-Bett liest. Das Maß steht in KDPs Auswahlliste und muss nicht als
-benutzerdefinierte Größe eingetragen werden.
+**Format 6″ × 9″.** Dasselbe wie Band 1. Der Band stand zuerst auf 5 × 8 Zoll,
+dem klassischen Taschenbuchmaß — ein reines Lesebuch aus Fließtext gehört in
+die Hand, nicht auf den Tisch. Umgestellt wurde er, weil das Taschenbuch bei
+KDP als 6 × 9 Zoll angelegt ist: Die im Formular gewählte Trimmgröße und das
+Maß der Datei müssen übereinstimmen, sonst lehnt der Upload mit „erwartete
+Covergröße …" ab. Mit dem Format hat der Band auch die Typografie der Reihe
+bekommen — 116,4 mm Satzspiegel, Fließtext 11 pt statt 10,5 —, und die
+Seitenzahl ist von 160 auf 138 zurückgegangen. Derselbe Text auf größeren
+Seiten.
 
-**Hardcover in eigenem Format.** KDP führt 5 × 8 Zoll ausschließlich als
-Taschenbuch. Für Hardcover gibt es 5,5×8,5 · 6×9 · 6,14×9,21 · 7×10 · 8,25×11
-Zoll und sonst nichts — dieselbe Falle, in die Band 3 gelaufen ist. Der Band
-läuft als Hardcover deshalb auf **5,5 × 8,5 Zoll**, dem kleinsten Schritt
-darüber, und bekommt einen zweiten Innenteil:
+**Hardcover im selben Format.** Für Hardcover führt KDP 5,5×8,5 · 6×9 ·
+6,14×9,21 · 7×10 · 8,25×11 Zoll und sonst nichts. Solange das Taschenbuch auf
+5 × 8 Zoll stand, brauchte das Hardcover deshalb ein eigenes, größeres Format
+mit eigenen Rändern — dieselbe Falle, in die Band 3 gelaufen ist. Auf 6 × 9
+Zoll entfällt der Grund: Das Maß steht in beiden Listen. Zwei Innenteile
+bleiben es trotzdem, weil KDP beim Hardcover eine gerade Seitenzahl verlangt
+und der Bauplan dafür bei Bedarf eine Vakatseite setzt:
 
 ```bash
-dopamin/out/dopamin-luege-druck.pdf              # Taschenbuch, 5 x 8 Zoll
-dopamin/out/dopamin-luege-hardcover-druck.pdf    # Hardcover,   5,5 x 8,5 Zoll
+dopamin/out/dopamin-luege-druck.pdf              # Taschenbuch, 6 x 9 Zoll
+dopamin/out/dopamin-luege-hardcover-druck.pdf    # Hardcover,   6 x 9 Zoll
 ```
 
-Der Satzspiegel ist in beiden identisch — `hardcover_seitenformat` in
-`dopamin.yaml` legt die ganze Formatdifferenz in die Ränder, je 6,35 mm auf
-jeder Seite. Bei gleichem Textblock brechen die Zeilen gleich um, und die
-Seitenzahl bleibt bei 160; aus ihr folgt die Rückenbreite. `abnahme.py`
-vergleicht die beiden Seitenzahlen deshalb gegeneinander.
+`hardcover_seitenformat` in `dopamin.yaml` bleibt stehen, obwohl es zurzeit
+dasselbe sagt wie `seitenformat`: `build_cover.py` liest es für den
+Hardcover-Umschlag, und wechselt eine Fassung später doch das Format, wird sie
+dort geändert und nirgends sonst. Die Seitenzahlen müssen übereinstimmen — aus
+ihnen folgt die Rückenbreite —, und `abnahme.py` vergleicht sie gegeneinander.
 
 ### Kindle-Ausgabe
 
@@ -498,16 +505,20 @@ bekommt die echte Buchbreite in Punkt: Die Schriftgrößen sind absolute
 Punktwerte, und auf einer breiteren Leinwand bliebe alles außer dem Titel
 winzig.
 
-### Eigene Typografie und Farbwelt
+### Eigene Farbwelt
 
-Der schmalere Satzspiegel (127 − 17 − 13 = 97 mm) verlangt einen kleineren
-Grad, sonst stehen keine 60 Zeichen in der Zeile. Die Werte stehen in
-`TYPOGRAFIE` in `build_dopamin.py` und werden `dokument_anlegen()` als
-Abweichung mitgegeben — **nicht** in `stile.py` gedreht, sonst verstellen sie
-die Bände 1 bis 3 mit. 10,5 pt auf 97 mm ergeben rund 66 Zeichen je Zeile.
+`TYPOGRAFIE` in `build_dopamin.py` sammelt die Abweichungen von `stile.STILE`
+und gibt sie `dokument_anlegen()` mit — **nicht** in `stile.py` gedreht, sonst
+verstellen sie die Bände 1 bis 3 mit. `build_docx.bauen()` nimmt dafür ein
+zusätzliches Argument `stilwerte`; Band 1 gibt nichts mit und bekommt
+unverändert die Vorgabewerte. Überschrieben wird Feld für Feld, nicht Format
+für Format: Ein Eintrag mit nur „farbe" lässt Grad und Abstände stehen.
 
-`build_docx.bauen()` nimmt dafür ein zusätzliches Argument `stilwerte`. Band 1
-gibt nichts mit und bekommt unverändert die Vorgabewerte.
+Die Abweichungen sind inzwischen ausschließlich farbig. Solange der Band auf
+5 × 8 Zoll stand, trug `TYPOGRAFIE` zusätzlich einen um einen Grad kleineren
+Schriftsatz: Auf 97 mm Satzspiegel standen sonst keine 60 Zeichen in der
+Zeile. Mit dem Wechsel auf 6 × 9 Zoll ist der Grund entfallen — die Seite ist
+jetzt dieselbe wie in Band 1, also gehört auch derselbe Grad darauf.
 
 Die Leitfarbe ist Indigo statt Blattgrün. Zwei der Farben, die der Renderer
 benutzt, sind Modulwerte und keine Argumente — `stile.FARBEN["kasten"]`,

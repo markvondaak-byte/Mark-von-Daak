@@ -274,6 +274,31 @@ def einzeilig_einpassen(c, text, schrift, breite, *, maximal, minimal):
     return groesse
 
 
+def untertitel_einpassen(c, text, schrift, breite, *, maximal, minimal,
+                         zeilen_max=2):
+    """Größte Schriftgröße, bei der der Untertitel sauber umbricht.
+
+    Sauber heißt zweierlei: höchstens `zeilen_max` Zeilen, und keine Zeile,
+    die mit einem Gedankenstrich anfängt. Der Untertitel dieses Bandes hat
+    seinen Strich in der Mitte, und rutscht der an einen Zeilenanfang, sieht
+    das im Amazon-Vorschaubild nach Satzfehler aus.
+
+    Gerechnet statt eingetragen, weil der Wert von zwei Dingen abhängt, die
+    sich beide ändern können: von der Seitenbreite — der Band stand einmal
+    auf 5 x 8 Zoll, dort waren 14 pt die Grenze, auf 6 x 9 Zoll sind es
+    17 — und vom Wortlaut des Untertitels. Ein fester Wert wäre nach der
+    ersten Änderung an einem von beiden still falsch.
+    """
+    groesse = float(maximal)
+    while groesse > minimal:
+        zeilen = umbrechen(c, text, schrift, groesse, breite)
+        if len(zeilen) <= zeilen_max and not any(z.startswith("—")
+                                                 for z in zeilen):
+            break
+        groesse -= 0.5
+    return groesse
+
+
 def vorderseite(c, x, y, breite, hoehe, cfg, foto=None,
                 ueberstand=0, ausblendfarbe=None):
     rand = breite * 0.11
@@ -317,11 +342,11 @@ def vorderseite(c, x, y, breite, hoehe, cfg, foto=None,
     c.drawString(x + rand, cursor, cfg["titel"])
     cursor -= groesse * 1.32
 
-    # Untertitel. 14 pt ist die Obergrenze, bei der er noch zweizeilig
-    # steht: Ab 14,5 pt rutscht der Gedankenstrich an den Anfang der zweiten
-    # Zeile, und ein Zeilenanfang mit Gedankenstrich sieht nach Versehen aus.
+    # Untertitel, so groß wie er zweizeilig sauber umbricht — siehe dort.
+    unter = untertitel_einpassen(c, cfg["untertitel"], "Serif", textbreite,
+                                 maximal=20, minimal=11)
     cursor = block_schreiben(c, cfg["untertitel"], x + rand, cursor,
-                             textbreite, "Serif", 14, 19,
+                             textbreite, "Serif", unter, unter * 1.36,
                              FARBEN["text_leise"])
 
     # Autor unten, mit Linie darüber
@@ -370,7 +395,12 @@ def rueckseite(c, x, y, breite, hoehe, cfg, kopf, absaetze, punkte,
     textbreite = breite - 2 * rand
 
     # Kleines Motiv als Wiedererkennung, oben rechts und weit weg vom Text.
-    molekuel(c, x + breite * 0.78, y + hoehe * 0.895, breite * 0.10,
+    #
+    # Der Mittelpunkt sitzt bei 0,70 und nicht weiter rechts, weil die
+    # Formel nicht mittig um ihn steht: Die Seitenkette ragt 2,74 Radien
+    # nach rechts, also 0,274 Seitenbreiten. Bei 0,78 lief ihr Ende über
+    # die Trimmkante hinaus und wurde vom Rücken abgeschnitten.
+    molekuel(c, x + breite * 0.70, y + hoehe * 0.895, breite * 0.10,
              FARBEN["molekuel"], breite * 0.008)
 
     # Weiss hinterlegt wird nur beim Taschenbuch. Beim Hardcover bringt KDP
@@ -385,9 +415,9 @@ def rueckseite(c, x, y, breite, hoehe, cfg, kopf, absaetze, punkte,
     oben = y + hoehe * 0.815
     platz = oben - (hinweis_y + 16)
 
-    # Der Klappentext sucht sich seine Größe selbst — 5 x 8 Zoll ist eine
-    # kleine Rückseite, und der Text soll weder überlaufen noch verloren
-    # wirken.
+    # Der Klappentext sucht sich seine Größe selbst: Er wird beim Schreiben
+    # länger und kürzer, und der Text soll weder überlaufen noch auf der
+    # Rückseite verloren wirken.
     faktor = 1.0
     basis = (13.0, 9.6, 9.2)
 
@@ -452,9 +482,12 @@ def rueckseite(c, x, y, breite, hoehe, cfg, kopf, absaetze, punkte,
 def cover_bauen(cfg, seiten, klappentext_pfad, ziel, *, hardcover=False):
     schriften_laden()
 
-    # Hardcover hat ein eigenes Trimmformat: KDP führt 5 x 8 Zoll nur als
-    # Taschenbuch. Ohne diese Unterscheidung lehnt der Upload mit
-    # „erwartete Covergröße …" ab — dieselbe Falle wie bei Band 3.
+    # Die Trimmgröße kommt je Bindeart aus der Konfiguration. Zurzeit sind
+    # beide 6 x 9 Zoll; die Unterscheidung bleibt, weil KDP für Taschenbuch
+    # und Hardcover verschiedene Formatlisten führt und eine Fassung
+    # deshalb jederzeit wieder abweichen kann. Passt die Trimmgröße nicht
+    # zur Auswahl im Formular, lehnt der Upload mit „erwartete
+    # Covergröße …" ab — dieselbe Falle wie bei Band 3.
     sf = cfg["hardcover_seitenformat"] if hardcover else cfg["seitenformat"]
     trim_b = sf["breite_mm"] * mm
     trim_h = sf["hoehe_mm"] * mm
@@ -580,6 +613,15 @@ def main():
               f"  (Rückentext: {'ja' if masse['ruecken_text'] else 'nein'})")
         print(f"Umschlag gesamt: {b:.2f} x {h:.2f} mm "
               f"= {b/25.4:.3f} x {h/25.4:.3f} Zoll, inkl. {rand} mm {randname}")
+        # Die Trimmgröße gehört in die Ausgabe, weil sie die eine Angabe
+        # ist, die im Formular von Hand gesetzt wird und mit der Datei
+        # übereinstimmen muss. Weicht sie ab, meldet KDP „erwartete
+        # Covergröße …" mit den Maßen der ausgewählten Trimmgröße — die
+        # Zahl daneben ist dann die der eingereichten Datei, und aus der
+        # Differenz lässt sich ablesen, welche der beiden falsch ist.
+        sf = cfg["hardcover_seitenformat"] if hardcover else cfg["seitenformat"]
+        print(f"Im KDP-Formular als Trimmgröße wählen: "
+              f"{sf['breite_mm']/25.4:.4g} x {sf['hoehe_mm']/25.4:.4g} Zoll")
         titelbild_melden(cfg, masse["titelbild"], hardcover=hardcover)
         print(f"  → {ziel.relative_to(WURZEL)}")
         print(f"  → {png.relative_to(WURZEL)}")
