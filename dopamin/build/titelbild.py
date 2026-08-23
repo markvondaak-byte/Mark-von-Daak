@@ -95,22 +95,72 @@ KOPF_KLEINHIRN = [
     (0.248, 0.616),
 ]
 
-# --- Farbwelt ----------------------------------------------------------------
-GRUND_OBEN = (27, 26, 58)
-GRUND_UNTEN = (12, 11, 30)
-BOKEH_TOENE = [(24, 86, 120), (38, 60, 150), (18, 108, 118), (72, 48, 140)]
-KOPF_VORN = (54, 52, 104)        # Fleischton der Figur, vorderer Rand
-KOPF_HINTEN = (28, 27, 62)       # hinterer Rand — daraus wird das Volumen
-RANDLICHT = (176, 194, 255)
-HIRN_GRUND = (74, 68, 148)
-NETZ = (150, 142, 240)
-SYNAPSE = (255, 186, 108)
+# --- Knochen und Weichteile --------------------------------------------------
+# Was eine Silhouette zur Röntgenansicht macht, sind wenige Andeutungen:
+# Augenhöhle, Kieferlinie, Halswirbelsäule. Gezeichnet werden sie als
+# **Linien** und nicht als Flächen, und sie bleiben dunkler als das Gehirn.
+# Nase und Zahnreihe stehen als Konstanten bereit, werden aber nicht
+# gezeichnet — warum, steht in _knochen().
+AUGENHOEHLE = [
+    (0.678, 0.624), (0.724, 0.612), (0.736, 0.584),
+    (0.714, 0.562), (0.680, 0.568), (0.664, 0.596),
+]
 
-# Wie viele Knoten das Nervennetz hat und wie eng sie stehen dürfen.
-NETZ_KNOTEN = 78
-NETZ_ABSTAND = 0.030            # Mindestabstand im Einheitsraster
+NASENHOEHLE = [(0.754, 0.548), (0.774, 0.508), (0.738, 0.514)]
+
+# Nur der Unterkiefer als Linie. Ein zweiter Bogen für den Oberkiefer stand
+# im ersten Versuch quer durch die Zahnreihe und machte daraus einen
+# Reißverschluss — der Zahnbogen oben ergibt sich aus den Zähnen selbst.
+UNTERKIEFER = [
+    (0.558, 0.330), (0.578, 0.398), (0.620, 0.418),
+    (0.700, 0.414), (0.760, 0.396),
+]
+
+# Zahnreihe: von, bis, Grundlinie, Höhe der Krone (negativ = nach unten).
+ZAEHNE_OBEN = (0.650, 0.762, 0.462, -0.020)
+ZAEHNE_UNTEN = (0.652, 0.756, 0.424, 0.018)
+ZAHN_BREITE = 0.024
+
+# Halswirbel, von oben nach unten. Die dritte Zahl ist die halbe Breite.
+# Sie sitzen hinten im Hals und sind klein: Im ersten Versuch standen sie
+# mittig und doppelt so breit — das las sich als Leiter, nicht als Wirbel.
+WIRBEL = [
+    (0.350, 0.268, 0.020), (0.354, 0.212, 0.021), (0.358, 0.156, 0.022),
+    (0.362, 0.098, 0.023), (0.366, 0.038, 0.024), (0.370, -0.024, 0.025),
+    (0.374, -0.088, 0.026),
+]
+WIRBEL_HOEHE = 0.019            # halbe Höhe eines Wirbels
+
+# --- Farbwelt ----------------------------------------------------------------
+# Nach der Vorlage: türkiser Bokeh-Grund, der nach rechts ins Violette
+# kippt, ein fast schwarzer Kopf und alles Anatomische in Cyan. Der warme
+# Ton bleibt den Synapsen vorbehalten — er ist im ganzen Bild die einzige
+# Farbe, die nicht kalt ist, und deshalb sieht man ihn zuerst.
+GRUND_LINKS = (16, 96, 116)
+GRUND_RECHTS = (62, 46, 108)
+GRUND_ABDUNKLUNG = 0.42          # wie stark der untere Rand abgedunkelt wird
+BOKEH_TOENE = [(48, 176, 196), (36, 140, 176), (92, 78, 168), (28, 168, 158)]
+
+KOPF_HINTEN = (7, 14, 30)        # der Kopf ist fast schwarz — erst dadurch
+KOPF_VORN = (16, 30, 54)         # leuchten die Knochenlinien darin
+
+RANDLICHT = (150, 236, 255)      # Cyan, die Profilkante
+KNOCHEN = (118, 206, 242)
+HIRN_GRUND = (30, 92, 126)
+GYRI = (156, 228, 250)
+SYNAPSE = (255, 132, 52)
+
+# Die Gehirnwindungen: Zahl der Bahnen und wie stark sie mäandern. Sie
+# liegen als leise Textur unter dem Netz — siehe rendern(), Schritt 5.
+GYRI_BAHNEN = 13
+GYRI_AUSSCHLAG = 0.030
+
+# Das Nervennetz darüber: Knoten, Mindestabstand und Nachbarn je Knoten.
+NETZ_KNOTEN = 74
+NETZ_ABSTAND = 0.030
 NETZ_NACHBARN = 3
-SYNAPSEN_ANTEIL = 0.17          # welcher Teil der Knoten hell leuchtet
+
+SYNAPSEN = 20                    # Leuchtpunkte im Gehirn
 
 ZUFALL = 20260821               # fester Startwert: gleicher Bau, gleiches Bild
 
@@ -237,33 +287,142 @@ def _randlicht(groesse, streckenzug, rahmen, staerke_px):
     return kern, hof
 
 
-def _nervennetz(wuerfel, hirn_polygon, klein_polygon):
-    """Knoten und Kanten des Netzes, im Einheitsraster.
+def _gyri(groesse, wuerfel, hirn_maske, rahmen, figur_b):
+    """Die Gehirnwindungen als mäandernde Bänder, am Gehirn beschnitten.
+
+    Gezeichnet wird über die volle Breite und danach beschnitten — das ist
+    erheblich einfacher, als jede Bahn an die Kontur anzupassen, und läuft
+    an der Kante sauberer aus.
+
+    Die Bahnen sind dick und stehen eng: Nicht die Linien sind die
+    Windungen, sondern die Lücken dazwischen sind die Furchen. Mit dünnen
+    Strichen in großem Abstand sah das Gehirn aus wie ein Drahtmodell.
+    """
+    x, y, b, h = rahmen
+    ebene = Image.new("L", groesse, 0)
+    zeichner = ImageDraw.Draw(ebene)
+    staerke = max(2, round(figur_b * 0.017))
+
+    # Jede Windung ist ein Lauf mit Trägheit: Die Richtung ändert sich in
+    # kleinen Schritten, nie sprunghaft. Ein erster Versuch legte waagerechte
+    # Sinusbahnen übereinander — das ergab ein Streifenmuster und sah aus wie
+    # eine Petrischale, nicht wie ein Gehirn. Furchen laufen nicht parallel.
+    for i in range(GYRI_BAHNEN):
+        u = wuerfel.uniform(0.23, 0.68)
+        v = wuerfel.uniform(0.67, 0.91)
+        # Die Startrichtung ist waagerecht mit etwas Streuung. Furchen laufen
+        # in weiten Bögen quer über die Hemisphäre, nicht in alle Richtungen:
+        # Bei freier Startrichtung und starker Krümmung entstand ein
+        # Wollknäuel, in dem sich die Bahnen ständig selbst kreuzten.
+        winkel = (0.0 if i % 2 else math.pi) + wuerfel.uniform(-0.55, 0.55)
+        drall = wuerfel.uniform(-0.08, 0.08)
+        punkte = []
+        for _ in range(46):
+            punkte.append((x + u * b, y + (1 - v) * h))
+            drall += wuerfel.uniform(-0.05, 0.05)
+            drall = max(-0.16, min(0.16, drall))
+            winkel += drall
+            u += math.cos(winkel) * GYRI_AUSSCHLAG * 0.55
+            v += math.sin(winkel) * GYRI_AUSSCHLAG * 0.55
+            # Am Rand endet die Bahn. Umkehren wäre naheliegend und war der
+            # zweite Grund für das Knäuel — die Bahnen sammelten sich dann
+            # an der Kontur und verknoteten sich dort.
+            if not (0.21 < u < 0.71 and 0.65 < v < 0.93):
+                break
+        if len(punkte) > 3:
+            zeichner.line(punkte, fill=205,
+                          width=max(2, round(staerke * wuerfel.uniform(0.8, 1.2))),
+                          joint="curve")
+
+    return ImageChops.multiply(ebene, hirn_maske)
+
+
+def _nervennetz(groesse, wuerfel, hirn_polygon, rahmen, figur_b):
+    """Knoten im Gehirn, mit ihren nächsten Nachbarn verbunden.
+
+    Das Netz trägt das Gehirn, nicht die Windungen: Eine Strichgrafik kann
+    Furchen nicht plastisch machen, ein Netz braucht keine Plastik. Es ist
+    zugleich die passendere Aussage für dieses Buch — es geht um Signale
+    zwischen Zellen, nicht um Faltung.
 
     Die Knoten werden verworfen und neu gezogen, bis sie weit genug
-    auseinanderliegen — ein reines Zufallsmuster ballt sich an einigen
-    Stellen und lässt anderswo Löcher, und beides sieht man dem fertigen
-    Bild an.
+    auseinanderliegen. Ein reines Zufallsmuster ballt sich an einigen
+    Stellen und lässt anderswo Löcher, und beides sieht man dem Bild an.
     """
+    x, y, b, h = rahmen
     knoten = []
     versuche = 0
     while len(knoten) < NETZ_KNOTEN and versuche < NETZ_KNOTEN * 400:
         versuche += 1
-        p = (wuerfel.uniform(0.20, 0.72), wuerfel.uniform(0.55, 0.95))
-        if not (_im_polygon(p, hirn_polygon) or _im_polygon(p, klein_polygon)):
+        p = (wuerfel.uniform(0.21, 0.71), wuerfel.uniform(0.64, 0.94))
+        if not _im_polygon(p, hirn_polygon):
             continue
         if any(math.dist(p, q) < NETZ_ABSTAND for q in knoten):
             continue
         knoten.append(p)
 
-    kanten = set()
+    def ab(p):
+        return (x + p[0] * b, y + (1 - p[1]) * h)
+
+    ebene = Image.new("L", groesse, 0)
+    zeichner = ImageDraw.Draw(ebene)
     for i, p in enumerate(knoten):
         nah = sorted(range(len(knoten)),
                      key=lambda j: math.dist(p, knoten[j]))[1:NETZ_NACHBARN + 1]
         for j in nah:
-            if math.dist(p, knoten[j]) < NETZ_ABSTAND * 3.2:
-                kanten.add((min(i, j), max(i, j)))
-    return knoten, sorted(kanten)
+            if math.dist(p, knoten[j]) < NETZ_ABSTAND * 3.0:
+                zeichner.line([ab(p), ab(knoten[j])], fill=105,
+                              width=max(1, round(figur_b * 0.0022)))
+    for p in knoten:
+        px, py = ab(p)
+        r = figur_b * 0.0048
+        zeichner.ellipse([px - r, py - r, px + r, py + r], fill=190)
+    return ebene
+
+
+def _knochen(groesse, rahmen, figur_b):
+    """Augenhöhle, Nasenöffnung, Kiefer mit Zahnreihe und Halswirbelsäule.
+
+    Alles auf einer Maske, damit es in einem Zug eingefärbt und mit einem
+    Hof versehen werden kann.
+    """
+    x, y, b, h = rahmen
+
+    def ab(px, py):
+        return (x + px * b, y + (1 - py) * h)
+
+    maske = Image.new("L", groesse, 0)
+    zeichner = ImageDraw.Draw(maske)
+    strich = max(2, round(figur_b * 0.007))
+
+    # Augenhöhle und Nasenöffnung sind Öffnungen im Knochen — als Fläche
+    # gezeichnet und nicht als Umriss, sonst verschwinden sie im Druck.
+    # Die Augenhöhle als **Linie**, nicht als Fläche. Gefüllt war sie ein
+    # heller Klecks im Gesicht; als Kontur liest sie sich als Knochen.
+    zeichner.line([ab(*p) for p in polylinie(AUGENHOEHLE, schritte=10)]
+                  + [ab(*AUGENHOEHLE[0])],
+                  fill=120, width=strich, joint="curve")
+
+    zeichner.line([ab(*p) for p in polylinie(UNTERKIEFER, geschlossen=False,
+                                             schritte=12)],
+                  fill=115, width=strich, joint="curve")
+
+    # Nasenöffnung und Zahnreihe sind hier bewusst **nicht** gezeichnet.
+    # Beides braucht auf 55 mm Kopfbreite mehr Auflösung, als der Druck
+    # hergibt: Das Dreieck der Nase wurde zur Flosse, die Zahnreihe zum
+    # Reißverschluss. Die Vorlage kann sich das leisten, weil sie ein
+    # 3D-Rendering mit echten Volumen ist. Die Konstanten stehen oben —
+    # wer es mit mehr Auflösung versuchen will, findet sie dort.
+
+    for wx, wy, halb in WIRBEL:
+        p1 = ab(wx - halb, wy + WIRBEL_HOEHE)
+        p2 = ab(wx + halb, wy - WIRBEL_HOEHE)
+        zeichner.rounded_rectangle(
+            [min(p1[0], p2[0]), min(p1[1], p2[1]),
+             max(p1[0], p2[0]), max(p1[1], p2[1])],
+            radius=figur_b * 0.007, fill=122)
+
+    return maske
 
 
 def _vignette(groesse):
@@ -295,23 +454,30 @@ def rendern(breite_px, hoehe_px, ueberabtastung=2):
     breite, hoehe = groesse
     wuerfel = random.Random(ZUFALL)
 
-    # 1 — Grund mit Tiefe
-    bild = _verlaufsbild(groesse, GRUND_OBEN, GRUND_UNTEN)
+    # 1 — Grund: waagerecht von Türkis nach Violett, nach unten abgedunkelt.
+    #     Der Verlauf wird über eine Spalte gerechnet und gedreht; rotate(90)
+    #     dreht gegen den Uhrzeigersinn, deshalb steht LINKS zuerst.
+    grund = _verlaufsbild((hoehe, breite), GRUND_LINKS, GRUND_RECHTS)
+    grund = grund.rotate(90, expand=True).resize(groesse, Image.BILINEAR)
+    abdunklung = _verlaufsbild(groesse, (255, 255, 255),
+                               tuple([round(255 * GRUND_ABDUNKLUNG)] * 3))
+    bild = ImageChops.multiply(grund, abdunklung)
     bild = ImageChops.add(bild, _bokeh(groesse, wuerfel))
 
     # 2 — Rahmen der Figur. Sie steht mittig, hat oben Luft und läuft unten
     #     aus dem Bild. Die Höhe ist so gewählt, dass der Hals die Unterkante
-    #     gerade erreicht: Bei 0,84 der Bildhöhe reicht der Umriss mit seinen
-    #     1,14 Rastereinheiten knapp darüber hinaus. Ein erster Ansatz hatte
-    #     0,97 und einen negativen Ursprung — da war der Scheitel abgesägt.
-    # Die Luft oben ist großzügiger, als sie im Einzelbild aussieht: Auf dem
-    # Umschlag liegen die oberen 3,175 mm des Bandes im Anschnitt und werden
-    # weggeschnitten. Bei 0,05 Rand stand der Scheitel danach 1,7 mm unter
-    # der Papierkante und wirkte angeschnitten.
+    #     gerade erreicht: Bei 0,78 der Bildhöhe reicht der Umriss mit seinen
+    #     1,14 Rastereinheiten knapp darüber hinaus. Die Luft oben ist
+    #     großzügiger, als sie im Einzelbild aussieht — auf dem Umschlag
+    #     liegen die oberen 3,175 mm im Anschnitt.
     figur_h = hoehe * 0.78
     figur_b = figur_h * 0.736          # x-Ausdehnung der Punktfolgen
     rahmen = ((breite - figur_b) / 2 - 0.152 * figur_h,
               hoehe * 0.10, figur_h, figur_h)
+    x, y, b, h = rahmen
+
+    def ab(px, py):
+        return (x + px * b, y + (1 - py) * h)
 
     umriss = polylinie(KOPF_UMRISS, spannung=7.5)
     hirn = polylinie(KOPF_HIRN)
@@ -319,74 +485,84 @@ def rendern(breite_px, hoehe_px, ueberabtastung=2):
 
     kopf_maske = _maske(groesse, umriss, rahmen)
 
-    # 3 — Volumen: waagerechter Verlauf von hinten nach vorn, durch die
-    #     Kopfmaske gelegt. Ein flacher Ton machte aus der Figur eine
-    #     Schablone; erst der Verlauf gibt ihr eine Vorder- und Rückseite.
-    # rotate(90) dreht gegen den Uhrzeigersinn: Der obere Rand des Verlaufs
-    # landet links. Deshalb steht hier HINTEN vor VORN — sonst wäre der
-    # Hinterkopf beleuchtet und das Gesicht läge im Schatten.
+    # 3 — Der Kopf ist fast schwarz, mit einem leichten Verlauf von hinten
+    #     nach vorn. Das ist der Punkt, an dem die Vorlage ihre Wirkung
+    #     herholt: Erst auf einem dunklen Körper leuchten Knochen und Gehirn.
     volumen = _verlaufsbild((hoehe, breite), KOPF_HINTEN, KOPF_VORN)
     volumen = volumen.rotate(90, expand=True).resize(groesse, Image.BILINEAR)
     bild = Image.composite(volumen, bild,
                            kopf_maske.filter(ImageFilter.GaussianBlur(s * 0.8)))
 
-    # 4 — Gehirn, weich eingeblendet
-    hirn_maske = _maske(groesse, hirn, rahmen)
-    klein_maske = _maske(groesse, klein, rahmen)
-    hirn_gesamt = ImageChops.lighter(hirn_maske, klein_maske)
-    weich = hirn_gesamt.filter(ImageFilter.GaussianBlur(figur_b * 0.012))
+    # 4 — Knochen: Augenhöhle, Nase, Kiefer, Zähne, Wirbelsäule. Erst der
+    #     Hof, dann die Linien — sonst wirken sie flach aufgeklebt.
+    knochen = _knochen(groesse, rahmen, figur_b)
+    knochen = ImageChops.multiply(knochen, kopf_maske)
+    bild = ImageChops.add(bild, _farbig(
+        knochen.filter(ImageFilter.GaussianBlur(figur_b * 0.012)).point(
+            lambda v: round(v * 0.55)), KNOCHEN))
+    bild = ImageChops.add(bild, _farbig(knochen, KNOCHEN))
+
+    # 5 — Gehirn: Fläche, dann Windungen, dann eine helle Kante.
+    hirn_maske = ImageChops.lighter(_maske(groesse, hirn, rahmen),
+                                    _maske(groesse, klein, rahmen))
     bild = Image.composite(
         Image.new("RGB", groesse, HIRN_GRUND), bild,
-        weich.point(lambda v: round(v * 0.80)))
+        hirn_maske.filter(ImageFilter.GaussianBlur(figur_b * 0.008)).point(
+            lambda v: round(v * 0.78)))
 
-    # 5 — Nervennetz
-    knoten, kanten = _nervennetz(wuerfel, hirn, klein)
-    x, y, b, h = rahmen
+    # Die Windungen liegen leise darunter — als Textur, nicht als Zeichnung.
+    # Bei voller Helligkeit lasen sie sich als Gekritzel: Furchen brauchen
+    # Volumen, um als Furchen zu wirken, und Volumen hat eine Strichgrafik
+    # nicht. Was das Gehirn tatsächlich lesbar macht, ist das Netz darüber.
+    windungen = _gyri(groesse, wuerfel, hirn_maske, rahmen, figur_b)
+    bild = ImageChops.add(bild, _farbig(
+        windungen.filter(ImageFilter.GaussianBlur(figur_b * 0.016)).point(
+            lambda v: round(v * 0.34)), GYRI))
+    bild = ImageChops.add(bild, _farbig(windungen.point(
+        lambda v: round(v * 0.26)), GYRI))
 
-    def ab(p):
-        return (x + p[0] * b, y + (1 - p[1]) * h)
-
-    netz = Image.new("L", groesse, 0)
-    zeichner = ImageDraw.Draw(netz)
-    for i, j in kanten:
-        zeichner.line([ab(knoten[i]), ab(knoten[j])], fill=120,
-                      width=max(1, round(figur_b * 0.0022)))
-    for p in knoten:
-        px, py = ab(p)
-        r = figur_b * 0.0045
-        zeichner.ellipse([px - r, py - r, px + r, py + r], fill=200)
-
-    bild = ImageChops.add(bild, _farbig(netz, NETZ))
+    netz = _nervennetz(groesse, wuerfel, hirn, rahmen, figur_b)
     bild = ImageChops.add(bild, _farbig(
         netz.filter(ImageFilter.GaussianBlur(figur_b * 0.010)).point(
-            lambda v: round(v * 0.55)), NETZ))
+            lambda v: round(v * 0.55)), GYRI))
+    bild = ImageChops.add(bild, _farbig(netz, GYRI))
+
+    hirn_kante, _ = _randlicht(groesse, hirn, rahmen, figur_b * 0.0045)
+    bild = ImageChops.add(bild, _farbig(hirn_kante.point(
+        lambda v: round(v * 0.60)), GYRI))
 
     # 6 — Synapsen: heller Kern, weiter Hof. Der Hof ist der Grund, warum
-    #     das Bild leuchtet und nicht nur bunte Punkte trägt.
-    hell = wuerfel.sample(knoten, round(len(knoten) * SYNAPSEN_ANTEIL))
+    #     das Bild leuchtet und nicht nur bunte Punkte trägt. Die Punkte
+    #     werden im Gehirn gestreut und verworfen, wenn sie danebenliegen.
     kerne = Image.new("L", groesse, 0)
     hoefe = Image.new("L", groesse, 0)
     k_zeichner, h_zeichner = ImageDraw.Draw(kerne), ImageDraw.Draw(hoefe)
-    for p in hell:
-        px, py = ab(p)
-        r = figur_b * wuerfel.uniform(0.0060, 0.0105)
+    gesetzt, versuche = 0, 0
+    while gesetzt < SYNAPSEN and versuche < SYNAPSEN * 200:
+        versuche += 1
+        p = (wuerfel.uniform(0.22, 0.70), wuerfel.uniform(0.60, 0.94))
+        if not _im_polygon(p, hirn):
+            continue
+        gesetzt += 1
+        px, py = ab(*p)
+        r = figur_b * wuerfel.uniform(0.0055, 0.0110)
         k_zeichner.ellipse([px - r, py - r, px + r, py + r], fill=255)
-        # Der Hof war zuerst fünfmal so groß wie der Kern und mit 150
-        # gefüllt. Daraus wurden orange Flecken, die das Netz überdeckten —
-        # ein Hof soll den Punkt tragen, nicht ihn ersetzen.
-        hr = r * 3.2
-        h_zeichner.ellipse([px - hr, py - hr, px + hr, py + hr], fill=105)
-    hoefe = hoefe.filter(ImageFilter.GaussianBlur(figur_b * 0.011))
-    kerne_weich = kerne.filter(ImageFilter.GaussianBlur(figur_b * 0.0025))
+        # Der Hof war zuerst fünfmal so groß wie der Kern. Daraus wurden
+        # orange Flecken, die alles darunter überdeckten — ein Hof soll den
+        # Punkt tragen, nicht ihn ersetzen.
+        hr = r * 3.4
+        h_zeichner.ellipse([px - hr, py - hr, px + hr, py + hr], fill=120)
+    hoefe = hoefe.filter(ImageFilter.GaussianBlur(figur_b * 0.012))
 
     bild = ImageChops.add(bild, _farbig(hoefe, SYNAPSE))
-    bild = ImageChops.add(bild, _farbig(kerne_weich, SYNAPSE))
     bild = ImageChops.add(bild, _farbig(
-        kerne.filter(ImageFilter.GaussianBlur(s * 0.6)), (255, 240, 220)))
+        kerne.filter(ImageFilter.GaussianBlur(figur_b * 0.0022)), SYNAPSE))
+    bild = ImageChops.add(bild, _farbig(
+        kerne.filter(ImageFilter.GaussianBlur(s * 0.6)), (255, 226, 190)))
 
     # 7 — Randlicht der Profillinie, zuletzt und über allem
-    kern, hof = _randlicht(groesse, umriss, rahmen, figur_b * 0.0075)
-    bild = ImageChops.add(bild, _farbig(hof, (60, 74, 150)))
+    kern, hof = _randlicht(groesse, umriss, rahmen, figur_b * 0.0070)
+    bild = ImageChops.add(bild, _farbig(hof, (26, 92, 118)))
     bild = ImageChops.add(bild, _farbig(kern, RANDLICHT))
 
     # 8 — Vignette und feines Korn. Das Korn ist kein Effekt, sondern gegen
@@ -394,7 +570,7 @@ def rendern(breite_px, hoehe_px, ueberabtastung=2):
     #     sonst Stufen, und ein Prozent Rauschen bricht sie auf.
     bild = Image.composite(bild, Image.new("RGB", groesse, (0, 0, 0)),
                            _vignette(groesse).point(
-                               lambda v: 150 + round(v * 105 / 255)))
+                               lambda v: 145 + round(v * 110 / 255)))
     korn = Image.effect_noise(groesse, 5).convert("L")
     bild = ImageChops.add(ImageChops.subtract(bild, _farbig(korn, (3, 3, 3))),
                           _farbig(korn.point(lambda v: 255 - v), (3, 3, 4)))

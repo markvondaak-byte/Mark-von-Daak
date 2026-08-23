@@ -519,15 +519,35 @@ ohnehin verboten. Als Pixel gerechnet ist beides kein Problem: Was ins PDF
 kommt, ist eine flache Rasterfläche.
 
 Der Aufbau in acht Schritten, nachzulesen in `rendern()`: Grundverlauf,
-Bokeh, Volumen der Figur, Gehirn, Nervennetz, Synapsen, Randlicht, Vignette
-und Korn. Vier Entscheidungen darin sind nicht offensichtlich:
+Bokeh, Volumen der Figur, Knochen, Gehirn mit Windungen und Netz, Synapsen,
+Randlicht, Vignette und Korn.
+
+Die Farbwelt folgt der Vorlage, an der sich der Band orientiert: ein
+türkiser Bokeh-Grund, der nach rechts ins Violette kippt, ein fast
+schwarzer Kopf und alles Anatomische in Cyan. Der warme Ton bleibt den
+Synapsen vorbehalten — er ist im ganzen Bild die einzige Farbe, die nicht
+kalt ist, und deshalb sieht man ihn zuerst.
+
+Sechs Entscheidungen darin sind nicht offensichtlich:
 
 | Entscheidung | Grund |
 |---|---|
 | Doppelte Auflösung, dann verkleinern | PIL zeichnet Polygone ohne Kantenglättung; an einer Profillinie sieht man jede Treppe |
 | Knoten mit Mindestabstand, nicht rein zufällig | Ein Zufallsmuster ballt sich an einigen Stellen und lässt anderswo Löcher |
 | Hof der Synapsen nur dreifacher Kernradius | Bei fünffachem wurden daraus orange Flecken, die das Netz überdeckten |
+| Windungen leise unter dem Netz | Bei voller Helligkeit lasen sie sich als Gekritzel — Furchen brauchen Volumen, das eine Strichgrafik nicht hat |
+| Augenhöhle als Linie, nicht als Fläche | Gefüllt war sie ein heller Klecks im Gesicht |
+| Nase und Zähne gar nicht gezeichnet | Auf 55 mm Kopfbreite wurde das Nasendreieck zur Flosse und die Zahnreihe zum Reißverschluss |
 | Ein Prozent Korn zum Schluss | Ein glatter Verlauf über 30 cm zeigt im Druck Stufen; Rauschen bricht sie auf |
+
+**Wo die Grenze liegt.** Die Vorlage ist ein 3D-Rendering mit echten
+Volumen und volumetrischem Licht. Hier stehen Polygonfüllungen und
+Weichzeichner zur Verfügung. Farbwelt, Tiefenunschärfe, glühende Kante und
+Leuchtpunkte lassen sich damit erreichen — anatomische Feinheiten wie
+Schädelknochen, Nasenöffnung und Zahnreihe nicht. Die Konstanten für Nase
+und Zähne stehen im Modul und werden bewusst nicht gezeichnet. Wer echten
+Fotorealismus braucht, legt ein Bild unter `dopamin/cover/titelbild.png` —
+siehe den nächsten Abschnitt.
 
 Die Figurhöhe ist mit 0,78 der Bandhöhe knapper bemessen, als sie im
 Einzelbild aussieht: Auf dem Umschlag liegen die oberen 3,175 mm des Bandes
