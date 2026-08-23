@@ -340,19 +340,37 @@ Zeile.
 Verhaltenssüchte, behandelt sie aber ausschließlich abgrenzend und
 verweisend.
 
-**Keywords** — sieben Felder à 50 Zeichen. Wortgruppen statt Einzelwörter,
-kein Wort aus Titel oder Untertitel, und nichts, was ein Heilversprechen
-andeutet:
+**Keywords** — sieben Felder à 50 Zeichen:
 
 ```
-konzentration verbessern ohne app
-handysucht abgewöhnen erwachsene
-prokrastination überwinden buch
-gehirn verstehen alltag anwenden
-motivation zurückgewinnen antrieb
-digitale reizüberflutung reduzieren
-belohnungssystem gehirn sachbuch
+handysucht abgewöhnen ohne verzicht
+prokrastination überwinden aufschieben
+belohnungssystem gehirn verstehen
+bildschirmzeit reduzieren erwachsene
+konzentration steigern fokus finden
+neurowissenschaft sachbuch verständlich
+gewohnheiten ändern 4 wochen programm
 ```
+
+Drei Regeln stecken darin, und die erste kostet die meisten Autoren Plätze:
+
+**Kein Wort aus Titel oder Untertitel.** Amazon indexiert die ohnehin.
+„Dopamin", „Glückshormon", „Glück" und „Antrieb" in einem Stichwortfeld
+unterzubringen, verschenkt eines von sieben Feldern. Eine Suche nach
+„Dopamin Detox" findet den Band über den Titel — dafür braucht es kein
+Stichwort. Aus demselben Grund ist die frühere Zeile
+`motivation zurückgewinnen antrieb` gestrichen: Sie verschenkte ein Drittel
+ihrer Länge an ein Wort aus dem Untertitel.
+
+**Wortgruppen, wie Menschen sie eintippen.** Nicht `konzentration`, sondern
+`konzentration steigern fokus finden`. Einzelwörter stehen im Wettbewerb mit
+Tausenden Titeln, Wortgruppen mit einer Handvoll.
+
+**Nur, was das Buch einlöst.** Jedes der sieben Stichwörter ist gegen den
+Innenteil geprüft: Prokrastination hat ein eigenes Kapitel, das
+Belohnungssystem einen ganzen Teil, das Vier-Wochen-Programm einen zweiten.
+`ohne verzicht` ist keine Werbefloskel, sondern die Methode — im Programm
+wird nichts verboten, es wird umgeräumt.
 
 **Was hier bewusst nicht steht:** `adhs`, `depression`, `sucht`, `burnout`.
 Alle vier sind naheliegende Suchbegriffe und alle vier wären falsch. Das Buch
@@ -360,11 +378,13 @@ behandelt sie in einem einzigen Kapitel, und zwar mit der Aussage, dass sie in
 eine Praxis gehören. Ein Käufer, der über eines dieser Stichwörter kommt, hat
 einen berechtigten Grund für eine schlechte Rezension — und im Fall von
 Krankheitsbezug zusätzlich einen Ansatzpunkt für eine Abmahnung.
+`handysucht` ist davon nicht betroffen: umgangssprachlich, keine Diagnose,
+und der Band behandelt genau dieses Verhalten über zwei Teile hinweg.
 
 Zum Tauschen, falls ein Begriff nach ein paar Wochen nichts bringt:
-`smartphone weniger nutzen anleitung` · `fokus finden tiefe arbeit` ·
-`gewohnheiten ändern 4 wochen` · `neurowissenschaft populär verständlich` ·
-`bildschirmzeit reduzieren erwachsene`
+`smartphone weniger nutzen anleitung` · `digitale reizüberflutung` ·
+`selbstdisziplin aufbauen alltag` · `abends handy weglegen einschlafen` ·
+`populärwissenschaft gehirn einsteiger`
 
 ---
 
