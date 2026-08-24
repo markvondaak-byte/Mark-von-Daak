@@ -336,17 +336,52 @@ Bei den englischsprachigen Bäumen liegen die passenden Knoten unter
 *Health, Fitness & Dieting › Mental Health › Attention Deficit & Attention
 Deficit Hyperactivity Disorder* sowie *Self-Help › Personal Transformation*.
 
-### Stichwörter
+### Die sieben Schlüsselwörter
 
-`adhs erwachsene` · `adhs buch erwachsene frauen` · `konzentration
-struktur alltag` · `prokrastination aufschieben überwinden` · `adhs
-diagnose erwachsenenalter` · `selbstorganisation ratgeber` ·
-`adhs angehörige partner`
+KDP hat genau sieben Felder, je 50 Zeichen. Zum Kopieren, ein Feld je Zeile:
 
-**Nicht verwenden:** keine Wirkstoffnamen als Suchbegriff (Methylphenidat und
-die anderen sind verschreibungspflichtige Arzneimittel — als Keyword in einer
-Verkaufsanzeige ist das nach dem Heilmittelwerberecht angreifbar), keine
-Markennamen von Präparaten, und nichts, was eine Besserung zusagt.
+```
+adhs erwachsene frauen spätdiagnose
+aufmerksamkeitsdefizit hyperaktivität
+konzentration verbessern erwachsene
+prokrastination aufschieben überwinden
+selbstorganisation struktur im alltag
+adhs partnerschaft angehörige familie
+psychische gesundheit selbsthilfe ratgeber
+```
+
+Worauf jedes zielt — und warum es dieses und kein anderes ist:
+
+| # | Suchbegriff | Zeichen | Warum |
+|---|---|---|---|
+| 1 | adhs erwachsene frauen spätdiagnose | 35 | Größte Suchgruppe und der am längsten übersehene Teil. Kapitel 3 bedient ihn ausdrücklich — der Begriff verspricht also nichts, was das Buch nicht hält |
+| 2 | aufmerksamkeitsdefizit hyperaktivität | 37 | Der ausgeschriebene Name. Steht so nirgends im Titel und wird trotzdem gesucht |
+| 3 | konzentration verbessern erwachsene | 35 | Symptomsuche statt Diagnosesuche — erreicht Leser, die noch keinen Namen für ihr Problem haben |
+| 4 | prokrastination aufschieben überwinden | 38 | Eigenes Suchfeld mit hohem Volumen; Kapitel 16 ist genau dazu |
+| 5 | selbstorganisation struktur im alltag | 37 | Der Nutzenbegriff. Fängt Leser ab, die Teil IV suchen, ohne „ADHS" einzutippen |
+| 6 | adhs partnerschaft angehörige familie | 37 | Zweite Käufergruppe: Angehörige. Kapitel 23 und 24 rechtfertigen es |
+| 7 | psychische gesundheit selbsthilfe ratgeber | 42 | Breiter Oberbegriff für Stöbernde und für die Kategoriezuordnung |
+
+**Warum „ADHS" nur zweimal vorkommt.** Amazon durchsucht Titel, Untertitel und
+Schlüsselwörter gemeinsam. „ADHS" steht bereits im Untertitel und ist damit
+indexiert — es in jedes Feld zu schreiben, verbrennt Slots, ohne Reichweite zu
+gewinnen. Die sieben Felder tragen deshalb überwiegend Wörter, die im Titel
+**nicht** vorkommen. In Feld 1 und 6 steht es trotzdem, weil dort die
+Wortkombination den Sucheinstieg ausmacht.
+
+**Nicht verwenden:**
+
+- **Keine Wirkstoffnamen.** Methylphenidat, Lisdexamfetamin, Atomoxetin und
+  Guanfacin sind verschreibungspflichtige Arzneimittel; als Suchbegriff in
+  einer Verkaufsanzeige ist das nach dem Heilmittelwerberecht angreifbar.
+- **Kein „Test".** „adhs test erwachsene" hat Volumen, aber dieses Buch stellt
+  ausdrücklich keinen Test bereit. Der Begriff brächte Käufer mit falscher
+  Erwartung — und damit die Rezensionen, die daraus folgen.
+- **Keine Markennamen** von Präparaten oder Programmen.
+- **Nichts, was eine Besserung zusagt** („heilen", „endlich fokussiert"). Das
+  verstößt gegen Amazons Richtlinien und gegen die Linie des Buches.
+- **Keine Superlative und nichts Zeitbezogenes** („bestes", „neu 2026") —
+  beides untersagt KDP ausdrücklich.
 
 ### Vor dem Upload zu klären
 
