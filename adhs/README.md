@@ -131,7 +131,7 @@ niemand eine Reihe vermuten, die es nicht gibt. Konkret heißt das:
 |---|---|---|
 | Grund | Schiefergrau `#5A616B` | Tintenblau `#1E2937` |
 | Akzent | Blatt / Zitrone / Beere | Bernstein `#F2A65A` |
-| Motiv | Lebensmittel-Illustrationen | Strichraster Chaos → Ordnung |
+| Motiv | Lebensmittel-Illustrationen | Fadenbündel Chaos → Ordnung |
 | Titelfoto | gemeinsames `buch/cover/titelbild.jpg` | keines |
 | Bandkennung | „DAS BUCH · 4 PHASEN" u. ä. | keine |
 | Fußhinweis | Marken der PM-International AG | „Kein medizinischer Ratgeber" |
@@ -142,9 +142,28 @@ Marke vor, ein Markenhinweis wäre also sachlich falsch — und auf einem Buch
 Nahrungsergänzungs-Vertrieb nach Produktwerbung aus.
 
 Farbwelt, Motiv und die drei Flächen stehen in `build/gestaltung.py`, geteilt
-von Druckumschlag und Kindle-Titelbild. Das Motiv benutzt eine feste
-Zufallszahl (`RASTER_SAAT`), damit jeder Build denselben Umschlag erzeugt —
-sonst ließen sich Korrekturabzüge nicht vergleichen.
+von Druckumschlag und Kindle-Titelbild.
+
+**Das Motiv** (`fadenmotiv()`) zeigt die These des Buches als Bild:
+einundzwanzig Fäden, links unbrauchbar verschlungen, rechts in Ordnung —
+dasselbe Material, anders geführt, nicht „vorher schlecht, nachher gut". Jeder
+Faden ist die Summe von vier Sinuswellen mit eigener Frequenz und Phase; ihre
+Amplitude fällt nach rechts auf null, deshalb läuft jeder Faden dort exakt
+waagerecht in seine Spur ein, ohne dass die Endlage eigens gesetzt werden
+müsste.
+
+Zwei Dinge daran sind nicht Geschmack, sondern nötig:
+
+- **Feste Zufallszahl** (`MOTIV_SAAT`), damit jeder Build denselben Umschlag
+  erzeugt — sonst ließen sich Korrekturabzüge nicht vergleichen.
+- **Randabfall** (`randabfall`): Der Ausschlag läuft zu den Rändern des
+  Motivfeldes hin aus. Ohne ihn schwingen die äußeren Fäden aus dem Rahmen —
+  nach oben in den Untertitel, nach unten quer durch die Autorenzeile.
+
+Gezeichnet wird in Teilstücken statt als ein Pfad je Faden, weil ein Pfad nur
+eine Strichfarbe haben kann: Erst die stückweise Färbung ergibt den Übergang
+von Schiefer nach Bernstein. Ohne Transparenz — daran hängt sonst KDPs
+Prüfung.
 
 Aus `buch/build` kommen nur bandneutrale Bausteine: Schriften, Zeilenumbruch,
 Textblöcke und vor allem die **Geometrie des Barcodefeldes**, in der viel

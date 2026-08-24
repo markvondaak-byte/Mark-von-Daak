@@ -13,6 +13,7 @@ nicht gibt. Aus `buch/build` kommen nur bandneutrale Bausteine: Schriften,
 Zeilenumbruch, Textblöcke und die Geometrie des Barcodefeldes.
 """
 
+import math
 import random
 import sys
 from pathlib import Path
@@ -50,9 +51,11 @@ FARBEN = {
 # die Ordnung kippt — die These des Buches als Bild. Feste Zufallszahl, damit
 # jeder Build denselben Umschlag erzeugt; ohne sie sähe jede Auflage anders
 # aus und Korrekturabzüge ließen sich nicht vergleichen.
-RASTER_SAAT = 20260824
-RASTER_SPALTEN = 26
-RASTER_ZEILEN = 7
+MOTIV_SAAT = 20260824
+MOTIV_FAEDEN = 21        # Fäden über die Breite
+MOTIV_SEGMENTE = 44      # Teilstücke je Faden — je Stück eine eigene Farbe
+MOTIV_AUFLOESUNG = 4     # Stützpunkte je Teilstück
+MOTIV_AUSSCHLAG = 0.42   # größter Ausschlag links, Anteil der Motivhöhe
 
 # Kein Markenhinweis: In diesem Band kommt keine fremde Marke vor. An seine
 # Stelle tritt der Hinweis, der für ein Buch über ein medizinisches Thema
@@ -89,44 +92,79 @@ def tintengrund(c, x, y, breite, hoehe, stufen=48):
                breite, hoehe / stufen + 0.6, stroke=0, fill=1)
 
 
-def ordnungsraster(c, x, y, breite, hoehe):
-    """Striche, die links wild stehen und sich nach rechts ausrichten.
+def _farbmischung(c, a, b, t):
+    """Setzt die Strichfarbe zwischen zwei Tönen."""
+    c.setStrokeColorRGB(a.red + (b.red - a.red) * t,
+                        a.green + (b.green - a.green) * t,
+                        a.blue + (b.blue - a.blue) * t)
 
-    Je weiter rechts eine Spalte liegt, desto kleiner sind Streuung und
-    Drehung und desto mehr nähert sich die Farbe dem Akzent. Ganz rechts
-    stehen die Striche im Raster — sichtbar geordnet, ohne steril zu wirken.
+
+def fadenmotiv(c, x, y, breite, hoehe):
+    """Fäden, die links verknotet liegen und sich nach rechts entwirren.
+
+    Die These des Buches als Bild: Dieselben Fäden, dieselbe Zahl, dieselbe
+    Länge — links unbrauchbar verschlungen, rechts in Ordnung. Nicht „vorher
+    schlecht, nachher gut", sondern dasselbe Material, anders geführt.
+
+    Jeder Faden ist die Summe dreier Sinuswellen mit eigener Frequenz und
+    Phase. Ihre Amplitude fällt nach rechts auf null ab, deshalb läuft jeder
+    Faden dort exakt waagerecht in seine Spur ein — ohne dass die Endlage
+    eigens gesetzt werden müsste.
+
+    Gezeichnet wird in Teilstücken statt als ein Pfad, weil ein Pfad nur eine
+    Strichfarbe haben kann: Erst die stückweise Färbung ergibt den Übergang
+    von Schiefer nach Bernstein. Ohne Transparenz — die Vektorfassung soll
+    frei davon bleiben, daran hängt sonst KDPs Prüfung.
     """
-    zufall = random.Random(RASTER_SAAT)
-    spalte_b = breite / RASTER_SPALTEN
-    zeile_h = hoehe / RASTER_ZEILEN
-    strich = spalte_b * 0.62
+    zufall = random.Random(MOTIV_SAAT)
     chaos_f, ordnung_f = FARBEN["raster_chaos"], FARBEN["raster_ordnung"]
+    schritte = MOTIV_SEGMENTE * MOTIV_AUFLOESUNG
 
     c.setLineCap(1)
-    for sp in range(RASTER_SPALTEN):
-        # 0 ganz links (Chaos) bis 1 ganz rechts (Ordnung), leicht beschleunigt
-        # damit die Auflösung nicht schon in der Mitte fertig ist.
-        t = (sp / (RASTER_SPALTEN - 1)) ** 1.6
-        unruhe = 1.0 - t
-        for ze in range(RASTER_ZEILEN):
-            mx = x + (sp + 0.5) * spalte_b
-            my = y + (ze + 0.5) * zeile_h
-            mx += zufall.uniform(-1, 1) * spalte_b * 0.55 * unruhe
-            my += zufall.uniform(-1, 1) * zeile_h * 0.55 * unruhe
-            winkel = zufall.uniform(-90, 90) * unruhe
+    c.setLineJoin(1)
+    for i in range(MOTIV_FAEDEN):
+        lage = (i + 0.5) / MOTIV_FAEDEN
+        spur_y = y + hoehe * lage
+        # Der Ausschlag läuft zu den Rändern des Feldes hin aus. Ohne das
+        # schwingen die äußeren Fäden aus ihrem Rahmen — nach oben in den
+        # Untertitel, nach unten quer durch die Autorenzeile. Nebenbei sieht
+        # es richtiger aus: ein Bündel liegt außen enger als in der Mitte.
+        randabfall = math.sin(math.pi * lage) ** 0.55
+        # Drei Wellen je Faden: eine lange für den groben Schwung, zwei
+        # kürzere für die Verschlingung. Ohne die kurzen sähe es nach Welle
+        # aus, nicht nach Knoten.
+        wellen = [(zufall.uniform(0.6, 1.4), zufall.uniform(0, 2 * math.pi), 1.00),
+                  (zufall.uniform(2.2, 3.8), zufall.uniform(0, 2 * math.pi), 0.62),
+                  (zufall.uniform(4.5, 7.0), zufall.uniform(0, 2 * math.pi), 0.38),
+                  (zufall.uniform(8.0, 12.0), zufall.uniform(0, 2 * math.pi), 0.18)]
+        gewicht = 1 / sum(a for _, _, a in wellen)
 
-            c.setStrokeColorRGB(
-                chaos_f.red + (ordnung_f.red - chaos_f.red) * t,
-                chaos_f.green + (ordnung_f.green - chaos_f.green) * t,
-                chaos_f.blue + (ordnung_f.blue - chaos_f.blue) * t,
-            )
-            c.setLineWidth(1.1 + 1.5 * t)
-            c.saveState()
-            c.translate(mx, my)
-            c.rotate(winkel)
-            c.line(-strich / 2, 0, strich / 2, 0)
-            c.restoreState()
+        def punkt(u):
+            # Nach rechts fällt der Ausschlag auf null — der Faden läuft in
+            # seine Spur ein. Hoch potenziert, damit die Auflösung erst im
+            # letzten Drittel geschieht und nicht schon in der Mitte.
+            unruhe = (1 - u) ** 1.9
+            versatz = sum(a * math.sin(f * u * 2 * math.pi + ph)
+                          for f, ph, a in wellen) * gewicht
+            return (x + breite * u,
+                    spur_y + versatz * hoehe * MOTIV_AUSSCHLAG
+                    * randabfall * unruhe)
+
+        for seg in range(MOTIV_SEGMENTE):
+            u0 = seg / MOTIV_SEGMENTE
+            t_farbe = u0 ** 1.5
+            _farbmischung(c, chaos_f, ordnung_f, t_farbe)
+            c.setLineWidth(0.9 + 1.3 * t_farbe)
+
+            pfad = c.beginPath()
+            px, py = punkt(u0)
+            pfad.moveTo(px, py)
+            for k in range(1, MOTIV_AUFLOESUNG + 1):
+                px, py = punkt((seg * MOTIV_AUFLOESUNG + k) / schritte)
+                pfad.lineTo(px, py)
+            c.drawPath(pfad, stroke=1, fill=0)
     c.setLineCap(0)
+    c.setLineJoin(0)
 
 
 # --- Die drei Flächen --------------------------------------------------------
@@ -170,10 +208,10 @@ def vorderseite(c, x, y, breite, hoehe, cfg, *, ueberstand=0):
 
     # --- Motiv: füllt, was zwischen Untertitel und Autorenzeile bleibt ---
     autor_y = y + hoehe * 0.105
-    motiv_oben = cursor - 26
-    motiv_unten = autor_y + 34
+    motiv_oben = cursor - 20
+    motiv_unten = autor_y + 28
     if motiv_oben - motiv_unten > 24:
-        ordnungsraster(c, x, motiv_unten,
+        fadenmotiv(c, x, motiv_unten,
                        breite + ueberstand, motiv_oben - motiv_unten)
 
     c.setFillColor(FARBEN["akzent"])
