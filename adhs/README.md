@@ -131,7 +131,7 @@ niemand eine Reihe vermuten, die es nicht gibt. Konkret heißt das:
 |---|---|---|
 | Grund | Schiefergrau `#5A616B` | Tintenblau `#1E2937` |
 | Akzent | Blatt / Zitrone / Beere | Bernstein `#F2A65A` |
-| Motiv | Lebensmittel-Illustrationen | Fadenbündel Chaos → Ordnung |
+| Motiv | Lebensmittel-Illustrationen | Titelbild: Fadenknoten, der sich auskämmt |
 | Titelfoto | gemeinsames `buch/cover/titelbild.jpg` | keines |
 | Bandkennung | „DAS BUCH · 4 PHASEN" u. ä. | keine |
 | Fußhinweis | Marken der PM-International AG | „Kein medizinischer Ratgeber" |
@@ -177,7 +177,10 @@ im Suchpfad, und zwei Module gleichen Namens verdecken einander.
 
 ## Ein Titelbild einlegen
 
-Der Umschlag zeichnet das Fadenmotiv nur, **solange kein Titelbild da ist**.
+**Aktuell liegt eines:** `adhs/cover/titelbild.png` — ein Fadenknoten, der
+sich nach rechts in geordnete Linien auskämmt. Das gezeichnete Fadenmotiv
+(`fadenmotiv()`) ist damit der Rückfall, falls die Datei entfernt wird.
+
 Leg eine Datei ab, und sie füllt die Vorderseite:
 
 ```
@@ -190,10 +193,28 @@ meldet dann, ob die Auflösung reicht.
 
 **Was das Skript mit dem Bild macht.** Es beschneidet mittig auf das
 Seitenverhältnis der Vorderseite (nicht verzerrt, die untere Bildhälfte wird
-bevorzugt) und blendet die oberen 46 Prozent in den Grundton über. Erst
-dadurch stehen Titel und Untertitel auf ruhigem Grund. Das Abdunkeln geschieht
-**im Bild**, nicht als Fläche darüber: Ein Schleier im PDF wäre Transparenz,
-und die Vektorfassung soll frei davon bleiben.
+bevorzugt) und lässt es dort zurücktreten, wo Text steht:
+
+| Zone | Regel |
+|---|---|
+| oben bis 44 % | voller Grundton — dort stehen Titel und Untertitel |
+| 44 → 63 % | linear auf null, das Bild kommt hervor |
+| ab 74 % nach unten | auf 88 % abgedunkelt — dort steht die Autorenzeile |
+| überall | 14 % Grundschleier, damit helle Schrift trägt |
+
+Das Abdunkeln geschieht **im Bild**, nicht als Fläche darüber: Ein Schleier im
+PDF wäre Transparenz, und die Vektorfassung soll frei davon bleiben. Gebaut
+wird es als zeilenweise Maske über einen schmalen Streifen, der in die Breite
+gezogen wird — eine Schleife über alle Bildpunkte brauchte Minuten, das hier
+drei Sekunden.
+
+Die **Autorenzeile steht über einem Titelbild in Weiß** statt in Bernstein:
+Das Motiv ist selbst warm, und Bernstein auf Bernstein trägt keinen Kontrast.
+Über dem gezeichneten Fadenmotiv bleibt sie farbig.
+
+Eingebettet wird mit **300 dpi über die belichtete Fläche**, nicht mit fester
+Pixelbreite — sonst hinge die Druckauflösung daran, wie groß die Fläche
+zufällig ist, und beim Hardcover ist sie deutlich größer.
 
 **Mindestgrößen** für 300 dpi über die belichtete Fläche:
 

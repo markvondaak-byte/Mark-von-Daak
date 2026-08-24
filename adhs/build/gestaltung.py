@@ -176,9 +176,17 @@ def fadenmotiv(c, x, y, breite, hoehe):
 #: Lebensmittelfoto der Ernährungsbände und hätte hier nichts zu suchen.
 TITELBILD_ENDUNGEN = (".jpg", ".jpeg", ".png", ".webp")
 
-#: Anteil der Bildhöhe, über den das Bild oben in den Grund übergeht. Darüber
-#: stehen Titel und Untertitel, und die brauchen ruhigen Grund.
-TITELBILD_UEBERBLENDUNG = 0.46
+#: Wo die Typografie steht, muss das Bild zurücktreten. Angaben als Anteil der
+#: Bildhöhe, von oben gemessen.
+#:
+#: Oben stehen Titel und Untertitel: bis GRUND_BIS voller Grundton, danach
+#: linear auf null bis BLENDE_BIS. Unten steht die Autorenzeile; dort genügt
+#: ein Abdunkeln, das Motiv soll dort sichtbar bleiben.
+TITELBILD_GRUND_BIS = 0.44      # voller Grundton bis hierher
+TITELBILD_BLENDE_BIS = 0.63     # ab hier unverändertes Bild
+TITELBILD_UNTEN_AB = 0.74       # ab hier nach unten abdunkeln
+TITELBILD_UNTEN_STAERKE = 0.88  # wie stark, 1 wäre voller Grundton
+TITELBILD_GRUNDSCHLEIER = 0.14  # leichtes Abdunkeln über die ganze Fläche
 
 
 def titelbild_suchen(verzeichnis=None):
@@ -217,16 +225,22 @@ def titelbild_melden(pfad, breite_mm, hoehe_mm):
             f"= rund {dpi:.0f} dpi auf dieser Fläche — {zustand}")
 
 
-def titelbild_aufbereiten(pfad, seitenverhaeltnis, breite_px=1800):
-    """Beschneidet das Bild und blendet es oben in den Grundton über.
+def titelbild_aufbereiten(pfad, seitenverhaeltnis, breite_px):
+    """Beschneidet das Bild und lässt es dort zurücktreten, wo Text steht.
 
     Das Abdunkeln geschieht **im Bild**, nicht als Fläche darüber: Ein Schleier
     im PDF wäre Transparenz, und die Vektorfassung soll frei davon bleiben.
-    Nebenbei ist es das bessere Ergebnis — der Übergang lässt sich pixelgenau
+    Nebenbei ist es das bessere Ergebnis — der Verlauf lässt sich zeilenweise
     steuern statt über eine Deckkraft.
 
-    `seitenverhaeltnis` ist Höhe geteilt durch Breite der Zielfläche. Das Bild
-    wird mittig auf dieses Verhältnis beschnitten, nicht verzerrt.
+    `seitenverhaeltnis` ist Höhe geteilt durch Breite der Zielfläche,
+    `breite_px` die Pixelbreite, mit der eingebettet wird. Beschnitten wird
+    mittig auf das Verhältnis, nicht verzerrt.
+
+    `breite_px` rechnet der Aufrufer aus der belichteten Fläche und 300 dpi.
+    Ist die Vorlage kleiner, wird hier hochgerechnet — bei einem weichen,
+    detailarmen Motiv fällt das nicht auf, bei einem scharfen schon. Wie weit
+    die Vorlage von 300 dpi entfernt ist, meldet titelbild_melden().
     """
     from PIL import Image
 
@@ -248,21 +262,37 @@ def titelbild_aufbereiten(pfad, seitenverhaeltnis, breite_px=1800):
     hoehe_px = round(breite_px * seitenverhaeltnis)
     bild = bild.resize((breite_px, hoehe_px), Image.LANCZOS)
 
+    # Maske zeilenweise aufbauen: 255 heißt voller Grundton, 0 heißt Bild.
+    # Als schmaler Streifen erzeugt und dann in die Breite gezogen — das ist
+    # um Größenordnungen schneller als eine Schleife über alle Bildpunkte.
+    streifen = Image.new("L", (1, hoehe_px))
+    setzen = streifen.load()
+    falle = TITELBILD_BLENDE_BIS - TITELBILD_GRUND_BIS
+    unten_falle = 1.0 - TITELBILD_UNTEN_AB
+    for zeile in range(hoehe_px):
+        z = zeile / max(1, hoehe_px - 1)
+        if z <= TITELBILD_GRUND_BIS:
+            oben_anteil = 1.0
+        elif z < TITELBILD_BLENDE_BIS and falle > 0:
+            oben_anteil = (TITELBILD_BLENDE_BIS - z) / falle
+        else:
+            oben_anteil = 0.0
+        if z <= TITELBILD_UNTEN_AB or unten_falle <= 0:
+            unten_anteil = 0.0
+        else:
+            unten_anteil = ((z - TITELBILD_UNTEN_AB) / unten_falle
+                            * TITELBILD_UNTEN_STAERKE)
+        anteil = max(oben_anteil, unten_anteil)
+        # Der Grundschleier liegt unter allem und hebt nur den Rest an.
+        anteil = anteil + (1.0 - anteil) * TITELBILD_GRUNDSCHLEIER
+        setzen[0, zeile] = round(max(0.0, min(1.0, anteil)) * 255)
+    maske = streifen.resize((breite_px, hoehe_px))
+
     grund = FARBEN["grund"]
-    gr = (round(grund.red * 255), round(grund.green * 255),
-          round(grund.blue * 255))
-    pixel = bild.load()
-    blende = max(1, round(hoehe_px * TITELBILD_UEBERBLENDUNG))
-    for zeile in range(blende):
-        # 1 ganz oben (voller Grundton) bis 0 am Ende der Überblendung
-        anteil = (1 - zeile / blende) ** 1.35
-        for spalte in range(breite_px):
-            r, g, b_ = pixel[spalte, zeile]
-            pixel[spalte, zeile] = (
-                round(r + (gr[0] - r) * anteil),
-                round(g + (gr[1] - g) * anteil),
-                round(b_ + (gr[2] - b_) * anteil),
-            )
+    flaeche = Image.new("RGB", (breite_px, hoehe_px),
+                        (round(grund.red * 255), round(grund.green * 255),
+                         round(grund.blue * 255)))
+    bild = Image.composite(flaeche, bild, maske)
 
     puffer = io.BytesIO()
     bild.save(puffer, format="JPEG", quality=94, optimize=True)
@@ -289,7 +319,12 @@ def vorderseite(c, x, y, breite, hoehe, cfg, *, ueberstand=0):
         # links **nicht**: dort liegt der Rücken.
         bild_b = breite + ueberstand
         bild_h = hoehe + 2 * ueberstand
-        c.drawImage(titelbild_aufbereiten(bild, bild_h / bild_b),
+        # Mit 300 dpi über die belichtete Fläche einbetten, nicht mit einer
+        # festen Pixelbreite: Sonst hinge die Druckauflösung daran, wie groß
+        # die Fläche zufällig ist — beim Hardcover ist sie deutlich größer als
+        # beim Taschenbuch.
+        ziel_px = round(bild_b / mm / 25.4 * 300)
+        c.drawImage(titelbild_aufbereiten(bild, bild_h / bild_b, ziel_px),
                     x, y - ueberstand, width=bild_b, height=bild_h,
                     preserveAspectRatio=False, mask=None)
 
@@ -328,7 +363,11 @@ def vorderseite(c, x, y, breite, hoehe, cfg, *, ueberstand=0):
         fadenmotiv(c, x, motiv_unten,
                        breite + ueberstand, motiv_oben - motiv_unten)
 
-    c.setFillColor(FARBEN["akzent"])
+    # Über dem Titelbild in Weiß statt Bernstein: Das Motiv ist selbst warm,
+    # und Bernstein auf Bernstein trägt keinen Kontrast. Auf dem gezeichneten
+    # Fadenmotiv steht die Zeile dagegen auf ruhigem Grund und darf farbig
+    # bleiben.
+    c.setFillColor(FARBEN["text"] if bild else FARBEN["akzent"])
     c.setFont("Sans-Bold", 18)
     c.drawCentredString(x + breite / 2, autor_y, cfg["autor"])
 
