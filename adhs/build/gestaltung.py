@@ -13,6 +13,7 @@ nicht gibt. Aus `buch/build` kommen nur bandneutrale Bausteine: Schriften,
 Zeilenumbruch, Textblöcke und die Geometrie des Barcodefeldes.
 """
 
+import io
 import math
 import random
 import sys
@@ -20,6 +21,7 @@ from pathlib import Path
 
 from reportlab.lib.colors import HexColor
 from reportlab.lib.units import mm
+from reportlab.lib.utils import ImageReader
 
 WURZEL = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(WURZEL / "buch" / "build"))
@@ -167,6 +169,107 @@ def fadenmotiv(c, x, y, breite, hoehe):
     c.setLineJoin(0)
 
 
+# --- Titelbild ------------------------------------------------------------
+#: Liegt hier eine Datei, füllt sie die Vorderseite und ersetzt das gezeichnete
+#: Fadenmotiv. Gesucht wird **nur** in adhs/cover — anders als bei der Reihe
+#: gibt es bewusst keinen Rückgriff auf buch/cover/titelbild.jpg: Das ist das
+#: Lebensmittelfoto der Ernährungsbände und hätte hier nichts zu suchen.
+TITELBILD_ENDUNGEN = (".jpg", ".jpeg", ".png", ".webp")
+
+#: Anteil der Bildhöhe, über den das Bild oben in den Grund übergeht. Darüber
+#: stehen Titel und Untertitel, und die brauchen ruhigen Grund.
+TITELBILD_UEBERBLENDUNG = 0.46
+
+
+def titelbild_suchen(verzeichnis=None):
+    verzeichnis = Path(verzeichnis or WURZEL / "adhs" / "cover")
+    for endung in TITELBILD_ENDUNGEN:
+        pfad = verzeichnis / f"titelbild{endung}"
+        if pfad.exists():
+            return pfad
+    return None
+
+
+def titelbild_sollmasse(breite_mm, hoehe_mm, dpi=300):
+    """Wie groß das Titelbild mindestens sein sollte, in Pixeln."""
+    je_mm = dpi / 25.4
+    return round(breite_mm * je_mm), round(hoehe_mm * je_mm)
+
+
+def titelbild_melden(pfad, breite_mm, hoehe_mm):
+    """Sagt beim Bauen, ob das Titelbild für den Druck reicht.
+
+    KDP verlangt 300 dpi über die belichtete Fläche. Ein zu kleines Bild wird
+    nicht abgelehnt, aber es wird im Druck weich — und das sieht man auf einem
+    dunklen Umschlag sofort.
+    """
+    if not pfad:
+        return "kein Titelbild — gezeichnetes Fadenmotiv"
+
+    from PIL import Image
+    with Image.open(pfad) as bild:
+        ist_b, ist_h = bild.size
+    soll_b, soll_h = titelbild_sollmasse(breite_mm, hoehe_mm)
+    dpi = min(ist_b / breite_mm, ist_h / hoehe_mm) * 25.4
+    zustand = "reicht" if ist_b >= soll_b and ist_h >= soll_h else \
+        f"ZU KLEIN, empfohlen {soll_b} x {soll_h} px"
+    return (f"{pfad.name}: {ist_b} x {ist_h} px "
+            f"= rund {dpi:.0f} dpi auf dieser Fläche — {zustand}")
+
+
+def titelbild_aufbereiten(pfad, seitenverhaeltnis, breite_px=1800):
+    """Beschneidet das Bild und blendet es oben in den Grundton über.
+
+    Das Abdunkeln geschieht **im Bild**, nicht als Fläche darüber: Ein Schleier
+    im PDF wäre Transparenz, und die Vektorfassung soll frei davon bleiben.
+    Nebenbei ist es das bessere Ergebnis — der Übergang lässt sich pixelgenau
+    steuern statt über eine Deckkraft.
+
+    `seitenverhaeltnis` ist Höhe geteilt durch Breite der Zielfläche. Das Bild
+    wird mittig auf dieses Verhältnis beschnitten, nicht verzerrt.
+    """
+    from PIL import Image
+
+    bild = Image.open(pfad).convert("RGB")
+    b, h = bild.size
+    soll_h = b * seitenverhaeltnis
+    if soll_h <= h:
+        # zu hoch — oben und unten beschneiden, dabei die untere Hälfte
+        # bevorzugen: dort liegt bei diesem Motiv die Auflösung ins Geordnete.
+        rest = h - soll_h
+        oben = rest * 0.35
+        bild = bild.crop((0, round(oben), b, round(oben + soll_h)))
+    else:
+        # zu breit — links und rechts gleichmäßig beschneiden
+        soll_b = h / seitenverhaeltnis
+        rand = (b - soll_b) / 2
+        bild = bild.crop((round(rand), 0, round(b - rand), h))
+
+    hoehe_px = round(breite_px * seitenverhaeltnis)
+    bild = bild.resize((breite_px, hoehe_px), Image.LANCZOS)
+
+    grund = FARBEN["grund"]
+    gr = (round(grund.red * 255), round(grund.green * 255),
+          round(grund.blue * 255))
+    pixel = bild.load()
+    blende = max(1, round(hoehe_px * TITELBILD_UEBERBLENDUNG))
+    for zeile in range(blende):
+        # 1 ganz oben (voller Grundton) bis 0 am Ende der Überblendung
+        anteil = (1 - zeile / blende) ** 1.35
+        for spalte in range(breite_px):
+            r, g, b_ = pixel[spalte, zeile]
+            pixel[spalte, zeile] = (
+                round(r + (gr[0] - r) * anteil),
+                round(g + (gr[1] - g) * anteil),
+                round(b_ + (gr[2] - b_) * anteil),
+            )
+
+    puffer = io.BytesIO()
+    bild.save(puffer, format="JPEG", quality=94, optimize=True)
+    puffer.seek(0)
+    return ImageReader(puffer)
+
+
 # --- Die drei Flächen --------------------------------------------------------
 def vorderseite(c, x, y, breite, hoehe, cfg, *, ueberstand=0):
     """Titelseite: Titel oben, Untertitel darunter, Motiv, Autor unten.
@@ -178,6 +281,17 @@ def vorderseite(c, x, y, breite, hoehe, cfg, *, ueberstand=0):
     """
     rand = breite * 0.10
     textbreite = breite - 2 * rand
+
+    # --- Titelbild, wenn eines hinterliegt ---
+    bild = titelbild_suchen()
+    if bild:
+        # Volle Fläche inklusive Anschnitt nach rechts, oben und unten. Nach
+        # links **nicht**: dort liegt der Rücken.
+        bild_b = breite + ueberstand
+        bild_h = hoehe + 2 * ueberstand
+        c.drawImage(titelbild_aufbereiten(bild, bild_h / bild_b),
+                    x, y - ueberstand, width=bild_b, height=bild_h,
+                    preserveAspectRatio=False, mask=None)
 
     # --- Titel, von oben gesetzt ---
     titel_groesse, titel_zeilen = groesse_einpassen(
@@ -210,7 +324,7 @@ def vorderseite(c, x, y, breite, hoehe, cfg, *, ueberstand=0):
     autor_y = y + hoehe * 0.105
     motiv_oben = cursor - 20
     motiv_unten = autor_y + 28
-    if motiv_oben - motiv_unten > 24:
+    if not bild and motiv_oben - motiv_unten > 24:
         fadenmotiv(c, x, motiv_unten,
                        breite + ueberstand, motiv_oben - motiv_unten)
 

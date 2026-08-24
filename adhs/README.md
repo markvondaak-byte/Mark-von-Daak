@@ -175,6 +175,42 @@ An den Skripten der Reihe wurde nichts geändert.
 `build_cover.py`: Beim Bauen liegen `adhs/build` und `buch/build` gleichzeitig
 im Suchpfad, und zwei Module gleichen Namens verdecken einander.
 
+## Ein Titelbild einlegen
+
+Der Umschlag zeichnet das Fadenmotiv nur, **solange kein Titelbild da ist**.
+Leg eine Datei ab, und sie füllt die Vorderseite:
+
+```
+adhs/cover/titelbild.jpg     (auch .jpeg, .png, .webp)
+```
+
+Danach `python3 adhs/build/build_cover.py` und
+`python3 adhs/build/kindle_titelbild.py` erneut laufen lassen — das Skript
+meldet dann, ob die Auflösung reicht.
+
+**Was das Skript mit dem Bild macht.** Es beschneidet mittig auf das
+Seitenverhältnis der Vorderseite (nicht verzerrt, die untere Bildhälfte wird
+bevorzugt) und blendet die oberen 46 Prozent in den Grundton über. Erst
+dadurch stehen Titel und Untertitel auf ruhigem Grund. Das Abdunkeln geschieht
+**im Bild**, nicht als Fläche darüber: Ein Schleier im PDF wäre Transparenz,
+und die Vektorfassung soll frei davon bleiben.
+
+**Mindestgrößen** für 300 dpi über die belichtete Fläche:
+
+| Bindeart | belichtete Fläche | Bild mindestens |
+|---|---|---|
+| Taschenbuch | 155,6 × 235,0 mm | **1837 × 2775 px** |
+| Hardcover | 170,4 × 264,6 mm | **2013 × 3125 px** |
+
+Wer beide Bindearten bedient, richtet sich nach der Hardcover-Zeile. Ein
+2K-Bild (rund 1700 × 2530 px) liegt darunter — es wird angenommen, im Druck
+aber weich, und das sieht man auf dunklem Grund sofort. Vor dem Einlegen also
+auf 4K hochrechnen lassen.
+
+**Wichtig zum Motiv:** Nach links darf nichts überstehen, dort liegt der
+Rücken. Das Skript setzt den Anschnitt deshalb nur nach rechts, oben und
+unten — im Bild selbst muss links nichts freigehalten werden.
+
 ## Noch offen
 
 - **Abnahme.** `abnahme.py` prüft die drei alten Bände samt Umschlägen und

@@ -107,6 +107,12 @@ def main():
               f"  (Rückentext: {'ja' if masse['ruecken_text'] else 'nein'})")
         print(f"Umschlag gesamt: {b:.2f} x {h:.2f} mm "
               f"= {b/25.4:.3f} x {h/25.4:.3f} Zoll, inkl. {rand} mm {randname}")
+        # Die belichtete Fläche der Vorderseite: Trimmbreite plus Anschnitt
+        # nach rechts, Trimmhöhe plus Anschnitt oben und unten.
+        flaeche_b = cfg["seitenformat"]["breite_mm"] + rand
+        flaeche_h = cfg["seitenformat"]["hoehe_mm"] + 2 * rand
+        print("Titelbild: " + g.titelbild_melden(g.titelbild_suchen(),
+                                                 flaeche_b, flaeche_h))
         print(f"  → {ziel.relative_to(WURZEL)}")
         print(f"  → {png.relative_to(WURZEL)}")
 
