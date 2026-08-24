@@ -639,5 +639,55 @@ def main():
     print(f"  → {kindle['ziel'].relative_to(WURZEL)}")
 
 
+def fuer_seitenzahl(seiten):
+    """Baut den Taschenbuchumschlag für eine **vorgegebene** Seitenzahl.
+
+        python3 dopamin/build/build_cover.py --seiten 160
+
+    Eine Notlösung, und sie gehört als solche benannt. Normalerweise kommt
+    die Rückenbreite aus dem gebauten Innenteil; das ist die einzige Zahl,
+    die zum gedruckten Buch passt. Diese Funktion gibt es für den Fall, dass
+    bei KDP noch ein **anderer** Innenteil liegt als der hier gebaute: Dann
+    prüft KDP den Umschlag gegen die Seitenzahl seiner Datei und lehnt den
+    richtigen Umschlag ab.
+
+    Was das kostet: Der Rücken ist so breit wie das fremde Buch, nicht wie
+    unseres. Bei 160 statt 138 Seiten sind das 1,25 mm auf die Gesamtbreite,
+    also gut 0,6 mm Versatz auf jeder Seite — im Anschnitt untergebracht und
+    im Druck nicht zu sehen. Falsch bleibt es trotzdem: Der Umschlag passt
+    dann zu einem Innenteil, der nicht der unsere ist.
+
+    Die Datei bekommt einen eigenen Namen und überschreibt den richtigen
+    Umschlag nicht.
+    """
+    cfg = yaml.safe_load((BAND / "dopamin.yaml").read_text(encoding="utf-8"))
+    echt = seitenzahl(BAND / "out" / f"{cfg['slug']}.pdf")
+
+    ziel = BAND / "out" / f"cover-{seiten}-seiten.pdf"
+    masse = cover_bauen(cfg, seiten, BAND / "cover" / "klappentext.md", ziel)
+    png = vorschau(ziel, BAND / "out" / f"cover-{seiten}-seiten-vorschau.png")
+
+    b, h = masse["gesamt_mm"]
+    print(f"\nTaschenbuch — Umschlag für {seiten} Seiten gebaut")
+    print(f"Rückenbreite: {masse['ruecken_mm']:.1f} mm")
+    print(f"Umschlag gesamt: {b:.2f} x {h:.2f} mm "
+          f"= {b/25.4:.3f} x {h/25.4:.3f} Zoll")
+    print("Im KDP-Formular als Trimmgröße wählen: 6 x 9 Zoll, Papier weiß")
+    if seiten != echt:
+        versatz = abs(seiten - echt) * RUECKEN_PRO_SEITE_MM / 2
+        print(f"\nACHTUNG: Der gebaute Innenteil hat {echt} Seiten, nicht "
+              f"{seiten}.\n  Der Rücken ist um "
+              f"{abs(seiten - echt) * RUECKEN_PRO_SEITE_MM:.2f} mm zu "
+              f"{'breit' if seiten > echt else 'schmal'}, das Motiv sitzt um "
+              f"{versatz:.2f} mm\n  versetzt. Diese Datei passt nur zu einem "
+              f"Innenteil mit {seiten} Seiten.")
+    print(f"  → {ziel.relative_to(WURZEL)}")
+    print(f"  → {png.relative_to(WURZEL)}")
+    return ziel
+
+
 if __name__ == "__main__":
-    main()
+    if "--seiten" in sys.argv:
+        fuer_seitenzahl(int(sys.argv[sys.argv.index("--seiten") + 1]))
+    else:
+        main()
