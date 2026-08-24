@@ -1,12 +1,18 @@
 # Der Stoffwechsel-Reset — Buchprojekt
 
-Zwei eigenständige Bände, gemeinsame Build-Basis:
+Vier eigenständige Bände, gemeinsame Build-Basis:
 
 | Band | Quelle | Format | Ausgabe |
 |---|---|---|---|
 | 1 — Das Buch | `buch/kapitel/*.md` | 6″ × 9″ | `buch/out/stoffwechsel-reset.{docx,pdf}` |
 | 2 — Das Workbook | `workbook/` | 8″ × 10″ | `workbook/out/workbook.{docx,pdf}` |
 | 3 — Das Rezeptbuch | `rezepte/` | 8″ × 10″ | `rezepte/out/rezeptbuch.{docx,pdf}` |
+| 4 — Chaos mit System | `adhs/kapitel/*.md` | 6″ × 9″ | `adhs/out/chaos-mit-system.{docx,pdf}` |
+
+**Band 4 gehört thematisch nicht zur Reihe.** „Chaos mit System“ ist ein
+eigenständiges Buch über ADHS und teilt sich mit den drei Stoffwechsel-Bänden
+nur die Werkzeugkette. Eigene Bau- und Pflegehinweise stehen in
+`adhs/README.md`; ein Umschlag ist dafür noch nicht angelegt.
 
 ## Bauen
 
@@ -20,6 +26,7 @@ python3 workbook/build/build_workbook.py   # Band 2: .docx und .pdf
 python3 workbook/build/build_cover.py      # Umschlag Band 2
 
 python3 rezepte/build/build_rezepte.py     # Band 3: .docx und .pdf
+python3 adhs/build/build_adhs.py           # Band 4: .docx und .pdf
 python3 rezepte/build/build_cover.py       # Umschlag Band 3
 
 python3 buch/build/cover_flach.py          # Umschläge in die KDP-Druckfassung
@@ -319,7 +326,7 @@ macht das genauso.
 ### Systemvoraussetzung
 
 `libreoffice-writer` muss installiert sein — `libreoffice-core` allein genügt
-nicht und führt zu „source file could not be loaded":
+nicht und führt zu „source file could not be loaded“:
 
 ```bash
 apt-get update && apt-get install -y libreoffice-writer

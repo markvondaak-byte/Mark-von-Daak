@@ -35,7 +35,9 @@ QUELLEN = [
     ("Band 2", "workbook/rahmen", "*.md"),
     ("Band 3", "rezepte/rahmen", "*.md"),
     ("Band 3", "rezepte/rezepte", "*.yaml"),
+    ("Band 4", "adhs/kapitel", "*.md"),
     ("Umschlag", "buch/cover", "klappentext.md"),
+    ("Umschlag", "adhs/cover", "klappentext.md"),
     ("Umschlag", "workbook/cover", "klappentext.md"),
     ("Umschlag", "rezepte/cover", "klappentext.md"),
 ]
@@ -43,6 +45,19 @@ QUELLEN = [
 # Begriffe, die richtig sind, aber in keiner Wortliste stehen: Marken,
 # Fachbegriffe des Konzepts, Zutaten, Eigennamen.
 FACHWORTE = {
+    # Band 4 — ADHS: Wirkstoffe, Diagnostikverfahren, Fachbegriffe.
+    "adhs", "ads", "adhd", "icd", "dsm", "awmf", "gdb", "btmg",
+    "methylphenidat", "amfetamin", "lisdexamfetamin", "atomoxetin",
+    "guanfacin", "stimulanzien", "stimulans", "noradrenalin", "dopamin",
+    "wurs", "diva", "caars", "komorbidität", "komorbiditäten",
+    "exekutiv", "exekutive", "hyperfokus", "zeitblindheit",
+    "hyperaktivitätsstörung", "aufmerksamkeitsdefizit", "impulsivität",
+    "rejection", "sensitivity", "nachteilsausgleich", "gleichstellung",
+    "versorgungsamt", "integrationsfachdienste", "integrationsämter",
+    "terminservicestelle", "telefonseelsorge", "schuldnerberatung",
+    "selbsthilfegruppe", "selbsthilfegruppen", "elternteil",
+    "psychotherapeutenkammer", "sozialpädiatrisches", "ergotherapie",
+    "elpos", "juventute", "startsperre", "reizschwelle", "landezone",
     "cellreset", "fitline", "pm", "international", "daak", "wolfsburg",
     "rabenbergstraße", "icloud", "ustid", "hcvo",
     "stoffwechselreset", "lifestyletag", "lifestylephase", "vitalcheck",

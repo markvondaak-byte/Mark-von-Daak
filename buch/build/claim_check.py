@@ -29,6 +29,12 @@ WURZEL = Path(__file__).resolve().parents[2]
 # Kapitel, in denen Krankheits- und Warnbegriffe stehen müssen.
 FREIGEGEBEN = {
     "02-bitte-zuerst-lesen.md",
+    # Band 4: Kapitel, die Krankheitsbegriffe im Sachkontext brauchen —
+    # Begleiterkrankungen und die Gegenanzeigen der Wirkstoffgruppen.
+    "22-was-oft-mitkommt.md",
+    "51-medikamente.md",
+    "76-in-eigener-sache.md",
+    "77-hinweise-haftung.md",
     "62-in-eigener-sache.md",
     "64-hinweise-haftung.md",
     "90-rechtliches.md",
@@ -79,6 +85,7 @@ HINWEIS = {
 QUELLEN = [
     WURZEL / "buch" / "kapitel",
     WURZEL / "workbook" / "rahmen",
+    WURZEL / "adhs" / "kapitel",
 ]
 
 

@@ -277,6 +277,73 @@ Zum Tauschen, falls ein Begriff nach ein paar Wochen nichts bringt:
 
 ---
 
+## Band 4 — Chaos mit System
+
+**Eigener Titel, keine Serie.** Dieser Band gehört thematisch nicht zum
+Stoffwechsel-Reset. Er darf bei KDP nicht in dieselbe Serie gelegt werden —
+das würde beide Bücher in den Empfehlungen falsch verknüpfen.
+
+| Feld | Wert |
+|---|---|
+| Titel | Chaos mit System |
+| Untertitel | ADHS verstehen, annehmen und in den Griff bekommen |
+| Serie | **keine** |
+| Beschreibung | `adhs/cover/amazon-beschreibung.md` |
+| Trimmgröße | 6 × 9 Zoll (15,24 × 22,86 cm) |
+| Seiten | 134 |
+| Papier | weiß |
+| Druckfarbe | Schwarzweiß |
+| Innenteil | `adhs/out/chaos-mit-system.pdf` |
+| Umschlag | **noch nicht gebaut** — siehe unten |
+
+**Der Umschlag fehlt.** Für Band 4 gibt es noch kein `build_cover.py`. Die
+Rückenbreite errechnet sich aus 134 Seiten × 0,0572 mm = **7,7 mm**; damit
+liegt der Band über KDPs Grenze von 79 Seiten und **darf Rückentext tragen**.
+Für die Hardcover-Fassung kämen 9 mm für Pappen und Falzrillen hinzu
+(16,7 mm), und 6 × 9 Zoll steht in KDPs Hardcover-Liste — ein zweiter
+Innenteil wäre also nicht nötig. Diese Werte gelten, solange der Innenteil
+unverändert bleibt.
+
+### Kategorien
+
+Andere Bäume als bei den Ernährungsbänden. Als Suchraster:
+
+- Ratgeber › Gesundheit › Psychische Gesundheit
+- Ratgeber › Lebenshilfe › Selbsthilfe
+- Sachbuch › Psychologie › Angewandte Psychologie
+
+Bei den englischsprachigen Bäumen liegen die passenden Knoten unter
+*Health, Fitness & Dieting › Mental Health › Attention Deficit & Attention
+Deficit Hyperactivity Disorder* sowie *Self-Help › Personal Transformation*.
+
+### Stichwörter
+
+`adhs erwachsene` · `adhs buch erwachsene frauen` · `konzentration
+struktur alltag` · `prokrastination aufschieben überwinden` · `adhs
+diagnose erwachsenenalter` · `selbstorganisation ratgeber` ·
+`adhs angehörige partner`
+
+**Nicht verwenden:** keine Wirkstoffnamen als Suchbegriff (Methylphenidat und
+die anderen sind verschreibungspflichtige Arzneimittel — als Keyword in einer
+Verkaufsanzeige ist das nach dem Heilmittelwerberecht angreifbar), keine
+Markennamen von Präparaten, und nichts, was eine Besserung zusagt.
+
+### Vor dem Upload zu klären
+
+Zusätzlich zu den allgemeinen Punkten am Ende dieser Datei:
+
+1. **Die Autorenposition bestätigen.** Der Band ist als *Angehöriger und
+   Begleiter* geschrieben, nicht als Betroffener. Steht so im Buch, im
+   Klappentext und in der Beschreibung.
+2. **Die Autorenbiografie** unten in dieser Datei passt inhaltlich auf die
+   Ernährungsbände. Für Band 4 braucht das KDP-Feld eine eigene Fassung —
+   `adhs/kapitel/78-ueber-den-autor.md` ist die Vorlage.
+3. **Die Anlaufstellen im Anhang prüfen** (`adhs/kapitel/74-anlaufstellen.md`).
+   Telefonnummern und Verbandsadressen ändern sich; eine tote Notrufnummer in
+   einem Buch über psychische Gesundheit ist der schlimmste denkbare Fehler.
+
+---
+
 ## Kindle-Ausgaben
 
 Bei KDP ein **eigener Titel** je Band, nicht dieselbe Produktseite: Taschenbuch

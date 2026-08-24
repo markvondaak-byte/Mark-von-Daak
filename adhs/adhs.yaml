@@ -1,0 +1,38 @@
+# Metadaten Band 4 — Chaos mit System.
+# Wird von adhs/build/build_adhs.py gelesen.
+#
+# Eigenständiger Band, thematisch unabhängig von der Stoffwechsel-Reihe.
+# Er teilt sich mit ihr nur die Werkzeuge: build_docx.py, stile.py und die
+# beiden Prüfskripte.
+
+titel: "Chaos mit System"
+untertitel: "ADHS verstehen, annehmen und in den Griff bekommen"
+autor: "Mark von Daak"
+sprache: de
+version: "1.0"
+jahr: 2026
+
+# Cover-Farbwelt: "hell" (Papierweiß) oder "schiefer" (dunkler Grund)
+cover_stil: schiefer
+cover_akzent: blatt   # blatt | zitrone | beere
+
+# Dateiname ohne Endung für alles unter out/
+slug: chaos-mit-system
+
+# KDP-Satzspiegel — wie Band 1, 6 x 9 Zoll
+seitenformat:
+  breite_mm: 152.4      # 6 Zoll
+  hoehe_mm: 228.6       # 9 Zoll
+  rand_innen_mm: 20.0
+  rand_aussen_mm: 16.0
+  rand_oben_mm: 18.0
+  rand_unten_mm: 18.0
+
+# Impressumsangaben — übernommen aus impressum.html, nicht frei erfunden.
+impressum:
+  name: "Mark von Daak"
+  strasse: "Rabenbergstraße 16"
+  ort: "38444 Wolfsburg"
+  land: "Deutschland"
+  email: "markvondaak@icloud.com"
+  ustid: "DE319920422"
