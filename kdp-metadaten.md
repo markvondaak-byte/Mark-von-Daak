@@ -10,8 +10,13 @@ weil sie dort zusätzlich als KDP-taugliches HTML vorliegen:
 - `darm/cover/amazon-beschreibung.md`
 
 Die ersten drei Titel bilden die Reihe „Der Stoffwechsel-Reset“. **„Der Darm
-im Gleichgewicht“ gehört nicht dazu** und wird ohne Serieneintrag angelegt —
-er teilt nur die Bau- und Gestaltungsbasis.
+im Gleichgewicht“ hat damit nichts zu tun.** Er wird ohne Serieneintrag
+angelegt, nennt weder das Konzept noch die Reihe noch PM-International, und
+sein Umschlag trägt nicht den Markenhinweis der Reihe. Gemeinsam sind nur die
+Bauskripte — und die stehen auf keinem Buchdeckel.
+
+Das betrifft auch die Autorenbiografie: Für diesen Titel gilt die eigene
+Fassung weiter unten, **nicht** die der Reihe.
 
 Die Druckangaben stammen aus dem letzten Build. Ändert sich der Innenteil,
 ändern sich Seitenzahl und Rückenbreite — dann hier nachziehen.
@@ -24,6 +29,9 @@ Ein eigenes Feld bei KDP, getrennt von der Buchbeschreibung. Sie erscheint
 unter „Über den Autor" und im Autorenprofil. Zwei Längen, inhaltlich deckungs-
 gleich mit dem Kapitel „Über den Autor" in Band 1 — nichts behaupten, was dort
 nicht steht.
+
+**Diese Fassung gilt für Band 1 bis 3.** „Der Darm im Gleichgewicht" hat eine
+eigene, in seinem eigenen Abschnitt.
 
 **Kurz (für das KDP-Feld, rund 400 Zeichen)**
 
@@ -297,10 +305,10 @@ Gestaltungsbasis. **Serienfeld bei KDP leer lassen.**
 | Beschreibung | `darm/cover/amazon-beschreibung.md` |
 | Altersfreigabe | keine jugendgefährdenden Inhalte |
 | Trimmgröße | 15,24 × 22,86 cm (6″ × 9″) |
-| Seiten | 208 |
+| Seiten | 204 |
 | Papier / Druckfarbe | weiß / Schwarzweiß |
-| Rückenbreite | 11,9 mm — **mit** Rückentext (KDP erlaubt ihn ab 79 Seiten) |
-| Umschlag gesamt | **12,718 × 9,250 Zoll** (323,05 × 234,95 mm), inkl. 3,175 mm Anschnitt |
+| Rückenbreite | 11,7 mm — **mit** Rückentext (KDP erlaubt ihn ab 79 Seiten) |
+| Umschlag gesamt | **12,709 × 9,250 Zoll** (322,82 × 234,95 mm), inkl. 3,175 mm Anschnitt |
 | Innenteil | `darm/out/darm-im-gleichgewicht-druck.pdf` |
 | Umschlag | `darm/out/cover-druck.pdf` |
 
@@ -311,9 +319,9 @@ KDPs Hardcover-Liste, deshalb genügt **ein** Innenteil für beide Bindearten:
 | Feld | Wert |
 |---|---|
 | Trimmgröße | 6 × 9 Zoll (15,24 × 22,86 cm) |
-| Seiten | 208 |
-| Rücken der Buchdecke | 20,9 mm — **mit** Rückentext |
-| Umschlag gesamt | **14,239 × 10,417 Zoll** (361,68 × 264,59 mm) |
+| Seiten | 204 |
+| Rücken der Buchdecke | 20,7 mm — **mit** Rückentext |
+| Umschlag gesamt | **14,230 × 10,417 Zoll** (361,45 × 264,59 mm) |
 | Innenteil | `darm/out/darm-im-gleichgewicht-druck.pdf` (derselbe wie beim Taschenbuch) |
 | Umschlag | `darm/out/cover-hardcover-druck.pdf` |
 
@@ -331,6 +339,18 @@ KDPs Hardcover-Liste, deshalb genügt **ein** Innenteil für beide Bindearten:
 Zum Tauschen, falls ein Begriff nichts bringt: `darm sanieren buch` ·
 `reizdarm ernährung ratgeber` · `ballaststoffreiche rezepte` ·
 `fermentieren anleitung` · `mikrobiom ernährung`
+
+**Autorenbiografie für diesen Titel** — nicht die der Reihe verwenden. KDP
+führt die Biografie am Buch, nicht am Konto; für diesen Titel ist sie so zu
+hinterlegen:
+
+> Mark von Daak lebt in Wolfsburg und begleitet Menschen bei der Umstellung
+> ihrer Ernährung. Er ist kein Arzt und kein Ernährungsberater mit
+> Kammerzulassung — was er mitbringt, ist die Praxis: die Erfahrung aus der
+> Begleitung von Menschen, die eine Umstellung über Monate durchgehalten
+> haben. Sein Buch empfiehlt kein Produkt, nennt keine Marke und verspricht
+> nichts, was sich nicht halten lässt. Wo es an seine Grenzen kommt, sagt es
+> das und verweist dorthin, wo es hingehört.
 
 > **Vor dem Hochladen gegenlesen.** Dieser Titel enthält
 > Gesundheitsinformationen und ein Kapitel mit ärztlichen Warnzeichen.
@@ -427,7 +447,9 @@ Vor dem ersten Upload stehen außerdem drei Dinge aus, die nicht aus diesem
 Repository kommen können:
 
 1. eine **juristische Durchsicht** der Rechtstexte,
-2. die **Abstimmung mit PM-International** zur Partner-Compliance,
+2. für Band 1 bis 3 die **Abstimmung mit PM-International** zur
+   Partner-Compliance — bei „Der Darm im Gleichgewicht“ entfällt sie, weil der
+   Titel weder das Unternehmen noch sein Konzept erwähnt,
 3. bei „Der Darm im Gleichgewicht“ eine **fachliche Durchsicht** der
    Gesundheitsaussagen. Der Titel nennt Richtwerte, beschreibt ärztliche
    Warnzeichen und bewertet Testverfahren. `claim_check.py` prüft nur

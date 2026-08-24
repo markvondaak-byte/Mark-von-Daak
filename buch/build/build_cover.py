@@ -129,12 +129,25 @@ BARCODE_UEBERSTAND_MM = 0.0
 # Belegexemplar lohnt.
 BARCODE_WEISSFLAECHE = {"taschenbuch": True, "hardcover": False}
 
-MARKENHINWEIS = (
+# Fußzeile der Rückseite. Die Reihe „Der Stoffwechsel-Reset" trägt den
+# Markenhinweis, weil sie inhaltlich auf einem Konzept der PM-International AG
+# fußt. Ein Titel, der damit nichts zu tun hat, trägt ihn nicht — sonst stellt
+# der Umschlag eine Verbindung her, die es nicht gibt. Der Text kommt deshalb
+# aus der YAML-Datei des Bandes; ohne Angabe gilt der Hinweis der Reihe.
+MARKENHINWEIS_REIHE = (
     "„cellRESET“ und „FitLine“ sind Marken der PM-International AG. "
     "Dieses Buch wird von diesem Unternehmen weder herausgegeben noch "
     "autorisiert. Kein medizinischer Ratgeber — bitte die Hinweise im "
     "Buch beachten."
 )
+
+MARKENHINWEIS = MARKENHINWEIS_REIHE
+
+
+def markenhinweis_waehlen(cfg):
+    """Setzt die Fußzeile der Rückseite aus `cover_hinweis` der YAML-Datei."""
+    global MARKENHINWEIS
+    MARKENHINWEIS = cfg.get("cover_hinweis", MARKENHINWEIS_REIHE)
 
 SCHRIFTEN = {
     "Sans": "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf",
@@ -793,6 +806,7 @@ def cover_bauen(cfg, seiten, klappentext_pfad, ziel, *, hardcover=False):
                       initialFontName="Serif")
     c.setTitle(f"{cfg['titel']} — Umschlag")
 
+    markenhinweis_waehlen(cfg)
     stil = cfg.get("cover_stil", "hell")
     if stil not in ("hell", "schiefer"):
         raise SystemExit(f"Unbekannter cover_stil: {stil} (hell | schiefer)")

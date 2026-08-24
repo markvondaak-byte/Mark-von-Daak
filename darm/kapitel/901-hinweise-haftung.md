@@ -1,6 +1,6 @@
 ---
 typ: kapitel
-nummer: 59
+nummer: 58
 titel: Hinweise und Haftung
 kopfzeile: Hinweise und Haftung
 ---
@@ -81,11 +81,13 @@ entwickelt sich schnell; einzelne Aussagen können in wenigen Jahren überholt
 sein. Nährwertangaben sind Durchschnittswerte und schwanken je nach Sorte,
 Anbau, Lagerung und Zubereitung.
 
-## Marken
+## Unabhängigkeit
 
-„FitLine“ und „cellRESET“ sind Marken der **PM-International AG**. Sie werden
-in diesem Buch ausschließlich beschreibend im Kapitel „In eigener Sache“
-genannt. Es besteht keine Verbindung zwischen diesem Buch und der
-PM-International AG; das Buch ist keine Publikation dieses Unternehmens und
-wurde von ihm weder beauftragt noch geprüft. Alle weiteren genannten Marken
-sind Eigentum ihrer jeweiligen Inhaber.
+Dieses Buch ist von keinem Unternehmen beauftragt, finanziert oder geprüft
+worden. Es enthält keine Produktempfehlung, keine bezahlte Platzierung und
+keine Marke in einer Zutatenliste, einer Einkaufsliste oder einem Rezept.
+
+Genannte Institutionen — etwa die im Kapitel „Quellen und Weiterlesen“
+aufgeführten — werden ausschließlich beschreibend erwähnt; eine Verbindung zu
+ihnen besteht nicht. Alle genannten Marken sind Eigentum ihrer jeweiligen
+Inhaber.

@@ -38,7 +38,6 @@ FREIGEGEBEN = {
     # derentwillen es geschrieben ist.
     "002-bitte-zuerst-lesen.md",
     "303-wann-zum-arzt.md",
-    "900-in-eigener-sache.md",
     "901-hinweise-haftung.md",
 }
 

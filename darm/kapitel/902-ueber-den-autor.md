@@ -1,6 +1,6 @@
 ---
 typ: kapitel
-nummer: 60
+nummer: 59
 titel: Über den Autor
 kopfzeile: Über den Autor
 ---
@@ -24,13 +24,14 @@ schuld“ liegt ein großer Bereich, in dem gesicherte, nützliche und
 unspektakuläre Erkenntnisse liegen. Dieses Buch versucht, diesen Bereich zu
 beschreiben.
 
-Als selbstständiger Vertriebspartner für Nahrungsergänzungsmittel hat er ein
-wirtschaftliches Interesse an diesem Themenfeld. Er schreibt das in seine
-Bücher hinein, statt es zu verschweigen — siehe das Kapitel „In eigener
-Sache“.
+Daraus ergibt sich die Linie, an die es sich hält: In diesem Buch wird kein
+Produkt empfohlen. Es steht keine Marke in einer Zutatenliste, in einer
+Einkaufsliste oder in einem Rezept, und alles, was empfohlen wird, steht im
+Supermarkt. Es gibt keinen Kurs dazu, keine Seite, auf der man sich eintragen
+soll, um „den vollständigen Plan“ zu bekommen. Der vollständige Plan ist das
+Buch.
 
-Von ihm ist außerdem die dreiteilige Reihe **„Der Stoffwechsel-Reset“**
-erschienen: das Buch zum Konzept, ein Workbook für zwölf Wochen und ein
-Rezeptbuch. Dieses Buch hier steht für sich und setzt keines davon voraus.
+Wem beim Lesen auffällt, dass diese Linie irgendwo verlassen wurde, schreibe
+mir gern — das kommt in die nächste Auflage.
 
 Kontakt: markvondaak@icloud.com

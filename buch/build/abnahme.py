@@ -266,10 +266,17 @@ def darm_pruefen():
         "Kein Ersatz für ärztlichen Rat": "ersetz",
         "Eigenverantwortung": "eigener Verantwortung",
         "Einzelergebnisse": "nicht übertragbar",
-        "Markenhinweis PM-International": "PM-International AG",
     }
     for name, nadel in rechts.items():
         pruefe(f"Rechtstext: {name}", nadel in volltext)
+
+    # Gegenprobe: Dieser Titel steht ausdrücklich für sich. Taucht die Reihe
+    # oder das Konzept, auf dem sie fußt, doch wieder im Text auf, ist das
+    # ein Fehler und kein Detail.
+    fremd = [w for w in ("Stoffwechsel-Reset", "cellRESET", "FitLine",
+                         "PM-International") if w in volltext]
+    pruefe("Keine Verbindung zur Stoffwechsel-Reset-Reihe", not fremd,
+           ", ".join(fremd) if fremd else "eigenständiger Titel")
 
     fehlend = schriften_eingebettet(pdf)
     pruefe("Alle Schriften eingebettet", not fehlend,
@@ -712,10 +719,12 @@ def kindle_pruefen():
             offen = re.findall(r"\{\{[A-ZÄÖÜ]+\}\}", volltext)
             pruefe(f"{name}: keine offenen Marker", not offen,
                    ", ".join(sorted(set(offen))))
-            for bezeichnung, nadel in (
-                    ("Schwangerschaft", "Schwangerschaft"),
-                    ("Eigenverantwortung", "eigener Verantwortung"),
-                    ("Markenhinweis", "PM-International AG")):
+            rechtstexte = [("Schwangerschaft", "Schwangerschaft"),
+                           ("Eigenverantwortung", "eigener Verantwortung")]
+            # Den Markenhinweis tragen nur die Bände der Reihe.
+            if name != "Darm":
+                rechtstexte.append(("Markenhinweis", "PM-International AG"))
+            for bezeichnung, nadel in rechtstexte:
                 pruefe(f"{name}: Rechtstext {bezeichnung}", nadel in volltext)
 
         pruefe(f"{name}: Titelbild im Paket verzeichnet",

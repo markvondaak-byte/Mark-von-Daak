@@ -73,7 +73,8 @@ vieles davon ist solide Arbeit.
 
 Aber es ist eine Information, die man haben will. Bei einer Studie steht sie
 am Ende unter „Interessenkonflikte“. Bei einem Ratgeber steht sie meist gar
-nicht da — deshalb hat dieses Buch ein eigenes Kapitel dafür.
+nicht da — und bei einem, der Ihnen nebenbei ein Präparat verkauft, ist die
+Frage bereits beantwortet.
 
 ## Frage 6: Was wurde eigentlich gemessen?
 

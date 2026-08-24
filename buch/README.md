@@ -474,6 +474,9 @@ Suchen am Ende der Ausgabe; die Treffer muss man lesen, nicht zählen.
 
 ## Rechtliche Leitplanken
 
+Diese Leitplanken gelten für **Band 1 bis 3**. Was für „Der Darm im
+Gleichgewicht" gilt, steht im Abschnitt darunter.
+
 - **Eigenständigkeit:** Fakten, Mengen und Listen stammen aus dem
   cellRESET-Ernährungskonzept, jede Formulierung ist neu. Keine Textpassagen
   und keine Grafiken übernehmen.
@@ -485,6 +488,32 @@ Suchen am Ende der Ausgabe; die Treffer muss man lesen, nicht zählen.
   stehen in `buch/kapitel/64-hinweise-haftung.md` und
   `workbook/rahmen/90-rechtliches.md` und dürfen nicht gekürzt werden.
   `abnahme.py` prüft ihr Vorhandensein im fertigen PDF.
+
+## Der Darm im Gleichgewicht
+
+**Der Titel hat mit der Reihe nichts zu tun, und das ist eine
+Produktentscheidung, keine Formulierungsfrage.** Er nennt weder das
+cellRESET-Konzept noch die Reihe noch PM-International — nicht im Text, nicht
+im Nachspann und nicht auf dem Umschlag. Wer hier etwas ergänzt, prüft das
+zuerst gegen diese Regel.
+
+Drei Stellen setzen sie durch:
+
+| Stelle | Was sie tut |
+|---|---|
+| `cover_hinweis` in `darm/darm.yaml` | ersetzt den Markenhinweis der Reihe in der Fußzeile der Rückseite; ohne diese Angabe stünde dort `MARKENHINWEIS_REIHE` aus `build_cover.py` |
+| `darm_pruefen()` in `abnahme.py` | sucht „Stoffwechsel-Reset", „cellRESET", „FitLine" und „PM-International" im fertigen PDF und schlägt bei jedem Treffer fehl |
+| `kindle_pruefen()` in `abnahme.py` | verlangt den Markenhinweis in den EPUBs der Reihe, bei diesem Titel ausdrücklich nicht |
+
+Der Band hat deshalb auch **kein Kapitel „In eigener Sache"** und **keine
+gemeinsame Autorenbiografie** — die eigene Fassung steht in
+`kdp-metadaten.md`. Die HCVO-Leitplanke gilt unverändert; die Rechtskapitel
+liegen in `darm/kapitel/901-hinweise-haftung.md` und
+`darm/kapitel/002-bitte-zuerst-lesen.md`.
+
+Weil der Titel Gesundheitsinformationen enthält — Richtwerte, ärztliche
+Warnzeichen, eine Bewertung von Testverfahren —, ersetzt `claim_check.py` hier
+keine fachliche Durchsicht. Es prüft Formulierungen, nicht Inhalte.
 
 ## Band 2 — Workbook
 

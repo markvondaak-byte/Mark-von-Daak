@@ -33,12 +33,10 @@ und vergleichbarer Institutionen. Sie stehen im Kapitel „Quellen und
 Weiterlesen“ am Ende des Buches. Erfahrungswerte aus der Praxis sind als solche
 gekennzeichnet.
 
-Ich verdiene mein Geld unter anderem im Vertrieb von
-Nahrungsergänzungsmitteln. Das ist ein wirtschaftliches Interesse an genau dem
-Themenfeld, über das dieses Buch handelt, und Sie sollen es wissen, bevor Sie
-die erste Seite lesen und nicht erst danach. Was das für dieses Buch bedeutet,
-steht im Kapitel „In eigener Sache“. Kurz gesagt: In diesem Buch wird Ihnen
-kein Produkt empfohlen, auch keines, an dem ich verdiene.
+Ein Satz noch, bevor es losgeht, weil er die Linie dieses Buches beschreibt:
+**Ihnen wird hier kein Produkt empfohlen.** Kein Präparat, kein Test, kein
+Kurs, keine Marke — weder offen noch beiläufig. Alles, was dieses Buch
+empfiehlt, steht im Supermarkt.
 
 Die ausführlichen Hinweise zu Haftung und Anwendung stehen am Ende des Buches.
 Sie gehören zum Buch dazu und sind nicht als Formalie gedacht.
