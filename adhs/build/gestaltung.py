@@ -71,6 +71,17 @@ RECHTSHINWEIS = (
 #: Grundgrößen des Rückseitentexts: (Schlagzeile, Fließtext, Stichpunkt).
 RUECKEN_GROESSEN = (19.0, 12.0, 11.5)
 
+#: Autorenzeile auf der Vorderseite: Abstand zur rechten und zur unteren
+#: Trimmkante als Anteil der Seitenmaße, dazu der Schriftgrad.
+#:
+#: Beide Abstände bleiben über KDPs Sicherheitsrand von 6,35 mm (0,25 Zoll)
+#: zur Trimmkante — bei 6 x 9 Zoll sind das 8,4 mm rechts und 17,1 mm unten.
+#: Wer sie weiter in die Ecke schiebt, riskiert, dass die Zeile beim
+#: Beschneiden angeschnitten wird.
+AUTOR_RAND_RECHTS = 0.055
+AUTOR_RAND_UNTEN = 0.075
+AUTOR_GROESSE = 22
+
 
 # --- Grund und Motiv ---------------------------------------------------------
 def tintengrund(c, x, y, breite, hoehe, stufen=48):
@@ -378,7 +389,7 @@ def vorderseite(c, x, y, breite, hoehe, cfg, *, ueberstand=0):
                              zentriert=True)
 
     # --- Motiv: füllt, was zwischen Untertitel und Autorenzeile bleibt ---
-    autor_y = y + hoehe * 0.105
+    autor_y = y + hoehe * AUTOR_RAND_UNTEN
     motiv_oben = cursor - 20
     motiv_unten = autor_y + 28
     if not bild and motiv_oben - motiv_unten > 24:
@@ -393,8 +404,9 @@ def vorderseite(c, x, y, breite, hoehe, cfg, *, ueberstand=0):
     # nach rechts in die Ordnung, und die Autorenzeile steht damit dort, wo
     # der Blick ohnehin ankommt.
     c.setFillColor(FARBEN["text"] if bild else FARBEN["akzent"])
-    c.setFont("Sans-Bold", 18)
-    c.drawRightString(x + breite - rand, autor_y, cfg["autor"])
+    c.setFont("Sans-Bold", AUTOR_GROESSE)
+    c.drawRightString(x + breite - breite * AUTOR_RAND_RECHTS, autor_y,
+                      cfg["autor"])
 
 
 def ruecken(c, x, y, breite, hoehe, cfg, mit_text):
