@@ -378,7 +378,8 @@ def druckfassung_pruefen(bezeichnung, pdf, soll_b, soll_h):
            not befunde, ", ".join(befunde) if befunde else "")
 
 
-def barcodefeld_pruefen(bezeichnung, pdf, rand_mm, trim_b_mm, hardcover):
+def barcodefeld_pruefen(bezeichnung, pdf, rand_mm, trim_b_mm, hardcover,
+                        weissflaeche=None):
     """Die Fläche, auf die KDP den Barcode druckt, muss leer und hell sein.
 
     `rand_mm` ist der Anschnitt beziehungsweise der Umschlagrand beim
@@ -394,6 +395,12 @@ def barcodefeld_pruefen(bezeichnung, pdf, rand_mm, trim_b_mm, hardcover):
     2. Die Fläche ist gleichmäßig hell. Ein Verlauf oder der Schiefergrund
        wäre textfrei und trotzdem unbrauchbar: KDP druckt den Barcode
        schwarz und ohne eigenen Hintergrund.
+
+    `weissflaeche` sagt, ob der Umschlag dort eine eigene weiße Fläche
+    zeichnet, und entscheidet damit, welche der beiden Messungen gilt.
+    Ohne Angabe gilt die Voreinstellung der Reihe aus
+    `BARCODE_WEISSFLAECHE`; Band 4 gibt `False` mit — er verzichtet auf
+    beiden Bindearten darauf.
     """
     import fitz
 
@@ -434,7 +441,11 @@ def barcodefeld_pruefen(bezeichnung, pdf, rand_mm, trim_b_mm, hardcover):
     kanaele = [min(p) for p in proben]
     dunkelste, hellste = min(kanaele), max(kanaele)
 
-    if BARCODE_WEISSFLAECHE["hardcover" if hardcover else "taschenbuch"]:
+    if weissflaeche is None:
+        weissflaeche = BARCODE_WEISSFLAECHE[
+            "hardcover" if hardcover else "taschenbuch"]
+
+    if weissflaeche:
         pruefe(f"{bezeichnung}: Barcodefeld hell und einfarbig",
                dunkelste >= 235 and hellste - dunkelste <= 6,
                f"dunkelster Kanalwert {dunkelste}, hellster {hellste} von 255")
@@ -458,7 +469,8 @@ def barcodefeld_pruefen(bezeichnung, pdf, rand_mm, trim_b_mm, hardcover):
            f"(gefordert {BARCODE_UNTEN_AB_DATEIKANTE_MM / 25.4:.2f})")
 
 
-def cover_pruefen(bezeichnung, pdf, cfg, seiten, *, hardcover=False):
+def cover_pruefen(bezeichnung, pdf, cfg, seiten, *, hardcover=False,
+                  weissflaeche=None):
     if not pdf.exists():
         pruefe(f"{bezeichnung}: Umschlag vorhanden", False)
         return
@@ -486,7 +498,8 @@ def cover_pruefen(bezeichnung, pdf, cfg, seiten, *, hardcover=False):
            f"{ist_h:.1f} mm (Soll {soll_h:.1f})")
 
     barcodefeld_pruefen(bezeichnung, pdf, rand,
-                        cfg["seitenformat"]["breite_mm"], hardcover)
+                        cfg["seitenformat"]["breite_mm"], hardcover,
+                        weissflaeche)
 
     druckfassung_pruefen(bezeichnung,
                          pdf.with_name(pdf.stem + "-druck.pdf"),
@@ -779,7 +792,11 @@ def dopamin_pruefen():
     innenteil_druck_pruefen("Band 4", pdf.with_name(pdf.stem + "-druck.pdf"),
                             cfg["seitenformat"]["breite_mm"],
                             cfg["seitenformat"]["hoehe_mm"])
-    cover_pruefen("Band 4", basis / "out" / "cover.pdf", cfg, len(seiten))
+    # Band 4 zeichnet auf keiner Bindeart eine eigene Weißfläche unter das
+    # Barcodefeld — KDP bringt seine weiße Box mit. Geprüft wird deshalb
+    # nicht Helligkeit, sondern ein ruhiger Grund.
+    cover_pruefen("Band 4", basis / "out" / "cover.pdf", cfg, len(seiten),
+                  weissflaeche=False)
 
     # Hardcover: eigener Innenteil, seit dem Wechsel auf 6 x 9 Zoll in
     # derselben Trimmgröße wie das Taschenbuch und nur um die Vakatseite
@@ -803,7 +820,7 @@ def dopamin_pruefen():
         cover_pruefen("Band 4 Hardcover",
                       basis / "out" / "cover-hardcover.pdf",
                       dict(cfg, seitenformat=hc_format), len(hc_seiten),
-                      hardcover=True)
+                      hardcover=True, weissflaeche=False)
     else:
         pruefe("Band 4 Hardcover: Innenteil vorhanden", False,
                str(hc_pdf.relative_to(WURZEL)))

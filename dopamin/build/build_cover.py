@@ -44,11 +44,11 @@ from reportlab.pdfgen import canvas
 WURZEL = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(WURZEL / "buch" / "build"))
 
-from build_cover import (BARCODE_LUFT_MM, BARCODE_WEISSFLAECHE,  # noqa: E402
+from build_cover import (BARCODE_LUFT_MM,  # noqa: E402
                          BESCHNITT_MM,
                          BUCHDECKE_MM, HARDCOVER_MIN_SEITEN,
                          RUECKEN_PRO_SEITE_MM, RUECKENTEXT_AB_SEITEN, WRAP_MM,
-                         barcodefeld_freistellen, block_schreiben,
+                         block_schreiben,
                          klappentext_laden, schriften_laden, seitenzahl,
                          titelbild_zeichnen, _unterkante_ausblenden,
                          umbrechen, vorschau, weissflaeche)
@@ -403,11 +403,18 @@ def rueckseite(c, x, y, breite, hoehe, cfg, kopf, absaetze, punkte,
     molekuel(c, x + breite * 0.70, y + hoehe * 0.895, breite * 0.10,
              FARBEN["molekuel"], breite * 0.008)
 
-    # Weiss hinterlegt wird nur beim Taschenbuch. Beim Hardcover bringt KDP
-    # seine eigene weisse Box mit, und ein zweites weisses Rechteck darunter
-    # stand in der Vorschau sichtbar auf dem Grund — siehe buch/README.md.
-    if BARCODE_WEISSFLAECHE["hardcover" if hardcover else "taschenbuch"]:
-        barcodefeld_freistellen(c, x, y, breite, hardcover=hardcover)
+    # Keine eigene Weißfläche unter dem Barcodefeld — auf keiner Bindeart.
+    #
+    # KDP druckt den Barcode nach eigener Angabe „in a 2 x 1,2 inch white
+    # box", bringt das Weiß also mit. Ein zweites weißes Rechteck darunter
+    # zeigt sich nur dann, wenn es größer ist als KDPs Box, und steht dann
+    # als weißer Rand auf dem dunklen Grund. Beim Hardcover war genau das in
+    # der Vorschau zu sehen; die Bände 1 bis 3 behalten es beim Taschenbuch
+    # als Rückversicherung, dieser Band nicht — siehe buch/README.md.
+    #
+    # Freigehalten wird die Fläche weiterhin: Der Klappentext und der
+    # Pflichthinweis rechnen unten mit `weissflaeche()`, damit kein Wort
+    # unter KDPs Box gerät.
 
     hinweis_zeilen = len(umbrechen(c, MARKENHINWEIS, "Serif", 7, textbreite))
     _, fy, _, fh = weissflaeche(x, y, breite, hardcover=hardcover)

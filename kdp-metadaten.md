@@ -293,7 +293,7 @@ angezeigt und verwirrt beide Zielgruppen.
 | Beschreibung | `dopamin/cover/amazon-beschreibung.md` |
 | Trimmgröße | **6 × 9 Zoll** (15,24 × 22,86 cm) — wie Band 1 |
 | Seiten | 138 |
-| Papier | cremefarben (Lesebuch aus reinem Fließtext) |
+| Papier | **weiß** — die Rückenbreite des Umschlags ist darauf gerechnet |
 | Druckfarbe | Schwarzweiß |
 | Rückenbreite | 7,9 mm — **mit** Rückentext (KDP erlaubt ihn ab 79 Seiten) |
 | Umschlag gesamt | 319,04 × 234,95 mm (12,561 × 9,250 Zoll) |
@@ -307,11 +307,29 @@ Beschreibung, gleiche Kategorien, gleiche Stichwörter:
 |---|---|
 | Trimmgröße | **6 × 9 Zoll** — dieselbe wie beim Taschenbuch |
 | Seiten | 138 |
-| Papier / Druckfarbe | cremefarben / Schwarzweiß |
+| Papier / Druckfarbe | weiß / Schwarzweiß |
 | Rücken der Buchdecke | 16,9 mm — **mit** Rückentext |
 | Umschlag gesamt | **14,082 × 10,417 Zoll** (357,68 × 264,59 mm) |
 | Innenteil | `dopamin/out/dopamin-luege-hardcover-druck.pdf` — **eigene Datei** |
 | Umschlag | `dopamin/out/cover-hardcover-druck.pdf` |
+
+**Weißes Papier ist keine Nebensache.** Die Rückenbreite hängt am Papier —
+weiß rechnet KDP mit 0,0572 mm je Seite, creme mit 0,0635 —, und aus der
+Rückenbreite folgt die Sollbreite des Umschlags. Zur Kontrolle, was KDP für
+das Taschenbuch erwartet:
+
+| Seiten | Papier | Rücken | Umschlag gesamt |
+|---|---|---|---|
+| **138** | **weiß** | **7,9 mm** | **12,561 × 9,250 Zoll** ← unsere Datei |
+| 138 | creme | 8,8 mm | 12,595 × 9,250 Zoll |
+| 160 | weiß | 9,1 mm | 12,610 × 9,250 Zoll |
+| 160 | creme | 10,2 mm | 12,650 × 9,250 Zoll |
+
+Nennt KDP eine Sollgröße aus einer anderen Zeile, ist im Formular das falsche
+Papier eingestellt — oder es liegt dort noch ein anderer Innenteil. Die Zeile
+mit 160 Seiten steht mit Absicht in der Tabelle: So groß war der Band vor der
+Umstellung auf 6 × 9 Zoll, und solange KDP die alte Datei hält, verlangt es
+einen Umschlag für 160 Seiten.
 
 Der Innenteil des Hardcovers ist eine eigene Datei, obwohl das Format
 dasselbe ist: KDP verlangt beim Hardcover eine gerade Seitenzahl, und der

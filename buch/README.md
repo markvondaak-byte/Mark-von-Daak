@@ -116,8 +116,9 @@ und beide werden von `abnahme.py` geprüft:
 | Abstand zum Rücken, Taschenbuch | 6,35 mm (0,25 Zoll) | |
 | Abstand zum Rücken, **Hardcover** | 12,51 mm | 0,4 Zoll Scharnier plus 0,25 Zoll, minus 4 mm nach Sichtprüfung |
 | Inhalt | nichts | kein Text, kein Bild, kein Designelement |
-| Grund, Taschenbuch | Volltonweiß | Rückversicherung, falls KDP ohne eigene Box druckt |
+| Grund, Taschenbuch Bände 1–3 | Volltonweiß | Rückversicherung, falls KDP ohne eigene Box druckt |
 | Grund, **Hardcover** | **Umschlaggrund, keine Weißfläche** | KDP bringt die Box mit |
+| Grund, **Band 4** | **Umschlaggrund, keine Weißfläche** | auf beiden Bindearten |
 
 **Warum die Fläche exakt KDPs Maß hat — und warum das drei Anläufe brauchte.**
 KDP druckt den Barcode nicht nackt auf den Umschlag, sondern „in a 2 × 1,2
@@ -145,8 +146,16 @@ addiert wird.
 **Beim Hardcover liegt gar keine Weißfläche mehr darunter.** In KDPs Vorschau
 stand dort ein weißes Rechteck auf dem Schiefergrund; da KDP seine Box ohnehin
 mitbringt, war es doppelt. `BARCODE_WEISSFLAECHE` in `build_cover.py` schaltet
-das je Bindeart. Beim Taschenbuch bleibt die Fläche vorerst stehen — sie ist
-deckungsgleich mit KDPs Box und deshalb unsichtbar.
+das je Bindeart. Bei den Taschenbüchern der Bände 1 bis 3 bleibt die Fläche
+vorerst stehen — sie ist deckungsgleich mit KDPs Box und deshalb unsichtbar.
+
+**Band 4 verzichtet auf beiden Bindearten darauf.** Sein Umschlag zeichnet die
+Fläche gar nicht mehr; `cover_pruefen()` und `barcodefeld_pruefen()` nehmen
+dafür ein Argument `weissflaeche` entgegen, das Band 4 auf `False` setzt.
+Ohne Angabe gilt weiter die Voreinstellung der Reihe, die Bände 1 bis 3
+ändern sich also nicht. Freigehalten wird die Fläche unverändert: Klappentext
+und Pflichthinweis rechnen mit `weissflaeche()`, damit kein Wort unter KDPs
+Box gerät.
 
 Das Risiko dieser Entscheidung gehört dazugesagt: Sollte KDP den Barcode wider
 Erwarten ohne eigene Box drucken, stünde beim Hardcover schwarze Strichschrift
