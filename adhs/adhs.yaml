@@ -12,9 +12,8 @@ sprache: de
 version: "1.0"
 jahr: 2026
 
-# Cover-Farbwelt: "hell" (Papierweiß) oder "schiefer" (dunkler Grund)
-cover_stil: schiefer
-cover_akzent: blatt   # blatt | zitrone | beere
+# Eigene Farbwelt. Band 4 gehört nicht zur Stoffwechsel-Reihe und teilt
+# deren Palette bewusst nicht — Werte stehen in adhs/build/build_cover.py.
 
 # Dateiname ohne Endung für alles unter out/
 slug: chaos-mit-system

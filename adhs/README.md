@@ -11,11 +11,28 @@ die beiden Prüfskripte.
 
 ```bash
 pip install -r buch/requirements.txt
-python3 adhs/build/build_adhs.py        # → adhs/out/chaos-mit-system.{docx,pdf}
 
-python3 buch/build/rechtschreibung.py   # Rechtschreibung und Typografie
-python3 buch/build/claim_check.py       # HCVO, muss ohne Fehler laufen
+python3 adhs/build/build_adhs.py            # Innenteil: .docx und .pdf
+python3 adhs/build/build_cover.py           # Umschlag, Taschenbuch + Hardcover
+python3 buch/build/cover_flach.py adhs/out/cover.pdf
+python3 buch/build/cover_flach.py adhs/out/cover-hardcover.pdf
+python3 adhs/build/kindle_titelbild.py      # Titelbild für Kindle
+python3 adhs/build/build_epub.py            # Kindle-Ausgabe
+
+python3 buch/build/rechtschreibung.py       # Rechtschreibung und Typografie
+python3 buch/build/claim_check.py           # HCVO, muss ohne Fehler laufen
 ```
+
+**Der Umschlag muss nach dem Innenteil gebaut werden** — die Rückenbreite
+errechnet sich aus dessen Seitenzahl. Bei 134 Seiten sind das 7,7 mm beim
+Taschenbuch und 16,7 mm bei der Buchdecke des Hardcovers; beide liegen über
+KDPs Schwelle, der Rücken trägt also Text.
+
+**Zu KDP hochgeladen wird `cover-druck.pdf`, nicht `cover.pdf`.** Die
+Vektorfassung enthält einen gestuften Verlauf; `cover_flach.py` rastert den
+Umschlag bei 300 dpi und legt ihn als einzelnes Bild in ein PDF exakter
+Größe — ohne Transparenz, Verläufe, Schriften und Ebenen. Die Vektorfassung
+bleibt die Quelle für Korrekturen.
 
 `build_adhs.py` ist ein dünner Aufruf um `build_docx.py` — dieselbe
 Zwei-Durchlauf-Logik wie Band 1, nur mit `adhs.yaml` und `adhs/kapitel`.
@@ -104,13 +121,44 @@ in einem Buch über psychische Gesundheit ist der schlimmste denkbare Fehler.
 Besonders zu prüfen: die Angaben zu Österreich und zur Schweiz, die dünner
 sind als die deutschen.
 
-## Noch nicht gebaut
+## Der Umschlag
 
-- **Umschlag.** `build_cover.py` ist für diesen Band nicht angelegt. Der
-  Aufruf wäre derselbe wie bei Band 1; die Rückenbreite errechnet sich aus den
-  134 Seiten des fertigen Innenteils, `cover_stil` und `cover_akzent` stehen
-  bereits in `adhs.yaml`.
-- **Kindle-Ausgabe.** `build_epub.py` ist auf die drei bestehenden Bände
-  verdrahtet und wurde nicht angefasst.
-- **Abnahme.** `abnahme.py` prüft die drei alten Bände samt Umschlägen. Ohne
-  Umschlag gibt es für Band 4 nichts abzunehmen, was das Skript prüfen würde.
+**Eigene Bildsprache, bewusst nicht die der Stoffwechsel-Reihe.** Band 4
+gehört thematisch nicht dazu; im Regal und im Amazon-Vorschaubild soll
+niemand eine Reihe vermuten, die es nicht gibt. Konkret heißt das:
+
+| | Reihe (Band 1–3) | Band 4 |
+|---|---|---|
+| Grund | Schiefergrau `#5A616B` | Tintenblau `#1E2937` |
+| Akzent | Blatt / Zitrone / Beere | Bernstein `#F2A65A` |
+| Motiv | Lebensmittel-Illustrationen | Strichraster Chaos → Ordnung |
+| Titelfoto | gemeinsames `buch/cover/titelbild.jpg` | keines |
+| Bandkennung | „DAS BUCH · 4 PHASEN" u. ä. | keine |
+| Fußhinweis | Marken der PM-International AG | „Kein medizinischer Ratgeber" |
+
+Der letzte Punkt ist kein Kosmetikthema: In diesem Band kommt keine fremde
+Marke vor, ein Markenhinweis wäre also sachlich falsch — und auf einem Buch
+über psychische Gesundheit sähe der Verweis auf einen
+Nahrungsergänzungs-Vertrieb nach Produktwerbung aus.
+
+Farbwelt, Motiv und die drei Flächen stehen in `build/gestaltung.py`, geteilt
+von Druckumschlag und Kindle-Titelbild. Das Motiv benutzt eine feste
+Zufallszahl (`RASTER_SAAT`), damit jeder Build denselben Umschlag erzeugt —
+sonst ließen sich Korrekturabzüge nicht vergleichen.
+
+Aus `buch/build` kommen nur bandneutrale Bausteine: Schriften, Zeilenumbruch,
+Textblöcke und vor allem die **Geometrie des Barcodefeldes**, in der viel
+mühsam erarbeitetes Wissen über KDPs Vorgaben steckt (siehe `buch/README.md`).
+An den Skripten der Reihe wurde nichts geändert.
+
+**Warum die Dateinamen abweichen.** `kindle_titelbild.py` heißt nicht
+`kindle_cover.py`, und die Gestaltung liegt in `gestaltung.py` statt in
+`build_cover.py`: Beim Bauen liegen `adhs/build` und `buch/build` gleichzeitig
+im Suchpfad, und zwei Module gleichen Namens verdecken einander.
+
+## Noch offen
+
+- **Abnahme.** `abnahme.py` prüft die drei alten Bände samt Umschlägen und
+  wurde nicht erweitert. Die dort automatisierten Barcode-Prüfungen greifen
+  für Band 4 also noch nicht — vor dem Upload lohnt ein Blick in KDPs eigene
+  Vorschau, besonders auf das Barcodefeld unten rechts.

@@ -11,8 +11,9 @@ Vier eigenständige Bände, gemeinsame Build-Basis:
 
 **Band 4 gehört thematisch nicht zur Reihe.** „Chaos mit System“ ist ein
 eigenständiges Buch über ADHS und teilt sich mit den drei Stoffwechsel-Bänden
-nur die Werkzeugkette. Eigene Bau- und Pflegehinweise stehen in
-`adhs/README.md`; ein Umschlag ist dafür noch nicht angelegt.
+nur die Werkzeugkette — **nicht** die Bildsprache: eigene Farbwelt, eigenes
+Motiv, kein gemeinsames Titelfoto, kein Markenhinweis. Bau- und
+Pflegehinweise stehen in `adhs/README.md`.
 
 ## Bauen
 
@@ -27,6 +28,7 @@ python3 workbook/build/build_cover.py      # Umschlag Band 2
 
 python3 rezepte/build/build_rezepte.py     # Band 3: .docx und .pdf
 python3 adhs/build/build_adhs.py           # Band 4: .docx und .pdf
+python3 adhs/build/build_cover.py          # Umschlag Band 4
 python3 rezepte/build/build_cover.py       # Umschlag Band 3
 
 python3 buch/build/cover_flach.py          # Umschläge in die KDP-Druckfassung

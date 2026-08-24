@@ -294,15 +294,35 @@ das würde beide Bücher in den Empfehlungen falsch verknüpfen.
 | Papier | weiß |
 | Druckfarbe | Schwarzweiß |
 | Innenteil | `adhs/out/chaos-mit-system.pdf` |
-| Umschlag | **noch nicht gebaut** — siehe unten |
+| Rückenbreite | 7,7 mm — **mit** Rückentext (KDP erlaubt ihn ab 79 Seiten) |
+| Umschlag gesamt | 318,81 × 234,95 mm (12,552 × 9,250 Zoll) |
+| Umschlag-Datei | `adhs/out/cover-druck.pdf` |
 
-**Der Umschlag fehlt.** Für Band 4 gibt es noch kein `build_cover.py`. Die
-Rückenbreite errechnet sich aus 134 Seiten × 0,0572 mm = **7,7 mm**; damit
-liegt der Band über KDPs Grenze von 79 Seiten und **darf Rückentext tragen**.
-Für die Hardcover-Fassung kämen 9 mm für Pappen und Falzrillen hinzu
-(16,7 mm), und 6 × 9 Zoll steht in KDPs Hardcover-Liste — ein zweiter
-Innenteil wäre also nicht nötig. Diese Werte gelten, solange der Innenteil
-unverändert bleibt.
+**Hardcover-Fassung** — eigener Titel neben dem Taschenbuch, gleiche
+Beschreibung, gleiche Kategorien, gleiche Stichwörter:
+
+| Feld | Wert |
+|---|---|
+| Trimmgröße | 6 × 9 Zoll — steht in KDPs Hardcover-Liste |
+| Seiten | 134 |
+| Rücken der Buchdecke | 16,7 mm — mit Rückentext |
+| Umschlag gesamt | **14,073 × 10,417 Zoll** (357,45 × 264,59 mm) |
+| Innenteil | `adhs/out/chaos-mit-system.pdf` — **dieselbe Datei** |
+| Umschlag | `adhs/out/cover-hardcover-druck.pdf` |
+
+**Anders als bei Band 3 genügt hier ein Innenteil für beide Bindearten.**
+6 × 9 Zoll steht in KDPs Hardcover-Liste, das Format wechselt also nicht.
+
+### Kindle-Ausgabe
+
+Bei KDP ein **eigener Titel**, nicht dieselbe Produktseite wie das
+Taschenbuch.
+
+| Feld | Wert |
+|---|---|
+| Datei | `adhs/out/chaos-mit-system-kindle.epub` |
+| Titelbild | `adhs/out/kindle-cover.jpg` — 1600 × 2560 px, Verhältnis 1,6 |
+| Satz | reflowable (Fließtext), 41 Navigationspunkte |
 
 ### Kategorien
 
