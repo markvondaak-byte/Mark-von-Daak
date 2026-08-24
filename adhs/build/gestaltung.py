@@ -190,11 +190,33 @@ TITELBILD_GRUNDSCHLEIER = 0.14  # leichtes Abdunkeln über die ganze Fläche
 
 
 def titelbild_suchen(verzeichnis=None):
+    """Sucht das Titelbild und prüft, ob es wirklich eines ist.
+
+    Die Prüfung ist kein Übereifer: Beim Hochladen über die GitHub-Oberfläche
+    ist schon einmal statt des Bildes eine 61 Byte große Textdatei mit dem
+    Dateinamen darin gelandet — und hat die funktionierende Vorlage
+    überschrieben. Ohne diese Prüfung bricht der Bau erst tief in Pillow ab,
+    mit einer Meldung, die nicht sagt, was los ist.
+
+    Ist die Datei unlesbar, wird sie gemeldet und übergangen; der Umschlag
+    fällt dann auf das gezeichnete Fadenmotiv zurück.
+    """
+    from PIL import Image, UnidentifiedImageError
+
     verzeichnis = Path(verzeichnis or WURZEL / "adhs" / "cover")
     for endung in TITELBILD_ENDUNGEN:
         pfad = verzeichnis / f"titelbild{endung}"
-        if pfad.exists():
-            return pfad
+        if not pfad.exists():
+            continue
+        try:
+            with Image.open(pfad) as bild:
+                bild.verify()
+        except (UnidentifiedImageError, OSError, ValueError) as fehler:
+            print(f"  ACHTUNG: {pfad.name} ist keine lesbare Bilddatei "
+                  f"({pfad.stat().st_size} Byte) — {fehler}. "
+                  f"Der Umschlag nimmt das gezeichnete Fadenmotiv.")
+            continue
+        return pfad
     return None
 
 
