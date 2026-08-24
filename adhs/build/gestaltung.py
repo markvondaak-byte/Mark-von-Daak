@@ -389,9 +389,12 @@ def vorderseite(c, x, y, breite, hoehe, cfg, *, ueberstand=0):
     # und Bernstein auf Bernstein trägt keinen Kontrast. Auf dem gezeichneten
     # Fadenmotiv steht die Zeile dagegen auf ruhigem Grund und darf farbig
     # bleiben.
+    # Rechtsbündig am Satzspiegel statt mittig: Das Motiv läuft von links
+    # nach rechts in die Ordnung, und die Autorenzeile steht damit dort, wo
+    # der Blick ohnehin ankommt.
     c.setFillColor(FARBEN["text"] if bild else FARBEN["akzent"])
     c.setFont("Sans-Bold", 18)
-    c.drawCentredString(x + breite / 2, autor_y, cfg["autor"])
+    c.drawRightString(x + breite - rand, autor_y, cfg["autor"])
 
 
 def ruecken(c, x, y, breite, hoehe, cfg, mit_text):
