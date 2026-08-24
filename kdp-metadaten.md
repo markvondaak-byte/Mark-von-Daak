@@ -1,4 +1,4 @@
-# KDP-Metadaten — alle drei Bände
+# KDP-Metadaten — alle vier Titel
 
 Alles, was beim Anlegen eines Titels bei Amazon KDP abgefragt wird, an einer
 Stelle zum Kopieren. Die langen Beschreibungstexte stehen in eigenen Dateien,
@@ -7,6 +7,11 @@ weil sie dort zusätzlich als KDP-taugliches HTML vorliegen:
 - `buch/cover/amazon-beschreibung.md`
 - `workbook/cover/amazon-beschreibung.md`
 - `rezepte/cover/amazon-beschreibung.md`
+- `darm/cover/amazon-beschreibung.md`
+
+Die ersten drei Titel bilden die Reihe „Der Stoffwechsel-Reset“. **„Der Darm
+im Gleichgewicht“ gehört nicht dazu** und wird ohne Serieneintrag angelegt —
+er teilt nur die Bau- und Gestaltungsbasis.
 
 Die Druckangaben stammen aus dem letzten Build. Ändert sich der Innenteil,
 ändern sich Seitenzahl und Rückenbreite — dann hier nachziehen.
@@ -277,21 +282,80 @@ Zum Tauschen, falls ein Begriff nach ein paar Wochen nichts bringt:
 
 ---
 
+## Der Darm im Gleichgewicht
+
+Kein Band der Reihe — ein eigenständiger Titel auf derselben Bau- und
+Gestaltungsbasis. **Serienfeld bei KDP leer lassen.**
+
+| Feld | Wert |
+|---|---|
+| Titel | Der Darm im Gleichgewicht |
+| Untertitel | Wie Verdauung wirklich funktioniert — mit 8-Wochen-Programm und 40 Rezepten |
+| Serie | *keine* |
+| Autor | Mark von Daak |
+| Sprache | Deutsch |
+| Beschreibung | `darm/cover/amazon-beschreibung.md` |
+| Altersfreigabe | keine jugendgefährdenden Inhalte |
+| Trimmgröße | 15,24 × 22,86 cm (6″ × 9″) |
+| Seiten | 208 |
+| Papier / Druckfarbe | weiß / Schwarzweiß |
+| Rückenbreite | 11,9 mm — **mit** Rückentext (KDP erlaubt ihn ab 79 Seiten) |
+| Umschlag gesamt | **12,718 × 9,250 Zoll** (323,05 × 234,95 mm), inkl. 3,175 mm Anschnitt |
+| Innenteil | `darm/out/darm-im-gleichgewicht-druck.pdf` |
+| Umschlag | `darm/out/cover-druck.pdf` |
+
+**Hardcover-Fassung** — eigener Titel neben dem Taschenbuch, gleiche
+Beschreibung, gleiche Kategorien, gleiche Stichwörter. 6 × 9 Zoll steht in
+KDPs Hardcover-Liste, deshalb genügt **ein** Innenteil für beide Bindearten:
+
+| Feld | Wert |
+|---|---|
+| Trimmgröße | 6 × 9 Zoll (15,24 × 22,86 cm) |
+| Seiten | 208 |
+| Rücken der Buchdecke | 20,9 mm — **mit** Rückentext |
+| Umschlag gesamt | **14,239 × 10,417 Zoll** (361,68 × 264,59 mm) |
+| Innenteil | `darm/out/darm-im-gleichgewicht-druck.pdf` (derselbe wie beim Taschenbuch) |
+| Umschlag | `darm/out/cover-hardcover-druck.pdf` |
+
+**Kategorien** — eine breite, zwei enge:
+
+1. Ratgeber › Gesundheit & Medizin › Ernährung
+2. Ratgeber › Gesundheit & Medizin › Krankheiten & Beschwerden › Verdauung
+3. Sachbuch › Medizin › Ernährungsmedizin
+
+**Sieben Stichwörter:**
+
+`Darmgesundheit` · `Ballaststoffe` · `Mikrobiom` · `Verdauung` ·
+`Ernährungsumstellung` · `Darmflora aufbauen` · `gesunde Ernährung Ratgeber`
+
+Zum Tauschen, falls ein Begriff nichts bringt: `darm sanieren buch` ·
+`reizdarm ernährung ratgeber` · `ballaststoffreiche rezepte` ·
+`fermentieren anleitung` · `mikrobiom ernährung`
+
+> **Vor dem Hochladen gegenlesen.** Dieser Titel enthält
+> Gesundheitsinformationen und ein Kapitel mit ärztlichen Warnzeichen.
+> `claim_check.py` prüft nur auf verbotene Formulierungen — nicht auf
+> inhaltliche Richtigkeit. Ein fachliches Gegenlesen vor der
+> Veröffentlichung ist bei diesem Titel dringender angeraten als bei den
+> anderen dreien.
+
+---
+
 ## Kindle-Ausgaben
 
-Bei KDP ein **eigener Titel** je Band, nicht dieselbe Produktseite: Taschenbuch
+Bei KDP ein **eigener Titel** je Buch, nicht dieselbe Produktseite: Taschenbuch
 und E-Book werden getrennt angelegt und von Amazon anschließend verknüpft.
 Titel, Untertitel, Serie, Beschreibung, Kategorien und Stichwörter sind
 dieselben wie beim Taschenbuch.
 
-| Feld | Band 1 | Band 2 | Band 3 |
-|---|---|---|---|
-| Manuskript | `buch/out/stoffwechsel-reset-kindle.epub` | `workbook/out/workbook-kindle.epub` | `rezepte/out/rezeptbuch-kindle.epub` |
-| Titelbild | `buch/out/kindle-cover.jpg` | `workbook/out/kindle-cover.jpg` | `rezepte/out/kindle-cover.jpg` |
-| Bauart | fließender Text | feste Seiten | fließender Text |
-| Dateigröße | rund 0,5 MB | rund 5 MB | rund 0,5 MB |
+| Feld | Band 1 | Band 2 | Band 3 | Darm |
+|---|---|---|---|---|
+| Manuskript | `buch/out/stoffwechsel-reset-kindle.epub` | `workbook/out/workbook-kindle.epub` | `rezepte/out/rezeptbuch-kindle.epub` | `darm/out/darm-im-gleichgewicht-kindle.epub` |
+| Titelbild | `buch/out/kindle-cover.jpg` | `workbook/out/kindle-cover.jpg` | `rezepte/out/kindle-cover.jpg` | `darm/out/kindle-cover.jpg` |
+| Bauart | fließender Text | feste Seiten | fließender Text | fließender Text |
+| Dateigröße | rund 0,5 MB | rund 5 MB | rund 0,5 MB | rund 0,6 MB |
 
-Beide Titelbilder sind 1600 × 2560 Pixel im JPEG-Format — Amazons empfohlenes
+Alle Titelbilder sind 1600 × 2560 Pixel im JPEG-Format — Amazons empfohlenes
 Maß. Es wird **nicht** der Taschenbuchumschlag hochgeladen: Der enthält
 Rückseite, Buchrücken und Anschnitt, die beim E-Book nichts zu suchen haben.
 
@@ -359,6 +423,13 @@ regelmäßig um, und die Auswahl unterscheidet sich zwischen amazon.de und
 amazon.com — welche genau in deinem Konto zur Wahl stehen, siehst du erst im
 KDP-Formular. Nimm die Liste als Suchraster, nicht als Abschrift.
 
-Vor dem ersten Upload stehen außerdem zwei Dinge aus, die nicht aus diesem
-Repository kommen können: eine juristische Durchsicht der Rechtstexte und die
-Abstimmung mit PM-International zur Partner-Compliance.
+Vor dem ersten Upload stehen außerdem drei Dinge aus, die nicht aus diesem
+Repository kommen können:
+
+1. eine **juristische Durchsicht** der Rechtstexte,
+2. die **Abstimmung mit PM-International** zur Partner-Compliance,
+3. bei „Der Darm im Gleichgewicht“ eine **fachliche Durchsicht** der
+   Gesundheitsaussagen. Der Titel nennt Richtwerte, beschreibt ärztliche
+   Warnzeichen und bewertet Testverfahren. `claim_check.py` prüft nur
+   Formulierungen, nicht Inhalte — und bei einem Gesundheitsratgeber ist das
+   der Unterschied, auf den es ankommt.

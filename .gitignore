@@ -1,6 +1,7 @@
 # Generierte Buch- und Workbook-Dateien
 buch/out/
 workbook/out/
+darm/out/
 
 # Python
 __pycache__/

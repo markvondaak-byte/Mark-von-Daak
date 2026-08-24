@@ -1,0 +1,48 @@
+# Metadaten — Der Darm im Gleichgewicht.
+# Wird von buch/build/build_docx.py und buch/build/build_cover.py gelesen:
+#
+#     python3 buch/build/build_docx.py darm
+#     python3 buch/build/build_cover.py darm
+#
+# Eigenständiger Titel, gemeinsame Bau-Basis mit der Stoffwechsel-Reset-Reihe.
+# Das Buch steht für sich: Es setzt kein anderes Buch voraus, nennt kein
+# Ernährungskonzept als Bedingung und verkauft nichts.
+
+titel: "Der Darm im Gleichgewicht"
+untertitel: "Wie Verdauung wirklich funktioniert — mit 8-Wochen-Programm und 40 Rezepten"
+autor: "Mark von Daak"
+sprache: de
+version: "1.0"
+jahr: 2026
+
+# Cover-Farbwelt: "hell" (Papierweiß) oder "schiefer" (dunkler Grund)
+cover_stil: schiefer
+cover_akzent: hafer   # blatt | zitrone | beere | hafer
+
+# Steht als Balken über dem Titel. Bei der Reihe unterscheidet die Kennung die
+# Bände; hier sagt sie in zwei Worten, was das Buch ist — im Amazon-
+# Vorschaubild ist der Untertitel dafür zu klein.
+cover_kennung: "DARMGESUNDHEIT · 8 WOCHEN"
+
+slug: darm-im-gleichgewicht
+
+# 6 × 9 Zoll wie Band 1 der Reihe. Ein Lesebuch mit rund 220 Seiten — das
+# Großformat der Arbeitshefte wäre hier unhandlich, und 6 × 9 steht bei KDP
+# sowohl in der Taschenbuch- als auch in der Hardcover-Liste. Ein Innenteil
+# trägt damit beide Bindearten.
+seitenformat:
+  breite_mm: 152.4      # 6 Zoll
+  hoehe_mm: 228.6       # 9 Zoll
+  rand_innen_mm: 20.0
+  rand_aussen_mm: 16.0
+  rand_oben_mm: 18.0
+  rand_unten_mm: 18.0
+
+# Impressumsangaben — übernommen aus impressum.html, nicht frei erfunden.
+impressum:
+  name: "Mark von Daak"
+  strasse: "Rabenbergstraße 16"
+  ort: "38444 Wolfsburg"
+  land: "Deutschland"
+  email: "markvondaak@icloud.com"
+  ustid: "DE319920422"

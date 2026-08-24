@@ -67,6 +67,12 @@ AKZENTE = {
     "blatt": HexColor("#9DD380"),    # Band 1 — Blattgrün
     "zitrone": HexColor("#E9BF47"),  # Band 2 — Zitronengelb
     "beere": HexColor("#CDBEE8"),    # Band 3 — Heidelbeere, aufgehellt
+    # „Der Darm im Gleichgewicht" — warmes Haferbeige. Der Titel steht
+    # außerhalb der Reihe und soll sich im Regal von ihr absetzen: Grün, Gelb
+    # und Lavendel sind vergeben, Rot scheidet wegen des nötigen Abstands zum
+    # FitLine-Crimson #C8102E aus. Der Ton stammt aus derselben
+    # Lebensmittelpalette (Hafer, Leinsamen, Vollkorn) und passt zum Thema.
+    "hafer": HexColor("#E8CFA0"),
 }
 
 # Steuert nur die Schlagschatten. Auf hellem Grund sind sie hellgrau, auf

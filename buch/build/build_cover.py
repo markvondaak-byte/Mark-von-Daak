@@ -827,7 +827,8 @@ def cover_bauen(cfg, seiten, klappentext_pfad, ziel, *, hardcover=False):
                          cfg, mit_ruecken_text)
         vorderseite_schiefer(c, anschnitt + trim_b + ruecken_b, anschnitt,
                              trim_b, trim_h, cfg, titelbild,
-                             kennung="DAS BUCH · 4 PHASEN",
+                             kennung=cfg.get("cover_kennung",
+                                             "DAS BUCH · 4 PHASEN"),
                              ueberstand=anschnitt)
     else:
         rueckseite(c, anschnitt, anschnitt, trim_b, trim_h, cfg,
@@ -856,10 +857,23 @@ def vorschau(pdf_pfad, png_pfad, dpi=90):
 
 
 def main():
-    buch = WURZEL / "buch"
-    cfg = yaml.safe_load((buch / "buch.yaml").read_text(encoding="utf-8"))
-    seiten = seitenzahl(buch / "out" / f"{cfg['slug']}.pdf")
-    klappentext = buch / "cover" / "klappentext.md"
+    """Umschlag eines Bandes im 6-x-9-Zoll-Layout.
+
+        python3 buch/build/build_cover.py          # Band 1 der Reihe
+        python3 buch/build/build_cover.py darm     # Der Darm im Gleichgewicht
+
+    Band 2 und 3 haben eigene Umschlagskripte, weil sie im Großformat stehen.
+    Alles, was den Band unterscheidet — Titel, Akzentfarbe, Kennungsbalken —
+    steht in seiner YAML-Datei, nicht hier.
+    """
+    band = sys.argv[1] if len(sys.argv) > 1 else "buch"
+    basis = WURZEL / band
+    cfg_pfad = basis / f"{band}.yaml"
+    if not cfg_pfad.exists():
+        raise SystemExit(f"Keine Metadaten gefunden: {cfg_pfad}")
+    cfg = yaml.safe_load(cfg_pfad.read_text(encoding="utf-8"))
+    seiten = seitenzahl(basis / "out" / f"{cfg['slug']}.pdf")
+    klappentext = basis / "cover" / "klappentext.md"
 
     for hardcover in (False, True):
         art = "Hardcover" if hardcover else "Taschenbuch"
@@ -869,14 +883,14 @@ def main():
                   f"{HARDCOVER_MIN_SEITEN} Seiten, der Band hat {seiten}.")
             continue
 
-        ziel = buch / "out" / f"{name}.pdf"
+        ziel = basis / "out" / f"{name}.pdf"
         masse = cover_bauen(cfg, seiten, klappentext, ziel, hardcover=hardcover)
-        png = vorschau(ziel, buch / "out" / f"{name}-vorschau.png")
+        png = vorschau(ziel, basis / "out" / f"{name}-vorschau.png")
 
         b, h = masse["gesamt_mm"]
         rand = WRAP_MM if hardcover else BESCHNITT_MM
         randname = "Umschlagrand um die Buchdecke" if hardcover else "Anschnitt"
-        print(f"\n{art} — Innenteil: {seiten} Seiten")
+        print(f"\n{cfg['titel']} — {art}, Innenteil: {seiten} Seiten")
         print(f"Rückenbreite: {masse['ruecken_mm']:.1f} mm"
               f"  (Rückentext: {'ja' if masse['ruecken_text'] else 'nein'})")
         print(f"Umschlag gesamt: {b:.2f} x {h:.2f} mm "

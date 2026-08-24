@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
-"""Baut Band 1 aus buch/kapitel/*.md zu einem druckfertigen .docx.
+"""Baut einen Band aus <band>/kapitel/*.md zu einem druckfertigen .docx.
 
-    python3 buch/build/build_docx.py
+    python3 buch/build/build_docx.py          # Band 1 der Reihe
+    python3 buch/build/build_docx.py darm     # Der Darm im Gleichgewicht
+
+Der Bandname ist zugleich Verzeichnis- und Dateiname der Metadaten:
+`darm` liest `darm/darm.yaml` und `darm/kapitel/*.md`.
 
 Danach in ein PDF wandeln:
 
@@ -32,7 +36,19 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import stile  # noqa: E402
 
 WURZEL = Path(__file__).resolve().parents[2]
-BUCH = WURZEL / "buch"
+
+
+def band_laden(name):
+    """Verzeichnis und Metadaten eines Bandes.
+
+    Der Bandname ist Verzeichnis- und Dateiname zugleich: `buch` liest
+    `buch/buch.yaml`, `darm` liest `darm/darm.yaml`.
+    """
+    basis = WURZEL / name
+    cfg_pfad = basis / f"{name}.yaml"
+    if not cfg_pfad.exists():
+        raise SystemExit(f"Keine Metadaten gefunden: {cfg_pfad}")
+    return basis, yaml.safe_load(cfg_pfad.read_text(encoding="utf-8"))
 
 
 # --- PDF-Erzeugung -----------------------------------------------------------
@@ -508,9 +524,10 @@ def seitenzahlen_ermitteln(pdf_pfad, kapitel):
 
 
 def main():
-    cfg = yaml.safe_load((BUCH / "buch.yaml").read_text(encoding="utf-8"))
-    kapitel = kapitel_laden(BUCH / "kapitel")
-    ziel = BUCH / "out" / f"{cfg['slug']}.docx"
+    band = sys.argv[1] if len(sys.argv) > 1 else "buch"
+    basis, cfg = band_laden(band)
+    kapitel = kapitel_laden(basis / "kapitel")
+    ziel = basis / "out" / f"{cfg['slug']}.docx"
 
     # Durchlauf 1: ohne Verzeichnis, nur um die Seitenzahlen zu erfahren.
     bauen(cfg, kapitel, ziel)
@@ -534,8 +551,8 @@ def main():
         pdf = pdf_erzeugen(ziel)
         seiten = len(PdfReader(str(pdf)).pages)
 
-    print(f"{len(kapitel)} Kapitel, {len(toc)} Verzeichniseinträge, "
-          f"{seiten} Seiten")
+    print(f"{cfg['titel']} — {len(kapitel)} Kapitel, "
+          f"{len(toc)} Verzeichniseinträge, {seiten} Seiten")
     print(f"  → {ziel.relative_to(WURZEL)}")
     print(f"  → {pdf.relative_to(WURZEL)}")
 

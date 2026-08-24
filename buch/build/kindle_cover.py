@@ -35,6 +35,8 @@ BAENDE = [
      "WORKBOOK · 12 WOCHEN", "workbook/cover"),
     ("Band 3", "rezepte/rezepte.yaml", "rezepte/out/kindle-cover.jpg",
      "REZEPTBUCH · 73 GERICHTE", "rezepte/cover"),
+    ("Darm", "darm/darm.yaml", "darm/out/kindle-cover.jpg",
+     "DARMGESUNDHEIT · 8 WOCHEN", "darm/cover"),
 ]
 
 

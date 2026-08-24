@@ -776,6 +776,18 @@ def main():
     bericht("Band 3 — fließender Text", ziel3,
             f"{len(register3)} Rezepte, {verzeichnis3} Navigationspunkte")
 
+    # Der Darm im Gleichgewicht — dieselbe Quellform wie Band 1 (Kapitel als
+    # Markdown), deshalb derselbe Bauweg. Kein eigener Code.
+    basis4 = WURZEL / "darm"
+    cfg4 = yaml.safe_load((basis4 / "darm.yaml").read_text(encoding="utf-8"))
+    kapitel4 = kapitel_laden(basis4 / "kapitel")
+    ziel4 = basis4 / "out" / f"{cfg4['slug']}-kindle.epub"
+    ziel4, eintraege4 = band1_bauen(
+        cfg4, kapitel4, basis4 / "out" / "kindle-cover.jpg", ziel4)
+    verzeichnis4 = sum(1 for e in eintraege4 if e["im_verzeichnis"])
+    bericht("Der Darm im Gleichgewicht — fließender Text", ziel4,
+            f"{len(kapitel4)} Kapitel, {verzeichnis4} Navigationspunkte")
+
 
 def kindle_cover_bauen():
     import kindle_cover

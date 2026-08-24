@@ -33,6 +33,10 @@ BAENDE = [
     # Eigener Innenteil fürs Hardcover: KDP führt 8 x 10 Zoll nur als
     # Taschenbuch, das Hardcover läuft auf 8,25 x 11 Zoll.
     ("Band 3 Hardcover", "rezepte/out/rezeptbuch-hardcover.pdf", 209.55, 279.4),
+    # 6 x 9 Zoll steht bei KDP in beiden Listen — ein Innenteil trägt
+    # Taschenbuch und Hardcover, ein zweiter wie bei Band 3 entfällt.
+    ("Der Darm im Gleichgewicht", "darm/out/darm-im-gleichgewicht.pdf",
+     152.4, 228.6),
 ]
 
 

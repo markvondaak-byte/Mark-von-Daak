@@ -72,12 +72,16 @@ QUELLEN = {
                  "workbook/build", "buch/build"],
     "rezepte": ["rezepte/rezepte.yaml", "rezepte/rezepte", "rezepte/rahmen",
                 "rezepte/build", "buch/build"],
+    # „Der Darm im Gleichgewicht" hat kein eigenes build-Verzeichnis — der
+    # Band wird mit den Skripten aus buch/build gebaut.
+    "darm": ["darm/darm.yaml", "darm/kapitel", "buch/build"],
 }
 
 # Prüfer und Nachbearbeitung stehen zwar in denselben Verzeichnissen, gehen
 # aber nicht in den Innenteil ein. Ohne diese Ausnahme meldet die Prüfung
 # sich selbst als Grund, neu zu bauen.
 KEINE_QUELLE = {"abnahme.py", "claim_check.py", "zutaten_check.py",
+                "rechtschreibung.py",
                 "cover_flach.py", "innenteil_druck.py", "build_cover.py",
                 "illustration.py", "build_epub.py", "kindle_cover.py"}
 
@@ -214,6 +218,72 @@ def buch_pruefen():
                             cfg["seitenformat"]["hoehe_mm"])
     cover_pruefen("Band 1", basis / "out" / "cover.pdf", cfg, len(seiten))
     cover_pruefen("Band 1 Hardcover", basis / "out" / "cover-hardcover.pdf",
+                  cfg, len(seiten), hardcover=True)
+
+
+def darm_pruefen():
+    print("\nDer Darm im Gleichgewicht")
+    print("-" * 66)
+    basis = WURZEL / "darm"
+    cfg = yaml.safe_load((basis / "darm.yaml").read_text(encoding="utf-8"))
+    pdf = basis / "out" / f"{cfg['slug']}.pdf"
+    pruefe("PDF vorhanden", pdf.exists(), str(pdf.relative_to(WURZEL)))
+    if not pdf.exists():
+        return
+    aktueller_als_quellen("Darm", pdf, "darm")
+
+    seiten = text_von(pdf)
+    pruefe("Seitenzahl gerade (KDP rundet sonst auf)", len(seiten) % 2 == 0,
+           f"{len(seiten)} Seiten")
+    # KDP nimmt Hardcover erst ab 75 Seiten. Der Band liegt weit darüber;
+    # die Prüfung steht hier, damit ein Kürzen nicht unbemerkt darunter fällt.
+    pruefe("Umfang für Hardcover ausreichend", len(seiten) >= 75,
+           f"{len(seiten)} Seiten, KDP verlangt 75")
+
+    volltext = "\n".join(seiten)
+
+    pruefe("Inhaltsverzeichnis aufgelöst",
+           "Die Reise einer Mahlzeit" in volltext,
+           "keine unaufgelösten Word-Felder")
+
+    # Pflichtinhalte — das Buch verspricht sie auf dem Umschlag.
+    pflicht = {
+        "Ballaststoff-Richtwert": "30 Gramm",
+        "Bristol-Skala": "Bristol",
+        "Acht Wochen": "Woche 7",
+        "Rezeptteil": "Zubereitung",
+        "Ballaststofftabelle": "je 100 Gramm",
+        "Glossar": "Glossar",
+        "Quellen": "Weiterlesen",
+        "Rote Flaggen": "Blut im Stuhl",
+    }
+    for name, nadel in pflicht.items():
+        pruefe(f"Inhalt: {name}", nadel in volltext)
+
+    rechts = {
+        "Schwangerschaft": "Schwangerschaft",
+        "Ärztliche Abklärung": "ärztlich",
+        "Kein Ersatz für ärztlichen Rat": "ersetz",
+        "Eigenverantwortung": "eigener Verantwortung",
+        "Einzelergebnisse": "nicht übertragbar",
+        "Markenhinweis PM-International": "PM-International AG",
+    }
+    for name, nadel in rechts.items():
+        pruefe(f"Rechtstext: {name}", nadel in volltext)
+
+    fehlend = schriften_eingebettet(pdf)
+    pruefe("Alle Schriften eingebettet", not fehlend,
+           ", ".join(sorted(fehlend)) if fehlend else "")
+
+    zu_leer = fast_leere_seiten(seiten)
+    pruefe("Keine fast leeren Seiten", not zu_leer,
+           f"Seiten {zu_leer}" if zu_leer else "")
+
+    innenteil_druck_pruefen("Darm", pdf.with_name(pdf.stem + "-druck.pdf"),
+                            cfg["seitenformat"]["breite_mm"],
+                            cfg["seitenformat"]["hoehe_mm"])
+    cover_pruefen("Darm", basis / "out" / "cover.pdf", cfg, len(seiten))
+    cover_pruefen("Darm Hardcover", basis / "out" / "cover-hardcover.pdf",
                   cfg, len(seiten), hardcover=True)
 
 
@@ -597,6 +667,8 @@ def kindle_pruefen():
          "workbook/out/kindle-cover.jpg", "workbook/out/workbook.pdf"),
         ("Band 3", "rezepte/out/rezeptbuch-kindle.epub",
          "rezepte/out/kindle-cover.jpg", None),
+        ("Darm", "darm/out/darm-im-gleichgewicht-kindle.epub",
+         "darm/out/kindle-cover.jpg", None),
     ]
 
     for name, epub_pfad, bild_pfad, druck_pfad in baende:
@@ -682,11 +754,12 @@ def website_unberuehrt():
 
 def main():
     print("=" * 66)
-    print("ENDABNAHME — Der Stoffwechsel-Reset (drei Bände)")
+    print("ENDABNAHME — Stoffwechsel-Reset (3 Bände) + Darm im Gleichgewicht")
     print("=" * 66)
     buch_pruefen()
     workbook_pruefen()
     rezeptbuch_pruefen()
+    darm_pruefen()
     kindle_pruefen()
     website_unberuehrt()
 

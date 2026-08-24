@@ -32,6 +32,14 @@ FREIGEGEBEN = {
     "62-in-eigener-sache.md",
     "64-hinweise-haftung.md",
     "90-rechtliches.md",
+    # „Der Darm im Gleichgewicht": Rechtskapitel und das eine Kapitel, dessen
+    # Zweck es ist, Krankheitszeichen zu benennen und zum Arzt zu schicken.
+    # Ohne diese Ausnahme kann das Buch die Warnung nicht aussprechen, um
+    # derentwillen es geschrieben ist.
+    "002-bitte-zuerst-lesen.md",
+    "303-wann-zum-arzt.md",
+    "900-in-eigener-sache.md",
+    "901-hinweise-haftung.md",
 }
 
 # Nie zulässig — Wirkversprechen, Heilaussagen, Werbesuperlative.
@@ -68,6 +76,15 @@ FEHLER = {
 # Zulässig als Warnhinweis, unzulässig als Anwendungsgebiet.
 HINWEIS = {
     r"\bDiabet\w*": "Krankheitsbegriff — nur als Warnhinweis zulässig",
+    # Darmthemen: Begriffe, an denen ein Ratgeber nicht vorbeikommt, die aber
+    # nur als Abgrenzung stehen dürfen („das ist ärztliche Sache"), nie als
+    # Anwendungsgebiet („dieses Buch hilft bei …").
+    r"\bReizdarm\w*": "Krankheitsbegriff",
+    r"\bZöliakie\b": "Krankheitsbegriff",
+    r"Morbus Crohn|\bColitis\b|chronisch-entzündlich\w*": "Krankheitsbegriff",
+    r"\bDivertik\w*": "Krankheitsbegriff",
+    r"\bHelicobacter\b": "Krankheitsbegriff",
+    r"\bLeaky.Gut\b": "Begriff ohne anerkannte Krankheitsdefinition",
     r"\bNierenerkrank\w*|\bNiereninsuffizienz\b": "Krankheitsbegriff",
     r"\bHerzerkrank\w*|Herz-Kreislauf-Erkrank\w*": "Krankheitsbegriff",
     r"\bPhenylketonurie\b": "Krankheitsbegriff",
@@ -79,6 +96,7 @@ HINWEIS = {
 QUELLEN = [
     WURZEL / "buch" / "kapitel",
     WURZEL / "workbook" / "rahmen",
+    WURZEL / "darm" / "kapitel",
 ]
 
 

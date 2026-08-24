@@ -1,12 +1,14 @@
-# Der Stoffwechsel-Reset — Buchprojekt
+# Buchprojekt
 
-Zwei eigenständige Bände, gemeinsame Build-Basis:
+Vier eigenständige Titel, gemeinsame Build-Basis. Die ersten drei bilden die
+Reihe „Der Stoffwechsel-Reset“, der vierte steht für sich:
 
-| Band | Quelle | Format | Ausgabe |
+| Titel | Quelle | Format | Ausgabe |
 |---|---|---|---|
 | 1 — Das Buch | `buch/kapitel/*.md` | 6″ × 9″ | `buch/out/stoffwechsel-reset.{docx,pdf}` |
 | 2 — Das Workbook | `workbook/` | 8″ × 10″ | `workbook/out/workbook.{docx,pdf}` |
 | 3 — Das Rezeptbuch | `rezepte/` | 8″ × 10″ | `rezepte/out/rezeptbuch.{docx,pdf}` |
+| Der Darm im Gleichgewicht | `darm/kapitel/*.md` | 6″ × 9″ | `darm/out/darm-im-gleichgewicht.{docx,pdf}` |
 
 ## Bauen
 
@@ -22,16 +24,26 @@ python3 workbook/build/build_cover.py      # Umschlag Band 2
 python3 rezepte/build/build_rezepte.py     # Band 3: .docx und .pdf
 python3 rezepte/build/build_cover.py       # Umschlag Band 3
 
+python3 buch/build/build_docx.py darm      # Darm: .docx und .pdf
+python3 buch/build/build_cover.py darm     # Umschlag Darm
+
 python3 buch/build/cover_flach.py          # Umschläge in die KDP-Druckfassung
 
 python3 buch/build/kindle_cover.py         # Titelbilder für die Kindle-Ausgaben
-python3 buch/build/build_epub.py           # Kindle-Ausgaben aller drei Bände
+python3 buch/build/build_epub.py           # Kindle-Ausgaben aller vier Titel
 
 python3 buch/build/rechtschreibung.py      # Rechtschreibung und Typografie
 python3 buch/build/claim_check.py          # HCVO-Prüfung, muss ohne Fehler laufen
 python3 rezepte/build/zutaten_check.py     # Rezepte gegen die Phasenregeln
-python3 buch/build/abnahme.py              # Endabnahme aller drei Bände
+python3 buch/build/abnahme.py              # Endabnahme aller vier Titel
 ```
+
+**`build_docx.py` und `build_cover.py` nehmen einen Bandnamen entgegen.** Ohne
+Argument bauen sie Band 1 — bestehende Aufrufe verhalten sich unverändert. Der
+Bandname ist zugleich Verzeichnis- und Dateiname der Metadaten: `darm` liest
+`darm/darm.yaml` und `darm/kapitel/*.md`. Band 2 und 3 haben eigene
+Umschlagskripte, weil sie im Großformat stehen; alles im 6-×-9-Zoll-Layout
+läuft über `buch/build/build_cover.py`.
 
 Die Umschläge müssen **nach** dem jeweiligen Innenteil gebaut werden — die
 Rückenbreite errechnet sich aus der Seitenzahl des fertigen PDFs.

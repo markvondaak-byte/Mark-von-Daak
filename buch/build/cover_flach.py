@@ -111,6 +111,8 @@ def main():
         WURZEL / "workbook" / "out" / "cover.pdf",
         WURZEL / "rezepte" / "out" / "cover.pdf",
         WURZEL / "rezepte" / "out" / "cover-hardcover.pdf",
+        WURZEL / "darm" / "out" / "cover.pdf",
+        WURZEL / "darm" / "out" / "cover-hardcover.pdf",
     ]
     for quelle in quellen:
         # resolve(): Wird das Skript mit einem relativen Pfad aufgerufen,
