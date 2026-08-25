@@ -163,6 +163,14 @@ STILE = {
     "BuchAutor": dict(schrift=SANS, groesse=13, fett=True, vor=0, nach=0,
                       ausrichtung=_MITTE),
 
+    # Impressum: mittig, klein, mit Luft zwischen den Blöcken. Eigene Formate
+    # statt einer Sonderbehandlung im Renderer — so bleibt die Gestaltung dort,
+    # wo alle anderen Formate auch stehen. Nur Band 4 benutzt sie bislang.
+    "ImpressumTitel": dict(schrift=SANS, groesse=12, fett=True,
+                           vor=0, nach=18, ausrichtung=_MITTE),
+    "ImpressumZeile": dict(schrift=SERIF, groesse=9.5, farbe=FARBEN["text"],
+                           vor=0, nach=9, zeilen=1.35, ausrichtung=_MITTE),
+
     # Gliederung
     "Teilnummer": dict(schrift=SANS, groesse=11, fett=True,
                        farbe=FARBEN["blatt_hell"], vor=0, nach=4,

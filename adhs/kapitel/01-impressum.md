@@ -1,22 +1,35 @@
 ---
 typ: titelei
+layout: impressum
 titel: Impressum
 kopfzeile: Impressum
 ---
 
 ## Impressum
 
-Mark von Daak Rabenbergstraße 16 38444 Wolfsburg Deutschland
+Mark von Daak
 
-E-Mail: markvondaak@icloud.com Umsatzsteuer-Identifikationsnummer: DE319920422
+Rabenbergstraße 16
 
-1. Auflage 2026
+38444 Wolfsburg
 
-Alle Rechte vorbehalten. Kein Teil dieses Werkes darf ohne schriftliche
-Zustimmung des Autors in irgendeiner Form vervielfältigt, verbreitet oder
-öffentlich zugänglich gemacht werden.
+markvondaak@icloud.com
 
-Die in diesem Buch genannten Wirkstoff-, Produkt- und Firmennamen sind in der
-Regel geschützte Marken ihrer jeweiligen Inhaber. Sie werden ohne besondere
-Kennzeichnung verwendet; daraus lässt sich nicht schließen, dass die
-Bezeichnungen frei verfügbar wären.
+Umsatzsteuer-Identifikationsnummer: DE319920422
+
+Verantwortlich für den Inhalt nach den Pressegesetzen.
+
+1\. Auflage 2026
+
+Umschlaggestaltung und Satz: Mark von Daak
+
+© 2026 Mark von Daak. Alle Rechte vorbehalten.
+
+Vervielfältigung nur mit Genehmigung des Autors.
+
+Dieses Buch ist kein medizinischer Ratgeber. Es ersetzt weder eine ärztliche
+Untersuchung noch eine Behandlung. Die Hinweise im Kapitel „Bitte zuerst
+lesen“ am Anfang und im Kapitel „Wichtige Hinweise und Haftungsausschluss“
+sind Teil des Buches.
+
+Alle genannten Marken sind Eigentum ihrer jeweiligen Inhaber.
