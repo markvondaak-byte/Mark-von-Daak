@@ -144,6 +144,7 @@ niemand eine Reihe vermuten, die es nicht gibt. Konkret heißt das:
 | Titelfoto | gemeinsames `buch/cover/titelbild.jpg` | keines |
 | Bandkennung | „DAS BUCH · 4 PHASEN" u. ä. | keine |
 | Fußhinweis | Marken der PM-International AG | „Kein medizinischer Ratgeber" |
+| Barcodefeld | Weißfläche beim Taschenbuch | keine — KDPs Box genügt |
 
 Der letzte Punkt ist kein Kosmetikthema: In diesem Band kommt keine fremde
 Marke vor, ein Markenhinweis wäre also sachlich falsch — und auf einem Buch
@@ -242,6 +243,31 @@ auf 4K hochrechnen lassen.
 **Wichtig zum Motiv:** Nach links darf nichts überstehen, dort liegt der
 Rücken. Das Skript setzt den Anschnitt deshalb nur nach rechts, oben und
 unten — im Bild selbst muss links nichts freigehalten werden.
+
+## Das Barcodefeld
+
+KDP druckt den Barcode selbst auf die Rückseite, unten rechts, **in einer
+eigenen weißen Box** von 2 × 1,2 Zoll. Band 4 zeichnet dort deshalb keine
+eigene Fläche (`BARCODE_WEISSFLAECHE = False` in `gestaltung.py`): Eine Fläche
+darunter wäre bestenfalls unsichtbar und schlechtestenfalls ein weißer Rand,
+der unter KDPs Box hervorschaut. Band 1 ist beim Hardcover denselben Weg
+gegangen.
+
+**Reserviert bleibt das Feld trotzdem.** Der Rechtshinweis endet darüber, und
+es liegt nichts darin. Nachgemessen an beiden fertigen Umschlägen:
+
+| | Taschenbuch | Hardcover |
+|---|---|---|
+| Feldgröße | 50,8 × 30,5 mm | 50,8 × 30,5 mm |
+| Abstand zur Dateikante unten | 19,3 mm | 24,3 mm |
+| Wörter im Feld | 0 | 0 |
+| Helligkeitsspanne | 2 von 255 | 1 von 255 |
+
+**Das Restrisiko gehört dazugesagt:** Druckte KDP den Barcode wider Erwarten
+ohne eigene Box, stünde schwarze Strichschrift auf Tintenblau und wäre nicht
+zu scannen. Vorschau und Dokumentation zeigen die Box, im gedruckten Buch
+gesehen hat sie hier aber noch niemand — ein Blick aufs erste Belegexemplar
+lohnt. Wer die Fläche zurückwill, setzt die Konstante auf `True`.
 
 ## Noch offen
 
