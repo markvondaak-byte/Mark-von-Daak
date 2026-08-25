@@ -68,6 +68,23 @@ RECHTSHINWEIS = (
     "Hinweise im Buch beachten."
 )
 
+#: Zeichnet der Umschlag selbst eine weiße Fläche unter den Barcode?
+#:
+#: Nein — KDP druckt den Barcode „in a 2 x 1.2 inch white box" und bringt die
+#: Fläche selbst mit. Eine eigene darunter ist bestenfalls unsichtbar und
+#: schlechtestenfalls ein weißer Rand, der unter KDPs Box hervorschaut. Band 1
+#: hat denselben Weg beim Hardcover genommen.
+#:
+#: Das Feld bleibt trotzdem reserviert: Der Rechtshinweis endet darüber, und
+#: es liegt nichts darin. Wer den Wert auf True setzt, bekommt die Fläche
+#: zurück — sie ist deckungsgleich mit KDPs Box, nicht größer.
+#:
+#: Das Restrisiko gehört dazugesagt: Druckte KDP den Barcode wider Erwarten
+#: ohne eigene Box, stünde schwarze Strichschrift auf Tintenblau und wäre
+#: nicht zu scannen. Vorschau und Dokumentation zeigen die Box; ein Blick aufs
+#: erste Belegexemplar lohnt.
+BARCODE_WEISSFLAECHE = False
+
 #: Grundgrößen des Rückseitentexts: (Schlagzeile, Fließtext, Stichpunkt).
 RUECKEN_GROESSEN = (19.0, 12.0, 11.5)
 
@@ -430,10 +447,12 @@ def rueckseite(c, x, y, breite, hoehe, cfg, kopf, absaetze, punkte,
     rand = breite * 0.11
     textbreite = breite - 2 * rand
 
-    # Das Barcodefeld zuerst — es ist der einzige Bereich, dessen Lage nicht
-    # verhandelbar ist. Auf diesem dunklen Grund muss es weiß hinterlegt sein,
-    # sonst steht schwarze Strichschrift auf Tintenblau und ist nicht scanbar.
-    barcodefeld_freistellen(c, x, y, breite, hardcover=hardcover)
+    # Das Barcodefeld ist der einzige Bereich der Rückseite, dessen Lage nicht
+    # verhandelbar ist — alles andere ordnet sich darüber an. Gezeichnet wird
+    # dort nur, wenn BARCODE_WEISSFLAECHE es verlangt; freigehalten wird es
+    # immer.
+    if BARCODE_WEISSFLAECHE:
+        barcodefeld_freistellen(c, x, y, breite, hardcover=hardcover)
 
     hinweis_zeilen = umbrechen(c, RECHTSHINWEIS, "Serif", 7, textbreite)
     _, fy, _, fh = weissflaeche(x, y, breite, hardcover=hardcover)
