@@ -177,9 +177,11 @@ im Suchpfad, und zwei Module gleichen Namens verdecken einander.
 
 ## Ein Titelbild einlegen
 
-**Aktuell liegt eines:** `adhs/cover/titelbild.png` — ein Fadenknoten, der
-sich nach rechts in geordnete Linien auskämmt. Das gezeichnete Fadenmotiv
-(`fadenmotiv()`) ist damit der Rückfall, falls die Datei entfernt wird.
+**Aktuell liegt eines:** `adhs/cover/titelbild.png`, 2751 × 4096 px — ein
+Fadenknoten, der sich nach rechts in geordnete Linien auskämmt. Das ergibt
+443 dpi über die Taschenbuchfläche und 393 dpi über die des Hardcovers, beides
+über KDPs 300. Das gezeichnete Fadenmotiv (`fadenmotiv()`) ist der Rückfall,
+falls die Datei entfernt wird oder unlesbar ist.
 
 Leg eine Datei ab, und sie füllt die Vorderseite:
 
