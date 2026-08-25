@@ -33,6 +33,9 @@ BAENDE = [
     # Eigener Innenteil fürs Hardcover: KDP führt 8 x 10 Zoll nur als
     # Taschenbuch, das Hardcover läuft auf 8,25 x 11 Zoll.
     ("Band 3 Hardcover", "rezepte/out/rezeptbuch-hardcover.pdf", 209.55, 279.4),
+    # Band 4 läuft in beiden Bindearten auf 6 x 9 Zoll und braucht deshalb —
+    # anders als Band 3 — nur einen Innenteil.
+    ("Band 4", "adhs/out/chaos-mit-system.pdf", 152.4, 228.6),
 ]
 
 

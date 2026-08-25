@@ -293,7 +293,7 @@ das würde beide Bücher in den Empfehlungen falsch verknüpfen.
 | Seiten | 134 |
 | Papier | weiß |
 | Druckfarbe | Schwarzweiß |
-| Innenteil | `adhs/out/chaos-mit-system.pdf` |
+| Innenteil | `adhs/out/chaos-mit-system-druck.pdf` — auf exakte Trimmgröße gebracht |
 | Rückenbreite | 7,7 mm — **mit** Rückentext (KDP erlaubt ihn ab 79 Seiten) |
 | Umschlag gesamt | 318,81 × 234,95 mm (12,552 × 9,250 Zoll) |
 | Umschlag-Datei | `adhs/out/cover-druck.pdf` |
@@ -307,7 +307,7 @@ Beschreibung, gleiche Kategorien, gleiche Stichwörter:
 | Seiten | 134 |
 | Rücken der Buchdecke | 16,7 mm — mit Rückentext |
 | Umschlag gesamt | **14,073 × 10,417 Zoll** (357,45 × 264,59 mm) |
-| Innenteil | `adhs/out/chaos-mit-system.pdf` — **dieselbe Datei** |
+| Innenteil | `adhs/out/chaos-mit-system-druck.pdf` — **dieselbe Datei** |
 | Umschlag | `adhs/out/cover-hardcover-druck.pdf` |
 
 **Anders als bei Band 3 genügt hier ein Innenteil für beide Bindearten.**

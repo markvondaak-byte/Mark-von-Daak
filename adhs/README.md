@@ -13,6 +13,7 @@ die beiden Prüfskripte.
 pip install -r buch/requirements.txt
 
 python3 adhs/build/build_adhs.py            # Innenteil: .docx und .pdf
+python3 buch/build/innenteil_druck.py       # Innenteil auf exakte Trimmgröße
 python3 adhs/build/build_cover.py           # Umschlag, Taschenbuch + Hardcover
 python3 buch/build/cover_flach.py adhs/out/cover.pdf
 python3 buch/build/cover_flach.py adhs/out/cover-hardcover.pdf
@@ -27,6 +28,14 @@ python3 buch/build/claim_check.py           # HCVO, muss ohne Fehler laufen
 errechnet sich aus dessen Seitenzahl. Bei 134 Seiten sind das 7,7 mm beim
 Taschenbuch und 16,7 mm bei der Buchdecke des Hardcovers; beide liegen über
 KDPs Schwelle, der Rücken trägt also Text.
+
+**Zu KDP hochgeladen wird auch beim Innenteil die `-druck`-Fassung.**
+LibreOffice exportiert 6 × 9 Zoll nicht maßhaltig: Im `.docx` steht die
+Seitengröße korrekt, im erzeugten PDF sind daraus 152,4 × **229,01** mm
+geworden — 0,41 mm zu hoch. KDP prüft gegen die im Formular gewählte
+Trimmgröße und weist das zurück. `innenteil_druck.py` setzt die Seitenbox auf
+das Sollmaß und schneidet den Überschuss unten ab, wo er gemessen sitzt; keine
+Textzeile wandert dabei. Ergebnis: `adhs/out/chaos-mit-system-druck.pdf`.
 
 **Zu KDP hochgeladen wird `cover-druck.pdf`, nicht `cover.pdf`.** Die
 Vektorfassung enthält einen gestuften Verlauf; `cover_flach.py` rastert den
