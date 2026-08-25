@@ -269,6 +269,39 @@ zu scannen. Vorschau und Dokumentation zeigen die Box, im gedruckten Buch
 gesehen hat sie hier aber noch niemand — ein Blick aufs erste Belegexemplar
 lohnt. Wer die Fläche zurückwill, setzt die Konstante auf `True`.
 
+## Die Kindle-Ausgabe
+
+Reflowable gesetzt, direkt aus `adhs/kapitel/*.md` — nicht aus dem Druck-PDF.
+Der Leser stellt Schriftgrad und Rand selbst ein; feste Seitenzahlen und
+Kopfzeilen gibt es nicht. Die Arbeit macht `band1_bauen()` aus
+`buch/build/build_epub.py`: Die Funktion ist trotz ihres Namens nicht auf
+Band 1 festgelegt, sondern nimmt Konfiguration, Kapitelliste und Titelbild
+entgegen.
+
+**Eine eigene Bandkennung ist Pflicht.** `band1_bauen()` vergab die
+`dc:identifier` früher fest als `b001`; Band 4 trug damit dieselbe Kennung wie
+Band 1. Lesegeräte und Händler unterscheiden Titel darüber, und eine doppelte
+Kennung führt dazu, dass ein Buch das andere in der Bibliothek überschreibt.
+Der Aufruf übergibt deshalb `kennung_band="b004"`.
+
+Geprüft wird nach dem Bauen:
+
+| | |
+|---|---|
+| Kapitel | 45, davon 41 im Navigationsverzeichnis |
+| Verzeichnis im Buch | verlinkt, 41 Sprungziele |
+| XHTML | 47 Dateien, alle wohlgeformt |
+| Blockelemente in `<p>` | keine |
+| Bau-Marker übrig | keine |
+| Tote Verweise | keine |
+| Titelbild | 1600 × 2560 px, Verhältnis 1,6 |
+
+**Was im E-Book anders ist als im Druck.** Das Impressum bekommt die Klasse
+`impressum` und steht mittig, aber ohne feste Umbrüche — der Zeilenfall gehört
+dem Reader. Die Vorlagen im Anhang behalten ihre Ausfülllinien; zum Ausfüllen
+taugen sie auf einem Lesegerät nicht, als Nachschlagefassung neben dem
+gedruckten Buch schon.
+
 ## Noch offen
 
 - **Abnahme.** `abnahme.py` prüft die drei alten Bände samt Umschlägen und

@@ -47,7 +47,10 @@ def main():
 
     kapitel = kapitel_laden(ADHS / "kapitel")
     ziel = ADHS / "out" / f"{cfg['slug']}-kindle.epub"
-    ziel, eintraege = band1_bauen(cfg, kapitel, umschlag, ziel)
+    # Eigene Bandkennung: Ohne sie trüge Band 4 dieselbe dc:identifier wie
+    # Band 1, und Lesegeräte hielten beide für dasselbe Buch.
+    ziel, eintraege = band1_bauen(cfg, kapitel, umschlag, ziel,
+                                  kennung_band="b004")
 
     im_verzeichnis = sum(1 for e in eintraege if e["im_verzeichnis"])
     bericht("Band 4 — fließender Text", ziel,

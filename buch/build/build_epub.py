@@ -267,6 +267,11 @@ ul.verzeichnis li.teil { font-family: sans-serif; font-weight: bold;
 /* Verweisfarbe ausdrücklich setzen: Sonst färbt der Reader die Einträge
    in seinem Linkblau, und das Verzeichnis sieht aus wie eine Linksammlung
    statt wie ein Inhaltsverzeichnis. */
+/* Impressum: mittig und kleiner, wie im gedruckten Band. Ein Reader kann
+   den Zeilenfall nicht garantieren — deshalb nur Ausrichtung und Grad, keine
+   festen Umbrüche. */
+.impressum { text-align: center; font-size: 0.92em; }
+.impressum h2 { font-family: sans-serif; font-size: 1.05em; }
 ul.verzeichnis a { text-decoration: none; color: #1A1A1A; }
 ul.verzeichnis li.teil a { color: #2F7A3E; }
 """
@@ -326,7 +331,17 @@ def verzeichnis_bauen(kapitel, namen):
     return "\n".join(zeilen)
 
 
-def band1_bauen(cfg, kapitel, umschlagbild, ziel):
+def band1_bauen(cfg, kapitel, umschlagbild, ziel, *, kennung_band="b001"):
+    """Fließtextband als reflowable EPUB.
+
+    Nicht auf Band 1 festgelegt: Wer Konfiguration, Kapitelliste und Titelbild
+    mitbringt, bekommt ein Buch — Band 4 nutzt dieselbe Funktion.
+
+    `kennung_band` **muss** dabei mitgegeben werden, sonst tragen zwei
+    verschiedene Bücher dieselbe `dc:identifier`. Lesegeräte und Händler
+    unterscheiden Titel darüber; eine doppelte Kennung führt dazu, dass ein
+    Buch das andere in der Bibliothek überschreibt.
+    """
     dateien = {
         "mimetype": b"application/epub+zip",
         "META-INF/container.xml": CONTAINER,
@@ -353,8 +368,14 @@ def band1_bauen(cfg, kapitel, umschlagbild, ziel):
     for nummer, kap in enumerate(kapitel, 1):
         meta = kap["meta"]
         name = namen[id(kap)]
-        rumpf = markdown_zu_xhtml(kap["text"]).replace(
-            "{{INHALTSVERZEICHNIS}}", verzeichnis)
+        # Der Marker steht auf einer eigenen Zeile und wird deshalb als
+        # Absatz gerendert. Würde nur der Marker ersetzt, entstünde
+        # <p><ul>…</ul></p> — wohlgeformtes XML, aber ungültiges HTML, das
+        # epubcheck beanstandet. Deshalb erst das Absatzpaar, dann als
+        # Rückfall den nackten Marker.
+        rumpf = markdown_zu_xhtml(kap["text"])
+        rumpf = rumpf.replace("<p>{{INHALTSVERZEICHNIS}}</p>", verzeichnis)
+        rumpf = rumpf.replace("{{INHALTSVERZEICHNIS}}", verzeichnis)
 
         if meta["typ"] == "teil":
             klasse, im_verzeichnis, ist_teil = "teil", True, True
@@ -362,6 +383,8 @@ def band1_bauen(cfg, kapitel, umschlagbild, ziel):
             klasse, im_verzeichnis, ist_teil = "", False, False
             if meta.get("layout") == "titelseite":
                 klasse = "titelseite"
+            elif meta.get("layout") == "impressum":
+                klasse = "impressum"
         else:
             klasse, im_verzeichnis, ist_teil = "", True, False
             if meta.get("nummer"):
@@ -376,7 +399,7 @@ def band1_bauen(cfg, kapitel, umschlagbild, ziel):
             "im_verzeichnis": im_verzeichnis, "ist_teil": ist_teil,
         })
 
-    kennung = KENNUNG.format(band="b001", jahr=cfg["jahr"])
+    kennung = KENNUNG.format(band=kennung_band, jahr=cfg["jahr"])
     dateien["OEBPS/nav.xhtml"] = nav_bauen(cfg, eintraege)
     dateien["OEBPS/toc.ncx"] = ncx_bauen(cfg, kennung, eintraege)
     dateien["OEBPS/inhalt.opf"] = opf_bauen(cfg, kennung, eintraege)
