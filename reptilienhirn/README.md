@@ -149,15 +149,28 @@ gefüllten Balken und in der Autorenzeile, dafür sind 3:1 gefordert; Bernstein
 liegt bei 3,30 bzw. 3,66 zu 1 gegen die beiden Schiefertöne. Jede Aufhellung
 des Grundes kostet Kontrast.
 
-### Das Titelbild fehlt noch
+### Das Titelbild
 
-**`reptilienhirn/cover/titelbild.jpg` ist nicht im Repository.** Ohne diese
-Datei bricht `build_cover.py` mit einem Hinweis ab, statt zu bauen — denn
-`titelbild_suchen()` fiele sonst auf `buch/cover/titelbild.jpg` zurück, das
-Foto der Stoffwechsel-Reihe, oder auf die gezeichnete Lebensmittelauslage.
-Beides fiele erst beim Ansehen des fertigen Umschlags auf.
+`reptilienhirn/cover/titelbild.jpg` — Porträt eines Neandertalers, 5504 x 3072
+px, deutlich über den nötigen 1838 x 1118. Der dunkle Grund des Fotos liegt
+farblich nah am Schieferton, deshalb geht die Ausblendung an der Unterkante
+sauber auf.
 
-Anforderungen an die Datei:
+**Das Bild ist KI-erzeugt** (Higgsfield, Modell Nano Banana Pro). Das ist bei
+KDP anzugeben — siehe `kdp-metadaten.md`, Abschnitt „KI-erzeugte Inhalte
+melden". Für das Titelbild lautet die Antwort auf KDPs Frage nach
+KI-generierten Inhalten also **ja**, Kategorie Bilder.
+
+Ein Motiv, das den Titel bestätigt statt ihn zu bebildern: Das Buch nimmt die
+Erzählung vom archaischen Vorfahren im Kopf auseinander, und der Umschlag setzt
+genau diese Erwartung — Kapitel 2 räumt sie dann ab. Bewusst kein
+Höhlenmensch-Klischee: kein Keulenschwingen, kein gefletschtes Gebiss, ruhiger
+Blick.
+
+Wird das Motiv getauscht, gelten die Anforderungen aus der Tabelle unten. Ohne
+Datei bricht `build_cover.py` mit einem Hinweis ab, statt auf das Foto der
+Stoffwechsel-Reihe oder die gezeichnete Lebensmittelauslage zurückzufallen —
+beides fiele erst am fertigen Umschlag auf.
 
 | | |
 |---|---|
@@ -168,14 +181,12 @@ Anforderungen an die Datei:
 
 Das Foto füllt nur das obere Band der Vorderseite, nicht den ganzen Umschlag.
 Reicht die Auflösung nach dem Beschnitt nicht für 300 dpi, rechnet das Skript
-hoch und meldet das — bei Faktoren um 1,2 ist das im Druck nicht zu sehen, bei
-deutlich mehr ist das Motiv für dieses Format zu klein.
+hoch und meldet das.
 
-**Herkunft klären, bevor das Bild eingesetzt wird.** Ist es KI-erzeugt, ist das
-bei KDP anzugeben — siehe `kdp-metadaten.md`, Abschnitt „KI-erzeugte Inhalte
-melden". Stammt es von einem Bildanbieter, muss die Lizenz die kommerzielle
-Nutzung auf einem Buchumschlag abdecken; viele Standardlizenzen schließen genau
-das aus. Erkennbare Personen brauchen eine Einwilligung.
+**Herkunft klären, bevor ein anderes Bild eingesetzt wird.** Stammt es von
+einem Bildanbieter, muss die Lizenz die kommerzielle Nutzung auf einem
+Buchumschlag abdecken; viele Standardlizenzen schließen genau das aus.
+Erkennbare reale Personen brauchen eine Einwilligung.
 
 ## Was noch offen ist
 
@@ -185,3 +196,5 @@ das aus. Erkennbare Personen brauchen eine Einwilligung.
   sollten auf ihn ausgeweitet werden, bevor er zu KDP geht.
 - **E-Book.** `buch/build/build_epub.py` und `kindle_cover.py` kennen den Band
   noch nicht. Der Band ist fließender Text wie Band 1, der Pfad wäre derselbe.
+- **KI-Angabe bei KDP.** Beim Einstellen ist das Titelbild als KI-erzeugt zu
+  melden. Das ist keine Formalie — eine falsche Angabe kann das Konto kosten.
