@@ -67,6 +67,11 @@ AKZENTE = {
     "blatt": HexColor("#9DD380"),    # Band 1 — Blattgrün
     "zitrone": HexColor("#E9BF47"),  # Band 2 — Zitronengelb
     "beere": HexColor("#CDBEE8"),    # Band 3 — Heidelbeere, aufgehellt
+    # Reptiliengehirn — warmes Bernstein. Als einziger Akzent der Sammlung
+    # warm, weil dieser Band ein kühles Graumotiv trägt statt der bunten
+    # Lebensmittelauslage; ein weiterer kühler Ton verschwände darin.
+    # Kontrast auf Schiefer: 3,30 bzw. 3,66 zu 1 — über den geforderten 3:1.
+    "bernstein": HexColor("#E8B27A"),
 }
 
 # Steuert nur die Schlagschatten. Auf hellem Grund sind sie hellgrau, auf

@@ -119,17 +119,69 @@ grep -rn "Kapitel [0-9]" reptilienhirn/kapitel/
 - `claim_check.py` prüft die HCVO-Vorgaben der Ernährungsbände und ist für
   diesen Band ohne Belang.
 
-## Offener Punkt: der Umschlag
+## Umschlag
 
-**Dieser Band hat noch keinen Umschlag.** `buch/build/build_cover.py` zeichnet
-über `buch/build/illustration.py` Obst und Gemüse — das passt motivisch nicht.
-Ein Umschlag für diesen Band ist ein eigener Arbeitsgang und braucht:
+```bash
+python3 reptilienhirn/build/build_cover.py     # nach dem Innenteil!
+python3 buch/build/cover_flach.py              # KDP-Druckfassung
+```
 
-1. ein eigenes Motiv oder eine eigene Illustrationsroutine,
-2. ein Umschlagskript nach dem Muster von `buch/build/build_cover.py`
-   (Rückenbreite aus der Seitenzahl des fertigen PDFs, Barcodefeld nach den in
-   `buch/README.md` dokumentierten Maßen),
-3. `buch/build/cover_flach.py` für die KDP-Druckfassung.
+Die Rückenbreite errechnet sich aus der Seitenzahl des fertigen PDFs — der
+Umschlag muss deshalb **nach** dem Innenteil gebaut werden. Erzeugt werden
+`cover.pdf` (Taschenbuch) und `cover-hardcover.pdf`; bei 114 Seiten liegt der
+Band über KDPs Hardcover-Grenze von 75 Seiten.
 
-Die Umschlagtexte liegen bereits unter `cover/klappentext.md` und
-`cover/amazon-beschreibung.md`.
+Gezeichnet wird von `buch/build/build_cover.py`. Dieser Band setzt dort drei
+Felder aus `reptilienhirn.yaml` ein, die es vorher nicht gab:
+
+| Feld | Wert | wozu |
+|---|---|---|
+| `cover_akzent` | `bernstein` | warmes `#E8B27A`, als einziger Akzent der Sammlung warm — der Band trägt ein kühles Graumotiv statt der bunten Lebensmittelauslage |
+| `cover_kennung` | `SACHBUCH · GEHIRN` | der gefüllte Balken über dem Titel |
+| `markenhinweis` | eigener Text | ohne ihn stünde der cellRESET-Hinweis der Stoffwechsel-Reihe auf der Rückseite |
+
+Ohne diese Felder erbt ein Band stillschweigend die Identität von Band 1. Das
+ist genau einmal passiert und im Vorschaubild aufgefallen: „DAS BUCH ·
+4 PHASEN" über einem Buch über Hirnforschung.
+
+**Wer am Akzent dreht, rechnet den Kontrast nach.** Die Farbe steht auf dem
+gefüllten Balken und in der Autorenzeile, dafür sind 3:1 gefordert; Bernstein
+liegt bei 3,30 bzw. 3,66 zu 1 gegen die beiden Schiefertöne. Jede Aufhellung
+des Grundes kostet Kontrast.
+
+### Das Titelbild fehlt noch
+
+**`reptilienhirn/cover/titelbild.jpg` ist nicht im Repository.** Ohne diese
+Datei bricht `build_cover.py` mit einem Hinweis ab, statt zu bauen — denn
+`titelbild_suchen()` fiele sonst auf `buch/cover/titelbild.jpg` zurück, das
+Foto der Stoffwechsel-Reihe, oder auf die gezeichnete Lebensmittelauslage.
+Beides fiele erst beim Ansehen des fertigen Umschlags auf.
+
+Anforderungen an die Datei:
+
+| | |
+|---|---|
+| Ablage | `reptilienhirn/cover/titelbild.jpg` (auch `.png`, `.jpeg`, `.webp`) |
+| Mindestgröße | **1838 x 1118 px** — gerechnet von `titelbild_sollmasse()` aus der Seitengröße, nicht geraten |
+| Seitenverhältnis | egal, es wird mittig auf das Format beschnitten |
+| Motiv | Bildmitte freihalten; die Unterkante wird in den Schieferton ausgeblendet |
+
+Das Foto füllt nur das obere Band der Vorderseite, nicht den ganzen Umschlag.
+Reicht die Auflösung nach dem Beschnitt nicht für 300 dpi, rechnet das Skript
+hoch und meldet das — bei Faktoren um 1,2 ist das im Druck nicht zu sehen, bei
+deutlich mehr ist das Motiv für dieses Format zu klein.
+
+**Herkunft klären, bevor das Bild eingesetzt wird.** Ist es KI-erzeugt, ist das
+bei KDP anzugeben — siehe `kdp-metadaten.md`, Abschnitt „KI-erzeugte Inhalte
+melden". Stammt es von einem Bildanbieter, muss die Lizenz die kommerzielle
+Nutzung auf einem Buchumschlag abdecken; viele Standardlizenzen schließen genau
+das aus. Erkennbare Personen brauchen eine Einwilligung.
+
+## Was noch offen ist
+
+- **Endabnahme.** `buch/build/abnahme.py` prüft bisher nur die drei Bände der
+  Stoffwechsel-Reihe. Die Prüfungen zum Barcodefeld — Wörter im Feld,
+  Helligkeit, Abstand zur Unterkante — gelten für diesen Umschlag genauso und
+  sollten auf ihn ausgeweitet werden, bevor er zu KDP geht.
+- **E-Book.** `buch/build/build_epub.py` und `kindle_cover.py` kennen den Band
+  noch nicht. Der Band ist fließender Text wie Band 1, der Pfad wäre derselbe.

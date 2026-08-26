@@ -8,6 +8,21 @@ sprache: de
 version: "1.0"
 jahr: 2026
 
+# Cover-Farbwelt: "hell" (Papierweiß) oder "schiefer" (dunkler Grund)
+cover_stil: schiefer
+cover_akzent: bernstein   # blatt | zitrone | beere | bernstein
+
+# Bandkennung auf dem gefüllten Balken über dem Titel. Sie muss im
+# Amazon-Vorschaubild bei rund 100 px Breite noch lesbar sein — also kurz.
+cover_kennung: "SACHBUCH · GEHIRN"
+
+# Markenhinweis unten auf der Rückseite. Ohne eigenen Eintrag stünde hier der
+# cellRESET-Hinweis der Stoffwechsel-Reihe, der zu diesem Band nicht passt.
+markenhinweis: >-
+  Dieses Buch ist ein Sachbuch und ersetzt keine ärztliche oder
+  psychotherapeutische Beratung. Genannte Marken sind Eigentum ihrer
+  jeweiligen Inhaber. Bitte die Hinweise im Buch beachten.
+
 # Dateiname ohne Endung für alles unter out/
 slug: reptiliengehirn
 

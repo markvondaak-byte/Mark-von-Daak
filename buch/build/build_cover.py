@@ -129,12 +129,28 @@ BARCODE_UEBERSTAND_MM = 0.0
 # Belegexemplar lohnt.
 BARCODE_WEISSFLAECHE = {"taschenbuch": True, "hardcover": False}
 
-MARKENHINWEIS = (
+MARKENHINWEIS_STANDARD = (
     "„cellRESET“ und „FitLine“ sind Marken der PM-International AG. "
     "Dieses Buch wird von diesem Unternehmen weder herausgegeben noch "
     "autorisiert. Kein medizinischer Ratgeber — bitte die Hinweise im "
     "Buch beachten."
 )
+
+#: Der Hinweis, der gerade gesetzt wird. `cover_bauen()` setzt ihn je Band aus
+#: dem Feld `markenhinweis` der YAML-Datei — nach demselben Muster wie
+#: `ill.akzent_setzen()` die Akzentfarbe. Ein Band ohne eigenen Eintrag behält
+#: den Standard der Stoffwechsel-Reihe.
+#:
+#: Nötig wurde das mit dem Band „Das Reptiliengehirn des Menschen": Der stand
+#: mit dem cellRESET-Markenhinweis auf der Rückseite da, obwohl er mit
+#: Ernährung nichts zu tun hat.
+MARKENHINWEIS = MARKENHINWEIS_STANDARD
+
+
+def markenhinweis_waehlen(cfg):
+    """Setzt den Markenhinweis dieses Bandes für den folgenden Umschlaglauf."""
+    global MARKENHINWEIS
+    MARKENHINWEIS = cfg.get("markenhinweis") or MARKENHINWEIS_STANDARD
 
 SCHRIFTEN = {
     "Sans": "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf",
@@ -572,13 +588,19 @@ def vorderseite_schiefer(c, x, y, breite, hoehe, cfg, titelbild=None,
     c.setLineWidth(1.6)
     c.line(x + breite * 0.36, unten - 12, x + breite * 0.64, unten - 12)
 
-    block_schreiben(c, cfg["untertitel"], x + rand, unten - 36,
-                    breite - 2 * rand, "Sans", 15.5, 20.5,
-                    ill.SCHIEFER["text_leise"], zentriert=True)
+    unter_untertitel = block_schreiben(
+        c, cfg["untertitel"], x + rand, unten - 36,
+        breite - 2 * rand, "Sans", 15.5, 20.5,
+        ill.SCHIEFER["text_leise"], zentriert=True)
 
+    # Die Autorenzeile stand auf einer festen Höhe. Das trägt, solange der
+    # Untertitel einzeilig bleibt — bei zwei Zeilen schrieb der Block genau
+    # dort hinein, und im Amazon-Vorschaubild stand Wortsalat. Sie rückt
+    # deshalb nach unten aus, wenn es eng wird, und bleibt sonst, wo sie war.
+    autor_y = min(y + hoehe * 0.135, unter_untertitel - 14)
     c.setFillColor(ill.SCHIEFER["akzent"])
     c.setFont("Sans-Bold", 18)
-    c.drawCentredString(x + breite / 2, y + hoehe * 0.135, cfg["autor"])
+    c.drawCentredString(x + breite / 2, autor_y, cfg["autor"])
 
 
 #: Grundgrößen des Rückseitentexts: (Schlagzeile, Fließtext, Stichpunkt).
@@ -798,6 +820,7 @@ def cover_bauen(cfg, seiten, klappentext_pfad, ziel, *, hardcover=False):
         raise SystemExit(f"Unbekannter cover_stil: {stil} (hell | schiefer)")
     ill.grund_setzen("dunkel" if stil == "schiefer" else "hell")
     ill.akzent_setzen(cfg.get("cover_akzent", "blatt"))
+    markenhinweis_waehlen(cfg)
 
     # Grundfläche inklusive Anschnitt
     if stil == "schiefer":
@@ -827,7 +850,8 @@ def cover_bauen(cfg, seiten, klappentext_pfad, ziel, *, hardcover=False):
                          cfg, mit_ruecken_text)
         vorderseite_schiefer(c, anschnitt + trim_b + ruecken_b, anschnitt,
                              trim_b, trim_h, cfg, titelbild,
-                             kennung="DAS BUCH · 4 PHASEN",
+                             kennung=cfg.get("cover_kennung",
+                                             "DAS BUCH · 4 PHASEN"),
                              ueberstand=anschnitt)
     else:
         rueckseite(c, anschnitt, anschnitt, trim_b, trim_h, cfg,
