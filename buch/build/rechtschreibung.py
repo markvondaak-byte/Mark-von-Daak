@@ -38,11 +38,33 @@ QUELLEN = [
     ("Umschlag", "buch/cover", "klappentext.md"),
     ("Umschlag", "workbook/cover", "klappentext.md"),
     ("Umschlag", "rezepte/cover", "klappentext.md"),
+    ("Reptiliengehirn", "reptilienhirn/kapitel", "*.md"),
+    ("Umschlag", "reptilienhirn/cover", "klappentext.md"),
 ]
 
 # Begriffe, die richtig sind, aber in keiner Wortliste stehen: Marken,
 # Fachbegriffe des Konzepts, Zutaten, Eigennamen.
 FACHWORTE = {
+    # Band „Das Reptiliengehirn des Menschen" — Anatomie, Fachbegriffe,
+    # Eigennamen und die englischen Titel im Quellenverzeichnis.
+    "amygdala", "amygdalae", "hypothalamus", "hippocampus", "cortex",
+    "neocortex", "cortisol", "dopamin", "dopaminerge", "basalganglien",
+    "striatum", "pallidum", "pallium", "nidopallium", "hyperpallium",
+    "arcopallium", "paläostriatum", "archistriatum", "neostriatum",
+    "hyperstriatum", "telencephalon", "diencephalon", "subpallium",
+    "insula", "cingulärer", "cingulären", "periaquäduktales", "thalamus",
+    "sympathikus", "parasympathikus", "vagus", "vagusaktivität",
+    "vagusfasern", "vagusfunktion", "interozeption", "homöostase",
+    "allostase", "allostatische", "kernaffekt", "granularität",
+    "reappraisal", "polyvagal", "synapsiden", "sauropsiden", "amnioten",
+    "homologie", "analogie", "maclean", "papez", "broca", "sagan",
+    "koestler", "ledoux", "eisenberger", "gollwitzer", "kahneman",
+    "barrett", "striedter", "hodos", "karten", "schultz", "berridge",
+    "graybiel", "oettingen", "porges", "cannon", "reptilienkomplex",
+    "reptiliengehirn", "reptilienhirn", "hijack", "neuromarketing",
+    "neuromythen", "aufstehzeit", "eingeübt", "unentrinnbarkeit",
+    "vorsatzplan", "vorsatzpläne", "vorsatzplänen", "herzratenvariabilität",
+    "immobilität", "insomnie", "urbach", "wiethe", "meta", "analyse",
     "cellreset", "fitline", "pm", "international", "daak", "wolfsburg",
     "rabenbergstraße", "icloud", "ustid", "hcvo",
     "stoffwechselreset", "lifestyletag", "lifestylephase", "vitalcheck",
