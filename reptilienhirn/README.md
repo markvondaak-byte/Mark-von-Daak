@@ -188,13 +188,40 @@ einem Bildanbieter, muss die Lizenz die kommerzielle Nutzung auf einem
 Buchumschlag abdecken; viele Standardlizenzen schließen genau das aus.
 Erkennbare reale Personen brauchen eine Einwilligung.
 
+## Endabnahme
+
+```bash
+python3 buch/build/innenteil_druck.py     # Innenteil auf Trimmgröße
+python3 buch/build/cover_flach.py         # Umschläge in die KDP-Druckfassung
+python3 buch/build/abnahme.py             # 43 Prüfungen für diesen Band
+```
+
+`abnahme.py` kennt den Band als eigenen Abschnitt. Geprüft wird dasselbe wie
+bei den anderen Bänden, mit zwei Abweichungen:
+
+**Andere Pflichttexte.** Dieser Band macht keine Ernährungsaussagen und
+braucht weder Schwangerschaftshinweis noch HCVO-Prüfung. Er berührt dafür
+Panik, Angst und Suizidgedanken und muss die Grenze zur fachlichen Hilfe samt
+Notrufnummern führen — die Abnahme prüft Telefonseelsorge, 116 117 und 112
+einzeln. Zusätzlich prüft sie, dass **kein** cellRESET- oder FitLine-Bezug im
+Innenteil steht.
+
+**Suchbegriffe über Zeilenumbrüche.** Die Prüfung zieht den Text vor dem
+Suchen zusammen. Ohne das prüft ein mehrwortiger Suchbegriff den Umbruch statt
+den Inhalt und meldet Text als fehlend, der auf der Seite steht — das ist beim
+ersten Lauf dreimal passiert.
+
+Die Reihenfolge ist nicht beliebig: Innenteil, dann Umschlag (die Rückenbreite
+hängt an der Seitenzahl), dann die Druckfassungen, dann die Abnahme. Sie prüft
+unter anderem, dass kein PDF älter ist als seine Quellen — sonst winkt sie
+einen alten Stand durch.
+
 ## Was noch offen ist
 
-- **Endabnahme.** `buch/build/abnahme.py` prüft bisher nur die drei Bände der
-  Stoffwechsel-Reihe. Die Prüfungen zum Barcodefeld — Wörter im Feld,
-  Helligkeit, Abstand zur Unterkante — gelten für diesen Umschlag genauso und
-  sollten auf ihn ausgeweitet werden, bevor er zu KDP geht.
 - **E-Book.** `buch/build/build_epub.py` und `kindle_cover.py` kennen den Band
   noch nicht. Der Band ist fließender Text wie Band 1, der Pfad wäre derselbe.
 - **KI-Angabe bei KDP.** Beim Einstellen ist das Titelbild als KI-erzeugt zu
   melden. Das ist keine Formalie — eine falsche Angabe kann das Konto kosten.
+- **Belegexemplar ansehen.** Beim Hardcover liegt unter dem Barcodefeld
+  bewusst keine Weißfläche, weil KDP seine eigene Box mitbringt. Gesehen hat
+  das im gedruckten Buch noch niemand; der Blick aufs erste Exemplar lohnt.

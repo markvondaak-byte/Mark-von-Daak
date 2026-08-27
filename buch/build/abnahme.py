@@ -72,6 +72,9 @@ QUELLEN = {
                  "workbook/build", "buch/build"],
     "rezepte": ["rezepte/rezepte.yaml", "rezepte/rezepte", "rezepte/rahmen",
                 "rezepte/build", "buch/build"],
+    "reptilienhirn": ["reptilienhirn/reptilienhirn.yaml",
+                      "reptilienhirn/kapitel", "reptilienhirn/build",
+                      "buch/build"],
 }
 
 # Prüfer und Nachbearbeitung stehen zwar in denselben Verzeichnissen, gehen
@@ -579,6 +582,95 @@ def rezeptbuch_pruefen():
                       dict(cfg, seitenformat=hc), hc_seiten, hardcover=True)
 
 
+def reptiliengehirn_pruefen():
+    """Eigenständiger Band, nicht Teil der Stoffwechsel-Reihe.
+
+    Geprüft wird dasselbe wie bei den anderen Bänden — mit einer Ausnahme:
+    Die Pflichttexte sind andere. Dieser Band macht keine Ernährungsaussagen
+    und braucht deshalb weder Schwangerschaftshinweis noch HCVO-Prüfung; er
+    berührt dafür psychische Beschwerden und muss die Grenze zur fachlichen
+    Hilfe samt Notrufnummern führen.
+    """
+    print("\nDas Reptiliengehirn des Menschen")
+    print("-" * 66)
+    basis = WURZEL / "reptilienhirn"
+    cfg = yaml.safe_load(
+        (basis / "reptilienhirn.yaml").read_text(encoding="utf-8"))
+    pdf = basis / "out" / f"{cfg['slug']}.pdf"
+    pruefe("PDF vorhanden", pdf.exists(), str(pdf.relative_to(WURZEL)))
+    if not pdf.exists():
+        return
+    aktueller_als_quellen("Reptiliengehirn", pdf, "reptilienhirn")
+
+    seiten = text_von(pdf)
+    pruefe("Seitenzahl gerade (KDP rundet sonst auf)", len(seiten) % 2 == 0,
+           f"{len(seiten)} Seiten")
+
+    # Zeilenumbrüche zusammenziehen, bevor gesucht wird. Ein Suchbegriff, der
+    # im Satz über zwei Zeilen läuft, prüft sonst den Umbruch statt den
+    # Inhalt — und meldet Text als fehlend, der auf der Seite steht.
+    volltext = " ".join("\n".join(seiten).split())
+
+    pruefe("Inhaltsverzeichnis aufgelöst",
+           "Das Tier, das es nicht gibt" in volltext,
+           "keine unaufgelösten Word-Felder")
+
+    # Der inhaltliche Kern. Fällt einer dieser Punkte weg, ist es ein anderes
+    # Buch — die Richtigstellung des dreieinigen Modells trägt den ganzen Band.
+    pflicht = {
+        "Widerlegung des Modells": "dreieinige",
+        "Vogelbefund": "Pallium",
+        "Amygdala richtiggestellt": "Bedeutsamkeit — Gefahr wie Gewinn",
+        "Vorhersage statt Reaktion": "Es sagt sie voraus",
+        "Verteidigungskaskade": "Erstarren",
+        "Vier-Wochen-Teil": "Die ersten vier Wochen",
+        "Prüfstein": "umgekehrte Inferenz",
+        "Glossar": "Allostase",
+        "Quellenverzeichnis": "LeDoux",
+    }
+    for name, nadel in pflicht.items():
+        pruefe(f"Inhalt: {name}", nadel in volltext)
+
+    # Pflichthinweise. Die Notrufnummern sind kein Beiwerk: Der Band spricht
+    # Panik, Angst und Suizidgedanken an und muss sagen, wohin damit.
+    rechts = {
+        "Kein Ersatz für Beratung": "ersetzt keine",
+        "Eigenverantwortung": "eigener Verantwortung",
+        "Grenze zur fachlichen Hilfe": "fachliche Hilfe",
+        "Telefonseelsorge": "0800 111 0 111",
+        "Ärztlicher Bereitschaftsdienst": "116 117",
+        "Notruf": "112",
+        "Haftungsausschluss": "keine Haftung",
+    }
+    for name, nadel in rechts.items():
+        pruefe(f"Pflichthinweis: {name}", nadel in volltext)
+
+    # Der Band gehört nicht zur Stoffwechsel-Reihe. Stünde hier deren
+    # Markenhinweis, wäre er auf dem Umschlag gelandet — genau das ist beim
+    # ersten Umschlaglauf passiert.
+    pruefe("Kein cellRESET-Bezug im Innenteil",
+           "cellRESET" not in volltext and "FitLine" not in volltext)
+
+    fehlend = schriften_eingebettet(pdf)
+    pruefe("Alle Schriften eingebettet", not fehlend,
+           ", ".join(sorted(fehlend)) if fehlend else "")
+
+    # Die Vakatseite am Buchende ist gewollt und darf nicht als Fund gelten.
+    zu_leer = [s for s in fast_leere_seiten(seiten) if s != len(seiten)]
+    pruefe("Keine fast leeren Seiten (außer der Vakatseite)", not zu_leer,
+           f"Seiten {zu_leer}" if zu_leer else "")
+
+    innenteil_druck_pruefen("Reptiliengehirn",
+                            pdf.with_name(pdf.stem + "-druck.pdf"),
+                            cfg["seitenformat"]["breite_mm"],
+                            cfg["seitenformat"]["hoehe_mm"])
+    cover_pruefen("Reptiliengehirn", basis / "out" / "cover.pdf",
+                  cfg, len(seiten))
+    cover_pruefen("Reptiliengehirn Hardcover",
+                  basis / "out" / "cover-hardcover.pdf",
+                  cfg, len(seiten), hardcover=True)
+
+
 def kindle_pruefen():
     """Die E-Book-Ausgaben — andere Dateien, andere Vorgaben als der Druck."""
     import zipfile
@@ -682,11 +774,12 @@ def website_unberuehrt():
 
 def main():
     print("=" * 66)
-    print("ENDABNAHME — Der Stoffwechsel-Reset (drei Bände)")
+    print("ENDABNAHME — Stoffwechsel-Reset (3 Bände) + Reptiliengehirn")
     print("=" * 66)
     buch_pruefen()
     workbook_pruefen()
     rezeptbuch_pruefen()
+    reptiliengehirn_pruefen()
     kindle_pruefen()
     website_unberuehrt()
 

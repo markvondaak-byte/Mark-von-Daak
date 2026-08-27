@@ -33,6 +33,9 @@ BAENDE = [
     # Eigener Innenteil fürs Hardcover: KDP führt 8 x 10 Zoll nur als
     # Taschenbuch, das Hardcover läuft auf 8,25 x 11 Zoll.
     ("Band 3 Hardcover", "rezepte/out/rezeptbuch-hardcover.pdf", 209.55, 279.4),
+    # Eigenständiger Band, nicht Teil der Stoffwechsel-Reihe. 6 x 9 Zoll wie
+    # Band 1, deshalb genügt ein Innenteil für Taschenbuch und Hardcover.
+    ("Reptiliengehirn", "reptilienhirn/out/reptiliengehirn.pdf", 152.4, 228.6),
 ]
 
 
