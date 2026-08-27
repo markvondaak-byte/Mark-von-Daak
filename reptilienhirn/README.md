@@ -151,37 +151,51 @@ des Grundes kostet Kontrast.
 
 ### Das Titelbild
 
-`reptilienhirn/cover/titelbild.jpg` — Porträt eines Neandertalers, 5504 x 3072
-px, deutlich über den nötigen 1838 x 1118. Der dunkle Grund des Fotos liegt
-farblich nah am Schieferton, deshalb geht die Ausblendung an der Unterkante
-sauber auf.
+`reptilienhirn/cover/titelbild.jpg` — der Neandertaler betrachtet ein
+Gehirn aus Stein auf einem Sockel. Beide Motive in einer Aufnahme, gleiches
+Licht, gleicher Grund. Das Bild erzählt die These des Buches, ohne sie zu
+behaupten: Der Umschlag setzt die Erwartung vom archaischen Vorfahren, die
+Kapitel 2 dann abräumt.
 
-**Das Bild ist KI-erzeugt** (Higgsfield, Modell Nano Banana Pro). Das ist bei
-KDP anzugeben — siehe `kdp-metadaten.md`, Abschnitt „KI-erzeugte Inhalte
-melden". Für das Titelbild lautet die Antwort auf KDPs Frage nach
-KI-generierten Inhalten also **ja**, Kategorie Bilder.
+**Das Bild ist KI-erzeugt** (Higgsfield, Nano Banana Pro; aus zwei früheren
+Generierungen als Referenz zusammengesetzt). Bei KDP ist das anzugeben —
+siehe `kdp-metadaten.md`, Abschnitt „KI-erzeugte Inhalte melden". Antwort auf
+die Frage nach KI-generierten Inhalten: **ja**, Kategorie Bilder.
 
-Ein Motiv, das den Titel bestätigt statt ihn zu bebildern: Das Buch nimmt die
-Erzählung vom archaischen Vorfahren im Kopf auseinander, und der Umschlag setzt
-genau diese Erwartung — Kapitel 2 räumt sie dann ab. Bewusst kein
-Höhlenmensch-Klischee: kein Keulenschwingen, kein gefletschtes Gebiss, ruhiger
-Blick.
+Als Alternative liegt `titelbild-alternative-portraet.jpg` daneben — dasselbe
+Gesicht allein, ohne Gehirn. Bei sehr kleinen Vorschaubildern trägt ein
+einzelnes Gesicht sicherer als zwei Motive; wer das ausprobieren will, tauscht
+die Dateinamen.
 
-Wird das Motiv getauscht, gelten die Anforderungen aus der Tabelle unten. Ohne
-Datei bricht `build_cover.py` mit einem Hinweis ab, statt auf das Foto der
-Stoffwechsel-Reihe oder die gezeichnete Lebensmittelauslage zurückzufallen —
-beides fiele erst am fertigen Umschlag auf.
+#### Warum das Bild oben 275 px Zugabe hat
+
+Die Originaldatei war 5504 x 3072 px. In dieser Fassung wurde der Hintergrund
+oben um 275 px verlängert — die oberste Bildzeile nach oben gestreckt, deshalb
+ohne sichtbare Naht. Grund: `titelbild_zeichnen()` zeichnet das Foto um den
+Anschnitt über die Trimmkante hinaus, und dabei wurde dem Neandertaler das Haar
+abgeschnitten.
+
+Die 275 px sind keine runde Zahl, sondern die Obergrenze. Beschnitten wird
+mittig auf das Verhältnis 1838:1118 = 1,6440. Solange das Bild **breiter** als
+dieses Verhältnis ist, beschneidet die Routine die Seiten und lässt die Höhe
+unangetastet; kippt es darunter, beginnt sie die Höhe zu beschneiden und nimmt
+die Zugabe gleich wieder weg. Bei 5504 px Breite liegt die Grenze also bei
+5504 / 1,6440 = 3348 px Höhe, und 3348 − 3072 = 276. Die Datei liegt mit
+5504 x 3347 knapp darunter.
+
+Wer das Motiv tauscht, prüft dasselbe: Verhältnis über 1,6440 halten, sonst
+verschwindet oben genau das, was man dazugegeben hat.
 
 | | |
 |---|---|
 | Ablage | `reptilienhirn/cover/titelbild.jpg` (auch `.png`, `.jpeg`, `.webp`) |
-| Mindestgröße | **1838 x 1118 px** — gerechnet von `titelbild_sollmasse()` aus der Seitengröße, nicht geraten |
-| Seitenverhältnis | egal, es wird mittig auf das Format beschnitten |
-| Motiv | Bildmitte freihalten; die Unterkante wird in den Schieferton ausgeblendet |
+| Mindestgröße | **1838 x 1118 px** — gerechnet von `titelbild_sollmasse()`, nicht geraten |
+| Verhältnis | über 1,6440 halten, sonst wird die Höhe beschnitten |
+| Motiv | oben Luft lassen (Anschnitt), unten wird in den Schieferton ausgeblendet |
 
-Das Foto füllt nur das obere Band der Vorderseite, nicht den ganzen Umschlag.
-Reicht die Auflösung nach dem Beschnitt nicht für 300 dpi, rechnet das Skript
-hoch und meldet das.
+Ohne Titelbild bricht `build_cover.py` mit einem Hinweis ab, statt auf das Foto
+der Stoffwechsel-Reihe oder die gezeichnete Lebensmittelauslage
+zurückzufallen — beides fiele erst am fertigen Umschlag auf.
 
 **Herkunft klären, bevor ein anderes Bild eingesetzt wird.** Stammt es von
 einem Bildanbieter, muss die Lizenz die kommerzielle Nutzung auf einem
