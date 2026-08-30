@@ -1,4 +1,4 @@
-# KDP-Metadaten — alle drei Bände
+# KDP-Metadaten — die drei Bände und „Das Reptiliengehirn des Menschen“
 
 Alles, was beim Anlegen eines Titels bei Amazon KDP abgefragt wird, an einer
 Stelle zum Kopieren. Die langen Beschreibungstexte stehen in eigenen Dateien,
@@ -274,6 +274,79 @@ Zum Tauschen, falls ein Begriff nach ein paar Wochen nichts bringt:
 `kohlenhydratarm kochen abendessen` · `eiweißbrot ersatz rezepte` ·
 `gewürzmischung selber machen ohne salz` · `meal prep eiweißreich` ·
 `kochbuch stoffwechselkur alternative`
+
+---
+
+## Das Reptiliengehirn des Menschen
+
+Eigenständiger Titel, **keine Serie** — er gehört nicht zur
+Stoffwechsel-Reihe und darf im Serienfeld auch nicht so eingetragen werden.
+
+| Feld | Wert |
+|---|---|
+| Titel | Das Reptiliengehirn des Menschen |
+| Untertitel | Wie das schnelle Ich entscheidet, bevor du es tust |
+| Serie | keine |
+| Autor | Mark von Daak |
+| Sprache | Deutsch |
+| Beschreibung | `reptilienhirn/cover/amazon-beschreibung.md` |
+| Altersfreigabe | keine jugendgefährdenden Inhalte |
+| Trimmgröße | 15,24 × 22,86 cm (6″ × 9″) |
+| Seiten | 114 (letzte Seite ist eine Vakatseite) |
+| Papier / Druckfarbe | weiß / Schwarzweiß |
+| Rückenbreite | 6,5 mm — **mit** Rückentext (KDP erlaubt ihn ab 79 Seiten) |
+| Datei Innenteil | `reptilienhirn/out/reptiliengehirn-druck.pdf` |
+| Datei Umschlag | `reptilienhirn/out/cover-druck.pdf` |
+
+**Hardcover-Fassung** — eigener Titel neben dem Taschenbuch, gleiche
+Beschreibung, gleiche Kategorien, gleiche Stichwörter:
+
+| Feld | Wert |
+|---|---|
+| Trimmgröße | 6 × 9 Zoll (15,24 × 22,86 cm) |
+| Seiten | 114 |
+| Rücken der Buchdecke | 15,5 mm — mit Rückentext |
+| Umschlag gesamt | **14,028 × 10,417 Zoll** (356,30 × 264,59 mm) |
+| Datei | `reptilienhirn/out/cover-hardcover-druck.pdf` |
+
+Mit 114 Seiten liegt der Band deutlich über KDPs Hardcover-Grenze von 75
+Seiten, und 6 × 9 Zoll steht in der Hardcover-Liste — anders als bei Band 3
+ist kein zweiter Innenteil nötig.
+
+**Kategorien** — eine breite, zwei enge:
+
+1. Ratgeber › Lebenshilfe & Alltag › Psychologie
+2. Sachbuch › Naturwissenschaften › Biologie › Neurowissenschaft
+3. Ratgeber › Lebenshilfe & Alltag › Stress & Bewältigung *(oder eine
+   vergleichbar enge Nische)*
+
+**Keywords** — sieben Felder à 50 Zeichen, nach denselben Regeln wie bei
+Band 1: Wortgruppen statt Einzelwörter, und kein Wort, das schon in Titel oder
+Untertitel steht. „Reptiliengehirn“ fehlt hier deshalb bewusst — Amazon
+indexiert den Titel ohnehin, und das Feld wäre verschenkt.
+
+```
+gehirn verstehen sachbuch neurowissenschaft
+amygdala stress reaktion körper
+impulskontrolle selbstregulation lernen
+emotionen regulieren im alltag
+warum wir handeln ohne nachzudenken
+wut streit deeskalation ratgeber
+gewohnheiten ändern ohne willenskraft
+```
+
+Die sieben decken drei verschiedene Suchanlässe ab, damit sie sich nicht
+gegenseitig Konkurrenz machen: neugierig aufs Thema (1, 2), ein konkretes
+Problem (3, 4, 6, 7) und die Frage, die den Leser hertreibt (5).
+
+Zum Tauschen, falls ein Begriff nach ein paar Wochen nichts bringt:
+`neuromythen was stimmt wirklich` · `psychologie alltag verständlich erklärt` ·
+`selbstbeherrschung verbessern buch` · `angst und panik verstehen ratgeber` ·
+`warum vorsätze scheitern psychologie` · `gehirnforschung populär erklärt`
+
+**Zur KI-Angabe:** Das Titelbild ist mit Higgsfield erzeugt. Beim Anlegen also
+**„KI-erzeugte Bilder: ja“** — siehe Abschnitt „KI-erzeugte Inhalte melden“.
+Der Text ist selbst geschrieben und fällt nicht darunter.
 
 ---
 
