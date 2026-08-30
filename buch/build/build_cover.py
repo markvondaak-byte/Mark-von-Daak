@@ -127,7 +127,32 @@ BARCODE_UEBERSTAND_MM = 0.0
 # KDP-Vorschau zeigt die Box, die Dokumentation nennt sie ausdrücklich — im
 # gedruckten Buch gesehen hat sie aber noch niemand. Ein Blick aufs erste
 # Belegexemplar lohnt.
-BARCODE_WEISSFLAECHE = {"taschenbuch": True, "hardcover": False}
+BARCODE_WEISSFLAECHE_STANDARD = {"taschenbuch": True, "hardcover": False}
+
+#: Was gerade gilt. `cover_bauen()` setzt es je Band aus dem Feld
+#: `barcode_weissflaeche` der YAML-Datei — dasselbe Muster wie beim
+#: Markenhinweis. Ohne eigenen Eintrag bleibt es beim Standard.
+#:
+#: **Wer die Fläche abschaltet, verzichtet auf eine Rückversicherung.** Sie
+#: ist deckungsgleich mit KDPs eigener Box und deshalb unsichtbar; sie trägt
+#: nur den Fall, dass KDP den Barcode wider Erwarten ohne eigenen
+#: Hintergrund druckt. Dann stünde schwarze Strichschrift auf dem
+#: Umschlaggrund — auf Schiefer nicht zu scannen.
+#:
+#: Das Dictionary wird in place geändert, nicht neu gebunden: `abnahme.py`
+#: und die Umschlagskripte der anderen Bände halten dieselbe Referenz.
+BARCODE_WEISSFLAECHE = dict(BARCODE_WEISSFLAECHE_STANDARD)
+
+
+def barcode_weissflaeche_waehlen(cfg):
+    """Setzt für den folgenden Umschlaglauf, wo eine Weißfläche liegt."""
+    BARCODE_WEISSFLAECHE.clear()
+    BARCODE_WEISSFLAECHE.update(BARCODE_WEISSFLAECHE_STANDARD)
+    eigen = cfg.get("barcode_weissflaeche")
+    if isinstance(eigen, dict):
+        BARCODE_WEISSFLAECHE.update(
+            {art: bool(wert) for art, wert in eigen.items()
+             if art in BARCODE_WEISSFLAECHE_STANDARD})
 
 MARKENHINWEIS_STANDARD = (
     "„cellRESET“ und „FitLine“ sind Marken der PM-International AG. "
@@ -821,6 +846,7 @@ def cover_bauen(cfg, seiten, klappentext_pfad, ziel, *, hardcover=False):
     ill.grund_setzen("dunkel" if stil == "schiefer" else "hell")
     ill.akzent_setzen(cfg.get("cover_akzent", "blatt"))
     markenhinweis_waehlen(cfg)
+    barcode_weissflaeche_waehlen(cfg)
 
     # Grundfläche inklusive Anschnitt
     if stil == "schiefer":

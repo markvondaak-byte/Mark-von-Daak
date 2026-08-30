@@ -12,9 +12,26 @@ jahr: 2026
 cover_stil: schiefer
 cover_akzent: bernstein   # blatt | zitrone | beere | bernstein
 
-# Bandkennung auf dem gefüllten Balken über dem Titel. Sie muss im
-# Amazon-Vorschaubild bei rund 100 px Breite noch lesbar sein — also kurz.
-cover_kennung: "SACHBUCH · GEHIRN"
+# Bandkennung auf dem gefüllten Balken über dem Titel. Leer heißt: kein
+# Balken. Der Band gehört zu keiner Reihe — die Kennung unterscheidet also
+# nichts, sie füllte nur Platz über dem Titel.
+#
+# Leer lassen und nicht weglassen: Ein fehlendes Feld fällt auf die Kennung
+# von Band 1 zurück, und dann stünde „DAS BUCH · 4 PHASEN" auf einem Buch
+# über Hirnforschung.
+cover_kennung: ""
+
+# Weiße Fläche unter dem Barcodefeld auf der Rückseite. Für diesen Band bei
+# beiden Bindearten abgeschaltet: KDP druckt den Barcode in einer eigenen
+# weißen Box, die Fläche darunter ist deckungsgleich und damit unsichtbar.
+#
+# Damit entfällt eine Rückversicherung. Sollte KDP den Barcode wider Erwarten
+# ohne eigenen Hintergrund drucken, stünde schwarze Strichschrift auf dem
+# Schiefergrund und wäre nicht zu scannen. Beim ersten Belegexemplar
+# nachsehen — der Hinweis steht auch unter „Was noch offen ist" im README.
+barcode_weissflaeche:
+  taschenbuch: false
+  hardcover: false
 
 # Markenhinweis unten auf der Rückseite. Ohne eigenen Eintrag stünde hier der
 # cellRESET-Hinweis der Stoffwechsel-Reihe, der zu diesem Band nicht passt.

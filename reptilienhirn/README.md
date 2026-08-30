@@ -137,12 +137,24 @@ Felder aus `reptilienhirn.yaml` ein, die es vorher nicht gab:
 | Feld | Wert | wozu |
 |---|---|---|
 | `cover_akzent` | `bernstein` | warmes `#E8B27A`, als einziger Akzent der Sammlung warm — der Band trägt ein kühles Graumotiv statt der bunten Lebensmittelauslage |
-| `cover_kennung` | `SACHBUCH · GEHIRN` | der gefüllte Balken über dem Titel |
+| `cover_kennung` | `""` (leer) | **kein** Balken über dem Titel — der Band gehört zu keiner Reihe, die Kennung unterschiede also nichts |
+| `barcode_weissflaeche` | beide `false` | keine Weißfläche unter dem Barcodefeld, auch nicht beim Taschenbuch |
 | `markenhinweis` | eigener Text | ohne ihn stünde der cellRESET-Hinweis der Stoffwechsel-Reihe auf der Rückseite |
 
 Ohne diese Felder erbt ein Band stillschweigend die Identität von Band 1. Das
 ist genau einmal passiert und im Vorschaubild aufgefallen: „DAS BUCH ·
-4 PHASEN" über einem Buch über Hirnforschung.
+4 PHASEN" über einem Buch über Hirnforschung. **`cover_kennung` deshalb leer
+lassen und nicht weglassen** — ein fehlendes Feld fällt auf genau diesen Wert
+zurück.
+
+**Zur abgeschalteten Weißfläche.** KDP druckt den Barcode in einer eigenen
+weißen Box; die Fläche darunter ist deckungsgleich und damit unsichtbar. Sie
+war eine Rückversicherung für den Fall, dass KDP ohne eigene Box druckt — dann
+stünde schwarze Strichschrift auf dem Schiefergrund und wäre nicht zu scannen.
+Dieser Band verzichtet bei **beiden** Bindearten darauf; die Bände 1 bis 3
+behalten sie beim Taschenbuch. `abnahme.py` prüft entsprechend nicht mehr auf
+Helligkeit, sondern darauf, dass der Grund dort ruhig ist (Kanalwerte 84 bis
+85). Beim ersten Belegexemplar nachsehen.
 
 **Wer am Akzent dreht, rechnet den Kontrast nach.** Die Farbe steht auf dem
 gefüllten Balken und in der Autorenzeile, dafür sind 3:1 gefordert; Bernstein
@@ -236,6 +248,7 @@ einen alten Stand durch.
   noch nicht. Der Band ist fließender Text wie Band 1, der Pfad wäre derselbe.
 - **KI-Angabe bei KDP.** Beim Einstellen ist das Titelbild als KI-erzeugt zu
   melden. Das ist keine Formalie — eine falsche Angabe kann das Konto kosten.
-- **Belegexemplar ansehen.** Beim Hardcover liegt unter dem Barcodefeld
-  bewusst keine Weißfläche, weil KDP seine eigene Box mitbringt. Gesehen hat
-  das im gedruckten Buch noch niemand; der Blick aufs erste Exemplar lohnt.
+- **Belegexemplar ansehen.** Unter dem Barcodefeld liegt bei **beiden**
+  Bindearten bewusst keine Weißfläche, weil KDP seine eigene Box mitbringt.
+  Gesehen hat das im gedruckten Buch noch niemand; der Blick aufs erste
+  Exemplar lohnt und entscheidet, ob die Fläche zurückkommen muss.

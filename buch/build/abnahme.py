@@ -376,7 +376,8 @@ def druckfassung_pruefen(bezeichnung, pdf, soll_b, soll_h):
            not befunde, ", ".join(befunde) if befunde else "")
 
 
-def barcodefeld_pruefen(bezeichnung, pdf, rand_mm, trim_b_mm, hardcover):
+def barcodefeld_pruefen(bezeichnung, pdf, rand_mm, trim_b_mm, hardcover,
+                        weissflaeche=None):
     """Die Fläche, auf die KDP den Barcode druckt, muss leer und hell sein.
 
     `rand_mm` ist der Anschnitt beziehungsweise der Umschlagrand beim
@@ -432,7 +433,11 @@ def barcodefeld_pruefen(bezeichnung, pdf, rand_mm, trim_b_mm, hardcover):
     kanaele = [min(p) for p in proben]
     dunkelste, hellste = min(kanaele), max(kanaele)
 
-    if BARCODE_WEISSFLAECHE["hardcover" if hardcover else "taschenbuch"]:
+    if weissflaeche is None:
+        weissflaeche = BARCODE_WEISSFLAECHE[
+            "hardcover" if hardcover else "taschenbuch"]
+
+    if weissflaeche:
         pruefe(f"{bezeichnung}: Barcodefeld hell und einfarbig",
                dunkelste >= 235 and hellste - dunkelste <= 6,
                f"dunkelster Kanalwert {dunkelste}, hellster {hellste} von 255")
@@ -483,8 +488,16 @@ def cover_pruefen(bezeichnung, pdf, cfg, seiten, *, hardcover=False):
     pruefe(f"{bezeichnung}: Umschlaghöhe", abs(ist_h - soll_h) < 0.5,
            f"{ist_h:.1f} mm (Soll {soll_h:.1f})")
 
+    # Ob dort eine Weißfläche liegt, entscheidet der Band — sonst prüft die
+    # Abnahme auf Helligkeit, wo bewusst der Umschlaggrund steht, und meldet
+    # eine bewusste Entscheidung als Fehler.
+    art = "hardcover" if hardcover else "taschenbuch"
+    eigen = cfg.get("barcode_weissflaeche") or {}
+    weissflaeche = bool(eigen.get(art, BARCODE_WEISSFLAECHE[art]))
+
     barcodefeld_pruefen(bezeichnung, pdf, rand,
-                        cfg["seitenformat"]["breite_mm"], hardcover)
+                        cfg["seitenformat"]["breite_mm"], hardcover,
+                        weissflaeche=weissflaeche)
 
     druckfassung_pruefen(bezeichnung,
                          pdf.with_name(pdf.stem + "-druck.pdf"),
