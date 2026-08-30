@@ -102,17 +102,31 @@ class Renderer:
     UEBERSCHRIFT_TEIL = {
         "h1": "Teilnummer", "h2": "Teiltitel", "h3": "Unterabschnitt",
     }
-    LAYOUTS = {"titelseite": UEBERSCHRIFT_TITELSEITE, "teil": UEBERSCHRIFT_TEIL}
+    # Impressumsseite: eine zentrierte Überschrift, sonst nichts.
+    UEBERSCHRIFT_IMPRESSUM = {
+        "h1": "ImpressumTitel", "h2": "ImpressumTitel", "h3": "KleinMitte",
+    }
+    LAYOUTS = {"titelseite": UEBERSCHRIFT_TITELSEITE, "teil": UEBERSCHRIFT_TEIL,
+               "impressum": UEBERSCHRIFT_IMPRESSUM}
 
     def __init__(self, doc, textbreite_mm, toc_daten=None):
         self.doc = doc
         self.textbreite_mm = textbreite_mm
         self.toc_daten = toc_daten
         self.ueberschrift_karte = self.UEBERSCHRIFT
+        self.absatzstil = "Fliesstext"
         self.md = MarkdownIt("commonmark").enable("table").enable("strikethrough")
 
-    def rendern(self, markdown_text, ueberschriften=None):
+    def rendern(self, markdown_text, ueberschriften=None, absatzstil=None):
+        """Setzt einen Markdown-Text in das Dokument.
+
+        `absatzstil` überschreibt das Format der Fließtextabsätze für dieses
+        eine Kapitel — gebraucht von der Impressumsseite, die zentriert und
+        kleiner steht als der Rumpf. Ohne Angabe bleibt es bei "Fliesstext",
+        alle bestehenden Kapitel ändern sich also nicht.
+        """
         self.ueberschrift_karte = ueberschriften or self.UEBERSCHRIFT
+        self.absatzstil = absatzstil or "Fliesstext"
         tokens = self.md.parse(self._marker_isolieren(markdown_text))
         self._block(tokens, 0, len(tokens))
 
@@ -145,7 +159,7 @@ class Renderer:
                 if marker:
                     marker()
                 else:
-                    stilname = listenstil or "Fliesstext"
+                    stilname = listenstil or self.absatzstil
                     absatz = self.doc.add_paragraph(style=stilname)
                     if listenstil == "Punkt":
                         absatz.add_run("•  ")
@@ -401,7 +415,8 @@ def bauen(cfg, kapitel, ziel, toc_daten=None, leerseite=False):
     for nummer, kap in enumerate(titelei):
         if nummer:
             stile.seitenumbruch(doc)
-        renderer.rendern(kap["text"], _layout(kap))
+        renderer.rendern(kap["text"], _layout(kap),
+                         kap["meta"].get("absatzstil"))
 
     # Rumpf: je Kapitel ein eigener Abschnitt, damit die Kopfzeile den
     # Kapitelnamen tragen kann. Seitenzählung startet neu bei 1.
@@ -425,7 +440,8 @@ def bauen(cfg, kapitel, ziel, toc_daten=None, leerseite=False):
                 links_text=cfg["titel"],
                 rechts_text=kap["meta"]["kopfzeile"],
             )
-        renderer.rendern(kap["text"], _layout(kap))
+        renderer.rendern(kap["text"], _layout(kap),
+                         kap["meta"].get("absatzstil"))
 
     if leerseite:
         # KDP verlangt eine gerade Seitenzahl und schiebt sonst selbst ein

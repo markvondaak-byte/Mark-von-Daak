@@ -634,7 +634,10 @@ def reptiliengehirn_pruefen():
     # Pflichthinweise. Die Notrufnummern sind kein Beiwerk: Der Band spricht
     # Panik, Angst und Suizidgedanken an und muss sagen, wohin damit.
     rechts = {
-        "Kein Ersatz für Beratung": "ersetzt keine",
+        # „ersetzt weder ... noch ..." — die Formulierung steht so im
+        # Impressum und in den Pflichthinweisen. Das frühere Muster
+        # „ersetzt keine" hing an einer Wortwahl, nicht an der Aussage.
+        "Kein Ersatz für Beratung": "ersetzt weder",
         "Eigenverantwortung": "eigener Verantwortung",
         "Grenze zur fachlichen Hilfe": "fachliche Hilfe",
         "Telefonseelsorge": "0800 111 0 111",

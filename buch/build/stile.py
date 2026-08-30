@@ -162,6 +162,11 @@ STILE = {
                            vor=0, nach=24, zeilen=1.2, ausrichtung=_MITTE),
     "BuchAutor": dict(schrift=SANS, groesse=13, fett=True, vor=0, nach=0,
                       ausrichtung=_MITTE),
+    # Impressumsseite: zentriert wie die Titelei, aber ohne deren Größe. Der
+    # Rest der Seite läuft in "KleinMitte" — gesetzt über `absatzstil` im
+    # Front Matter, siehe build_docx.py.
+    "ImpressumTitel": dict(schrift=SANS, groesse=15, fett=True, vor=0, nach=16,
+                           ausrichtung=_MITTE),
 
     # Gliederung
     "Teilnummer": dict(schrift=SANS, groesse=11, fett=True,
