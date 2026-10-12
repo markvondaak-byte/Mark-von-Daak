@@ -602,7 +602,7 @@ function einrichtung(ziel) {
       const { coachWhatsapp, coachEmail, ...profil } = p;
       d.profil = { ...profil, id: neueId(), start: heuteText(), wasserziel: 8 };
       d.coach.whatsapp = whatsappNummer(coachWhatsapp);
-      d.coach.email = coachEmail;
+      d.coach.email = coachEmail.includes('@') ? coachEmail : '';
       d.ziele = z;
       d.plan = plan;
       Speicher.tag(heuteText()).gewicht = p.gewicht;
@@ -2494,10 +2494,19 @@ function einstellungenBlatt() {
 
     inhalt.append(abschnitt('Dein Coach'));
     const kc = karte(null);
-    kc.append(feld('WhatsApp-Nummer', eingabe('tel', d.coach.whatsapp, { platzhalter: 'z. B. 0170 1234567', beiAenderung: (v) => {
-      d.coach.whatsapp = whatsappNummer(v); Speicher.sichern();
-    } }), 'Wird automatisch ins internationale Format umgerechnet.'));
-    kc.append(feld('E-Mail', eingabe('email', d.coach.email, { beiAenderung: (v) => { d.coach.email = v.trim(); Speicher.sichern(); } })));
+    // Bei jeder Eingabe speichern, nicht erst beim Verlassen des Felds — sonst
+    // geht die Adresse verloren, wenn jemand das Blatt direkt schließt.
+    const wa = eingabe('tel', d.coach.whatsapp, { platzhalter: 'z. B. 0170 1234567' });
+    wa.addEventListener('input', () => { d.coach.whatsapp = whatsappNummer(wa.value); Speicher.sichern(); });
+    kc.append(feld('WhatsApp-Nummer', wa, 'Wird automatisch ins internationale Format umgerechnet.'));
+    const em = eingabe('email', d.coach.email, { platzhalter: 'coach@beispiel.de' });
+    em.autocomplete = 'email';
+    em.addEventListener('input', () => {
+      const wert = em.value.trim();
+      d.coach.email = wert.includes('@') ? wert : '';
+      Speicher.sichern();
+    });
+    kc.append(feld('E-Mail', em));
     const ct = el('select', 'eingabe');
     [1, 2, 3, 4, 5, 6, 0].forEach((i) => { const o = el('option', null, WOCHENTAGE[i]); o.value = i; if (Number(d.coach.checkinTag) === i) o.selected = true; ct.append(o); });
     ct.onchange = () => { d.coach.checkinTag = Number(ct.value); Speicher.sichern(); };
@@ -2607,31 +2616,39 @@ async function fortschrittsBericht(mitFotos) {
   return bericht;
 }
 
-async function fortschrittSenden(mitFotos) {
+async function fortschrittDatei(mitFotos) {
   const bericht = await fortschrittsBericht(mitFotos);
   const vorname = (D().profil.name || 'klient').toLowerCase().replace(/[^a-z0-9äöüß]+/g, '-');
   const name = `fortschritt-${vorname}-${heuteText()}.json`;
-  const datei = new File([JSON.stringify(bericht)], name, { type: 'application/json' });
-  if (navigator.canShare && navigator.canShare({ files: [datei] })) {
-    try {
-      await navigator.share({ files: [datei], title: 'Mein Fortschritt' });
-      toast('Fortschritt geteilt');
-      return;
-    } catch (e) {
-      if (e.name === 'AbortError') return;
-    }
-  }
+  return new File([JSON.stringify(bericht)], name, { type: 'application/json' });
+}
+
+function dateiLaden(datei) {
   const a = el('a');
   a.href = URL.createObjectURL(datei);
-  a.download = name;
+  a.download = datei.name;
   document.body.append(a);
   a.click();
   a.remove();
   setTimeout(() => URL.revokeObjectURL(a.href), 2000);
-  toast('Datei gespeichert — jetzt an deinen Coach schicken');
+}
+
+const kannDateienTeilen = (datei) => !!(navigator.canShare && navigator.canShare({ files: [datei] }));
+
+/** Muss direkt aus dem Tipp heraus laufen: Safari öffnet das Teilen-Menü
+ *  nur innerhalb der Nutzeraktion. Deshalb liegt die Datei schon bereit. */
+function dateiTeilen(datei) {
+  if (kannDateienTeilen(datei)) {
+    return navigator.share({ files: [datei], title: 'Mein Fortschritt' })
+      .then(() => true)
+      .catch((e) => { if (e.name !== 'AbortError') toast('Teilen nicht möglich'); return false; });
+  }
+  dateiLaden(datei);
+  return Promise.resolve(true);
 }
 
 function fortschrittSendenBlatt() {
+  const email = D().coach.email;
   blattOeffnen('Fortschritt an Coach', (inhalt, schliessen, blatt) => {
     inhalt.append(el('p', 'leise', 'Damit dein Coach deine Diagramme, Trainings und Rekorde sehen kann, schickst du ihm eine Fortschrittsdatei. Er öffnet sie in seiner Coach-Ansicht.'));
     const h = el('div', 'hinweis');
@@ -2639,17 +2656,75 @@ function fortschrittSendenBlatt() {
     h.append(el('p', null, 'Profil und Ziele, Trainings, Gewicht, Ernährung, Schritte, Schlaf, Gewohnheiten, Körpermaße und deine Check-ins — auf Wunsch auch deine Fortschrittsfotos. Schick die Datei nur an deinen Coach.'));
     inhalt.append(h);
     const label = el('label');
-    label.style.cssText = 'display:flex;gap:8px;align-items:center;font-size:14px;margin-bottom:6px';
+    label.style.cssText = 'display:flex;gap:8px;align-items:center;font-size:14px;margin-bottom:12px';
     const cb = el('input'); cb.type = 'checkbox'; cb.checked = true;
     label.append(cb, document.createTextNode('Fortschrittsfotos mitsenden'));
     inhalt.append(label);
-    inhalt.append(el('p', 'fusstext', 'Auf dem Handy öffnet sich das Teilen-Menü — wähle dort WhatsApp oder Mail. Am Computer wird die Datei gespeichert und du hängst sie selbst an.'));
-    const senden = knopf('Datei senden', null, async () => {
-      senden.disabled = true;
-      try { await fortschrittSenden(cb.checked); schliessen(); }
-      catch (fehler) { console.error(fehler); toast('Datei konnte nicht erstellt werden'); senden.disabled = false; }
-    }, 'senden');
-    blattFuss(blatt, senden);
+
+    if (email) {
+      const k = karte('Empfänger', 'senden');
+      const zeile = el('div', 'zeile'); zeile.style.cursor = 'default';
+      zeile.append(el('div', 'zeile__text', email), linkKnopf('Kopieren', () => kopieren(email)));
+      k.append(zeile);
+      k.append(el('p', 'fusstext', 'Das Teilen-Menü des Handys kann keinen Empfänger vorgeben. Die App kopiert die Adresse deshalb beim Senden — in der Mail-App ins Feld „An“ tippen und „Einfügen“ wählen.'));
+      inhalt.append(k);
+    } else {
+      inhalt.append(el('p', 'fusstext', 'Tipp: Trägst du unter Einstellungen die E-Mail deines Coachs ein, bereitet die App den Empfänger für dich vor.'));
+    }
+
+    const status = el('p', 'leise', 'Datei wird vorbereitet …');
+    inhalt.append(status);
+
+    // Die Datei entsteht vorab, damit der Tipp auf „Senden“ das Teilen-Menü
+    // ohne Verzögerung öffnen kann.
+    let datei = null;
+    const knoepfe = [];
+    const vorbereiten = async () => {
+      datei = null;
+      knoepfe.forEach((k) => { k.disabled = true; });
+      status.textContent = 'Datei wird vorbereitet …';
+      try {
+        datei = await fortschrittDatei(cb.checked);
+        status.textContent = `Bereit: ${datei.name} (${zahl(datei.size / 1024)} KB)`;
+        knoepfe.forEach((k) => { k.disabled = false; });
+      } catch (fehler) {
+        console.error(fehler);
+        status.textContent = 'Datei konnte nicht erstellt werden.';
+      }
+    };
+    cb.onchange = vorbereiten;
+
+    if (email) {
+      knoepfe.push(knopf('Per E-Mail senden', null, () => {
+        if (!datei) return;
+        if (navigator.clipboard) navigator.clipboard.writeText(email).catch(() => {});
+        if (kannDateienTeilen(datei)) {
+          toast(`${email} kopiert — in der Mail bei „An“ einfügen`);
+          dateiTeilen(datei).then((ok) => { if (ok) schliessen(); });
+        } else {
+          // Am Computer: Datei speichern, dann eine Mail mit Empfänger öffnen.
+          dateiLaden(datei);
+          const betreff = `Fortschritt ${D().profil.name} · ${datumKurz(heuteText())}`;
+          const text = `Hallo,\n\nim Anhang meine Fortschrittsdatei (${datei.name}).\nBitte die eben gespeicherte Datei anhängen.\n`;
+          location.href = `mailto:${email}?subject=${encodeURIComponent(betreff)}&body=${encodeURIComponent(text)}`;
+          toast('Datei gespeichert — bitte an die Mail anhängen');
+          schliessen();
+        }
+      }, 'senden'));
+    }
+    knoepfe.push(knopf(email ? 'Anders teilen (WhatsApp …)' : 'Datei senden', email ? 'knopf--zweit' : null, () => {
+      if (!datei) return;
+      dateiTeilen(datei).then((ok) => {
+        if (!ok) return;
+        if (!kannDateienTeilen(datei)) toast('Datei gespeichert — jetzt an deinen Coach schicken');
+        schliessen();
+      });
+    }, email ? null : 'senden'));
+
+    const fuss = el('div');
+    fuss.append(...knoepfe);
+    blattFuss(blatt, fuss);
+    vorbereiten();
   });
 }
 
