@@ -1,12 +1,15 @@
-# Coaching mit Mark — Klienten-App
+# Coaching — Klienten-App
 
 Eine **PWA**: läuft im Browser, lässt sich auf dem Homescreen installieren und
 funktioniert nach dem ersten Aufruf offline. Kein Framework, kein Build-Schritt,
-keine Abhängigkeiten zur Laufzeit — gebaut wie die beiden Apps daneben.
+keine Abhängigkeiten zur Laufzeit.
 
-Abgrenzung: `app/` begleitet durch das Ernährungsprogramm aus den Büchern,
-`business/` ist Marks eigenes Kontaktwerkzeug. **Diese App ist für Klienten im
-Fitness-Coaching** und deckt alles ab, was zwischen zwei Coach-Kontakten passiert.
+**Für Klienten im Fitness-Coaching** — deckt alles ab, was zwischen zwei
+Coach-Kontakten passiert. Die App ist bewusst neutral: kein Personen- oder
+Markenname, keine voreingestellten Kontaktdaten. WhatsApp-Nummer und E-Mail
+des Coachs trägt der Klient bei der Einrichtung oder unter Einstellungen ein.
+Sie ist von keiner anderen Seite aus verlinkt und nur über ihre Adresse
+(`/coaching/`) erreichbar.
 
 ## Was die App kann
 
@@ -17,7 +20,7 @@ Fitness-Coaching** und deckt alles ab, was zwischen zwei Coach-Kontakten passier
 | **Training** | Plan (2–5 Tage, Studio oder Zuhause), Workout-Modus mit Satzprotokoll, Vorwerten vom letzten Mal, Pausentimer mit Vibration und Ton, Übung tauschen, Rekorde (geschätztes 1RM), Verlauf, Übungsbibliothek mit 45 Übungen und Anleitung, Planeditor |
 | **Ernährung** | Tagebuch nach Mahlzeiten mit 83 Lebensmitteln, Rezeptportionen und Schnelleintrag, Makrobalken, Wasser, Tage blättern |
 | **Meal Prep** | 18 Rezepte mit Nährwerten je Portion, Haltbarkeit, Portionsrechner. Ausgewählte Rezepte ergeben eine zusammengerechnete, abhakbare **Einkaufsliste** zum Teilen |
-| **Check-in** | Täglich: Schritte, Schlaf (Uhrzeiten → Dauer, Erholung 1–5), Gewicht, Energie, Gewohnheiten. Wöchentlich: Fragebogen plus automatisch errechnete Wochenzahlen, als fertiger Text **per WhatsApp oder E-Mail an den Coach** |
+| **Check-in** | Täglich: Schritte, Schlaf (Uhrzeiten → Dauer, Erholung 1–5), Gewicht, Energie, Gewohnheiten. Wöchentlich: Fragebogen plus automatisch errechnete Wochenzahlen, als fertiger Text **per WhatsApp oder E-Mail an den Coach** — ohne hinterlegten Kontakt zum Teilen oder Kopieren |
 | **Fortschritt** | Gewicht mit 7-Tage-Durchschnitt, Schritte und Schlaf der Woche, Trainingsvolumen über 8 Wochen, Bestwerte, Körpermaße, **Fortschrittsfotos** mit Vorher-Nachher-Vergleich |
 | **Einstellungen** | Profil, Makros vom Coach überschreibbar, Coach-Kontakt, Check-in-Wochentag, Hell/Dunkel, Sicherung exportieren und einlesen |
 
@@ -44,7 +47,7 @@ daten/rezepte.json       Meal-Prep-Rezepte, Zutaten mit Menge für den Portionsr
 
 Die Trainingsplan-Vorlagen und der Ersatz von Studio-Übungen fürs Training
 zuhause stehen oben in `app.js` (`T`, `PLAN_VORLAGEN`, `ERSATZ_ZUHAUSE`). Die
-Coach-Kontaktdaten sind als Vorgabe in `Speicher.leer()` hinterlegt.
+Coach-Kontaktdaten sind bewusst nicht vorbelegt (`Speicher.leer()`).
 
 Nach jeder Änderung `VERSION` in `sw.js` erhöhen — sonst sehen bestehende
 Nutzer das Update nicht.
@@ -55,8 +58,7 @@ Nutzer das Update nicht.
 python3 coaching/build/build_icons.py
 ```
 
-Hantel in Orange — bewusst anders als Pulslinie in Rot (`app/`) und Knoten in
-Petrol (`business/`), damit alle drei auf einem Homescreen unterscheidbar sind.
+Neutrale Hantel in Orange, ohne Logo oder Wortmarke.
 
 ## Lokal ausprobieren
 

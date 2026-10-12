@@ -1,9 +1,9 @@
 /* Service Worker — macht die App offline nutzbar.
-   Strategie wie bei der Programm-App: App-Hülle und Daten beim ersten Aufruf
+   Strategie: App-Hülle und Daten beim ersten Aufruf
    in den Cache legen und danach zuerst von dort ausliefern. Bei jedem
    Release VERSION erhöhen, sonst sehen bestehende Nutzer das Update nie. */
 
-const VERSION = 'coaching-v1';
+const VERSION = 'coaching-v2';
 
 const DATEIEN = [
   './',

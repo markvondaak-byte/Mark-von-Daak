@@ -1,9 +1,8 @@
 /* =========================================================================
-   Coaching mit Mark — App
-   Designsystem wie die Programm-App (app/app.css): Poppins für Überschriften,
-   Instrument Sans für Fließtext, Karten, Blätter, heller und dunkler Modus.
-   Eigene Akzentfarbe Orange, damit die drei Apps auf dem Homescreen und beim
-   Wechseln sofort unterscheidbar sind.
+   Coaching — App
+   Poppins für Überschriften, Instrument Sans für Fließtext (jeweils mit
+   Systemschrift als Rückfall), Karten, Blätter, heller und dunkler Modus.
+   Akzentfarbe Orange.
    ========================================================================= */
 
 :root {

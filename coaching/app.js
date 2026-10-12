@@ -1,7 +1,7 @@
 /* =========================================================================
-   Coaching mit Mark — App
-   Kein Framework, kein Build. Reines JavaScript, damit die App genauso
-   wartbar bleibt wie die Website und die beiden anderen Apps daneben.
+   Coaching — App
+   Kein Framework, kein Build. Reines JavaScript, damit die App ohne
+   Werkzeugkette wartbar bleibt und offline ohne Ballast läuft.
 
    Inhalte (Übungen, Lebensmittel, Rezepte) stehen in daten/*.json. Alles,
    was der Klient einträgt, bleibt im localStorage seines Geräts; Fotos
@@ -29,7 +29,8 @@ const Speicher = {
       version: 1,
       profil: null,
       ziele: null,
-      coach: { name: 'Mark', whatsapp: '491794340426', email: 'markvondaak@icloud.com', checkinTag: 0 },
+      // Bewusst leer: Den Kontakt des Coachs trägt der Klient selbst ein.
+      coach: { whatsapp: '', email: '', checkinTag: 0 },
       plan: { tage: [] },
       workouts: [],
       aktiv: null,
@@ -235,6 +236,13 @@ function leseZahl(text) {
 }
 
 function heuteText() { return textAusDatum(new Date()); }
+
+/** WhatsApp braucht die Nummer international ohne +: aus 0170 … wird 49170 … */
+function whatsappNummer(text) {
+  let n = String(text || '').replace(/\D/g, '');
+  if (n.startsWith('00')) n = n.slice(2); else if (n.startsWith('0')) n = '49' + n.slice(1);
+  return n;
+}
 
 function datumAusText(text) {
   const [j, m, t] = text.split('-').map(Number);
@@ -901,11 +909,12 @@ function einrichtung(ziel) {
   document.querySelector('.tabs').classList.add('versteckt');
   document.getElementById('einstellungen-auf').classList.add('versteckt');
   document.getElementById('titel').textContent = 'Willkommen';
-  document.getElementById('untertitel').textContent = 'Coaching mit Mark';
+  document.getElementById('untertitel').textContent = 'Dein Coaching';
 
   const p = einrichtung.entwurf || (einrichtung.entwurf = {
     name: '', ziel: null, geschlecht: null, alter: null, groesse: null, gewicht: null,
-    aktivitaet: null, tage: 3, ort: 'studio', erfahrung: 'einsteiger', schrittziel: 8000, schlafziel: 7.5
+    aktivitaet: null, tage: 3, ort: 'studio', erfahrung: 'einsteiger', schrittziel: 8000, schlafziel: 7.5,
+    coachWhatsapp: '', coachEmail: ''
   });
   const schritte = 6;
   const nr = einrichtung.schritt || 1;
@@ -1028,10 +1037,20 @@ function einrichtung(ziel) {
     });
     const k3 = karte('Tägliche Ziele', 'checkin');
     k3.append(el('p', 'leise', `${zahl(p.schrittziel)} Schritte · ${zahl(p.schlafziel, 1)} Std. Schlaf · 8 Gläser Wasser`));
-    box.append(k1, k2, k3);
+    const k4 = karte('Dein Coach (optional)', 'senden');
+    k4.append(el('p', 'leise', 'Dorthin schickst du deinen wöchentlichen Check-in. Kannst du auch später unter Einstellungen eintragen.'));
+    const wa = eingabe('tel', p.coachWhatsapp, { platzhalter: 'z. B. 0170 1234567' });
+    wa.oninput = () => { p.coachWhatsapp = wa.value; };
+    const em = eingabe('email', p.coachEmail, { platzhalter: 'coach@beispiel.de' });
+    em.oninput = () => { p.coachEmail = em.value.trim(); };
+    k4.append(feld('WhatsApp-Nummer', wa), feld('E-Mail', em));
+    box.append(k1, k2, k3, k4);
     weiter.onclick = () => {
       const d = D();
-      d.profil = { ...p, start: heuteText(), wasserziel: 8 };
+      const { coachWhatsapp, coachEmail, ...profil } = p;
+      d.profil = { ...profil, start: heuteText(), wasserziel: 8 };
+      d.coach.whatsapp = whatsappNummer(coachWhatsapp);
+      d.coach.email = coachEmail;
       d.ziele = z;
       d.plan = plan;
       Speicher.tag(heuteText()).gewicht = p.gewicht;
@@ -1112,7 +1131,7 @@ function ansichtHeute(ziel) {
     const i = el('div', 'zeile__ikon'); i.innerHTML = ikon('checkin');
     const t = el('div', 'zeile__text');
     t.append(el('div', 'zeile__titel', 'Dein Wochen-Check-in ist fällig'),
-             el('div', 'zeile__meta', `Dauert 3 Minuten — ${d.coach.name} wartet auf dein Update.`));
+             el('div', 'zeile__meta', 'Dauert 3 Minuten — dein Coach wartet auf dein Update.'));
     const pf = el('span', 'zeile__pfeil'); pf.innerHTML = ikon('weiter');
     k.append(i, t, pf);
     k.onclick = () => { App.checkin = 'woche'; wechseln('checkin'); };
@@ -1162,7 +1181,7 @@ function ansichtHeute(ziel) {
 
   // Tipp
   const tipp = el('div', 'hinweis');
-  tipp.append(el('div', 'hinweis__titel', `Tipp von ${d.coach.name}`), el('p', null, tippDesTages()));
+  tipp.append(el('div', 'hinweis__titel', 'Tipp des Tages'), el('p', null, tippDesTages()));
   ziel.append(tipp);
 }
 
@@ -2475,7 +2494,7 @@ function checkinWoche(ziel) {
   const heuteErledigt = letzter && letzter.datum === heuteText();
 
   const held = el('div', 'held');
-  held.append(el('div', 'held__label', `Check-in mit ${d.coach.name}`),
+  held.append(el('div', 'held__label', 'Wöchentlicher Check-in'),
     el('div', 'held__titel', heuteErledigt ? 'Diese Woche erledigt ✓' : checkinFaellig() ? 'Zeit für dein Update' : 'Wochen-Check-in'),
     el('div', 'held__text', heuteErledigt ? 'Du kannst ihn unten erneut senden oder anpassen.'
       : `Fällig jeden ${WOCHENTAGE[d.coach.checkinTag]}. Die Zahlen der Woche trägt die App selbst ein — du ergänzt nur, was nur du weißt.`));
@@ -2521,7 +2540,7 @@ function checkinWoche(ziel) {
     f.append(lab, r);
     kf.append(f);
   });
-  [['erfolge', 'Was lief gut? Deine Erfolge der Woche'], ['probleme', 'Was war schwierig?'], ['fragen', `Fragen an ${d.coach.name}`]].forEach(([id, name]) => {
+  [['erfolge', 'Was lief gut? Deine Erfolge der Woche'], ['probleme', 'Was war schwierig?'], ['fragen', 'Fragen an deinen Coach']].forEach(([id, name]) => {
     const t = el('textarea', 'eingabe'); t.value = c[id];
     t.oninput = () => { c[id] = t.value; };
     kf.append(feld(name, t));
@@ -2556,7 +2575,7 @@ function checkinSendenBlatt(c, st) {
   const d = D();
   const text = checkinText(c, st);
   blattOeffnen('Check-in senden', (inhalt, schliessen) => {
-    inhalt.append(el('p', 'leise', `So kommt dein Check-in bei ${d.coach.name} an. Mit dem Senden wird er hier gespeichert.`));
+    inhalt.append(el('p', 'leise', 'So kommt dein Check-in bei deinem Coach an. Mit dem Senden wird er hier gespeichert.'));
     inhalt.append(el('div', 'vorschau-text', text));
     const speichern = () => {
       const heute = heuteText();
@@ -2585,6 +2604,12 @@ function checkinSendenBlatt(c, st) {
         location.href = `mailto:${d.coach.email}?subject=${encodeURIComponent(betreff)}&body=${encodeURIComponent(text)}`;
         schliessen();
       }));
+    }
+    if (!d.coach.whatsapp && !d.coach.email) {
+      const h = el('div', 'hinweis');
+      h.append(el('p', null, 'Hinterlege WhatsApp oder E-Mail deines Coachs unter Einstellungen — dann geht der Check-in mit einem Tipp raus. Bis dahin: teilen oder kopieren.'));
+      aktionen.append(h);
+      aktionen.append(knopf('Teilen', null, () => { speichern(); teilen(text, 'Check-in'); schliessen(); }, 'senden'));
     }
     aktionen.append(knopf('Text kopieren', 'knopf--zweit', () => { speichern(); kopieren(text); schliessen(); }));
     inhalt.append(aktionen);
@@ -2919,12 +2944,9 @@ function einstellungenBlatt() {
 
     inhalt.append(abschnitt('Dein Coach'));
     const kc = karte(null);
-    kc.append(feld('Name', eingabe('text', d.coach.name, { beiAenderung: (v) => { d.coach.name = v.trim() || 'Coach'; Speicher.sichern(); } })));
-    kc.append(feld('WhatsApp-Nummer', eingabe('tel', d.coach.whatsapp, { platzhalter: '49170…', beiAenderung: (v) => {
-      let n = v.replace(/\D/g, '');
-      if (n.startsWith('00')) n = n.slice(2); else if (n.startsWith('0')) n = '49' + n.slice(1);
-      d.coach.whatsapp = n; Speicher.sichern();
-    } }), 'Internationales Format ohne +, z. B. 49170…'));
+    kc.append(feld('WhatsApp-Nummer', eingabe('tel', d.coach.whatsapp, { platzhalter: 'z. B. 0170 1234567', beiAenderung: (v) => {
+      d.coach.whatsapp = whatsappNummer(v); Speicher.sichern();
+    } }), 'Wird automatisch ins internationale Format umgerechnet.'));
     kc.append(feld('E-Mail', eingabe('email', d.coach.email, { beiAenderung: (v) => { d.coach.email = v.trim(); Speicher.sichern(); } })));
     const ct = el('select', 'eingabe');
     [1, 2, 3, 4, 5, 6, 0].forEach((i) => { const o = el('option', null, WOCHENTAGE[i]); o.value = i; if (Number(d.coach.checkinTag) === i) o.selected = true; ct.append(o); });
@@ -2970,7 +2992,7 @@ function einstellungenBlatt() {
     });
     reset.style.marginTop = '20px';
     inhalt.append(reset);
-    inhalt.append(el('p', 'fusstext mitte', 'Coaching mit Mark · Version 1.0'));
+    inhalt.append(el('p', 'fusstext mitte', 'Coaching · Version 1.1'));
   }, { beimSchliessen: neuZeichnen });
 }
 
