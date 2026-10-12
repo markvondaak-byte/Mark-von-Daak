@@ -3,15 +3,11 @@
 
     python3 coaching/build/build_icons.py
 
-Motiv ist eine Hantel, leicht schräg gestellt — sie steht für das, worum es
-in der App geht: dranbleiben, trainieren, Fortschritt sichtbar machen.
+Motiv ist eine neutrale Hantel in Orange, leicht schräg gestellt — sie steht
+für das, worum es in der App geht: dranbleiben, trainieren, Fortschritt
+sichtbar machen. Keine Logos, keine Wortmarke.
 
-Bewusst in Orange und mit eigenem Motiv: Die Programm-App (Pulslinie, Rot)
-und die Business-App (Knoten, Petrol) liegen womöglich auf demselben
-Homescreen, und alle drei müssen sich auf einen Blick unterscheiden. Kein
-FitLine-Logo und keine Wortmarke — die App ist Marks eigenes Werkzeug.
-
-Wie bei den anderen beiden Apps:
+Zwei Dinge, die bei Homescreen-Icons regelmäßig schiefgehen:
 
 1. **Keine vorgerundeten Ecken, keine Transparenz.** iOS rundet das
    Apple-Touch-Icon selbst.

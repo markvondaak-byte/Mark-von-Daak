@@ -1,9 +1,8 @@
 /* =========================================================================
-   Coaching mit Mark — App
-   Designsystem wie die Programm-App (app/app.css): Poppins für Überschriften,
-   Instrument Sans für Fließtext, Karten, Blätter, heller und dunkler Modus.
-   Eigene Akzentfarbe Orange, damit die drei Apps auf dem Homescreen und beim
-   Wechseln sofort unterscheidbar sind.
+   Coaching — App
+   Poppins für Überschriften, Instrument Sans für Fließtext (jeweils mit
+   Systemschrift als Rückfall), Karten, Blätter, heller und dunkler Modus.
+   Akzentfarbe Orange.
    ========================================================================= */
 
 :root {
@@ -643,3 +642,21 @@ textarea.eingabe { min-height: 76px; resize: vertical; }
 .einrichtung h2 { font-size: 22px; letter-spacing: -.02em; margin-bottom: 6px; }
 .einrichtung__fortschritt { height: 4px; background: var(--surface-2); border-radius: 4px; overflow: hidden; margin-bottom: 20px; }
 .einrichtung__fortschritt i { display: block; height: 100%; background: var(--accent); transition: width .3s; }
+
+/* --- Coach-Ansicht ------------------------------------------------------ */
+/* Ohne Tableiste braucht der Inhalt unten nur den normalen Abstand. */
+.inhalt--ohne-tabs { padding-bottom: calc(env(safe-area-inset-bottom) + 32px); }
+.klient { width: 100%; text-align: left; appearance: none; color: inherit; font: inherit; }
+.klient__kopf { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.klient__name { font-family: var(--display); font-weight: 700; font-size: 16px; }
+.klient .werte { gap: 8px; }
+.klient .wert { padding: 9px 10px; }
+.klient .wert__zahl { font-size: 17px; }
+.marke--warn { background: color-mix(in srgb, var(--warn) 16%, var(--surface)); border-color: transparent; color: var(--warn); }
+details.aufklapp { border-bottom: 1px solid var(--line); }
+details.aufklapp:last-child { border-bottom: 0; }
+details.aufklapp > summary { list-style: none; cursor: pointer; padding: 11px 0; display: flex; align-items: center; gap: 10px; }
+details.aufklapp > summary::-webkit-details-marker { display: none; }
+details.aufklapp > summary::after { content: "›"; margin-left: auto; color: var(--ink-soft); font-size: 18px; transition: transform .15s; }
+details.aufklapp[open] > summary::after { transform: rotate(90deg); }
+details.aufklapp > div { padding: 0 0 12px; font-size: 13.5px; color: var(--ink-soft); }

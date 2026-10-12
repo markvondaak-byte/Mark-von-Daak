@@ -1,14 +1,15 @@
 /* Service Worker — macht die App offline nutzbar.
-   Strategie wie bei der Programm-App: App-Hülle und Daten beim ersten Aufruf
+   Strategie: App-Hülle und Daten beim ersten Aufruf
    in den Cache legen und danach zuerst von dort ausliefern. Bei jedem
    Release VERSION erhöhen, sonst sehen bestehende Nutzer das Update nie. */
 
-const VERSION = 'coaching-v1';
+const VERSION = 'coaching-v3';
 
 const DATEIEN = [
   './',
   './index.html',
   './app.css',
+  './gemeinsam.js',
   './app.js',
   './manifest.webmanifest',
   './daten/uebungen.json',
@@ -16,7 +17,11 @@ const DATEIEN = [
   './daten/rezepte.json',
   './icons/icon-180.png',
   './icons/icon-192.png',
-  './icons/icon-512.png'
+  './icons/icon-512.png',
+  './coach/',
+  './coach/index.html',
+  './coach/coach.js',
+  './coach/manifest.webmanifest'
 ];
 
 self.addEventListener('install', (e) => {

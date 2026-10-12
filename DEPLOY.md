@@ -6,7 +6,7 @@
 |---|---|
 | `/` | Website (`index.html`, Impressum, Datenschutz) |
 | `/app/` | Die Stoffwechsel-Reset-App |
-| `/coaching/` | Coaching-App für Klienten — Training, Ernährung, Meal Prep, Schritte, Schlaf, Check-ins, Fortschritt (siehe `coaching/README.md`) |
+| `/coaching/` | Neutrale Coaching-App für Klienten — nicht verlinkt und aus Suchmaschinen ausgeschlossen (siehe `coaching/README.md`) |
 | `/business/` | Kontakte und Follow-up — persönliches Arbeitsmittel, nicht verlinkt und aus Suchmaschinen ausgeschlossen |
 | `/assets/` | Bilddateien |
 | `/404.html` | Fehlerseite im Look der Website |
