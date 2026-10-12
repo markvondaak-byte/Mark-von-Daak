@@ -90,8 +90,33 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+# --- Coaching-App -------------------------------------------------------------
+# Die Klienten-App. Dieselben Regeln wie bei den anderen beiden Apps.
+[[headers]]
+  for = "/coaching/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
+  for = "/coaching/sw.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    Service-Worker-Allowed = "/coaching/"
+
+[[headers]]
+  for = "/coaching/manifest.webmanifest"
+  [headers.values]
+    Content-Type = "application/manifest+json; charset=utf-8"
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/coaching/icons/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
 # --- Umleitungen ---------------------------------------------------------------
-# Bequeme Kurzlinks zu den beiden Apps.
+# Bequeme Kurzlinks zu den Apps.
 [[redirects]]
   from = "/app"
   to = "/app/"
@@ -100,6 +125,11 @@
 [[redirects]]
   from = "/business"
   to = "/business/"
+  status = 301
+
+[[redirects]]
+  from = "/coaching"
+  to = "/coaching/"
   status = 301
 
 # Die Buchquellen sind gar nicht erst im dist. Falls jemand danach sucht,
