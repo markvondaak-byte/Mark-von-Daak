@@ -128,9 +128,9 @@ unter *Application → Manifest* an, was fehlt.
 wenn Pflichtdateien der App im `dist` fehlen — dann steht die Ursache im
 Build-Log.
 
-## Noch offen
+## Verlinkung
 
-Von der Website führt derzeit **kein Link zur App**. Wer sie nutzen soll,
-muss die Adresse kennen. Ein Verweis in `index.html` wäre ein kleiner
-Eingriff — sag Bescheid, wenn du ihn möchtest, dann baue ich ihn passend in
-den bestehenden Aufbau ein.
+Die Website verlinkt beide Klienten-Apps: `#app` führt zur Stoffwechsel-App
+(`/app/`), `#coaching` zur Coaching-App (`/coaching/`) — dazu je ein Eintrag in
+der Hauptnavigation bzw. in der Fußzeile. Die Business-App bleibt bewusst
+unverlinkt.
