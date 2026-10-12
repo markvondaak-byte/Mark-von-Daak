@@ -6,6 +6,7 @@
 |---|---|
 | `/` | Website (`index.html`, Impressum, Datenschutz) |
 | `/app/` | Die Stoffwechsel-Reset-App |
+| `/coaching/` | Coaching-App für Klienten — Training, Ernährung, Meal Prep, Schritte, Schlaf, Check-ins, Fortschritt (siehe `coaching/README.md`) |
 | `/business/` | Kontakte und Follow-up — persönliches Arbeitsmittel, nicht verlinkt und aus Suchmaschinen ausgeschlossen |
 | `/assets/` | Bilddateien |
 | `/404.html` | Fehlerseite im Look der Website |
@@ -85,7 +86,7 @@ Sonst zeigt die App weiterhin den alten Stand — sie liest ihre Inhalte aus
 
 **2. Nach Änderungen an der App die Cache-Version hochzählen.**
 
-In `app/sw.js` steht:
+In `app/sw.js` (entsprechend `coaching/sw.js` und `business/sw.js`) steht:
 
 ```js
 const VERSION = 'stoffwechsel-reset-v1';

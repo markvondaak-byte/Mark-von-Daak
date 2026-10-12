@@ -4,3 +4,4 @@ Allow: /
 # Die Apps sind persönliche Werkzeuge, kein Inhalt für Suchmaschinen.
 Disallow: /app/
 Disallow: /business/
+Disallow: /coaching/

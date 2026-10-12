@@ -34,6 +34,7 @@ VERZEICHNISSE = [
     ("assets", set()),
     ("app", {"build"}),
     ("business", {"build"}),
+    ("coaching", {"build", "README.md"}),
 ]
 
 
@@ -87,6 +88,11 @@ def pruefen():
                "business/index.html", "business/app.js", "business/app.css",
                "business/sw.js", "business/manifest.webmanifest",
                "business/icons/icon-192.png", "business/icons/icon-512.png",
+               "coaching/index.html", "coaching/app.js", "coaching/app.css",
+               "coaching/sw.js", "coaching/manifest.webmanifest",
+               "coaching/daten/uebungen.json", "coaching/daten/lebensmittel.json",
+               "coaching/daten/rezepte.json",
+               "coaching/icons/icon-192.png", "coaching/icons/icon-512.png",
                "index.html"]
     fehlt = [p for p in pflicht if not (ZIEL / p).exists()]
     if fehlt:
