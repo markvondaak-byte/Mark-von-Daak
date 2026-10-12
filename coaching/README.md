@@ -71,8 +71,39 @@ cd coaching && python3 -m http.server 8899
 Alles liegt auf dem Gerät: Einträge im `localStorage`, Fotos (auf 1000 px
 verkleinert) in IndexedDB. Kein Server, kein Konto — und damit auch kein
 Zugriff des Coachs auf die Rohdaten. Was der Coach bekommt, schickt der Klient
-im Check-in selbst ab. Sicherung und Umzug aufs neue Gerät über
-Einstellungen → Sicherung exportieren (Fotos optional).
+selbst ab: den Check-in-Text und auf Wunsch die Fortschrittsdatei (siehe unten).
+Sicherung und Umzug aufs neue Gerät über Einstellungen → Sicherung exportieren
+(Fotos optional).
+
+## Fortschritt der Klienten sehen: Coach-Ansicht
+
+Unter **`/coaching/coach/`** liegt eine eigene Ansicht für den Coach — ebenfalls
+ohne Server, installierbar als „Coach“.
+
+1. Der Klient tippt in seiner App unter **Fortschritt** oder beim Check-in auf
+   **„Fortschritt an Coach senden“**. Auf dem Handy öffnet sich das Teilen-Menü
+   (WhatsApp, Mail …), am Computer wird die Datei gespeichert.
+2. Der Coach speichert die Datei und öffnet sie in der Coach-Ansicht über
+   **„Fortschrittsdatei öffnen“** (mehrere auf einmal oder per Ziehen und Ablegen).
+3. Die Übersicht zeigt alle Klienten mit Gewichtstrend, Trainings der letzten
+   7 Tage und letztem Check-in. Dateien älter als 10 Tage sind als „veraltet“
+   markiert. Ein Tipp öffnet das Detail: Gewichtsverlauf, Kalorien, Eiweiß,
+   Schritte und Schlaf der letzten 14 Tage, Trainingsvolumen, alle Trainings mit
+   Sätzen, Bestwerte, Körpermaße, Check-in-Texte, Fotos mit Vorher-Nachher,
+   Ziele und Plan.
+
+Jeder Klient hat eine zufällige ID (`profil.id`). Eine neuere Datei desselben
+Klienten ersetzt die alte, eine ältere wird übersprungen. Die Berichte liegen in
+IndexedDB (`coaching-coach`) auf dem Gerät des Coachs — es sind
+Gesundheitsdaten: Gerät sperren, nicht weitergeben, Klienten löschen, wenn das
+Coaching endet.
+
+Die Datei enthält Profil, Ziele, Plan, Trainings, Tagesdaten, Körpermaße,
+Gewohnheiten und Check-ins, auf Wunsch Fotos (auf 600 px verkleinert) — nicht
+aber Einkaufsliste, „zuletzt gegessen“ oder ein laufendes Training.
+
+Code: `coach/coach.js`. Helfer, die beide Seiten nutzen (DOM, Datum,
+Diagramme, Blätter), stehen in `gemeinsam.js`.
 
 ## Grenzen
 
@@ -80,7 +111,8 @@ Einstellungen → Sicherung exportieren (Fotos optional).
   oder Google Fit nicht auslesen; dafür bräuchte es eine native App.
 - **Keine Push-Benachrichtigungen** — die Check-in-Erinnerung erscheint beim
   Öffnen der App und als Punkt am Reiter.
-- **Kein Coach-Dashboard.** Wer alle Klienten live sehen will, braucht einen
-  Server mit Konten und Auftragsverarbeitung nach DSGVO.
+- **Coach-Ansicht nicht live.** Sie ist so aktuell wie die letzte
+  Fortschrittsdatei. Echtzeit bräuchte einen Server mit Konten und
+  Auftragsverarbeitung nach DSGVO.
 - **Kein medizinischer Ratgeber.** Der Gesundheitshinweis steht bei der
   Einrichtung und in den Einstellungen und darf nicht entfernt werden.

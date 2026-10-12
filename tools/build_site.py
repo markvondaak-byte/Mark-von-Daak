@@ -91,7 +91,8 @@ def pruefen():
                "coaching/index.html", "coaching/app.js", "coaching/app.css",
                "coaching/sw.js", "coaching/manifest.webmanifest",
                "coaching/daten/uebungen.json", "coaching/daten/lebensmittel.json",
-               "coaching/daten/rezepte.json",
+               "coaching/daten/rezepte.json", "coaching/gemeinsam.js",
+               "coaching/coach/index.html", "coaching/coach/coach.js",
                "coaching/icons/icon-192.png", "coaching/icons/icon-512.png",
                "index.html"]
     fehlt = [p for p in pflicht if not (ZIEL / p).exists()]
