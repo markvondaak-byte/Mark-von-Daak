@@ -2542,6 +2542,19 @@ function einstellungenBlatt() {
     inhalt.append(abschnitt('Hinweis'));
     inhalt.append(el('p', 'leise', 'Diese App ersetzt keine ärztliche oder ernährungstherapeutische Beratung. Kalorien- und Makroziele sind Schätzungen auf Basis anerkannter Formeln. Bei Vorerkrankungen, Schmerzen, Essstörungen, in der Schwangerschaft oder bei Medikamenteneinnahme sprich bitte vorher mit deiner Ärztin oder deinem Arzt. Brich eine Übung bei Schmerzen sofort ab.'));
 
+    inhalt.append(abschnitt('Rechtliches'));
+    const kr = karte(null);
+    [['recht/impressum.html', 'Impressum'], ['recht/datenschutz.html', 'Datenschutzerklärung'],
+     ['recht/agb.html', 'Nutzungsbedingungen (AGB)']].forEach(([href, name]) => {
+      const a = el('a', 'zeile');
+      a.href = href;
+      a.style.textDecoration = 'none';
+      const pf = el('span', 'zeile__pfeil'); pf.innerHTML = ikon('weiter');
+      a.append(el('div', 'zeile__text', name), pf);
+      kr.append(a);
+    });
+    inhalt.append(kr);
+
     const reset = knopf('Alle Daten löschen', 'knopf--gefahr', async () => {
       if (!confirm('Wirklich alle Daten auf diesem Gerät löschen? Das lässt sich nicht rückgängig machen.')) return;
       Speicher.zuruecksetzen();

@@ -105,6 +105,15 @@ aber Einkaufsliste, „zuletzt gegessen“ oder ein laufendes Training.
 Code: `coach/coach.js`. Helfer, die beide Seiten nutzen (DOM, Datum,
 Diagramme, Blätter), stehen in `gemeinsam.js`.
 
+## Rechtstexte
+
+`recht/impressum.html`, `recht/datenschutz.html` und `recht/agb.html`
+(Nutzungsbedingungen der kostenlosen App), verlinkt unter Einstellungen →
+Rechtliches und offline verfügbar. Die Anbieterangaben stehen nur dort, nicht in
+der App-Oberfläche. Bei Änderungen an Anschrift, Kontakt, Hosting oder neuen
+Funktionen, die Daten übertragen, die Texte anpassen und das „Stand“-Datum
+aktualisieren. Es sind Vorlagen — vor dem Einsatz rechtlich prüfen lassen.
+
 ## Grenzen
 
 - **Schritte und Schlaf werden eingetippt.** Eine Web-App darf Apple Health

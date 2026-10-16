@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Datenschutz — Coaching</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#C2410C">
+<link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
+<link rel="stylesheet" href="../app.css">
+<script>
+/* Farbmodus vor dem ersten Zeichnen setzen — gleicher Schlüssel wie die App. */
+(function () {
+  var wahl = null;
+  try { wahl = localStorage.getItem('coaching.modus'); } catch (e) {}
+  var dunkel = wahl === 'dunkel' ||
+    (wahl !== 'hell' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.theme = dunkel ? 'dark' : 'light';
+})();
+</script>
+</head>
+<body>
+<div class="app">
+  <header class="kopf">
+    <div class="kopf__zeile">
+      <a class="ikon-knopf" href="../" aria-label="Zurück zur App"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a>
+      <div style="flex:1;min-width:0">
+        <h1>Datenschutz</h1>
+        <div class="kopf__sub">Coaching</div>
+      </div>
+    </div>
+  </header>
+  <main class="inhalt inhalt--ohne-tabs recht">
+
+    <p class="leise">Informationen nach Art. 13 und 14 der Datenschutz-Grundverordnung (DSGVO). Stand: Oktober 2026.</p>
+
+    <h2>1. Verantwortlicher</h2>
+    <p>Verantwortlich für die Bereitstellung dieser App ist:</p>
+    <p>
+      Mark von Daak<br>
+      Rabenbergstraße 16<br>
+      38444 Wolfsburg<br>
+      Deutschland
+    </p>
+    <p>
+      Telefon: <a href="tel:+491794340426">0179 4340426</a><br>
+      E-Mail: <a href="mailto:markvondaak@icloud.com">markvondaak@icloud.com</a>
+    </p>
+
+    <h2>2. Das Wichtigste in Kürze</h2>
+    <ul>
+      <li>Die App hat <strong>kein Benutzerkonto</strong> und <strong>keinen Server, auf dem deine Einträge gespeichert werden</strong>.</li>
+      <li>Alles, was du einträgst — auch Gesundheitsdaten wie Gewicht, Körpermaße, Schlaf, Ernährung und Fotos —, bleibt <strong>auf deinem Gerät</strong>.</li>
+      <li>Es gibt <strong>keine Cookies</strong>, <strong>kein Tracking</strong>, keine Analyse- oder Werbedienste und keine von fremden Servern geladenen Schriften oder Skripte.</li>
+      <li>Daten verlassen dein Gerät nur, wenn <strong>du selbst</strong> einen Check-in oder eine Fortschrittsdatei an deinen Coach sendest.</li>
+    </ul>
+
+    <h2>3. Bereitstellung der App (Hosting)</h2>
+    <p>Die Dateien der App werden über den Dienst <strong>Netlify</strong> ausgeliefert
+      (Netlify, Inc., San Francisco, Kalifornien, USA). Beim Aufruf verarbeitet Netlify
+      technisch notwendige Zugriffsdaten (Server-Logfiles):</p>
+    <ul>
+      <li>IP-Adresse des aufrufenden Geräts</li>
+      <li>Datum und Uhrzeit des Zugriffs</li>
+      <li>aufgerufene Datei und übertragene Datenmenge</li>
+      <li>Browsertyp und -version, Betriebssystem, Referrer-URL</li>
+    </ul>
+    <p>Diese Daten dienen der sicheren und stabilen Auslieferung und werden nicht mit
+      anderen Daten zusammengeführt. Rechtsgrundlage ist unser berechtigtes Interesse an
+      einer sicheren und effizienten Bereitstellung (Art. 6 Abs. 1 lit. f DSGVO). Mit
+      Netlify besteht bzw. ist ein Vertrag zur Auftragsverarbeitung (Art. 28 DSGVO)
+      abzuschließen.</p>
+    <p>Netlify kann Daten in den USA verarbeiten. Die Übermittlung erfolgt auf Grundlage
+      eines Angemessenheitsbeschlusses der EU-Kommission (EU-US Data Privacy Framework),
+      soweit der Anbieter danach zertifiziert ist, und im Übrigen auf Grundlage der
+      EU-Standardvertragsklauseln (Art. 46 Abs. 2 lit. c DSGVO).</p>
+    <p>Nach dem ersten Aufruf speichert dein Browser die App-Dateien (Service Worker), damit
+      sie auch offline funktioniert. Weitere Aufrufe laufen dann größtenteils ohne
+      Verbindung zu Netlify.</p>
+
+    <h2>4. Speicherung auf deinem Gerät</h2>
+    <p>Deine Einträge (Profil, Ziele, Trainings, Ernährung, Schritte, Schlaf, Gewicht,
+      Gewohnheiten, Körpermaße, Check-ins, Kontaktdaten deines Coachs) speichert die App im
+      lokalen Speicher deines Browsers (localStorage). Fortschrittsfotos werden verkleinert
+      in der Browser-Datenbank (IndexedDB) abgelegt. Diese Daten werden nicht an uns oder
+      Dritte übertragen; wir haben keinen Zugriff darauf.</p>
+    <p>Die Speicherung ist für die von dir gewünschten Funktionen der App unbedingt
+      erforderlich (§ 25 Abs. 2 Nr. 2 TDDDG). Die Verarbeitung erfolgt allein auf deinem
+      Gerät und unter deiner Kontrolle.</p>
+
+    <h2>5. Versand an deinen Coach</h2>
+    <p>Wenn du den wöchentlichen Check-in oder eine Fortschrittsdatei sendest, öffnet die
+      App WhatsApp, dein E-Mail-Programm oder das Teilen-Menü deines Geräts. Der Versand
+      erfolgt über diese Dienste und an den Empfänger, den du selbst eingetragen oder
+      ausgewählt hast. Der Inhalt kann Gesundheitsdaten enthalten (z. B. Gewicht,
+      Körpermaße, Schlaf, Ernährung, Fotos).</p>
+    <p>Rechtsgrundlage ist deine ausdrückliche Einwilligung (Art. 6 Abs. 1 lit. a und
+      Art. 9 Abs. 2 lit. a DSGVO), die du durch das Senden erteilst. Du kannst sie jederzeit
+      mit Wirkung für die Zukunft widerrufen — wende dich dazu an deinen Coach.</p>
+    <p>Für die Verarbeitung durch WhatsApp bzw. deinen E-Mail-Anbieter gelten deren
+      Datenschutzbestimmungen. Ab dem Empfang ist dein Coach für die erhaltenen Daten
+      verantwortlich.</p>
+
+    <h2>6. Coach-Ansicht</h2>
+    <p>Die Coach-Ansicht speichert geöffnete Fortschrittsdateien ausschließlich im Browser
+      des Geräts, auf dem sie geöffnet wurden (IndexedDB). Es findet keine Übertragung an
+      uns oder Dritte statt. Der jeweilige Coach ist für diese Daten verantwortlich und
+      soll sie löschen, sobald das Coaching endet.</p>
+
+    <h2>7. Speicherdauer und Löschen</h2>
+    <p>Die Daten auf deinem Gerät bleiben gespeichert, bis du sie löschst — in der App
+      unter <em>Einstellungen → Alle Daten löschen</em> oder über die Einstellungen deines
+      Browsers (Websitedaten löschen). Server-Logfiles werden vom Hosting-Anbieter nach
+      kurzer Zeit automatisch gelöscht.</p>
+
+    <h2>8. Deine Rechte</h2>
+    <p>Du hast das Recht auf Auskunft (Art. 15), Berichtigung (Art. 16), Löschung (Art. 17),
+      Einschränkung der Verarbeitung (Art. 18), Datenübertragbarkeit (Art. 20) und
+      Widerspruch gegen Verarbeitungen auf Grundlage berechtigter Interessen (Art. 21 DSGVO).
+      Eine erteilte Einwilligung kannst du jederzeit widerrufen (Art. 7 Abs. 3 DSGVO).</p>
+    <p>Da deine Einträge nur auf deinem Gerät liegen, kannst du die meisten dieser Rechte
+      direkt selbst ausüben. Für alles Weitere genügt eine E-Mail an die oben genannte
+      Adresse.</p>
+    <p>Du hast außerdem das Recht, dich bei einer Datenschutz-Aufsichtsbehörde zu beschweren,
+      z. B. bei der Landesbeauftragten für den Datenschutz Niedersachsen, Prinzenstraße 5,
+      30159 Hannover.</p>
+
+    <h2>9. Keine automatisierte Entscheidungsfindung</h2>
+    <p>Kalorien- und Makroziele berechnet die App auf deinem Gerät aus deinen Angaben. Es
+      findet keine automatisierte Entscheidung mit rechtlicher Wirkung im Sinne von Art. 22
+      DSGVO statt.</p>
+
+    <p class="fusstext">Diese Datenschutzerklärung ist eine Vorlage und ersetzt keine Rechtsberatung.</p>
+
+    <nav class="recht__nav" aria-label="Rechtliches">
+      <a href="impressum.html">Impressum</a>
+      <a href="datenschutz.html">Datenschutz</a>
+      <a href="agb.html">Nutzungsbedingungen</a>
+      <a href="../">Zurück zur App</a>
+    </nav>
+  </main>
+</div>
+</body>
+</html>

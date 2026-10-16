@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Impressum — Coaching</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#C2410C">
+<link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
+<link rel="stylesheet" href="../app.css">
+<script>
+/* Farbmodus vor dem ersten Zeichnen setzen — gleicher Schlüssel wie die App. */
+(function () {
+  var wahl = null;
+  try { wahl = localStorage.getItem('coaching.modus'); } catch (e) {}
+  var dunkel = wahl === 'dunkel' ||
+    (wahl !== 'hell' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.theme = dunkel ? 'dark' : 'light';
+})();
+</script>
+</head>
+<body>
+<div class="app">
+  <header class="kopf">
+    <div class="kopf__zeile">
+      <a class="ikon-knopf" href="../" aria-label="Zurück zur App"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a>
+      <div style="flex:1;min-width:0">
+        <h1>Impressum</h1>
+        <div class="kopf__sub">Coaching</div>
+      </div>
+    </div>
+  </header>
+  <main class="inhalt inhalt--ohne-tabs recht">
+
+    <h2>Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG)</h2>
+    <p>
+      Mark von Daak<br>
+      Rabenbergstraße 16<br>
+      38444 Wolfsburg<br>
+      Deutschland
+    </p>
+
+    <h2>Kontakt</h2>
+    <p>
+      Telefon: <a href="tel:+491794340426">0179 4340426</a><br>
+      E-Mail: <a href="mailto:markvondaak@icloud.com">markvondaak@icloud.com</a>
+    </p>
+
+    <h2>Umsatzsteuer</h2>
+    <p>Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz: DE319920422</p>
+
+    <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+    <p>Mark von Daak, Rabenbergstraße 16, 38444 Wolfsburg</p>
+
+    <h2>Verbraucherstreitbeilegung</h2>
+    <p>Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer
+      Verbraucherschlichtungsstelle teilzunehmen.</p>
+
+    <h2>Haftung für Inhalte</h2>
+    <p>Als Diensteanbieter sind wir gemäß § 7 Abs. 1 DDG für eigene Inhalte in dieser App
+      nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 DDG sind wir als
+      Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde
+      Informationen zu überwachen oder nach Umständen zu forschen, die auf eine
+      rechtswidrige Tätigkeit hinweisen. Verpflichtungen zur Entfernung oder Sperrung der
+      Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt.</p>
+    <p>Die Inhalte der App (Trainingspläne, Übungsbeschreibungen, Nährwerte, Rezepte,
+      berechnete Kalorien- und Makroziele) dienen der allgemeinen Information und ersetzen
+      keine ärztliche oder ernährungstherapeutische Beratung.</p>
+
+    <h2>Haftung für Links</h2>
+    <p>Die App kann Links zu externen Angeboten Dritter enthalten oder öffnen (z. B.
+      WhatsApp oder ein E-Mail-Programm). Auf deren Inhalte haben wir keinen Einfluss und
+      übernehmen dafür keine Gewähr. Verantwortlich ist stets der jeweilige Anbieter.</p>
+
+    <h2>Urheberrecht</h2>
+    <p>Die durch den Anbieter erstellten Inhalte und Werke in dieser App unterliegen dem
+      deutschen Urheberrecht. Vervielfältigung, Bearbeitung und Verbreitung außerhalb der
+      Grenzen des Urheberrechts bedürfen der schriftlichen Zustimmung.</p>
+
+    <p class="fusstext">Dieses Impressum ist eine Vorlage und ersetzt keine Rechtsberatung.</p>
+
+    <nav class="recht__nav" aria-label="Rechtliches">
+      <a href="impressum.html">Impressum</a>
+      <a href="datenschutz.html">Datenschutz</a>
+      <a href="agb.html">Nutzungsbedingungen</a>
+      <a href="../">Zurück zur App</a>
+    </nav>
+  </main>
+</div>
+</body>
+</html>
