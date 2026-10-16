@@ -50,7 +50,12 @@ zuhause stehen oben in `app.js` (`T`, `PLAN_VORLAGEN`, `ERSATZ_ZUHAUSE`). Die
 Coach-Kontaktdaten sind bewusst nicht vorbelegt (`Speicher.leer()`).
 
 Nach jeder Änderung `VERSION` in `sw.js` erhöhen — sonst sehen bestehende
-Nutzer das Update nicht.
+Nutzer das Update nicht. Ist die Version erhöht, kommt das Update von selbst an:
+Die App fragt beim Öffnen und beim Zurückholen in den Vordergrund nach, lädt den
+neuen Stand im Hintergrund und lädt sich dann neu. Ist gerade ein Blatt offen,
+ein Feld in Bearbeitung oder ein Check-in angefangen, erscheint stattdessen
+„Neue Version bereit — tippen zum Aktualisieren“ (`offlineUndUpdates()` in
+`gemeinsam.js`).
 
 ## Icons
 
