@@ -484,9 +484,7 @@ async function starten() {
   }
   await zeichnen();
 
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('../sw.js').catch((e) => console.warn('Offline-Betrieb nicht verfügbar.', e));
-  }
+  offlineUndUpdates('../sw.js');
 }
 
 starten();

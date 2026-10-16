@@ -525,3 +525,44 @@ function blobZuDataUrl(blob) {
     r.readAsDataURL(blob);
   });
 }
+
+/* --- Offline und Updates ------------------------------------------------- */
+/** Registriert den Service Worker und bringt Updates ohne mehrfaches Öffnen an.
+ *
+ *  Der Service Worker liefert die App aus dem Cache. Ein neuer Stand wird im
+ *  Hintergrund geladen und übernimmt dann sofort (skipWaiting/claim). Das
+ *  meldet controllerchange — daraufhin lädt die Seite neu, sofern dabei nichts
+ *  verloren geht. Sonst erscheint ein Hinweis zum Antippen.
+ *
+ *  darfNeuLaden: optionale Prüfung der Seite, z. B. ob ein Entwurf offen ist. */
+function offlineUndUpdates(pfad, { darfNeuLaden } = {}) {
+  if (!('serviceWorker' in navigator)) return;
+  // Beim allerersten Besuch gibt es noch keinen Service Worker; dessen
+  // Übernahme ist kein Update und soll nicht neu laden.
+  const hatteSteuerung = !!navigator.serviceWorker.controller;
+  let gemeldet = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (!hatteSteuerung || gemeldet) return;
+    gemeldet = true;
+    const aktiv = document.activeElement;
+    const tipptGerade = aktiv && /^(INPUT|TEXTAREA|SELECT)$/.test(aktiv.tagName);
+    const sicher = !document.querySelector('.blatt') && !tipptGerade && (!darfNeuLaden || darfNeuLaden());
+    if (sicher) location.reload();
+    else updateHinweisZeigen();
+  });
+  navigator.serviceWorker.register(pfad).then((reg) => {
+    // Homescreen-Apps bleiben oft tagelang im Speicher und fragen von sich aus
+    // selten nach. Beim Zurückholen in den Vordergrund deshalb nachsehen.
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') reg.update().catch(() => {});
+    });
+  }).catch((e) => console.warn('Offline-Betrieb nicht verfügbar.', e));
+}
+
+function updateHinweisZeigen() {
+  if (document.querySelector('.update-hinweis')) return;
+  const k = el('button', 'update-hinweis', 'Neue Version bereit — tippen zum Aktualisieren');
+  k.type = 'button';
+  k.onclick = () => location.reload();
+  document.body.append(k);
+}

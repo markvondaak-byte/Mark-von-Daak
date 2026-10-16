@@ -2827,9 +2827,12 @@ async function starten() {
   wechseln((location.hash || '#heute').slice(1));
   if (D().aktiv) toast('Dein Training läuft noch — unter Training fortsetzen.');
 
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js').catch((e) => console.warn('Offline-Betrieb nicht verfügbar.', e));
-  }
+  // Ein angefangener Wochen-Check-in lebt nur im Speicher der Seite — dann
+  // nicht ungefragt neu laden, sondern den Hinweis zeigen.
+  offlineUndUpdates('sw.js', { darfNeuLaden: () => {
+    const c = App.checkinEntwurf;
+    return !c || !(c.erfolge || c.probleme || c.fragen || c.taille || Object.keys(c.bewertung || {}).length);
+  } });
 }
 
 starten();
