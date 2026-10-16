@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nutzungsbedingungen — Coaching</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#C2410C">
+<link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
+<link rel="stylesheet" href="../app.css">
+<script>
+/* Farbmodus vor dem ersten Zeichnen setzen — gleicher Schlüssel wie die App. */
+(function () {
+  var wahl = null;
+  try { wahl = localStorage.getItem('coaching.modus'); } catch (e) {}
+  var dunkel = wahl === 'dunkel' ||
+    (wahl !== 'hell' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.theme = dunkel ? 'dark' : 'light';
+})();
+</script>
+</head>
+<body>
+<div class="app">
+  <header class="kopf">
+    <div class="kopf__zeile">
+      <a class="ikon-knopf" href="../" aria-label="Zurück zur App"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a>
+      <div style="flex:1;min-width:0">
+        <h1>Nutzungsbedingungen</h1>
+        <div class="kopf__sub">Coaching</div>
+      </div>
+    </div>
+  </header>
+  <main class="inhalt inhalt--ohne-tabs recht">
+
+    <p class="leise">Nutzungsbedingungen (AGB) für die App „Coaching“. Stand: Oktober 2026.</p>
+
+    <h2>§ 1 Geltungsbereich und Anbieter</h2>
+    <p>Diese Bedingungen gelten für die Nutzung der Web-App „Coaching“ einschließlich der
+      Coach-Ansicht. Anbieter ist Mark von Daak, Rabenbergstraße 16, 38444 Wolfsburg
+      (siehe <a href="impressum.html">Impressum</a>). Mit der Einrichtung der App erkennst
+      du diese Bedingungen an.</p>
+    <p>Ein Vertrag über individuelle Coaching-Leistungen ist nicht Gegenstand dieser
+      Bedingungen. Dafür gelten gesonderte Vereinbarungen mit deinem Coach.</p>
+
+    <h2>§ 2 Leistungen</h2>
+    <p>Die App wird kostenlos bereitgestellt. Sie bietet unter anderem Trainingspläne und
+      ein Trainingsprotokoll, ein Ernährungstagebuch mit Nährwerten, Meal-Prep-Rezepte,
+      die Erfassung von Schritten, Schlaf, Gewicht und Gewohnheiten, Fortschrittsauswertungen
+      sowie die Möglichkeit, Check-ins und Fortschrittsdateien selbst an einen Coach zu
+      senden.</p>
+    <p>Ein Anspruch auf ständige Verfügbarkeit, auf bestimmte Funktionen oder auf
+      Weiterentwicklung besteht nicht. Wir können die App jederzeit ändern, einschränken
+      oder einstellen.</p>
+
+    <h2>§ 3 Gesundheitshinweis</h2>
+    <p>Die App ersetzt keine ärztliche, physiotherapeutische oder ernährungstherapeutische
+      Beratung, Diagnose oder Behandlung. Kalorien- und Makroziele sind Schätzwerte auf Basis
+      anerkannter Formeln, Nährwerte sind gerundete Richtwerte.</p>
+    <p>Bei Vorerkrankungen, Schmerzen, Essstörungen, in der Schwangerschaft oder bei
+      Medikamenteneinnahme sprich vor Trainings- oder Ernährungsumstellungen mit deiner
+      Ärztin oder deinem Arzt. Du trainierst eigenverantwortlich. Brich eine Übung bei
+      Schmerzen, Schwindel oder Unwohlsein sofort ab.</p>
+
+    <h2>§ 4 Deine Daten</h2>
+    <p>Deine Einträge werden ausschließlich auf deinem Gerät gespeichert (siehe
+      <a href="datenschutz.html">Datenschutzerklärung</a>). Für die Sicherung bist du selbst
+      verantwortlich — die App bietet dafür unter Einstellungen einen Export. Gehen Daten
+      durch Gerätewechsel, Löschen der Browserdaten oder Defekte verloren, können wir sie
+      nicht wiederherstellen.</p>
+    <p>Wenn du Check-ins oder Fortschrittsdateien versendest, entscheidest du selbst über den
+      Empfänger. Sende sie nur an Personen, denen du diese Daten anvertrauen möchtest.</p>
+
+    <h2>§ 5 Pflichten bei der Nutzung</h2>
+    <p>Du nutzt die App nur für eigene, private Zwecke und im Rahmen der geltenden Gesetze.
+      Wer die Coach-Ansicht nutzt, verarbeitet Gesundheitsdaten anderer Personen und ist für
+      deren rechtmäßige Verarbeitung, sichere Aufbewahrung und Löschung selbst
+      verantwortlich.</p>
+
+    <h2>§ 6 Haftung</h2>
+    <p>Wir haften unbeschränkt bei Vorsatz und grober Fahrlässigkeit, bei der Verletzung
+      von Leben, Körper oder Gesundheit sowie nach dem Produkthaftungsgesetz.</p>
+    <p>Bei leichter Fahrlässigkeit haften wir nur bei Verletzung einer wesentlichen
+      Vertragspflicht, deren Erfüllung die ordnungsgemäße Nutzung erst ermöglicht und auf
+      deren Einhaltung du regelmäßig vertrauen darfst (Kardinalpflicht), begrenzt auf den
+      vorhersehbaren, typischerweise eintretenden Schaden. Im Übrigen ist die Haftung bei
+      leichter Fahrlässigkeit ausgeschlossen, insbesondere für den Verlust lokal
+      gespeicherter Daten.</p>
+
+    <h2>§ 7 Rechte an Inhalten</h2>
+    <p>Die Inhalte der App (Texte, Übungsbeschreibungen, Rezepte, Gestaltung, Programmcode)
+      sind urheberrechtlich geschützt. Du darfst sie im Rahmen der Nutzung der App für
+      private Zwecke verwenden. Eine darüber hinausgehende Vervielfältigung oder Verbreitung
+      ist ohne Zustimmung nicht gestattet.</p>
+
+    <h2>§ 8 Änderungen dieser Bedingungen</h2>
+    <p>Wir können diese Bedingungen mit Wirkung für die Zukunft ändern, etwa bei neuen
+      Funktionen oder geänderter Rechtslage. Die jeweils aktuelle Fassung ist in der App
+      unter Einstellungen → Rechtliches abrufbar.</p>
+
+    <h2>§ 9 Schlussbestimmungen</h2>
+    <p>Es gilt das Recht der Bundesrepublik Deutschland unter Ausschluss des UN-Kaufrechts.
+      Bist du Verbraucher, bleiben zwingende Verbraucherschutzvorschriften des Staates, in
+      dem du deinen gewöhnlichen Aufenthalt hast, unberührt. Sollte eine Bestimmung
+      unwirksam sein, bleibt die Wirksamkeit der übrigen Bestimmungen unberührt.</p>
+
+    <p class="fusstext">Diese Nutzungsbedingungen sind eine Vorlage und ersetzen keine Rechtsberatung.</p>
+
+    <nav class="recht__nav" aria-label="Rechtliches">
+      <a href="impressum.html">Impressum</a>
+      <a href="datenschutz.html">Datenschutz</a>
+      <a href="agb.html">Nutzungsbedingungen</a>
+      <a href="../">Zurück zur App</a>
+    </nav>
+  </main>
+</div>
+</body>
+</html>

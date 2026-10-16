@@ -3,7 +3,7 @@
    in den Cache legen und danach zuerst von dort ausliefern. Bei jedem
    Release VERSION erhöhen, sonst sehen bestehende Nutzer das Update nie. */
 
-const VERSION = 'coaching-v4';
+const VERSION = 'coaching-v5';
 
 const DATEIEN = [
   './',
@@ -21,7 +21,10 @@ const DATEIEN = [
   './coach/',
   './coach/index.html',
   './coach/coach.js',
-  './coach/manifest.webmanifest'
+  './coach/manifest.webmanifest',
+  './recht/impressum.html',
+  './recht/datenschutz.html',
+  './recht/agb.html'
 ];
 
 self.addEventListener('install', (e) => {
