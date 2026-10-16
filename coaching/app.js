@@ -249,7 +249,8 @@ const ERSATZ_ZUHAUSE = {
   'latzug': 'band-rudern', 'rudern-lh': 'kh-rudern', 'kabelrudern': 'band-rudern',
   'kreuzheben': 'rumaenisches-kh', 'kniebeuge': 'goblet-squat', 'beinpresse': 'bulgarian-split',
   'beinstrecker': 'ausfallschritt', 'beinbeuger': 'glute-bridge', 'abduktion': 'glute-bridge',
-  'trizeps-kabel': 'ueberkopf-trizeps', 'beinheben': 'dead-bug', 'rudergeraet': 'mountain-climbers'
+  'trizeps-kabel': 'ueberkopf-trizeps', 'beinheben': 'dead-bug', 'rudergeraet': 'mountain-climbers',
+  'pendulum-squat': 'goblet-squat', 't-bar-rudern': 'kh-rudern'
 };
 
 // Vorlagen: [Übung, Sätze, Wiederholungen, Pause in Sekunden]
