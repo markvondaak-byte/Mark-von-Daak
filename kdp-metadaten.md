@@ -317,6 +317,58 @@ Antippen: Wer im Register „nach Zeit" auf ein Gericht tippt, landet direkt bei
 Rezept. Das ist ein Argument, das in die Produktbeschreibung der Kindle-Ausgabe
 gehört.
 
+## Kopf schlägt Kalorien
+
+Eigenständiger Titel, **kein Band der Reihe** — kein Serienfeld ausfüllen.
+Quelle `kopf/kapitel/*.md`, Bauen mit `python3 kopf/build/build_kopf.py`
+und danach `python3 kopf/build/build_cover.py`.
+
+| Feld | Wert |
+|---|---|
+| Titel | Kopf schlägt Kalorien |
+| Untertitel | Warum Diäten am Mindset scheitern und nicht am Plan |
+| Autor | Mark von Daak |
+| Sprache | Deutsch |
+| Altersfreigabe | keine jugendgefährdenden Inhalte |
+| Trimmgröße | 15,24 × 22,86 cm (6″ × 9″) |
+| Seiten | 24 — **genau KDPs Untergrenze** für Taschenbücher |
+| Papier / Druckfarbe | weiß / Schwarzweiß |
+| Anschnitt | nein (Innenteil ohne randabfallende Elemente) |
+| Rückenbreite | 1,37 mm — kein Rückentext |
+| Umschlag gesamt | 12,304 × 9,250 Zoll (312,52 × 234,95 mm) |
+| Innenteil | `kopf/out/kopf-schlaegt-kalorien-druck.pdf` |
+| Umschlag | `kopf/out/cover-druck.pdf` |
+
+Ein Hardcover ist mit 24 Seiten nicht möglich (KDP: ab 75 Seiten).
+
+**KI-Angabe:** Der Text dieses Titels wurde mit Claude erzeugt und
+anschließend bearbeitet — beim Anlegen deshalb **„KI-erzeugter Text: ja"**
+angeben. Der Umschlag ist eine Vektorzeichnung aus
+`kopf/build/build_cover.py` (Bilder: nein).
+
+**Kategorien:**
+
+1. Ratgeber › Gesundheit & Medizin › Diäten & Gewichtsreduktion
+2. Ratgeber › Psychologie & Hilfe › Motivation
+3. Ratgeber › Psychologie & Hilfe › Selbsthilfe
+
+**Keywords:**
+
+```
+abnehmen motivation durchhalten
+heißhunger stoppen gewohnheiten ändern
+rückfall diät neu anfangen
+emotionales essen frustessen
+jojo effekt vermeiden psychologie
+selbstdisziplin abnehmen ohne willenskraft
+abnehmen im kopf ratgeber
+```
+
+**Beschreibung:** der Klappentext aus `kopf/cover/klappentext.md` genügt als
+Grundlage.
+
+---
+
 ## KI-erzeugte Inhalte melden
 
 KDP fragt beim Anlegen eines Titels ab, ob Text, Bilder oder Übersetzungen
