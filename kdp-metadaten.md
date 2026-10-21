@@ -344,8 +344,8 @@ Ein Hardcover ist mit 70 Seiten noch nicht möglich (KDP: ab 75 Seiten).
 
 **KI-Angabe:** Der Text dieses Titels wurde mit Claude erzeugt und
 anschließend bearbeitet — beim Anlegen deshalb **„KI-erzeugter Text: ja"**
-angeben. Der Umschlag ist eine Vektorzeichnung aus
-`kopf/build/build_cover.py` (Bilder: nein).
+angeben. Der Umschlag ist eine selbst gezeichnete Illustration aus
+`kopf/build/build_cover.py`, keine KI-Bilder (Bilder: nein).
 
 **Kategorien:**
 

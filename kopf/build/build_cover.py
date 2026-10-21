@@ -4,13 +4,18 @@
     python3 kopf/build/build_cover.py
 
 Der Innenteil muss vorher gebaut sein — die Rückenbreite ergibt sich aus der
-Seitenzahl. Maße, Anschnitt und Barcodefeld kommen aus buch/build/build_cover.py,
-damit alle Titel dieselben KDP-Regeln einhalten.
+Seitenzahl. Anschnitt, Rückenformel und Barcodefeld kommen aus
+buch/build/build_cover.py, damit alle Titel dieselben KDP-Regeln einhalten.
 
-Kein Band der Stoffwechsel-Reset-Reihe, deshalb eigene Bildsprache: statt der
-Lebensmittelauslage eine Wippe, auf der ein Kopf einen Kalorienblock aufwiegt.
-Gezeichnet wird nur in Vollton — keine Verläufe, keine Transparenz. Die
-Druckfassung entsteht trotzdem über cover_flach.py, wie bei den anderen Bänden.
+Anders als die Umschläge der Reihe wird dieser direkt als Rasterbild bei
+300 dpi gesetzt (Pillow) und dann als einzelnes Bild in ein PDF exakter Größe
+gelegt — genau die Form, die cover_flach.py für die anderen Bände erzeugt.
+Grund: Die Titelschrift Inter Display liegt nur als OpenType/CFF vor, und die
+kann reportlab nicht einbetten. Im Bild ist die Schrift einfach Pixel; die
+Druckdatei enthält weder Schriften noch Transparenz noch Ebenen.
+
+Motiv: eine Wippe, auf der ein Kopf einen glasierten Donut aufwiegt — der
+Buchtitel als Bild.
 """
 
 import math
@@ -18,9 +23,7 @@ import sys
 from pathlib import Path
 
 import yaml
-from reportlab.lib.colors import HexColor
-from reportlab.lib.units import mm
-from reportlab.pdfgen import canvas
+from PIL import Image, ImageChops, ImageDraw, ImageFilter, ImageFont
 
 WURZEL = Path(__file__).resolve().parents[2]
 KOPF = WURZEL / "kopf"
@@ -28,212 +31,456 @@ sys.path.insert(0, str(WURZEL / "buch" / "build"))
 
 from build_cover import (BARCODE_LUFT_MM, BESCHNITT_MM,  # noqa: E402
                          RUECKEN_PRO_SEITE_MM, RUECKENTEXT_AB_SEITEN,
-                         barcodefeld_freistellen, block_schreiben,
-                         groesse_einpassen, klappentext_laden, schriften_laden,
-                         seitenzahl, umbrechen, vorschau)
-from cover_flach import flach_rechnen  # noqa: E402
+                         barcodefeld, klappentext_laden, seitenzahl)
 
-FARBEN = {
-    "grund": HexColor("#1E2A38"),       # tiefes Nachtblau
-    "text": HexColor("#F4F1EA"),        # warmes Papierweiß
-    "text_leise": HexColor("#B9C2CC"),
-    "akzent": HexColor("#F2A93B"),      # Bernstein
-    "linie": HexColor("#5B6B7D"),
+DPI = 300
+PX_JE_MM = DPI / 25.4
+PT_JE_MM = 72 / 25.4
+SS = 2  # Überabtastung für die Illustration, gegen Treppenkanten
+
+SCHRIFT = "/usr/share/fonts/opentype/inter/InterDisplay-{}.otf"
+
+FARBE = {
+    "grund_oben": (13, 24, 41),
+    "grund_unten": (27, 45, 70),
+    "text": (246, 242, 234),
+    "text_leise": (184, 197, 212),
+    "akzent": (247, 176, 62),
+    "akzent_tief": (226, 128, 36),
+    "balken": (238, 232, 220),
+    "bock": (74, 94, 118),
 }
 
 HINWEIS = ("Kein medizinischer Ratgeber und kein Ersatz für ärztliche oder "
            "psychotherapeutische Beratung — bitte die Hinweise im Buch "
            "beachten.")
 
+AUTOR_KURZ = ("Mark von Daak lebt in Wolfsburg und begleitet Menschen bei der "
+              "Umstellung ihrer Ernährung. Er ist kein Arzt und kein "
+              "Psychologe — was er mitbringt, ist die Praxis.")
 
-def wippe(c, mitte_x, boden_y, breite):
-    """Die Wippe: links der schwere Kopf unten, rechts der leichte Block oben."""
-    neigung = math.radians(11)
-    halb = breite * 0.42
-    drehpunkt_y = boden_y + breite * 0.16
 
-    # Dreieckiger Bock
-    c.setFillColor(FARBEN["linie"])
-    p = c.beginPath()
-    p.moveTo(mitte_x - breite * 0.075, boden_y)
-    p.lineTo(mitte_x + breite * 0.075, boden_y)
-    p.lineTo(mitte_x, drehpunkt_y)
-    p.close()
-    c.drawPath(p, stroke=0, fill=1)
-    c.setStrokeColor(FARBEN["linie"])
-    c.setLineWidth(1.4)
-    c.line(mitte_x - breite * 0.30, boden_y, mitte_x + breite * 0.30, boden_y)
+def mm(wert):
+    return round(wert * PX_JE_MM)
 
-    # Balken, links abgesenkt
+
+def schrift(schnitt, groesse):
+    return ImageFont.truetype(SCHRIFT.format(schnitt), round(groesse))
+
+
+# --- Grundflächen ------------------------------------------------------------
+def verlauf(breite, hoehe, oben, unten):
+    spalte = Image.new("RGB", (1, hoehe))
+    for y in range(hoehe):
+        t = y / max(1, hoehe - 1)
+        spalte.putpixel((0, y), tuple(round(a + (b - a) * t)
+                                      for a, b in zip(oben, unten)))
+    return spalte.resize((breite, hoehe))
+
+
+def leuchten(bild, mitte, radius, farbe, staerke):
+    """Weiches Licht hinter der Illustration — als Pixel, nicht als Ebene."""
+    maske = Image.new("L", bild.size, 0)
+    d = ImageDraw.Draw(maske)
+    x, y = mitte
+    d.ellipse((x - radius, y - radius, x + radius, y + radius),
+              fill=round(255 * staerke))
+    maske = maske.filter(ImageFilter.GaussianBlur(radius * 0.45))
+    bild.paste(Image.new("RGB", bild.size, farbe), (0, 0), maske)
+
+
+# --- Formen ------------------------------------------------------------------
+def bezier(p0, p1, p2, p3, schritte=24):
+    punkte = []
+    for i in range(1, schritte + 1):
+        t = i / schritte
+        u = 1 - t
+        punkte.append((u**3 * p0[0] + 3 * u * u * t * p1[0]
+                       + 3 * u * t * t * p2[0] + t**3 * p3[0],
+                       u**3 * p0[1] + 3 * u * u * t * p1[1]
+                       + 3 * u * t * t * p2[1] + t**3 * p3[1]))
+    return punkte
+
+
+def kopfprofil():
+    """Profil mit Blick nach rechts, Höhe 1, Halsansatz bei y = 0 (y nach oben)."""
+    p = [(-0.12, 0.0)]
+    p += bezier(p[-1], (-0.13, 0.12), (-0.30, 0.22), (-0.32, 0.46))
+    p += bezier(p[-1], (-0.35, 0.80), (-0.10, 1.00), (0.10, 1.00))
+    p += bezier(p[-1], (0.30, 1.00), (0.40, 0.86), (0.40, 0.70))
+    p += [(0.47, 0.56), (0.41, 0.52)]
+    p += bezier(p[-1], (0.43, 0.46), (0.40, 0.44), (0.41, 0.40))
+    p += bezier(p[-1], (0.42, 0.34), (0.38, 0.30), (0.30, 0.30))
+    p += bezier(p[-1], (0.24, 0.30), (0.20, 0.22), (0.18, 0.12))
+    p += [(0.18, 0.0)]
+    return p
+
+
+def ebene(groesse):
+    return Image.new("RGBA", groesse, (0, 0, 0, 0))
+
+
+def kopf_zeichnen(groesse_px):
+    """Kopf als eigenes Bild: Verlauf in Bernstein, Lichtkante an der Stirn."""
+    h = groesse_px * SS
+    b = round(h * 0.95)
+    maske = Image.new("L", (b, h), 0)
+    pts = [((x + 0.37) * h, (1 - y) * h) for x, y in kopfprofil()]
+    ImageDraw.Draw(maske).polygon(pts, fill=255)
+
+    farbe = verlauf(b, h, FARBE["akzent"], FARBE["akzent_tief"])
+    # Lichtkante: die Maske leicht nach links versetzt, die Differenz hell
+    versatz = ImageChops.offset(maske, round(-h * 0.025), round(h * 0.015))
+    kante = ImageChops.subtract(maske, versatz).filter(
+        ImageFilter.GaussianBlur(h * 0.012))
+    hell = Image.new("RGB", (b, h), (255, 222, 160))
+    farbe.paste(hell, (0, 0), kante.point(lambda v: v * 0.55))
+
+    bild = ebene((b, h))
+    bild.paste(farbe, (0, 0), maske)
+    return bild.resize((b // SS, h // SS), Image.LANCZOS)
+
+
+def donut_zeichnen(durchmesser_px):
+    d = durchmesser_px * SS
+    bild = ebene((d, d))
+    zeichnen = ImageDraw.Draw(bild)
+    r = d / 2
+    c = (r, r)
+
+    # Teig mit Bräunung zum Rand
+    for i in range(40, 0, -1):
+        t = i / 40
+        farbe = (round(196 + 34 * (1 - t)), round(134 + 40 * (1 - t)),
+                 round(72 + 30 * (1 - t)), 255)
+        rr = r * (0.55 + 0.45 * t)
+        zeichnen.ellipse((c[0] - rr, c[1] - rr, c[0] + rr, c[1] + rr),
+                         fill=farbe)
+
+    # Glasur mit welligem Rand
+    glasur = []
+    for i in range(360):
+        w = math.radians(i)
+        rr = r * (0.86 + 0.035 * math.sin(7 * w) + 0.02 * math.sin(13 * w + 1))
+        glasur.append((c[0] + rr * math.cos(w), c[1] + rr * math.sin(w)))
+    gl = Image.new("L", (d, d), 0)
+    ImageDraw.Draw(gl).polygon(glasur, fill=255)
+    rosa = verlauf(d, d, (250, 150, 188), (226, 92, 144))
+    bild.paste(rosa, (0, 0), gl)
+
+    # Glanzlicht oben links
+    glanz = Image.new("L", (d, d), 0)
+    ImageDraw.Draw(glanz).ellipse((r * 0.35, r * 0.25, r * 1.05, r * 0.75),
+                                  fill=110)
+    glanz = ImageChops.multiply(glanz.filter(ImageFilter.GaussianBlur(r * 0.12)),
+                                gl)
+    bild.paste(Image.new("RGB", (d, d), (255, 255, 255)), (0, 0), glanz)
+
+    # Streusel, fest verteilt — gleiches Bild bei jedem Lauf
+    farben = [(255, 255, 255), (255, 214, 92), (120, 200, 255),
+              (140, 220, 150), (255, 140, 90), (200, 150, 255)]
+    for i in range(46):
+        w = i * 2.399963
+        abstand = r * (0.42 + 0.38 * ((i * 37) % 100) / 100)
+        x, y = c[0] + abstand * math.cos(w), c[1] + abstand * math.sin(w)
+        lang, dick = r * 0.085, r * 0.028
+        winkel = (i * 53) % 180
+        dx = lang / 2 * math.cos(math.radians(winkel))
+        dy = lang / 2 * math.sin(math.radians(winkel))
+        zeichnen.line((x - dx, y - dy, x + dx, y + dy),
+                      fill=farben[i % len(farben)] + (255,), width=round(dick))
+
+    # Loch
+    loch = r * 0.30
+    zeichnen.ellipse((c[0] - loch, c[1] - loch, c[0] + loch, c[1] + loch),
+                     fill=(0, 0, 0, 0))
+    return bild.resize((durchmesser_px, durchmesser_px), Image.LANCZOS)
+
+
+def schatten(bild, ebene_rgba, versatz, weich, deckung):
+    alpha = ebene_rgba.split()[3].point(lambda v: v * deckung)
+    alpha = alpha.filter(ImageFilter.GaussianBlur(weich))
+    bild.paste((5, 10, 20), (versatz[0], versatz[1]), alpha)
+
+
+def wippe(bild, ox, oy, breite):
+    """Wippe mit Kopf links (schwer, unten) und Donut rechts (leicht, oben)."""
+    boden_y = oy + round(breite * 0.50)
+    dreh_y = boden_y - round(breite * 0.17)
+    mitte_x = ox + breite // 2
+    neigung = math.radians(10)
+    halb = breite * 0.45
+
+    z = ImageDraw.Draw(bild)
+    # Bodenlinie und Bodenschatten
+    boden = Image.new("L", bild.size, 0)
+    ImageDraw.Draw(boden).ellipse((mitte_x - breite * 0.30, boden_y - 14,
+                                   mitte_x + breite * 0.30, boden_y + 22),
+                                  fill=150)
+    bild.paste((6, 12, 24), (0, 0), boden.filter(ImageFilter.GaussianBlur(14)))
+    z.line((mitte_x - breite * 0.34, boden_y, mitte_x + breite * 0.34, boden_y),
+           fill=FARBE["bock"], width=4)
+    # Bock
+    z.polygon([(mitte_x - breite * 0.085, boden_y),
+               (mitte_x + breite * 0.085, boden_y), (mitte_x, dreh_y)],
+              fill=FARBE["bock"])
+
     dx, dy = halb * math.cos(neigung), halb * math.sin(neigung)
-    links = (mitte_x - dx, drehpunkt_y - dy)
-    rechts = (mitte_x + dx, drehpunkt_y + dy)
-    c.setStrokeColor(FARBEN["text"])
-    c.setLineWidth(5)
-    c.setLineCap(1)
-    c.line(*links, *rechts)
+    links = (mitte_x - dx, dreh_y + dy)
+    rechts = (mitte_x + dx, dreh_y - dy)
 
-    # Lot auf den Balken, für Kopf und Block
-    nx, ny = -math.sin(neigung), math.cos(neigung)
+    # Kopf: steht auf dem linken Balkenende
+    kopf = kopf_zeichnen(round(breite * 0.40)).rotate(
+        -math.degrees(neigung), expand=True, resample=Image.BICUBIC)
+    kx = round(links[0] + dx * 0.30 - kopf.width * 0.40)
+    ky = round(links[1] - dy * 0.30 - kopf.height + breite * 0.012)
+    schatten(bild, kopf, (kx + 14, ky + 22), 26, 0.55)
+    bild.paste(kopf, (kx, ky), kopf)
 
-    # Kopf: Profil in Bernstein, Blick zur Waagenmitte, steht links auf dem
-    # Balken. Gezeichnet in einer Einheit von Kopfhöhe 1, Halsansatz bei 0.
-    s = breite * 0.30
-    c.saveState()
-    c.translate(links[0] + dx * 0.24 + nx * 2, links[1] + dy * 0.24 + ny * 2)
-    c.rotate(math.degrees(neigung))
-    c.scale(s, s)
-    p = c.beginPath()
-    p.moveTo(-0.12, 0.0)
-    p.curveTo(-0.13, 0.12, -0.30, 0.22, -0.32, 0.46)
-    p.curveTo(-0.35, 0.80, -0.10, 1.00, 0.10, 1.00)
-    p.curveTo(0.30, 1.00, 0.40, 0.86, 0.40, 0.70)
-    p.lineTo(0.47, 0.56)
-    p.lineTo(0.41, 0.52)
-    p.curveTo(0.43, 0.46, 0.40, 0.44, 0.41, 0.40)
-    p.curveTo(0.42, 0.34, 0.38, 0.30, 0.30, 0.30)
-    p.curveTo(0.24, 0.30, 0.20, 0.22, 0.18, 0.12)
-    p.lineTo(0.18, 0.0)
-    p.close()
-    c.setFillColor(FARBEN["akzent"])
-    c.drawPath(p, stroke=0, fill=1)
-    c.restoreState()
+    # Donut: liegt auf dem rechten, angehobenen Ende
+    donut = donut_zeichnen(round(breite * 0.25))
+    nx = round(rechts[0] - dx * 0.30 - donut.width / 2)
+    ny = round(rechts[1] + dy * 0.30 - donut.height * 0.96)
+    schatten(bild, donut, (nx + 12, ny + 20), 22, 0.5)
+    bild.paste(donut, (nx, ny), donut)
 
-    # Kalorienblock rechts, gedreht mit dem Balken
-    bb, bh = breite * 0.17, breite * 0.11
-    c.saveState()
-    c.translate(rechts[0] - dx * 0.22 + nx * 3, rechts[1] - dy * 0.22 + ny * 3)
-    c.rotate(math.degrees(neigung))
-    c.setFillColor(FARBEN["text"])
-    c.roundRect(-bb / 2, 0, bb, bh, 3, stroke=0, fill=1)
-    c.setFillColor(FARBEN["grund"])
-    c.setFont("Sans-Bold", bh * 0.42)
-    c.drawCentredString(0, bh * 0.33, "kcal")
-    c.restoreState()
+    # Balken zuletzt, damit Kopf und Donut darauf stehen
+    z.line((*links, *rechts), fill=FARBE["balken"], width=round(breite * 0.016))
+    for ende in (links, rechts):
+        r = breite * 0.008
+        z.ellipse((ende[0] - r, ende[1] - r, ende[0] + r, ende[1] + r),
+                  fill=FARBE["balken"])
 
 
-def vorderseite(c, x, y, breite, hoehe, cfg):
-    rand = breite * 0.10
+# --- Text --------------------------------------------------------------------
+def zentriert(z, text, mitte_x, y, font, farbe, sperrung=0):
+    if sperrung:
+        breite = sum(z.textlength(ch, font=font) for ch in text) \
+            + sperrung * (len(text) - 1)
+        x = mitte_x - breite / 2
+        for ch in text:
+            z.text((x, y), ch, font=font, fill=farbe)
+            x += z.textlength(ch, font=font) + sperrung
+        return
+    breite = z.textlength(text, font=font)
+    z.text((mitte_x - breite / 2, y), text, font=font, fill=farbe)
 
-    wippe(c, x + breite / 2, y + hoehe * 0.62, breite * 0.78)
 
-    titel_groesse, titel_zeilen = groesse_einpassen(
-        c, cfg["titel"], "Sans-Bold", breite - 2 * rand, maximal=44, minimal=24)
-    zeilenhoehe = titel_groesse * 1.1
-    titel_y = y + hoehe * 0.47
-    c.setFillColor(FARBEN["text"])
-    for i, zeile in enumerate(titel_zeilen):
-        c.setFont("Sans-Bold", titel_groesse)
-        c.drawCentredString(x + breite / 2, titel_y - i * zeilenhoehe, zeile)
-    unten = titel_y - (len(titel_zeilen) - 1) * zeilenhoehe
+def passend(z, texte, schnitt, maximal, breite):
+    """Größte Schrift, bei der jede Zeile in `breite` passt."""
+    groesse = maximal
+    while groesse > 20:
+        font = schrift(schnitt, groesse)
+        if all(z.textlength(t, font=font) <= breite for t in texte):
+            return font
+        groesse -= 2
+    return schrift(schnitt, groesse)
 
-    c.setStrokeColor(FARBEN["akzent"])
-    c.setLineWidth(1.8)
-    c.line(x + breite * 0.38, unten - 20, x + breite * 0.62, unten - 20)
 
-    # Von Hand umbrochen: Automatisch bliebe „Plan" allein in der letzten Zeile.
-    c.setFillColor(FARBEN["text_leise"])
-    c.setFont("Sans", 15)
+def umbrechen(z, text, font, breite):
+    zeilen, aktuell = [], ""
+    for wort in text.split():
+        probe = f"{aktuell} {wort}".strip()
+        if z.textlength(probe, font=font) <= breite:
+            aktuell = probe
+        else:
+            zeilen.append(aktuell)
+            aktuell = wort
+    if aktuell:
+        zeilen.append(aktuell)
+    return zeilen
+
+
+def vorderseite(bild, x0, y0, b, h, cfg):
+    leuchten(bild, (x0 + b // 2, y0 + round(h * 0.24)), round(b * 0.48),
+             (48, 74, 112), 0.6)
+    wippe(bild, x0 + round(b * 0.06), y0 + round(h * 0.075), round(b * 0.88))
+
+    z = ImageDraw.Draw(bild)
+    mitte = x0 + b / 2
+    rand = b * 0.10
+
+    zeile1, zeile2 = "Kopf schlägt", "Kalorien"
+    titel = passend(z, [zeile1], "Black", 260, b - 2 * rand)
+    groesse = titel.size
+    y = y0 + h * 0.475
+    zentriert(z, zeile1, mitte, y, titel, FARBE["text"])
+    titel2 = schrift("Black", groesse * 1.16)
+    zentriert(z, zeile2, mitte, y + groesse * 1.02, titel2, FARBE["akzent"])
+
+    unten = y + groesse * 1.02 + titel2.size * 1.18
+    z.rounded_rectangle((mitte - b * 0.07, unten, mitte + b * 0.07, unten + 9),
+                        radius=4, fill=FARBE["akzent"])
+
+    unter = schrift("Medium", b * 0.037)
     for i, zeile in enumerate(("Warum Diäten am Mindset scheitern",
                                "und nicht am Plan")):
-        c.drawCentredString(x + breite / 2, unten - 46 - i * 20, zeile)
+        zentriert(z, zeile, mitte, unten + 60 + i * unter.size * 1.32, unter,
+                  FARBE["text_leise"])
 
-    c.setFillColor(FARBEN["akzent"])
-    c.setFont("Sans-Bold", 18)
-    c.drawCentredString(x + breite / 2, y + hoehe * 0.09, cfg["autor"])
+    # Hinweis auf den Arbeitsteil als Kapsel
+    kapsel = schrift("SemiBold", b * 0.024)
+    text = "MIT 12-WOCHEN-PROGRAMM UND ARBEITSTEIL"
+    sperr = kapsel.size * 0.12
+    breite = sum(z.textlength(ch, font=kapsel) for ch in text) \
+        + sperr * (len(text) - 1)
+    ky = y0 + h * 0.80
+    z.rounded_rectangle((mitte - breite / 2 - 44, ky - 26,
+                         mitte + breite / 2 + 44, ky + kapsel.size + 30),
+                        radius=(kapsel.size + 56) / 2,
+                        outline=FARBE["akzent"], width=4)
+    zentriert(z, text, mitte, ky - kapsel.size * 0.06, kapsel,
+              FARBE["akzent"], sperrung=sperr)
+
+    autor = schrift("SemiBold", b * 0.036)
+    zentriert(z, cfg["autor"].upper(), mitte, y0 + h * 0.905, autor,
+              FARBE["text"], sperrung=autor.size * 0.22)
 
 
-def rueckseite(c, x, y, breite, hoehe, kopf, absaetze, punkte):
-    rand = breite * 0.11
-    textbreite = breite - 2 * rand
+def rueckseite(bild, x0, y0, b, h, feld, kopf_meta, absaetze, punkte):
+    z = ImageDraw.Draw(bild)
+    rand = b * 0.11
+    textbreite = b - 2 * rand
+    links = x0 + rand
 
-    _, fy, _, fh = barcodefeld_freistellen(c, x, y, breite)
-    hinweis_zeilen = umbrechen(c, HINWEIS, "Serif", 7.5, textbreite)
-    hinweis_y = fy + fh + BARCODE_LUFT_MM * mm + 2 + (len(hinweis_zeilen) - 1) * 10
-    block_schreiben(c, HINWEIS, x + rand, hinweis_y, textbreite, "Serif", 7.5,
-                    10, FARBEN["text_leise"])
+    # Barcodefeld: volltonweiß, exakt KDPs Box
+    fx, fy, fb, fh = feld
+    z.rectangle((fx, fy, fx + fb, fy + fh), fill=(255, 255, 255))
 
-    cursor = y + hoehe - rand * 1.1
-    if kopf.get("schlagzeile"):
-        cursor = block_schreiben(c, kopf["schlagzeile"], x + rand, cursor,
-                                 textbreite, "Sans-Bold", 18, 23,
-                                 FARBEN["akzent"])
-        cursor -= 14
+    # Hinweis über dem Barcodefeld, von unten gerechnet
+    klein = schrift("Regular", 24)
+    hinweis = umbrechen(z, HINWEIS, klein, textbreite)
+    hy = fy - mm(BARCODE_LUFT_MM) - len(hinweis) * 32
+    for i, zeile in enumerate(hinweis):
+        z.text((links, hy + i * 32), zeile, font=klein, fill=FARBE["text_leise"])
+
+    y = y0 + rand * 1.1
+    # Schlagzeile satzweise umbrechen: Ein Satz pro Zeile liest sich ruhiger
+    # als ein automatischer Umbruch mitten in der Frage.
+    kopfzeile = schrift("ExtraBold", 74)
+    saetze = [s.strip() + "." if not s.strip().endswith(("?", "!", "."))
+              else s.strip()
+              for s in kopf_meta.get("schlagzeile", "").replace("? ", "?|")
+              .replace(". ", ".|").split("|") if s.strip()]
+    for satz in saetze:
+        for zeile in umbrechen(z, satz, kopfzeile, textbreite):
+            z.text((links, y), zeile, font=kopfzeile, fill=FARBE["akzent"])
+            y += kopfzeile.size * 1.18
+    y += 54
+
+    fliess = schrift("Regular", 45)
     for absatz in absaetze:
-        cursor = block_schreiben(c, absatz, x + rand, cursor, textbreite,
-                                 "Serif", 12, 16.5, FARBEN["text"])
-        cursor -= 8
-    cursor -= 4
-    for punkt in punkte:
-        c.setFillColor(FARBEN["akzent"])
-        c.setFont("Sans-Bold", 11.5)
-        c.drawString(x + rand, cursor, "•")
-        for zeile in umbrechen(c, punkt, "Serif", 11.5, textbreite - 14):
-            c.setFillColor(FARBEN["text"])
-            c.setFont("Serif", 11.5)
-            c.drawString(x + rand + 14, cursor, zeile)
-            cursor -= 15.5
-        cursor -= 3
+        for zeile in umbrechen(z, absatz, fliess, textbreite):
+            z.text((links, y), zeile, font=fliess, fill=FARBE["text"])
+            y += fliess.size * 1.42
+        y += 30
 
-    if cursor < hinweis_y + 24:
-        raise SystemExit("Rückseitentext reicht bis an den Hinweis — "
+    y += 20
+    punkt = schrift("Medium", 43)
+    for eintrag in punkte:
+        r = 9
+        z.ellipse((links, y + punkt.size * 0.45 - r, links + 2 * r,
+                   y + punkt.size * 0.45 + r), fill=FARBE["akzent"])
+        for zeile in umbrechen(z, eintrag, punkt, textbreite - 48):
+            z.text((links + 48, y), zeile, font=punkt, fill=FARBE["text"])
+            y += punkt.size * 1.36
+        y += 16
+
+    # Autorenblock über dem Hinweis, links neben dem Barcodefeld endend.
+    # Inhalt deckungsgleich mit der Kurzbiografie in kdp-metadaten.md.
+    titelzeile = schrift("SemiBold", 34)
+    bio = schrift("Regular", 34)
+    bio_zeilen = umbrechen(z, AUTOR_KURZ, bio, textbreite)
+    ay = hy - 70 - titelzeile.size * 1.6 - len(bio_zeilen) * bio.size * 1.4
+    z.line((links, ay - 44, links + textbreite, ay - 44),
+           fill=(70, 92, 120), width=2)
+    z.text((links, ay), "ÜBER DEN AUTOR", font=titelzeile,
+           fill=FARBE["akzent"])
+    for i, zeile in enumerate(bio_zeilen):
+        z.text((links, ay + titelzeile.size * 1.6 + i * bio.size * 1.4),
+               zeile, font=bio, fill=FARBE["text_leise"])
+
+    if y > ay - 90:
+        raise SystemExit("Rückseitentext reicht bis an den Autorenblock — "
                          "Klappentext kürzen.")
 
 
-def cover_bauen(cfg, seiten, ziel):
-    schriften_laden()
-    trim_b = cfg["seitenformat"]["breite_mm"] * mm
-    trim_h = cfg["seitenformat"]["hoehe_mm"] * mm
-    anschnitt = BESCHNITT_MM * mm
-    ruecken_b = seiten * RUECKEN_PRO_SEITE_MM * mm
-    gesamt_b = 2 * trim_b + ruecken_b + 2 * anschnitt
-    gesamt_h = trim_h + 2 * anschnitt
+def cover_bauen(cfg, seiten, ziel_pdf, ziel_png):
+    import fitz
 
-    c = canvas.Canvas(str(ziel), pagesize=(gesamt_b, gesamt_h),
-                      initialFontName="Serif")
-    c.setTitle(f"{cfg['titel']} — Umschlag")
-    c.setFillColor(FARBEN["grund"])
-    c.rect(0, 0, gesamt_b, gesamt_h, stroke=0, fill=1)
+    sf = cfg["seitenformat"]
+    trim_b, trim_h = mm(sf["breite_mm"]), mm(sf["hoehe_mm"])
+    anschnitt = mm(BESCHNITT_MM)
+    ruecken_mm = seiten * RUECKEN_PRO_SEITE_MM
+    ruecken = mm(ruecken_mm)
+    gesamt_mm = (2 * sf["breite_mm"] + ruecken_mm + 2 * BESCHNITT_MM,
+                 sf["hoehe_mm"] + 2 * BESCHNITT_MM)
+    gesamt = (round(gesamt_mm[0] * PX_JE_MM), round(gesamt_mm[1] * PX_JE_MM))
 
-    kopf, absaetze, punkte = klappentext_laden(KOPF / "cover" / "klappentext.md")
-    rueckseite(c, anschnitt, anschnitt, trim_b, trim_h, kopf, absaetze, punkte)
+    bild = verlauf(*gesamt, FARBE["grund_oben"], FARBE["grund_unten"])
+
+    # Barcodefeld in reportlab-Koordinaten (Punkt, Ursprung unten links)
+    # berechnen und in Pixel von oben umrechnen — dieselbe Geometrie wie bei
+    # allen anderen Umschlägen des Projekts.
+    pt = 72 / DPI
+    fx, fy, fb, fh = barcodefeld(anschnitt * pt, anschnitt * pt, trim_b * pt)
+    feld = (round(fx / pt), round(gesamt[1] - (fy + fh) / pt),
+            round(fb / pt), round(fh / pt))
+
+    kopf_meta, absaetze, punkte = klappentext_laden(
+        KOPF / "cover" / "klappentext.md")
+    rueckseite(bild, anschnitt, anschnitt, trim_b, trim_h, feld,
+               kopf_meta, absaetze, punkte)
 
     mit_ruecken_text = seiten >= RUECKENTEXT_AB_SEITEN
     if mit_ruecken_text:
-        c.saveState()
-        c.translate(anschnitt + trim_b + ruecken_b / 2, gesamt_h / 2)
-        c.rotate(-90)
-        groesse = min(11, ruecken_b / mm * 0.55 * mm)
-        c.setFillColor(FARBEN["text"])
-        c.setFont("Sans-Bold", groesse)
-        c.drawCentredString(0, -groesse * 0.35,
-                            f"{cfg['titel']}   ·   {cfg['autor']}")
-        c.restoreState()
+        streifen = ebene((trim_h, ruecken))
+        zs = ImageDraw.Draw(streifen)
+        f = schrift("SemiBold", ruecken * 0.5)
+        zentriert(zs, f"{cfg['titel']}  ·  {cfg['autor']}", trim_h / 2,
+                  ruecken * 0.2, f, FARBE["text"])
+        streifen = streifen.rotate(-90, expand=True)
+        bild.paste(streifen, (anschnitt + trim_b, anschnitt), streifen)
 
-    vorderseite(c, anschnitt + trim_b + ruecken_b, anschnitt, trim_b, trim_h, cfg)
-    c.showPage()
-    c.save()
-    return {"gesamt_mm": (gesamt_b / mm, gesamt_h / mm),
-            "ruecken_mm": ruecken_b / mm, "ruecken_text": mit_ruecken_text}
+    vorderseite(bild, anschnitt + trim_b + ruecken, anschnitt, trim_b, trim_h,
+                cfg)
+
+    bild.save(ziel_png.with_name("cover.png"))
+    bild.resize((gesamt[0] // 4, gesamt[1] // 4), Image.LANCZOS).save(ziel_png)
+
+    # Druckdatei: ein Bild, exakte Größe, keine Schriften, keine Transparenz.
+    import io
+    puffer = io.BytesIO()
+    bild.save(puffer, format="JPEG", quality=95, dpi=(DPI, DPI))
+    breite_pt, hoehe_pt = gesamt_mm[0] * PT_JE_MM, gesamt_mm[1] * PT_JE_MM
+    pdf = fitz.open()
+    seite = pdf.new_page(width=breite_pt, height=hoehe_pt)
+    seite.insert_image(fitz.Rect(0, 0, breite_pt, hoehe_pt),
+                       stream=puffer.getvalue())
+    pdf.set_metadata({"title": f"{cfg['titel']} — Umschlag",
+                      "producer": "", "creator": ""})
+    pdf.save(str(ziel_pdf), garbage=4, deflate=True)
+
+    return {"gesamt_mm": gesamt_mm, "ruecken_mm": ruecken_mm,
+            "ruecken_text": mit_ruecken_text, "px": gesamt}
 
 
 def main():
     cfg = yaml.safe_load((KOPF / "kopf.yaml").read_text(encoding="utf-8"))
     out = KOPF / "out"
     seiten = seitenzahl(out / f"{cfg['slug']}-druck.pdf")
-    ziel = out / "cover.pdf"
-    masse = cover_bauen(cfg, seiten, ziel)
-    druck = flach_rechnen(ziel)
-    png = vorschau(ziel, out / "cover-vorschau.png")
+    ziel = out / "cover-druck.pdf"
+    masse = cover_bauen(cfg, seiten, ziel, out / "cover-vorschau.png")
 
     b, h = masse["gesamt_mm"]
     print(f"Taschenbuch — Innenteil: {seiten} Seiten")
     print(f"Rückenbreite: {masse['ruecken_mm']:.2f} mm"
           f"  (Rückentext: {'ja' if masse['ruecken_text'] else 'nein'})")
     print(f"Umschlag gesamt: {b:.2f} x {h:.2f} mm "
-          f"= {b/25.4:.3f} x {h/25.4:.3f} Zoll, inkl. {BESCHNITT_MM} mm Anschnitt")
-    print(f"  → {druck['ziel'].relative_to(WURZEL)}  (zu KDP hochladen)")
-    print(f"  → {png.relative_to(WURZEL)}")
+          f"= {b/25.4:.3f} x {h/25.4:.3f} Zoll, inkl. {BESCHNITT_MM} mm Anschnitt"
+          f", {masse['px'][0]} x {masse['px'][1]} px bei {DPI} dpi")
+    print(f"  → {ziel.relative_to(WURZEL)}  (zu KDP hochladen)")
+    print(f"  → {(out / 'cover-vorschau.png').relative_to(WURZEL)}")
 
 
 if __name__ == "__main__":
