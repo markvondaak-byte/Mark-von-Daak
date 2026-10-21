@@ -58,7 +58,8 @@
     "Skyr mit der Milch glatt rühren und darübergeben, gut umrühren.",
     "Beeren obenauf, Deckel drauf, über Nacht in den Kühlschrank.",
     "Morgens direkt aus dem Glas essen — kalt oder kurz erwärmt."
-   ]
+   ],
+   "bild": "bilder/rezepte/overnight-oats.jpg"
   },
   {
    "id": "egg-muffins",
@@ -113,7 +114,8 @@
     "Eier verquirlen und würzen, Gemüse und zerbröselten Feta unterheben.",
     "In die Mulden füllen und 20 Minuten backen.",
     "Abkühlen lassen, je 3 Muffins pro Box. Kalt oder 30 Sekunden in der Mikrowelle."
-   ]
+   ],
+   "bild": "bilder/rezepte/egg-muffins.jpg"
   },
   {
    "id": "protein-pancakes",
@@ -162,7 +164,8 @@
     "In einer beschichteten Pfanne mit wenig Öl kleine Pancakes ausbacken.",
     "Abkühlen lassen, mit Backpapier dazwischen in Boxen schichten.",
     "Im Toaster oder in der Pfanne aufwärmen, mit Skyr und Beeren servieren."
-   ]
+   ],
+   "bild": "bilder/rezepte/protein-pancakes.jpg"
   },
   {
    "id": "chia-pudding",
@@ -209,7 +212,8 @@
     "Chiasamen mit Milch verrühren, 10 Minuten quellen lassen, nochmal rühren.",
     "Skyr und Honig unterrühren.",
     "Auf 3 Gläser verteilen, Heidelbeeren darauf, kalt stellen."
-   ]
+   ],
+   "bild": "bilder/rezepte/chia-pudding.jpg"
   },
   {
    "id": "ruehrei-wraps",
@@ -388,7 +392,8 @@
     "In der Pfanne 8–10 Minuten rundherum braten, bis es durch ist.",
     "Brokkoli in Röschen 4–5 Minuten dämpfen — bissfest lassen, er wird beim Aufwärmen weicher.",
     "Auf 4 Boxen verteilen, Restöl darüber, abkühlen lassen und schließen."
-   ]
+   ],
+   "bild": "bilder/rezepte/haehnchen-reis-brokkoli.jpg"
   },
   {
    "id": "chili-con-carne",
