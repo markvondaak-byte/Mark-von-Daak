@@ -57,6 +57,22 @@ ein Feld in Bearbeitung oder ein Check-in angefangen, erscheint stattdessen
 „Neue Version bereit — tippen zum Aktualisieren“ (`offlineUndUpdates()` in
 `gemeinsam.js`).
 
+## Rezeptbilder
+
+Jedes Rezept kann ein Foto haben (Feld `bild` in `daten/rezepte.json`); ohne
+Foto zeigt die App einen ruhigen Platzhalter. Die Fotos sind KI-Bilder aus
+Canva in einheitlichem Stil (schräg von oben, Tageslicht, heller Stein, 4:3).
+
+- `build/rezeptbilder.json` — je Rezept die Canva-Medien-ID (falls schon
+  erzeugt) und die exakte Bildbeschreibung, damit neue Bilder gleich aussehen.
+- Originale als `<rezept-id>.jpg|png|webp` nach `build/rezeptbilder/` legen und
+  `python3 coaching/build/rezeptbilder.py` ausführen: schneidet auf 4:3, rechnet
+  auf 960 × 720 herunter (ca. 60–90 KB), legt sie unter `bilder/rezepte/` ab
+  und trägt `bild` in `rezepte.json` ein. Danach `VERSION` in `sw.js` erhöhen.
+
+Die Bilder werden nicht vorab in den Offline-Speicher geladen, sondern beim
+ersten Ansehen — so bleibt die Installation klein.
+
 ## Icons
 
 ```bash

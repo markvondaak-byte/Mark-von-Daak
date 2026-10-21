@@ -1,0 +1,4 @@
+# Originale der Rezeptbilder — nur Eingabe für build/rezeptbilder.py.
+# Eingecheckt werden die verkleinerten Fassungen unter bilder/rezepte/.
+*
+!.gitignore
