@@ -291,10 +291,64 @@ def umbrechen(z, text, font, breite):
     return zeilen
 
 
-def vorderseite(bild, x0, y0, b, h, cfg):
-    leuchten(bild, (x0 + b // 2, y0 + round(h * 0.24)), round(b * 0.48),
-             (48, 74, 112), 0.6)
-    wippe(bild, x0 + round(b * 0.06), y0 + round(h * 0.075), round(b * 0.88))
+def titelbild_suchen():
+    """Eigenes Titelbild nur aus kopf/cover/ — bewusst ohne Rückgriff auf
+    buch/cover/: Das Lebensmittelfoto der Reihe passt nicht zu diesem Titel."""
+    for endung in (".png", ".jpg", ".jpeg", ".webp"):
+        pfad = KOPF / "cover" / f"titelbild{endung}"
+        if pfad.exists():
+            return pfad
+    return None
+
+
+def randfarbe(bild, seite):
+    """Mittlere Farbe eines schmalen Randstreifens — für nahtlose Übergänge."""
+    b, h = bild.size
+    kiste = {"oben": (0, 0, b, max(1, h // 40)),
+             "unten": (0, h - max(1, h // 40), b, h),
+             "links": (0, 0, max(1, b // 40), h)}[seite]
+    return bild.crop(kiste).convert("RGB").resize((1, 1), Image.LANCZOS) \
+        .getpixel((0, 0))
+
+
+def titelbild_einsetzen(bild, pfad, x0, breite, ueberblendung):
+    """Titelbild randabfallend über die Vorderseite, links weich in den Rücken.
+
+    Füllt Vorderseite samt Anschnitt oben, rechts und unten; das Bild wird
+    mittig auf das Format beschnitten. Die linke Kante läuft über
+    `ueberblendung` Pixel in den Grund aus — sonst stünde am Rücken eine
+    harte Kante, sobald Bild- und Grundton auch nur leicht abweichen.
+    """
+    foto = Image.open(pfad).convert("RGB")
+    hoehe = bild.height
+    faktor = max(breite / foto.width, hoehe / foto.height)
+    if faktor > 1.05:
+        print(f"  Titelbild wird um den Faktor {faktor:.2f} hochgerechnet "
+              f"({foto.width} x {foto.height} px Vorlage).")
+    foto = foto.resize((round(foto.width * faktor), round(foto.height * faktor)),
+                       Image.LANCZOS)
+    links = (foto.width - breite) // 2
+    oben = (foto.height - hoehe) // 2
+    foto = foto.crop((links, oben, links + breite, oben + hoehe))
+
+    maske = Image.new("L", (breite, hoehe), 255)
+    z = ImageDraw.Draw(maske)
+    for i in range(ueberblendung):
+        z.line((i, 0, i, hoehe), fill=round(255 * i / ueberblendung))
+    bild.paste(foto, (x0, 0), maske)
+
+
+def vorderseite(bild, x0, y0, b, h, cfg, titelbild=None):
+    if titelbild:
+        # Das Bild trägt die Illustration in der oberen Hälfte; der Titel
+        # rückt deshalb etwas tiefer als bei der gezeichneten Wippe.
+        titel_y, kapsel_y, autor_y = 0.495, 0.85, 0.928
+    else:
+        leuchten(bild, (x0 + b // 2, y0 + round(h * 0.24)), round(b * 0.48),
+                 (48, 74, 112), 0.6)
+        wippe(bild, x0 + round(b * 0.06), y0 + round(h * 0.075),
+              round(b * 0.88))
+        titel_y, kapsel_y, autor_y = 0.475, 0.80, 0.905
 
     z = ImageDraw.Draw(bild)
     mitte = x0 + b / 2
@@ -303,7 +357,7 @@ def vorderseite(bild, x0, y0, b, h, cfg):
     zeile1, zeile2 = "Kopf schlägt", "Kalorien"
     titel = passend(z, [zeile1], "Black", 260, b - 2 * rand)
     groesse = titel.size
-    y = y0 + h * 0.475
+    y = y0 + h * titel_y
     zentriert(z, zeile1, mitte, y, titel, FARBE["text"])
     titel2 = schrift("Black", groesse * 1.16)
     zentriert(z, zeile2, mitte, y + groesse * 1.02, titel2, FARBE["akzent"])
@@ -324,7 +378,7 @@ def vorderseite(bild, x0, y0, b, h, cfg):
     sperr = kapsel.size * 0.12
     breite = sum(z.textlength(ch, font=kapsel) for ch in text) \
         + sperr * (len(text) - 1)
-    ky = y0 + h * 0.80
+    ky = y0 + h * kapsel_y
     z.rounded_rectangle((mitte - breite / 2 - 44, ky - 26,
                          mitte + breite / 2 + 44, ky + kapsel.size + 30),
                         radius=(kapsel.size + 56) / 2,
@@ -333,7 +387,7 @@ def vorderseite(bild, x0, y0, b, h, cfg):
               FARBE["akzent"], sperrung=sperr)
 
     autor = schrift("SemiBold", b * 0.036)
-    zentriert(z, cfg["autor"].upper(), mitte, y0 + h * 0.905, autor,
+    zentriert(z, cfg["autor"].upper(), mitte, y0 + h * autor_y, autor,
               FARBE["text"], sperrung=autor.size * 0.22)
 
 
@@ -417,7 +471,14 @@ def cover_bauen(cfg, seiten, ziel_pdf, ziel_png):
                  sf["hoehe_mm"] + 2 * BESCHNITT_MM)
     gesamt = (round(gesamt_mm[0] * PX_JE_MM), round(gesamt_mm[1] * PX_JE_MM))
 
-    bild = verlauf(*gesamt, FARBE["grund_oben"], FARBE["grund_unten"])
+    titelbild = titelbild_suchen()
+    oben, unten = FARBE["grund_oben"], FARBE["grund_unten"]
+    if titelbild:
+        # Rückseite und Rücken nehmen die Randtöne des Bildes auf, damit der
+        # Umschlag wie aus einem Guss wirkt.
+        foto = Image.open(titelbild)
+        oben, unten = randfarbe(foto, "oben"), randfarbe(foto, "unten")
+    bild = verlauf(*gesamt, oben, unten)
 
     # Barcodefeld in reportlab-Koordinaten (Punkt, Ursprung unten links)
     # berechnen und in Pixel von oben umrechnen — dieselbe Geometrie wie bei
@@ -442,8 +503,12 @@ def cover_bauen(cfg, seiten, ziel_pdf, ziel_png):
         streifen = streifen.rotate(-90, expand=True)
         bild.paste(streifen, (anschnitt + trim_b, anschnitt), streifen)
 
+    if titelbild:
+        titelbild_einsetzen(bild, titelbild, anschnitt + trim_b + ruecken,
+                            gesamt[0] - (anschnitt + trim_b + ruecken),
+                            ueberblendung=mm(6))
     vorderseite(bild, anschnitt + trim_b + ruecken, anschnitt, trim_b, trim_h,
-                cfg)
+                cfg, titelbild)
 
     bild.save(ziel_png.with_name("cover.png"))
     bild.resize((gesamt[0] // 4, gesamt[1] // 4), Image.LANCZOS).save(ziel_png)
@@ -462,7 +527,8 @@ def cover_bauen(cfg, seiten, ziel_pdf, ziel_png):
     pdf.save(str(ziel_pdf), garbage=4, deflate=True)
 
     return {"gesamt_mm": gesamt_mm, "ruecken_mm": ruecken_mm,
-            "ruecken_text": mit_ruecken_text, "px": gesamt}
+            "ruecken_text": mit_ruecken_text, "px": gesamt,
+            "titelbild": titelbild}
 
 
 def main():
@@ -479,6 +545,8 @@ def main():
     print(f"Umschlag gesamt: {b:.2f} x {h:.2f} mm "
           f"= {b/25.4:.3f} x {h/25.4:.3f} Zoll, inkl. {BESCHNITT_MM} mm Anschnitt"
           f", {masse['px'][0]} x {masse['px'][1]} px bei {DPI} dpi")
+    print("Titelbild: " + (str(masse["titelbild"].relative_to(WURZEL))
+                           if masse["titelbild"] else "keins, Wippe gezeichnet"))
     print(f"  → {ziel.relative_to(WURZEL)}  (zu KDP hochladen)")
     print(f"  → {(out / 'cover-vorschau.png').relative_to(WURZEL)}")
 
