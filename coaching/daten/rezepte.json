@@ -273,7 +273,8 @@
     "Bei mittlerer Hitze cremig stocken lassen, Käse unterheben.",
     "Auf die Wraps verteilen, fest einrollen und halbieren.",
     "Einzeln in Folie wickeln. Morgens 1 Minute in der Mikrowelle oder 3 Minuten in der Pfanne erwärmen."
-   ]
+   ],
+   "bild": "bilder/rezepte/ruehrei-wraps.jpg"
   },
   {
    "id": "bananenbrot",
@@ -337,7 +338,8 @@
     "Haferflocken, Proteinpulver, Backpulver und Zimt unterheben, die Hälfte der Nüsse dazu.",
     "In die Form füllen, restliche Nüsse darüberstreuen.",
     "50 Minuten backen, auskühlen lassen und in 8 Scheiben schneiden."
-   ]
+   ],
+   "bild": "bilder/rezepte/bananenbrot.jpg"
   },
   {
    "id": "haehnchen-reis-brokkoli",
@@ -594,7 +596,8 @@
     "Zwiebel und Champignons in derselben Pfanne braten.",
     "Milch und Frischkäse einrühren, Spinat zusammenfallen lassen, würzen.",
     "Fleisch zurück in die Soße, mit den Nudeln mischen und portionieren."
-   ]
+   ],
+   "bild": "bilder/rezepte/putengeschnetzeltes.jpg"
   },
   {
    "id": "linsen-curry",
@@ -659,7 +662,8 @@
     "Linsen, Tomaten, Kokosmilch und 300 ml Wasser zugeben, 15 Minuten köcheln.",
     "Spinat unterheben. Reis separat kochen.",
     "Portionieren — schmeckt am zweiten Tag sogar besser."
-   ]
+   ],
+   "bild": "bilder/rezepte/linsen-curry.jpg"
   },
   {
    "id": "burrito-bowl",
@@ -723,7 +727,8 @@
     "Paprika in Streifen kurz mitbraten.",
     "Bohnen und Mais abspülen.",
     "Alles in Boxen schichten, Salsa separat in kleinen Dosen."
-   ]
+   ],
+   "bild": "bilder/rezepte/burrito-bowl.jpg"
   },
   {
    "id": "bolognese",
