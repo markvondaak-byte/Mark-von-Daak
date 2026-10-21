@@ -1,80 +1,1756 @@
 {
  "hinweis": "Nährwerte je Portion, gerundete Richtwerte. Zutaten in m (Menge) + e (Einheit) für alle Portionen des Rezepts; m = null heißt nach Geschmack.",
- "kategorien": ["Frühstück", "Hauptgericht", "Snack"],
+ "kategorien": [
+  "Frühstück",
+  "Hauptgericht",
+  "Snack"
+ ],
  "rezepte": [
-  {"id": "overnight-oats", "name": "Protein Overnight Oats", "kat": "Frühstück", "portionen": 4, "zeit": 10, "haltbar": 4,
-   "kcal": 420, "e": 32, "kh": 52, "f": 9, "tags": ["vegetarisch", "eiweißreich"],
-   "zutaten": [{"m": 240, "e": "g", "n": "Haferflocken"}, {"m": 600, "e": "g", "n": "Skyr natur"}, {"m": 400, "e": "ml", "n": "Milch 1,5 %"}, {"m": 40, "e": "g", "n": "Chiasamen"}, {"m": 400, "e": "g", "n": "Beeren (TK)"}, {"m": 1, "e": "TL", "n": "Zimt"}],
-   "schritte": ["Haferflocken, Chiasamen und Zimt auf 4 Gläser verteilen.", "Skyr mit der Milch glatt rühren und darübergeben, gut umrühren.", "Beeren obenauf, Deckel drauf, über Nacht in den Kühlschrank.", "Morgens direkt aus dem Glas essen — kalt oder kurz erwärmt."]},
-  {"id": "egg-muffins", "name": "Gemüse-Eiermuffins", "kat": "Frühstück", "portionen": 4, "zeit": 30, "haltbar": 4,
-   "kcal": 260, "e": 22, "kh": 5, "f": 16, "tags": ["vegetarisch", "low carb"],
-   "zutaten": [{"m": 10, "e": "Stück", "n": "Eier"}, {"m": 150, "e": "g", "n": "Blattspinat"}, {"m": 1, "e": "Stück", "n": "Paprika"}, {"m": 100, "e": "g", "n": "Feta"}, {"m": 1, "e": "Stück", "n": "Frühlingszwiebel"}, {"m": null, "e": "", "n": "Salz, Pfeffer, Paprikapulver"}],
-   "schritte": ["Ofen auf 180 °C Umluft vorheizen, Muffinform (12er) einfetten.", "Paprika und Frühlingszwiebel klein schneiden, Spinat grob hacken.", "Eier verquirlen und würzen, Gemüse und zerbröselten Feta unterheben.", "In die Mulden füllen und 20 Minuten backen.", "Abkühlen lassen, je 3 Muffins pro Box. Kalt oder 30 Sekunden in der Mikrowelle."]},
-  {"id": "protein-pancakes", "name": "Protein-Pancakes", "kat": "Frühstück", "portionen": 3, "zeit": 20, "haltbar": 3,
-   "kcal": 390, "e": 34, "kh": 42, "f": 9, "tags": ["vegetarisch", "eiweißreich"],
-   "zutaten": [{"m": 150, "e": "g", "n": "Haferflocken"}, {"m": 250, "e": "g", "n": "Magerquark"}, {"m": 4, "e": "Stück", "n": "Eier"}, {"m": 1, "e": "Stück", "n": "Banane"}, {"m": 1, "e": "TL", "n": "Backpulver"}],
-   "schritte": ["Alle Zutaten im Mixer zu einem dicken Teig pürieren.", "In einer beschichteten Pfanne mit wenig Öl kleine Pancakes ausbacken.", "Abkühlen lassen, mit Backpapier dazwischen in Boxen schichten.", "Im Toaster oder in der Pfanne aufwärmen, mit Skyr und Beeren servieren."]},
-  {"id": "chia-pudding", "name": "Chia-Skyr-Pudding", "kat": "Frühstück", "portionen": 3, "zeit": 5, "haltbar": 4,
-   "kcal": 310, "e": 24, "kh": 22, "f": 13, "tags": ["vegetarisch"],
-   "zutaten": [{"m": 75, "e": "g", "n": "Chiasamen"}, {"m": 450, "e": "g", "n": "Skyr natur"}, {"m": 300, "e": "ml", "n": "Milch 1,5 %"}, {"m": 2, "e": "TL", "n": "Honig"}, {"m": 250, "e": "g", "n": "Heidelbeeren"}],
-   "schritte": ["Chiasamen mit Milch verrühren, 10 Minuten quellen lassen, nochmal rühren.", "Skyr und Honig unterrühren.", "Auf 3 Gläser verteilen, Heidelbeeren darauf, kalt stellen."]},
-
-  {"id": "haehnchen-reis-brokkoli", "name": "Hähnchen, Reis & Brokkoli", "kat": "Hauptgericht", "portionen": 4, "zeit": 35, "haltbar": 4,
-   "kcal": 520, "e": 46, "kh": 58, "f": 10, "tags": ["eiweißreich", "Klassiker"],
-   "zutaten": [{"m": 700, "e": "g", "n": "Hähnchenbrust"}, {"m": 280, "e": "g", "n": "Basmatireis (roh)"}, {"m": 800, "e": "g", "n": "Brokkoli"}, {"m": 2, "e": "EL", "n": "Olivenöl"}, {"m": 2, "e": "TL", "n": "Paprikapulver geräuchert"}, {"m": null, "e": "", "n": "Salz, Pfeffer, Knoblauchpulver"}],
-   "schritte": ["Reis nach Packungsangabe kochen.", "Hähnchen in Würfel schneiden, mit 1 EL Öl und den Gewürzen mischen.", "In der Pfanne 8–10 Minuten rundherum braten, bis es durch ist.", "Brokkoli in Röschen 4–5 Minuten dämpfen — bissfest lassen, er wird beim Aufwärmen weicher.", "Auf 4 Boxen verteilen, Restöl darüber, abkühlen lassen und schließen."]},
-  {"id": "chili-con-carne", "name": "Chili con Carne", "kat": "Hauptgericht", "portionen": 5, "zeit": 45, "haltbar": 4,
-   "kcal": 480, "e": 40, "kh": 45, "f": 13, "tags": ["eiweißreich", "einfrierbar"],
-   "zutaten": [{"m": 750, "e": "g", "n": "Rinderhack 5 %"}, {"m": 2, "e": "Dosen", "n": "Kidneybohnen"}, {"m": 1, "e": "Dose", "n": "Mais"}, {"m": 2, "e": "Dosen", "n": "Stückige Tomaten"}, {"m": 2, "e": "Stück", "n": "Paprika"}, {"m": 2, "e": "Stück", "n": "Zwiebeln"}, {"m": 2, "e": "Zehen", "n": "Knoblauch"}, {"m": 2, "e": "EL", "n": "Tomatenmark"}, {"m": null, "e": "", "n": "Kreuzkümmel, Chili, Paprika, Salz"}],
-   "schritte": ["Zwiebeln, Knoblauch und Paprika würfeln.", "Hack krümelig anbraten, Zwiebeln und Knoblauch dazu.", "Tomatenmark kurz mitrösten, Gewürze dazu.", "Tomaten, Paprika, abgetropfte Bohnen und Mais zugeben.", "25 Minuten köcheln lassen, abschmecken.", "Portionieren — friert sich hervorragend ein (bis 3 Monate)."]},
-  {"id": "lachs-ofengemuese", "name": "Lachs mit Ofengemüse & Kartoffeln", "kat": "Hauptgericht", "portionen": 3, "zeit": 40, "haltbar": 3,
-   "kcal": 560, "e": 36, "kh": 45, "f": 25, "tags": ["Omega-3"],
-   "zutaten": [{"m": 450, "e": "g", "n": "Lachsfilet"}, {"m": 750, "e": "g", "n": "Kartoffeln (festkochend)"}, {"m": 2, "e": "Stück", "n": "Zucchini"}, {"m": 1, "e": "Stück", "n": "Paprika"}, {"m": 1, "e": "Stück", "n": "Rote Zwiebel"}, {"m": 2, "e": "EL", "n": "Olivenöl"}, {"m": 1, "e": "Stück", "n": "Zitrone"}, {"m": null, "e": "", "n": "Rosmarin, Salz, Pfeffer"}],
-   "schritte": ["Ofen auf 200 °C Umluft vorheizen.", "Kartoffeln vierteln, mit 1 EL Öl, Rosmarin und Salz 15 Minuten vorbacken.", "Gemüse in grobe Stücke schneiden, mit Restöl zu den Kartoffeln geben.", "Lachs obenauf legen, mit Zitrone beträufeln, weitere 15 Minuten backen.", "Aufteilen. Lachs beim Aufwärmen nur kurz erhitzen, sonst wird er trocken."]},
-  {"id": "putengeschnetzeltes", "name": "Putengeschnetzeltes mit Nudeln", "kat": "Hauptgericht", "portionen": 4, "zeit": 30, "haltbar": 3,
-   "kcal": 540, "e": 47, "kh": 60, "f": 10, "tags": ["eiweißreich"],
-   "zutaten": [{"m": 600, "e": "g", "n": "Putenbrust"}, {"m": 280, "e": "g", "n": "Vollkornnudeln (roh)"}, {"m": 400, "e": "g", "n": "Champignons"}, {"m": 1, "e": "Stück", "n": "Zwiebel"}, {"m": 200, "e": "ml", "n": "Milch 1,5 %"}, {"m": 150, "e": "g", "n": "Frischkäse light"}, {"m": 150, "e": "g", "n": "Blattspinat"}, {"m": null, "e": "", "n": "Salz, Pfeffer, Muskat"}],
-   "schritte": ["Nudeln kochen.", "Pute in Streifen schneiden und scharf anbraten, herausnehmen.", "Zwiebel und Champignons in derselben Pfanne braten.", "Milch und Frischkäse einrühren, Spinat zusammenfallen lassen, würzen.", "Fleisch zurück in die Soße, mit den Nudeln mischen und portionieren."]},
-  {"id": "linsen-curry", "name": "Rotes Linsen-Curry", "kat": "Hauptgericht", "portionen": 4, "zeit": 30, "haltbar": 5,
-   "kcal": 470, "e": 21, "kh": 62, "f": 14, "tags": ["vegan", "einfrierbar"],
-   "zutaten": [{"m": 250, "e": "g", "n": "Rote Linsen"}, {"m": 200, "e": "g", "n": "Basmatireis (roh)"}, {"m": 400, "e": "ml", "n": "Kokosmilch light"}, {"m": 1, "e": "Dose", "n": "Stückige Tomaten"}, {"m": 200, "e": "g", "n": "Blattspinat"}, {"m": 1, "e": "Stück", "n": "Zwiebel"}, {"m": 1, "e": "Stück", "n": "Ingwer (daumengroß)"}, {"m": 2, "e": "EL", "n": "Currypaste"}],
-   "schritte": ["Zwiebel und Ingwer fein hacken und in etwas Öl anschwitzen.", "Currypaste kurz mitrösten.", "Linsen, Tomaten, Kokosmilch und 300 ml Wasser zugeben, 15 Minuten köcheln.", "Spinat unterheben. Reis separat kochen.", "Portionieren — schmeckt am zweiten Tag sogar besser."]},
-  {"id": "burrito-bowl", "name": "Burrito Bowl", "kat": "Hauptgericht", "portionen": 4, "zeit": 30, "haltbar": 4,
-   "kcal": 560, "e": 45, "kh": 62, "f": 13, "tags": ["eiweißreich"],
-   "zutaten": [{"m": 600, "e": "g", "n": "Hähnchenbrust"}, {"m": 240, "e": "g", "n": "Reis (roh)"}, {"m": 1, "e": "Dose", "n": "Kidneybohnen"}, {"m": 1, "e": "Dose", "n": "Mais"}, {"m": 2, "e": "Stück", "n": "Paprika"}, {"m": 1, "e": "Stück", "n": "Limette"}, {"m": 200, "e": "g", "n": "Salsa"}, {"m": null, "e": "", "n": "Kreuzkümmel, Paprika, Chili, Salz"}],
-   "schritte": ["Reis kochen, mit Limettensaft und Salz würzen.", "Hähnchen in Streifen schneiden, würzen und braten.", "Paprika in Streifen kurz mitbraten.", "Bohnen und Mais abspülen.", "Alles in Boxen schichten, Salsa separat in kleinen Dosen."]},
-  {"id": "bolognese", "name": "Leichte Bolognese", "kat": "Hauptgericht", "portionen": 5, "zeit": 40, "haltbar": 4,
-   "kcal": 530, "e": 38, "kh": 64, "f": 12, "tags": ["einfrierbar", "Klassiker"],
-   "zutaten": [{"m": 600, "e": "g", "n": "Rinderhack 5 %"}, {"m": 400, "e": "g", "n": "Vollkornnudeln (roh)"}, {"m": 700, "e": "g", "n": "Passierte Tomaten"}, {"m": 2, "e": "Stück", "n": "Karotten"}, {"m": 1, "e": "Stück", "n": "Zucchini"}, {"m": 1, "e": "Stück", "n": "Zwiebel"}, {"m": 2, "e": "Zehen", "n": "Knoblauch"}, {"m": null, "e": "", "n": "Oregano, Basilikum, Salz, Pfeffer"}],
-   "schritte": ["Karotten, Zucchini, Zwiebel und Knoblauch fein würfeln oder raspeln.", "Hack anbraten, Gemüse dazu und 5 Minuten mitbraten.", "Tomaten und Gewürze zugeben, 20 Minuten köcheln.", "Nudeln al dente kochen, mit der Soße portionieren."]},
-  {"id": "tofu-stirfry", "name": "Tofu-Gemüse-Pfanne mit Erdnusssoße", "kat": "Hauptgericht", "portionen": 3, "zeit": 25, "haltbar": 3,
-   "kcal": 510, "e": 27, "kh": 55, "f": 20, "tags": ["vegan"],
-   "zutaten": [{"m": 400, "e": "g", "n": "Tofu natur"}, {"m": 200, "e": "g", "n": "Reis (roh)"}, {"m": 600, "e": "g", "n": "Wok-Gemüse (TK)"}, {"m": 2, "e": "EL", "n": "Erdnussmus"}, {"m": 3, "e": "EL", "n": "Sojasoße"}, {"m": 1, "e": "Stück", "n": "Limette"}, {"m": 1, "e": "TL", "n": "Ahornsirup"}],
-   "schritte": ["Tofu trocken tupfen, würfeln und knusprig braten.", "Reis kochen.", "Gemüse im Wok scharf anbraten.", "Erdnussmus, Sojasoße, Limettensaft, Sirup und 3 EL Wasser verrühren.", "Tofu und Soße zum Gemüse, mit Reis portionieren."]},
-  {"id": "ofen-frikadellen", "name": "Ofen-Frikadellen mit Süßkartoffel", "kat": "Hauptgericht", "portionen": 4, "zeit": 40, "haltbar": 4,
-   "kcal": 500, "e": 40, "kh": 48, "f": 15, "tags": ["eiweißreich"],
-   "zutaten": [{"m": 700, "e": "g", "n": "Rinderhack 5 %"}, {"m": 1, "e": "Stück", "n": "Ei"}, {"m": 40, "e": "g", "n": "Haferflocken"}, {"m": 1, "e": "Stück", "n": "Zwiebel"}, {"m": 900, "e": "g", "n": "Süßkartoffeln"}, {"m": 400, "e": "g", "n": "Grüne Bohnen"}, {"m": 1, "e": "EL", "n": "Olivenöl"}, {"m": 1, "e": "EL", "n": "Senf"}],
-   "schritte": ["Ofen auf 200 °C Umluft.", "Süßkartoffeln in Spalten schneiden, mit Öl und Salz aufs Blech.", "Hack mit Ei, Haferflocken, gehackter Zwiebel, Senf und Gewürzen verkneten, 12 Frikadellen formen.", "Frikadellen dazulegen, alles 25 Minuten backen.", "Bohnen 6 Minuten kochen, alles portionieren."]},
-  {"id": "griechischer-haehnchensalat", "name": "Griechische Hähnchen-Bowl", "kat": "Hauptgericht", "portionen": 3, "zeit": 25, "haltbar": 3,
-   "kcal": 480, "e": 44, "kh": 35, "f": 18, "tags": ["eiweißreich"],
-   "zutaten": [{"m": 500, "e": "g", "n": "Hähnchenbrust"}, {"m": 150, "e": "g", "n": "Quinoa (roh)"}, {"m": 1, "e": "Stück", "n": "Gurke"}, {"m": 250, "e": "g", "n": "Kirschtomaten"}, {"m": 90, "e": "g", "n": "Feta"}, {"m": 150, "e": "g", "n": "Griechischer Joghurt"}, {"m": 1, "e": "Zehe", "n": "Knoblauch"}, {"m": null, "e": "", "n": "Oregano, Zitrone, Salz"}],
-   "schritte": ["Quinoa kochen und abkühlen lassen.", "Hähnchen mit Oregano und Zitrone würzen, braten, in Scheiben schneiden.", "Gurke und Tomaten schneiden.", "Joghurt mit Knoblauch und Salz zu Tzatziki rühren — separat abfüllen.", "Alles in Boxen anrichten, Feta darüberbröseln."]},
-
-  {"id": "protein-balls", "name": "Protein-Energy-Balls", "kat": "Snack", "portionen": 8, "zeit": 15, "haltbar": 7,
-   "kcal": 190, "e": 10, "kh": 20, "f": 8, "tags": ["vegetarisch"],
-   "zutaten": [{"m": 120, "e": "g", "n": "Haferflocken"}, {"m": 60, "e": "g", "n": "Proteinpulver"}, {"m": 80, "e": "g", "n": "Erdnussmus"}, {"m": 60, "e": "g", "n": "Datteln (entsteint)"}, {"m": 30, "e": "g", "n": "Zartbitter-Schokodrops"}, {"m": 4, "e": "EL", "n": "Milch"}],
-   "schritte": ["Datteln fein hacken oder kurz mixen.", "Alles zu einer formbaren Masse verkneten — bei Bedarf etwas mehr Milch.", "16 Kugeln formen (2 pro Portion).", "Im Kühlschrank in einer Dose lagern."]},
-  {"id": "quark-snack", "name": "Vanille-Quark mit Nüssen", "kat": "Snack", "portionen": 4, "zeit": 5, "haltbar": 3,
-   "kcal": 220, "e": 24, "kh": 12, "f": 8, "tags": ["vegetarisch", "eiweißreich"],
-   "zutaten": [{"m": 1000, "e": "g", "n": "Magerquark"}, {"m": 100, "e": "ml", "n": "Milch 1,5 %"}, {"m": 1, "e": "Päckchen", "n": "Vanillezucker (oder Süßstoff)"}, {"m": 60, "e": "g", "n": "Walnüsse"}],
-   "schritte": ["Quark mit Milch und Vanille cremig rühren.", "In 4 Gläser füllen.", "Nüsse separat in kleinen Tütchen — so bleiben sie knackig."]},
-  {"id": "gemuese-sticks-hummus", "name": "Gemüsesticks mit Hummus", "kat": "Snack", "portionen": 4, "zeit": 10, "haltbar": 4,
-   "kcal": 170, "e": 6, "kh": 14, "f": 10, "tags": ["vegan"],
-   "zutaten": [{"m": 3, "e": "Stück", "n": "Karotten"}, {"m": 1, "e": "Stück", "n": "Gurke"}, {"m": 2, "e": "Stück", "n": "Paprika"}, {"m": 200, "e": "g", "n": "Hummus"}],
-   "schritte": ["Gemüse in Sticks schneiden.", "Hummus auf 4 kleine Dosen verteilen.", "Sticks hochkant in Boxen stellen, mit einem feuchten Küchentuch abdecken — bleiben so knackig."]},
-  {"id": "eier-hartgekocht", "name": "Hartgekochte Eier mit Reiswaffeln", "kat": "Snack", "portionen": 4, "zeit": 12, "haltbar": 5,
-   "kcal": 200, "e": 14, "kh": 13, "f": 10, "tags": ["vegetarisch"],
-   "zutaten": [{"m": 8, "e": "Stück", "n": "Eier"}, {"m": 8, "e": "Stück", "n": "Reiswaffeln"}, {"m": null, "e": "", "n": "Salz, Pfeffer"}],
-   "schritte": ["Eier 9–10 Minuten kochen, kalt abschrecken.", "Ungeschält im Kühlschrank lagern — so halten sie bis zu 5 Tage.", "Je 2 Eier und 2 Reiswaffeln als Portion."]}
+  {
+   "id": "overnight-oats",
+   "name": "Protein Overnight Oats",
+   "kat": "Frühstück",
+   "portionen": 4,
+   "zeit": 10,
+   "haltbar": 4,
+   "kcal": 420,
+   "e": 32,
+   "kh": 52,
+   "f": 9,
+   "tags": [
+    "vegetarisch",
+    "eiweißreich"
+   ],
+   "zutaten": [
+    {
+     "m": 240,
+     "e": "g",
+     "n": "Haferflocken"
+    },
+    {
+     "m": 600,
+     "e": "g",
+     "n": "Skyr natur"
+    },
+    {
+     "m": 400,
+     "e": "ml",
+     "n": "Milch 1,5 %"
+    },
+    {
+     "m": 40,
+     "e": "g",
+     "n": "Chiasamen"
+    },
+    {
+     "m": 400,
+     "e": "g",
+     "n": "Beeren (TK)"
+    },
+    {
+     "m": 1,
+     "e": "TL",
+     "n": "Zimt"
+    }
+   ],
+   "schritte": [
+    "Haferflocken, Chiasamen und Zimt auf 4 Gläser verteilen.",
+    "Skyr mit der Milch glatt rühren und darübergeben, gut umrühren.",
+    "Beeren obenauf, Deckel drauf, über Nacht in den Kühlschrank.",
+    "Morgens direkt aus dem Glas essen — kalt oder kurz erwärmt."
+   ],
+   "bild": "bilder/rezepte/overnight-oats.jpg"
+  },
+  {
+   "id": "egg-muffins",
+   "name": "Gemüse-Eiermuffins",
+   "kat": "Frühstück",
+   "portionen": 4,
+   "zeit": 30,
+   "haltbar": 4,
+   "kcal": 260,
+   "e": 22,
+   "kh": 5,
+   "f": 16,
+   "tags": [
+    "vegetarisch",
+    "low carb"
+   ],
+   "zutaten": [
+    {
+     "m": 10,
+     "e": "Stück",
+     "n": "Eier"
+    },
+    {
+     "m": 150,
+     "e": "g",
+     "n": "Blattspinat"
+    },
+    {
+     "m": 1,
+     "e": "Stück",
+     "n": "Paprika"
+    },
+    {
+     "m": 100,
+     "e": "g",
+     "n": "Feta"
+    },
+    {
+     "m": 1,
+     "e": "Stück",
+     "n": "Frühlingszwiebel"
+    },
+    {
+     "m": null,
+     "e": "",
+     "n": "Salz, Pfeffer, Paprikapulver"
+    }
+   ],
+   "schritte": [
+    "Ofen auf 180 °C Umluft vorheizen, Muffinform (12er) einfetten.",
+    "Paprika und Frühlingszwiebel klein schneiden, Spinat grob hacken.",
+    "Eier verquirlen und würzen, Gemüse und zerbröselten Feta unterheben.",
+    "In die Mulden füllen und 20 Minuten backen.",
+    "Abkühlen lassen, je 3 Muffins pro Box. Kalt oder 30 Sekunden in der Mikrowelle."
+   ],
+   "bild": "bilder/rezepte/egg-muffins.jpg"
+  },
+  {
+   "id": "protein-pancakes",
+   "name": "Protein-Pancakes",
+   "kat": "Frühstück",
+   "portionen": 3,
+   "zeit": 20,
+   "haltbar": 3,
+   "kcal": 390,
+   "e": 34,
+   "kh": 42,
+   "f": 9,
+   "tags": [
+    "vegetarisch",
+    "eiweißreich"
+   ],
+   "zutaten": [
+    {
+     "m": 150,
+     "e": "g",
+     "n": "Haferflocken"
+    },
+    {
+     "m": 250,
+     "e": "g",
+     "n": "Magerquark"
+    },
+    {
+     "m": 4,
+     "e": "Stück",
+     "n": "Eier"
+    },
+    {
+     "m": 1,
+     "e": "Stück",
+     "n": "Banane"
+    },
+    {
+     "m": 1,
+     "e": "TL",
+     "n": "Backpulver"
+    }
+   ],
+   "schritte": [
+    "Alle Zutaten im Mixer zu einem dicken Teig pürieren.",
+    "In einer beschichteten Pfanne mit wenig Öl kleine Pancakes ausbacken.",
+    "Abkühlen lassen, mit Backpapier dazwischen in Boxen schichten.",
+    "Im Toaster oder in der Pfanne aufwärmen, mit Skyr und Beeren servieren."
+   ],
+   "bild": "bilder/rezepte/protein-pancakes.jpg"
+  },
+  {
+   "id": "chia-pudding",
+   "name": "Chia-Skyr-Pudding",
+   "kat": "Frühstück",
+   "portionen": 3,
+   "zeit": 5,
+   "haltbar": 4,
+   "kcal": 310,
+   "e": 24,
+   "kh": 22,
+   "f": 13,
+   "tags": [
+    "vegetarisch"
+   ],
+   "zutaten": [
+    {
+     "m": 75,
+     "e": "g",
+     "n": "Chiasamen"
+    },
+    {
+     "m": 450,
+     "e": "g",
+     "n": "Skyr natur"
+    },
+    {
+     "m": 300,
+     "e": "ml",
+     "n": "Milch 1,5 %"
+    },
+    {
+     "m": 2,
+     "e": "TL",
+     "n": "Honig"
+    },
+    {
+     "m": 250,
+     "e": "g",
+     "n": "Heidelbeeren"
+    }
+   ],
+   "schritte": [
+    "Chiasamen mit Milch verrühren, 10 Minuten quellen lassen, nochmal rühren.",
+    "Skyr und Honig unterrühren.",
+    "Auf 3 Gläser verteilen, Heidelbeeren darauf, kalt stellen."
+   ],
+   "bild": "bilder/rezepte/chia-pudding.jpg"
+  },
+  {
+   "id": "ruehrei-wraps",
+   "name": "Rührei-Frühstückswraps",
+   "kat": "Frühstück",
+   "portionen": 4,
+   "zeit": 20,
+   "haltbar": 3,
+   "kcal": 380,
+   "e": 28,
+   "kh": 30,
+   "f": 16,
+   "tags": [
+    "vegetarisch",
+    "eiweißreich"
+   ],
+   "zutaten": [
+    {
+     "m": 8,
+     "e": "Stück",
+     "n": "Eier"
+    },
+    {
+     "m": 200,
+     "e": "g",
+     "n": "Körniger Frischkäse"
+    },
+    {
+     "m": 4,
+     "e": "Stück",
+     "n": "Vollkorn-Wraps"
+    },
+    {
+     "m": 100,
+     "e": "g",
+     "n": "Blattspinat"
+    },
+    {
+     "m": 1,
+     "e": "Stück",
+     "n": "Paprika"
+    },
+    {
+     "m": 60,
+     "e": "g",
+     "n": "Gouda, gerieben"
+    },
+    {
+     "m": null,
+     "e": "",
+     "n": "Salz, Pfeffer, Schnittlauch"
+    }
+   ],
+   "schritte": [
+    "Paprika fein würfeln und in einer beschichteten Pfanne kurz anbraten, Spinat zusammenfallen lassen.",
+    "Eier mit dem Frischkäse verquirlen, würzen und in die Pfanne geben.",
+    "Bei mittlerer Hitze cremig stocken lassen, Käse unterheben.",
+    "Auf die Wraps verteilen, fest einrollen und halbieren.",
+    "Einzeln in Folie wickeln. Morgens 1 Minute in der Mikrowelle oder 3 Minuten in der Pfanne erwärmen."
+   ]
+  },
+  {
+   "id": "bananenbrot",
+   "name": "Protein-Bananenbrot",
+   "kat": "Frühstück",
+   "portionen": 8,
+   "zeit": 60,
+   "haltbar": 5,
+   "kcal": 230,
+   "e": 15,
+   "kh": 27,
+   "f": 7,
+   "tags": [
+    "vegetarisch"
+   ],
+   "zutaten": [
+    {
+     "m": 3,
+     "e": "Stück",
+     "n": "reife Bananen"
+    },
+    {
+     "m": 3,
+     "e": "Stück",
+     "n": "Eier"
+    },
+    {
+     "m": 250,
+     "e": "g",
+     "n": "Magerquark"
+    },
+    {
+     "m": 150,
+     "e": "g",
+     "n": "Haferflocken, fein gemahlen"
+    },
+    {
+     "m": 40,
+     "e": "g",
+     "n": "Proteinpulver Vanille"
+    },
+    {
+     "m": 40,
+     "e": "g",
+     "n": "Walnüsse, gehackt"
+    },
+    {
+     "m": 1,
+     "e": "Päckchen",
+     "n": "Backpulver"
+    },
+    {
+     "m": 1,
+     "e": "TL",
+     "n": "Zimt"
+    }
+   ],
+   "schritte": [
+    "Ofen auf 175 °C Ober-/Unterhitze vorheizen, Kastenform mit Backpapier auslegen.",
+    "Bananen zerdrücken, mit Eiern und Quark glatt rühren.",
+    "Haferflocken, Proteinpulver, Backpulver und Zimt unterheben, die Hälfte der Nüsse dazu.",
+    "In die Form füllen, restliche Nüsse darüberstreuen.",
+    "50 Minuten backen, auskühlen lassen und in 8 Scheiben schneiden."
+   ]
+  },
+  {
+   "id": "haehnchen-reis-brokkoli",
+   "name": "Hähnchen, Reis & Brokkoli",
+   "kat": "Hauptgericht",
+   "portionen": 4,
+   "zeit": 35,
+   "haltbar": 4,
+   "kcal": 520,
+   "e": 46,
+   "kh": 58,
+   "f": 10,
+   "tags": [
+    "eiweißreich",
+    "Klassiker"
+   ],
+   "zutaten": [
+    {
+     "m": 700,
+     "e": "g",
+     "n": "Hähnchenbrust"
+    },
+    {
+     "m": 280,
+     "e": "g",
+     "n": "Basmatireis (roh)"
+    },
+    {
+     "m": 800,
+     "e": "g",
+     "n": "Brokkoli"
+    },
+    {
+     "m": 2,
+     "e": "EL",
+     "n": "Olivenöl"
+    },
+    {
+     "m": 2,
+     "e": "TL",
+     "n": "Paprikapulver geräuchert"
+    },
+    {
+     "m": null,
+     "e": "",
+     "n": "Salz, Pfeffer, Knoblauchpulver"
+    }
+   ],
+   "schritte": [
+    "Reis nach Packungsangabe kochen.",
+    "Hähnchen in Würfel schneiden, mit 1 EL Öl und den Gewürzen mischen.",
+    "In der Pfanne 8–10 Minuten rundherum braten, bis es durch ist.",
+    "Brokkoli in Röschen 4–5 Minuten dämpfen — bissfest lassen, er wird beim Aufwärmen weicher.",
+    "Auf 4 Boxen verteilen, Restöl darüber, abkühlen lassen und schließen."
+   ],
+   "bild": "bilder/rezepte/haehnchen-reis-brokkoli.jpg"
+  },
+  {
+   "id": "chili-con-carne",
+   "name": "Chili con Carne",
+   "kat": "Hauptgericht",
+   "portionen": 5,
+   "zeit": 45,
+   "haltbar": 4,
+   "kcal": 480,
+   "e": 40,
+   "kh": 45,
+   "f": 13,
+   "tags": [
+    "eiweißreich",
+    "einfrierbar"
+   ],
+   "zutaten": [
+    {
+     "m": 750,
+     "e": "g",
+     "n": "Rinderhack 5 %"
+    },
+    {
+     "m": 2,
+     "e": "Dosen",
+     "n": "Kidneybohnen"
+    },
+    {
+     "m": 1,
+     "e": "Dose",
+     "n": "Mais"
+    },
+    {
+     "m": 2,
+     "e": "Dosen",
+     "n": "Stückige Tomaten"
+    },
+    {
+     "m": 2,
+     "e": "Stück",
+     "n": "Paprika"
+    },
+    {
+     "m": 2,
+     "e": "Stück",
+     "n": "Zwiebeln"
+    },
+    {
+     "m": 2,
+     "e": "Zehen",
+     "n": "Knoblauch"
+    },
+    {
+     "m": 2,
+     "e": "EL",
+     "n": "Tomatenmark"
+    },
+    {
+     "m": null,
+     "e": "",
+     "n": "Kreuzkümmel, Chili, Paprika, Salz"
+    }
+   ],
+   "schritte": [
+    "Zwiebeln, Knoblauch und Paprika würfeln.",
+    "Hack krümelig anbraten, Zwiebeln und Knoblauch dazu.",
+    "Tomatenmark kurz mitrösten, Gewürze dazu.",
+    "Tomaten, Paprika, abgetropfte Bohnen und Mais zugeben.",
+    "25 Minuten köcheln lassen, abschmecken.",
+    "Portionieren — friert sich hervorragend ein (bis 3 Monate)."
+   ],
+   "bild": "bilder/rezepte/chili-con-carne.jpg"
+  },
+  {
+   "id": "lachs-ofengemuese",
+   "name": "Lachs mit Ofengemüse & Kartoffeln",
+   "kat": "Hauptgericht",
+   "portionen": 3,
+   "zeit": 40,
+   "haltbar": 3,
+   "kcal": 560,
+   "e": 36,
+   "kh": 45,
+   "f": 25,
+   "tags": [
+    "Omega-3"
+   ],
+   "zutaten": [
+    {
+     "m": 450,
+     "e": "g",
+     "n": "Lachsfilet"
+    },
+    {
+     "m": 750,
+     "e": "g",
+     "n": "Kartoffeln (festkochend)"
+    },
+    {
+     "m": 2,
+     "e": "Stück",
+     "n": "Zucchini"
+    },
+    {
+     "m": 1,
+     "e": "Stück",
+     "n": "Paprika"
+    },
+    {
+     "m": 1,
+     "e": "Stück",
+     "n": "Rote Zwiebel"
+    },
+    {
+     "m": 2,
+     "e": "EL",
+     "n": "Olivenöl"
+    },
+    {
+     "m": 1,
+     "e": "Stück",
+     "n": "Zitrone"
+    },
+    {
+     "m": null,
+     "e": "",
+     "n": "Rosmarin, Salz, Pfeffer"
+    }
+   ],
+   "schritte": [
+    "Ofen auf 200 °C Umluft vorheizen.",
+    "Kartoffeln vierteln, mit 1 EL Öl, Rosmarin und Salz 15 Minuten vorbacken.",
+    "Gemüse in grobe Stücke schneiden, mit Restöl zu den Kartoffeln geben.",
+    "Lachs obenauf legen, mit Zitrone beträufeln, weitere 15 Minuten backen.",
+    "Aufteilen. Lachs beim Aufwärmen nur kurz erhitzen, sonst wird er trocken."
+   ],
+   "bild": "bilder/rezepte/lachs-ofengemuese.jpg"
+  },
+  {
+   "id": "putengeschnetzeltes",
+   "name": "Putengeschnetzeltes mit Nudeln",
+   "kat": "Hauptgericht",
+   "portionen": 4,
+   "zeit": 30,
+   "haltbar": 3,
+   "kcal": 540,
+   "e": 47,
+   "kh": 60,
+   "f": 10,
+   "tags": [
+    "eiweißreich"
+   ],
+   "zutaten": [
+    {
+     "m": 600,
+     "e": "g",
+     "n": "Putenbrust"
+    },
+    {
+     "m": 280,
+     "e": "g",
+     "n": "Vollkornnudeln (roh)"
+    },
+    {
+     "m": 400,
+     "e": "g",
+     "n": "Champignons"
+    },
+    {
+     "m": 1,
+     "e": "Stück",
+     "n": "Zwiebel"
+    },
+    {
+     "m": 200,
+     "e": "ml",
+     "n": "Milch 1,5 %"
+    },
+    {
+     "m": 150,
+     "e": "g",
+     "n": "Frischkäse light"
+    },
+    {
+     "m": 150,
+     "e": "g",
+     "n": "Blattspinat"
+    },
+    {
+     "m": null,
+     "e": "",
+     "n": "Salz, Pfeffer, Muskat"
+    }
+   ],
+   "schritte": [
+    "Nudeln kochen.",
+    "Pute in Streifen schneiden und scharf anbraten, herausnehmen.",
+    "Zwiebel und Champignons in derselben Pfanne braten.",
+    "Milch und Frischkäse einrühren, Spinat zusammenfallen lassen, würzen.",
+    "Fleisch zurück in die Soße, mit den Nudeln mischen und portionieren."
+   ]
+  },
+  {
+   "id": "linsen-curry",
+   "name": "Rotes Linsen-Curry",
+   "kat": "Hauptgericht",
+   "portionen": 4,
+   "zeit": 30,
+   "haltbar": 5,
+   "kcal": 470,
+   "e": 21,
+   "kh": 62,
+   "f": 14,
+   "tags": [
+    "vegan",
+    "einfrierbar"
+   ],
+   "zutaten": [
+    {
+     "m": 250,
+     "e": "g",
+     "n": "Rote Linsen"
+    },
+    {
+     "m": 200,
+     "e": "g",
+     "n": "Basmatireis (roh)"
+    },
+    {
+     "m": 400,
+     "e": "ml",
+     "n": "Kokosmilch light"
+    },
+    {
+     "m": 1,
+     "e": "Dose",
+     "n": "Stückige Tomaten"
+    },
+    {
+     "m": 200,
+     "e": "g",
+     "n": "Blattspinat"
+    },
+    {
+     "m": 1,
+     "e": "Stück",
+     "n": "Zwiebel"
+    },
+    {
+     "m": 1,
+     "e": "Stück",
+     "n": "Ingwer (daumengroß)"
+    },
+    {
+     "m": 2,
+     "e": "EL",
+     "n": "Currypaste"
+    }
+   ],
+   "schritte": [
+    "Zwiebel und Ingwer fein hacken und in etwas Öl anschwitzen.",
+    "Currypaste kurz mitrösten.",
+    "Linsen, Tomaten, Kokosmilch und 300 ml Wasser zugeben, 15 Minuten köcheln.",
+    "Spinat unterheben. Reis separat kochen.",
+    "Portionieren — schmeckt am zweiten Tag sogar besser."
+   ]
+  },
+  {
+   "id": "burrito-bowl",
+   "name": "Burrito Bowl",
+   "kat": "Hauptgericht",
+   "portionen": 4,
+   "zeit": 30,
+   "haltbar": 4,
+   "kcal": 560,
+   "e": 45,
+   "kh": 62,
+   "f": 13,
+   "tags": [
+    "eiweißreich"
+   ],
+   "zutaten": [
+    {
+     "m": 600,
+     "e": "g",
+     "n": "Hähnchenbrust"
+    },
+    {
+     "m": 240,
+     "e": "g",
+     "n": "Reis (roh)"
+    },
+    {
+     "m": 1,
+     "e": "Dose",
+     "n": "Kidneybohnen"
+    },
+    {
+     "m": 1,
+     "e": "Dose",
+     "n": "Mais"
+    },
+    {
+     "m": 2,
+     "e": "Stück",
+     "n": "Paprika"
+    },
+    {
+     "m": 1,
+     "e": "Stück",
+     "n": "Limette"
+    },
+    {
+     "m": 200,
+     "e": "g",
+     "n": "Salsa"
+    },
+    {
+     "m": null,
+     "e": "",
+     "n": "Kreuzkümmel, Paprika, Chili, Salz"
+    }
+   ],
+   "schritte": [
+    "Reis kochen, mit Limettensaft und Salz würzen.",
+    "Hähnchen in Streifen schneiden, würzen und braten.",
+    "Paprika in Streifen kurz mitbraten.",
+    "Bohnen und Mais abspülen.",
+    "Alles in Boxen schichten, Salsa separat in kleinen Dosen."
+   ]
+  },
+  {
+   "id": "bolognese",
+   "name": "Leichte Bolognese",
+   "kat": "Hauptgericht",
+   "portionen": 5,
+   "zeit": 40,
+   "haltbar": 4,
+   "kcal": 530,
+   "e": 38,
+   "kh": 64,
+   "f": 12,
+   "tags": [
+    "einfrierbar",
+    "Klassiker"
+   ],
+   "zutaten": [
+    {
+     "m": 600,
+     "e": "g",
+     "n": "Rinderhack 5 %"
+    },
+    {
+     "m": 400,
+     "e": "g",
+     "n": "Vollkornnudeln (roh)"
+    },
+    {
+     "m": 700,
+     "e": "g",
+     "n": "Passierte Tomaten"
+    },
+    {
+     "m": 2,
+     "e": "Stück",
+     "n": "Karotten"
+    },
+    {
+     "m": 1,
+     "e": "Stück",
+     "n": "Zucchini"
+    },
+    {
+     "m": 1,
+     "e": "Stück",
+     "n": "Zwiebel"
+    },
+    {
+     "m": 2,
+     "e": "Zehen",
+     "n": "Knoblauch"
+    },
+    {
+     "m": null,
+     "e": "",
+     "n": "Oregano, Basilikum, Salz, Pfeffer"
+    }
+   ],
+   "schritte": [
+    "Karotten, Zucchini, Zwiebel und Knoblauch fein würfeln oder raspeln.",
+    "Hack anbraten, Gemüse dazu und 5 Minuten mitbraten.",
+    "Tomaten und Gewürze zugeben, 20 Minuten köcheln.",
+    "Nudeln al dente kochen, mit der Soße portionieren."
+   ]
+  },
+  {
+   "id": "tofu-stirfry",
+   "name": "Tofu-Gemüse-Pfanne mit Erdnusssoße",
+   "kat": "Hauptgericht",
+   "portionen": 3,
+   "zeit": 25,
+   "haltbar": 3,
+   "kcal": 510,
+   "e": 27,
+   "kh": 55,
+   "f": 20,
+   "tags": [
+    "vegan"
+   ],
+   "zutaten": [
+    {
+     "m": 400,
+     "e": "g",
+     "n": "Tofu natur"
+    },
+    {
+     "m": 200,
+     "e": "g",
+     "n": "Reis (roh)"
+    },
+    {
+     "m": 600,
+     "e": "g",
+     "n": "Wok-Gemüse (TK)"
+    },
+    {
+     "m": 2,
+     "e": "EL",
+     "n": "Erdnussmus"
+    },
+    {
+     "m": 3,
+     "e": "EL",
+     "n": "Sojasoße"
+    },
+    {
+     "m": 1,
+     "e": "Stück",
+     "n": "Limette"
+    },
+    {
+     "m": 1,
+     "e": "TL",
+     "n": "Ahornsirup"
+    }
+   ],
+   "schritte": [
+    "Tofu trocken tupfen, würfeln und knusprig braten.",
+    "Reis kochen.",
+    "Gemüse im Wok scharf anbraten.",
+    "Erdnussmus, Sojasoße, Limettensaft, Sirup und 3 EL Wasser verrühren.",
+    "Tofu und Soße zum Gemüse, mit Reis portionieren."
+   ]
+  },
+  {
+   "id": "ofen-frikadellen",
+   "name": "Ofen-Frikadellen mit Süßkartoffel",
+   "kat": "Hauptgericht",
+   "portionen": 4,
+   "zeit": 40,
+   "haltbar": 4,
+   "kcal": 500,
+   "e": 40,
+   "kh": 48,
+   "f": 15,
+   "tags": [
+    "eiweißreich"
+   ],
+   "zutaten": [
+    {
+     "m": 700,
+     "e": "g",
+     "n": "Rinderhack 5 %"
+    },
+    {
+     "m": 1,
+     "e": "Stück",
+     "n": "Ei"
+    },
+    {
+     "m": 40,
+     "e": "g",
+     "n": "Haferflocken"
+    },
+    {
+     "m": 1,
+     "e": "Stück",
+     "n": "Zwiebel"
+    },
+    {
+     "m": 900,
+     "e": "g",
+     "n": "Süßkartoffeln"
+    },
+    {
+     "m": 400,
+     "e": "g",
+     "n": "Grüne Bohnen"
+    },
+    {
+     "m": 1,
+     "e": "EL",
+     "n": "Olivenöl"
+    },
+    {
+     "m": 1,
+     "e": "EL",
+     "n": "Senf"
+    }
+   ],
+   "schritte": [
+    "Ofen auf 200 °C Umluft.",
+    "Süßkartoffeln in Spalten schneiden, mit Öl und Salz aufs Blech.",
+    "Hack mit Ei, Haferflocken, gehackter Zwiebel, Senf und Gewürzen verkneten, 12 Frikadellen formen.",
+    "Frikadellen dazulegen, alles 25 Minuten backen.",
+    "Bohnen 6 Minuten kochen, alles portionieren."
+   ]
+  },
+  {
+   "id": "griechischer-haehnchensalat",
+   "name": "Griechische Hähnchen-Bowl",
+   "kat": "Hauptgericht",
+   "portionen": 3,
+   "zeit": 25,
+   "haltbar": 3,
+   "kcal": 480,
+   "e": 44,
+   "kh": 35,
+   "f": 18,
+   "tags": [
+    "eiweißreich"
+   ],
+   "zutaten": [
+    {
+     "m": 500,
+     "e": "g",
+     "n": "Hähnchenbrust"
+    },
+    {
+     "m": 150,
+     "e": "g",
+     "n": "Quinoa (roh)"
+    },
+    {
+     "m": 1,
+     "e": "Stück",
+     "n": "Gurke"
+    },
+    {
+     "m": 250,
+     "e": "g",
+     "n": "Kirschtomaten"
+    },
+    {
+     "m": 90,
+     "e": "g",
+     "n": "Feta"
+    },
+    {
+     "m": 150,
+     "e": "g",
+     "n": "Griechischer Joghurt"
+    },
+    {
+     "m": 1,
+     "e": "Zehe",
+     "n": "Knoblauch"
+    },
+    {
+     "m": null,
+     "e": "",
+     "n": "Oregano, Zitrone, Salz"
+    }
+   ],
+   "schritte": [
+    "Quinoa kochen und abkühlen lassen.",
+    "Hähnchen mit Oregano und Zitrone würzen, braten, in Scheiben schneiden.",
+    "Gurke und Tomaten schneiden.",
+    "Joghurt mit Knoblauch und Salz zu Tzatziki rühren — separat abfüllen.",
+    "Alles in Boxen anrichten, Feta darüberbröseln."
+   ]
+  },
+  {
+   "id": "teriyaki-lachs-bowl",
+   "name": "Teriyaki-Lachs-Bowl",
+   "kat": "Hauptgericht",
+   "portionen": 4,
+   "zeit": 30,
+   "haltbar": 3,
+   "kcal": 560,
+   "e": 36,
+   "kh": 58,
+   "f": 19,
+   "tags": [
+    "Omega-3"
+   ],
+   "zutaten": [
+    {
+     "m": 500,
+     "e": "g",
+     "n": "Lachsfilet"
+    },
+    {
+     "m": 240,
+     "e": "g",
+     "n": "Sushi- oder Basmatireis (roh)"
+    },
+    {
+     "m": 300,
+     "e": "g",
+     "n": "Edamame (TK)"
+    },
+    {
+     "m": 2,
+     "e": "Stück",
+     "n": "Karotten"
+    },
+    {
+     "m": 1,
+     "e": "Stück",
+     "n": "Gurke"
+    },
+    {
+     "m": 4,
+     "e": "EL",
+     "n": "Sojasoße"
+    },
+    {
+     "m": 1,
+     "e": "EL",
+     "n": "Honig"
+    },
+    {
+     "m": 1,
+     "e": "TL",
+     "n": "Ingwer, gerieben"
+    },
+    {
+     "m": 1,
+     "e": "EL",
+     "n": "Sesam"
+    }
+   ],
+   "schritte": [
+    "Reis kochen.",
+    "Sojasoße, Honig und Ingwer zu einer Teriyaki-Soße verrühren.",
+    "Lachs in Würfel schneiden, kurz scharf anbraten, Soße dazugeben und einköcheln lassen.",
+    "Edamame 3 Minuten kochen, Karotten raspeln, Gurke in Scheiben schneiden.",
+    "Reis, Lachs und Gemüse auf 4 Boxen verteilen, mit Sesam bestreuen."
+   ]
+  },
+  {
+   "id": "thai-curry-haehnchen",
+   "name": "Thai-Curry mit Hähnchen",
+   "kat": "Hauptgericht",
+   "portionen": 4,
+   "zeit": 35,
+   "haltbar": 4,
+   "kcal": 540,
+   "e": 42,
+   "kh": 55,
+   "f": 15,
+   "tags": [
+    "eiweißreich",
+    "einfrierbar"
+   ],
+   "zutaten": [
+    {
+     "m": 600,
+     "e": "g",
+     "n": "Hähnchenbrust"
+    },
+    {
+     "m": 240,
+     "e": "g",
+     "n": "Jasminreis (roh)"
+    },
+    {
+     "m": 400,
+     "e": "ml",
+     "n": "Kokosmilch light"
+    },
+    {
+     "m": 2,
+     "e": "EL",
+     "n": "rote Currypaste"
+    },
+    {
+     "m": 2,
+     "e": "Stück",
+     "n": "Paprika"
+    },
+    {
+     "m": 200,
+     "e": "g",
+     "n": "Zuckerschoten"
+    },
+    {
+     "m": 1,
+     "e": "Stück",
+     "n": "Limette"
+    },
+    {
+     "m": null,
+     "e": "",
+     "n": "Koriander, Sojasoße"
+    }
+   ],
+   "schritte": [
+    "Reis kochen.",
+    "Hähnchen in Streifen schneiden und anbraten, herausnehmen.",
+    "Currypaste in der Pfanne kurz anrösten, Kokosmilch dazugießen.",
+    "Paprika und Zuckerschoten 5 Minuten darin garen, Hähnchen zurück in die Soße.",
+    "Mit Limettensaft und Sojasoße abschmecken, mit dem Reis portionieren."
+   ]
+  },
+  {
+   "id": "gefuellte-paprika",
+   "name": "Gefüllte Paprika mit Hack und Reis",
+   "kat": "Hauptgericht",
+   "portionen": 4,
+   "zeit": 50,
+   "haltbar": 4,
+   "kcal": 490,
+   "e": 38,
+   "kh": 42,
+   "f": 17,
+   "tags": [
+    "eiweißreich",
+    "Klassiker"
+   ],
+   "zutaten": [
+    {
+     "m": 4,
+     "e": "Stück",
+     "n": "große Paprika"
+    },
+    {
+     "m": 500,
+     "e": "g",
+     "n": "Rinderhack 5 %"
+    },
+    {
+     "m": 120,
+     "e": "g",
+     "n": "Reis (roh)"
+    },
+    {
+     "m": 400,
+     "e": "g",
+     "n": "passierte Tomaten"
+    },
+    {
+     "m": 1,
+     "e": "Stück",
+     "n": "Zwiebel"
+    },
+    {
+     "m": 80,
+     "e": "g",
+     "n": "Mozzarella light"
+    },
+    {
+     "m": null,
+     "e": "",
+     "n": "Paprikapulver, Oregano, Salz, Pfeffer"
+    }
+   ],
+   "schritte": [
+    "Reis halb gar kochen (8 Minuten). Ofen auf 190 °C vorheizen.",
+    "Hack mit gewürfelter Zwiebel anbraten, Reis und die Hälfte der Tomaten unterrühren, würzen.",
+    "Paprika halbieren, entkernen und mit der Masse füllen.",
+    "Restliche Tomaten in eine Auflaufform geben, Paprika hineinsetzen, mit Mozzarella belegen.",
+    "35 Minuten backen. Je 2 Hälften pro Box."
+   ]
+  },
+  {
+   "id": "gnocchi-pfanne",
+   "name": "Gnocchi-Pfanne mit Pute und Spinat",
+   "kat": "Hauptgericht",
+   "portionen": 4,
+   "zeit": 25,
+   "haltbar": 3,
+   "kcal": 530,
+   "e": 40,
+   "kh": 62,
+   "f": 11,
+   "tags": [
+    "eiweißreich"
+   ],
+   "zutaten": [
+    {
+     "m": 800,
+     "e": "g",
+     "n": "Gnocchi (Kühlregal)"
+    },
+    {
+     "m": 500,
+     "e": "g",
+     "n": "Putenbrust"
+    },
+    {
+     "m": 250,
+     "e": "g",
+     "n": "Kirschtomaten"
+    },
+    {
+     "m": 200,
+     "e": "g",
+     "n": "Blattspinat"
+    },
+    {
+     "m": 150,
+     "e": "g",
+     "n": "Frischkäse light"
+    },
+    {
+     "m": 2,
+     "e": "Zehen",
+     "n": "Knoblauch"
+    },
+    {
+     "m": null,
+     "e": "",
+     "n": "Basilikum, Salz, Pfeffer"
+    }
+   ],
+   "schritte": [
+    "Pute in Würfel schneiden und rundherum anbraten, herausnehmen.",
+    "Gnocchi in derselben Pfanne goldbraun braten.",
+    "Knoblauch und halbierte Tomaten dazugeben, 2 Minuten mitbraten.",
+    "Frischkäse und einen Schuss Wasser einrühren, Spinat zusammenfallen lassen.",
+    "Pute zurückgeben, würzen und auf 4 Boxen verteilen."
+   ]
+  },
+  {
+   "id": "kichererbsen-curry",
+   "name": "Kichererbsen-Spinat-Curry",
+   "kat": "Hauptgericht",
+   "portionen": 4,
+   "zeit": 30,
+   "haltbar": 5,
+   "kcal": 480,
+   "e": 18,
+   "kh": 66,
+   "f": 14,
+   "tags": [
+    "vegan",
+    "einfrierbar"
+   ],
+   "zutaten": [
+    {
+     "m": 2,
+     "e": "Dosen",
+     "n": "Kichererbsen"
+    },
+    {
+     "m": 200,
+     "e": "g",
+     "n": "Basmatireis (roh)"
+    },
+    {
+     "m": 1,
+     "e": "Dose",
+     "n": "stückige Tomaten"
+    },
+    {
+     "m": 400,
+     "e": "ml",
+     "n": "Kokosmilch light"
+    },
+    {
+     "m": 200,
+     "e": "g",
+     "n": "Blattspinat"
+    },
+    {
+     "m": 1,
+     "e": "Stück",
+     "n": "Zwiebel"
+    },
+    {
+     "m": 2,
+     "e": "Zehen",
+     "n": "Knoblauch"
+    },
+    {
+     "m": 2,
+     "e": "TL",
+     "n": "Garam Masala"
+    }
+   ],
+   "schritte": [
+    "Reis kochen.",
+    "Zwiebel und Knoblauch hacken und in etwas Öl anschwitzen, Garam Masala kurz mitrösten.",
+    "Abgetropfte Kichererbsen, Tomaten und Kokosmilch dazugeben, 15 Minuten köcheln.",
+    "Spinat unterheben und zusammenfallen lassen, abschmecken.",
+    "Mit dem Reis portionieren — friert sich gut ein."
+   ]
+  },
+  {
+   "id": "rind-brokkoli",
+   "name": "Rindfleisch-Brokkoli-Pfanne",
+   "kat": "Hauptgericht",
+   "portionen": 4,
+   "zeit": 25,
+   "haltbar": 3,
+   "kcal": 520,
+   "e": 42,
+   "kh": 52,
+   "f": 14,
+   "tags": [
+    "eiweißreich"
+   ],
+   "zutaten": [
+    {
+     "m": 500,
+     "e": "g",
+     "n": "Rinderhüfte"
+    },
+    {
+     "m": 240,
+     "e": "g",
+     "n": "Jasminreis (roh)"
+    },
+    {
+     "m": 600,
+     "e": "g",
+     "n": "Brokkoli"
+    },
+    {
+     "m": 4,
+     "e": "EL",
+     "n": "Sojasoße"
+    },
+    {
+     "m": 1,
+     "e": "EL",
+     "n": "Honig"
+    },
+    {
+     "m": 1,
+     "e": "TL",
+     "n": "Speisestärke"
+    },
+    {
+     "m": 2,
+     "e": "Zehen",
+     "n": "Knoblauch"
+    },
+    {
+     "m": 1,
+     "e": "Stück",
+     "n": "Ingwer (daumengroß)"
+    }
+   ],
+   "schritte": [
+    "Reis kochen. Brokkoli in Röschen teilen.",
+    "Rind in dünne Streifen schneiden und portionsweise sehr heiß anbraten, herausnehmen.",
+    "Knoblauch und Ingwer kurz anbraten, Brokkoli mit 4 EL Wasser dazugeben, 4 Minuten dünsten.",
+    "Sojasoße, Honig und Stärke verrühren, mit dem Fleisch in die Pfanne geben und kurz andicken lassen.",
+    "Mit dem Reis auf 4 Boxen verteilen."
+   ]
+  },
+  {
+   "id": "thunfisch-nudelsalat",
+   "name": "Thunfisch-Nudelsalat",
+   "kat": "Hauptgericht",
+   "portionen": 4,
+   "zeit": 20,
+   "haltbar": 3,
+   "kcal": 470,
+   "e": 38,
+   "kh": 55,
+   "f": 10,
+   "tags": [
+    "eiweißreich"
+   ],
+   "zutaten": [
+    {
+     "m": 250,
+     "e": "g",
+     "n": "Vollkornnudeln (roh)"
+    },
+    {
+     "m": 2,
+     "e": "Dosen",
+     "n": "Thunfisch im eigenen Saft"
+    },
+    {
+     "m": 250,
+     "e": "g",
+     "n": "Kirschtomaten"
+    },
+    {
+     "m": 1,
+     "e": "Stück",
+     "n": "Gurke"
+    },
+    {
+     "m": 1,
+     "e": "Dose",
+     "n": "Mais"
+    },
+    {
+     "m": 200,
+     "e": "g",
+     "n": "Skyr natur"
+    },
+    {
+     "m": 1,
+     "e": "EL",
+     "n": "Senf"
+    },
+    {
+     "m": null,
+     "e": "",
+     "n": "Dill, Zitrone, Salz, Pfeffer"
+    }
+   ],
+   "schritte": [
+    "Nudeln kochen und kalt abschrecken.",
+    "Skyr mit Senf, Zitronensaft und Dill zu einem Dressing rühren.",
+    "Tomaten halbieren, Gurke würfeln, Mais und Thunfisch abtropfen lassen.",
+    "Alles mit den Nudeln und dem Dressing mischen.",
+    "Auf 4 Boxen verteilen — schmeckt kalt, perfekt fürs Büro."
+   ]
+  },
+  {
+   "id": "fajita-bowl",
+   "name": "Hähnchen-Fajita-Bowl",
+   "kat": "Hauptgericht",
+   "portionen": 4,
+   "zeit": 30,
+   "haltbar": 4,
+   "kcal": 530,
+   "e": 44,
+   "kh": 56,
+   "f": 12,
+   "tags": [
+    "eiweißreich"
+   ],
+   "zutaten": [
+    {
+     "m": 600,
+     "e": "g",
+     "n": "Hähnchenbrust"
+    },
+    {
+     "m": 200,
+     "e": "g",
+     "n": "Quinoa (roh)"
+    },
+    {
+     "m": 3,
+     "e": "Stück",
+     "n": "Paprika, bunt"
+    },
+    {
+     "m": 2,
+     "e": "Stück",
+     "n": "rote Zwiebeln"
+    },
+    {
+     "m": 1,
+     "e": "Dose",
+     "n": "schwarze Bohnen"
+    },
+    {
+     "m": 150,
+     "e": "g",
+     "n": "Griechischer Joghurt"
+    },
+    {
+     "m": 1,
+     "e": "Stück",
+     "n": "Limette"
+    },
+    {
+     "m": 2,
+     "e": "TL",
+     "n": "Fajita-Gewürz"
+    }
+   ],
+   "schritte": [
+    "Quinoa kochen.",
+    "Hähnchen, Paprika und Zwiebeln in Streifen schneiden, mit Fajita-Gewürz mischen.",
+    "Alles in einer großen Pfanne oder auf dem Blech (200 °C, 20 Minuten) garen.",
+    "Bohnen abspülen. Joghurt mit Limettensaft und Salz verrühren und separat abfüllen.",
+    "Quinoa, Fajita-Mischung und Bohnen auf 4 Boxen verteilen."
+   ]
+  },
+  {
+   "id": "protein-balls",
+   "name": "Protein-Energy-Balls",
+   "kat": "Snack",
+   "portionen": 8,
+   "zeit": 15,
+   "haltbar": 7,
+   "kcal": 190,
+   "e": 10,
+   "kh": 20,
+   "f": 8,
+   "tags": [
+    "vegetarisch"
+   ],
+   "zutaten": [
+    {
+     "m": 120,
+     "e": "g",
+     "n": "Haferflocken"
+    },
+    {
+     "m": 60,
+     "e": "g",
+     "n": "Proteinpulver"
+    },
+    {
+     "m": 80,
+     "e": "g",
+     "n": "Erdnussmus"
+    },
+    {
+     "m": 60,
+     "e": "g",
+     "n": "Datteln (entsteint)"
+    },
+    {
+     "m": 30,
+     "e": "g",
+     "n": "Zartbitter-Schokodrops"
+    },
+    {
+     "m": 4,
+     "e": "EL",
+     "n": "Milch"
+    }
+   ],
+   "schritte": [
+    "Datteln fein hacken oder kurz mixen.",
+    "Alles zu einer formbaren Masse verkneten — bei Bedarf etwas mehr Milch.",
+    "16 Kugeln formen (2 pro Portion).",
+    "Im Kühlschrank in einer Dose lagern."
+   ]
+  },
+  {
+   "id": "quark-snack",
+   "name": "Vanille-Quark mit Nüssen",
+   "kat": "Snack",
+   "portionen": 4,
+   "zeit": 5,
+   "haltbar": 3,
+   "kcal": 220,
+   "e": 24,
+   "kh": 12,
+   "f": 8,
+   "tags": [
+    "vegetarisch",
+    "eiweißreich"
+   ],
+   "zutaten": [
+    {
+     "m": 1000,
+     "e": "g",
+     "n": "Magerquark"
+    },
+    {
+     "m": 100,
+     "e": "ml",
+     "n": "Milch 1,5 %"
+    },
+    {
+     "m": 1,
+     "e": "Päckchen",
+     "n": "Vanillezucker (oder Süßstoff)"
+    },
+    {
+     "m": 60,
+     "e": "g",
+     "n": "Walnüsse"
+    }
+   ],
+   "schritte": [
+    "Quark mit Milch und Vanille cremig rühren.",
+    "In 4 Gläser füllen.",
+    "Nüsse separat in kleinen Tütchen — so bleiben sie knackig."
+   ]
+  },
+  {
+   "id": "gemuese-sticks-hummus",
+   "name": "Gemüsesticks mit Hummus",
+   "kat": "Snack",
+   "portionen": 4,
+   "zeit": 10,
+   "haltbar": 4,
+   "kcal": 170,
+   "e": 6,
+   "kh": 14,
+   "f": 10,
+   "tags": [
+    "vegan"
+   ],
+   "zutaten": [
+    {
+     "m": 3,
+     "e": "Stück",
+     "n": "Karotten"
+    },
+    {
+     "m": 1,
+     "e": "Stück",
+     "n": "Gurke"
+    },
+    {
+     "m": 2,
+     "e": "Stück",
+     "n": "Paprika"
+    },
+    {
+     "m": 200,
+     "e": "g",
+     "n": "Hummus"
+    }
+   ],
+   "schritte": [
+    "Gemüse in Sticks schneiden.",
+    "Hummus auf 4 kleine Dosen verteilen.",
+    "Sticks hochkant in Boxen stellen, mit einem feuchten Küchentuch abdecken — bleiben so knackig."
+   ]
+  },
+  {
+   "id": "eier-hartgekocht",
+   "name": "Hartgekochte Eier mit Reiswaffeln",
+   "kat": "Snack",
+   "portionen": 4,
+   "zeit": 12,
+   "haltbar": 5,
+   "kcal": 200,
+   "e": 14,
+   "kh": 13,
+   "f": 10,
+   "tags": [
+    "vegetarisch"
+   ],
+   "zutaten": [
+    {
+     "m": 8,
+     "e": "Stück",
+     "n": "Eier"
+    },
+    {
+     "m": 8,
+     "e": "Stück",
+     "n": "Reiswaffeln"
+    },
+    {
+     "m": null,
+     "e": "",
+     "n": "Salz, Pfeffer"
+    }
+   ],
+   "schritte": [
+    "Eier 9–10 Minuten kochen, kalt abschrecken.",
+    "Ungeschält im Kühlschrank lagern — so halten sie bis zu 5 Tage.",
+    "Je 2 Eier und 2 Reiswaffeln als Portion."
+   ]
+  },
+  {
+   "id": "skyr-beeren-riegel",
+   "name": "Skyr-Beeren-Becher mit Granola",
+   "kat": "Snack",
+   "portionen": 4,
+   "zeit": 5,
+   "haltbar": 3,
+   "kcal": 230,
+   "e": 20,
+   "kh": 26,
+   "f": 5,
+   "tags": [
+    "vegetarisch",
+    "eiweißreich"
+   ],
+   "zutaten": [
+    {
+     "m": 600,
+     "e": "g",
+     "n": "Skyr natur"
+    },
+    {
+     "m": 300,
+     "e": "g",
+     "n": "Beeren (TK, aufgetaut)"
+    },
+    {
+     "m": 60,
+     "e": "g",
+     "n": "Granola"
+    },
+    {
+     "m": 2,
+     "e": "TL",
+     "n": "Honig"
+    }
+   ],
+   "schritte": [
+    "Beeren mit dem Honig leicht zerdrücken.",
+    "Skyr und Beeren abwechselnd in 4 Gläser schichten.",
+    "Granola separat abfüllen und erst vor dem Essen darüberstreuen — so bleibt es knusprig."
+   ]
+  },
+  {
+   "id": "edamame-snack",
+   "name": "Geröstete Kichererbsen & Edamame",
+   "kat": "Snack",
+   "portionen": 4,
+   "zeit": 35,
+   "haltbar": 5,
+   "kcal": 190,
+   "e": 12,
+   "kh": 20,
+   "f": 6,
+   "tags": [
+    "vegan"
+   ],
+   "zutaten": [
+    {
+     "m": 1,
+     "e": "Dose",
+     "n": "Kichererbsen"
+    },
+    {
+     "m": 250,
+     "e": "g",
+     "n": "Edamame, geschält (TK)"
+    },
+    {
+     "m": 1,
+     "e": "EL",
+     "n": "Olivenöl"
+    },
+    {
+     "m": 1,
+     "e": "TL",
+     "n": "Paprikapulver geräuchert"
+    },
+    {
+     "m": null,
+     "e": "",
+     "n": "Salz, Knoblauchpulver"
+    }
+   ],
+   "schritte": [
+    "Ofen auf 200 °C vorheizen. Kichererbsen abspülen und sehr gut trocken tupfen.",
+    "Kichererbsen und aufgetaute Edamame mit Öl und Gewürzen mischen.",
+    "Auf einem Blech 25–30 Minuten rösten, einmal wenden.",
+    "Vollständig abkühlen lassen und in 4 Dosen füllen."
+   ]
+  }
  ]
 }

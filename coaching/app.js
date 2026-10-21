@@ -1697,12 +1697,32 @@ function mealPrep(ziel) {
       `<span><i class="makro-punkt" style="background:var(--c-fett)"></i>F <b>${r.f} g</b></span>`;
     t.append(m);
     const kc = el('div', 'rezept__kcal', String(r.kcal)); kc.append(el('small', null, 'kcal/Port.'));
-    k.append(t, kc);
+    k.append(rezeptBild(r, 'rezept__bild'), t, kc);
     if (D().einkauf.rezepte[r.id]) k.style.borderColor = 'var(--accent)';
     k.onclick = () => rezeptBlatt(r);
     ziel.append(k);
   });
   ziel.append(el('p', 'fusstext', 'Nährwerte sind gerundete Richtwerte je Portion. Gekochtes im Kühlschrank bei höchstens 4 °C lagern und vor dem Essen vollständig durcherhitzen.'));
+}
+
+/** Rezeptfoto, sonst ein ruhiger Platzhalter in der Akzentfarbe.
+ *  Fehlt eine Bilddatei (offline, noch nicht eingespielt), fällt das Bild
+ *  ebenfalls auf den Platzhalter zurück, statt ein kaputtes Symbol zu zeigen. */
+function rezeptBild(r, klasse) {
+  const platzhalter = () => {
+    const p = el('div', `${klasse} rezept-bild--leer`);
+    p.innerHTML = ikon('ernaehrung');
+    p.setAttribute('aria-hidden', 'true');
+    return p;
+  };
+  if (!r.bild) return platzhalter();
+  const img = el('img', klasse);
+  img.src = r.bild;
+  img.alt = r.name;
+  img.loading = 'lazy';
+  img.decoding = 'async';
+  img.onerror = () => img.replaceWith(platzhalter());
+  return img;
 }
 
 function mengeText(m, faktor) {
@@ -1715,6 +1735,7 @@ function mengeText(m, faktor) {
 function rezeptBlatt(r) {
   blattOeffnen(r.name, (inhalt, schliessen, blatt) => {
     let portionen = D().einkauf.rezepte[r.id] || r.portionen;
+    inhalt.append(rezeptBild(r, 'rezept-held'));
     const marken = el('p');
     marken.append(el('span', 'marke marke--akzent', r.kat));
     r.tags.forEach((t) => marken.append(el('span', 'marke', t)));
