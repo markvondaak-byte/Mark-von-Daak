@@ -1118,7 +1118,8 @@
     "Currypaste in der Pfanne kurz anrösten, Kokosmilch dazugießen.",
     "Paprika und Zuckerschoten 5 Minuten darin garen, Hähnchen zurück in die Soße.",
     "Mit Limettensaft und Sojasoße abschmecken, mit dem Reis portionieren."
-   ]
+   ],
+   "bild": "bilder/rezepte/thai-curry-haehnchen.jpg"
   },
   {
    "id": "gefuellte-paprika",
@@ -1178,7 +1179,8 @@
     "Paprika halbieren, entkernen und mit der Masse füllen.",
     "Restliche Tomaten in eine Auflaufform geben, Paprika hineinsetzen, mit Mozzarella belegen.",
     "35 Minuten backen. Je 2 Hälften pro Box."
-   ]
+   ],
+   "bild": "bilder/rezepte/gefuellte-paprika.jpg"
   },
   {
    "id": "gnocchi-pfanne",
@@ -1237,7 +1239,8 @@
     "Knoblauch und halbierte Tomaten dazugeben, 2 Minuten mitbraten.",
     "Frischkäse und einen Schuss Wasser einrühren, Spinat zusammenfallen lassen.",
     "Pute zurückgeben, würzen und auf 4 Boxen verteilen."
-   ]
+   ],
+   "bild": "bilder/rezepte/gnocchi-pfanne.jpg"
   },
   {
    "id": "kichererbsen-curry",
@@ -1302,7 +1305,8 @@
     "Abgetropfte Kichererbsen, Tomaten und Kokosmilch dazugeben, 15 Minuten köcheln.",
     "Spinat unterheben und zusammenfallen lassen, abschmecken.",
     "Mit dem Reis portionieren — friert sich gut ein."
-   ]
+   ],
+   "bild": "bilder/rezepte/kichererbsen-curry.jpg"
   },
   {
    "id": "rind-brokkoli",
@@ -1366,7 +1370,8 @@
     "Knoblauch und Ingwer kurz anbraten, Brokkoli mit 4 EL Wasser dazugeben, 4 Minuten dünsten.",
     "Sojasoße, Honig und Stärke verrühren, mit dem Fleisch in die Pfanne geben und kurz andicken lassen.",
     "Mit dem Reis auf 4 Boxen verteilen."
-   ]
+   ],
+   "bild": "bilder/rezepte/rind-brokkoli.jpg"
   },
   {
    "id": "thunfisch-nudelsalat",
