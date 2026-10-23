@@ -17,7 +17,7 @@ Sie ist von keiner anderen Seite aus verlinkt und nur über ihre Adresse
 |---|---|
 | **Einrichtung** | Name, Ziel, Körperdaten, Aktivität, Trainingstage, Ort, Erfahrung. Daraus Kalorien- und Makroziele und ein fertiger Trainingsplan |
 | **Heute** | Nächstes Training mit Start-Knopf, Ringe für Kalorien, Eiweiß, Schritte und Schlaf, Wasser, Gewohnheiten mit Serien, Check-in-Erinnerung, Tipp des Tages |
-| **Training** | Plan (2–5 Tage, Studio oder Zuhause), Workout-Modus mit Satzprotokoll, Vorwerten vom letzten Mal, Pausentimer mit Vibration und Ton, Übung tauschen, Rekorde (geschätztes 1RM), Verlauf, Übungsbibliothek mit 161 Übungen in 10 Gruppen (inkl. Cardio und Mobilität), Gerät und Anleitung, Planeditor |
+| **Training** | Plan (2–5 Tage, Studio oder Zuhause), Workout-Modus mit Satzprotokoll, Vorwerten vom letzten Mal, Pausentimer mit Vibration und Ton, Übung tauschen, Rekorde (geschätztes 1RM), Verlauf, Übungsbibliothek mit 161 Übungen in 10 Gruppen (inkl. Cardio und Mobilität), Gerät, Anleitung und Übungsvideo, Planeditor |
 | **Ernährung** | Tagebuch nach Mahlzeiten mit 83 Lebensmitteln, Rezeptportionen und Schnelleintrag, Makrobalken, Wasser, Tage blättern |
 | **Meal Prep** | 18 Rezepte mit Nährwerten je Portion, Haltbarkeit, Portionsrechner. Ausgewählte Rezepte ergeben eine zusammengerechnete, abhakbare **Einkaufsliste** zum Teilen |
 | **Check-in** | Täglich: Schritte, Schlaf (Uhrzeiten → Dauer, Erholung 1–5), Gewicht, Energie, Gewohnheiten. Wöchentlich: Fragebogen plus automatisch errechnete Wochenzahlen, als fertiger Text **per WhatsApp oder E-Mail an den Coach** — ohne hinterlegten Kontakt zum Teilen oder Kopieren |
@@ -72,6 +72,24 @@ Canva in einheitlichem Stil (schräg von oben, Tageslicht, heller Stein, 4:3).
 
 Die Bilder werden nicht vorab in den Offline-Speicher geladen, sondern beim
 ersten Ansehen — so bleibt die Installation klein.
+
+## Übungsvideos
+
+Jedes Übungsblatt zeigt oben ein Video. Hat die Übung einen eigenen Clip (Feld
+`video` in `daten/uebungen.json`), spielt die App ihn ohne Ton in Schleife ab.
+Sonst erscheint der Knopf „Übungsvideo auf YouTube ansehen“, der die YouTube-Suche
+zur Übung öffnet — YouTube wird nicht eingebettet, es lädt also nichts von Google,
+solange niemand tippt. Lässt sich ein eigener Clip nicht laden (z. B. offline),
+fällt die App ebenfalls auf den Knopf zurück.
+
+- Eigene Clips (Handyvideo genügt, am besten quer, 5–15 Sekunden, eine saubere
+  Wiederholung von der Seite) als `<übungs-id>.mp4|mov|m4v|webm` nach
+  `build/uebungsvideos/` legen und `python3 coaching/build/uebungsvideos.py`
+  ausführen (braucht ffmpeg): kürzt auf höchstens 20 Sekunden, entfernt den Ton,
+  rechnet auf 720 px Breite als MP4 (H.264) herunter (meist 0,5–2 MB), legt sie
+  unter `videos/` ab und trägt `video` ein. Danach `VERSION` in `sw.js` erhöhen.
+- Videos laufen am Service Worker vorbei direkt vom Netz (Browser laden sie
+  stückweise), sie sind also nicht offline verfügbar.
 
 ## Icons
 
