@@ -47,7 +47,11 @@ const Speicher = {
       deload: null,
       deloadSpaeter: null,
       // Per Barcode gefundene Produkte, damit sie offline und in der Suche bleiben
-      gescannt: {}
+      gescannt: {},
+      // Rechtliches: bestätigter Stand der Nutzungsbedingungen und Einwilligung
+      // in die Weitergabe von Gesundheitsdaten an den Coach (Datum)
+      rechtStand: null,
+      einwilligungCoach: null
     };
   },
 
@@ -543,7 +547,14 @@ function einrichtung(ziel) {
     h.append(el('p', null, 'Die App ersetzt keine ärztliche Beratung. Bei Vorerkrankungen, Schmerzen, in der Schwangerschaft oder bei Medikamenteneinnahme sprich bitte vor Trainings- oder Ernährungsumstellungen mit deiner Ärztin oder deinem Arzt.'));
     h.append(el('p', null, 'Deine Daten bleiben auf diesem Gerät. Nur was du im Check-in selbst abschickst, erreicht deinen Coach.'));
     box.append(h);
-    weiter.onclick = () => { if (!p.name) { fehler.textContent = 'Bitte gib deinen Vornamen ein.'; return; } gehe(2); };
+    const ok = rechtZustimmung();
+    box.append(ok.feld);
+    weiter.onclick = () => {
+      if (!p.name) { fehler.textContent = 'Bitte gib deinen Vornamen ein.'; return; }
+      if (!ok.haken.checked) { fehler.textContent = 'Bitte bestätige die Nutzungsbedingungen.'; return; }
+      D().rechtStand = RECHT_STAND;
+      gehe(2);
+    };
   }
 
   if (nr === 2) {
@@ -725,6 +736,7 @@ function ansichtHeute(ziel) {
     if (naechster) held.append(knopf(genug ? 'Trotzdem trainieren' : 'Training starten', null, () => workoutStarten(naechster), 'training'));
   }
   ziel.append(held);
+  rechtKarte(ziel);
   coachNachrichtKarte(ziel);
   deloadKarte(ziel);
 
@@ -2564,7 +2576,7 @@ function checkinWoche(ziel) {
   });
   ziel.append(kf);
 
-  ziel.append(knopf('Vorschau & senden', null, () => checkinSendenBlatt(c, st), 'senden'));
+  ziel.append(knopf('Vorschau & senden', null, () => mitEinwilligung(() => checkinSendenBlatt(c, st)), 'senden'));
 
   if (d.checkins.length) {
     ziel.append(abschnitt('Bisherige Check-ins'));
@@ -2637,7 +2649,7 @@ function checkinSendenBlatt(c, st) {
     const extra = el('div');
     extra.style.marginTop = '20px';
     extra.append(el('p', 'leise', 'Soll dein Coach auch Diagramme, Trainings und Fotos sehen?'),
-                 knopf('Fortschritt an Coach senden', 'knopf--zweit', fortschrittSendenBlatt, 'fortschritt'));
+                 knopf('Fortschritt an Coach senden', 'knopf--zweit', () => mitEinwilligung(fortschrittSendenBlatt), 'fortschritt'));
     inhalt.append(extra);
   }, { beimSchliessen: neuZeichnen });
 }
@@ -2683,7 +2695,7 @@ function ansichtFortschritt(ziel) {
     wertKachel('Trainings', zahl(d.workouts.length), null, `${workoutsInWoche().length} diese Woche`),
     wertKachel('Check-ins', zahl(d.checkins.length), null, letzterCheckin() ? `zuletzt ${datumKurz(letzterCheckin().datum)}` : 'noch keiner'));
   ziel.append(werte);
-  const senden = knopf('Fortschritt an Coach senden', 'knopf--zweit', fortschrittSendenBlatt, 'senden');
+  const senden = knopf('Fortschritt an Coach senden', 'knopf--zweit', () => mitEinwilligung(fortschrittSendenBlatt), 'senden');
   senden.style.marginBottom = '14px';
   ziel.append(senden);
 
@@ -2973,6 +2985,16 @@ function einstellungenBlatt() {
 
     inhalt.append(abschnitt('Dein Coach'));
     inhalt.append(antwortOeffnenKnopf());
+    if (d.einwilligungCoach) {
+      const ew = el('p', 'fusstext');
+      ew.style.margin = '0 0 12px';
+      ew.append(document.createTextNode(`Einwilligung zur Weitergabe von Gesundheitsdaten an deinen Coach erteilt am ${datumKurz(d.einwilligungCoach.slice(0, 10))}. `),
+        linkKnopf('Widerrufen', () => {
+          if (!confirm('Einwilligung widerrufen? Du kannst dann keine Check-ins oder Fortschrittsdateien mehr senden, bis du erneut einwilligst. Bereits gesendete Daten liegen bei deinem Coach — wende dich zum Löschen an ihn.')) return;
+          d.einwilligungCoach = null; Speicher.sichern(); toast('Einwilligung widerrufen'); ew.remove();
+        }));
+      inhalt.append(ew);
+    }
     if (d.coachNachrichten.length) {
       const kn = karte('Nachrichten vom Coach', 'senden');
       [...d.coachNachrichten].reverse().slice(0, 10).forEach((n) => {
@@ -3035,7 +3057,7 @@ function einstellungenBlatt() {
     inhalt.append(abschnitt('Rechtliches'));
     const kr = karte(null);
     [['recht/impressum.html', 'Impressum'], ['recht/datenschutz.html', 'Datenschutzerklärung'],
-     ['recht/agb.html', 'Nutzungsbedingungen (AGB)']].forEach(([href, name]) => {
+     ['recht/agb.html', 'Nutzungsbedingungen (AGB)'], ['vendor/zxing-LICENSE.txt', 'Open-Source-Lizenz (ZXing, Apache 2.0)']].forEach(([href, name]) => {
       const a = el('a', 'zeile');
       a.href = href;
       a.style.textDecoration = 'none';
@@ -3244,6 +3266,54 @@ function coachNachrichtKarte(ziel) {
   if (n.zusammenfassung) k.append(el('p', 'leise', `Übernommen: ${n.zusammenfassung}.`));
   k.append(linkKnopf('Gelesen', () => { offen.forEach((x) => { x.gelesen = true; }); Speicher.sichern(); neuZeichnen(); }, 'haken'));
   ziel.append(k);
+}
+
+/* --- Rechtliches: Zustimmung und Einwilligung -------------------------- */
+// Ändern sich Nutzungsbedingungen oder Datenschutzerklärung wesentlich,
+// RECHT_STAND erhöhen — dann bestätigen alle einmal neu.
+const RECHT_STAND = '2026-10';
+
+function rechtZustimmung() {
+  const feld = el('label', 'zustimmung');
+  const haken = el('input'); haken.type = 'checkbox';
+  const text = el('span');
+  const link = (href, t) => { const a = el('a', null, t); a.href = href; a.target = '_blank'; a.rel = 'noopener'; return a; };
+  text.append('Ich akzeptiere die ', link('recht/agb.html', 'Nutzungsbedingungen'),
+              ' und habe die ', link('recht/datenschutz.html', 'Datenschutzerklärung'), ' gelesen.');
+  feld.append(haken, text);
+  return { feld, haken };
+}
+
+function rechtKarte(ziel) {
+  if (D().rechtStand === RECHT_STAND) return;
+  const k = karte('Nutzungsbedingungen & Datenschutz', 'liste');
+  k.append(el('p', 'leise', 'Bitte bestätige einmal die Nutzungsbedingungen. Die Datenschutzerklärung beschreibt, wie die App mit deinen Daten umgeht.'));
+  const ok = rechtZustimmung();
+  k.append(ok.feld, knopf('Bestätigen', 'knopf--klein', () => {
+    if (!ok.haken.checked) { toast('Bitte zuerst das Häkchen setzen'); return; }
+    D().rechtStand = RECHT_STAND; Speicher.sichern(); neuZeichnen();
+  }));
+  ziel.append(k);
+}
+
+// Gesundheitsdaten verlassen das Gerät nur mit ausdrücklicher Einwilligung
+// (Art. 9 Abs. 2 lit. a DSGVO) — einmal erteilt, bis sie widerrufen wird.
+function mitEinwilligung(weiter) {
+  if (D().einwilligungCoach) { weiter(); return; }
+  blattOeffnen('Einwilligung', (inhalt, schliessen, blatt) => {
+    inhalt.append(el('p', null, 'Check-ins und Fortschrittsdateien enthalten Gesundheitsdaten — z. B. Gewicht, Körpermaße, Ernährung, Schlaf, Training und auf Wunsch Fotos.'));
+    const feld = el('label', 'zustimmung');
+    const haken = el('input'); haken.type = 'checkbox';
+    feld.append(haken, el('span', null, 'Ich willige ausdrücklich ein, dass diese Gesundheitsdaten an meinen Coach übermittelt und von ihm für mein Coaching verarbeitet werden. Ich kann die Einwilligung jederzeit für die Zukunft widerrufen (Einstellungen → Dein Coach).'));
+    inhalt.append(feld);
+    const a = el('a', null, 'Mehr dazu in der Datenschutzerklärung'); a.href = 'recht/datenschutz.html'; a.target = '_blank'; a.rel = 'noopener';
+    inhalt.append(el('p', 'fusstext'), a);
+    blattFuss(blatt, knopf('Einwilligen und fortfahren', null, () => {
+      if (!haken.checked) { toast('Bitte das Häkchen setzen'); return; }
+      D().einwilligungCoach = new Date().toISOString(); Speicher.sichern();
+      schliessen(); weiter();
+    }, 'haken'));
+  });
 }
 
 function fortschrittSendenBlatt() {
