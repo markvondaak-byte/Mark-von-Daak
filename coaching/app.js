@@ -2311,7 +2311,11 @@ function checkinSendenBlatt(c, st) {
     const speichern = () => {
       const heute = heuteText();
       d.checkins = d.checkins.filter((x) => x.datum !== heute);
-      d.checkins.push({ datum: heute, text, gewicht: st.gewicht, workouts: st.workouts.length, taille: c.taille, bewertung: c.bewertung });
+      // Treue, Probleme und Fragen zusätzlich als Felder — die Coach-Ansicht
+      // erkennt daran offene Fragen und schwache Wochen.
+      d.checkins.push({ datum: heute, text, gewicht: st.gewicht, workouts: st.workouts.length, taille: c.taille, bewertung: c.bewertung,
+                        treueTraining: c.treueTraining, treueErnaehrung: c.treueErnaehrung,
+                        probleme: c.probleme.trim(), fragen: c.fragen.trim() });
       if (c.taille) {
         const m = d.messungen.find((x) => x.datum === heute);
         if (m) m.taille = c.taille; else d.messungen.push({ datum: heute, taille: c.taille });

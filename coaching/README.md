@@ -131,6 +131,29 @@ ohne Server, installierbar als „Coach“.
    Sätzen, Bestwerte, Körpermaße, Check-in-Texte, Fotos mit Vorher-Nachher,
    Ziele und Plan.
 
+### Handlungsbedarf
+
+Oben in der Übersicht listet die Karte **Handlungsbedarf** alle Klienten, um die
+sich der Coach jetzt kümmern sollte — **Dringend** zuerst, dann **Beobachten**,
+jeweils mit den konkreten Gründen (`handlungsbedarf()` in `coach/coach.js`).
+Bezugstag ist der Tag, an dem die Datei erstellt wurde.
+
+| Dringend | Beobachten |
+|---|---|
+| Datei älter als 10 Tage | Datei 7–10 Tage alt |
+| Seit 10+ Tagen kein Training, noch nie trainiert | Weniger als die Hälfte der geplanten Trainings in 7 Tagen |
+| Frage an den Coach im letzten Check-in | Schwierigkeiten im Check-in, Plantreue ≤ 50 % |
+| Zwei oder mehr Warnwerte im Check-in (Stress ≥ 4, Energie/Motivation/Schlaf ≤ 2, Hunger ≥ 4) | Ein Warnwert im Check-in, kein Check-in seit 10 Tagen |
+| Schlaf Ø unter 5 Std. | Schlaf Ø unter 6 Std., Schritte unter 60 % vom Ziel, Gewohnheiten unter 40 % |
+| | Gewicht entgegen dem Ziel, mehr als 1,2 % pro Woche Verlust, 3 Wochen Stillstand beim Abnehmen, kein Gewicht eingetragen |
+| | Ernährung an weniger als 3 von 7 Tagen erfasst, Kalorien mehr als 15 % neben dem Ziel, Eiweiß unter 80 % |
+| | Mehr als 40 % der Sätze mit RIR 0 oder RIR Ø ab 4 (letzte 14 Tage) |
+
+Im Klienten-Detail stehen alle Punkte oben. **„Als erledigt markieren“** blendet
+den Klienten aus der Liste aus, bis seine nächste Fortschrittsdatei kommt.
+Frage, Schwierigkeiten und Plantreue speichert die Klienten-App dafür seit
+`coaching-v15` als eigene Felder im Check-in.
+
 Jeder Klient hat eine zufällige ID (`profil.id`). Eine neuere Datei desselben
 Klienten ersetzt die alte, eine ältere wird übersprungen. Die Berichte liegen in
 IndexedDB (`coaching-coach`) auf dem Gerät des Coachs — es sind
