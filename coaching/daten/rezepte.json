@@ -792,7 +792,8 @@
     "Hack anbraten, Gemüse dazu und 5 Minuten mitbraten.",
     "Tomaten und Gewürze zugeben, 20 Minuten köcheln.",
     "Nudeln al dente kochen, mit der Soße portionieren."
-   ]
+   ],
+   "bild": "bilder/rezepte/bolognese.jpg"
   },
   {
    "id": "tofu-stirfry",
@@ -851,7 +852,8 @@
     "Gemüse im Wok scharf anbraten.",
     "Erdnussmus, Sojasoße, Limettensaft, Sirup und 3 EL Wasser verrühren.",
     "Tofu und Soße zum Gemüse, mit Reis portionieren."
-   ]
+   ],
+   "bild": "bilder/rezepte/tofu-stirfry.jpg"
   },
   {
    "id": "ofen-frikadellen",
@@ -915,7 +917,8 @@
     "Hack mit Ei, Haferflocken, gehackter Zwiebel, Senf und Gewürzen verkneten, 12 Frikadellen formen.",
     "Frikadellen dazulegen, alles 25 Minuten backen.",
     "Bohnen 6 Minuten kochen, alles portionieren."
-   ]
+   ],
+   "bild": "bilder/rezepte/ofen-frikadellen.jpg"
   },
   {
    "id": "griechischer-haehnchensalat",
@@ -979,7 +982,8 @@
     "Gurke und Tomaten schneiden.",
     "Joghurt mit Knoblauch und Salz zu Tzatziki rühren — separat abfüllen.",
     "Alles in Boxen anrichten, Feta darüberbröseln."
-   ]
+   ],
+   "bild": "bilder/rezepte/griechischer-haehnchensalat.jpg"
   },
   {
    "id": "teriyaki-lachs-bowl",
@@ -1048,7 +1052,8 @@
     "Lachs in Würfel schneiden, kurz scharf anbraten, Soße dazugeben und einköcheln lassen.",
     "Edamame 3 Minuten kochen, Karotten raspeln, Gurke in Scheiben schneiden.",
     "Reis, Lachs und Gemüse auf 4 Boxen verteilen, mit Sesam bestreuen."
-   ]
+   ],
+   "bild": "bilder/rezepte/teriyaki-lachs-bowl.jpg"
   },
   {
    "id": "thai-curry-haehnchen",
@@ -1113,7 +1118,8 @@
     "Currypaste in der Pfanne kurz anrösten, Kokosmilch dazugießen.",
     "Paprika und Zuckerschoten 5 Minuten darin garen, Hähnchen zurück in die Soße.",
     "Mit Limettensaft und Sojasoße abschmecken, mit dem Reis portionieren."
-   ]
+   ],
+   "bild": "bilder/rezepte/thai-curry-haehnchen.jpg"
   },
   {
    "id": "gefuellte-paprika",
@@ -1173,7 +1179,8 @@
     "Paprika halbieren, entkernen und mit der Masse füllen.",
     "Restliche Tomaten in eine Auflaufform geben, Paprika hineinsetzen, mit Mozzarella belegen.",
     "35 Minuten backen. Je 2 Hälften pro Box."
-   ]
+   ],
+   "bild": "bilder/rezepte/gefuellte-paprika.jpg"
   },
   {
    "id": "gnocchi-pfanne",
@@ -1232,7 +1239,8 @@
     "Knoblauch und halbierte Tomaten dazugeben, 2 Minuten mitbraten.",
     "Frischkäse und einen Schuss Wasser einrühren, Spinat zusammenfallen lassen.",
     "Pute zurückgeben, würzen und auf 4 Boxen verteilen."
-   ]
+   ],
+   "bild": "bilder/rezepte/gnocchi-pfanne.jpg"
   },
   {
    "id": "kichererbsen-curry",
@@ -1297,7 +1305,8 @@
     "Abgetropfte Kichererbsen, Tomaten und Kokosmilch dazugeben, 15 Minuten köcheln.",
     "Spinat unterheben und zusammenfallen lassen, abschmecken.",
     "Mit dem Reis portionieren — friert sich gut ein."
-   ]
+   ],
+   "bild": "bilder/rezepte/kichererbsen-curry.jpg"
   },
   {
    "id": "rind-brokkoli",
@@ -1361,7 +1370,8 @@
     "Knoblauch und Ingwer kurz anbraten, Brokkoli mit 4 EL Wasser dazugeben, 4 Minuten dünsten.",
     "Sojasoße, Honig und Stärke verrühren, mit dem Fleisch in die Pfanne geben und kurz andicken lassen.",
     "Mit dem Reis auf 4 Boxen verteilen."
-   ]
+   ],
+   "bild": "bilder/rezepte/rind-brokkoli.jpg"
   },
   {
    "id": "thunfisch-nudelsalat",
@@ -1425,7 +1435,8 @@
     "Tomaten halbieren, Gurke würfeln, Mais und Thunfisch abtropfen lassen.",
     "Alles mit den Nudeln und dem Dressing mischen.",
     "Auf 4 Boxen verteilen — schmeckt kalt, perfekt fürs Büro."
-   ]
+   ],
+   "bild": "bilder/rezepte/thunfisch-nudelsalat.jpg"
   },
   {
    "id": "fajita-bowl",
@@ -1489,7 +1500,8 @@
     "Alles in einer großen Pfanne oder auf dem Blech (200 °C, 20 Minuten) garen.",
     "Bohnen abspülen. Joghurt mit Limettensaft und Salz verrühren und separat abfüllen.",
     "Quinoa, Fajita-Mischung und Bohnen auf 4 Boxen verteilen."
-   ]
+   ],
+   "bild": "bilder/rezepte/fajita-bowl.jpg"
   },
   {
    "id": "protein-balls",
@@ -1542,7 +1554,8 @@
     "Alles zu einer formbaren Masse verkneten — bei Bedarf etwas mehr Milch.",
     "16 Kugeln formen (2 pro Portion).",
     "Im Kühlschrank in einer Dose lagern."
-   ]
+   ],
+   "bild": "bilder/rezepte/protein-balls.jpg"
   },
   {
    "id": "quark-snack",
@@ -1585,7 +1598,8 @@
     "Quark mit Milch und Vanille cremig rühren.",
     "In 4 Gläser füllen.",
     "Nüsse separat in kleinen Tütchen — so bleiben sie knackig."
-   ]
+   ],
+   "bild": "bilder/rezepte/quark-snack.jpg"
   },
   {
    "id": "gemuese-sticks-hummus",
@@ -1627,7 +1641,8 @@
     "Gemüse in Sticks schneiden.",
     "Hummus auf 4 kleine Dosen verteilen.",
     "Sticks hochkant in Boxen stellen, mit einem feuchten Küchentuch abdecken — bleiben so knackig."
-   ]
+   ],
+   "bild": "bilder/rezepte/gemuese-sticks-hummus.jpg"
   },
   {
    "id": "eier-hartgekocht",
@@ -1664,7 +1679,8 @@
     "Eier 9–10 Minuten kochen, kalt abschrecken.",
     "Ungeschält im Kühlschrank lagern — so halten sie bis zu 5 Tage.",
     "Je 2 Eier und 2 Reiswaffeln als Portion."
-   ]
+   ],
+   "bild": "bilder/rezepte/eier-hartgekocht.jpg"
   },
   {
    "id": "skyr-beeren-riegel",
@@ -1707,7 +1723,8 @@
     "Beeren mit dem Honig leicht zerdrücken.",
     "Skyr und Beeren abwechselnd in 4 Gläser schichten.",
     "Granola separat abfüllen und erst vor dem Essen darüberstreuen — so bleibt es knusprig."
-   ]
+   ],
+   "bild": "bilder/rezepte/skyr-beeren-riegel.jpg"
   },
   {
    "id": "edamame-snack",
@@ -1755,7 +1772,8 @@
     "Kichererbsen und aufgetaute Edamame mit Öl und Gewürzen mischen.",
     "Auf einem Blech 25–30 Minuten rösten, einmal wenden.",
     "Vollständig abkühlen lassen und in 4 Dosen füllen."
-   ]
+   ],
+   "bild": "bilder/rezepte/edamame-snack.jpg"
   }
  ]
 }
