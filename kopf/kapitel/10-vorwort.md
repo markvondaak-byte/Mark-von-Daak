@@ -40,9 +40,9 @@ Schritt ein Gespräch mit einer Fachperson — nicht ein Ratgeber.
 - **Teil II — Umbauen** zeigt, wie du deine Umgebung, deine Gedanken und den
   Umgang mit anderen Menschen so veränderst, dass gute Entscheidungen leichter
   werden.
-- **Teil III — Dranbleiben** behandelt Rückfälle, Plateaus und die Zeit nach
-  dem Abnehmen, fasst alles in einem 12-Wochen-Programm zusammen und schließt
-  mit einem Werkzeugkasten für schwierige Gefühle und häufigen Fragen.
+- **Teil III — Dranbleiben** behandelt Rückfälle, Plateaus, die Zeit nach dem
+  Abnehmen und Bewegung ohne Zwang. Er schließt mit einem Werkzeugkasten für
+  schwierige Gefühle und häufigen Fragen.
 - **Teil IV — Arbeitsteil** enthält die Vorlagen zu allen Übungen.
 
 ## So nutzt du dieses Buch
@@ -53,5 +53,5 @@ Schritt ein Gespräch mit einer Fachperson — nicht ein Ratgeber.
   Vorlagen findest du im Arbeitsteil.
 - Nimm dir pro Kapitel ein paar Tage Zeit, statt das Buch an einem Abend
   durchzulesen. Veränderung braucht Wiederholung, nicht Tempo.
-- Kapitel 11 fasst alles in einem 12-Wochen-Programm zusammen. Du kannst
-  dorthin zurückkehren, wann immer du neu startest.
+- Kehr zu den Übungen zurück, wann immer du neu startest. Deine Notizen von
+  damals zeigen dir, wie weit du schon gekommen bist.

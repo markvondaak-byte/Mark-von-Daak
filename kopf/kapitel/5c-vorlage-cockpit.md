@@ -6,7 +6,7 @@ kopfzeile: Arbeitsteil
 
 # Vorlage: Fortschritts-Cockpit
 
-Zu Kapitel 9 und 11. Eine Zeile pro Woche des Programms. Trag neben dem
+Zu Kapitel 9. Eine Zeile pro Woche, zwölf Wochen lang. Trag neben dem
 Gewicht drei weitere Messgrößen ein, die dir wichtig sind.
 
 **Meine Messgrößen:** 1. ______________ &nbsp; 2. ______________ &nbsp;

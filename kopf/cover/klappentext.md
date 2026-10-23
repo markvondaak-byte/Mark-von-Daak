@@ -12,7 +12,7 @@ Dieses Buch erklärt, warum das so ist, und was du dagegen tun kannst.
 - **Das Belohnungssystem** — warum Verbote das Verlangen verstärken
 - **Wenn-Dann-Pläne** statt Willenskraft
 - **Rückfälle**: wie aus einem Ausrutscher kein Neuanfang am Montag wird
-- **Ein 12-Wochen-Programm** mit Übungen zum Mitmachen
+- **Ein Arbeitsteil** mit Vorlagen zu allen Übungen
 
 Kein Ernährungsplan. Kein Versprechen über Kilos. Dafür das, was jeden Plan
 erst durchhaltbar macht.

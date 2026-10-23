@@ -339,10 +339,16 @@ def titelbild_einsetzen(bild, pfad, x0, breite, ueberblendung):
 
 
 def vorderseite(bild, x0, y0, b, h, cfg, titelbild=None):
+    titel_max = 260
     if titelbild:
-        # Das Bild trägt die Illustration in der oberen Hälfte; der Titel
-        # rückt deshalb etwas tiefer als bei der gezeichneten Wippe.
-        titel_y, kapsel_y, autor_y = 0.495, 0.85, 0.928
+        # Das Bild trägt das Motiv oben; wie weit es nach unten reicht, hängt
+        # vom Motiv ab. Deshalb stehen die Positionen in kopf.yaml unter
+        # `cover:`, als Anteil der Seitenhöhe von der Trimmkante oben.
+        lage = cfg.get("cover", {})
+        titel_y = lage.get("titel_y", 0.495)
+        kapsel_y = lage.get("kapsel_y", 0.85)
+        autor_y = lage.get("autor_y", 0.928)
+        titel_max = lage.get("titel_max_px", titel_max)
     else:
         leuchten(bild, (x0 + b // 2, y0 + round(h * 0.24)), round(b * 0.48),
                  (48, 74, 112), 0.6)
@@ -355,7 +361,7 @@ def vorderseite(bild, x0, y0, b, h, cfg, titelbild=None):
     rand = b * 0.10
 
     zeile1, zeile2 = "Kopf schlägt", "Kalorien"
-    titel = passend(z, [zeile1], "Black", 260, b - 2 * rand)
+    titel = passend(z, [zeile1], "Black", titel_max, b - 2 * rand)
     groesse = titel.size
     y = y0 + h * titel_y
     zentriert(z, zeile1, mitte, y, titel, FARBE["text"])
@@ -366,28 +372,39 @@ def vorderseite(bild, x0, y0, b, h, cfg, titelbild=None):
     z.rounded_rectangle((mitte - b * 0.07, unten, mitte + b * 0.07, unten + 9),
                         radius=4, fill=FARBE["akzent"])
 
-    unter = schrift("Medium", b * 0.037)
-    for i, zeile in enumerate(("Warum Diäten am Mindset scheitern",
-                               "und nicht am Plan")):
-        zentriert(z, zeile, mitte, unten + 60 + i * unter.size * 1.32, unter,
+    unter = schrift("Medium", b * 0.035)
+    zeilen = ("Warum Diäten am Mindset scheitern", "und nicht am Plan")
+    for i, zeile in enumerate(zeilen):
+        zentriert(z, zeile, mitte, unten + 56 + i * unter.size * 1.32, unter,
                   FARBE["text_leise"])
+    unter_ende = unten + 56 + (len(zeilen) - 1) * unter.size * 1.32 + unter.size
 
-    # Hinweis auf den Arbeitsteil als Kapsel
-    kapsel = schrift("SemiBold", b * 0.024)
-    text = "MIT 12-WOCHEN-PROGRAMM UND ARBEITSTEIL"
-    sperr = kapsel.size * 0.12
-    breite = sum(z.textlength(ch, font=kapsel) for ch in text) \
-        + sperr * (len(text) - 1)
-    ky = y0 + h * kapsel_y
-    z.rounded_rectangle((mitte - breite / 2 - 44, ky - 26,
-                         mitte + breite / 2 + 44, ky + kapsel.size + 30),
-                        radius=(kapsel.size + 56) / 2,
-                        outline=FARBE["akzent"], width=4)
-    zentriert(z, text, mitte, ky - kapsel.size * 0.06, kapsel,
-              FARBE["akzent"], sperrung=sperr)
+    # Hinweis auf den Arbeitsteil als Kapsel. Die Positionen aus kopf.yaml
+    # sind Mindestwerte: Rückt der Titel tiefer, rücken Kapsel und Autor mit,
+    # statt sich mit dem Untertitel zu überlagern.
+    block_ende = unter_ende
+    if cfg.get("cover", {}).get("kapsel", True):
+        kapsel = schrift("SemiBold", b * 0.024)
+        text = "MIT 12-WOCHEN-PROGRAMM UND ARBEITSTEIL"
+        sperr = kapsel.size * 0.12
+        breite = sum(z.textlength(ch, font=kapsel) for ch in text) \
+            + sperr * (len(text) - 1)
+        ky = max(y0 + h * kapsel_y, unter_ende + 76)
+        z.rounded_rectangle((mitte - breite / 2 - 44, ky - 26,
+                             mitte + breite / 2 + 44, ky + kapsel.size + 30),
+                            radius=(kapsel.size + 56) / 2,
+                            outline=FARBE["akzent"], width=4)
+        zentriert(z, text, mitte, ky - kapsel.size * 0.06, kapsel,
+                  FARBE["akzent"], sperrung=sperr)
+        block_ende = ky + kapsel.size + 30
 
     autor = schrift("SemiBold", b * 0.036)
-    zentriert(z, cfg["autor"].upper(), mitte, y0 + h * autor_y, autor,
+    ay = max(y0 + h * autor_y, block_ende + 90)
+    # KDP: Text mindestens 0,125 Zoll innerhalb der Trimmkante
+    if ay + autor.size > y0 + h - mm(3.2) - 10:
+        raise SystemExit("Titelblock reicht zu tief — in kopf.yaml unter "
+                         "cover: titel_y oder titel_max_px verkleinern.")
+    zentriert(z, cfg["autor"].upper(), mitte, ay, autor,
               FARBE["text"], sperrung=autor.size * 0.22)
 
 

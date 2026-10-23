@@ -6,7 +6,7 @@ kopfzeile: Arbeitsteil
 
 # Vorlage: Ersatzbelohnungen
 
-Zu Kapitel 3 und 12. Sammle hier alles, was dir guttut und nichts mit Essen zu
+Zu Kapitel 3, 11 und 12. Sammle hier alles, was dir guttut und nichts mit Essen zu
 tun hat. Ordne es dem Bedürfnis zu, das es bedient — dann findest du im
 entscheidenden Moment schneller das Richtige.
 

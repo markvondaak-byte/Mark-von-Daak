@@ -91,12 +91,12 @@ sprich mit deiner Ärztin oder deinem Arzt.
 Die ersten Veränderungen im Denken spüren viele Menschen schon nach wenigen
 Wochen: Ausrutscher werden kleiner, die Pause vor dem Essen wird länger. Bis
 neue Gewohnheiten wirklich automatisch laufen, dauert es nach der Studie von
-Phillippa Lally im Schnitt etwa zwei Monate, oft länger. Das 12-Wochen-Programm
-ist deshalb ein Anfang, kein Ende.
+Phillippa Lally im Schnitt etwa zwei Monate, oft länger. Gib dir deshalb mindestens
+diese Zeit, bevor du Bilanz ziehst.
 
-## Was, wenn ich das Programm abbreche?
+## Was, wenn ich wieder aufhöre?
 
 Dann fängst du wieder an — nicht bei null, sondern dort, wo es für dich passt.
-Alles, was du bisher aufgeschrieben hast, ist noch da. Ein abgebrochenes
-Programm ist ein Ausrutscher, kein Rückfall. Du weißt inzwischen, was der
+Alles, was du bisher aufgeschrieben hast, ist noch da. Ein paar Wochen Pause
+sind ein Ausrutscher, kein Rückfall. Du weißt inzwischen, was der
 Unterschied ist.

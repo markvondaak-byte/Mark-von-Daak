@@ -122,8 +122,8 @@ Manchmal merkst du erst nach Wochen, dass du wieder in alten Mustern steckst.
 Auch dann gilt: Der Weg zurück beginnt mit der nächsten Mahlzeit, nicht mit dem
 nächsten Montag. Du musst nicht wieder bei null anfangen. Alles, was du gelernt
 hast — deine Auslöser, deine Wenn-Dann-Pläne, dein tieferes Warum — ist noch
-da. Nimm dir das Programm aus Kapitel 11 und steig dort ein, wo es für dich
-passt.
+da. Nimm dir deine Notizen aus dem Arbeitsteil und steig dort wieder ein, wo es
+für dich passt.
 
 > Übung — Dein letzter Ausrutscher:
 >

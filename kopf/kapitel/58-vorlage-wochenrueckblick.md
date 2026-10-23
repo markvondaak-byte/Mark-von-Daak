@@ -6,7 +6,7 @@ kopfzeile: Arbeitsteil
 
 # Vorlage: Wochenrückblick
 
-Zu Kapitel 11. Zehn Minuten jeden Sonntag. Diese Seite ist zum Kopieren
+Zehn Minuten jeden Sonntag. Diese Seite ist zum Kopieren
 gedacht — eine Kopie pro Woche.
 
 **Woche:** ______ &nbsp;&nbsp; **Wochenschnitt Gewicht:** ______ &nbsp;&nbsp;

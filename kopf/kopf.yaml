@@ -29,3 +29,15 @@ impressum:
   land: "Deutschland"
   email: "markvondaak@icloud.com"
   ustid: "DE319920422"
+
+# Lage der Titelschrift auf dem Titelbild (kopf/cover/titelbild.*), als Anteil
+# der Seitenhöhe ab der oberen Trimmkante. Abgestimmt auf den Gehirn-Donut,
+# der bis gut über die Bildmitte reicht. Ohne Titelbild gelten feste Werte
+# für die gezeichnete Wippe.
+cover:
+  titel_y: 0.59
+  kapsel_y: 0.84
+  autor_y: 0.905
+  titel_max_px: 232
+  # Kapsel „Mit 12-Wochen-Programm und Arbeitsteil" auf der Vorderseite
+  kapsel: false

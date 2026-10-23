@@ -76,3 +76,9 @@ Kapitel ihrer ersten Erwähnung.
 
 - Wing, R. R. und Phelan, S. (2005): Long-term weight loss maintenance.
   *American Journal of Clinical Nutrition* 82 (1), 222S–225S.
+
+**Kapitel 11 — Bewegung ohne Zwang**
+
+- Bull, F. C. u. a. (2020): World Health Organization 2020 guidelines on
+  physical activity and sedentary behaviour. *British Journal of Sports
+  Medicine* 54 (24), 1451–1462.
