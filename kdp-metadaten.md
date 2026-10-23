@@ -354,17 +354,24 @@ Rückseite sind in `kopf/build/build_cover.py` gesetzt.
 2. Ratgeber › Psychologie & Hilfe › Motivation
 3. Ratgeber › Psychologie & Hilfe › Selbsthilfe
 
-**Keywords:**
+**Keywords** — sieben Felder à 50 Zeichen, geprüft: kein Wort aus Titel oder
+Untertitel (die indexiert Amazon ohnehin), kein Wort doppelt (Amazon wertet
+jedes nur einmal), längster Eintrag 43 Zeichen.
 
 ```
-abnehmen motivation durchhalten
-heißhunger stoppen gewohnheiten ändern
-rückfall diät neu anfangen
-emotionales essen frustessen
-jojo effekt vermeiden psychologie
-selbstdisziplin abnehmen ohne willenskraft
-abnehmen im kopf ratgeber
+abnehmen psychologie motivation durchhalten
+heißhunger verstehen essverhalten ändern
+emotionales essen frustessen stressessen
+jojo effekt vermeiden gewicht halten
+gewohnheiten umstellen ohne willenskraft
+rückfall ausrutscher neu anfangen
+selbstsabotage beenden arbeitsbuch übungen
 ```
+
+Zum Tauschen, falls ein Begriff nach ein paar Wochen nichts bringt:
+`selbstdisziplin lernen ratgeber` · `essen aus langeweile` ·
+`abnehmen ohne verbote` · `belohnungssystem gehirn essen` ·
+`achtsam essen alltag`
 
 **Beschreibung:** `kopf/cover/amazon-beschreibung.md` — die HTML-Fassung
 dort direkt ins KDP-Feld kopieren (2.435 von 4.000 Zeichen).
