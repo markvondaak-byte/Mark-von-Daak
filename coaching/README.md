@@ -17,7 +17,7 @@ Sie ist von keiner anderen Seite aus verlinkt und nur über ihre Adresse
 |---|---|
 | **Einrichtung** | Name, Ziel, Körperdaten, Aktivität, Trainingstage, Ort, Erfahrung. Daraus Kalorien- und Makroziele und ein fertiger Trainingsplan |
 | **Heute** | Nächstes Training mit Start-Knopf, Ringe für Kalorien, Eiweiß, Schritte und Schlaf, Wasser, Gewohnheiten mit Serien, Check-in-Erinnerung, Tipp des Tages |
-| **Training** | Plan (2–5 Tage, Studio oder Zuhause), Workout-Modus mit Satzprotokoll, Vorwerten vom letzten Mal, Pausentimer mit Vibration und Ton, Übung tauschen, Rekorde (geschätztes 1RM), Verlauf, Übungsbibliothek mit 161 Übungen in 10 Gruppen (inkl. Cardio und Mobilität), Gerät, Anleitung und Übungsvideo, Planeditor |
+| **Training** | Plan (2–5 Tage, Studio oder Zuhause), Workout-Modus mit Satzprotokoll und RIR (Wiederholungen in Reserve: Ziel im Plan, Eintrag pro Satz, Rückmeldung und Tipp fürs nächste Mal), Vorwerten vom letzten Mal, Pausentimer mit Vibration und Ton, Übung tauschen, Rekorde (geschätztes 1RM), Verlauf, Übungsbibliothek mit 161 Übungen in 10 Gruppen (inkl. Cardio und Mobilität), Gerät, Anleitung und Übungsvideo, Planeditor. Cardio läuft auf Zeit: eine Einheit in Minuten, ohne Sätze und Pausentimer |
 | **Ernährung** | Tagebuch nach Mahlzeiten mit 83 Lebensmitteln, Rezeptportionen und Schnelleintrag, Makrobalken, Wasser, Tage blättern |
 | **Meal Prep** | 18 Rezepte mit Nährwerten je Portion, Haltbarkeit, Portionsrechner. Ausgewählte Rezepte ergeben eine zusammengerechnete, abhakbare **Einkaufsliste** zum Teilen |
 | **Check-in** | Täglich: Schritte, Schlaf (Uhrzeiten → Dauer, Erholung 1–5), Gewicht, Energie, Gewohnheiten. Wöchentlich: Fragebogen plus automatisch errechnete Wochenzahlen, als fertiger Text **per WhatsApp oder E-Mail an den Coach** — ohne hinterlegten Kontakt zum Teilen oder Kopieren |
@@ -130,6 +130,46 @@ ohne Server, installierbar als „Coach“.
    Schritte und Schlaf der letzten 14 Tage, Trainingsvolumen, alle Trainings mit
    Sätzen, Bestwerte, Körpermaße, Check-in-Texte, Fotos mit Vorher-Nachher,
    Ziele und Plan.
+
+### Antwort an den Klienten
+
+Im Klienten-Detail öffnet **„Antwort an … schreiben“** ein Blatt mit
+Nachricht, Zielen (Kalorien, Makros, Schritte) und dem Trainingsplan des
+Klienten (Sätze, Wdh., RIR, Pause, Notiz ändern, Übungen entfernen oder aus der
+Bibliothek hinzufügen). **„Antwort senden“** erzeugt die Datei
+`antwort-<name>-<datum>.json` (`app: 'coaching-antwort'`, nur geänderte Teile)
+und öffnet das Teilen-Menü; am Computer wird sie gespeichert. Danach gilt der
+Klient als erledigt, und die Antwort steht im Detail.
+
+Der Klient öffnet sie unter **Check-in → Wöchentlich** oder **Einstellungen →
+Dein Coach** mit „Antwort vom Coach öffnen“, sieht eine Vorschau (Nachricht,
+Ziele alt → neu, Planänderungen) und tippt **Übernehmen**. Ziele gelten dann als
+manuell gesetzt, der Plan wird ersetzt, die Nachricht erscheint auf **Heute**,
+bis sie als gelesen markiert ist. Eine Datei für einen anderen Klienten
+(`fuer` ≠ `profil.id`) oder eine schon übernommene wird abgelehnt.
+
+### Handlungsbedarf
+
+Oben in der Übersicht listet die Karte **Handlungsbedarf** alle Klienten, um die
+sich der Coach jetzt kümmern sollte — **Dringend** zuerst, dann **Beobachten**,
+jeweils mit den konkreten Gründen (`handlungsbedarf()` in `coach/coach.js`).
+Bezugstag ist der Tag, an dem die Datei erstellt wurde.
+
+| Dringend | Beobachten |
+|---|---|
+| Datei älter als 10 Tage | Datei 7–10 Tage alt |
+| Seit 10+ Tagen kein Training, noch nie trainiert | Weniger als die Hälfte der geplanten Trainings in 7 Tagen |
+| Frage an den Coach im letzten Check-in | Schwierigkeiten im Check-in, Plantreue ≤ 50 % |
+| Zwei oder mehr Warnwerte im Check-in (Stress ≥ 4, Energie/Motivation/Schlaf ≤ 2, Hunger ≥ 4) | Ein Warnwert im Check-in, kein Check-in seit 10 Tagen |
+| Schlaf Ø unter 5 Std. | Schlaf Ø unter 6 Std., Schritte unter 60 % vom Ziel, Gewohnheiten unter 40 % |
+| | Gewicht entgegen dem Ziel, mehr als 1,2 % pro Woche Verlust, 3 Wochen Stillstand beim Abnehmen, kein Gewicht eingetragen |
+| | Ernährung an weniger als 3 von 7 Tagen erfasst, Kalorien mehr als 15 % neben dem Ziel, Eiweiß unter 80 % |
+| | Mehr als 40 % der Sätze mit RIR 0 oder RIR Ø ab 4 (letzte 14 Tage) |
+
+Im Klienten-Detail stehen alle Punkte oben. **„Als erledigt markieren“** blendet
+den Klienten aus der Liste aus, bis seine nächste Fortschrittsdatei kommt.
+Frage, Schwierigkeiten und Plantreue speichert die Klienten-App dafür seit
+`coaching-v15` als eigene Felder im Check-in.
 
 Jeder Klient hat eine zufällige ID (`profil.id`). Eine neuere Datei desselben
 Klienten ersetzt die alte, eine ältere wird übersprungen. Die Berichte liegen in

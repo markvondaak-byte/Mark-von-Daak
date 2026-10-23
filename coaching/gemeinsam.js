@@ -501,6 +501,30 @@ async function teilen(text, titel) {
   kopieren(text);
 }
 
+function dateiLaden(datei) {
+  const a = el('a');
+  a.href = URL.createObjectURL(datei);
+  a.download = datei.name;
+  document.body.append(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+}
+
+const kannDateienTeilen = (datei) => !!(navigator.canShare && navigator.canShare({ files: [datei] }));
+
+/** Muss direkt aus dem Tipp heraus laufen: Safari öffnet das Teilen-Menü
+ *  nur innerhalb der Nutzeraktion. Deshalb liegt die Datei schon bereit. */
+function dateiTeilen(datei, titel = 'Mein Fortschritt') {
+  if (kannDateienTeilen(datei)) {
+    return navigator.share({ files: [datei], title: titel })
+      .then(() => true)
+      .catch((e) => { if (e.name !== 'AbortError') toast('Teilen nicht möglich'); return false; });
+  }
+  dateiLaden(datei);
+  return Promise.resolve(true);
+}
+
 async function kopieren(text) {
   try {
     await navigator.clipboard.writeText(text);

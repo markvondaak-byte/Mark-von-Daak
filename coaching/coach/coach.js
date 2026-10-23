@@ -63,7 +63,7 @@ const Modus = {
 };
 
 /* --- Zustand und Stammdaten --------------------------------------------- */
-const Coach = { uebungen: {} };
+const Coach = { uebungen: {}, ausdauer: new Set(), liste: [], gruppen: [] };
 
 const ZIELNAMEN = { fett: 'Fett verlieren', muskel: 'Muskeln aufbauen', fitness: 'Fitter & gesünder' };
 const uebungsName = (id) => Coach.uebungen[id] || id;
@@ -133,6 +133,115 @@ function alterText(tage) {
   return `vor ${tage} Tagen`;
 }
 
+/* --- Handlungsbedarf ---------------------------------------------------- */
+// Prüft einen Bericht auf Punkte, bei denen der Coach eingreifen sollte.
+// Stufe 2 = dringend, Stufe 1 = beobachten. Bezugstag ist der Stichtag der
+// Datei, nur die Aktualität der Datei selbst misst sich am heutigen Tag.
+const kuerzen = (t, n = 80) => (t.length > n ? t.slice(0, n - 1).trimEnd() + '…' : t);
+
+function handlungsbedarf(b) {
+  const p = b.profil;
+  const z = b.ziele || {};
+  const tag = stichtag(b);
+  const punkte = [];
+  const add = (stufe, text) => punkte.push({ stufe, text });
+  const dabei = p.start ? tageZwischen(p.start, tag) : 99;
+  const letzte7 = tageReihe(b, 7);
+
+  // Aktualität der Datei
+  const alter = tageZwischen(tag, heuteText());
+  if (alter > 10) add(2, `Seit ${alter} Tagen keine neue Datei — nachfragen, wie es läuft`);
+  else if (alter >= 7) add(1, `Letzte Datei ${alterText(alter)}`);
+
+  // Training
+  const ws = b.workouts || [];
+  const woche = workoutsZwischen(b, tageVerschieben(tag, -6), tag);
+  const letztesTraining = ws.length ? ws.map((w) => w.datum).sort().pop() : null;
+  if (!letztesTraining) { if (dabei >= 7) add(2, 'Noch kein Training eingetragen'); }
+  else if (tageZwischen(letztesTraining, tag) >= 10) add(2, `Seit ${tageZwischen(letztesTraining, tag)} Tagen kein Training`);
+  else if (p.tage && woche.length < p.tage * 0.5) add(1, `Nur ${woche.length} von ${p.tage} Trainings in den letzten 7 Tagen`);
+
+  // RIR der letzten 14 Tage
+  const rirWerte = [];
+  workoutsZwischen(b, tageVerschieben(tag, -13), tag).forEach((w) => w.uebungen.forEach((u) =>
+    u.saetze.forEach((s) => { if (s.rir != null) rirWerte.push(s.rir); })));
+  if (rirWerte.length >= 6) {
+    const anteilNull = rirWerte.filter((x) => x === 0).length / rirWerte.length;
+    const schnitt = rirWerte.reduce((a, x) => a + x, 0) / rirWerte.length;
+    if (anteilNull > 0.4) add(1, `Trainiert oft bis zum Muskelversagen (${Math.round(anteilNull * 100)} % der Sätze mit RIR 0)`);
+    else if (schnitt >= 4) add(1, `Trainiert zu leicht (RIR Ø ${zahl(schnitt, 1)})`);
+  }
+
+  // Check-in
+  const ci = (b.checkins || []).slice(-1)[0];
+  if (!ci) { if (dabei >= 8) add(1, 'Noch kein Check-in gesendet'); }
+  else {
+    const seit = tageZwischen(ci.datum, tag);
+    if (seit >= 10) add(1, `Letzter Check-in vor ${seit} Tagen`);
+    if (seit <= 8) {
+      if (ci.fragen) add(2, `Frage im Check-in: „${kuerzen(ci.fragen)}“`);
+      if (ci.probleme) add(1, `Schwierigkeiten: „${kuerzen(ci.probleme)}“`);
+      const bw = ci.bewertung || {};
+      const warn = [];
+      if (bw.stress >= 4) warn.push(`Stress ${bw.stress}/5`);
+      if (bw.energie && bw.energie <= 2) warn.push(`Energie ${bw.energie}/5`);
+      if (bw.motivation && bw.motivation <= 2) warn.push(`Motivation ${bw.motivation}/5`);
+      if (bw.schlaf && bw.schlaf <= 2) warn.push(`Schlaf ${bw.schlaf}/5`);
+      if (bw.hunger >= 4) warn.push(`Hunger ${bw.hunger}/5`);
+      if (warn.length) add(warn.length >= 2 ? 2 : 1, `Check-in: ${warn.join(' · ')}`);
+      const treue = [];
+      if (ci.treueTraining != null && ci.treueTraining <= 50) treue.push(`Training ${ci.treueTraining} %`);
+      if (ci.treueErnaehrung != null && ci.treueErnaehrung <= 50) treue.push(`Ernährung ${ci.treueErnaehrung} %`);
+      if (treue.length) add(1, `Wenig nach Plan: ${treue.join(', ')}`);
+    }
+  }
+
+  // Gewicht im Verhältnis zum Ziel
+  const reihe = gewichtsreihe(b);
+  const jetzt = gewichtMittel(tag, reihe);
+  const vorwoche = gewichtMittel(tageVerschieben(tag, -7), reihe);
+  const vor3 = gewichtMittel(tageVerschieben(tag, -21), reihe);
+  if (jetzt == null && (p.ziel === 'fett' || p.ziel === 'muskel') && dabei >= 7) add(1, 'Kein Gewicht in den letzten 7 Tagen eingetragen');
+  if (jetzt != null && vorwoche != null) {
+    const d = jetzt - vorwoche;
+    if (p.ziel === 'fett' && d > 0.3) add(1, `Gewicht steigt (${vorzeichen(d)} kg zur Vorwoche) — Ziel Fettabbau`);
+    else if (p.ziel === 'fett' && d < -0.012 * vorwoche) add(1, `Verliert sehr schnell (${vorzeichen(d)} kg in einer Woche)`);
+    else if (p.ziel === 'muskel' && d < -0.3) add(1, `Gewicht sinkt (${vorzeichen(d)} kg zur Vorwoche) — Ziel Muskelaufbau`);
+  }
+  if (p.ziel === 'fett' && jetzt != null && vor3 != null && jetzt - vor3 > -0.2) add(1, 'Gewicht seit 3 Wochen ohne Fortschritt');
+
+  // Ernährung
+  const essTage = letzte7.filter((d) => { const t = tagVon(b, d); return t && t.essen && t.essen.length; });
+  if (essTage.length < 3) add(1, `Ernährung nur an ${essTage.length} von 7 Tagen erfasst`);
+  else {
+    const kcal = essTage.reduce((a, d) => a + tagesSumme(b, d).kcal, 0) / essTage.length;
+    const e = essTage.reduce((a, d) => a + tagesSumme(b, d).e, 0) / essTage.length;
+    if (z.kcal && Math.abs(kcal - z.kcal) / z.kcal > 0.15) {
+      add(1, `Kalorien Ø ${zahl(kcal)} statt ${zahl(z.kcal)} (${vorzeichen(Math.round((kcal / z.kcal - 1) * 100), 0)} %)`);
+    }
+    if (z.e && e < z.e * 0.8) add(1, `Eiweiß Ø ${zahl(e)} g statt ${zahl(z.e)} g`);
+  }
+
+  // Schlaf, Schritte, Gewohnheiten
+  const schlaf = letzte7.map((d) => schlafDauer((tagVon(b, d) || {}).schlaf)).filter((x) => x);
+  if (schlaf.length >= 3) {
+    const s = schlaf.reduce((a, x) => a + x, 0) / schlaf.length;
+    if (s < 6) add(s < 5 ? 2 : 1, `Schlaf Ø ${zahl(s, 1)} Std. (Ziel ${zahl(p.schlafziel, 1)})`);
+  }
+  const schritte = letzte7.map((d) => (tagVon(b, d) || {}).schritte).filter((x) => x);
+  if (schritte.length >= 3 && p.schrittziel) {
+    const s = schritte.reduce((a, x) => a + x, 0) / schritte.length;
+    if (s < p.schrittziel * 0.6) add(1, `Schritte Ø ${zahl(s)} (Ziel ${zahl(p.schrittziel)})`);
+  }
+  const quote = gewohnheitsquote(b, 7);
+  if (quote != null && quote < 0.4) add(1, `Gewohnheiten nur zu ${Math.round(quote * 100)} % erledigt`);
+
+  return punkte.sort((a, c) => c.stufe - a.stufe);
+}
+
+const bedarfStufe = (punkte) => punkte.reduce((m, x) => Math.max(m, x.stufe), 0);
+const istErledigt = (eintrag) => eintrag.erledigt === eintrag.bericht.erstellt;
+
 /* --- Import ------------------------------------------------------------- */
 async function dateienEinlesen(dateien) {
   let neu = 0, ersetzt = 0, aelter = 0, fehler = 0;
@@ -185,6 +294,10 @@ async function zeichnen() {
     inhalt.append(k);
   }
 
+  if (liste.length) {
+    inhalt.append(bedarfKarte(liste));
+    inhalt.append(abschnitt('Alle Klienten'));
+  }
   liste.forEach((eintrag) => inhalt.append(klientKarte(eintrag)));
 
   const h = el('div', 'hinweis');
@@ -192,6 +305,42 @@ async function zeichnen() {
   h.append(el('div', 'hinweis__titel', 'Gesundheitsdaten'));
   h.append(el('p', null, 'Die Dateien enthalten Gesundheitsdaten deiner Klienten. Sie liegen nur auf diesem Gerät. Sperre es mit Code, gib es nicht weiter und lösche einen Klienten, sobald das Coaching endet.'));
   inhalt.append(h);
+}
+
+// Liste oben in der Übersicht: wer braucht jetzt Aufmerksamkeit? Dringendes
+// zuerst, dann nach Anzahl der Punkte. Als erledigt markierte Klienten
+// tauchen erst mit der nächsten Datei wieder auf.
+function bedarfKarte(liste) {
+  const k = karte('Handlungsbedarf', 'checkin');
+  const offen = [];
+  let erledigt = 0;
+  liste.forEach((eintrag) => {
+    const punkte = handlungsbedarf(eintrag.bericht);
+    if (!punkte.length) return;
+    if (istErledigt(eintrag)) { erledigt++; return; }
+    offen.push({ eintrag, punkte, stufe: bedarfStufe(punkte) });
+  });
+  offen.sort((a, c) => c.stufe - a.stufe || c.punkte.length - a.punkte.length);
+  if (!offen.length) {
+    k.append(el('p', 'leise', 'Alles im grünen Bereich — gerade braucht niemand besondere Aufmerksamkeit. 👍'));
+  }
+  offen.forEach(({ eintrag, punkte, stufe }) => {
+    const p = eintrag.bericht.profil;
+    const z = el('button', 'zeile'); z.type = 'button';
+    z.append(el('div', `zeile__ikon bedarf--${stufe}`, (p.name || '?').slice(0, 2).toUpperCase()));
+    const t = el('div', 'zeile__text');
+    const titel = el('div', 'zeile__titel', p.name || 'Ohne Namen');
+    titel.append(el('span', `marke ${stufe === 2 ? 'marke--dringend' : 'marke--warn'}`, stufe === 2 ? 'Dringend' : 'Beobachten'));
+    t.append(titel);
+    punkte.slice(0, 3).forEach((x) => t.append(el('div', 'zeile__meta bedarf-punkt', x.text)));
+    if (punkte.length > 3) t.append(el('div', 'zeile__meta', `+ ${punkte.length - 3} weitere`));
+    const pf = el('span', 'zeile__pfeil'); pf.innerHTML = ikon('weiter');
+    z.append(t, pf);
+    z.onclick = () => klientBlatt(eintrag);
+    k.append(z);
+  });
+  if (erledigt) k.append(el('div', 'fusstext', `${erledigt} ${erledigt === 1 ? 'Klient' : 'Klienten'} als erledigt markiert — bis zur nächsten Datei ausgeblendet.`));
+  return k;
 }
 
 function klientKarte(eintrag) {
@@ -241,6 +390,34 @@ function klientBlatt(eintrag) {
 
     inhalt.append(el('p', 'leise',
       `${ZIELNAMEN[p.ziel] || ''} · ${p.alter} J. · ${p.groesse} cm · ${p.tage}× Training/Woche (${p.ort === 'zuhause' ? 'zuhause' : 'Studio'}) · dabei seit ${datumKurz(p.start)}${datumAusText(p.start).getFullYear()} · Datei vom ${datumLang(tag)}`));
+
+    // Handlungsbedarf
+    const punkte = handlungsbedarf(b);
+    const kb = karte('Handlungsbedarf', 'checkin');
+    if (!punkte.length) kb.append(el('p', 'leise', 'Nichts Auffälliges — läuft nach Plan. 👍'));
+    else {
+      const ul = el('ul', 'bedarf-liste');
+      punkte.forEach((x) => ul.append(el('li', `bedarf-liste__punkt bedarf-liste__punkt--${x.stufe}`, x.text)));
+      kb.append(ul);
+      const knopfErledigt = () => knopf(istErledigt(eintrag) ? 'Wieder als offen markieren' : 'Als erledigt markieren',
+        'knopf--zweit knopf--klein', async () => {
+          eintrag.erledigt = istErledigt(eintrag) ? null : b.erstellt;
+          await Klienten.speichern(eintrag);
+          toast(eintrag.erledigt ? 'Erledigt — bis zur nächsten Datei ausgeblendet' : 'Wieder offen');
+          umschalter.replaceWith(umschalter = knopfErledigt());
+        }, 'haken');
+      let umschalter = knopfErledigt();
+      kb.append(umschalter);
+    }
+    const antworten = knopf(`Antwort an ${p.name || 'Klient'} schreiben`, null, () => antwortBlatt(eintrag), 'senden');
+    antworten.style.marginTop = '12px';
+    kb.append(antworten);
+    const gesendet = eintrag.antworten || [];
+    if (gesendet.length) {
+      const letzte = gesendet[gesendet.length - 1];
+      kb.append(el('div', 'fusstext', `Zuletzt geantwortet am ${datumLang(textAusDatum(new Date(letzte.erstellt)))}${letzte.nachricht ? ` · „${kuerzen(letzte.nachricht, 60)}“` : ''}`));
+    }
+    inhalt.append(kb);
 
     // Kennzahlen
     const werte = el('div', 'werte');
@@ -309,13 +486,17 @@ function klientBlatt(eintrag) {
       w.uebungen.forEach((u) => {
         const zeile = el('div');
         zeile.append(el('b', null, uebungsName(u.uid) + ': '),
-          document.createTextNode(u.saetze.map((s) => `${s.kg ? zahl(s.kg, s.kg % 1 ? 1 : 0) + '×' : ''}${s.wdh}`).join(' · ')));
+          document.createTextNode(Coach.ausdauer.has(u.uid) ? u.saetze.map((s) => `${zahl(s.wdh)} Min.`).join(' · ')
+            : u.saetze.map((s) => `${s.kg ? zahl(s.kg, s.kg % 1 ? 1 : 0) + '×' : ''}${s.wdh}${s.rir != null ? ` @${zahl(s.rir)}` : ''}`).join(' · ')));
         body.append(zeile);
       });
       if (w.notiz) body.append(el('p', null, `Notiz: ${w.notiz}`));
       det.append(sum, body);
       kt.append(det);
     });
+    if (ws.some((w) => w.uebungen.some((u) => u.saetze.some((s) => s.rir != null)))) {
+      kt.append(el('div', 'fusstext', 'kg×Wdh. @RIR — RIR = Wiederholungen in Reserve (0 = Muskelversagen).'));
+    }
     inhalt.append(kt);
 
     const kr = karte('Bestwerte', 'pokal');
@@ -406,7 +587,7 @@ function klientBlatt(eintrag) {
     ((b.plan && b.plan.tage) || []).forEach((t) => {
       const zeile = el('div', 'zeile'); zeile.style.cursor = 'default';
       const text = el('div', 'zeile__text');
-      text.append(el('div', 'zeile__titel', t.name), el('div', 'zeile__meta', t.uebungen.map((u) => `${uebungsName(u.uid)} ${u.saetze}×${u.wdh}`).join(' · ')));
+      text.append(el('div', 'zeile__titel', t.name), el('div', 'zeile__meta', t.uebungen.map((u) => `${uebungsName(u.uid)} ${Coach.ausdauer.has(u.uid) ? `${u.wdh} Min.` : `${u.saetze}×${u.wdh}${u.rir ? ` RIR ${u.rir}` : ''}`}`).join(' · ')));
       zeile.append(text);
       kz.append(zeile);
     });
@@ -420,6 +601,146 @@ function klientBlatt(eintrag) {
     });
     weg.style.marginTop = '8px';
     inhalt.append(weg);
+  }, { beimSchliessen: zeichnen });
+}
+
+/* --- Antwort an den Klienten ------------------------------------------- */
+// Der Coach schreibt eine Nachricht und passt Ziele und Plan an. Daraus wird
+// eine Antwortdatei, die der Klient in seiner App öffnet und übernimmt.
+const kopie = (x) => JSON.parse(JSON.stringify(x));
+
+function planUebungNeu(id) {
+  const u = Coach.liste.find((x) => x.id === id) || {};
+  if (u.ausdauer) return { uid: id, saetze: 1, wdh: '20', pause: 0, notiz: '' };
+  return { uid: id, saetze: 3, wdh: u.zeit ? '30–45' : '8–12', pause: 90, notiz: '', ...(u.zeit ? {} : { rir: '2–3' }) };
+}
+
+function uebungAuswahl(beiWahl) {
+  const sel = el('select', 'eingabe');
+  sel.setAttribute('aria-label', 'Übung hinzufügen');
+  sel.append(new Option('+ Übung hinzufügen …', ''));
+  Coach.gruppen.forEach((g) => {
+    const og = el('optgroup'); og.label = g;
+    Coach.liste.filter((u) => u.gruppe === g).forEach((u) => og.append(new Option(u.name, u.id)));
+    sel.append(og);
+  });
+  sel.onchange = () => { if (sel.value) beiWahl(sel.value); sel.value = ''; };
+  return sel;
+}
+
+function antwortBlatt(eintrag) {
+  const b = eintrag.bericht;
+  const p = b.profil;
+  const zAlt = b.ziele || {};
+  const plan = kopie(b.plan || { tage: [] });
+  const planVorher = JSON.stringify(plan);
+  const ziele = { kcal: zAlt.kcal, e: zAlt.e, kh: zAlt.kh, f: zAlt.f };
+  let schrittziel = p.schrittziel;
+  let nachricht = '';
+
+  blattOeffnen(`Antwort an ${p.name || 'Klient'}`, (inhalt, schliessen, blatt) => {
+    inhalt.append(el('p', 'leise', `Die Antwort geht als Datei an ${p.name || 'deinen Klienten'} — per WhatsApp oder Mail. In der App öffnet er sie unter Check-in → „Antwort vom Coach öffnen“ und übernimmt sie mit einem Tipp.`));
+
+    const ci = (b.checkins || []).slice(-1)[0];
+    if (ci && (ci.fragen || ci.probleme)) {
+      const h = el('div', 'hinweis');
+      h.append(el('div', 'hinweis__titel', `Aus dem Check-in vom ${datumKurz(ci.datum)}`));
+      if (ci.fragen) h.append(el('p', null, `Frage: ${ci.fragen}`));
+      if (ci.probleme) h.append(el('p', null, `Schwierig: ${ci.probleme}`));
+      h.style.marginBottom = '14px';
+      inhalt.append(h);
+    }
+
+    const kn = karte('Nachricht', 'senden');
+    const t = el('textarea', 'eingabe');
+    t.rows = 5;
+    t.placeholder = 'Feedback zur Woche, Antwort auf Fragen, Fokus für die nächsten Tage …';
+    t.oninput = () => { nachricht = t.value; };
+    kn.append(t);
+    inhalt.append(kn);
+
+    // Ziele
+    const kz = karte('Ziele', 'ernaehrung');
+    const reihe1 = el('div', 'reihe');
+    const reihe2 = el('div', 'reihe');
+    [['kcal', 'Kalorien'], ['e', 'Eiweiß (g)'], ['kh', 'Kohlenh. (g)'], ['f', 'Fett (g)']].forEach(([id, name], i) => {
+      const e = eingabe('text', ziele[id] != null ? String(ziele[id]) : '', { modus: 'numeric', beiAenderung: (v) => { const n = leseZahl(v); if (n != null && n >= 0) ziele[id] = Math.round(n); } });
+      (i < 2 ? reihe1 : reihe2).append(feld(name, e));
+    });
+    const sz = eingabe('text', schrittziel != null ? String(schrittziel) : '', { modus: 'numeric', beiAenderung: (v) => { const n = leseZahl(v); if (n) schrittziel = Math.round(n); } });
+    kz.append(reihe1, reihe2, feld('Schrittziel pro Tag', sz));
+    inhalt.append(kz);
+
+    // Plan
+    const kp = karte('Trainingsplan', 'training');
+    const planBox = el('div');
+    const planZeichnen = () => {
+      planBox.replaceChildren();
+      if (!plan.tage.length) planBox.append(el('p', 'leise', 'Der Klient hat noch keinen Plan.'));
+      plan.tage.forEach((tag) => {
+        const kopf = el('div', 'feld__label', tag.name);
+        kopf.style.marginTop = '10px';
+        planBox.append(kopf);
+        tag.uebungen.forEach((pu, i) => {
+          const u = Coach.liste.find((x) => x.id === pu.uid) || {};
+          const k = el('div', 'karte uebung-karte');
+          const kk = el('div', 'uebung-karte__kopf');
+          kk.append(el('div', 'uebung-karte__name', uebungsName(pu.uid)));
+          const weg = el('button', 'ikon-knopf ikon-knopf--plain'); weg.type = 'button'; weg.innerHTML = ikon('muell');
+          weg.setAttribute('aria-label', `${uebungsName(pu.uid)} entfernen`);
+          weg.onclick = () => { tag.uebungen.splice(i, 1); planZeichnen(); };
+          kk.append(weg);
+          k.append(kk);
+          const r = el('div', 'reihe');
+          const w = eingabe('text', pu.wdh, { beiAenderung: (v) => { pu.wdh = v.trim() || pu.wdh; } });
+          if (u.ausdauer) r.append(feld('Minuten', w));
+          else {
+            const sa = eingabe('text', String(pu.saetze), { modus: 'numeric', beiAenderung: (v) => { pu.saetze = Math.max(1, Math.min(10, leseZahl(v) || pu.saetze)); } });
+            const pa = eingabe('text', String(pu.pause), { modus: 'numeric', beiAenderung: (v) => { const n = leseZahl(v); if (n != null) pu.pause = Math.max(0, n); } });
+            r.append(feld('Sätze', sa), feld(u.zeit ? 'Sek.' : 'Wdh.', w));
+            if (!u.zeit) r.append(feld('RIR', eingabe('text', pu.rir || '', { beiAenderung: (v) => { pu.rir = v.trim(); } })));
+            r.append(feld('Pause', pa));
+          }
+          k.append(r);
+          const n = eingabe('text', pu.notiz || '', { platzhalter: 'Notiz, z. B. „Tempo 3-1-1“', beiAenderung: (v) => { pu.notiz = v; } });
+          n.setAttribute('aria-label', 'Notiz');
+          k.append(n);
+          planBox.append(k);
+        });
+        planBox.append(uebungAuswahl((id) => { tag.uebungen.push(planUebungNeu(id)); planZeichnen(); }));
+      });
+    };
+    planZeichnen();
+    kp.append(planBox);
+    inhalt.append(kp);
+
+    blattFuss(blatt, knopf('Antwort senden', null, () => {
+      // Felder mit offener Eingabe zuerst übernehmen (beiAenderung feuert bei change)
+      if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
+      const zieleGeaendert = ['kcal', 'e', 'kh', 'f'].some((k) => ziele[k] !== zAlt[k]);
+      const planGeaendert = JSON.stringify(plan) !== planVorher;
+      const schritteGeaendert = schrittziel !== p.schrittziel;
+      const text = nachricht.trim();
+      if (!text && !zieleGeaendert && !planGeaendert && !schritteGeaendert) { toast('Noch nichts geändert oder geschrieben'); return; }
+      const antwort = {
+        app: 'coaching-antwort', version: 1, erstellt: new Date().toISOString(),
+        fuer: p.id, name: p.name, bezug: b.erstellt, nachricht: text,
+        ...(zieleGeaendert ? { ziele } : {}),
+        ...(schritteGeaendert ? { schrittziel } : {}),
+        ...(planGeaendert ? { plan } : {})
+      };
+      const name = `antwort-${(p.name || 'klient').toLowerCase().replace(/[^a-z0-9äöüß]+/g, '-')}-${heuteText()}.json`;
+      const datei = new File([JSON.stringify(antwort)], name, { type: 'application/json' });
+      dateiTeilen(datei, 'Antwort vom Coach').then(async (ok) => {
+        if (!ok) return;
+        eintrag.antworten = [...(eintrag.antworten || []), { erstellt: antwort.erstellt, nachricht: text,
+          ziele: zieleGeaendert, plan: planGeaendert }];
+        eintrag.erledigt = b.erstellt;
+        await Klienten.speichern(eintrag);
+        toast(kannDateienTeilen(datei) ? 'Antwort gesendet' : 'Datei gespeichert — jetzt an den Klienten schicken');
+        schliessen();
+      });
+    }, 'senden'));
   }, { beimSchliessen: zeichnen });
 }
 
@@ -456,7 +777,8 @@ async function starten() {
 
   try {
     const daten = await fetch('../daten/uebungen.json').then((r) => r.json());
-    daten.uebungen.forEach((u) => { Coach.uebungen[u.id] = u.name; });
+    daten.uebungen.forEach((u) => { Coach.uebungen[u.id] = u.name; if (u.ausdauer) Coach.ausdauer.add(u.id); });
+    Object.assign(Coach, { liste: daten.uebungen, gruppen: daten.gruppen });
   } catch (e) {
     console.warn('Übungsnamen nicht geladen — es erscheinen die Kennungen.', e);
   }

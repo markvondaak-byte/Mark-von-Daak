@@ -39,7 +39,10 @@ const Speicher = {
       messungen: [],
       checkins: [],
       einkauf: { rezepte: {}, abgehakt: {} },
-      zuletzt: []
+      zuletzt: [],
+      // Antworten des Coachs: Nachrichten und Zeitstempel der zuletzt übernommenen Datei
+      coachNachrichten: [],
+      antwortStand: null
     };
   },
 
@@ -242,6 +245,45 @@ function uebung(id) {
     { id, name: id, gruppe: 'Ganzkörper', orte: ['studio', 'zuhause'], gewicht: true, schritte: [], tipp: '' };
 }
 
+// Ausdauerübungen (Cardio) laufen auf Zeit: eine Einheit in Minuten, keine
+// Sätze, keine Pause. Die Minuten stehen wie sonst die Wiederholungen in `wdh`.
+const AUSDAUER_MINUTEN = '20';
+// RIR (Reps in Reserve): Wie viele saubere Wiederholungen wären am Satzende
+// noch gegangen? Gilt für Kraftübungen mit Wiederholungen, nicht für Halte-
+// übungen und Cardio. Einsteiger bleiben weiter vom Muskelversagen weg.
+const mitRir = (u) => !u.ausdauer && !u.zeit;
+const rirStandard = () => D().profil && D().profil.erfahrung === 'fortgeschritten' ? '1–2' : '2–3';
+function rirSpanne(text) {
+  const [a, b] = String(text == null ? '' : text).split(/[–-]/).map((x) => leseZahl(x));
+  return a == null ? null : { min: a, max: b == null ? a : b };
+}
+const rirKurz = (s) => s.rir != null ? ` @${zahl(s.rir)}` : '';
+
+const neuePlanUebung = (u) => u.ausdauer
+  ? { uid: u.id, saetze: 1, wdh: AUSDAUER_MINUTEN, pause: 0, notiz: '' }
+  : { uid: u.id, saetze: 3, wdh: u.zeit ? '30–45' : '8–12', pause: 90, notiz: '', ...(mitRir(u) ? { rir: rirStandard() } : {}) };
+const satzText = (u, s) => u.ausdauer ? `${zahl(s.wdh)} Min.`
+  : `${s.kg ? zahl(s.kg, s.kg % 1 ? 1 : 0) + ' kg × ' : ''}${s.wdh}${u.zeit ? ' s' : ''}${s.rir != null ? ` · RIR ${zahl(s.rir)}` : ''}`;
+
+function rirErklaerung() {
+  blattOeffnen('Was ist RIR?', (inhalt) => {
+    inhalt.append(el('p', null, 'RIR steht für „Reps in Reserve“ — Wiederholungen in Reserve. Trage nach jedem Satz ein, wie viele saubere Wiederholungen du noch geschafft hättest.'));
+    const k = karte(null);
+    [['0', 'Keine mehr möglich — Muskelversagen'], ['1', 'Eine wäre noch gegangen'], ['2', 'Zwei wären noch gegangen'],
+     ['3', 'Drei wären noch gegangen — mittelschwer'], ['4+', 'Deutlich zu leicht']].forEach(([wert, text]) => {
+      const z = el('div', 'zeile'); z.style.cursor = 'default';
+      z.append(el('div', 'zeile__ikon', wert), el('div', 'zeile__text', text));
+      k.append(z);
+    });
+    inhalt.append(k);
+    const h = el('div', 'hinweis');
+    h.append(el('div', 'hinweis__titel', 'So nutzt du es'),
+      el('p', null, 'Dein Plan nennt pro Übung ein Ziel, z. B. RIR 1–2. Liegst du darüber, war der Satz zu leicht: mehr Gewicht oder Wiederholungen. Liegst du darunter, war er härter als geplant: Gewicht halten oder etwas senken.'),
+      el('p', null, 'Einsteiger trainieren meist mit RIR 2–3, Fortgeschrittene mit 1–2. So wird jeder Satz fordernd, ohne dass die Technik leidet.'));
+    inhalt.append(h);
+  });
+}
+
 // Ersatz, wenn eine Studio-Übung zuhause nicht geht. Zuhause heißt hier:
 // Kurzhanteln, eine Bank oder ein stabiler Stuhl und ein Widerstandsband.
 const ERSATZ_ZUHAUSE = {
@@ -249,7 +291,7 @@ const ERSATZ_ZUHAUSE = {
   'latzug': 'band-rudern', 'rudern-lh': 'kh-rudern', 'kabelrudern': 'band-rudern',
   'kreuzheben': 'rumaenisches-kh', 'kniebeuge': 'goblet-squat', 'beinpresse': 'bulgarian-split',
   'beinstrecker': 'ausfallschritt', 'beinbeuger': 'glute-bridge', 'abduktion': 'glute-bridge',
-  'trizeps-kabel': 'ueberkopf-trizeps', 'beinheben': 'dead-bug', 'rudergeraet': 'mountain-climbers',
+  'trizeps-kabel': 'ueberkopf-trizeps', 'beinheben': 'dead-bug', 'rudergeraet': 'seilspringen',
   'pendulum-squat': 'goblet-squat', 't-bar-rudern': 'kh-rudern'
 };
 
@@ -305,7 +347,8 @@ function planErstellen(profil) {
         const echt = ersatzFinden(id, profil.ort, schonDrin);
         schonDrin.add(echt);
         // Fortgeschrittene bekommen bei den beiden Hauptübungen einen Satz mehr.
-        return { uid: echt, saetze: saetze + (fortgeschritten && i < 2 ? 1 : 0), wdh, pause, notiz: '' };
+        return { uid: echt, saetze: saetze + (fortgeschritten && i < 2 ? 1 : 0), wdh, pause, notiz: '',
+                 ...(mitRir(uebung(echt)) ? { rir: fortgeschritten ? '1–2' : '2–3' } : {}) };
       });
       return { id: 't' + (nr + 1), name, uebungen };
     })
@@ -672,10 +715,12 @@ function ansichtHeute(ziel) {
     held.append(el('div', 'held__titel', genug ? 'Wochenziel erreicht' : (naechster ? naechster.name : 'Freies Training')));
     held.append(el('div', 'held__text', genug
       ? 'Heute ist Erholung angesagt — ein Spaziergang zählt trotzdem für deine Schritte.'
-      : naechster ? `${naechster.uebungen.length} Übungen · ca. ${Math.round(naechster.uebungen.reduce((a, u) => a + u.saetze * (u.pause + 45), 0) / 60)} Min.` : ''));
+      : naechster ? `${naechster.uebungen.length} Übungen · ca. ${Math.round(naechster.uebungen.reduce((a, u) => a + (uebung(u.uid).ausdauer
+        ? (leseZahl(String(u.wdh).split('–')[0]) || 0) * 60 : u.saetze * (u.pause + 45)), 0) / 60)} Min.` : ''));
     if (naechster) held.append(knopf(genug ? 'Trotzdem trainieren' : 'Training starten', null, () => workoutStarten(naechster), 'training'));
   }
   ziel.append(held);
+  coachNachrichtKarte(ziel);
 
   // Check-in fällig?
   if (checkinFaellig()) {
@@ -874,7 +919,8 @@ function plantagBlatt(t) {
       z.append(el('div', 'zeile__ikon', String(i + 1)));
       const text = el('div', 'zeile__text');
       text.append(el('div', 'zeile__titel', u.name),
-                  el('div', 'zeile__meta', `${pu.saetze} Sätze × ${pu.wdh} ${u.zeit ? 'Sek.' : 'Wdh.'} · ${pu.pause} s Pause`));
+                  el('div', 'zeile__meta', u.ausdauer ? `${pu.wdh} Min.`
+                    : `${pu.saetze} Sätze × ${pu.wdh} ${u.zeit ? 'Sek.' : 'Wdh.'}${pu.rir && mitRir(u) ? ` · RIR ${pu.rir}` : ''} · ${pu.pause} s Pause`));
       const best = bestwert(pu.uid);
       if (best && u.gewicht) text.append(el('div', 'zeile__meta', `Bestwert (1RM geschätzt): ${zahl(best, 1)} kg`));
       z.append(text);
@@ -895,6 +941,11 @@ function planTagBearbeiten(t) {
       inhalt.replaceChildren();
       const name = eingabe('text', t.name, { beiAenderung: (v) => { t.name = v.trim() || t.name; Speicher.sichern(); } });
       inhalt.append(feld('Name', name));
+      const rirInfo = el('p', 'fusstext');
+      rirInfo.style.margin = '0 0 12px';
+      rirInfo.append(document.createTextNode('RIR = Wiederholungen in Reserve am Satzende, z. B. „1–2“. '),
+                     linkKnopf('Was ist RIR?', rirErklaerung));
+      inhalt.append(rirInfo);
       t.uebungen.forEach((pu, i) => {
         const u = uebung(pu.uid);
         const k = el('div', 'karte uebung-karte');
@@ -913,7 +964,10 @@ function planTagBearbeiten(t) {
         const s = eingabe('number', pu.saetze, { modus: 'numeric', beiAenderung: (v) => { pu.saetze = Math.max(1, Math.min(10, leseZahl(v) || 3)); Speicher.sichern(); } });
         const w = eingabe('text', pu.wdh, { beiAenderung: (v) => { pu.wdh = v.trim() || pu.wdh; Speicher.sichern(); } });
         const p = eingabe('number', pu.pause, { modus: 'numeric', beiAenderung: (v) => { pu.pause = Math.max(0, leseZahl(v) || 90); Speicher.sichern(); } });
-        reihe.append(feld('Sätze', s), feld(u.zeit ? 'Sekunden' : 'Wdh.', w), feld('Pause (s)', p));
+        const r = eingabe('text', pu.rir || '', { platzhalter: rirStandard(), beiAenderung: (v) => { pu.rir = v.trim(); Speicher.sichern(); } });
+        if (u.ausdauer) reihe.append(feld('Dauer (Minuten)', w));
+        else if (mitRir(u)) reihe.append(feld('Sätze', s), feld('Wdh.', w), feld('RIR', r), feld('Pause (s)', p));
+        else reihe.append(feld('Sätze', s), feld(u.zeit ? 'Sekunden' : 'Wdh.', w), feld('Pause (s)', p));
         k.append(reihe);
         const n = eingabe('text', pu.notiz, { platzhalter: 'Notiz vom Coach, z. B. „Tempo 3-1-1"', beiAenderung: (v) => { pu.notiz = v; Speicher.sichern(); } });
         n.setAttribute('aria-label', 'Notiz');
@@ -921,7 +975,7 @@ function planTagBearbeiten(t) {
         inhalt.append(k);
       });
       inhalt.append(knopf('Übung hinzufügen', 'knopf--zweit', () => uebungWaehlen(null, (u) => {
-        t.uebungen.push({ uid: u.id, saetze: 3, wdh: u.zeit ? '30–45' : '8–12', pause: 90, notiz: '' });
+        t.uebungen.push(neuePlanUebung(u));
         Speicher.sichern(); zeichnen();
       }), 'plus'));
       const loeschen = knopf('Plantag löschen', 'knopf--gefahr', () => {
@@ -990,7 +1044,7 @@ function workoutDetail(w) {
   blattOeffnen(w.name, (inhalt, schliessen) => {
     const werte = el('div', 'werte werte--3');
     werte.style.marginBottom = '14px';
-    const saetze = w.uebungen.reduce((a, u) => a + u.saetze.filter((s) => s.fertig).length, 0);
+    const saetze = kraftSaetze(w, true);
     werte.append(wertKachel('Dauer', dauerText(w.ende - w.start)), wertKachel('Sätze', zahl(saetze)),
                  wertKachel('Volumen', zahl(volumen(w)), 'kg'));
     inhalt.append(el('p', 'leise', datumLang(w.datum)), werte);
@@ -1003,11 +1057,12 @@ function workoutDetail(w) {
     w.uebungen.forEach((u) => {
       const fertig = u.saetze.filter((s) => s.fertig);
       if (!fertig.length) return;
-      const k = karte(uebung(u.uid).name);
+      const ue = uebung(u.uid);
+      const k = karte(ue.name);
       fertig.forEach((s, i) => {
         const z = el('div', 'zeile'); z.style.cursor = 'default';
-        z.append(el('div', 'zeile__text', `Satz ${i + 1}`),
-                 el('div', 'zeile__rechts', `${s.kg ? zahl(s.kg, s.kg % 1 ? 1 : 0) + ' kg × ' : ''}${s.wdh}${uebung(u.uid).zeit ? ' s' : ''}`));
+        z.append(el('div', 'zeile__text', ue.ausdauer ? 'Dauer' : `Satz ${i + 1}`),
+                 el('div', 'zeile__rechts', satzText(ue, s)));
         k.append(z);
       });
       inhalt.append(k);
@@ -1133,8 +1188,8 @@ function uebungBlatt(id) {
     inhalt.append(abschnitt('Dein Verlauf'));
     if (!verlauf.length) { inhalt.append(el('p', 'leise', 'Noch nicht trainiert.')); return; }
     if (verlauf.length > 1) {
-      const k = karte(u.gewicht ? 'Geschätztes 1RM' : (u.zeit ? 'Beste Zeit' : 'Beste Wiederholungen'));
-      k.append(liniendiagramm(verlauf, { einheit: u.gewicht ? 'kg' : (u.zeit ? 's' : ''), label: `Verlauf ${u.name}` }));
+      const k = karte(u.gewicht ? 'Geschätztes 1RM' : u.ausdauer ? 'Dauer' : (u.zeit ? 'Beste Zeit' : 'Beste Wiederholungen'));
+      k.append(liniendiagramm(verlauf, { einheit: u.gewicht ? 'kg' : u.ausdauer ? 'Min.' : (u.zeit ? 's' : ''), label: `Verlauf ${u.name}` }));
       inhalt.append(k);
     }
     const k = karte(null);
@@ -1142,7 +1197,7 @@ function uebungBlatt(id) {
       const z = el('div', 'zeile'); z.style.cursor = 'default';
       const t = el('div', 'zeile__text');
       t.append(el('div', 'zeile__titel', datumMittel(v.datum)),
-               el('div', 'zeile__meta', v.saetze.map((s) => `${s.kg ? zahl(s.kg, s.kg % 1 ? 1 : 0) + '×' : ''}${s.wdh}`).join('  ·  ')));
+               el('div', 'zeile__meta', v.saetze.map((s) => u.ausdauer ? satzText(u, s) : `${s.kg ? zahl(s.kg, s.kg % 1 ? 1 : 0) + '×' : ''}${s.wdh}${rirKurz(s)}`).join('  ·  ')));
       z.append(t);
       if (u.gewicht) z.append(el('div', 'zeile__rechts', `${zahl(v.wert, 1)} kg`));
       k.append(z);
@@ -1164,13 +1219,40 @@ function workoutStarten(plantag) {
     name: plantag ? plantag.name : 'Freies Training',
     datum: heuteText(),
     start: Date.now(),
-    uebungen: (plantag ? plantag.uebungen : []).map((pu) => ({
-      uid: pu.uid, ziel: pu.wdh, pause: pu.pause, notiz: pu.notiz,
-      saetze: Array.from({ length: pu.saetze }, () => ({ kg: null, wdh: null, fertig: false }))
-    }))
+    uebungen: (plantag ? plantag.uebungen : []).map((pu) => workoutUebung(pu))
   };
   Speicher.sichern();
   workoutOeffnen();
+}
+
+// Ältere Pläne angleichen: Cardio lief früher wie Kraft (Sätze, Sekunden,
+// Pause) und wird zu einer Einheit in Minuten. Kraftübungen ohne RIR-Ziel
+// bekommen das Standardziel; ein bewusst geleertes Feld bleibt leer.
+function planDatenAngleichen() {
+  let geaendert = false;
+  ((D().plan && D().plan.tage) || []).forEach((t) => t.uebungen.forEach((pu) => {
+    const u = uebung(pu.uid);
+    if (u.ausdauer && !(pu.saetze === 1 && pu.pause === 0)) {
+      Object.assign(pu, { saetze: 1, wdh: AUSDAUER_MINUTEN, pause: 0 });
+      geaendert = true;
+    }
+    if (mitRir(u) && !('rir' in pu)) { pu.rir = rirStandard(); geaendert = true; }
+  }));
+  if (geaendert) Speicher.sichern();
+}
+
+// Sätze ohne Ausdauer — eine Cardio-Einheit ist kein Satz.
+const kraftSaetze = (w, nurFertig) => w.uebungen.reduce((a, u) => uebung(u.uid).ausdauer ? a
+  : a + u.saetze.filter((s) => !nurFertig || s.fertig).length, 0);
+
+// Plan-Übung → Übung im laufenden Training. Ausdauer: immer genau eine Einheit.
+function workoutUebung(pu) {
+  const ausdauer = uebung(pu.uid).ausdauer;
+  return {
+    uid: pu.uid, ziel: pu.wdh, pause: ausdauer ? 0 : pu.pause, notiz: pu.notiz,
+    ...(pu.rir && mitRir(uebung(pu.uid)) ? { rir: pu.rir } : {}),
+    saetze: Array.from({ length: ausdauer ? 1 : pu.saetze }, () => ({ kg: null, wdh: null, fertig: false }))
+  };
 }
 
 function workoutOeffnen() {
@@ -1183,8 +1265,8 @@ function workoutOeffnen() {
     const kennzahlen = el('div', 'workout-kopf');
     const aktualisieren = () => {
       uhr.textContent = uhrzeit((Date.now() - w.start) / 1000);
-      const alle = w.uebungen.reduce((a, u) => a + u.saetze.length, 0);
-      const fertig = w.uebungen.reduce((a, u) => a + u.saetze.filter((s) => s.fertig).length, 0);
+      const alle = kraftSaetze(w);
+      const fertig = kraftSaetze(w, true);
       kennzahlen.replaceChildren(
         wertKachel('Sätze', `${fertig}/${alle}`),
         wertKachel('Volumen', zahl(volumen(w)), 'kg'),
@@ -1203,8 +1285,7 @@ function workoutOeffnen() {
     zeichnen();
 
     inhalt.append(knopf('Übung hinzufügen', 'knopf--zweit', () => uebungWaehlen(null, (u) => {
-      w.uebungen.push({ uid: u.id, ziel: u.zeit ? '30–45' : '8–12', pause: 90, notiz: '',
-                        saetze: Array.from({ length: 3 }, () => ({ kg: null, wdh: null, fertig: false })) });
+      w.uebungen.push(workoutUebung(neuePlanUebung(u)));
       Speicher.sichern(); zeichnen();
     }), 'plus'));
     const verwerfen = linkKnopf('Training verwerfen', () => {
@@ -1218,12 +1299,60 @@ function workoutOeffnen() {
   }, { kopfExtra: uhr, beimSchliessen: () => { clearInterval(takt); neuZeichnen(); } });
 }
 
+// Hinweis fürs heutige Training aus dem RIR vom letzten Mal: Blieb im Schnitt
+// mehr in Reserve als geplant, darf es mehr werden — lag es darunter, halten.
+function rirTipp(vorher, ziel) {
+  const werte = vorher.map((s) => s.rir).filter((x) => x != null);
+  if (!werte.length) return null;
+  const schnitt = werte.reduce((a, x) => a + x, 0) / werte.length;
+  const text = zahl(schnitt, schnitt % 1 ? 1 : 0);
+  if (schnitt > ziel.max + 0.4) return `💡 Letztes Mal war noch Luft (RIR Ø ${text}). Heute etwas mehr Gewicht oder Wiederholungen.`;
+  if (schnitt < ziel.min - 0.4) return `💡 Letztes Mal am Limit (RIR Ø ${text}). Heute Gewicht halten und sauber bleiben.`;
+  return null;
+}
+
+// Ausdauer im Training: eine Zeile mit Minuten und Haken — ohne Pausentimer.
+function ausdauerZeile(u, wu, w, aktualisieren) {
+  if (wu.saetze.length !== 1) wu.saetze = [wu.saetze.find((s) => s.fertig) || wu.saetze[0] || { kg: null, wdh: null, fertig: false }];
+  const s = wu.saetze[0];
+  const v = (letzteSaetze(wu.uid, w.id) || [])[0];
+  const tabelle = el('table', 'saetze saetze--dauer');
+  tabelle.innerHTML = '<thead><tr><th>Zuletzt</th><th>Minuten</th><th><span class="versteckt">Erledigt</span></th></tr></thead>';
+  const tr = el('tr', s.fertig ? 'fertig' : '');
+  const min = eingabe('text', s.wdh != null ? String(s.wdh).replace('.', ',') : '', { modus: 'decimal', platzhalter: String(wu.ziel).split('–')[0] });
+  min.setAttribute('aria-label', 'Dauer in Minuten');
+  min.oninput = () => { s.wdh = leseZahl(min.value); Speicher.sichern(); };
+  const h = el('button', 'haken'); h.type = 'button';
+  h.innerHTML = ikon('haken');
+  h.setAttribute('aria-pressed', String(s.fertig));
+  h.setAttribute('aria-label', `${u.name} erledigt`);
+  h.onclick = () => {
+    // Nichts eingetragen: das Ziel zählt als geschafft
+    if (!s.fertig && !s.wdh) { s.wdh = leseZahl(String(wu.ziel).split('–')[0]); min.value = s.wdh ? String(s.wdh).replace('.', ',') : ''; }
+    if (!s.fertig && !s.wdh) { min.focus(); toast('Bitte Minuten eintragen'); return; }
+    s.fertig = !s.fertig;
+    tr.className = s.fertig ? 'fertig' : '';
+    h.setAttribute('aria-pressed', String(s.fertig));
+    Speicher.sichern();
+    aktualisieren();
+  };
+  const zellen = [el('td', 'vorher', v ? satzText(u, v) : '–'), el('td'), el('td')];
+  zellen[1].append(min); zellen[2].append(h);
+  tr.append(...zellen);
+  const tbody = el('tbody'); tbody.append(tr);
+  tabelle.append(tbody);
+  return tabelle;
+}
+
 function uebungKarte(w, wu, ui, neuAufbauen, aktualisieren) {
   const u = uebung(wu.uid);
   const k = el('div', 'karte uebung-karte');
   const kopf = el('div', 'uebung-karte__kopf');
   const name = el('div', 'uebung-karte__name', u.name);
-  name.append(el('div', 'uebung-karte__ziel', `Ziel: ${wu.saetze.length} × ${wu.ziel} ${u.zeit ? 'Sek.' : 'Wdh.'} · Pause ${wu.pause} s`));
+  const rir = mitRir(u);
+  const rirZiel = rir ? rirSpanne(wu.rir) : null;
+  name.append(el('div', 'uebung-karte__ziel', u.ausdauer ? `Ziel: ${wu.ziel} Min.`
+    : `Ziel: ${wu.saetze.length} × ${wu.ziel} ${u.zeit ? 'Sek.' : 'Wdh.'}${rirZiel ? ` · RIR ${wu.rir}` : ''} · Pause ${wu.pause} s`));
   name.style.cursor = 'pointer';
   name.onclick = () => uebungBlatt(u.id);
   const tauschen = el('button', 'ikon-knopf ikon-knopf--plain'); tauschen.innerHTML = ikon('tauschen');
@@ -1238,15 +1367,19 @@ function uebungKarte(w, wu, ui, neuAufbauen, aktualisieren) {
   kopf.append(name, tauschen, weg);
   k.append(kopf);
   if (wu.notiz) k.append(el('div', 'uebung-karte__notiz', `📝 ${wu.notiz}`));
+  if (u.ausdauer) { k.append(ausdauerZeile(u, wu, w, aktualisieren)); return k; }
 
   const vorher = letzteSaetze(wu.uid, w.id) || [];
-  const tabelle = el('table', 'saetze');
-  tabelle.innerHTML = `<thead><tr><th>Satz</th><th>Zuletzt</th><th>kg</th><th>${u.zeit ? 'Sek.' : 'Wdh.'}</th><th><span class="versteckt">Erledigt</span></th></tr></thead>`;
+  const tipp = rirZiel && rirTipp(vorher, rirZiel);
+  if (tipp) k.append(el('div', 'uebung-karte__notiz', tipp));
+  const tabelle = el('table', 'saetze' + (rir ? ' saetze--rir' : ''));
+  tabelle.innerHTML = `<thead><tr><th>Satz</th><th>Zuletzt</th><th>kg</th><th>${u.zeit ? 'Sek.' : 'Wdh.'}</th>${rir ? '<th><button type="button" class="rir-kopf" aria-label="RIR — was ist das?">RIR</button></th>' : ''}<th><span class="versteckt">Erledigt</span></th></tr></thead>`;
+  if (rir) tabelle.querySelector('.rir-kopf').onclick = rirErklaerung;
   const tbody = el('tbody');
   wu.saetze.forEach((s, si) => {
     const tr = el('tr', s.fertig ? 'fertig' : '');
     const v = vorher[si] || vorher[vorher.length - 1];
-    const vorText = v ? `${v.kg ? zahl(v.kg, v.kg % 1 ? 1 : 0) + '×' : ''}${v.wdh}` : '–';
+    const vorText = v ? `${v.kg ? zahl(v.kg, v.kg % 1 ? 1 : 0) + '×' : ''}${v.wdh}${rir ? rirKurz(v) : ''}` : '–';
     // Vorschlag: was in diesem Workout im Satz davor stand, sonst das letzte Mal.
     const davor = si > 0 ? wu.saetze[si - 1] : null;
     const kgVorschlag = (davor && davor.kg) || (v && v.kg) || '';
@@ -1262,6 +1395,12 @@ function uebungKarte(w, wu, ui, neuAufbauen, aktualisieren) {
     if (wdhVorschlag) wdh.dataset.vorschlag = wdhVorschlag;
     kg.oninput = () => { s.kg = leseZahl(kg.value); Speicher.sichern(); };
     wdh.oninput = () => { s.wdh = leseZahl(wdh.value); Speicher.sichern(); };
+    // RIR bleibt freiwillig und wird nie aus dem Ziel vorausgefüllt.
+    const rirFeld = rir ? eingabe('text', s.rir != null ? String(s.rir) : '', { modus: 'numeric', platzhalter: rirZiel ? String(rirZiel.min) : '–' }) : null;
+    if (rirFeld) {
+      rirFeld.setAttribute('aria-label', `Satz ${si + 1} Wiederholungen in Reserve`);
+      rirFeld.oninput = () => { const x = leseZahl(rirFeld.value); s.rir = x == null ? null : Math.max(0, Math.min(10, Math.round(x))); Speicher.sichern(); };
+    }
     const h = el('button', 'haken'); h.type = 'button';
     h.innerHTML = ikon('haken');
     h.setAttribute('aria-pressed', String(s.fertig));
@@ -1288,10 +1427,16 @@ function uebungKarte(w, wu, ui, neuAufbauen, aktualisieren) {
           nWdh.firstChild.dataset.vorschlag = String(s.wdh);
         }
         if (wu.pause) Pause.start(wu.pause, u.name);
+        if (rirZiel && s.rir != null) {
+          if (s.rir > rirZiel.max) toast(`Noch ${s.rir} in Reserve — nächster Satz etwas mehr Gewicht oder Wdh.`);
+          else if (s.rir < rirZiel.min) toast(s.rir === 0 ? 'Bis ans Limit — Gewicht halten, Technik vor Last.' : 'Härter als geplant — Gewicht halten oder leicht senken.');
+        }
       }
     };
-    const zellen = [el('td', null, String(si + 1)), el('td', 'vorher', vorText), el('td'), el('td'), el('td')];
-    zellen[2].append(kg); zellen[3].append(wdh); zellen[4].append(h);
+    const zellen = [el('td', null, String(si + 1)), el('td', 'vorher', vorText), el('td'), el('td')];
+    zellen[2].append(kg); zellen[3].append(wdh);
+    if (rirFeld) { const z = el('td'); z.append(rirFeld); zellen.push(z); }
+    const hz = el('td'); hz.append(h); zellen.push(hz);
     tr.append(...zellen);
     tbody.append(tr);
   });
@@ -1355,7 +1500,7 @@ function workoutZusammenfassung(w) {
     const werte = el('div', 'werte werte--3');
     werte.style.marginBottom = '14px';
     werte.append(wertKachel('Dauer', dauerText(w.ende - w.start)),
-                 wertKachel('Sätze', zahl(w.uebungen.reduce((a, u) => a + u.saetze.length, 0))),
+                 wertKachel('Sätze', zahl(kraftSaetze(w))),
                  wertKachel('Volumen', zahl(volumen(w)), 'kg'));
     inhalt.append(werte);
     if (w.rekorde.length) {
@@ -2079,6 +2224,7 @@ function checkinText(c, st) {
 
 function checkinWoche(ziel) {
   const d = D();
+  ziel.append(antwortOeffnenKnopf());
   const st = wochenStatistik();
   const letzter = letzterCheckin();
   const heuteErledigt = letzter && letzter.datum === heuteText();
@@ -2170,7 +2316,11 @@ function checkinSendenBlatt(c, st) {
     const speichern = () => {
       const heute = heuteText();
       d.checkins = d.checkins.filter((x) => x.datum !== heute);
-      d.checkins.push({ datum: heute, text, gewicht: st.gewicht, workouts: st.workouts.length, taille: c.taille, bewertung: c.bewertung });
+      // Treue, Probleme und Fragen zusätzlich als Felder — die Coach-Ansicht
+      // erkennt daran offene Fragen und schwache Wochen.
+      d.checkins.push({ datum: heute, text, gewicht: st.gewicht, workouts: st.workouts.length, taille: c.taille, bewertung: c.bewertung,
+                        treueTraining: c.treueTraining, treueErnaehrung: c.treueErnaehrung,
+                        probleme: c.probleme.trim(), fragen: c.fragen.trim() });
       if (c.taille) {
         const m = d.messungen.find((x) => x.datum === heute);
         if (m) m.taille = c.taille; else d.messungen.push({ datum: heute, taille: c.taille });
@@ -2541,6 +2691,17 @@ function einstellungenBlatt() {
     inhalt.append(kz);
 
     inhalt.append(abschnitt('Dein Coach'));
+    inhalt.append(antwortOeffnenKnopf());
+    if (d.coachNachrichten.length) {
+      const kn = karte('Nachrichten vom Coach', 'senden');
+      [...d.coachNachrichten].reverse().slice(0, 10).forEach((n) => {
+        const det = el('details', 'aufklapp');
+        const sum = el('summary'); sum.append(el('div', 'zeile__titel', datumLang(n.datum)));
+        det.append(sum, el('p', 'coach-nachricht', n.text || (n.zusammenfassung ? `Übernommen: ${n.zusammenfassung}` : '—')));
+        kn.append(det);
+      });
+      inhalt.append(kn);
+    }
     const kc = karte(null);
     // Bei jeder Eingabe speichern, nicht erst beim Verlassen des Felds — sonst
     // geht die Adresse verloren, wenn jemand das Blatt direkt schließt.
@@ -2684,28 +2845,124 @@ async function fortschrittDatei(mitFotos) {
   return new File([JSON.stringify(bericht)], name, { type: 'application/json' });
 }
 
-function dateiLaden(datei) {
-  const a = el('a');
-  a.href = URL.createObjectURL(datei);
-  a.download = datei.name;
-  document.body.append(a);
-  a.click();
-  a.remove();
-  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+/* --- Antwort vom Coach -------------------------------------------------- */
+// Der Coach schickt eine Datei (app: 'coaching-antwort') mit Nachricht und auf
+// Wunsch neuen Zielen und Plan. Sie gilt nur für diesen Klienten (profil.id)
+// und nur, wenn sie neuer ist als die zuletzt übernommene.
+function antwortOeffnenKnopf() {
+  const datei = el('input'); datei.type = 'file'; datei.accept = 'application/json,.json'; datei.className = 'versteckt';
+  datei.onchange = () => {
+    const f = datei.files[0];
+    datei.value = '';
+    if (f) antwortEinlesen(f);
+  };
+  const k = knopf('Antwort vom Coach öffnen', 'knopf--zweit', () => datei.click(), 'senden');
+  k.style.marginBottom = '14px';
+  const box = el('div');
+  box.append(datei, k);
+  return box;
 }
 
-const kannDateienTeilen = (datei) => !!(navigator.canShare && navigator.canShare({ files: [datei] }));
+async function antwortEinlesen(datei) {
+  let a;
+  try {
+    a = JSON.parse(await datei.text());
+  } catch (e) { toast('Diese Datei ist keine Antwort vom Coach'); return; }
+  if (!a || a.app !== 'coaching-antwort') { toast('Diese Datei ist keine Antwort vom Coach'); return; }
+  const d = D();
+  if (a.fuer !== d.profil.id) { toast(`Diese Antwort ist für ${a.name || 'jemand anderen'} bestimmt`); return; }
+  if (d.antwortStand && a.erstellt <= d.antwortStand) { toast('Diese Antwort hast du schon übernommen'); return; }
+  antwortVorschau(a);
+}
 
-/** Muss direkt aus dem Tipp heraus laufen: Safari öffnet das Teilen-Menü
- *  nur innerhalb der Nutzeraktion. Deshalb liegt die Datei schon bereit. */
-function dateiTeilen(datei) {
-  if (kannDateienTeilen(datei)) {
-    return navigator.share({ files: [datei], title: 'Mein Fortschritt' })
-      .then(() => true)
-      .catch((e) => { if (e.name !== 'AbortError') toast('Teilen nicht möglich'); return false; });
-  }
-  dateiLaden(datei);
-  return Promise.resolve(true);
+function planUnterschiede(alt, neu) {
+  const zeilen = [];
+  const altTage = new Map(((alt && alt.tage) || []).map((t) => [t.id, t]));
+  neu.tage.forEach((t) => {
+    const vorher = altTage.get(t.id);
+    const vorherUeb = new Map(((vorher && vorher.uebungen) || []).map((u) => [u.uid, u]));
+    const aenderungen = [];
+    t.uebungen.forEach((u) => {
+      const v = vorherUeb.get(u.uid);
+      const ue = uebung(u.uid);
+      const ziel = ue.ausdauer ? `${u.wdh} Min.` : `${u.saetze} × ${u.wdh}${u.rir ? ` · RIR ${u.rir}` : ''}`;
+      if (!v) aenderungen.push(`+ ${ue.name} (${ziel})`);
+      else if (['saetze', 'wdh', 'rir', 'pause', 'notiz'].some((k) => String(v[k] ?? '') !== String(u[k] ?? ''))) {
+        aenderungen.push(`~ ${ue.name}: ${ziel}${u.notiz ? ` · „${u.notiz}“` : ''}`);
+      }
+      vorherUeb.delete(u.uid);
+    });
+    vorherUeb.forEach((u) => aenderungen.push(`− ${uebung(u.uid).name}`));
+    if (aenderungen.length) zeilen.push({ tag: t.name, aenderungen });
+  });
+  return zeilen;
+}
+
+function antwortVorschau(a) {
+  const d = D();
+  blattOeffnen('Antwort vom Coach', (inhalt, schliessen, blatt) => {
+    inhalt.append(el('p', 'leise', `Erstellt am ${datumLang(textAusDatum(new Date(a.erstellt)))}`));
+    if (a.nachricht) {
+      const k = karte('Nachricht', 'senden');
+      k.append(el('p', 'coach-nachricht', a.nachricht));
+      inhalt.append(k);
+    }
+    const plan = a.plan && Array.isArray(a.plan.tage) ? a.plan : null;
+    if (a.ziele || a.schrittziel) {
+      const k = karte('Neue Ziele', 'ernaehrung');
+      const z = d.ziele || {};
+      [['kcal', 'Kalorien', ''], ['e', 'Eiweiß', ' g'], ['kh', 'Kohlenhydrate', ' g'], ['f', 'Fett', ' g']].forEach(([id, name, e]) => {
+        if (!a.ziele || a.ziele[id] == null || a.ziele[id] === z[id]) return;
+        const zeile = el('div', 'zeile'); zeile.style.cursor = 'default';
+        zeile.append(el('div', 'zeile__text', name), el('div', 'zeile__rechts', `${zahl(z[id])}${e} → ${zahl(a.ziele[id])}${e}`));
+        k.append(zeile);
+      });
+      if (a.schrittziel && a.schrittziel !== d.profil.schrittziel) {
+        const zeile = el('div', 'zeile'); zeile.style.cursor = 'default';
+        zeile.append(el('div', 'zeile__text', 'Schritte pro Tag'), el('div', 'zeile__rechts', `${zahl(d.profil.schrittziel)} → ${zahl(a.schrittziel)}`));
+        k.append(zeile);
+      }
+      inhalt.append(k);
+    }
+    if (plan) {
+      const k = karte('Angepasster Trainingsplan', 'training');
+      const unterschiede = planUnterschiede(d.plan, plan);
+      if (!unterschiede.length) k.append(el('p', 'leise', 'Kleine Anpassungen am Plan.'));
+      unterschiede.forEach(({ tag, aenderungen }) => {
+        k.append(el('div', 'feld__label', tag));
+        aenderungen.forEach((x) => k.append(el('div', 'zeile__meta', x)));
+      });
+      inhalt.append(k);
+    }
+    blattFuss(blatt, knopf('Übernehmen', null, () => {
+      if (a.ziele) d.ziele = { ...d.ziele, ...a.ziele, manuell: true };
+      if (a.schrittziel) d.profil.schrittziel = a.schrittziel;
+      if (plan) {
+        d.plan = { tage: plan.tage.map((t, i) => ({ id: t.id || 't' + (i + 1), name: t.name || `Tag ${i + 1}`,
+          uebungen: (t.uebungen || []).filter((u) => u && u.uid) })) };
+      }
+      const teile = [a.ziele || a.schrittziel ? 'neue Ziele' : '', plan ? 'neuer Plan' : ''].filter(Boolean);
+      d.coachNachrichten.push({ datum: heuteText(), erstellt: a.erstellt, text: a.nachricht || '',
+                                zusammenfassung: teile.join(' und '), gelesen: false });
+      d.antwortStand = a.erstellt;
+      Speicher.sichern();
+      schliessen();
+      toast(teile.length ? `Übernommen: ${teile.join(' und ')}` : 'Nachricht gespeichert');
+      neuZeichnen();
+    }, 'haken'));
+  });
+}
+
+// Auf „Heute“: die neueste ungelesene Nachricht vom Coach
+function coachNachrichtKarte(ziel) {
+  const offen = D().coachNachrichten.filter((n) => !n.gelesen);
+  if (!offen.length) return;
+  const n = offen[offen.length - 1];
+  const k = karte('Von deinem Coach', 'senden', offen.length > 1 ? `${offen.length} neu` : null);
+  if (n.text) k.append(el('p', 'coach-nachricht', n.text));
+  if (n.zusammenfassung) k.append(el('p', 'leise', `Übernommen: ${n.zusammenfassung}.`));
+  k.append(linkKnopf('Gelesen', () => { offen.forEach((x) => { x.gelesen = true; }); Speicher.sichern(); neuZeichnen(); }, 'haken'));
+  ziel.append(k);
 }
 
 function fortschrittSendenBlatt() {
@@ -2850,6 +3107,7 @@ async function starten() {
       fetch('daten/rezepte.json').then((r) => r.json())
     ]);
     Object.assign(App, { uebungen, lebensmittel, rezepte });
+    planDatenAngleichen();
   } catch (e) {
     document.getElementById('inhalt').append(leerzustand('Daten konnten nicht geladen werden',
       'Bitte die Seite neu laden. Beim ersten Aufruf braucht die App kurz eine Internetverbindung.'));
