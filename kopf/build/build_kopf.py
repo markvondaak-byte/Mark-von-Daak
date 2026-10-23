@@ -59,8 +59,8 @@ def setzen(cfg, kapitel, ziel, **optionen):
 
 
 # Untergrenze für diesen Titel. KDP selbst nimmt Taschenbücher ab 24 Seiten an,
-# der Band ist aber bewusst auf mindestens 70 ausgelegt.
-MIN_SEITEN = 70
+# der Band ist aber bewusst auf mindestens 72 ausgelegt.
+MIN_SEITEN = 72
 
 
 def ursprung_nullen(pdf_pfad, breite_mm, hoehe_mm):

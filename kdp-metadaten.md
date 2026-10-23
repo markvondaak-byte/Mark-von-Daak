@@ -331,16 +331,16 @@ und danach `python3 kopf/build/build_cover.py`.
 | Sprache | Deutsch |
 | Altersfreigabe | keine jugendgefährdenden Inhalte |
 | Trimmgröße | 15,24 × 22,86 cm (6″ × 9″) |
-| Seiten | 70 (davon 14 Vorlagenseiten im Arbeitsteil) |
+| Seiten | 72 (davon 16 Vorlagenseiten im Arbeitsteil) |
 | Papier / Druckfarbe | weiß / Schwarzweiß |
 | Anschnitt | nein (Innenteil ohne randabfallende Elemente) |
-| Rückenbreite | 4,0 mm — **kein Rückentext**, KDP erlaubt ihn erst ab 79 Seiten |
-| Umschlag gesamt | 12,408 × 9,250 Zoll (315,15 × 234,95 mm) |
+| Rückenbreite | 4,12 mm — **kein Rückentext**, KDP erlaubt ihn erst ab 79 Seiten |
+| Umschlag gesamt | 12,412 × 9,250 Zoll (315,27 × 234,95 mm) |
 | Innenteil | `kopf/out/kopf-schlaegt-kalorien-druck.pdf` |
 | Umschlag | `kopf/out/cover-druck.pdf` |
 
-Ein Hardcover ist mit 70 Seiten noch nicht möglich (KDP: ab 75 Seiten).
-`kopf/build/build_kopf.py` bricht ab, wenn der Innenteil unter 70 Seiten fällt.
+Ein Hardcover ist mit 72 Seiten noch nicht möglich (KDP: ab 75 Seiten).
+`kopf/build/build_kopf.py` bricht ab, wenn der Innenteil unter 72 Seiten fällt.
 
 **KI-Angabe:** Der Text dieses Titels wurde mit Claude erzeugt und
 anschließend bearbeitet — beim Anlegen deshalb **„KI-erzeugter Text: ja"**

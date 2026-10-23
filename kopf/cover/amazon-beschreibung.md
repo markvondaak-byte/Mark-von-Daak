@@ -6,7 +6,7 @@ grenze: 4000 Zeichen inklusive Auszeichnung
 # Amazon-Beschreibung — Kopf schlägt Kalorien
 
 Geprüft gegen `kopf/kapitel/`: 13 Kapitel in drei Teilen (Verstehen, Umbauen,
-Dranbleiben), dazu ein Arbeitsteil mit 12 Vorlagen auf 14 Seiten. 70 Seiten,
+Dranbleiben), dazu ein Arbeitsteil mit 14 Vorlagen auf 16 Seiten. 72 Seiten,
 Taschenbuch 15,24 × 22,86 cm.
 
 Verkauft wird nicht „noch eine Diät“, sondern das Gegenteil: Das Buch erklärt,
