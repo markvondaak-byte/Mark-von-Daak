@@ -245,11 +245,41 @@ function uebung(id) {
 // Ausdauerübungen (Cardio) laufen auf Zeit: eine Einheit in Minuten, keine
 // Sätze, keine Pause. Die Minuten stehen wie sonst die Wiederholungen in `wdh`.
 const AUSDAUER_MINUTEN = '20';
+// RIR (Reps in Reserve): Wie viele saubere Wiederholungen wären am Satzende
+// noch gegangen? Gilt für Kraftübungen mit Wiederholungen, nicht für Halte-
+// übungen und Cardio. Einsteiger bleiben weiter vom Muskelversagen weg.
+const mitRir = (u) => !u.ausdauer && !u.zeit;
+const rirStandard = () => D().profil && D().profil.erfahrung === 'fortgeschritten' ? '1–2' : '2–3';
+function rirSpanne(text) {
+  const [a, b] = String(text == null ? '' : text).split(/[–-]/).map((x) => leseZahl(x));
+  return a == null ? null : { min: a, max: b == null ? a : b };
+}
+const rirKurz = (s) => s.rir != null ? ` @${zahl(s.rir)}` : '';
+
 const neuePlanUebung = (u) => u.ausdauer
   ? { uid: u.id, saetze: 1, wdh: AUSDAUER_MINUTEN, pause: 0, notiz: '' }
-  : { uid: u.id, saetze: 3, wdh: u.zeit ? '30–45' : '8–12', pause: 90, notiz: '' };
+  : { uid: u.id, saetze: 3, wdh: u.zeit ? '30–45' : '8–12', pause: 90, notiz: '', ...(mitRir(u) ? { rir: rirStandard() } : {}) };
 const satzText = (u, s) => u.ausdauer ? `${zahl(s.wdh)} Min.`
-  : `${s.kg ? zahl(s.kg, s.kg % 1 ? 1 : 0) + ' kg × ' : ''}${s.wdh}${u.zeit ? ' s' : ''}`;
+  : `${s.kg ? zahl(s.kg, s.kg % 1 ? 1 : 0) + ' kg × ' : ''}${s.wdh}${u.zeit ? ' s' : ''}${s.rir != null ? ` · RIR ${zahl(s.rir)}` : ''}`;
+
+function rirErklaerung() {
+  blattOeffnen('Was ist RIR?', (inhalt) => {
+    inhalt.append(el('p', null, 'RIR steht für „Reps in Reserve“ — Wiederholungen in Reserve. Trage nach jedem Satz ein, wie viele saubere Wiederholungen du noch geschafft hättest.'));
+    const k = karte(null);
+    [['0', 'Keine mehr möglich — Muskelversagen'], ['1', 'Eine wäre noch gegangen'], ['2', 'Zwei wären noch gegangen'],
+     ['3', 'Drei wären noch gegangen — mittelschwer'], ['4+', 'Deutlich zu leicht']].forEach(([wert, text]) => {
+      const z = el('div', 'zeile'); z.style.cursor = 'default';
+      z.append(el('div', 'zeile__ikon', wert), el('div', 'zeile__text', text));
+      k.append(z);
+    });
+    inhalt.append(k);
+    const h = el('div', 'hinweis');
+    h.append(el('div', 'hinweis__titel', 'So nutzt du es'),
+      el('p', null, 'Dein Plan nennt pro Übung ein Ziel, z. B. RIR 1–2. Liegst du darüber, war der Satz zu leicht: mehr Gewicht oder Wiederholungen. Liegst du darunter, war er härter als geplant: Gewicht halten oder etwas senken.'),
+      el('p', null, 'Einsteiger trainieren meist mit RIR 2–3, Fortgeschrittene mit 1–2. So wird jeder Satz fordernd, ohne dass die Technik leidet.'));
+    inhalt.append(h);
+  });
+}
 
 // Ersatz, wenn eine Studio-Übung zuhause nicht geht. Zuhause heißt hier:
 // Kurzhanteln, eine Bank oder ein stabiler Stuhl und ein Widerstandsband.
@@ -314,7 +344,8 @@ function planErstellen(profil) {
         const echt = ersatzFinden(id, profil.ort, schonDrin);
         schonDrin.add(echt);
         // Fortgeschrittene bekommen bei den beiden Hauptübungen einen Satz mehr.
-        return { uid: echt, saetze: saetze + (fortgeschritten && i < 2 ? 1 : 0), wdh, pause, notiz: '' };
+        return { uid: echt, saetze: saetze + (fortgeschritten && i < 2 ? 1 : 0), wdh, pause, notiz: '',
+                 ...(mitRir(uebung(echt)) ? { rir: fortgeschritten ? '1–2' : '2–3' } : {}) };
       });
       return { id: 't' + (nr + 1), name, uebungen };
     })
@@ -885,7 +916,7 @@ function plantagBlatt(t) {
       const text = el('div', 'zeile__text');
       text.append(el('div', 'zeile__titel', u.name),
                   el('div', 'zeile__meta', u.ausdauer ? `${pu.wdh} Min.`
-                    : `${pu.saetze} Sätze × ${pu.wdh} ${u.zeit ? 'Sek.' : 'Wdh.'} · ${pu.pause} s Pause`));
+                    : `${pu.saetze} Sätze × ${pu.wdh} ${u.zeit ? 'Sek.' : 'Wdh.'}${pu.rir && mitRir(u) ? ` · RIR ${pu.rir}` : ''} · ${pu.pause} s Pause`));
       const best = bestwert(pu.uid);
       if (best && u.gewicht) text.append(el('div', 'zeile__meta', `Bestwert (1RM geschätzt): ${zahl(best, 1)} kg`));
       z.append(text);
@@ -906,6 +937,11 @@ function planTagBearbeiten(t) {
       inhalt.replaceChildren();
       const name = eingabe('text', t.name, { beiAenderung: (v) => { t.name = v.trim() || t.name; Speicher.sichern(); } });
       inhalt.append(feld('Name', name));
+      const rirInfo = el('p', 'fusstext');
+      rirInfo.style.margin = '0 0 12px';
+      rirInfo.append(document.createTextNode('RIR = Wiederholungen in Reserve am Satzende, z. B. „1–2“. '),
+                     linkKnopf('Was ist RIR?', rirErklaerung));
+      inhalt.append(rirInfo);
       t.uebungen.forEach((pu, i) => {
         const u = uebung(pu.uid);
         const k = el('div', 'karte uebung-karte');
@@ -924,7 +960,9 @@ function planTagBearbeiten(t) {
         const s = eingabe('number', pu.saetze, { modus: 'numeric', beiAenderung: (v) => { pu.saetze = Math.max(1, Math.min(10, leseZahl(v) || 3)); Speicher.sichern(); } });
         const w = eingabe('text', pu.wdh, { beiAenderung: (v) => { pu.wdh = v.trim() || pu.wdh; Speicher.sichern(); } });
         const p = eingabe('number', pu.pause, { modus: 'numeric', beiAenderung: (v) => { pu.pause = Math.max(0, leseZahl(v) || 90); Speicher.sichern(); } });
+        const r = eingabe('text', pu.rir || '', { platzhalter: rirStandard(), beiAenderung: (v) => { pu.rir = v.trim(); Speicher.sichern(); } });
         if (u.ausdauer) reihe.append(feld('Dauer (Minuten)', w));
+        else if (mitRir(u)) reihe.append(feld('Sätze', s), feld('Wdh.', w), feld('RIR', r), feld('Pause (s)', p));
         else reihe.append(feld('Sätze', s), feld(u.zeit ? 'Sekunden' : 'Wdh.', w), feld('Pause (s)', p));
         k.append(reihe);
         const n = eingabe('text', pu.notiz, { platzhalter: 'Notiz vom Coach, z. B. „Tempo 3-1-1"', beiAenderung: (v) => { pu.notiz = v; Speicher.sichern(); } });
@@ -1155,7 +1193,7 @@ function uebungBlatt(id) {
       const z = el('div', 'zeile'); z.style.cursor = 'default';
       const t = el('div', 'zeile__text');
       t.append(el('div', 'zeile__titel', datumMittel(v.datum)),
-               el('div', 'zeile__meta', v.saetze.map((s) => u.ausdauer ? satzText(u, s) : `${s.kg ? zahl(s.kg, s.kg % 1 ? 1 : 0) + '×' : ''}${s.wdh}`).join('  ·  ')));
+               el('div', 'zeile__meta', v.saetze.map((s) => u.ausdauer ? satzText(u, s) : `${s.kg ? zahl(s.kg, s.kg % 1 ? 1 : 0) + '×' : ''}${s.wdh}${rirKurz(s)}`).join('  ·  ')));
       z.append(t);
       if (u.gewicht) z.append(el('div', 'zeile__rechts', `${zahl(v.wert, 1)} kg`));
       k.append(z);
@@ -1183,14 +1221,18 @@ function workoutStarten(plantag) {
   workoutOeffnen();
 }
 
-// Cardio lief früher wie Kraft (Sätze, Sekunden, Pause). Solche Planeinträge
-// auf eine Einheit mit der Standarddauer in Minuten umstellen.
-function ausdauerImPlanUmstellen() {
+// Ältere Pläne angleichen: Cardio lief früher wie Kraft (Sätze, Sekunden,
+// Pause) und wird zu einer Einheit in Minuten. Kraftübungen ohne RIR-Ziel
+// bekommen das Standardziel; ein bewusst geleertes Feld bleibt leer.
+function planDatenAngleichen() {
   let geaendert = false;
   ((D().plan && D().plan.tage) || []).forEach((t) => t.uebungen.forEach((pu) => {
-    if (!uebung(pu.uid).ausdauer || (pu.saetze === 1 && pu.pause === 0)) return;
-    Object.assign(pu, { saetze: 1, wdh: AUSDAUER_MINUTEN, pause: 0 });
-    geaendert = true;
+    const u = uebung(pu.uid);
+    if (u.ausdauer && !(pu.saetze === 1 && pu.pause === 0)) {
+      Object.assign(pu, { saetze: 1, wdh: AUSDAUER_MINUTEN, pause: 0 });
+      geaendert = true;
+    }
+    if (mitRir(u) && !('rir' in pu)) { pu.rir = rirStandard(); geaendert = true; }
   }));
   if (geaendert) Speicher.sichern();
 }
@@ -1204,6 +1246,7 @@ function workoutUebung(pu) {
   const ausdauer = uebung(pu.uid).ausdauer;
   return {
     uid: pu.uid, ziel: pu.wdh, pause: ausdauer ? 0 : pu.pause, notiz: pu.notiz,
+    ...(pu.rir && mitRir(uebung(pu.uid)) ? { rir: pu.rir } : {}),
     saetze: Array.from({ length: ausdauer ? 1 : pu.saetze }, () => ({ kg: null, wdh: null, fertig: false }))
   };
 }
@@ -1252,6 +1295,18 @@ function workoutOeffnen() {
   }, { kopfExtra: uhr, beimSchliessen: () => { clearInterval(takt); neuZeichnen(); } });
 }
 
+// Hinweis fürs heutige Training aus dem RIR vom letzten Mal: Blieb im Schnitt
+// mehr in Reserve als geplant, darf es mehr werden — lag es darunter, halten.
+function rirTipp(vorher, ziel) {
+  const werte = vorher.map((s) => s.rir).filter((x) => x != null);
+  if (!werte.length) return null;
+  const schnitt = werte.reduce((a, x) => a + x, 0) / werte.length;
+  const text = zahl(schnitt, schnitt % 1 ? 1 : 0);
+  if (schnitt > ziel.max + 0.4) return `💡 Letztes Mal war noch Luft (RIR Ø ${text}). Heute etwas mehr Gewicht oder Wiederholungen.`;
+  if (schnitt < ziel.min - 0.4) return `💡 Letztes Mal am Limit (RIR Ø ${text}). Heute Gewicht halten und sauber bleiben.`;
+  return null;
+}
+
 // Ausdauer im Training: eine Zeile mit Minuten und Haken — ohne Pausentimer.
 function ausdauerZeile(u, wu, w, aktualisieren) {
   if (wu.saetze.length !== 1) wu.saetze = [wu.saetze.find((s) => s.fertig) || wu.saetze[0] || { kg: null, wdh: null, fertig: false }];
@@ -1290,8 +1345,10 @@ function uebungKarte(w, wu, ui, neuAufbauen, aktualisieren) {
   const k = el('div', 'karte uebung-karte');
   const kopf = el('div', 'uebung-karte__kopf');
   const name = el('div', 'uebung-karte__name', u.name);
+  const rir = mitRir(u);
+  const rirZiel = rir ? rirSpanne(wu.rir) : null;
   name.append(el('div', 'uebung-karte__ziel', u.ausdauer ? `Ziel: ${wu.ziel} Min.`
-    : `Ziel: ${wu.saetze.length} × ${wu.ziel} ${u.zeit ? 'Sek.' : 'Wdh.'} · Pause ${wu.pause} s`));
+    : `Ziel: ${wu.saetze.length} × ${wu.ziel} ${u.zeit ? 'Sek.' : 'Wdh.'}${rirZiel ? ` · RIR ${wu.rir}` : ''} · Pause ${wu.pause} s`));
   name.style.cursor = 'pointer';
   name.onclick = () => uebungBlatt(u.id);
   const tauschen = el('button', 'ikon-knopf ikon-knopf--plain'); tauschen.innerHTML = ikon('tauschen');
@@ -1309,13 +1366,16 @@ function uebungKarte(w, wu, ui, neuAufbauen, aktualisieren) {
   if (u.ausdauer) { k.append(ausdauerZeile(u, wu, w, aktualisieren)); return k; }
 
   const vorher = letzteSaetze(wu.uid, w.id) || [];
-  const tabelle = el('table', 'saetze');
-  tabelle.innerHTML = `<thead><tr><th>Satz</th><th>Zuletzt</th><th>kg</th><th>${u.zeit ? 'Sek.' : 'Wdh.'}</th><th><span class="versteckt">Erledigt</span></th></tr></thead>`;
+  const tipp = rirZiel && rirTipp(vorher, rirZiel);
+  if (tipp) k.append(el('div', 'uebung-karte__notiz', tipp));
+  const tabelle = el('table', 'saetze' + (rir ? ' saetze--rir' : ''));
+  tabelle.innerHTML = `<thead><tr><th>Satz</th><th>Zuletzt</th><th>kg</th><th>${u.zeit ? 'Sek.' : 'Wdh.'}</th>${rir ? '<th><button type="button" class="rir-kopf" aria-label="RIR — was ist das?">RIR</button></th>' : ''}<th><span class="versteckt">Erledigt</span></th></tr></thead>`;
+  if (rir) tabelle.querySelector('.rir-kopf').onclick = rirErklaerung;
   const tbody = el('tbody');
   wu.saetze.forEach((s, si) => {
     const tr = el('tr', s.fertig ? 'fertig' : '');
     const v = vorher[si] || vorher[vorher.length - 1];
-    const vorText = v ? `${v.kg ? zahl(v.kg, v.kg % 1 ? 1 : 0) + '×' : ''}${v.wdh}` : '–';
+    const vorText = v ? `${v.kg ? zahl(v.kg, v.kg % 1 ? 1 : 0) + '×' : ''}${v.wdh}${rir ? rirKurz(v) : ''}` : '–';
     // Vorschlag: was in diesem Workout im Satz davor stand, sonst das letzte Mal.
     const davor = si > 0 ? wu.saetze[si - 1] : null;
     const kgVorschlag = (davor && davor.kg) || (v && v.kg) || '';
@@ -1331,6 +1391,12 @@ function uebungKarte(w, wu, ui, neuAufbauen, aktualisieren) {
     if (wdhVorschlag) wdh.dataset.vorschlag = wdhVorschlag;
     kg.oninput = () => { s.kg = leseZahl(kg.value); Speicher.sichern(); };
     wdh.oninput = () => { s.wdh = leseZahl(wdh.value); Speicher.sichern(); };
+    // RIR bleibt freiwillig und wird nie aus dem Ziel vorausgefüllt.
+    const rirFeld = rir ? eingabe('text', s.rir != null ? String(s.rir) : '', { modus: 'numeric', platzhalter: rirZiel ? String(rirZiel.min) : '–' }) : null;
+    if (rirFeld) {
+      rirFeld.setAttribute('aria-label', `Satz ${si + 1} Wiederholungen in Reserve`);
+      rirFeld.oninput = () => { const x = leseZahl(rirFeld.value); s.rir = x == null ? null : Math.max(0, Math.min(10, Math.round(x))); Speicher.sichern(); };
+    }
     const h = el('button', 'haken'); h.type = 'button';
     h.innerHTML = ikon('haken');
     h.setAttribute('aria-pressed', String(s.fertig));
@@ -1357,10 +1423,16 @@ function uebungKarte(w, wu, ui, neuAufbauen, aktualisieren) {
           nWdh.firstChild.dataset.vorschlag = String(s.wdh);
         }
         if (wu.pause) Pause.start(wu.pause, u.name);
+        if (rirZiel && s.rir != null) {
+          if (s.rir > rirZiel.max) toast(`Noch ${s.rir} in Reserve — nächster Satz etwas mehr Gewicht oder Wdh.`);
+          else if (s.rir < rirZiel.min) toast(s.rir === 0 ? 'Bis ans Limit — Gewicht halten, Technik vor Last.' : 'Härter als geplant — Gewicht halten oder leicht senken.');
+        }
       }
     };
-    const zellen = [el('td', null, String(si + 1)), el('td', 'vorher', vorText), el('td'), el('td'), el('td')];
-    zellen[2].append(kg); zellen[3].append(wdh); zellen[4].append(h);
+    const zellen = [el('td', null, String(si + 1)), el('td', 'vorher', vorText), el('td'), el('td')];
+    zellen[2].append(kg); zellen[3].append(wdh);
+    if (rirFeld) { const z = el('td'); z.append(rirFeld); zellen.push(z); }
+    const hz = el('td'); hz.append(h); zellen.push(hz);
     tr.append(...zellen);
     tbody.append(tr);
   });
@@ -2919,7 +2991,7 @@ async function starten() {
       fetch('daten/rezepte.json').then((r) => r.json())
     ]);
     Object.assign(App, { uebungen, lebensmittel, rezepte });
-    ausdauerImPlanUmstellen();
+    planDatenAngleichen();
   } catch (e) {
     document.getElementById('inhalt').append(leerzustand('Daten konnten nicht geladen werden',
       'Bitte die Seite neu laden. Beim ersten Aufruf braucht die App kurz eine Internetverbindung.'));
