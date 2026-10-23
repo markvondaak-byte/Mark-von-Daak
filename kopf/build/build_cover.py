@@ -478,6 +478,12 @@ def cover_bauen(cfg, seiten, ziel_pdf, ziel_png):
         # Umschlag wie aus einem Guss wirkt.
         foto = Image.open(titelbild)
         oben, unten = randfarbe(foto, "oben"), randfarbe(foto, "unten")
+        # Helles Bild (etwa Food-Fotografie auf weißem Grund): Schrift dunkel,
+        # sonst stünde Papierweiß auf Papierweiß.
+        r, g, b = unten
+        if 0.299 * r + 0.587 * g + 0.114 * b > 150:
+            FARBE.update({"text": (22, 32, 48), "text_leise": (70, 82, 98),
+                          "akzent": (196, 104, 18)})
     bild = verlauf(*gesamt, oben, unten)
 
     # Barcodefeld in reportlab-Koordinaten (Punkt, Ursprung unten links)
