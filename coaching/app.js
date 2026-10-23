@@ -42,7 +42,12 @@ const Speicher = {
       zuletzt: [],
       // Antworten des Coachs: Nachrichten und Zeitstempel der zuletzt übernommenen Datei
       coachNachrichten: [],
-      antwortStand: null
+      antwortStand: null,
+      // Deload: Wochenstart der aktiven bzw. letzten leichten Woche; „später“ verschiebt den Hinweis
+      deload: null,
+      deloadSpaeter: null,
+      // Per Barcode gefundene Produkte, damit sie offline und in der Suche bleiben
+      gescannt: {}
     };
   },
 
@@ -372,10 +377,10 @@ function workoutsInWoche(datum = heuteText()) {
 }
 
 /** Letzte Sätze einer Übung vor einem bestimmten Workout. */
-function letzteSaetze(uid, ausserId) {
+function letzteSaetze(uid, ausserId, { ohneDeload } = {}) {
   for (let i = D().workouts.length - 1; i >= 0; i--) {
     const w = D().workouts[i];
-    if (w.id === ausserId) continue;
+    if (w.id === ausserId || (ohneDeload && w.deload)) continue;
     const u = w.uebungen.find((x) => x.uid === uid);
     if (u && u.saetze.some((s) => s.fertig)) return u.saetze.filter((s) => s.fertig);
   }
@@ -721,6 +726,7 @@ function ansichtHeute(ziel) {
   }
   ziel.append(held);
   coachNachrichtKarte(ziel);
+  deloadKarte(ziel);
 
   // Check-in fällig?
   if (checkinFaellig()) {
@@ -873,6 +879,15 @@ function trainingPlan(ziel) {
   }
   kw.append(punkte);
   ziel.append(kw);
+  deloadKarte(ziel);
+  if (!deloadAktiv() && !deloadFaellig()) {
+    const l = linkKnopf('Deload-Woche einlegen', () => {
+      if (!confirm('Diese Woche als Deload-Woche trainieren? Halbe Sätze, ca. 10 % weniger Gewicht, RIR 3–4.')) return;
+      D().deload = wochenstart(heuteText()); Speicher.sichern(); neuZeichnen();
+    });
+    l.style.cssText = 'display:block;margin:-4px 0 14px';
+    ziel.append(l);
+  }
 
   if (d.aktiv) {
     ziel.append(knopf(`${d.aktiv.name} fortsetzen`, null, () => workoutOeffnen(), 'training'));
@@ -1219,6 +1234,7 @@ function workoutStarten(plantag) {
     name: plantag ? plantag.name : 'Freies Training',
     datum: heuteText(),
     start: Date.now(),
+    ...(deloadAktiv() ? { deload: true } : {}),
     uebungen: (plantag ? plantag.uebungen : []).map((pu) => workoutUebung(pu))
   };
   Speicher.sichern();
@@ -1247,11 +1263,14 @@ const kraftSaetze = (w, nurFertig) => w.uebungen.reduce((a, u) => uebung(u.uid).
 
 // Plan-Übung → Übung im laufenden Training. Ausdauer: immer genau eine Einheit.
 function workoutUebung(pu) {
-  const ausdauer = uebung(pu.uid).ausdauer;
+  const u = uebung(pu.uid);
+  const ausdauer = u.ausdauer;
+  const deload = deloadAktiv() && !ausdauer;
+  const saetze = ausdauer ? 1 : deload ? Math.max(1, Math.ceil(pu.saetze / 2)) : pu.saetze;
   return {
     uid: pu.uid, ziel: pu.wdh, pause: ausdauer ? 0 : pu.pause, notiz: pu.notiz,
-    ...(pu.rir && mitRir(uebung(pu.uid)) ? { rir: pu.rir } : {}),
-    saetze: Array.from({ length: ausdauer ? 1 : pu.saetze }, () => ({ kg: null, wdh: null, fertig: false }))
+    ...(mitRir(u) && (deload || pu.rir) ? { rir: deload ? '3–4' : pu.rir } : {}),
+    saetze: Array.from({ length: saetze }, () => ({ kg: null, wdh: null, fertig: false }))
   };
 }
 
@@ -1297,6 +1316,105 @@ function workoutOeffnen() {
 
     blattFuss(blatt, knopf('Training beenden', null, () => workoutBeenden(schliessen), 'haken'));
   }, { kopfExtra: uhr, beimSchliessen: () => { clearInterval(takt); neuZeichnen(); } });
+}
+
+/* --- Steigerung, Aufwärmen, Deload -------------------------------------- */
+// Steigerung nach dem Prinzip „erst Wiederholungen, dann Gewicht“: Schafft der
+// Klient bei einem Gewicht in allen Sätzen das obere Ende des Bereichs (und
+// bleibt dabei im RIR-Ziel), geht das Gewicht hoch. Fällt er unter das untere
+// Ende, geht es leicht runter. Sonst: gleiches Gewicht, eine Wdh. mehr.
+const gewichtsSchritt = (u) => u.geraet === 'Kurzhantel' || u.geraet === 'Kettlebell' ? 2
+  : u.geraet === 'Langhantel' && (u.gruppe === 'Beine' || u.gruppe === 'Po' || u.id === 'kreuzheben') ? 5 : 2.5;
+const gewichtRunden = (kg, u) => {
+  const raster = u.geraet === 'Kurzhantel' || u.geraet === 'Kettlebell' ? 1 : 2.5;
+  return Math.max(raster, Math.round(kg / raster) * raster);
+};
+const kgText = (kg) => zahl(kg, kg % 1 ? 1 : 0);
+
+function steigerung(u, wu, vorher, deload) {
+  if (!u.gewicht || u.ausdauer || u.zeit) return null;
+  const mitKg = vorher.filter((s) => s.kg && s.wdh);
+  if (!mitKg.length) return null;
+  const kg = Math.max(...mitKg.map((s) => s.kg));
+  if (deload) {
+    const leichter = gewichtRunden(kg * 0.9, u);
+    return { kg: leichter, text: `🔋 Deload: heute ${kgText(leichter)} kg (ca. 10 % leichter), halbe Sätze, RIR 3–4 — locker und sauber.` };
+  }
+  const spanne = rirSpanne(wu.ziel);
+  if (!spanne) return null;
+  const saetze = mitKg.filter((s) => s.kg === kg);
+  const wdh = saetze.map((s) => s.wdh);
+  const rir = rirSpanne(wu.rir);
+  const rirWerte = saetze.map((s) => s.rir).filter((x) => x != null);
+  const rirSchnitt = rirWerte.length ? rirWerte.reduce((a, x) => a + x, 0) / rirWerte.length : null;
+  const zuletzt = `letztes Mal ${kgText(kg)} kg × ${wdh.join('/')}${rirSchnitt != null ? `, RIR Ø ${zahl(rirSchnitt, rirSchnitt % 1 ? 1 : 0)}` : ''}`;
+  const oben = wdh.every((x) => x >= spanne.max);
+  const vielLuft = rir && rirSchnitt != null && rirSchnitt >= rir.max + 2;
+  const zuSchwer = wdh.filter((x) => x < spanne.min).length > wdh.length / 2;
+  if ((oben && !(rir && rirSchnitt != null && rirSchnitt < rir.min - 0.5)) || vielLuft) {
+    const neu = gewichtRunden(kg + gewichtsSchritt(u), u);
+    return { kg: neu, text: `📈 Heute ${kgText(neu)} kg für ${spanne.min}–${spanne.max} Wdh. (${zuletzt})` };
+  }
+  if (zuSchwer) {
+    // Aus dem geschätzten 1RM das Gewicht fürs untere Ende samt RIR-Ziel (Epley)
+    const best = Math.max(...saetze.map((s) => e1rm(s.kg, s.wdh + (s.rir || 0))));
+    const passend = best / (1 + (spanne.min + (rir ? rir.min : 0)) / 30);
+    const neu = gewichtRunden(Math.min(kg * 0.95, passend), u);
+    return { kg: neu, text: `📉 Heute ${kgText(neu)} kg und sauber in ${spanne.min}–${spanne.max} Wdh. bleiben (${zuletzt})` };
+  }
+  return { kg, text: `➡️ Heute ${kgText(kg)} kg — Ziel: eine Wdh. mehr als zuletzt (${zuletzt})` };
+}
+
+// Aufwärmsätze vor der ersten schweren Übung einer Muskelgruppe
+function aufwaermSaetze(u, kg) {
+  if (!u.gewicht || !kg) return null;
+  if (u.geraet === 'Langhantel') {
+    if (kg < 40) return null;
+    const stufen = [[0.5, 5], [0.7, 3], ...(kg >= 60 ? [[0.85, 1]] : [])]
+      .map(([anteil, wdh]) => ({ kg: gewichtRunden(kg * anteil, u), wdh })).filter((x) => x.kg > 20 && x.kg < kg);
+    return [{ kg: 20, wdh: 10 }, ...stufen.filter((x, i, a) => !i || x.kg !== a[i - 1].kg)];
+  }
+  if (!['Kurzhantel', 'Maschine', 'SZ-Stange'].includes(u.geraet)) return null;
+  if (kg < (u.geraet === 'Kurzhantel' ? 10 : 25)) return null;
+  return [{ kg: gewichtRunden(kg * 0.5, u), wdh: 8 }, { kg: gewichtRunden(kg * 0.75, u), wdh: 4 }];
+}
+
+// Deload: Nach einigen Trainingswochen am Stück eine leichtere Woche —
+// Fortgeschrittene nach 5, Einsteiger nach 7 Wochen.
+const deloadAktiv = () => D().deload === wochenstart(heuteText());
+function trainingswochenAmStueck() {
+  const d = D();
+  const diese = wochenstart(heuteText());
+  const ab = d.deload && d.deload < diese ? tageVerschieben(d.deload, 7) : null;
+  const wochen = new Set(d.workouts.filter((w) => !w.deload && w.datum < diese && (!ab || w.datum >= ab))
+    .map((w) => wochenstart(w.datum)));
+  let n = 0;
+  for (let w = tageVerschieben(diese, -7); wochen.has(w); w = tageVerschieben(w, -7)) n++;
+  return n;
+}
+function deloadFaellig() {
+  const d = D();
+  if (deloadAktiv() || (d.deloadSpaeter && d.deloadSpaeter >= wochenstart(heuteText()))) return false;
+  return trainingswochenAmStueck() >= (d.profil.erfahrung === 'fortgeschritten' ? 5 : 7);
+}
+
+function deloadKarte(ziel) {
+  const d = D();
+  if (deloadAktiv()) {
+    const k = karte('Deload-Woche 🔋', 'training');
+    k.append(el('p', 'leise', 'Diese Woche trainierst du bewusst leichter: halbe Sätze, ca. 10 % weniger Gewicht, RIR 3–4. So erholen sich Muskeln, Gelenke und Nervensystem — danach geht es stärker weiter.'));
+    k.append(linkKnopf('Deload beenden', () => { d.deload = null; Speicher.sichern(); neuZeichnen(); }));
+    ziel.append(k);
+    return;
+  }
+  if (!deloadFaellig()) return;
+  const k = karte('Zeit für eine Deload-Woche', 'training');
+  k.append(el('p', 'leise', `Du trainierst seit ${trainingswochenAmStueck()} Wochen am Stück. Eine leichtere Woche baut Ermüdung ab, damit du danach wieder Fortschritte machst.`));
+  const r = el('div', 'reihe');
+  r.append(knopf('Diese Woche', 'knopf--klein', () => { d.deload = wochenstart(heuteText()); Speicher.sichern(); toast('Deload-Woche gestartet'); neuZeichnen(); }),
+           knopf('Nächste Woche', 'knopf--zweit knopf--klein', () => { d.deloadSpaeter = wochenstart(heuteText()); Speicher.sichern(); neuZeichnen(); }));
+  k.append(r);
+  ziel.append(k);
 }
 
 // Hinweis fürs heutige Training aus dem RIR vom letzten Mal: Blieb im Schnitt
@@ -1369,9 +1487,16 @@ function uebungKarte(w, wu, ui, neuAufbauen, aktualisieren) {
   if (wu.notiz) k.append(el('div', 'uebung-karte__notiz', `📝 ${wu.notiz}`));
   if (u.ausdauer) { k.append(ausdauerZeile(u, wu, w, aktualisieren)); return k; }
 
-  const vorher = letzteSaetze(wu.uid, w.id) || [];
-  const tipp = rirZiel && rirTipp(vorher, rirZiel);
+  const vorher = letzteSaetze(wu.uid, w.id, { ohneDeload: !w.deload }) || [];
+  const plan = steigerung(u, wu, vorher, w.deload);
+  const tipp = plan ? plan.text : rirZiel && rirTipp(vorher, rirZiel);
   if (tipp) k.append(el('div', 'uebung-karte__notiz', tipp));
+  const arbeitsKg = plan ? plan.kg : Math.max(0, ...vorher.map((s) => s.kg || 0));
+  const ersteDerGruppe = w.uebungen.findIndex((x) => uebung(x.uid).gruppe === u.gruppe) === ui;
+  const aufwaermen = ersteDerGruppe && aufwaermSaetze(u, arbeitsKg);
+  if (aufwaermen) {
+    k.append(el('div', 'uebung-karte__notiz aufwaermen', `🔥 Aufwärmen: ${aufwaermen.map((x) => `${zahl(x.kg, x.kg % 1 ? 1 : 0)} kg × ${x.wdh}`).join(' · ')} — kurze Pausen, nicht abhaken`));
+  }
   const tabelle = el('table', 'saetze' + (rir ? ' saetze--rir' : ''));
   tabelle.innerHTML = `<thead><tr><th>Satz</th><th>Zuletzt</th><th>kg</th><th>${u.zeit ? 'Sek.' : 'Wdh.'}</th>${rir ? '<th><button type="button" class="rir-kopf" aria-label="RIR — was ist das?">RIR</button></th>' : ''}<th><span class="versteckt">Erledigt</span></th></tr></thead>`;
   if (rir) tabelle.querySelector('.rir-kopf').onclick = rirErklaerung;
@@ -1382,7 +1507,7 @@ function uebungKarte(w, wu, ui, neuAufbauen, aktualisieren) {
     const vorText = v ? `${v.kg ? zahl(v.kg, v.kg % 1 ? 1 : 0) + '×' : ''}${v.wdh}${rir ? rirKurz(v) : ''}` : '–';
     // Vorschlag: was in diesem Workout im Satz davor stand, sonst das letzte Mal.
     const davor = si > 0 ? wu.saetze[si - 1] : null;
-    const kgVorschlag = (davor && davor.kg) || (v && v.kg) || '';
+    const kgVorschlag = (davor && davor.kg) || (plan && plan.kg) || (v && v.kg) || '';
     const wdhVorschlag = (davor && davor.wdh) || (v && v.wdh) || '';
     // Echte Vorschläge stehen zusätzlich in data-vorschlag. Nur die werden
     // beim Abhaken übernommen — die untere Zielgrenze als Platzhalter ist
@@ -1708,6 +1833,8 @@ function lebensmittelSuche(ziel, fertig) {
   const e = eingabe('search', '', { platzhalter: 'Lebensmittel suchen, z. B. Skyr' });
   e.setAttribute('aria-label', 'Lebensmittel suchen');
   suche.append(e);
+  const scan = knopf('Barcode scannen', 'knopf--zweit', () => barcodeScannen(fertig), 'kamera');
+  scan.style.marginBottom = '12px';
   const liste = el('div');
   const zeichnen = () => {
     liste.replaceChildren();
@@ -1727,7 +1854,8 @@ function lebensmittelSuche(ziel, fertig) {
       liste.append(k);
       liste.append(abschnitt('Alle Lebensmittel'));
     }
-    const treffer = App.lebensmittel.lebensmittel.filter((l) => !q || l.name.toLowerCase().includes(q) || l.kat.toLowerCase().includes(q));
+    const alle = [...Object.values(D().gescannt), ...App.lebensmittel.lebensmittel];
+    const treffer = alle.filter((l) => !q || l.name.toLowerCase().includes(q) || l.kat.toLowerCase().includes(q));
     if (!treffer.length) {
       liste.append(leerzustand('Nicht in der Liste', 'Nutze „Schnell", um Kalorien und Makros direkt einzutragen — z. B. von der Verpackung.'));
       return;
@@ -1736,7 +1864,7 @@ function lebensmittelSuche(ziel, fertig) {
     treffer.forEach((l) => {
       const r = el('button', 'zeile'); r.type = 'button';
       const t = el('div', 'zeile__text');
-      t.append(el('div', 'zeile__titel', l.name), el('div', 'zeile__meta', `100 g · E ${zahl(l.e, 1)} · KH ${zahl(l.kh, 1)} · F ${zahl(l.f, 1)}`));
+      t.append(el('div', 'zeile__titel', l.name), el('div', 'zeile__meta', `${l.barcode ? 'Gescannt · ' : ''}100 g · E ${zahl(l.e, 1)} · KH ${zahl(l.kh, 1)} · F ${zahl(l.f, 1)}`));
       r.append(t, el('div', 'zeile__rechts', `${zahl(l.kcal)} kcal`));
       r.onclick = () => mengeWaehlen(l, fertig);
       k.append(r);
@@ -1744,8 +1872,161 @@ function lebensmittelSuche(ziel, fertig) {
     liste.append(k);
   };
   e.oninput = zeichnen;
-  ziel.append(suche, liste);
+  ziel.append(suche, scan, liste);
   zeichnen();
+}
+
+/* --- Barcode-Scanner ---------------------------------------------------- */
+// Erkennung im Browser: BarcodeDetector, wo vorhanden (Android/Chrome), sonst
+// die mitgelieferte ZXing-Bibliothek (iPhone/Safari) — sie wird erst beim
+// ersten Scan geladen. Kamerabilder verlassen das Gerät nie; nur die erkannte
+// Nummer geht an Open Food Facts, um die Nährwerte abzurufen.
+const OFF_URL = 'https://world.openfoodfacts.org/api/v2/product/';
+let zxingLaden = null;
+function zxingBereit() {
+  if (window.ZXing) return Promise.resolve(window.ZXing);
+  if (!zxingLaden) {
+    zxingLaden = new Promise((ok, fehler) => {
+      const sk = document.createElement('script');
+      sk.src = 'vendor/zxing.min.js';
+      sk.onload = () => ok(window.ZXing);
+      sk.onerror = () => { zxingLaden = null; fehler(new Error('ZXing nicht geladen')); };
+      document.head.append(sk);
+    });
+  }
+  return zxingLaden;
+}
+
+async function barcodeLeser() {
+  if ('BarcodeDetector' in window) {
+    try {
+      const formate = await BarcodeDetector.getSupportedFormats();
+      if (formate.includes('ean_13')) {
+        const det = new BarcodeDetector({ formats: ['ean_13', 'ean_8', 'upc_a', 'upc_e'].filter((x) => formate.includes(x)) });
+        return async (video) => { const r = await det.detect(video); return r.length ? r[0].rawValue : null; };
+      }
+    } catch (e) { /* weiter mit ZXing */ }
+  }
+  const Z = await zxingBereit();
+  const hinweise = new Map();
+  hinweise.set(Z.DecodeHintType.POSSIBLE_FORMATS, [Z.BarcodeFormat.EAN_13, Z.BarcodeFormat.EAN_8, Z.BarcodeFormat.UPC_A, Z.BarcodeFormat.UPC_E]);
+  hinweise.set(Z.DecodeHintType.TRY_HARDER, true);
+  const leser = new Z.MultiFormatReader();
+  leser.setHints(hinweise);
+  const leinwand = document.createElement('canvas');
+  return async (video) => {
+    const breite = Math.min(960, video.videoWidth);
+    if (!breite) return null;
+    leinwand.width = breite;
+    leinwand.height = Math.round(video.videoHeight * breite / video.videoWidth);
+    leinwand.getContext('2d', { willReadFrequently: true }).drawImage(video, 0, 0, leinwand.width, leinwand.height);
+    try {
+      const bild = new Z.BinaryBitmap(new Z.HybridBinarizer(new Z.HTMLCanvasElementLuminanceSource(leinwand)));
+      return leser.decode(bild).getText();
+    } catch (e) { return null; } finally { leser.reset(); }
+  };
+}
+
+async function produktAbrufen(code) {
+  if (D().gescannt[code]) return D().gescannt[code];
+  const steuerung = new AbortController();
+  const frist = setTimeout(() => steuerung.abort(), 10000);
+  try {
+    const felder = 'product_name,product_name_de,brands,nutriments,serving_quantity';
+    const r = await fetch(`${OFF_URL}${encodeURIComponent(code)}.json?fields=${felder}`, { signal: steuerung.signal });
+    if (!r.ok && r.status !== 404) throw new Error('HTTP ' + r.status);
+    const j = await r.json();
+    const p = j && j.status === 1 && j.product;
+    const n = p && p.nutriments;
+    if (!n || n['energy-kcal_100g'] == null) return null;
+    const runden = (x) => Math.round((Number(x) || 0) * 10) / 10;
+    const marke = (p.brands || '').split(',')[0].trim();
+    const name = (p.product_name_de || p.product_name || `Produkt ${code}`).trim();
+    const l = {
+      name: marke && !name.toLowerCase().includes(marke.toLowerCase()) ? `${name} (${marke})` : name,
+      kat: 'Gescannt', barcode: code,
+      kcal: Math.round(Number(n['energy-kcal_100g'])), e: runden(n.proteins_100g),
+      kh: runden(n.carbohydrates_100g), f: runden(n.fat_100g),
+      portion: Math.round(Number(p.serving_quantity)) || 100
+    };
+    D().gescannt[code] = l;
+    Speicher.sichern();
+    return l;
+  } finally {
+    clearTimeout(frist);
+  }
+}
+
+function barcodeScannen(fertig) {
+  let strom = null;
+  let aktiv = true;
+  const stoppen = () => { aktiv = false; if (strom) strom.getTracks().forEach((t) => t.stop()); strom = null; };
+  blattOeffnen('Barcode scannen', (inhalt, schliessen) => {
+    const box = el('div', 'scanner');
+    const video = el('video');
+    video.muted = true; video.playsInline = true; video.setAttribute('playsinline', '');
+    box.append(video, el('div', 'scanner__rahmen'));
+    const status = el('p', 'leise mitte', 'Kamera wird gestartet …');
+    inhalt.append(box, status);
+
+    const finden = async (code) => {
+      stoppen();
+      status.textContent = `Barcode ${code} — Nährwerte werden gesucht …`;
+      try {
+        const l = await produktAbrufen(code);
+        if (!l) {
+          status.textContent = `Zu ${code} gibt es keine Nährwerte in Open Food Facts. Trag sie über „Schnell“ von der Verpackung ein.`;
+          return;
+        }
+        schliessen();
+        mengeWaehlen(l, fertig);
+      } catch (e) {
+        status.textContent = navigator.onLine === false
+          ? 'Keine Internetverbindung — die Nährwerte kommen aus dem Netz. Bereits gescannte Produkte findest du in der Suche.'
+          : 'Abruf fehlgeschlagen. Bitte gleich noch einmal versuchen.';
+      }
+    };
+
+    // Von Hand eintippen — falls die Kamera nicht will oder der Code verknittert ist
+    const hand = el('div', 'reihe');
+    const nr = eingabe('text', '', { modus: 'numeric', platzhalter: 'Nummer unter dem Strichcode' });
+    nr.setAttribute('aria-label', 'Barcode-Nummer');
+    hand.append(nr, knopf('Suchen', 'knopf--zweit knopf--klein', () => {
+      const code = nr.value.replace(/\D/g, '');
+      if (code.length < 8) { toast('Bitte die 8- oder 13-stellige Nummer eintippen'); return; }
+      finden(code);
+    }));
+    inhalt.append(el('div', 'feld__label', 'Oder Nummer eintippen'), hand);
+    inhalt.append(el('p', 'fusstext', 'Das Kamerabild wird nur auf deinem Gerät ausgewertet. Zum Abrufen der Nährwerte geht allein die Barcode-Nummer an Open Food Facts, eine freie Lebensmitteldatenbank. Werte bitte mit der Verpackung abgleichen.'));
+
+    (async () => {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        status.textContent = 'Dieser Browser erlaubt keinen Kamerazugriff — tippe die Nummer unten ein.';
+        return;
+      }
+      try {
+        strom = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: 'environment' } }, audio: false });
+        if (!aktiv) { stoppen(); return; }
+        video.srcObject = strom;
+        await video.play();
+        const lesen = await barcodeLeser();
+        status.textContent = 'Barcode in den Rahmen halten …';
+        const runde = async () => {
+          if (!aktiv) return;
+          const code = video.readyState >= 2 ? await lesen(video).catch(() => null) : null;
+          if (code && aktiv) { if (navigator.vibrate) navigator.vibrate(60); finden(code); return; }
+          setTimeout(runde, 200);
+        };
+        runde();
+      } catch (e) {
+        console.warn(e);
+        stoppen();
+        status.textContent = e && e.name === 'NotAllowedError'
+          ? 'Kein Zugriff auf die Kamera. Erlaube ihn in den Browser-Einstellungen oder tippe die Nummer unten ein.'
+          : 'Kamera nicht verfügbar — tippe die Nummer unten ein.';
+      }
+    })();
+  }, { beimSchliessen: stoppen });
 }
 
 function mengeWaehlen(l, fertig) {
@@ -1811,7 +2092,7 @@ function schnellEintrag(ziel, fertig) {
 function eintragBearbeiten(datum, x) {
   blattOeffnen(x.name, (inhalt, schliessen, blatt) => {
     const t = Speicher.tag(datum);
-    const lm = App.lebensmittel.lebensmittel.find((l) => l.name === x.name);
+    const lm = [...App.lebensmittel.lebensmittel, ...Object.values(D().gescannt)].find((l) => l.name === x.name);
     const rezept = App.rezepte.rezepte.find((r) => r.name === x.name);
     let menge = x.menge;
     const werte = el('div', 'werte');
@@ -2823,7 +3104,7 @@ async function fortschrittsBericht(mitFotos) {
   const d = D();
   const bericht = {
     app: 'coaching-bericht', version: 1, erstellt: new Date().toISOString(),
-    profil: d.profil, ziele: d.ziele, plan: d.plan, workouts: d.workouts, tage: d.tage,
+    profil: d.profil, ziele: d.ziele, plan: d.plan, workouts: d.workouts, tage: d.tage, deload: d.deload,
     messungen: d.messungen, checkins: d.checkins, gewohnheiten: d.gewohnheiten
   };
   if (mitFotos) {
