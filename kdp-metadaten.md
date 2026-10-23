@@ -366,8 +366,8 @@ selbstdisziplin abnehmen ohne willenskraft
 abnehmen im kopf ratgeber
 ```
 
-**Beschreibung:** der Klappentext aus `kopf/cover/klappentext.md` genügt als
-Grundlage.
+**Beschreibung:** `kopf/cover/amazon-beschreibung.md` — die HTML-Fassung
+dort direkt ins KDP-Feld kopieren (2.435 von 4.000 Zeichen).
 
 ---
 
