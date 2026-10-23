@@ -348,11 +348,24 @@ angeben. Das Titelbild (`kopf/cover/titelbild.png`, Gehirn-Donut) wurde mit
 Higgsfield erzeugt — deshalb auch **„KI-erzeugte Bilder: ja"**. Titel und
 Rückseite sind in `kopf/build/build_cover.py` gesetzt.
 
-**Kategorien:**
+**Kategorien** — KDP erlaubt drei. Im Formular den Marktplatz **Amazon.de**
+wählen und nach den Begriffen suchen; die Knoten-IDs (aus den
+Bestsellerlisten auf amazon.de, `amazon.de/gp/bestsellers/books/<ID>`) helfen
+beim Wiederfinden. Die Namen erscheinen je nach Oberfläche deutsch oder
+englisch.
 
-1. Ratgeber › Gesundheit & Medizin › Diäten & Gewichtsreduktion
-2. Ratgeber › Psychologie & Hilfe › Motivation
-3. Ratgeber › Psychologie & Hilfe › Selbsthilfe
+| Platz | Kategorie | Knoten | Warum |
+|---|---|---|---|
+| 1 | Gesundheit › Diäten › Abnehmdiäten (*Weightloss Diets*) | 189610 | Hauptkategorie: Hier suchen die Käufer. Große Konkurrenz, aber die meiste Sichtbarkeit. |
+| 2 | Motivation & Erfolg (*Practical & Motivational*) | 299383 | Dort stehen Gewohnheitsbücher wie „Die 1%-Methode“ — genau das Umfeld für Wenn-Dann-Pläne und Mindset. |
+| 3 | Mentaltraining (*Mental Training*) | 3820891 | Nische mit weniger Konkurrenz; passt zu Denkfallen und Selbstmitgefühl. |
+
+Ersatz für Platz 3, falls Mentaltraining im Formular nicht angeboten wird:
+Diäten & spezielle Ernährungspläne (*Diets & Special Nutritional Plans*,
+Knoten 536464).
+
+Nicht wählen: reine Kochbuch- oder Rezeptkategorien — das Buch enthält keine
+Rezepte, und Käufer dort sind enttäuscht.
 
 **Keywords** — sieben Felder à 50 Zeichen, geprüft: kein Wort aus Titel oder
 Untertitel (die indexiert Amazon ohnehin), kein Wort doppelt (Amazon wertet
