@@ -1723,7 +1723,8 @@
     "Beeren mit dem Honig leicht zerdrücken.",
     "Skyr und Beeren abwechselnd in 4 Gläser schichten.",
     "Granola separat abfüllen und erst vor dem Essen darüberstreuen — so bleibt es knusprig."
-   ]
+   ],
+   "bild": "bilder/rezepte/skyr-beeren-riegel.jpg"
   },
   {
    "id": "edamame-snack",
@@ -1771,7 +1772,8 @@
     "Kichererbsen und aufgetaute Edamame mit Öl und Gewürzen mischen.",
     "Auf einem Blech 25–30 Minuten rösten, einmal wenden.",
     "Vollständig abkühlen lassen und in 4 Dosen füllen."
-   ]
+   ],
+   "bild": "bilder/rezepte/edamame-snack.jpg"
   }
  ]
 }
