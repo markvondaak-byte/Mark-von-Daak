@@ -475,6 +475,8 @@ textarea.eingabe { min-height: 76px; resize: vertical; }
 .saetze tr.fertig td:last-child { border-radius: 0 10px 10px 0; }
 .saetze .haken { width: 34px; height: 34px; border-radius: 10px; }
 .saetze tr.fertig .haken { background: var(--gut); border-color: var(--gut); }
+.saetze--dauer td:first-child { width: auto; font-family: var(--body); font-weight: 400; font-size: 12px; }
+.saetze--dauer td:last-child { width: 40px; }
 .satz-aktionen { display: flex; gap: 14px; margin-top: 4px; }
 
 /* Sitzt über der Fußzeile des Workout-Blatts, damit „Training beenden"

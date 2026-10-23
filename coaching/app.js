@@ -242,6 +242,15 @@ function uebung(id) {
     { id, name: id, gruppe: 'Ganzkörper', orte: ['studio', 'zuhause'], gewicht: true, schritte: [], tipp: '' };
 }
 
+// Ausdauerübungen (Cardio) laufen auf Zeit: eine Einheit in Minuten, keine
+// Sätze, keine Pause. Die Minuten stehen wie sonst die Wiederholungen in `wdh`.
+const AUSDAUER_MINUTEN = '20';
+const neuePlanUebung = (u) => u.ausdauer
+  ? { uid: u.id, saetze: 1, wdh: AUSDAUER_MINUTEN, pause: 0, notiz: '' }
+  : { uid: u.id, saetze: 3, wdh: u.zeit ? '30–45' : '8–12', pause: 90, notiz: '' };
+const satzText = (u, s) => u.ausdauer ? `${zahl(s.wdh)} Min.`
+  : `${s.kg ? zahl(s.kg, s.kg % 1 ? 1 : 0) + ' kg × ' : ''}${s.wdh}${u.zeit ? ' s' : ''}`;
+
 // Ersatz, wenn eine Studio-Übung zuhause nicht geht. Zuhause heißt hier:
 // Kurzhanteln, eine Bank oder ein stabiler Stuhl und ein Widerstandsband.
 const ERSATZ_ZUHAUSE = {
@@ -249,7 +258,7 @@ const ERSATZ_ZUHAUSE = {
   'latzug': 'band-rudern', 'rudern-lh': 'kh-rudern', 'kabelrudern': 'band-rudern',
   'kreuzheben': 'rumaenisches-kh', 'kniebeuge': 'goblet-squat', 'beinpresse': 'bulgarian-split',
   'beinstrecker': 'ausfallschritt', 'beinbeuger': 'glute-bridge', 'abduktion': 'glute-bridge',
-  'trizeps-kabel': 'ueberkopf-trizeps', 'beinheben': 'dead-bug', 'rudergeraet': 'mountain-climbers',
+  'trizeps-kabel': 'ueberkopf-trizeps', 'beinheben': 'dead-bug', 'rudergeraet': 'seilspringen',
   'pendulum-squat': 'goblet-squat', 't-bar-rudern': 'kh-rudern'
 };
 
@@ -672,7 +681,8 @@ function ansichtHeute(ziel) {
     held.append(el('div', 'held__titel', genug ? 'Wochenziel erreicht' : (naechster ? naechster.name : 'Freies Training')));
     held.append(el('div', 'held__text', genug
       ? 'Heute ist Erholung angesagt — ein Spaziergang zählt trotzdem für deine Schritte.'
-      : naechster ? `${naechster.uebungen.length} Übungen · ca. ${Math.round(naechster.uebungen.reduce((a, u) => a + u.saetze * (u.pause + 45), 0) / 60)} Min.` : ''));
+      : naechster ? `${naechster.uebungen.length} Übungen · ca. ${Math.round(naechster.uebungen.reduce((a, u) => a + (uebung(u.uid).ausdauer
+        ? (leseZahl(String(u.wdh).split('–')[0]) || 0) * 60 : u.saetze * (u.pause + 45)), 0) / 60)} Min.` : ''));
     if (naechster) held.append(knopf(genug ? 'Trotzdem trainieren' : 'Training starten', null, () => workoutStarten(naechster), 'training'));
   }
   ziel.append(held);
@@ -874,7 +884,8 @@ function plantagBlatt(t) {
       z.append(el('div', 'zeile__ikon', String(i + 1)));
       const text = el('div', 'zeile__text');
       text.append(el('div', 'zeile__titel', u.name),
-                  el('div', 'zeile__meta', `${pu.saetze} Sätze × ${pu.wdh} ${u.zeit ? 'Sek.' : 'Wdh.'} · ${pu.pause} s Pause`));
+                  el('div', 'zeile__meta', u.ausdauer ? `${pu.wdh} Min.`
+                    : `${pu.saetze} Sätze × ${pu.wdh} ${u.zeit ? 'Sek.' : 'Wdh.'} · ${pu.pause} s Pause`));
       const best = bestwert(pu.uid);
       if (best && u.gewicht) text.append(el('div', 'zeile__meta', `Bestwert (1RM geschätzt): ${zahl(best, 1)} kg`));
       z.append(text);
@@ -913,7 +924,8 @@ function planTagBearbeiten(t) {
         const s = eingabe('number', pu.saetze, { modus: 'numeric', beiAenderung: (v) => { pu.saetze = Math.max(1, Math.min(10, leseZahl(v) || 3)); Speicher.sichern(); } });
         const w = eingabe('text', pu.wdh, { beiAenderung: (v) => { pu.wdh = v.trim() || pu.wdh; Speicher.sichern(); } });
         const p = eingabe('number', pu.pause, { modus: 'numeric', beiAenderung: (v) => { pu.pause = Math.max(0, leseZahl(v) || 90); Speicher.sichern(); } });
-        reihe.append(feld('Sätze', s), feld(u.zeit ? 'Sekunden' : 'Wdh.', w), feld('Pause (s)', p));
+        if (u.ausdauer) reihe.append(feld('Dauer (Minuten)', w));
+        else reihe.append(feld('Sätze', s), feld(u.zeit ? 'Sekunden' : 'Wdh.', w), feld('Pause (s)', p));
         k.append(reihe);
         const n = eingabe('text', pu.notiz, { platzhalter: 'Notiz vom Coach, z. B. „Tempo 3-1-1"', beiAenderung: (v) => { pu.notiz = v; Speicher.sichern(); } });
         n.setAttribute('aria-label', 'Notiz');
@@ -921,7 +933,7 @@ function planTagBearbeiten(t) {
         inhalt.append(k);
       });
       inhalt.append(knopf('Übung hinzufügen', 'knopf--zweit', () => uebungWaehlen(null, (u) => {
-        t.uebungen.push({ uid: u.id, saetze: 3, wdh: u.zeit ? '30–45' : '8–12', pause: 90, notiz: '' });
+        t.uebungen.push(neuePlanUebung(u));
         Speicher.sichern(); zeichnen();
       }), 'plus'));
       const loeschen = knopf('Plantag löschen', 'knopf--gefahr', () => {
@@ -990,7 +1002,7 @@ function workoutDetail(w) {
   blattOeffnen(w.name, (inhalt, schliessen) => {
     const werte = el('div', 'werte werte--3');
     werte.style.marginBottom = '14px';
-    const saetze = w.uebungen.reduce((a, u) => a + u.saetze.filter((s) => s.fertig).length, 0);
+    const saetze = kraftSaetze(w, true);
     werte.append(wertKachel('Dauer', dauerText(w.ende - w.start)), wertKachel('Sätze', zahl(saetze)),
                  wertKachel('Volumen', zahl(volumen(w)), 'kg'));
     inhalt.append(el('p', 'leise', datumLang(w.datum)), werte);
@@ -1003,11 +1015,12 @@ function workoutDetail(w) {
     w.uebungen.forEach((u) => {
       const fertig = u.saetze.filter((s) => s.fertig);
       if (!fertig.length) return;
-      const k = karte(uebung(u.uid).name);
+      const ue = uebung(u.uid);
+      const k = karte(ue.name);
       fertig.forEach((s, i) => {
         const z = el('div', 'zeile'); z.style.cursor = 'default';
-        z.append(el('div', 'zeile__text', `Satz ${i + 1}`),
-                 el('div', 'zeile__rechts', `${s.kg ? zahl(s.kg, s.kg % 1 ? 1 : 0) + ' kg × ' : ''}${s.wdh}${uebung(u.uid).zeit ? ' s' : ''}`));
+        z.append(el('div', 'zeile__text', ue.ausdauer ? 'Dauer' : `Satz ${i + 1}`),
+                 el('div', 'zeile__rechts', satzText(ue, s)));
         k.append(z);
       });
       inhalt.append(k);
@@ -1133,8 +1146,8 @@ function uebungBlatt(id) {
     inhalt.append(abschnitt('Dein Verlauf'));
     if (!verlauf.length) { inhalt.append(el('p', 'leise', 'Noch nicht trainiert.')); return; }
     if (verlauf.length > 1) {
-      const k = karte(u.gewicht ? 'Geschätztes 1RM' : (u.zeit ? 'Beste Zeit' : 'Beste Wiederholungen'));
-      k.append(liniendiagramm(verlauf, { einheit: u.gewicht ? 'kg' : (u.zeit ? 's' : ''), label: `Verlauf ${u.name}` }));
+      const k = karte(u.gewicht ? 'Geschätztes 1RM' : u.ausdauer ? 'Dauer' : (u.zeit ? 'Beste Zeit' : 'Beste Wiederholungen'));
+      k.append(liniendiagramm(verlauf, { einheit: u.gewicht ? 'kg' : u.ausdauer ? 'Min.' : (u.zeit ? 's' : ''), label: `Verlauf ${u.name}` }));
       inhalt.append(k);
     }
     const k = karte(null);
@@ -1142,7 +1155,7 @@ function uebungBlatt(id) {
       const z = el('div', 'zeile'); z.style.cursor = 'default';
       const t = el('div', 'zeile__text');
       t.append(el('div', 'zeile__titel', datumMittel(v.datum)),
-               el('div', 'zeile__meta', v.saetze.map((s) => `${s.kg ? zahl(s.kg, s.kg % 1 ? 1 : 0) + '×' : ''}${s.wdh}`).join('  ·  ')));
+               el('div', 'zeile__meta', v.saetze.map((s) => u.ausdauer ? satzText(u, s) : `${s.kg ? zahl(s.kg, s.kg % 1 ? 1 : 0) + '×' : ''}${s.wdh}`).join('  ·  ')));
       z.append(t);
       if (u.gewicht) z.append(el('div', 'zeile__rechts', `${zahl(v.wert, 1)} kg`));
       k.append(z);
@@ -1164,13 +1177,35 @@ function workoutStarten(plantag) {
     name: plantag ? plantag.name : 'Freies Training',
     datum: heuteText(),
     start: Date.now(),
-    uebungen: (plantag ? plantag.uebungen : []).map((pu) => ({
-      uid: pu.uid, ziel: pu.wdh, pause: pu.pause, notiz: pu.notiz,
-      saetze: Array.from({ length: pu.saetze }, () => ({ kg: null, wdh: null, fertig: false }))
-    }))
+    uebungen: (plantag ? plantag.uebungen : []).map((pu) => workoutUebung(pu))
   };
   Speicher.sichern();
   workoutOeffnen();
+}
+
+// Cardio lief früher wie Kraft (Sätze, Sekunden, Pause). Solche Planeinträge
+// auf eine Einheit mit der Standarddauer in Minuten umstellen.
+function ausdauerImPlanUmstellen() {
+  let geaendert = false;
+  ((D().plan && D().plan.tage) || []).forEach((t) => t.uebungen.forEach((pu) => {
+    if (!uebung(pu.uid).ausdauer || (pu.saetze === 1 && pu.pause === 0)) return;
+    Object.assign(pu, { saetze: 1, wdh: AUSDAUER_MINUTEN, pause: 0 });
+    geaendert = true;
+  }));
+  if (geaendert) Speicher.sichern();
+}
+
+// Sätze ohne Ausdauer — eine Cardio-Einheit ist kein Satz.
+const kraftSaetze = (w, nurFertig) => w.uebungen.reduce((a, u) => uebung(u.uid).ausdauer ? a
+  : a + u.saetze.filter((s) => !nurFertig || s.fertig).length, 0);
+
+// Plan-Übung → Übung im laufenden Training. Ausdauer: immer genau eine Einheit.
+function workoutUebung(pu) {
+  const ausdauer = uebung(pu.uid).ausdauer;
+  return {
+    uid: pu.uid, ziel: pu.wdh, pause: ausdauer ? 0 : pu.pause, notiz: pu.notiz,
+    saetze: Array.from({ length: ausdauer ? 1 : pu.saetze }, () => ({ kg: null, wdh: null, fertig: false }))
+  };
 }
 
 function workoutOeffnen() {
@@ -1183,8 +1218,8 @@ function workoutOeffnen() {
     const kennzahlen = el('div', 'workout-kopf');
     const aktualisieren = () => {
       uhr.textContent = uhrzeit((Date.now() - w.start) / 1000);
-      const alle = w.uebungen.reduce((a, u) => a + u.saetze.length, 0);
-      const fertig = w.uebungen.reduce((a, u) => a + u.saetze.filter((s) => s.fertig).length, 0);
+      const alle = kraftSaetze(w);
+      const fertig = kraftSaetze(w, true);
       kennzahlen.replaceChildren(
         wertKachel('Sätze', `${fertig}/${alle}`),
         wertKachel('Volumen', zahl(volumen(w)), 'kg'),
@@ -1203,8 +1238,7 @@ function workoutOeffnen() {
     zeichnen();
 
     inhalt.append(knopf('Übung hinzufügen', 'knopf--zweit', () => uebungWaehlen(null, (u) => {
-      w.uebungen.push({ uid: u.id, ziel: u.zeit ? '30–45' : '8–12', pause: 90, notiz: '',
-                        saetze: Array.from({ length: 3 }, () => ({ kg: null, wdh: null, fertig: false })) });
+      w.uebungen.push(workoutUebung(neuePlanUebung(u)));
       Speicher.sichern(); zeichnen();
     }), 'plus'));
     const verwerfen = linkKnopf('Training verwerfen', () => {
@@ -1218,12 +1252,46 @@ function workoutOeffnen() {
   }, { kopfExtra: uhr, beimSchliessen: () => { clearInterval(takt); neuZeichnen(); } });
 }
 
+// Ausdauer im Training: eine Zeile mit Minuten und Haken — ohne Pausentimer.
+function ausdauerZeile(u, wu, w, aktualisieren) {
+  if (wu.saetze.length !== 1) wu.saetze = [wu.saetze.find((s) => s.fertig) || wu.saetze[0] || { kg: null, wdh: null, fertig: false }];
+  const s = wu.saetze[0];
+  const v = (letzteSaetze(wu.uid, w.id) || [])[0];
+  const tabelle = el('table', 'saetze saetze--dauer');
+  tabelle.innerHTML = '<thead><tr><th>Zuletzt</th><th>Minuten</th><th><span class="versteckt">Erledigt</span></th></tr></thead>';
+  const tr = el('tr', s.fertig ? 'fertig' : '');
+  const min = eingabe('text', s.wdh != null ? String(s.wdh).replace('.', ',') : '', { modus: 'decimal', platzhalter: String(wu.ziel).split('–')[0] });
+  min.setAttribute('aria-label', 'Dauer in Minuten');
+  min.oninput = () => { s.wdh = leseZahl(min.value); Speicher.sichern(); };
+  const h = el('button', 'haken'); h.type = 'button';
+  h.innerHTML = ikon('haken');
+  h.setAttribute('aria-pressed', String(s.fertig));
+  h.setAttribute('aria-label', `${u.name} erledigt`);
+  h.onclick = () => {
+    // Nichts eingetragen: das Ziel zählt als geschafft
+    if (!s.fertig && !s.wdh) { s.wdh = leseZahl(String(wu.ziel).split('–')[0]); min.value = s.wdh ? String(s.wdh).replace('.', ',') : ''; }
+    if (!s.fertig && !s.wdh) { min.focus(); toast('Bitte Minuten eintragen'); return; }
+    s.fertig = !s.fertig;
+    tr.className = s.fertig ? 'fertig' : '';
+    h.setAttribute('aria-pressed', String(s.fertig));
+    Speicher.sichern();
+    aktualisieren();
+  };
+  const zellen = [el('td', 'vorher', v ? satzText(u, v) : '–'), el('td'), el('td')];
+  zellen[1].append(min); zellen[2].append(h);
+  tr.append(...zellen);
+  const tbody = el('tbody'); tbody.append(tr);
+  tabelle.append(tbody);
+  return tabelle;
+}
+
 function uebungKarte(w, wu, ui, neuAufbauen, aktualisieren) {
   const u = uebung(wu.uid);
   const k = el('div', 'karte uebung-karte');
   const kopf = el('div', 'uebung-karte__kopf');
   const name = el('div', 'uebung-karte__name', u.name);
-  name.append(el('div', 'uebung-karte__ziel', `Ziel: ${wu.saetze.length} × ${wu.ziel} ${u.zeit ? 'Sek.' : 'Wdh.'} · Pause ${wu.pause} s`));
+  name.append(el('div', 'uebung-karte__ziel', u.ausdauer ? `Ziel: ${wu.ziel} Min.`
+    : `Ziel: ${wu.saetze.length} × ${wu.ziel} ${u.zeit ? 'Sek.' : 'Wdh.'} · Pause ${wu.pause} s`));
   name.style.cursor = 'pointer';
   name.onclick = () => uebungBlatt(u.id);
   const tauschen = el('button', 'ikon-knopf ikon-knopf--plain'); tauschen.innerHTML = ikon('tauschen');
@@ -1238,6 +1306,7 @@ function uebungKarte(w, wu, ui, neuAufbauen, aktualisieren) {
   kopf.append(name, tauschen, weg);
   k.append(kopf);
   if (wu.notiz) k.append(el('div', 'uebung-karte__notiz', `📝 ${wu.notiz}`));
+  if (u.ausdauer) { k.append(ausdauerZeile(u, wu, w, aktualisieren)); return k; }
 
   const vorher = letzteSaetze(wu.uid, w.id) || [];
   const tabelle = el('table', 'saetze');
@@ -1355,7 +1424,7 @@ function workoutZusammenfassung(w) {
     const werte = el('div', 'werte werte--3');
     werte.style.marginBottom = '14px';
     werte.append(wertKachel('Dauer', dauerText(w.ende - w.start)),
-                 wertKachel('Sätze', zahl(w.uebungen.reduce((a, u) => a + u.saetze.length, 0))),
+                 wertKachel('Sätze', zahl(kraftSaetze(w))),
                  wertKachel('Volumen', zahl(volumen(w)), 'kg'));
     inhalt.append(werte);
     if (w.rekorde.length) {
@@ -2850,6 +2919,7 @@ async function starten() {
       fetch('daten/rezepte.json').then((r) => r.json())
     ]);
     Object.assign(App, { uebungen, lebensmittel, rezepte });
+    ausdauerImPlanUmstellen();
   } catch (e) {
     document.getElementById('inhalt').append(leerzustand('Daten konnten nicht geladen werden',
       'Bitte die Seite neu laden. Beim ersten Aufruf braucht die App kurz eine Internetverbindung.'));

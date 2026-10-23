@@ -63,7 +63,7 @@ const Modus = {
 };
 
 /* --- Zustand und Stammdaten --------------------------------------------- */
-const Coach = { uebungen: {} };
+const Coach = { uebungen: {}, ausdauer: new Set() };
 
 const ZIELNAMEN = { fett: 'Fett verlieren', muskel: 'Muskeln aufbauen', fitness: 'Fitter & gesünder' };
 const uebungsName = (id) => Coach.uebungen[id] || id;
@@ -309,7 +309,8 @@ function klientBlatt(eintrag) {
       w.uebungen.forEach((u) => {
         const zeile = el('div');
         zeile.append(el('b', null, uebungsName(u.uid) + ': '),
-          document.createTextNode(u.saetze.map((s) => `${s.kg ? zahl(s.kg, s.kg % 1 ? 1 : 0) + '×' : ''}${s.wdh}`).join(' · ')));
+          document.createTextNode(Coach.ausdauer.has(u.uid) ? u.saetze.map((s) => `${zahl(s.wdh)} Min.`).join(' · ')
+            : u.saetze.map((s) => `${s.kg ? zahl(s.kg, s.kg % 1 ? 1 : 0) + '×' : ''}${s.wdh}`).join(' · ')));
         body.append(zeile);
       });
       if (w.notiz) body.append(el('p', null, `Notiz: ${w.notiz}`));
@@ -406,7 +407,7 @@ function klientBlatt(eintrag) {
     ((b.plan && b.plan.tage) || []).forEach((t) => {
       const zeile = el('div', 'zeile'); zeile.style.cursor = 'default';
       const text = el('div', 'zeile__text');
-      text.append(el('div', 'zeile__titel', t.name), el('div', 'zeile__meta', t.uebungen.map((u) => `${uebungsName(u.uid)} ${u.saetze}×${u.wdh}`).join(' · ')));
+      text.append(el('div', 'zeile__titel', t.name), el('div', 'zeile__meta', t.uebungen.map((u) => `${uebungsName(u.uid)} ${Coach.ausdauer.has(u.uid) ? `${u.wdh} Min.` : `${u.saetze}×${u.wdh}`}`).join(' · ')));
       zeile.append(text);
       kz.append(zeile);
     });
@@ -456,7 +457,7 @@ async function starten() {
 
   try {
     const daten = await fetch('../daten/uebungen.json').then((r) => r.json());
-    daten.uebungen.forEach((u) => { Coach.uebungen[u.id] = u.name; });
+    daten.uebungen.forEach((u) => { Coach.uebungen[u.id] = u.name; if (u.ausdauer) Coach.ausdauer.add(u.id); });
   } catch (e) {
     console.warn('Übungsnamen nicht geladen — es erscheinen die Kennungen.', e);
   }
