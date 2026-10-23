@@ -131,6 +131,23 @@ ohne Server, installierbar als „Coach“.
    Sätzen, Bestwerte, Körpermaße, Check-in-Texte, Fotos mit Vorher-Nachher,
    Ziele und Plan.
 
+### Antwort an den Klienten
+
+Im Klienten-Detail öffnet **„Antwort an … schreiben“** ein Blatt mit
+Nachricht, Zielen (Kalorien, Makros, Schritte) und dem Trainingsplan des
+Klienten (Sätze, Wdh., RIR, Pause, Notiz ändern, Übungen entfernen oder aus der
+Bibliothek hinzufügen). **„Antwort senden“** erzeugt die Datei
+`antwort-<name>-<datum>.json` (`app: 'coaching-antwort'`, nur geänderte Teile)
+und öffnet das Teilen-Menü; am Computer wird sie gespeichert. Danach gilt der
+Klient als erledigt, und die Antwort steht im Detail.
+
+Der Klient öffnet sie unter **Check-in → Wöchentlich** oder **Einstellungen →
+Dein Coach** mit „Antwort vom Coach öffnen“, sieht eine Vorschau (Nachricht,
+Ziele alt → neu, Planänderungen) und tippt **Übernehmen**. Ziele gelten dann als
+manuell gesetzt, der Plan wird ersetzt, die Nachricht erscheint auf **Heute**,
+bis sie als gelesen markiert ist. Eine Datei für einen anderen Klienten
+(`fuer` ≠ `profil.id`) oder eine schon übernommene wird abgelehnt.
+
 ### Handlungsbedarf
 
 Oben in der Übersicht listet die Karte **Handlungsbedarf** alle Klienten, um die
