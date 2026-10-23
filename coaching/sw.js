@@ -3,7 +3,7 @@
    in den Cache legen und danach zuerst von dort ausliefern. Bei jedem
    Release VERSION erhöhen, sonst sehen bestehende Nutzer das Update nie. */
 
-const VERSION = 'coaching-v13';
+const VERSION = 'coaching-v14';
 
 const DATEIEN = [
   './',

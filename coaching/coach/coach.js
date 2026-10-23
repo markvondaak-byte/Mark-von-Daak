@@ -310,13 +310,16 @@ function klientBlatt(eintrag) {
         const zeile = el('div');
         zeile.append(el('b', null, uebungsName(u.uid) + ': '),
           document.createTextNode(Coach.ausdauer.has(u.uid) ? u.saetze.map((s) => `${zahl(s.wdh)} Min.`).join(' · ')
-            : u.saetze.map((s) => `${s.kg ? zahl(s.kg, s.kg % 1 ? 1 : 0) + '×' : ''}${s.wdh}`).join(' · ')));
+            : u.saetze.map((s) => `${s.kg ? zahl(s.kg, s.kg % 1 ? 1 : 0) + '×' : ''}${s.wdh}${s.rir != null ? ` @${zahl(s.rir)}` : ''}`).join(' · ')));
         body.append(zeile);
       });
       if (w.notiz) body.append(el('p', null, `Notiz: ${w.notiz}`));
       det.append(sum, body);
       kt.append(det);
     });
+    if (ws.some((w) => w.uebungen.some((u) => u.saetze.some((s) => s.rir != null)))) {
+      kt.append(el('div', 'fusstext', 'kg×Wdh. @RIR — RIR = Wiederholungen in Reserve (0 = Muskelversagen).'));
+    }
     inhalt.append(kt);
 
     const kr = karte('Bestwerte', 'pokal');
@@ -407,7 +410,7 @@ function klientBlatt(eintrag) {
     ((b.plan && b.plan.tage) || []).forEach((t) => {
       const zeile = el('div', 'zeile'); zeile.style.cursor = 'default';
       const text = el('div', 'zeile__text');
-      text.append(el('div', 'zeile__titel', t.name), el('div', 'zeile__meta', t.uebungen.map((u) => `${uebungsName(u.uid)} ${Coach.ausdauer.has(u.uid) ? `${u.wdh} Min.` : `${u.saetze}×${u.wdh}`}`).join(' · ')));
+      text.append(el('div', 'zeile__titel', t.name), el('div', 'zeile__meta', t.uebungen.map((u) => `${uebungsName(u.uid)} ${Coach.ausdauer.has(u.uid) ? `${u.wdh} Min.` : `${u.saetze}×${u.wdh}${u.rir ? ` RIR ${u.rir}` : ''}`}`).join(' · ')));
       zeile.append(text);
       kz.append(zeile);
     });
