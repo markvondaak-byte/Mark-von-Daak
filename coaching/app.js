@@ -1050,7 +1050,7 @@ function uebungsBibliothek(ziel, beiWahl, { ort, gruppe } = {}) {
     const treffer = App.uebungen.uebungen.filter((u) =>
       (aktGruppe === 'alle' || u.gruppe === aktGruppe) &&
       (!ort || u.orte.includes(ort)) &&
-      (!q || u.name.toLowerCase().includes(q) || u.gruppe.toLowerCase().includes(q)));
+      (!q || [u.name, u.gruppe, u.geraet || ''].some((t) => t.toLowerCase().includes(q))));
     if (!treffer.length) { liste.append(leerzustand('Nichts gefunden', 'Versuche einen anderen Suchbegriff.')); return; }
     const k = karte(null);
     treffer.forEach((u) => {
@@ -1059,7 +1059,7 @@ function uebungsBibliothek(ziel, beiWahl, { ort, gruppe } = {}) {
       z.append(el('div', 'zeile__ikon', u.gruppe.slice(0, 2)));
       const text = el('div', 'zeile__text');
       text.append(el('div', 'zeile__titel', u.name),
-                  el('div', 'zeile__meta', `${u.gruppe} · ${u.orte.map((o) => o === 'studio' ? 'Studio' : 'Zuhause').join(' & ')}`));
+                  el('div', 'zeile__meta', [u.gruppe, u.geraet, u.orte.map((o) => o === 'studio' ? 'Studio' : 'Zuhause').join(' & ')].filter(Boolean).join(' · ')));
       const pf = el('span', 'zeile__pfeil'); pf.innerHTML = ikon('weiter');
       z.append(text, pf);
       z.onclick = () => beiWahl(u);
@@ -1078,13 +1078,39 @@ function uebungWaehlen(gruppe, beiWahl) {
   });
 }
 
+// Eigener Clip, falls vorhanden (Feld `video`), sonst ein Link zur YouTube-Suche.
+// YouTube wird nicht eingebettet: Es lädt erst etwas, wenn der Klient tippt.
+function uebungVideo(u) {
+  const zuYoutube = () => {
+    const a = el('a', 'knopf knopf--zweit video-link');
+    a.href = 'https://www.youtube.com/results?search_query=' + encodeURIComponent(`${u.name} richtige Ausführung`);
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.innerHTML = ikon('video');
+    a.append(document.createTextNode('Übungsvideo auf YouTube ansehen'));
+    return a;
+  };
+  if (!u.video) return zuYoutube();
+  const box = el('div', 'video-box');
+  const v = el('video');
+  v.src = u.video;
+  v.muted = true; v.loop = true; v.playsInline = true; v.controls = true;
+  v.preload = 'metadata';
+  v.setAttribute('aria-label', `Übungsvideo: ${u.name}`);
+  // Offline oder Datei fehlt: auf den YouTube-Link ausweichen
+  v.onerror = () => box.replaceWith(zuYoutube());
+  box.append(v);
+  return box;
+}
+
 function uebungBlatt(id) {
   const u = uebung(id);
   blattOeffnen(u.name, (inhalt) => {
     const marken = el('p');
     marken.append(el('span', 'marke marke--akzent', u.gruppe));
+    if (u.geraet) marken.append(el('span', 'marke', u.geraet));
     u.orte.forEach((o) => marken.append(el('span', 'marke', o === 'studio' ? 'Studio' : 'Zuhause')));
-    inhalt.append(marken);
+    inhalt.append(marken, uebungVideo(u));
     inhalt.append(abschnitt('Ausführung'));
     u.schritte.forEach((s, i) => {
       const z = el('div', 'schritt');

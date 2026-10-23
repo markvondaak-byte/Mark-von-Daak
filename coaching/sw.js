@@ -3,7 +3,7 @@
    in den Cache legen und danach zuerst von dort ausliefern. Bei jedem
    Release VERSION erhöhen, sonst sehen bestehende Nutzer das Update nie. */
 
-const VERSION = 'coaching-v10';
+const VERSION = 'coaching-v12';
 
 const DATEIEN = [
   './',
@@ -47,7 +47,10 @@ self.addEventListener('activate', (e) => {
 self.addEventListener('fetch', (e) => {
   if (e.request.method !== 'GET') return;
   // Nur eigene Dateien — WhatsApp- und Mail-Links gehen am Cache vorbei.
-  if (new URL(e.request.url).origin !== self.location.origin) return;
+  const url = new URL(e.request.url);
+  if (url.origin !== self.location.origin) return;
+  // Videos direkt vom Netz: Browser laden sie stückweise (Range), das passt nicht in den Cache.
+  if (url.pathname.includes('/videos/')) return;
 
   e.respondWith(
     caches.match(e.request, { ignoreSearch: true }).then((treffer) => {

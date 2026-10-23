@@ -1,0 +1,4 @@
+# Original-Clips der Übungsvideos — nur Eingabe für build/uebungsvideos.py.
+# Eingecheckt werden die verkleinerten Fassungen unter videos/.
+*
+!.gitignore
