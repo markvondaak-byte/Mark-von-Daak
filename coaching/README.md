@@ -17,8 +17,8 @@ Sie ist von keiner anderen Seite aus verlinkt und nur über ihre Adresse
 |---|---|
 | **Einrichtung** | Name, Ziel, Körperdaten, Aktivität, Trainingstage, Ort, Erfahrung. Daraus Kalorien- und Makroziele und ein fertiger Trainingsplan |
 | **Heute** | Nächstes Training mit Start-Knopf, Ringe für Kalorien, Eiweiß, Schritte und Schlaf, Wasser, Gewohnheiten mit Serien, Check-in-Erinnerung, Tipp des Tages |
-| **Training** | Plan (2–5 Tage, Studio oder Zuhause), Workout-Modus mit Satzprotokoll und RIR (Wiederholungen in Reserve: Ziel im Plan, Eintrag pro Satz, Rückmeldung und Tipp fürs nächste Mal), Vorwerten vom letzten Mal, Pausentimer mit Vibration und Ton, Übung tauschen, Rekorde (geschätztes 1RM), Verlauf, Übungsbibliothek mit 161 Übungen in 10 Gruppen (inkl. Cardio und Mobilität), Gerät, Anleitung und Übungsvideo, Planeditor. Cardio läuft auf Zeit: eine Einheit in Minuten, ohne Sätze und Pausentimer |
-| **Ernährung** | Tagebuch nach Mahlzeiten mit 83 Lebensmitteln, Rezeptportionen und Schnelleintrag, Makrobalken, Wasser, Tage blättern |
+| **Training** | Plan (2–5 Tage, Studio oder Zuhause), Workout-Modus mit Satzprotokoll und RIR (Wiederholungen in Reserve: Ziel im Plan, Eintrag pro Satz, Rückmeldung und Tipp fürs nächste Mal), Vorwerten vom letzten Mal, **Steigerungsvorschlag** pro Übung (doppelte Progression mit RIR), **Aufwärmsätze**, **Deload-Wochen**, Pausentimer mit Vibration und Ton, Übung tauschen, Rekorde (geschätztes 1RM), Verlauf, Übungsbibliothek mit 161 Übungen in 10 Gruppen (inkl. Cardio und Mobilität), Gerät, Anleitung und Übungsvideo, Planeditor. Cardio läuft auf Zeit: eine Einheit in Minuten, ohne Sätze und Pausentimer |
+| **Ernährung** | Tagebuch nach Mahlzeiten mit 280 Lebensmitteln und **Barcode-Scanner** (Open Food Facts), Rezeptportionen und Schnelleintrag, Makrobalken, Wasser, Tage blättern |
 | **Meal Prep** | 18 Rezepte mit Nährwerten je Portion, Haltbarkeit, Portionsrechner. Ausgewählte Rezepte ergeben eine zusammengerechnete, abhakbare **Einkaufsliste** zum Teilen |
 | **Check-in** | Täglich: Schritte, Schlaf (Uhrzeiten → Dauer, Erholung 1–5), Gewicht, Energie, Gewohnheiten. Wöchentlich: Fragebogen plus automatisch errechnete Wochenzahlen, als fertiger Text **per WhatsApp oder E-Mail an den Coach** — ohne hinterlegten Kontakt zum Teilen oder Kopieren |
 | **Fortschritt** | Gewicht mit 7-Tage-Durchschnitt, Schritte und Schlaf der Woche, Trainingsvolumen über 8 Wochen, Bestwerte, Körpermaße, **Fortschrittsfotos** mit Vorher-Nachher-Vergleich |
@@ -192,6 +192,39 @@ Rechtliches und offline verfügbar. Die Anbieterangaben stehen nur dort, nicht i
 der App-Oberfläche. Bei Änderungen an Anschrift, Kontakt, Hosting oder neuen
 Funktionen, die Daten übertragen, die Texte anpassen und das „Stand“-Datum
 aktualisieren. Es sind Vorlagen — vor dem Einsatz rechtlich prüfen lassen.
+
+## Steigerung, Aufwärmen, Deload
+
+- **Steigerung** (`steigerung()` in `app.js`): Ausgangspunkt ist das schwerste
+  Gewicht vom letzten Mal. Alle Sätze am oberen Ende des Wdh.-Bereichs (und RIR
+  nicht unter dem Ziel) oder RIR Ø mindestens 2 über dem Ziel → mehr Gewicht:
+  Kurzhantel/Kettlebell +2 kg, Langhantel bei Beinen/Po/Kreuzheben +5 kg, sonst
+  +2,5 kg. Mehr als die Hälfte der Sätze unter dem Bereich → weniger, berechnet
+  über das 1RM (Epley) für das untere Ende samt RIR-Ziel, höchstens −5 %. Sonst
+  gleiches Gewicht, eine Wdh. mehr. Der Vorschlag steht über der Übung und ist
+  der Platzhalter im ersten Satz.
+- **Aufwärmsätze** vor der ersten Übung jeder Muskelgruppe: Langhantel ab 40 kg
+  leere Stange × 10, 50 % × 5, 70 % × 3 (ab 60 kg zusätzlich 85 % × 1);
+  Kurzhantel, Maschine, SZ-Stange 50 % × 8 und 75 % × 4. Nur als Hinweis, nicht
+  im Protokoll.
+- **Deload**: Nach 7 (Einsteiger) bzw. 5 (Fortgeschrittene) Trainingswochen am
+  Stück schlägt die App auf *Heute* und unter *Training* eine leichtere Woche vor
+  („Diese Woche“ oder „Nächste Woche“); unter *Training* lässt sie sich auch von
+  Hand einlegen. In der Deload-Woche: halbe Sätze, ca. 10 % weniger Gewicht,
+  RIR 3–4. Deload-Trainings tragen `deload: true`, zählen nicht für die nächste
+  Steigerung und erscheinen in der Coach-Ansicht mit „· Deload“.
+
+## Barcode-Scanner
+
+Unter *Ernährung → Eintrag hinzufügen → Barcode scannen*. Die Erkennung läuft
+im Browser: `BarcodeDetector`, wo vorhanden, sonst die mitgelieferte
+ZXing-Bibliothek (`vendor/zxing.min.js`, @zxing/library 0.21.3, Apache 2.0),
+die erst beim ersten Scan geladen wird. Alternativ lässt sich die Nummer
+eintippen. Die Nährwerte kommen von **Open Food Facts**
+(`world.openfoodfacts.org/api/v2/product/<code>.json`); übertragen wird nur die
+Nummer. Gefundene Produkte speichert die App in `gescannt` — sie erscheinen in der
+Suche und funktionieren danach offline. Für die Kamera erlaubt `netlify.toml`
+`camera=(self)`. Datenschutz: Abschnitt 7 der Datenschutzerklärung.
 
 ## Grenzen
 

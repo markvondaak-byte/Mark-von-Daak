@@ -52,7 +52,8 @@
       <li>Die App hat <strong>kein Benutzerkonto</strong> und <strong>keinen Server, auf dem deine Einträge gespeichert werden</strong>.</li>
       <li>Alles, was du einträgst — auch Gesundheitsdaten wie Gewicht, Körpermaße, Schlaf, Ernährung und Fotos —, bleibt <strong>auf deinem Gerät</strong>.</li>
       <li>Es gibt <strong>keine Cookies</strong>, <strong>kein Tracking</strong>, keine Analyse- oder Werbedienste und keine von fremden Servern geladenen Schriften oder Skripte.</li>
-      <li>Daten verlassen dein Gerät nur, wenn <strong>du selbst</strong> einen Check-in oder eine Fortschrittsdatei an deinen Coach sendest.</li>
+      <li>Deine Einträge verlassen dein Gerät nur, wenn <strong>du selbst</strong> einen Check-in oder eine Fortschrittsdatei an deinen Coach sendest.</li>
+      <li>Scannst du einen Barcode, geht allein die <strong>Barcode-Nummer</strong> an die Lebensmitteldatenbank Open Food Facts. Das Kamerabild bleibt auf deinem Gerät.</li>
       <li>YouTube wird nicht eingebettet. Ein Übungsvideo auf YouTube öffnet sich nur, wenn du den Link dazu antippst.</li>
     </ul>
 
@@ -81,7 +82,8 @@
 
     <h2>4. Speicherung auf deinem Gerät</h2>
     <p>Deine Einträge (Profil, Ziele, Trainings, Ernährung, Schritte, Schlaf, Gewicht,
-      Gewohnheiten, Körpermaße, Check-ins, Kontaktdaten deines Coachs) speichert die App im
+      Gewohnheiten, Körpermaße, Check-ins, Kontaktdaten und Nachrichten deines Coachs,
+      gescannte Produkte) speichert die App im
       lokalen Speicher deines Browsers (localStorage). Fortschrittsfotos werden verkleinert
       in der Browser-Datenbank (IndexedDB) abgelegt. Diese Daten werden nicht an uns oder
       Dritte übertragen; wir haben keinen Zugriff darauf.</p>
@@ -117,19 +119,40 @@
       Irland. Ab dem Aufruf gelten die Datenschutzbestimmungen von Google
       (policies.google.com/privacy).</p>
 
-    <h2>7. Coach-Ansicht</h2>
+    <h2>7. Barcode-Scanner (Open Food Facts)</h2>
+    <p>Beim Erfassen von Lebensmitteln kannst du den Barcode einer Verpackung scannen oder
+      die Nummer eintippen. Für das Scannen fragt dein Browser nach der Erlaubnis, die
+      Kamera zu nutzen; du kannst sie jederzeit in den Browser- bzw. Geräteeinstellungen
+      widerrufen. Das Kamerabild wird <strong>nur auf deinem Gerät</strong> ausgewertet,
+      um den Strichcode zu erkennen — es wird weder gespeichert noch übertragen.</p>
+    <p>Um die Nährwerte abzurufen, sendet die App die erkannte <strong>Barcode-Nummer</strong>
+      an die freie Lebensmitteldatenbank <strong>Open Food Facts</strong> (Open Food Facts,
+      gemeinnütziger Verein nach französischem Recht, Frankreich). Dabei erhält Open Food
+      Facts außerdem die technisch notwendigen Verbindungsdaten (IP-Adresse, Zeitpunkt,
+      Browsertyp). Deine Einträge, dein Profil oder Gesundheitsdaten werden nicht
+      übermittelt. Die Abfrage findet nur statt, wenn du selbst einen Code scannst oder
+      eingibst.</p>
+    <p>Rechtsgrundlage ist die Bereitstellung der von dir aufgerufenen Funktion bzw. unser
+      berechtigtes Interesse an einer einfachen Lebensmittelerfassung (Art. 6 Abs. 1 lit. f
+      DSGVO). Für die Verarbeitung bei Open Food Facts gilt deren Datenschutzerklärung
+      (world.openfoodfacts.org/privacy). Gefundene Produkte speichert die App auf deinem
+      Gerät, damit du sie später ohne erneute Abfrage wiederfindest.</p>
+    <p>Die Software zur Erkennung (ZXing, Apache-Lizenz 2.0) liefert die App selbst aus;
+      sie wird nicht von fremden Servern geladen.</p>
+
+    <h2>8. Coach-Ansicht</h2>
     <p>Die Coach-Ansicht speichert geöffnete Fortschrittsdateien ausschließlich im Browser
       des Geräts, auf dem sie geöffnet wurden (IndexedDB). Es findet keine Übertragung an
       uns oder Dritte statt. Der jeweilige Coach ist für diese Daten verantwortlich und
       soll sie löschen, sobald das Coaching endet.</p>
 
-    <h2>8. Speicherdauer und Löschen</h2>
+    <h2>9. Speicherdauer und Löschen</h2>
     <p>Die Daten auf deinem Gerät bleiben gespeichert, bis du sie löschst — in der App
       unter <em>Einstellungen → Alle Daten löschen</em> oder über die Einstellungen deines
       Browsers (Websitedaten löschen). Server-Logfiles werden vom Hosting-Anbieter nach
       kurzer Zeit automatisch gelöscht.</p>
 
-    <h2>9. Deine Rechte</h2>
+    <h2>10. Deine Rechte</h2>
     <p>Du hast das Recht auf Auskunft (Art. 15), Berichtigung (Art. 16), Löschung (Art. 17),
       Einschränkung der Verarbeitung (Art. 18), Datenübertragbarkeit (Art. 20) und
       Widerspruch gegen Verarbeitungen auf Grundlage berechtigter Interessen (Art. 21 DSGVO).
@@ -141,7 +164,7 @@
       z. B. bei der Landesbeauftragten für den Datenschutz Niedersachsen, Prinzenstraße 5,
       30159 Hannover.</p>
 
-    <h2>10. Keine automatisierte Entscheidungsfindung</h2>
+    <h2>11. Keine automatisierte Entscheidungsfindung</h2>
     <p>Kalorien- und Makroziele berechnet die App auf deinem Gerät aus deinen Angaben. Es
       findet keine automatisierte Entscheidung mit rechtlicher Wirkung im Sinne von Art. 22
       DSGVO statt.</p>
