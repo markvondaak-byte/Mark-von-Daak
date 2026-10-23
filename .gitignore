@@ -14,3 +14,6 @@ dist/
 
 # Versehentlich heruntergeladene Pakete
 *.tar.gz
+
+# Kie.ai-Ausgaben
+kie_out/
