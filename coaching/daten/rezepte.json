@@ -1430,7 +1430,8 @@
     "Tomaten halbieren, Gurke würfeln, Mais und Thunfisch abtropfen lassen.",
     "Alles mit den Nudeln und dem Dressing mischen.",
     "Auf 4 Boxen verteilen — schmeckt kalt, perfekt fürs Büro."
-   ]
+   ],
+   "bild": "bilder/rezepte/thunfisch-nudelsalat.jpg"
   },
   {
    "id": "fajita-bowl",
@@ -1494,7 +1495,8 @@
     "Alles in einer großen Pfanne oder auf dem Blech (200 °C, 20 Minuten) garen.",
     "Bohnen abspülen. Joghurt mit Limettensaft und Salz verrühren und separat abfüllen.",
     "Quinoa, Fajita-Mischung und Bohnen auf 4 Boxen verteilen."
-   ]
+   ],
+   "bild": "bilder/rezepte/fajita-bowl.jpg"
   },
   {
    "id": "protein-balls",
@@ -1547,7 +1549,8 @@
     "Alles zu einer formbaren Masse verkneten — bei Bedarf etwas mehr Milch.",
     "16 Kugeln formen (2 pro Portion).",
     "Im Kühlschrank in einer Dose lagern."
-   ]
+   ],
+   "bild": "bilder/rezepte/protein-balls.jpg"
   },
   {
    "id": "quark-snack",
@@ -1590,7 +1593,8 @@
     "Quark mit Milch und Vanille cremig rühren.",
     "In 4 Gläser füllen.",
     "Nüsse separat in kleinen Tütchen — so bleiben sie knackig."
-   ]
+   ],
+   "bild": "bilder/rezepte/quark-snack.jpg"
   },
   {
    "id": "gemuese-sticks-hummus",
@@ -1632,7 +1636,8 @@
     "Gemüse in Sticks schneiden.",
     "Hummus auf 4 kleine Dosen verteilen.",
     "Sticks hochkant in Boxen stellen, mit einem feuchten Küchentuch abdecken — bleiben so knackig."
-   ]
+   ],
+   "bild": "bilder/rezepte/gemuese-sticks-hummus.jpg"
   },
   {
    "id": "eier-hartgekocht",
