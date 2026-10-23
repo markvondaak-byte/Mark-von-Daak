@@ -729,3 +729,6 @@ a.ikon-knopf { text-decoration: none; }
 .rezept-held.rezept-bild--leer { aspect-ratio: 16 / 7; }
 .rezept-held.rezept-bild--leer svg { width: 40px; height: 40px; stroke-width: 1.4; opacity: .7; }
 .coach-nachricht { white-space: pre-wrap; font-size: 15px; line-height: 1.5; margin: 0 0 8px; }
+.scanner { position: relative; border-radius: var(--radius); overflow: hidden; background: #000; aspect-ratio: 4 / 3; margin-bottom: 10px; }
+.scanner video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.scanner__rahmen { position: absolute; left: 12%; right: 12%; top: 32%; bottom: 32%; border: 3px solid var(--accent); border-radius: 12px; box-shadow: 0 0 0 999px rgba(0, 0, 0, .35); }

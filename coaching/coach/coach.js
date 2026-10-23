@@ -479,7 +479,7 @@ function klientBlatt(eintrag) {
       const det = el('details', 'aufklapp');
       const sum = el('summary');
       const t = el('div', 'zeile__text');
-      t.append(el('div', 'zeile__titel', w.name),
+      t.append(el('div', 'zeile__titel', w.deload ? `${w.name} · Deload` : w.name),
                el('div', 'zeile__meta', `${datumMittel(w.datum)} · ${dauerText(w.ende - w.start)} · ${zahl(volumen(w))} kg${w.rekorde && w.rekorde.length ? ` · ${w.rekorde.length} PR` : ''}`));
       sum.append(t);
       const body = el('div');
