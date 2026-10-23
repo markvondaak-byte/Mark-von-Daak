@@ -414,9 +414,10 @@ def rueckseite(bild, x0, y0, b, h, feld, kopf_meta, absaetze, punkte):
     textbreite = b - 2 * rand
     links = x0 + rand
 
-    # Barcodefeld: volltonweiß, exakt KDPs Box
+    # Barcodefeld: bleibt frei von Text, aber ohne eigene Weißfläche — KDP
+    # druckt den Barcode in einer eigenen weißen Box darüber. Wie beim
+    # Hardcover der Reihe (BARCODE_WEISSFLAECHE in buch/build/build_cover.py).
     fx, fy, fb, fh = feld
-    z.rectangle((fx, fy, fx + fb, fy + fh), fill=(255, 255, 255))
 
     # Hinweis über dem Barcodefeld, von unten gerechnet
     klein = schrift("Regular", 24)

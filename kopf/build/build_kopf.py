@@ -63,6 +63,32 @@ def setzen(cfg, kapitel, ziel, **optionen):
 MIN_SEITEN = 70
 
 
+def ursprung_nullen(pdf_pfad, breite_mm, hoehe_mm):
+    """Setzt jede Seite auf ein Blatt, dessen Seitenbox bei (0, 0) beginnt.
+
+    auf_trimmgroesse() schneidet den Überschuss unten ab, indem es die
+    Unterkante der Seitenbox um 0,41 mm anhebt. Das Maß stimmt danach, die
+    Box beginnt aber nicht im Ursprung — einige Prüfprogramme werten das als
+    abweichendes Seitenformat. Hier wird jede Seite als Vektor (Schriften
+    bleiben eingebettet) auf ein neues Blatt exakt in Trimmgröße gelegt.
+    """
+    import fitz
+
+    pt = 72 / 25.4
+    quelle = fitz.open(str(pdf_pfad))
+    neu = fitz.open()
+    for nummer, seite in enumerate(quelle):
+        blatt = neu.new_page(width=breite_mm * pt, height=hoehe_mm * pt)
+        blatt.show_pdf_page(blatt.rect, quelle, nummer, clip=seite.cropbox)
+    neu.set_metadata({"title": quelle.metadata.get("title") or "",
+                      "producer": "", "creator": ""})
+    zwischen = Path(pdf_pfad).with_suffix(".tmp.pdf")
+    neu.save(str(zwischen), garbage=4, deflate=True)
+    neu.close()
+    quelle.close()
+    zwischen.replace(pdf_pfad)
+
+
 def main():
     from pypdf import PdfReader
 
@@ -82,6 +108,7 @@ def main():
 
     sf = cfg["seitenformat"]
     druck = auf_trimmgroesse(pdf, sf["breite_mm"], sf["hoehe_mm"])
+    ursprung_nullen(druck["ziel"], sf["breite_mm"], sf["hoehe_mm"])
     befunde = pruefen(druck["ziel"], sf["breite_mm"], sf["hoehe_mm"])
     if seiten < MIN_SEITEN:
         befunde.append(f"weniger als {MIN_SEITEN} Seiten")
