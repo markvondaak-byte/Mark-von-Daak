@@ -732,3 +732,5 @@ a.ikon-knopf { text-decoration: none; }
 .scanner { position: relative; border-radius: var(--radius); overflow: hidden; background: #000; aspect-ratio: 4 / 3; margin-bottom: 10px; }
 .scanner video { width: 100%; height: 100%; object-fit: cover; display: block; }
 .scanner__rahmen { position: absolute; left: 12%; right: 12%; top: 32%; bottom: 32%; border: 3px solid var(--accent); border-radius: 12px; box-shadow: 0 0 0 999px rgba(0, 0, 0, .35); }
+.zustimmung { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; line-height: 1.45; margin: 12px 0; cursor: pointer; }
+.zustimmung input { width: 20px; height: 20px; flex: none; margin: 1px 0 0; accent-color: var(--accent); }
