@@ -728,3 +728,4 @@ a.ikon-knopf { text-decoration: none; }
 .rezept__bild.rezept-bild--leer svg { width: 26px; height: 26px; stroke-width: 1.6; opacity: .8; }
 .rezept-held.rezept-bild--leer { aspect-ratio: 16 / 7; }
 .rezept-held.rezept-bild--leer svg { width: 40px; height: 40px; stroke-width: 1.4; opacity: .7; }
+.coach-nachricht { white-space: pre-wrap; font-size: 15px; line-height: 1.5; margin: 0 0 8px; }

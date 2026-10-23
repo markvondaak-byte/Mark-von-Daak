@@ -63,7 +63,7 @@ const Modus = {
 };
 
 /* --- Zustand und Stammdaten --------------------------------------------- */
-const Coach = { uebungen: {}, ausdauer: new Set() };
+const Coach = { uebungen: {}, ausdauer: new Set(), liste: [], gruppen: [] };
 
 const ZIELNAMEN = { fett: 'Fett verlieren', muskel: 'Muskeln aufbauen', fitness: 'Fitter & gesünder' };
 const uebungsName = (id) => Coach.uebungen[id] || id;
@@ -409,6 +409,14 @@ function klientBlatt(eintrag) {
       let umschalter = knopfErledigt();
       kb.append(umschalter);
     }
+    const antworten = knopf(`Antwort an ${p.name || 'Klient'} schreiben`, null, () => antwortBlatt(eintrag), 'senden');
+    antworten.style.marginTop = '12px';
+    kb.append(antworten);
+    const gesendet = eintrag.antworten || [];
+    if (gesendet.length) {
+      const letzte = gesendet[gesendet.length - 1];
+      kb.append(el('div', 'fusstext', `Zuletzt geantwortet am ${datumLang(textAusDatum(new Date(letzte.erstellt)))}${letzte.nachricht ? ` · „${kuerzen(letzte.nachricht, 60)}“` : ''}`));
+    }
     inhalt.append(kb);
 
     // Kennzahlen
@@ -596,6 +604,146 @@ function klientBlatt(eintrag) {
   }, { beimSchliessen: zeichnen });
 }
 
+/* --- Antwort an den Klienten ------------------------------------------- */
+// Der Coach schreibt eine Nachricht und passt Ziele und Plan an. Daraus wird
+// eine Antwortdatei, die der Klient in seiner App öffnet und übernimmt.
+const kopie = (x) => JSON.parse(JSON.stringify(x));
+
+function planUebungNeu(id) {
+  const u = Coach.liste.find((x) => x.id === id) || {};
+  if (u.ausdauer) return { uid: id, saetze: 1, wdh: '20', pause: 0, notiz: '' };
+  return { uid: id, saetze: 3, wdh: u.zeit ? '30–45' : '8–12', pause: 90, notiz: '', ...(u.zeit ? {} : { rir: '2–3' }) };
+}
+
+function uebungAuswahl(beiWahl) {
+  const sel = el('select', 'eingabe');
+  sel.setAttribute('aria-label', 'Übung hinzufügen');
+  sel.append(new Option('+ Übung hinzufügen …', ''));
+  Coach.gruppen.forEach((g) => {
+    const og = el('optgroup'); og.label = g;
+    Coach.liste.filter((u) => u.gruppe === g).forEach((u) => og.append(new Option(u.name, u.id)));
+    sel.append(og);
+  });
+  sel.onchange = () => { if (sel.value) beiWahl(sel.value); sel.value = ''; };
+  return sel;
+}
+
+function antwortBlatt(eintrag) {
+  const b = eintrag.bericht;
+  const p = b.profil;
+  const zAlt = b.ziele || {};
+  const plan = kopie(b.plan || { tage: [] });
+  const planVorher = JSON.stringify(plan);
+  const ziele = { kcal: zAlt.kcal, e: zAlt.e, kh: zAlt.kh, f: zAlt.f };
+  let schrittziel = p.schrittziel;
+  let nachricht = '';
+
+  blattOeffnen(`Antwort an ${p.name || 'Klient'}`, (inhalt, schliessen, blatt) => {
+    inhalt.append(el('p', 'leise', `Die Antwort geht als Datei an ${p.name || 'deinen Klienten'} — per WhatsApp oder Mail. In der App öffnet er sie unter Check-in → „Antwort vom Coach öffnen“ und übernimmt sie mit einem Tipp.`));
+
+    const ci = (b.checkins || []).slice(-1)[0];
+    if (ci && (ci.fragen || ci.probleme)) {
+      const h = el('div', 'hinweis');
+      h.append(el('div', 'hinweis__titel', `Aus dem Check-in vom ${datumKurz(ci.datum)}`));
+      if (ci.fragen) h.append(el('p', null, `Frage: ${ci.fragen}`));
+      if (ci.probleme) h.append(el('p', null, `Schwierig: ${ci.probleme}`));
+      h.style.marginBottom = '14px';
+      inhalt.append(h);
+    }
+
+    const kn = karte('Nachricht', 'senden');
+    const t = el('textarea', 'eingabe');
+    t.rows = 5;
+    t.placeholder = 'Feedback zur Woche, Antwort auf Fragen, Fokus für die nächsten Tage …';
+    t.oninput = () => { nachricht = t.value; };
+    kn.append(t);
+    inhalt.append(kn);
+
+    // Ziele
+    const kz = karte('Ziele', 'ernaehrung');
+    const reihe1 = el('div', 'reihe');
+    const reihe2 = el('div', 'reihe');
+    [['kcal', 'Kalorien'], ['e', 'Eiweiß (g)'], ['kh', 'Kohlenh. (g)'], ['f', 'Fett (g)']].forEach(([id, name], i) => {
+      const e = eingabe('text', ziele[id] != null ? String(ziele[id]) : '', { modus: 'numeric', beiAenderung: (v) => { const n = leseZahl(v); if (n != null && n >= 0) ziele[id] = Math.round(n); } });
+      (i < 2 ? reihe1 : reihe2).append(feld(name, e));
+    });
+    const sz = eingabe('text', schrittziel != null ? String(schrittziel) : '', { modus: 'numeric', beiAenderung: (v) => { const n = leseZahl(v); if (n) schrittziel = Math.round(n); } });
+    kz.append(reihe1, reihe2, feld('Schrittziel pro Tag', sz));
+    inhalt.append(kz);
+
+    // Plan
+    const kp = karte('Trainingsplan', 'training');
+    const planBox = el('div');
+    const planZeichnen = () => {
+      planBox.replaceChildren();
+      if (!plan.tage.length) planBox.append(el('p', 'leise', 'Der Klient hat noch keinen Plan.'));
+      plan.tage.forEach((tag) => {
+        const kopf = el('div', 'feld__label', tag.name);
+        kopf.style.marginTop = '10px';
+        planBox.append(kopf);
+        tag.uebungen.forEach((pu, i) => {
+          const u = Coach.liste.find((x) => x.id === pu.uid) || {};
+          const k = el('div', 'karte uebung-karte');
+          const kk = el('div', 'uebung-karte__kopf');
+          kk.append(el('div', 'uebung-karte__name', uebungsName(pu.uid)));
+          const weg = el('button', 'ikon-knopf ikon-knopf--plain'); weg.type = 'button'; weg.innerHTML = ikon('muell');
+          weg.setAttribute('aria-label', `${uebungsName(pu.uid)} entfernen`);
+          weg.onclick = () => { tag.uebungen.splice(i, 1); planZeichnen(); };
+          kk.append(weg);
+          k.append(kk);
+          const r = el('div', 'reihe');
+          const w = eingabe('text', pu.wdh, { beiAenderung: (v) => { pu.wdh = v.trim() || pu.wdh; } });
+          if (u.ausdauer) r.append(feld('Minuten', w));
+          else {
+            const sa = eingabe('text', String(pu.saetze), { modus: 'numeric', beiAenderung: (v) => { pu.saetze = Math.max(1, Math.min(10, leseZahl(v) || pu.saetze)); } });
+            const pa = eingabe('text', String(pu.pause), { modus: 'numeric', beiAenderung: (v) => { const n = leseZahl(v); if (n != null) pu.pause = Math.max(0, n); } });
+            r.append(feld('Sätze', sa), feld(u.zeit ? 'Sek.' : 'Wdh.', w));
+            if (!u.zeit) r.append(feld('RIR', eingabe('text', pu.rir || '', { beiAenderung: (v) => { pu.rir = v.trim(); } })));
+            r.append(feld('Pause', pa));
+          }
+          k.append(r);
+          const n = eingabe('text', pu.notiz || '', { platzhalter: 'Notiz, z. B. „Tempo 3-1-1“', beiAenderung: (v) => { pu.notiz = v; } });
+          n.setAttribute('aria-label', 'Notiz');
+          k.append(n);
+          planBox.append(k);
+        });
+        planBox.append(uebungAuswahl((id) => { tag.uebungen.push(planUebungNeu(id)); planZeichnen(); }));
+      });
+    };
+    planZeichnen();
+    kp.append(planBox);
+    inhalt.append(kp);
+
+    blattFuss(blatt, knopf('Antwort senden', null, () => {
+      // Felder mit offener Eingabe zuerst übernehmen (beiAenderung feuert bei change)
+      if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
+      const zieleGeaendert = ['kcal', 'e', 'kh', 'f'].some((k) => ziele[k] !== zAlt[k]);
+      const planGeaendert = JSON.stringify(plan) !== planVorher;
+      const schritteGeaendert = schrittziel !== p.schrittziel;
+      const text = nachricht.trim();
+      if (!text && !zieleGeaendert && !planGeaendert && !schritteGeaendert) { toast('Noch nichts geändert oder geschrieben'); return; }
+      const antwort = {
+        app: 'coaching-antwort', version: 1, erstellt: new Date().toISOString(),
+        fuer: p.id, name: p.name, bezug: b.erstellt, nachricht: text,
+        ...(zieleGeaendert ? { ziele } : {}),
+        ...(schritteGeaendert ? { schrittziel } : {}),
+        ...(planGeaendert ? { plan } : {})
+      };
+      const name = `antwort-${(p.name || 'klient').toLowerCase().replace(/[^a-z0-9äöüß]+/g, '-')}-${heuteText()}.json`;
+      const datei = new File([JSON.stringify(antwort)], name, { type: 'application/json' });
+      dateiTeilen(datei, 'Antwort vom Coach').then(async (ok) => {
+        if (!ok) return;
+        eintrag.antworten = [...(eintrag.antworten || []), { erstellt: antwort.erstellt, nachricht: text,
+          ziele: zieleGeaendert, plan: planGeaendert }];
+        eintrag.erledigt = b.erstellt;
+        await Klienten.speichern(eintrag);
+        toast(kannDateienTeilen(datei) ? 'Antwort gesendet' : 'Datei gespeichert — jetzt an den Klienten schicken');
+        schliessen();
+      });
+    }, 'senden'));
+  }, { beimSchliessen: zeichnen });
+}
+
 /* --- Einstellungen ------------------------------------------------------ */
 function einstellungenBlatt() {
   blattOeffnen('Einstellungen', (inhalt, schliessen) => {
@@ -630,6 +778,7 @@ async function starten() {
   try {
     const daten = await fetch('../daten/uebungen.json').then((r) => r.json());
     daten.uebungen.forEach((u) => { Coach.uebungen[u.id] = u.name; if (u.ausdauer) Coach.ausdauer.add(u.id); });
+    Object.assign(Coach, { liste: daten.uebungen, gruppen: daten.gruppen });
   } catch (e) {
     console.warn('Übungsnamen nicht geladen — es erscheinen die Kennungen.', e);
   }

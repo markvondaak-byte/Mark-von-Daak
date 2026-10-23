@@ -39,7 +39,10 @@ const Speicher = {
       messungen: [],
       checkins: [],
       einkauf: { rezepte: {}, abgehakt: {} },
-      zuletzt: []
+      zuletzt: [],
+      // Antworten des Coachs: Nachrichten und Zeitstempel der zuletzt übernommenen Datei
+      coachNachrichten: [],
+      antwortStand: null
     };
   },
 
@@ -717,6 +720,7 @@ function ansichtHeute(ziel) {
     if (naechster) held.append(knopf(genug ? 'Trotzdem trainieren' : 'Training starten', null, () => workoutStarten(naechster), 'training'));
   }
   ziel.append(held);
+  coachNachrichtKarte(ziel);
 
   // Check-in fällig?
   if (checkinFaellig()) {
@@ -2220,6 +2224,7 @@ function checkinText(c, st) {
 
 function checkinWoche(ziel) {
   const d = D();
+  ziel.append(antwortOeffnenKnopf());
   const st = wochenStatistik();
   const letzter = letzterCheckin();
   const heuteErledigt = letzter && letzter.datum === heuteText();
@@ -2686,6 +2691,17 @@ function einstellungenBlatt() {
     inhalt.append(kz);
 
     inhalt.append(abschnitt('Dein Coach'));
+    inhalt.append(antwortOeffnenKnopf());
+    if (d.coachNachrichten.length) {
+      const kn = karte('Nachrichten vom Coach', 'senden');
+      [...d.coachNachrichten].reverse().slice(0, 10).forEach((n) => {
+        const det = el('details', 'aufklapp');
+        const sum = el('summary'); sum.append(el('div', 'zeile__titel', datumLang(n.datum)));
+        det.append(sum, el('p', 'coach-nachricht', n.text || (n.zusammenfassung ? `Übernommen: ${n.zusammenfassung}` : '—')));
+        kn.append(det);
+      });
+      inhalt.append(kn);
+    }
     const kc = karte(null);
     // Bei jeder Eingabe speichern, nicht erst beim Verlassen des Felds — sonst
     // geht die Adresse verloren, wenn jemand das Blatt direkt schließt.
@@ -2829,28 +2845,124 @@ async function fortschrittDatei(mitFotos) {
   return new File([JSON.stringify(bericht)], name, { type: 'application/json' });
 }
 
-function dateiLaden(datei) {
-  const a = el('a');
-  a.href = URL.createObjectURL(datei);
-  a.download = datei.name;
-  document.body.append(a);
-  a.click();
-  a.remove();
-  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+/* --- Antwort vom Coach -------------------------------------------------- */
+// Der Coach schickt eine Datei (app: 'coaching-antwort') mit Nachricht und auf
+// Wunsch neuen Zielen und Plan. Sie gilt nur für diesen Klienten (profil.id)
+// und nur, wenn sie neuer ist als die zuletzt übernommene.
+function antwortOeffnenKnopf() {
+  const datei = el('input'); datei.type = 'file'; datei.accept = 'application/json,.json'; datei.className = 'versteckt';
+  datei.onchange = () => {
+    const f = datei.files[0];
+    datei.value = '';
+    if (f) antwortEinlesen(f);
+  };
+  const k = knopf('Antwort vom Coach öffnen', 'knopf--zweit', () => datei.click(), 'senden');
+  k.style.marginBottom = '14px';
+  const box = el('div');
+  box.append(datei, k);
+  return box;
 }
 
-const kannDateienTeilen = (datei) => !!(navigator.canShare && navigator.canShare({ files: [datei] }));
+async function antwortEinlesen(datei) {
+  let a;
+  try {
+    a = JSON.parse(await datei.text());
+  } catch (e) { toast('Diese Datei ist keine Antwort vom Coach'); return; }
+  if (!a || a.app !== 'coaching-antwort') { toast('Diese Datei ist keine Antwort vom Coach'); return; }
+  const d = D();
+  if (a.fuer !== d.profil.id) { toast(`Diese Antwort ist für ${a.name || 'jemand anderen'} bestimmt`); return; }
+  if (d.antwortStand && a.erstellt <= d.antwortStand) { toast('Diese Antwort hast du schon übernommen'); return; }
+  antwortVorschau(a);
+}
 
-/** Muss direkt aus dem Tipp heraus laufen: Safari öffnet das Teilen-Menü
- *  nur innerhalb der Nutzeraktion. Deshalb liegt die Datei schon bereit. */
-function dateiTeilen(datei) {
-  if (kannDateienTeilen(datei)) {
-    return navigator.share({ files: [datei], title: 'Mein Fortschritt' })
-      .then(() => true)
-      .catch((e) => { if (e.name !== 'AbortError') toast('Teilen nicht möglich'); return false; });
-  }
-  dateiLaden(datei);
-  return Promise.resolve(true);
+function planUnterschiede(alt, neu) {
+  const zeilen = [];
+  const altTage = new Map(((alt && alt.tage) || []).map((t) => [t.id, t]));
+  neu.tage.forEach((t) => {
+    const vorher = altTage.get(t.id);
+    const vorherUeb = new Map(((vorher && vorher.uebungen) || []).map((u) => [u.uid, u]));
+    const aenderungen = [];
+    t.uebungen.forEach((u) => {
+      const v = vorherUeb.get(u.uid);
+      const ue = uebung(u.uid);
+      const ziel = ue.ausdauer ? `${u.wdh} Min.` : `${u.saetze} × ${u.wdh}${u.rir ? ` · RIR ${u.rir}` : ''}`;
+      if (!v) aenderungen.push(`+ ${ue.name} (${ziel})`);
+      else if (['saetze', 'wdh', 'rir', 'pause', 'notiz'].some((k) => String(v[k] ?? '') !== String(u[k] ?? ''))) {
+        aenderungen.push(`~ ${ue.name}: ${ziel}${u.notiz ? ` · „${u.notiz}“` : ''}`);
+      }
+      vorherUeb.delete(u.uid);
+    });
+    vorherUeb.forEach((u) => aenderungen.push(`− ${uebung(u.uid).name}`));
+    if (aenderungen.length) zeilen.push({ tag: t.name, aenderungen });
+  });
+  return zeilen;
+}
+
+function antwortVorschau(a) {
+  const d = D();
+  blattOeffnen('Antwort vom Coach', (inhalt, schliessen, blatt) => {
+    inhalt.append(el('p', 'leise', `Erstellt am ${datumLang(textAusDatum(new Date(a.erstellt)))}`));
+    if (a.nachricht) {
+      const k = karte('Nachricht', 'senden');
+      k.append(el('p', 'coach-nachricht', a.nachricht));
+      inhalt.append(k);
+    }
+    const plan = a.plan && Array.isArray(a.plan.tage) ? a.plan : null;
+    if (a.ziele || a.schrittziel) {
+      const k = karte('Neue Ziele', 'ernaehrung');
+      const z = d.ziele || {};
+      [['kcal', 'Kalorien', ''], ['e', 'Eiweiß', ' g'], ['kh', 'Kohlenhydrate', ' g'], ['f', 'Fett', ' g']].forEach(([id, name, e]) => {
+        if (!a.ziele || a.ziele[id] == null || a.ziele[id] === z[id]) return;
+        const zeile = el('div', 'zeile'); zeile.style.cursor = 'default';
+        zeile.append(el('div', 'zeile__text', name), el('div', 'zeile__rechts', `${zahl(z[id])}${e} → ${zahl(a.ziele[id])}${e}`));
+        k.append(zeile);
+      });
+      if (a.schrittziel && a.schrittziel !== d.profil.schrittziel) {
+        const zeile = el('div', 'zeile'); zeile.style.cursor = 'default';
+        zeile.append(el('div', 'zeile__text', 'Schritte pro Tag'), el('div', 'zeile__rechts', `${zahl(d.profil.schrittziel)} → ${zahl(a.schrittziel)}`));
+        k.append(zeile);
+      }
+      inhalt.append(k);
+    }
+    if (plan) {
+      const k = karte('Angepasster Trainingsplan', 'training');
+      const unterschiede = planUnterschiede(d.plan, plan);
+      if (!unterschiede.length) k.append(el('p', 'leise', 'Kleine Anpassungen am Plan.'));
+      unterschiede.forEach(({ tag, aenderungen }) => {
+        k.append(el('div', 'feld__label', tag));
+        aenderungen.forEach((x) => k.append(el('div', 'zeile__meta', x)));
+      });
+      inhalt.append(k);
+    }
+    blattFuss(blatt, knopf('Übernehmen', null, () => {
+      if (a.ziele) d.ziele = { ...d.ziele, ...a.ziele, manuell: true };
+      if (a.schrittziel) d.profil.schrittziel = a.schrittziel;
+      if (plan) {
+        d.plan = { tage: plan.tage.map((t, i) => ({ id: t.id || 't' + (i + 1), name: t.name || `Tag ${i + 1}`,
+          uebungen: (t.uebungen || []).filter((u) => u && u.uid) })) };
+      }
+      const teile = [a.ziele || a.schrittziel ? 'neue Ziele' : '', plan ? 'neuer Plan' : ''].filter(Boolean);
+      d.coachNachrichten.push({ datum: heuteText(), erstellt: a.erstellt, text: a.nachricht || '',
+                                zusammenfassung: teile.join(' und '), gelesen: false });
+      d.antwortStand = a.erstellt;
+      Speicher.sichern();
+      schliessen();
+      toast(teile.length ? `Übernommen: ${teile.join(' und ')}` : 'Nachricht gespeichert');
+      neuZeichnen();
+    }, 'haken'));
+  });
+}
+
+// Auf „Heute“: die neueste ungelesene Nachricht vom Coach
+function coachNachrichtKarte(ziel) {
+  const offen = D().coachNachrichten.filter((n) => !n.gelesen);
+  if (!offen.length) return;
+  const n = offen[offen.length - 1];
+  const k = karte('Von deinem Coach', 'senden', offen.length > 1 ? `${offen.length} neu` : null);
+  if (n.text) k.append(el('p', 'coach-nachricht', n.text));
+  if (n.zusammenfassung) k.append(el('p', 'leise', `Übernommen: ${n.zusammenfassung}.`));
+  k.append(linkKnopf('Gelesen', () => { offen.forEach((x) => { x.gelesen = true; }); Speicher.sichern(); neuZeichnen(); }, 'haken'));
+  ziel.append(k);
 }
 
 function fortschrittSendenBlatt() {
