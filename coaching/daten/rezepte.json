@@ -792,7 +792,8 @@
     "Hack anbraten, Gemüse dazu und 5 Minuten mitbraten.",
     "Tomaten und Gewürze zugeben, 20 Minuten köcheln.",
     "Nudeln al dente kochen, mit der Soße portionieren."
-   ]
+   ],
+   "bild": "bilder/rezepte/bolognese.jpg"
   },
   {
    "id": "tofu-stirfry",
@@ -851,7 +852,8 @@
     "Gemüse im Wok scharf anbraten.",
     "Erdnussmus, Sojasoße, Limettensaft, Sirup und 3 EL Wasser verrühren.",
     "Tofu und Soße zum Gemüse, mit Reis portionieren."
-   ]
+   ],
+   "bild": "bilder/rezepte/tofu-stirfry.jpg"
   },
   {
    "id": "ofen-frikadellen",
@@ -915,7 +917,8 @@
     "Hack mit Ei, Haferflocken, gehackter Zwiebel, Senf und Gewürzen verkneten, 12 Frikadellen formen.",
     "Frikadellen dazulegen, alles 25 Minuten backen.",
     "Bohnen 6 Minuten kochen, alles portionieren."
-   ]
+   ],
+   "bild": "bilder/rezepte/ofen-frikadellen.jpg"
   },
   {
    "id": "griechischer-haehnchensalat",
@@ -979,7 +982,8 @@
     "Gurke und Tomaten schneiden.",
     "Joghurt mit Knoblauch und Salz zu Tzatziki rühren — separat abfüllen.",
     "Alles in Boxen anrichten, Feta darüberbröseln."
-   ]
+   ],
+   "bild": "bilder/rezepte/griechischer-haehnchensalat.jpg"
   },
   {
    "id": "teriyaki-lachs-bowl",
@@ -1048,7 +1052,8 @@
     "Lachs in Würfel schneiden, kurz scharf anbraten, Soße dazugeben und einköcheln lassen.",
     "Edamame 3 Minuten kochen, Karotten raspeln, Gurke in Scheiben schneiden.",
     "Reis, Lachs und Gemüse auf 4 Boxen verteilen, mit Sesam bestreuen."
-   ]
+   ],
+   "bild": "bilder/rezepte/teriyaki-lachs-bowl.jpg"
   },
   {
    "id": "thai-curry-haehnchen",
