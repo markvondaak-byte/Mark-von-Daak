@@ -133,6 +133,115 @@ function alterText(tage) {
   return `vor ${tage} Tagen`;
 }
 
+/* --- Handlungsbedarf ---------------------------------------------------- */
+// Prüft einen Bericht auf Punkte, bei denen der Coach eingreifen sollte.
+// Stufe 2 = dringend, Stufe 1 = beobachten. Bezugstag ist der Stichtag der
+// Datei, nur die Aktualität der Datei selbst misst sich am heutigen Tag.
+const kuerzen = (t, n = 80) => (t.length > n ? t.slice(0, n - 1).trimEnd() + '…' : t);
+
+function handlungsbedarf(b) {
+  const p = b.profil;
+  const z = b.ziele || {};
+  const tag = stichtag(b);
+  const punkte = [];
+  const add = (stufe, text) => punkte.push({ stufe, text });
+  const dabei = p.start ? tageZwischen(p.start, tag) : 99;
+  const letzte7 = tageReihe(b, 7);
+
+  // Aktualität der Datei
+  const alter = tageZwischen(tag, heuteText());
+  if (alter > 10) add(2, `Seit ${alter} Tagen keine neue Datei — nachfragen, wie es läuft`);
+  else if (alter >= 7) add(1, `Letzte Datei ${alterText(alter)}`);
+
+  // Training
+  const ws = b.workouts || [];
+  const woche = workoutsZwischen(b, tageVerschieben(tag, -6), tag);
+  const letztesTraining = ws.length ? ws.map((w) => w.datum).sort().pop() : null;
+  if (!letztesTraining) { if (dabei >= 7) add(2, 'Noch kein Training eingetragen'); }
+  else if (tageZwischen(letztesTraining, tag) >= 10) add(2, `Seit ${tageZwischen(letztesTraining, tag)} Tagen kein Training`);
+  else if (p.tage && woche.length < p.tage * 0.5) add(1, `Nur ${woche.length} von ${p.tage} Trainings in den letzten 7 Tagen`);
+
+  // RIR der letzten 14 Tage
+  const rirWerte = [];
+  workoutsZwischen(b, tageVerschieben(tag, -13), tag).forEach((w) => w.uebungen.forEach((u) =>
+    u.saetze.forEach((s) => { if (s.rir != null) rirWerte.push(s.rir); })));
+  if (rirWerte.length >= 6) {
+    const anteilNull = rirWerte.filter((x) => x === 0).length / rirWerte.length;
+    const schnitt = rirWerte.reduce((a, x) => a + x, 0) / rirWerte.length;
+    if (anteilNull > 0.4) add(1, `Trainiert oft bis zum Muskelversagen (${Math.round(anteilNull * 100)} % der Sätze mit RIR 0)`);
+    else if (schnitt >= 4) add(1, `Trainiert zu leicht (RIR Ø ${zahl(schnitt, 1)})`);
+  }
+
+  // Check-in
+  const ci = (b.checkins || []).slice(-1)[0];
+  if (!ci) { if (dabei >= 8) add(1, 'Noch kein Check-in gesendet'); }
+  else {
+    const seit = tageZwischen(ci.datum, tag);
+    if (seit >= 10) add(1, `Letzter Check-in vor ${seit} Tagen`);
+    if (seit <= 8) {
+      if (ci.fragen) add(2, `Frage im Check-in: „${kuerzen(ci.fragen)}“`);
+      if (ci.probleme) add(1, `Schwierigkeiten: „${kuerzen(ci.probleme)}“`);
+      const bw = ci.bewertung || {};
+      const warn = [];
+      if (bw.stress >= 4) warn.push(`Stress ${bw.stress}/5`);
+      if (bw.energie && bw.energie <= 2) warn.push(`Energie ${bw.energie}/5`);
+      if (bw.motivation && bw.motivation <= 2) warn.push(`Motivation ${bw.motivation}/5`);
+      if (bw.schlaf && bw.schlaf <= 2) warn.push(`Schlaf ${bw.schlaf}/5`);
+      if (bw.hunger >= 4) warn.push(`Hunger ${bw.hunger}/5`);
+      if (warn.length) add(warn.length >= 2 ? 2 : 1, `Check-in: ${warn.join(' · ')}`);
+      const treue = [];
+      if (ci.treueTraining != null && ci.treueTraining <= 50) treue.push(`Training ${ci.treueTraining} %`);
+      if (ci.treueErnaehrung != null && ci.treueErnaehrung <= 50) treue.push(`Ernährung ${ci.treueErnaehrung} %`);
+      if (treue.length) add(1, `Wenig nach Plan: ${treue.join(', ')}`);
+    }
+  }
+
+  // Gewicht im Verhältnis zum Ziel
+  const reihe = gewichtsreihe(b);
+  const jetzt = gewichtMittel(tag, reihe);
+  const vorwoche = gewichtMittel(tageVerschieben(tag, -7), reihe);
+  const vor3 = gewichtMittel(tageVerschieben(tag, -21), reihe);
+  if (jetzt == null && (p.ziel === 'fett' || p.ziel === 'muskel') && dabei >= 7) add(1, 'Kein Gewicht in den letzten 7 Tagen eingetragen');
+  if (jetzt != null && vorwoche != null) {
+    const d = jetzt - vorwoche;
+    if (p.ziel === 'fett' && d > 0.3) add(1, `Gewicht steigt (${vorzeichen(d)} kg zur Vorwoche) — Ziel Fettabbau`);
+    else if (p.ziel === 'fett' && d < -0.012 * vorwoche) add(1, `Verliert sehr schnell (${vorzeichen(d)} kg in einer Woche)`);
+    else if (p.ziel === 'muskel' && d < -0.3) add(1, `Gewicht sinkt (${vorzeichen(d)} kg zur Vorwoche) — Ziel Muskelaufbau`);
+  }
+  if (p.ziel === 'fett' && jetzt != null && vor3 != null && jetzt - vor3 > -0.2) add(1, 'Gewicht seit 3 Wochen ohne Fortschritt');
+
+  // Ernährung
+  const essTage = letzte7.filter((d) => { const t = tagVon(b, d); return t && t.essen && t.essen.length; });
+  if (essTage.length < 3) add(1, `Ernährung nur an ${essTage.length} von 7 Tagen erfasst`);
+  else {
+    const kcal = essTage.reduce((a, d) => a + tagesSumme(b, d).kcal, 0) / essTage.length;
+    const e = essTage.reduce((a, d) => a + tagesSumme(b, d).e, 0) / essTage.length;
+    if (z.kcal && Math.abs(kcal - z.kcal) / z.kcal > 0.15) {
+      add(1, `Kalorien Ø ${zahl(kcal)} statt ${zahl(z.kcal)} (${vorzeichen(Math.round((kcal / z.kcal - 1) * 100), 0)} %)`);
+    }
+    if (z.e && e < z.e * 0.8) add(1, `Eiweiß Ø ${zahl(e)} g statt ${zahl(z.e)} g`);
+  }
+
+  // Schlaf, Schritte, Gewohnheiten
+  const schlaf = letzte7.map((d) => schlafDauer((tagVon(b, d) || {}).schlaf)).filter((x) => x);
+  if (schlaf.length >= 3) {
+    const s = schlaf.reduce((a, x) => a + x, 0) / schlaf.length;
+    if (s < 6) add(s < 5 ? 2 : 1, `Schlaf Ø ${zahl(s, 1)} Std. (Ziel ${zahl(p.schlafziel, 1)})`);
+  }
+  const schritte = letzte7.map((d) => (tagVon(b, d) || {}).schritte).filter((x) => x);
+  if (schritte.length >= 3 && p.schrittziel) {
+    const s = schritte.reduce((a, x) => a + x, 0) / schritte.length;
+    if (s < p.schrittziel * 0.6) add(1, `Schritte Ø ${zahl(s)} (Ziel ${zahl(p.schrittziel)})`);
+  }
+  const quote = gewohnheitsquote(b, 7);
+  if (quote != null && quote < 0.4) add(1, `Gewohnheiten nur zu ${Math.round(quote * 100)} % erledigt`);
+
+  return punkte.sort((a, c) => c.stufe - a.stufe);
+}
+
+const bedarfStufe = (punkte) => punkte.reduce((m, x) => Math.max(m, x.stufe), 0);
+const istErledigt = (eintrag) => eintrag.erledigt === eintrag.bericht.erstellt;
+
 /* --- Import ------------------------------------------------------------- */
 async function dateienEinlesen(dateien) {
   let neu = 0, ersetzt = 0, aelter = 0, fehler = 0;
@@ -185,6 +294,10 @@ async function zeichnen() {
     inhalt.append(k);
   }
 
+  if (liste.length) {
+    inhalt.append(bedarfKarte(liste));
+    inhalt.append(abschnitt('Alle Klienten'));
+  }
   liste.forEach((eintrag) => inhalt.append(klientKarte(eintrag)));
 
   const h = el('div', 'hinweis');
@@ -192,6 +305,42 @@ async function zeichnen() {
   h.append(el('div', 'hinweis__titel', 'Gesundheitsdaten'));
   h.append(el('p', null, 'Die Dateien enthalten Gesundheitsdaten deiner Klienten. Sie liegen nur auf diesem Gerät. Sperre es mit Code, gib es nicht weiter und lösche einen Klienten, sobald das Coaching endet.'));
   inhalt.append(h);
+}
+
+// Liste oben in der Übersicht: wer braucht jetzt Aufmerksamkeit? Dringendes
+// zuerst, dann nach Anzahl der Punkte. Als erledigt markierte Klienten
+// tauchen erst mit der nächsten Datei wieder auf.
+function bedarfKarte(liste) {
+  const k = karte('Handlungsbedarf', 'checkin');
+  const offen = [];
+  let erledigt = 0;
+  liste.forEach((eintrag) => {
+    const punkte = handlungsbedarf(eintrag.bericht);
+    if (!punkte.length) return;
+    if (istErledigt(eintrag)) { erledigt++; return; }
+    offen.push({ eintrag, punkte, stufe: bedarfStufe(punkte) });
+  });
+  offen.sort((a, c) => c.stufe - a.stufe || c.punkte.length - a.punkte.length);
+  if (!offen.length) {
+    k.append(el('p', 'leise', 'Alles im grünen Bereich — gerade braucht niemand besondere Aufmerksamkeit. 👍'));
+  }
+  offen.forEach(({ eintrag, punkte, stufe }) => {
+    const p = eintrag.bericht.profil;
+    const z = el('button', 'zeile'); z.type = 'button';
+    z.append(el('div', `zeile__ikon bedarf--${stufe}`, (p.name || '?').slice(0, 2).toUpperCase()));
+    const t = el('div', 'zeile__text');
+    const titel = el('div', 'zeile__titel', p.name || 'Ohne Namen');
+    titel.append(el('span', `marke ${stufe === 2 ? 'marke--dringend' : 'marke--warn'}`, stufe === 2 ? 'Dringend' : 'Beobachten'));
+    t.append(titel);
+    punkte.slice(0, 3).forEach((x) => t.append(el('div', 'zeile__meta bedarf-punkt', x.text)));
+    if (punkte.length > 3) t.append(el('div', 'zeile__meta', `+ ${punkte.length - 3} weitere`));
+    const pf = el('span', 'zeile__pfeil'); pf.innerHTML = ikon('weiter');
+    z.append(t, pf);
+    z.onclick = () => klientBlatt(eintrag);
+    k.append(z);
+  });
+  if (erledigt) k.append(el('div', 'fusstext', `${erledigt} ${erledigt === 1 ? 'Klient' : 'Klienten'} als erledigt markiert — bis zur nächsten Datei ausgeblendet.`));
+  return k;
 }
 
 function klientKarte(eintrag) {
@@ -241,6 +390,26 @@ function klientBlatt(eintrag) {
 
     inhalt.append(el('p', 'leise',
       `${ZIELNAMEN[p.ziel] || ''} · ${p.alter} J. · ${p.groesse} cm · ${p.tage}× Training/Woche (${p.ort === 'zuhause' ? 'zuhause' : 'Studio'}) · dabei seit ${datumKurz(p.start)}${datumAusText(p.start).getFullYear()} · Datei vom ${datumLang(tag)}`));
+
+    // Handlungsbedarf
+    const punkte = handlungsbedarf(b);
+    const kb = karte('Handlungsbedarf', 'checkin');
+    if (!punkte.length) kb.append(el('p', 'leise', 'Nichts Auffälliges — läuft nach Plan. 👍'));
+    else {
+      const ul = el('ul', 'bedarf-liste');
+      punkte.forEach((x) => ul.append(el('li', `bedarf-liste__punkt bedarf-liste__punkt--${x.stufe}`, x.text)));
+      kb.append(ul);
+      const knopfErledigt = () => knopf(istErledigt(eintrag) ? 'Wieder als offen markieren' : 'Als erledigt markieren',
+        'knopf--zweit knopf--klein', async () => {
+          eintrag.erledigt = istErledigt(eintrag) ? null : b.erstellt;
+          await Klienten.speichern(eintrag);
+          toast(eintrag.erledigt ? 'Erledigt — bis zur nächsten Datei ausgeblendet' : 'Wieder offen');
+          umschalter.replaceWith(umschalter = knopfErledigt());
+        }, 'haken');
+      let umschalter = knopfErledigt();
+      kb.append(umschalter);
+    }
+    inhalt.append(kb);
 
     // Kennzahlen
     const werte = el('div', 'werte');

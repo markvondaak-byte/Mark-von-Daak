@@ -665,6 +665,18 @@ textarea.eingabe { min-height: 76px; resize: vertical; }
 .klient .wert { padding: 9px 10px; }
 .klient .wert__zahl { font-size: 17px; }
 .marke--warn { background: color-mix(in srgb, var(--warn) 16%, var(--surface)); border-color: transparent; color: var(--warn); }
+.marke--dringend { background: color-mix(in srgb, #DC2626 14%, var(--surface)); border-color: transparent; color: #B91C1C; }
+:root[data-theme="dark"] .marke--dringend { color: #F87171; }
+.zeile__titel .marke { margin-left: 8px; vertical-align: 2px; }
+.zeile__ikon.bedarf--2 { background: color-mix(in srgb, #DC2626 14%, var(--surface)); color: #B91C1C; }
+.zeile__ikon.bedarf--1 { background: color-mix(in srgb, var(--warn) 16%, var(--surface)); color: var(--warn); }
+:root[data-theme="dark"] .zeile__ikon.bedarf--2 { color: #F87171; }
+.bedarf-punkt { white-space: normal; }
+.bedarf-liste { list-style: none; margin: 0 0 12px; padding: 0; }
+.bedarf-liste__punkt { position: relative; padding: 6px 0 6px 18px; font-size: 14px; border-bottom: 1px solid var(--line); }
+.bedarf-liste__punkt:last-child { border-bottom: 0; }
+.bedarf-liste__punkt::before { content: ''; position: absolute; left: 2px; top: 13px; width: 8px; height: 8px; border-radius: 50%; background: var(--warn); }
+.bedarf-liste__punkt--2::before { background: #DC2626; }
 details.aufklapp { border-bottom: 1px solid var(--line); }
 details.aufklapp:last-child { border-bottom: 0; }
 details.aufklapp > summary { list-style: none; cursor: pointer; padding: 11px 0; display: flex; align-items: center; gap: 10px; }
