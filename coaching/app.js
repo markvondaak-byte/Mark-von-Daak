@@ -1050,7 +1050,7 @@ function uebungsBibliothek(ziel, beiWahl, { ort, gruppe } = {}) {
     const treffer = App.uebungen.uebungen.filter((u) =>
       (aktGruppe === 'alle' || u.gruppe === aktGruppe) &&
       (!ort || u.orte.includes(ort)) &&
-      (!q || u.name.toLowerCase().includes(q) || u.gruppe.toLowerCase().includes(q)));
+      (!q || [u.name, u.gruppe, u.geraet || ''].some((t) => t.toLowerCase().includes(q))));
     if (!treffer.length) { liste.append(leerzustand('Nichts gefunden', 'Versuche einen anderen Suchbegriff.')); return; }
     const k = karte(null);
     treffer.forEach((u) => {
@@ -1059,7 +1059,7 @@ function uebungsBibliothek(ziel, beiWahl, { ort, gruppe } = {}) {
       z.append(el('div', 'zeile__ikon', u.gruppe.slice(0, 2)));
       const text = el('div', 'zeile__text');
       text.append(el('div', 'zeile__titel', u.name),
-                  el('div', 'zeile__meta', `${u.gruppe} · ${u.orte.map((o) => o === 'studio' ? 'Studio' : 'Zuhause').join(' & ')}`));
+                  el('div', 'zeile__meta', [u.gruppe, u.geraet, u.orte.map((o) => o === 'studio' ? 'Studio' : 'Zuhause').join(' & ')].filter(Boolean).join(' · ')));
       const pf = el('span', 'zeile__pfeil'); pf.innerHTML = ikon('weiter');
       z.append(text, pf);
       z.onclick = () => beiWahl(u);
@@ -1083,6 +1083,7 @@ function uebungBlatt(id) {
   blattOeffnen(u.name, (inhalt) => {
     const marken = el('p');
     marken.append(el('span', 'marke marke--akzent', u.gruppe));
+    if (u.geraet) marken.append(el('span', 'marke', u.geraet));
     u.orte.forEach((o) => marken.append(el('span', 'marke', o === 'studio' ? 'Studio' : 'Zuhause')));
     inhalt.append(marken);
     inhalt.append(abschnitt('Ausführung'));

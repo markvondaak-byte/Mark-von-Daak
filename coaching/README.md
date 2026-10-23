@@ -17,7 +17,7 @@ Sie ist von keiner anderen Seite aus verlinkt und nur über ihre Adresse
 |---|---|
 | **Einrichtung** | Name, Ziel, Körperdaten, Aktivität, Trainingstage, Ort, Erfahrung. Daraus Kalorien- und Makroziele und ein fertiger Trainingsplan |
 | **Heute** | Nächstes Training mit Start-Knopf, Ringe für Kalorien, Eiweiß, Schritte und Schlaf, Wasser, Gewohnheiten mit Serien, Check-in-Erinnerung, Tipp des Tages |
-| **Training** | Plan (2–5 Tage, Studio oder Zuhause), Workout-Modus mit Satzprotokoll, Vorwerten vom letzten Mal, Pausentimer mit Vibration und Ton, Übung tauschen, Rekorde (geschätztes 1RM), Verlauf, Übungsbibliothek mit 45 Übungen und Anleitung, Planeditor |
+| **Training** | Plan (2–5 Tage, Studio oder Zuhause), Workout-Modus mit Satzprotokoll, Vorwerten vom letzten Mal, Pausentimer mit Vibration und Ton, Übung tauschen, Rekorde (geschätztes 1RM), Verlauf, Übungsbibliothek mit 161 Übungen in 10 Gruppen (inkl. Cardio und Mobilität), Gerät und Anleitung, Planeditor |
 | **Ernährung** | Tagebuch nach Mahlzeiten mit 83 Lebensmitteln, Rezeptportionen und Schnelleintrag, Makrobalken, Wasser, Tage blättern |
 | **Meal Prep** | 18 Rezepte mit Nährwerten je Portion, Haltbarkeit, Portionsrechner. Ausgewählte Rezepte ergeben eine zusammengerechnete, abhakbare **Einkaufsliste** zum Teilen |
 | **Check-in** | Täglich: Schritte, Schlaf (Uhrzeiten → Dauer, Erholung 1–5), Gewicht, Energie, Gewohnheiten. Wöchentlich: Fragebogen plus automatisch errechnete Wochenzahlen, als fertiger Text **per WhatsApp oder E-Mail an den Coach** — ohne hinterlegten Kontakt zum Teilen oder Kopieren |
@@ -40,7 +40,7 @@ Setzt der Coach unter Einstellungen eigene Werte, bleiben die stehen, bis
 ## Inhalte pflegen
 
 ```
-daten/uebungen.json      Übungen: Gruppe, Studio/Zuhause, Ausführung, Tipp
+daten/uebungen.json      Übungen: Gruppe, Gerät, Studio/Zuhause, Ausführung, Tipp
 daten/lebensmittel.json  Nährwerte je 100 g und übliche Portion
 daten/rezepte.json       Meal-Prep-Rezepte, Zutaten mit Menge für den Portionsrechner
 ```
