@@ -320,8 +320,15 @@ gehört.
 ## Kopf schlägt Kalorien
 
 Eigenständiger Titel, **kein Band der Reihe** — kein Serienfeld ausfüllen.
-Quelle `kopf/kapitel/*.md`, Bauen mit `python3 kopf/build/build_kopf.py`
-und danach `python3 kopf/build/build_cover.py`.
+Drei Ausgaben: Taschenbuch, Hardcover und Kindle. Bei KDP sind das drei
+Formate desselben Titels; Beschreibung, Kategorien und Keywords sind für alle
+gleich. Bauen:
+
+```bash
+python3 kopf/build/build_kopf.py    # Innenteil (Taschenbuch und Hardcover)
+python3 kopf/build/build_cover.py   # Umschläge für beide Bindearten
+python3 kopf/build/build_epub.py    # Kindle-EPUB und Kindle-Titelbild
+```
 
 | Feld | Wert |
 |---|---|
@@ -330,23 +337,57 @@ und danach `python3 kopf/build/build_cover.py`.
 | Autor | Mark von Daak |
 | Sprache | Deutsch |
 | Altersfreigabe | keine jugendgefährdenden Inhalte |
+| Seiten | 76 (davon 16 Vorlagenseiten im Arbeitsteil; letzte Seite ist eine Vakatseite) |
+
+**Taschenbuch**
+
+| Feld | Wert |
+|---|---|
 | Trimmgröße | 15,24 × 22,86 cm (6″ × 9″) |
-| Seiten | 72 (davon 16 Vorlagenseiten im Arbeitsteil) |
 | Papier / Druckfarbe | weiß / Schwarzweiß |
 | Anschnitt | nein (Innenteil ohne randabfallende Elemente) |
-| Rückenbreite | 4,12 mm — **kein Rückentext**, KDP erlaubt ihn erst ab 79 Seiten |
-| Umschlag gesamt | 12,412 × 9,250 Zoll (315,27 × 234,95 mm) |
+| Rückenbreite | 4,35 mm — **kein Rückentext**, KDP erlaubt ihn erst ab 79 Seiten |
+| Umschlag gesamt | 12,421 × 9,250 Zoll (315,50 × 234,95 mm) |
 | Innenteil | `kopf/out/kopf-schlaegt-kalorien-druck.pdf` |
 | Umschlag | `kopf/out/cover-druck.pdf` |
 
-Ein Hardcover ist mit 72 Seiten noch nicht möglich (KDP: ab 75 Seiten).
-`kopf/build/build_kopf.py` bricht ab, wenn der Innenteil unter 72 Seiten fällt.
+**Hardcover** — bei KDP ein eigenes Format neben dem Taschenbuch. Derselbe
+Innenteil; 6 × 9 Zoll steht in KDPs Hardcover-Liste. KDP nimmt Hardcover erst
+ab 75 Seiten an — deshalb ist der Band auf 76 Seiten ausgelegt, und
+`kopf/build/build_kopf.py` bricht ab, wenn er darunter fällt.
+
+| Feld | Wert |
+|---|---|
+| Trimmgröße | 15,24 × 22,86 cm (6″ × 9″) |
+| Papier / Druckfarbe | weiß / Schwarzweiß |
+| Rücken der Buchdecke | 13,3 mm — **mit** Rückentext |
+| Umschlag gesamt | **13,942 × 10,417 Zoll** (354,13 × 264,59 mm) |
+| Innenteil | `kopf/out/kopf-schlaegt-kalorien-druck.pdf` |
+| Umschlag | `kopf/out/cover-hardcover-druck.pdf` |
+
+Der Umschlag ist größer als beim Taschenbuch, weil er um die Buchdecke
+geschlagen wird: 18 mm Umschlagrand statt 3,175 mm Anschnitt, dazu 9 mm Rücken
+für Pappen und Falzrillen. Das Barcodefeld rückt um das Scharnier nach innen.
+
+**Kindle-E-Book**
+
+| Feld | Wert |
+|---|---|
+| Datei | `kopf/out/kopf-schlaegt-kalorien-kindle.epub` (fließender Text) |
+| Titelbild | `kopf/out/kindle-cover.jpg` (1600 × 2560 px) |
+| DRM | nach Wunsch; eine Rücknahme ist später nicht möglich |
+| Preis | für 70 % Tantieme bei Amazon.de zwischen 2,99 € und 9,99 € |
+
+Im E-Book kann man nicht schreiben. Die Einleitung von Teil IV sagt dort
+deshalb, wie man die Vorlagen trotzdem nutzt (in ein Notizbuch übertragen) —
+der Text wird beim Bauen ersetzt, die Kapiteldateien bleiben unverändert.
 
 **KI-Angabe:** Der Text dieses Titels wurde mit Claude erzeugt und
 anschließend bearbeitet — beim Anlegen deshalb **„KI-erzeugter Text: ja"**
 angeben. Das Titelbild (`kopf/cover/titelbild.png`, Gehirn-Donut) wurde mit
 Higgsfield erzeugt — deshalb auch **„KI-erzeugte Bilder: ja"**. Titel und
-Rückseite sind in `kopf/build/build_cover.py` gesetzt.
+Rückseite sind in `kopf/build/build_cover.py` gesetzt. Beide Angaben gelten
+für alle drei Formate — Taschenbuch, Hardcover und Kindle.
 
 **Kategorien** — KDP erlaubt drei. Im Formular den Marktplatz **Amazon.de**
 wählen und nach den Begriffen suchen; die Knoten-IDs (aus den

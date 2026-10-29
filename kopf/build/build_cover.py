@@ -30,7 +30,8 @@ KOPF = WURZEL / "kopf"
 sys.path.insert(0, str(WURZEL / "buch" / "build"))
 
 from build_cover import (BARCODE_LUFT_MM, BESCHNITT_MM,  # noqa: E402
-                         RUECKEN_PRO_SEITE_MM, RUECKENTEXT_AB_SEITEN,
+                         BUCHDECKE_MM, HARDCOVER_MIN_SEITEN,
+                         RUECKEN_PRO_SEITE_MM, RUECKENTEXT_AB_SEITEN, WRAP_MM,
                          barcodefeld, klappentext_laden, seitenzahl)
 
 DPI = 300
@@ -477,16 +478,26 @@ def rueckseite(bild, x0, y0, b, h, feld, kopf_meta, absaetze, punkte):
                          "Klappentext kürzen.")
 
 
-def cover_bauen(cfg, seiten, ziel_pdf, ziel_png):
+def cover_bauen(cfg, seiten, ziel_pdf, ziel_png, *, hardcover=False):
+    """Baut Taschenbuch- oder Hardcover-Umschlag.
+
+    Beim Hardcover rechnet KDP anders (siehe buch/README.md): 18 mm
+    Umschlagrand statt 3,175 mm Anschnitt — er wird um die Buchdecke
+    geschlagen —, 9 mm mehr Rücken für Pappen und Falzrillen, ein
+    Barcodefeld, das um das Scharnier nach innen rückt, und Rückentext
+    unabhängig von der Seitenzahl.
+    """
     import fitz
 
     sf = cfg["seitenformat"]
     trim_b, trim_h = mm(sf["breite_mm"]), mm(sf["hoehe_mm"])
-    anschnitt = mm(BESCHNITT_MM)
-    ruecken_mm = seiten * RUECKEN_PRO_SEITE_MM
+    rand_mm = WRAP_MM if hardcover else BESCHNITT_MM
+    anschnitt = mm(rand_mm)
+    ruecken_mm = seiten * RUECKEN_PRO_SEITE_MM + (BUCHDECKE_MM if hardcover
+                                                  else 0)
     ruecken = mm(ruecken_mm)
-    gesamt_mm = (2 * sf["breite_mm"] + ruecken_mm + 2 * BESCHNITT_MM,
-                 sf["hoehe_mm"] + 2 * BESCHNITT_MM)
+    gesamt_mm = (2 * sf["breite_mm"] + ruecken_mm + 2 * rand_mm,
+                 sf["hoehe_mm"] + 2 * rand_mm)
     gesamt = (round(gesamt_mm[0] * PX_JE_MM), round(gesamt_mm[1] * PX_JE_MM))
 
     titelbild = titelbild_suchen()
@@ -508,7 +519,8 @@ def cover_bauen(cfg, seiten, ziel_pdf, ziel_png):
     # berechnen und in Pixel von oben umrechnen — dieselbe Geometrie wie bei
     # allen anderen Umschlägen des Projekts.
     pt = 72 / DPI
-    fx, fy, fb, fh = barcodefeld(anschnitt * pt, anschnitt * pt, trim_b * pt)
+    fx, fy, fb, fh = barcodefeld(anschnitt * pt, anschnitt * pt, trim_b * pt,
+                                 hardcover=hardcover)
     feld = (round(fx / pt), round(gesamt[1] - (fy + fh) / pt),
             round(fb / pt), round(fh / pt))
 
@@ -517,13 +529,17 @@ def cover_bauen(cfg, seiten, ziel_pdf, ziel_png):
     rueckseite(bild, anschnitt, anschnitt, trim_b, trim_h, feld,
                kopf_meta, absaetze, punkte)
 
-    mit_ruecken_text = seiten >= RUECKENTEXT_AB_SEITEN
+    mit_ruecken_text = hardcover or seiten >= RUECKENTEXT_AB_SEITEN
     if mit_ruecken_text:
         streifen = ebene((trim_h, ruecken))
         zs = ImageDraw.Draw(streifen)
-        f = schrift("SemiBold", ruecken * 0.5)
+        # Höchstens 5 mm Schriftgröße: Auf dem 13-mm-Rücken des Hardcovers
+        # wirkt halbe Rückenbreite wuchtig, und KDP will Abstand zu den Falzen.
+        f = schrift("SemiBold", min(ruecken * 0.38, mm(5)))
+        oberkante, _, _, unterkante = zs.textbbox((0, 0), cfg["titel"], font=f)
         zentriert(zs, f"{cfg['titel']}  ·  {cfg['autor']}", trim_h / 2,
-                  ruecken * 0.2, f, FARBE["text"])
+                  (ruecken - (unterkante - oberkante)) / 2 - oberkante, f,
+                  FARBE["text"])
         streifen = streifen.rotate(-90, expand=True)
         bild.paste(streifen, (anschnitt + trim_b, anschnitt), streifen)
 
@@ -534,7 +550,7 @@ def cover_bauen(cfg, seiten, ziel_pdf, ziel_png):
     vorderseite(bild, anschnitt + trim_b + ruecken, anschnitt, trim_b, trim_h,
                 cfg, titelbild)
 
-    bild.save(ziel_png.with_name("cover.png"))
+    bild.save(ziel_png.with_name(ziel_pdf.stem.replace("-druck", "") + ".png"))
     bild.resize((gesamt[0] // 4, gesamt[1] // 4), Image.LANCZOS).save(ziel_png)
 
     # Druckdatei: ein Bild, exakte Größe, keine Schriften, keine Transparenz.
@@ -550,7 +566,7 @@ def cover_bauen(cfg, seiten, ziel_pdf, ziel_png):
                       "producer": "", "creator": ""})
     pdf.save(str(ziel_pdf), garbage=4, deflate=True)
 
-    return {"gesamt_mm": gesamt_mm, "ruecken_mm": ruecken_mm,
+    return {"gesamt_mm": gesamt_mm, "ruecken_mm": ruecken_mm, "rand_mm": rand_mm,
             "ruecken_text": mit_ruecken_text, "px": gesamt,
             "titelbild": titelbild}
 
@@ -559,20 +575,34 @@ def main():
     cfg = yaml.safe_load((KOPF / "kopf.yaml").read_text(encoding="utf-8"))
     out = KOPF / "out"
     seiten = seitenzahl(out / f"{cfg['slug']}-druck.pdf")
-    ziel = out / "cover-druck.pdf"
-    masse = cover_bauen(cfg, seiten, ziel, out / "cover-vorschau.png")
 
-    b, h = masse["gesamt_mm"]
-    print(f"Taschenbuch — Innenteil: {seiten} Seiten")
-    print(f"Rückenbreite: {masse['ruecken_mm']:.2f} mm"
-          f"  (Rückentext: {'ja' if masse['ruecken_text'] else 'nein'})")
-    print(f"Umschlag gesamt: {b:.2f} x {h:.2f} mm "
-          f"= {b/25.4:.3f} x {h/25.4:.3f} Zoll, inkl. {BESCHNITT_MM} mm Anschnitt"
-          f", {masse['px'][0]} x {masse['px'][1]} px bei {DPI} dpi")
-    print("Titelbild: " + (str(masse["titelbild"].relative_to(WURZEL))
-                           if masse["titelbild"] else "keins, Wippe gezeichnet"))
-    print(f"  → {ziel.relative_to(WURZEL)}  (zu KDP hochladen)")
-    print(f"  → {(out / 'cover-vorschau.png').relative_to(WURZEL)}")
+    for hardcover in (False, True):
+        art = "Hardcover" if hardcover else "Taschenbuch"
+        name = "cover-hardcover" if hardcover else "cover"
+        if hardcover and seiten < HARDCOVER_MIN_SEITEN:
+            print(f"\n{art}: übersprungen — KDP verlangt mindestens "
+                  f"{HARDCOVER_MIN_SEITEN} Seiten, der Band hat {seiten}.")
+            continue
+        ziel = out / f"{name}-druck.pdf"
+        vorschau_png = out / f"{name}-vorschau.png"
+        masse = cover_bauen(cfg, seiten, ziel, vorschau_png,
+                            hardcover=hardcover)
+
+        b, h = masse["gesamt_mm"]
+        randname = ("Umschlagrand um die Buchdecke" if hardcover
+                    else "Anschnitt")
+        print(f"\n{art} — Innenteil: {seiten} Seiten")
+        print(f"Rückenbreite: {masse['ruecken_mm']:.2f} mm"
+              f"  (Rückentext: {'ja' if masse['ruecken_text'] else 'nein'})")
+        print(f"Umschlag gesamt: {b:.2f} x {h:.2f} mm "
+              f"= {b/25.4:.3f} x {h/25.4:.3f} Zoll, inkl. "
+              f"{masse['rand_mm']:.3f} mm {randname}"
+              f", {masse['px'][0]} x {masse['px'][1]} px bei {DPI} dpi")
+        print("Titelbild: " + (str(masse["titelbild"].relative_to(WURZEL))
+                               if masse["titelbild"]
+                               else "keins, Wippe gezeichnet"))
+        print(f"  → {ziel.relative_to(WURZEL)}  (zu KDP hochladen)")
+        print(f"  → {vorschau_png.relative_to(WURZEL)}")
 
 
 if __name__ == "__main__":

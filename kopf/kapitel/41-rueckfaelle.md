@@ -125,6 +125,33 @@ hast — deine Auslöser, deine Wenn-Dann-Pläne, dein tieferes Warum — ist no
 da. Nimm dir deine Notizen aus dem Arbeitsteil und steig dort wieder ein, wo es
 für dich passt.
 
+## Ausrutscher als Muster lesen
+
+Ein einzelner Ausrutscher sagt wenig. Mehrere Ausrutscher zusammen sagen viel.
+Wer sie nur einzeln betrachtet, sieht jedes Mal eine Niederlage. Wer sie
+nebeneinanderlegt, sieht eine Landkarte seiner schwierigen Momente.
+
+Schau dir deshalb nach einigen Wochen alle Ausrutscher an, die du notiert hast,
+und frag:
+
+- **Wann?** Gibt es eine Tageszeit oder einen Wochentag, der immer wieder
+  auftaucht — etwa der Freitagabend oder die Stunde nach der Arbeit?
+- **Wo?** Passiert es vor allem zu Hause, unterwegs, bei der Arbeit, bei
+  bestimmten Menschen?
+- **Was davor?** Welches Gefühl, welcher Körperzustand, welches Ereignis ging
+  voraus? Stress, Müdigkeit, ein Streit, zu lange nichts gegessen?
+- **Was danach?** Wie hast du reagiert, und wie lange hat es gedauert, bis du
+  wieder in deinem Plan warst?
+
+Meist zeigen sich zwei oder drei Muster, die den größten Teil der Ausrutscher
+erklären. Genau dort setzt du an — mit einem neuen Wenn-Dann-Plan, einer
+Veränderung in der Umgebung oder einer Ersatzbelohnung. So wird jeder
+Ausrutscher zu einer Information, die den nächsten unwahrscheinlicher macht.
+
+Ein gutes Zeichen ist übrigens nicht, dass gar keine Ausrutscher mehr
+passieren, sondern dass die Zeit bis zur Rückkehr kürzer wird: erst eine Woche,
+dann ein Tag, dann nur noch eine Mahlzeit.
+
 > Übung — Dein letzter Ausrutscher:
 >
 > Denk an deinen letzten Ausrutscher. Schreib auf, was du dir danach gesagt

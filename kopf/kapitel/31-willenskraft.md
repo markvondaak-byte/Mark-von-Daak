@@ -120,6 +120,34 @@ die alte sitzt, desto zuverlässiger zieht sie die neue mit.
 Fang klein an. Eine einzige neue Gewohnheit, die nach vier Wochen sicher läuft,
 bringt mehr als fünf, die nach einer Woche wieder vergessen sind.
 
+## Weniger entscheiden: Standardmahlzeiten
+
+Rund ums Essen treffen wir jeden Tag erstaunlich viele kleine Entscheidungen:
+Was frühstücke ich? Was nehme ich mit? Was koche ich heute Abend? Jede davon
+ist eine Gelegenheit, in alte Muster zu rutschen — vor allem, wenn sie spät,
+müde und hungrig getroffen wird.
+
+Viele Menschen, die ihr Gewicht dauerhaft halten, essen erstaunlich
+gleichförmig. Das ist keine Langeweile, sondern eine Strategie. Wer für ein
+oder zwei Mahlzeiten am Tag eine feste Auswahl hat, muss dort nicht mehr
+entscheiden.
+
+So legst du dir Standardmahlzeiten an:
+
+1. **Wähle eine Mahlzeit**, bei der du am häufigsten improvisierst — oft ist
+   es das Frühstück oder das Mittagessen bei der Arbeit.
+2. **Lege zwei oder drei Varianten fest**, die dir schmecken, satt machen und
+   schnell gehen. Mehr braucht es nicht.
+3. **Halte die Zutaten immer im Haus.** Sie stehen dauerhaft auf deiner
+   Einkaufsliste.
+4. **Wechsle nach Lust, nicht nach Plan.** Innerhalb deiner Auswahl ist alles
+   erlaubt. Wird dir eine Variante zu langweilig, ersetzt du sie durch eine
+   neue.
+
+Die Abwechslung verschiebt sich damit auf die Mahlzeiten, bei denen du Zeit und
+Ruhe hast — etwa auf das Abendessen am Wochenende. Dort darf und soll Essen
+Genuss sein.
+
 > Übung — Drei Wenn-Dann-Pläne:
 >
 > Nimm die drei häufigsten Auslöser aus deinem Verlangen-Protokoll. Formuliere

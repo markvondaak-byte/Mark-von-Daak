@@ -86,6 +86,49 @@ Abschluss des Abends: Zähne putzen, Küche schließen, ein Ritual, das signalis
 dass der Tag vorbei ist. Wenn du regelmäßig nachts aufwachst und essen musst,
 sprich mit deiner Ärztin oder deinem Arzt.
 
+## Ich habe keine Zeit zum Kochen. Was dann?
+
+Dann ist Vorbereitung wichtiger als Rezepte. Zwei Gerichte am Wochenende in
+größerer Menge kochen und portionsweise einfrieren, Gemüse schon geschnitten
+kaufen, einen kleinen Vorrat an einfachen Bausteinen anlegen: Eier, Joghurt,
+Konserven mit Hülsenfrüchten oder Fisch, Tiefkühlgemüse. Wer abends hungrig
+und ohne Plan nach Hause kommt, entscheidet sich fast immer für das Schnellste.
+Wer vorbereitet ist, für das Naheliegende.
+
+## Was sage ich, wenn andere mein Gewicht oder mein Essen kommentieren?
+
+Du schuldest niemandem eine Erklärung. Ein kurzes „Danke, ich komme gut
+zurecht“ beendet die meisten Gespräche. Gut gemeinte Kommentare über
+Fortschritte können übrigens genauso Druck machen wie Kritik. Wenn dich das
+belastet, darfst du sagen: „Ich rede gerade lieber nicht über mein Gewicht.“
+Mehr zum Umgang mit anderen steht in Kapitel 7.
+
+## Darf ich im Urlaub und an Feiertagen eine Pause machen?
+
+Ja — wenn du sie planst. Eine geplante Pause heißt Erhaltungsmodus: nicht
+abnehmen, nur nicht zunehmen. Du isst bewusst und genießt, ohne zu zählen, und
+behältst ein, zwei Gewohnheiten bei, die dir wichtig sind, etwa das Frühstück
+oder den täglichen Spaziergang. Eine ungeplante Pause dagegen endet oft mit dem
+Gedanken „Jetzt ist es auch egal“. Der Unterschied liegt nicht im Essen,
+sondern in der Entscheidung vorher.
+
+## Die Zahl auf der Waage stimmt — warum fühle ich mich trotzdem nicht wohl?
+
+Weil sich das Körperbild langsamer verändert als der Körper. Viele Menschen
+sehen sich noch lange mit den Augen ihres früheren Gewichts. Hilfreich ist,
+den Blick bewusst auf das zu lenken, was der Körper kann, statt nur darauf, wie
+er aussieht: Treppen ohne Pause, ein langer Spaziergang, besserer Schlaf. Wenn
+das Unwohlsein sehr stark ist oder du dich immer wieder abwertest, ist ein
+Gespräch mit einer Fachperson sinnvoll.
+
+## Soll ich jemandem von meinem Vorhaben erzählen?
+
+Ja, aber gezielt. Eine Person, die dich unterstützt und der du offen von
+Rückschlägen erzählen kannst, hilft mehr als eine große Ankündigung vor vielen
+Menschen. Wer seinen Plan vor allen verkündet, spürt bei jedem Ausrutscher
+zusätzlich den Blick der anderen. Wähle jemanden, der dich ermutigt, statt dich
+zu kontrollieren.
+
 ## Wie lange dauert es, bis sich etwas verändert?
 
 Die ersten Veränderungen im Denken spüren viele Menschen schon nach wenigen

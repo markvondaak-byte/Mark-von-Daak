@@ -123,6 +123,41 @@ Verborgenen, schnell und mit schlechtem Gewissen, wird oft groß.
 
 Und danach: Das Neustart-Protokoll aus Kapitel 8 gilt auch hier.
 
+## Stress und Schlaf: die zwei großen Verstärker
+
+Zwei Zustände machen fast jedes Gefühl stärker und jede Versuchung größer:
+Dauerstress und Schlafmangel. Wer müde und angespannt ist, hat weniger Abstand
+zu seinen Impulsen — das automatische System aus Kapitel 1 übernimmt dann
+leichter das Steuer. Deshalb lohnt es sich, nicht nur an einzelnen Abenden
+gegenzusteuern, sondern an diesen beiden Grundlagen zu arbeiten.
+
+**Stress im Alltag senken**
+
+- **Pausen einplanen:** Kurze Unterbrechungen über den Tag verteilt — fünf
+  Minuten am Fenster, ein Gang über den Flur, ein Glas Wasser — verhindern, dass
+  sich Anspannung bis zum Abend aufstaut.
+- **Übergänge schaffen:** Zwischen Arbeit und Feierabend fehlt oft eine
+  Schwelle. Ein kurzer Spaziergang, Umziehen oder zehn Minuten Musik markieren
+  das Ende des Arbeitstags. Ohne diese Schwelle übernimmt oft der Kühlschrank
+  die Aufgabe.
+- **Belastungen benennen:** Schreib die drei Dinge auf, die dich gerade am
+  meisten belasten. Manche lassen sich ändern, manche nicht. Schon die
+  Unterscheidung entlastet.
+
+**Besser schlafen**
+
+- **Feste Zeiten:** Möglichst jeden Tag zur ähnlichen Zeit ins Bett gehen und
+  aufstehen, auch am Wochenende.
+- **Abends herunterfahren:** Bildschirme eine halbe Stunde vor dem Schlafen
+  weglegen, das Schlafzimmer dunkel und eher kühl halten.
+- **Spätes Essen und Alkohol im Blick behalten:** Beides stört bei vielen
+  Menschen den Schlaf — und schlechter Schlaf erhöht am nächsten Tag den
+  Appetit.
+
+Wenn du über längere Zeit schlecht schläfst oder dich dauerhaft erschöpft
+fühlst, lass das ärztlich abklären. Hinter anhaltender Müdigkeit stecken
+manchmal Ursachen, die sich gut behandeln lassen.
+
 ## Wann du dir Hilfe holen solltest
 
 Wenn du merkst, dass du sehr häufig aus Gefühlen heraus isst, dabei die
