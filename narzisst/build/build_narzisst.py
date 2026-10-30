@@ -33,7 +33,7 @@ ISBN_MARKER = "{{ISBN}}"
 # Verlagsbüchern für das Impressum üblich und im Druck gut lesbar.
 IMPRESSUM_PT = 8.0
 IMPRESSUM_ANFANG = "Der Narzisst in meinem Bett\n"
-IMPRESSUM_ENDE = "Transparenzhinweis"
+IMPRESSUM_ENDE = "Markenhinweis"
 
 
 def isbn_einsetzen(kapitel, cfg, ebook=False):

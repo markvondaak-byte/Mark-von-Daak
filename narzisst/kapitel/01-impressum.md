@@ -67,7 +67,3 @@ Geschlechter und für gleichgeschlechtliche Beziehungen.
 **Markenhinweis:** Alle in diesem Buch genannten Marken, Produkt- und
 Firmennamen sind Eigentum ihrer jeweiligen Inhaber. Die Nennung erfolgt
 ausschließlich beschreibend.
-
-**Transparenzhinweis:** Der Autor ist als selbstständiger Vertriebspartner für
-Nahrungsergänzungsmittel tätig. Dieses Buch steht damit in keinem
-Zusammenhang und enthält keine Produktempfehlungen.

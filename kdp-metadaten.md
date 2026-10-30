@@ -497,7 +497,9 @@ Copyright, Herausgeber im Selbstverlag mit Anschrift und USt-IdNr.,
 Verantwortlicher nach den Pressegesetzen, Umschlag und Druck, Hinweis der
 Deutschen Nationalbibliothek, Urheberrecht mit Vorbehalt gegen Text und Data
 Mining (§ 44b UrhG), Haftungsausschluss, Hinweise zu Rufnummern, Rechtslage,
-Fallbeispielen, Sprache und Marken sowie der Transparenzhinweis.
+Fallbeispielen, Sprache und Marken. Ohne Transparenzhinweis zur
+Vertriebstätigkeit — auf Wunsch herausgenommen; das Buch hat mit dem Thema
+Nahrungsergänzung nichts zu tun.
 
 **ISBN:** KDP vergibt beim Anlegen kostenlos je eine ISBN für Taschenbuch
 und Hardcover. Beide in `narzisst/narzisst.yaml` unter `isbn:` eintragen und
