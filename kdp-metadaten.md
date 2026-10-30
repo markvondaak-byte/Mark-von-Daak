@@ -492,10 +492,25 @@ Gerade bei diesem Thema hat das E-Book einen eigenen Wert: Wer noch mit dem
 Partner zusammenlebt, liest es unauffälliger als ein Buch auf dem Nachttisch.
 Das Vorwort sagt das ausdrücklich.
 
-**Impressum:** übernommen aus „Pauli und das kleine Licht“ — Titel und
-Untertitel, Anschrift, E-Mail, „Verantwortlich für den Inhalt nach den
-Pressegesetzen“, Rechtevermerk und der Hinweis, dass die Fallbeispiele
-erfunden sind.
+**Impressum:** ausführlich, in 8 pt auf einer Seite — Auflage und
+Copyright, Herausgeber im Selbstverlag mit Anschrift und USt-IdNr.,
+Verantwortlicher nach den Pressegesetzen, Umschlag und Druck, Hinweis der
+Deutschen Nationalbibliothek, Urheberrecht mit Vorbehalt gegen Text und Data
+Mining (§ 44b UrhG), Haftungsausschluss, Hinweise zu Rufnummern, Rechtslage,
+Fallbeispielen, Sprache und Marken sowie der Transparenzhinweis.
+
+**ISBN:** KDP vergibt beim Anlegen kostenlos je eine ISBN für Taschenbuch
+und Hardcover. Beide in `narzisst/narzisst.yaml` unter `isbn:` eintragen und
+`build_narzisst.py` erneut laufen lassen — die Zeile erscheint dann im
+Impressum. Solange nichts eingetragen ist, fehlt sie; das ist zulässig. Das
+E-Book bekommt keine ISBN, sondern eine ASIN; dort bleibt die Zeile immer weg.
+
+**Pflichtexemplare:** Wer in Deutschland ein Buch mit ISBN verlegt, muss
+Pflichtexemplare an die Deutsche Nationalbibliothek abgeben (bei
+Druckwerken zwei Exemplare, dazu je nach Bundesland eines an die
+Landesbibliothek; für Wolfsburg die GWLB Hannover). Erst dann trifft der
+DNB-Hinweis im Impressum vollständig zu. Die genauen Regeln stehen auf
+dnb.de unter „Ablieferung“.
 
 **KI-Angabe:** Der Text wurde mit Claude erzeugt und anschließend bearbeitet —
 **„KI-erzeugter Text: ja“**. Das Titelbild (`narzisst/cover/titelbild.png`,

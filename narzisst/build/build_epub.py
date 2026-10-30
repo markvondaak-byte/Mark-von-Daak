@@ -31,6 +31,9 @@ sys.path.insert(0, str(WURZEL / "buch" / "build"))
 import build_epub as reihe  # noqa: E402
 from build_docx import kapitel_laden  # noqa: E402
 
+sys.path.insert(0, str(BAND / "build"))
+from build_narzisst import isbn_einsetzen  # noqa: E402
+
 KINDLE_PX = (1600, 2560)
 
 # Fest vergeben und über Auflagen hinweg stabil halten.
@@ -78,6 +81,7 @@ def main():
     umschlag = kindle_cover_bauen(cfg, out / "kindle-cover.jpg")
 
     kapitel = kapitel_laden(BAND / "kapitel")
+    isbn_einsetzen(kapitel, cfg, ebook=True)   # E-Book: ASIN statt ISBN
     ziel = out / f"{cfg['slug']}-kindle.epub"
     ziel, eintraege = reihe.band1_bauen(cfg, kapitel, umschlag, ziel)
     verzeichnis = sum(1 for e in eintraege if e["im_verzeichnis"])
