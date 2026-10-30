@@ -28,11 +28,6 @@ Anschrift wie oben.
 **Druck und Auslieferung:** Amazon Kindle Direct Publishing; der Druckort ist
 auf der letzten Seite dieses Buches vermerkt.
 
-**Bibliografische Information der Deutschen Nationalbibliothek:** Die
-Deutsche Nationalbibliothek verzeichnet diese Publikation in der Deutschen
-Nationalbibliografie; detaillierte bibliografische Daten sind im Internet über
-dnb.d-nb.de abrufbar.
-
 **Urheberrecht:** Dieses Werk einschließlich aller seiner Teile ist
 urheberrechtlich geschützt. Jede Verwertung außerhalb der engen Grenzen des
 Urheberrechtsgesetzes ist ohne schriftliche Zustimmung des Autors unzulässig.

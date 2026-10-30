@@ -494,8 +494,7 @@ Das Vorwort sagt das ausdrücklich.
 
 **Impressum:** ausführlich, in 8 pt auf einer Seite — Auflage und
 Copyright, Herausgeber im Selbstverlag mit Anschrift und USt-IdNr.,
-Verantwortlicher nach den Pressegesetzen, Umschlag und Druck, Hinweis der
-Deutschen Nationalbibliothek, Urheberrecht mit Vorbehalt gegen Text und Data
+Verantwortlicher nach den Pressegesetzen, Umschlag und Druck, Urheberrecht mit Vorbehalt gegen Text und Data
 Mining (§ 44b UrhG), Haftungsausschluss, Hinweise zu Rufnummern, Rechtslage,
 Fallbeispielen, Sprache und Marken. Ohne Transparenzhinweis zur
 Vertriebstätigkeit — auf Wunsch herausgenommen; das Buch hat mit dem Thema
@@ -510,9 +509,9 @@ E-Book bekommt keine ISBN, sondern eine ASIN; dort bleibt die Zeile immer weg.
 **Pflichtexemplare:** Wer in Deutschland ein Buch mit ISBN verlegt, muss
 Pflichtexemplare an die Deutsche Nationalbibliothek abgeben (bei
 Druckwerken zwei Exemplare, dazu je nach Bundesland eines an die
-Landesbibliothek; für Wolfsburg die GWLB Hannover). Erst dann trifft der
-DNB-Hinweis im Impressum vollständig zu. Die genauen Regeln stehen auf
-dnb.de unter „Ablieferung“.
+Landesbibliothek; für Wolfsburg die GWLB Hannover). Die Pflicht gilt
+unabhängig davon, ob im Impressum ein DNB-Hinweis steht — der ist auf Wunsch
+herausgenommen. Die genauen Regeln stehen auf dnb.de unter „Ablieferung“.
 
 **KI-Angabe:** Der Text wurde mit Claude erzeugt und anschließend bearbeitet —
 **„KI-erzeugter Text: ja“**. Das Titelbild (`narzisst/cover/titelbild.png`,
