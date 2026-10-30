@@ -498,11 +498,22 @@ Pressegesetzen“, Rechtevermerk und der Hinweis, dass die Fallbeispiele
 erfunden sind.
 
 **KI-Angabe:** Der Text wurde mit Claude erzeugt und anschließend bearbeitet —
-**„KI-erzeugter Text: ja“**. Das Umschlagmotiv (Spiegel, Krone, Sprung) ist
-kein Foto und kein Bildgenerator-Ergebnis, sondern in
-`narzisst/build/build_cover.py` per Programm gezeichnet; das Programm wurde
-ebenfalls mit Claude geschrieben. Im Zweifel vorsichtig angeben:
-**„KI-erzeugte Bilder: ja“**. Beide Angaben gelten für alle drei Formate.
+**„KI-erzeugter Text: ja“**. Das Titelbild (`narzisst/cover/titelbild.png`,
+dunkles Schlafzimmer um 3:33 Uhr) wurde mit Higgsfield erzeugt —
+**„KI-erzeugte Bilder: ja“**. Titel und Rückseite sind in
+`narzisst/build/build_cover.py` gesetzt. Beide Angaben gelten für alle drei
+Formate.
+
+**Titelbild:** Die Vorlage trug unten rechts das Higgsfield-Wasserzeichen; es
+ist herausgeschnitten (der Streifen war fast schwarz). Ein Wasserzeichen
+deutet oft auf einen kostenlosen Tarif hin — vor dem Upload prüfen, ob der
+eigene Higgsfield-Tarif die **kommerzielle Nutzung** auf einem Buchumschlag
+erlaubt. Die Vorlage hat nur 896 × 1110 px und wird beim Bauen um den Faktor
+2,5 (Taschenbuch) bzw. 2,8 (Hardcover) hochgerechnet; das körnige Motiv
+verträgt das, gestochen scharf wird es dadurch nicht. Eine größere Fassung
+(mindestens 2100 × 2600 px) einfach unter demselben Namen ablegen und
+`build_cover.py` und `build_epub.py` erneut laufen lassen. Ohne Titelbild
+zeichnet das Skript den gesprungenen Spiegel.
 
 **Über den Autor (KDP-Feld, für diesen Titel):**
 

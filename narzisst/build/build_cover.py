@@ -11,8 +11,13 @@ kopf/build/build_cover.py. Gesetzt wird wie dort direkt als Rasterbild bei
 300 dpi und als einzelnes Bild in ein PDF exakter Größe gelegt: keine
 Schriften, keine Transparenz, keine Ebenen.
 
-Motiv: ein ovaler Spiegel im Goldrahmen mit kleiner Krone, quer gesprungen —
-Narziss und sein Spiegelbild, und das Bild, das zerbricht.
+Motiv: das Foto unter narzisst/cover/titelbild.png — ein dunkles
+Schlafzimmer um 3:33 Uhr, eine Person allein unter der Decke. Ohne Foto
+zeichnet das Skript einen gesprungenen Spiegel mit Krone.
+
+Das Foto ist mit Higgsfield erzeugt; das Wasserzeichen unten rechts ist aus
+der Vorlage herausgeschnitten (der Streifen war fast schwarz, vom Motiv fehlt
+nichts). Die Vorlage hat 896 × 1110 px und wird beim Bauen hochgerechnet.
 """
 
 import importlib.util
@@ -73,6 +78,66 @@ AUTOR_KURZ = ("Mark von Daak lebt in Wolfsburg und schreibt Ratgeber über die "
               "Themen, an denen Menschen im Alltag scheitern. Er ist kein "
               "Psychologe — dieses Buch übersetzt Forschung und "
               "Beratungspraxis in klare Worte.")
+
+
+# Farben, wenn das Foto den Umschlag trägt: kühles Blaugrau statt Aubergine,
+# damit Rücken und Rückseite zum Foto passen. Rosé bleibt als Akzent — der
+# einzige warme Ton auf dem Umschlag.
+FOTO_FARBE = {
+    "text_leise": (196, 206, 218),
+    "linie": (72, 88, 106),
+}
+
+# Ab diesem Anteil der Höhe wird das Foto nach unten abgedunkelt, damit der
+# Titel auf ruhigem Grund steht. Gerechnet ins Bild, nicht als transparente
+# Ebene — die Druckdatei darf keine Transparenz enthalten.
+ABDUNKELN_AB = 0.50
+
+
+def titelbild_suchen():
+    for endung in (".png", ".jpg", ".jpeg", ".webp"):
+        pfad = BAND / "cover" / f"titelbild{endung}"
+        if pfad.exists():
+            return pfad
+    return None
+
+
+# Wo der Ausschnitt waagerecht sitzt, wenn das Foto breiter ist als die
+# Vorderseite: 0 = linker Rand, 0,5 = Mitte. Etwas links der Mitte, damit
+# Kopfteil und Kopf der schlafenden Person im Bild bleiben; das Fenster
+# rechts bleibt trotzdem ganz sichtbar.
+AUSSCHNITT_X = 0.3
+
+
+def titelbild_einsetzen(bild, pfad, x0, breite, ueberblendung):
+    """Wie kopf/build/build_cover.py, aber mit waagerechtem Anker."""
+    foto = Image.open(pfad).convert("RGB")
+    hoehe = bild.height
+    faktor = max(breite / foto.width, hoehe / foto.height)
+    if faktor > 1.05:
+        print(f"  Titelbild wird um den Faktor {faktor:.2f} hochgerechnet "
+              f"({foto.width} x {foto.height} px Vorlage).")
+    foto = foto.resize((round(foto.width * faktor), round(foto.height * faktor)),
+                       Image.LANCZOS)
+    links = round((foto.width - breite) * AUSSCHNITT_X)
+    oben = (foto.height - hoehe) // 2
+    foto = foto.crop((links, oben, links + breite, oben + hoehe))
+    maske = Image.new("L", (breite, hoehe), 255)
+    z = ImageDraw.Draw(maske)
+    for i in range(ueberblendung):
+        z.line((i, 0, i, hoehe), fill=round(255 * i / ueberblendung))
+    bild.paste(foto, (x0, 0), maske)
+
+
+def abdunkeln(bild, x0, y0, b, h, grund):
+    """Unterer Teil der Vorderseite läuft in den Grundton aus."""
+    start = round(y0 + h * ABDUNKELN_AB)
+    maske = Image.new("L", bild.size, 0)
+    z = ImageDraw.Draw(maske)
+    for y in range(start, bild.height):
+        t = min(1.0, (y - start) / (h * 0.30))
+        z.line((x0, y, x0 + b, y), fill=round(255 * 0.82 * t ** 1.3))
+    bild.paste(grund, (0, 0), maske)
 
 
 # --- Motiv -------------------------------------------------------------------
@@ -219,17 +284,22 @@ def motiv(bild, x0, y0, b, h):
 
 
 # --- Seiten ------------------------------------------------------------------
-def vorderseite(bild, x0, y0, b, h, cfg):
-    motiv_ende = motiv(bild, x0, y0, b, h)
+def vorderseite(bild, x0, y0, b, h, cfg, foto=False, titel_y=None):
+    lage = cfg.get("cover", {})
+    if foto:
+        titel_max = lage.get("titel_max_px", 200)
+        y = y0 + h * (titel_y or lage.get("titel_y", 0.585))
+    else:
+        motiv_ende = motiv(bild, x0, y0, b, h)
+        titel_max = 230
+        y = max(motiv_ende + h * 0.035, y0 + h * 0.47)
     z = ImageDraw.Draw(bild)
     mitte = x0 + b / 2
     rand = b * 0.10
 
-    lage = cfg.get("cover", {})
     zeilen = lage.get("titelzeilen") or [cfg["titel"]]
-    font = passend(z, zeilen[:-1] or zeilen, "Black", 230, b - 2 * rand)
+    font = passend(z, zeilen[:-1] or zeilen, "Black", titel_max, b - 2 * rand)
     letzte = schrift("Black", font.size * 1.22)
-    y = max(motiv_ende + h * 0.035, y0 + h * 0.47)
     for zeile in zeilen[:-1]:
         zentriert(z, zeile, mitte, y, font, FARBE["text"])
         y += font.size * 1.04
@@ -337,7 +407,16 @@ def cover_bauen(cfg, seiten, ziel_pdf, ziel_png, *, hardcover=False):
                  sf["hoehe_mm"] + 2 * rand_mm)
     gesamt = (round(gesamt_mm[0] * PX_JE_MM), round(gesamt_mm[1] * PX_JE_MM))
 
-    bild = verlauf(*gesamt, FARBE["grund_oben"], FARBE["grund_unten"])
+    titelbild = titelbild_suchen()
+    oben, unten = FARBE["grund_oben"], FARBE["grund_unten"]
+    if titelbild:
+        foto = Image.open(titelbild)
+        oben, unten = K.randfarbe(foto, "oben"), K.randfarbe(foto, "unten")
+        # Rückseite etwas aufhellen: Das Foto läuft unten in fast reines
+        # Schwarz aus, und auf Schwarz wirkt der Klappentext hart.
+        unten = tuple(max(c, w) for c, w in zip(unten, (14, 18, 24)))
+        FARBE.update(FOTO_FARBE)
+    bild = verlauf(*gesamt, oben, unten)
 
     pt = 72 / DPI
     fx, fy, fb, fh = barcodefeld(anschnitt * pt, anschnitt * pt, trim_b * pt,
@@ -362,8 +441,13 @@ def cover_bauen(cfg, seiten, ziel_pdf, ziel_png, *, hardcover=False):
         streifen = streifen.rotate(-90, expand=True)
         bild.paste(streifen, (anschnitt + trim_b, anschnitt), streifen)
 
-    vorderseite(bild, anschnitt + trim_b + ruecken, anschnitt, trim_b, trim_h,
-                cfg)
+    vorne = anschnitt + trim_b + ruecken
+    if titelbild:
+        titelbild_einsetzen(bild, titelbild, vorne, gesamt[0] - vorne,
+                              ueberblendung=mm(6))
+        abdunkeln(bild, vorne, anschnitt, gesamt[0] - vorne, trim_h, unten)
+    vorderseite(bild, vorne, anschnitt, trim_b, trim_h, cfg,
+                foto=bool(titelbild))
 
     bild.save(ziel_png.with_name(ziel_pdf.stem.replace("-druck", "") + ".png"))
     bild.resize((gesamt[0] // 4, gesamt[1] // 4), Image.LANCZOS).save(ziel_png)
@@ -381,7 +465,7 @@ def cover_bauen(cfg, seiten, ziel_pdf, ziel_png, *, hardcover=False):
 
     return {"gesamt_mm": gesamt_mm, "ruecken_mm": ruecken_mm,
             "rand_mm": rand_mm, "ruecken_text": mit_ruecken_text,
-            "px": gesamt}
+            "px": gesamt, "titelbild": titelbild}
 
 
 def main():
@@ -410,6 +494,9 @@ def main():
               f"= {b/25.4:.3f} x {h/25.4:.3f} Zoll, inkl. "
               f"{masse['rand_mm']:.3f} mm {randname}"
               f", {masse['px'][0]} x {masse['px'][1]} px bei {DPI} dpi")
+        print("Titelbild: " + (str(masse["titelbild"].relative_to(WURZEL))
+                               if masse["titelbild"]
+                               else "keins, Spiegel gezeichnet"))
         print(f"  → {ziel.relative_to(WURZEL)}  (zu KDP hochladen)")
         print(f"  → {vorschau_png.relative_to(WURZEL)}")
 

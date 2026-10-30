@@ -10,8 +10,8 @@ Eigen sind:
 
 - **Kennung:** eine eigene UUID, damit Amazon den Titel nicht mit einem
   anderen verwechselt.
-- **Farben:** Aubergine und Rosé wie auf dem Umschlag statt des Grüns der
-  Reihe. Auf Graustufendisplays bleiben alle Töne unterscheidbar.
+- **Farben:** Aubergine und Rosé statt des Grüns der Reihe. Auf
+  Graustufendisplays bleiben alle Töne unterscheidbar.
 
 Dazu das Kindle-Titelbild: 1600 × 2560 Pixel (Seitenverhältnis 1,6, Amazons
 Empfehlung), mit denselben Funktionen gesetzt wie der gedruckte Umschlag.
@@ -54,12 +54,18 @@ def umschlag_modul():
 def kindle_cover_bauen(cfg, ziel):
     uc = umschlag_modul()
     breite, hoehe = KINDLE_PX
-    bild = uc.verlauf(breite, hoehe, uc.FARBE["grund_oben"],
-                      uc.FARBE["grund_unten"])
-    # Die Vorderseite ist für 1800 × 2700 px (6 × 9 Zoll bei 300 dpi) gesetzt;
-    # auf dieser Leinwand mit Seitenverhältnis 1,6 gewinnt sie oben und unten
-    # etwas Luft.
-    uc.vorderseite(bild, 0, 0, breite, hoehe, cfg)
+    titelbild = uc.titelbild_suchen()
+    oben, unten = uc.FARBE["grund_oben"], uc.FARBE["grund_unten"]
+    if titelbild:
+        foto = Image.open(titelbild)
+        oben, unten = uc.K.randfarbe(foto, "oben"), uc.K.randfarbe(foto, "unten")
+    bild = uc.verlauf(breite, hoehe, oben, unten)
+    if titelbild:
+        uc.titelbild_einsetzen(bild, titelbild, 0, breite, ueberblendung=0)
+        uc.abdunkeln(bild, 0, 0, breite, hoehe, unten)
+    # Schmaler und höher als 6 × 9 Zoll: Der Titel beginnt etwas weiter oben.
+    uc.vorderseite(bild, 0, 0, breite, hoehe, cfg, foto=bool(titelbild),
+                   titel_y=0.56)
     bild.save(ziel, "JPEG", quality=92, optimize=True)
     return ziel
 
