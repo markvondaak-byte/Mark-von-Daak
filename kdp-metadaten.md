@@ -576,7 +576,7 @@ Zum Tauschen, falls ein Begriff nach ein paar Wochen nichts bringt:
 `toxische ex partnerin`
 
 **Beschreibung:** `narzisst/cover/amazon-beschreibung.md` — die HTML-Fassung
-dort direkt ins KDP-Feld kopieren (2.302 von 4.000 Zeichen).
+dort direkt ins KDP-Feld kopieren (3.192 von 4.000 Zeichen inklusive HTML). Dort steht auch eine Zusammenfassung mit 766 Zeichen für A+-Inhalte, Pressetext und Social Media.
 
 **Was bei diesem Titel nicht hineingehört:** keine Ferndiagnosen über reale
 Personen, kein „So entlarvst du jeden Narzissten“, keine Heilversprechen und
