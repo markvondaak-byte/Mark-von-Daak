@@ -14,3 +14,4 @@ dist/
 
 # Versehentlich heruntergeladene Pakete
 *.tar.gz
+narzisst/out/
