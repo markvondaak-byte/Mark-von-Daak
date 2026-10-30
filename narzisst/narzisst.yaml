@@ -1,0 +1,38 @@
+# Metadaten — Der Narzisst in meinem Bett.
+# Eigenständiger Titel, kein Band der Stoffwechsel-Reset-Reihe.
+# Wird von narzisst/build/build_narzisst.py, build_cover.py und build_epub.py
+# gelesen.
+
+titel: "Der Narzisst in meinem Bett"
+untertitel: "Narzisstischen Missbrauch erkennen, verstehen und sich lösen"
+autor: "Mark von Daak"
+sprache: de
+version: "1.0"
+jahr: 2026
+
+slug: der-narzisst-in-meinem-bett
+
+# Gleicher Satzspiegel wie „Kopf schlägt Kalorien" — 6 × 9 Zoll steht in KDPs
+# Auswahlliste für Taschenbuch und Hardcover.
+seitenformat:
+  breite_mm: 152.4      # 6 Zoll
+  hoehe_mm: 228.6       # 9 Zoll
+  rand_innen_mm: 20.0
+  rand_aussen_mm: 16.0
+  rand_oben_mm: 18.0
+  rand_unten_mm: 18.0
+
+impressum:
+  name: "Mark von Daak"
+  strasse: "Rabenbergstraße 16"
+  ort: "38444 Wolfsburg"
+  land: "Deutschland"
+  email: "markvondaak@icloud.com"
+  ustid: "DE319920422"
+
+# Satz der Vorderseite. Zeilen bewusst von Hand umbrochen: Der Titel steht in
+# drei Zeilen, die letzte in der Akzentfarbe.
+cover:
+  titelzeilen: ["Der Narzisst", "in meinem", "Bett"]
+  untertitelzeilen: ["Narzisstischen Missbrauch erkennen,",
+                     "verstehen und sich lösen"]
