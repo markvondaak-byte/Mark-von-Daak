@@ -571,9 +571,10 @@ liebeskummer heilen selbstliebe vertrauen lernen
 ```
 
 Zum Tauschen, falls ein Begriff nach ein paar Wochen nichts bringt:
-`emotionale erpressung partner` · `verdeckter narzissmus erkennen` ·
+`emotionale erpressung partner` · `verdeckter narzissmus ehe` ·
 `nach der trennung neu anfangen` · `angehörige helfen gewalt` ·
-`toxische ex partnerin`
+`toxische ex partnerin` — vor dem Tauschen prüfen, dass kein Wort doppelt
+vorkommt (etwa „narzissmus“ nur in einem Feld)
 
 **Beschreibung:** `narzisst/cover/amazon-beschreibung.md` — die HTML-Fassung
 dort direkt ins KDP-Feld kopieren (3.192 von 4.000 Zeichen inklusive HTML). Dort steht auch eine Zusammenfassung mit 766 Zeichen für A+-Inhalte, Pressetext und Social Media.
