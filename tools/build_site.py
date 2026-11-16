@@ -3,10 +3,21 @@
 
     python3 tools/build_site.py
 
-Warum überhaupt ein Build: Im Repository liegen neben der Website auch die
-Quellen der drei Bücher (buch/, workbook/, rezepte/) und die Build-Skripte.
-Die gehören nicht ins Netz. Dieses Skript kopiert deshalb gezielt nur das,
-was ausgeliefert werden soll, nach dist/.
+Veröffentlicht wird ausschließlich **Mark von Daak – Personal Training**
+unter https://markvondaak-coaching.de:
+
+| Pfad        | Quelle                                   |
+|-------------|------------------------------------------|
+| `/`         | `personal-training/` (Startseite, Danke-, |
+|             | Fehlerseite, Impressum, Datenschutz,     |
+|             | Bilder, Schriften, robots.txt, Sitemap)  |
+| `/coaching/`| App SMART Coaching samt Coach-Ansicht    |
+
+Die FitLine-Seite „Vital und fit mit Mark“ (`index.html`, `impressum.html`,
+`datenschutz.html`, `assets/`), die Stoffwechsel-Reset-App (`app/`), das
+Kontakttool (`business/`) und die Buchquellen bleiben im Repository, werden
+hier aber bewusst **nicht** ausgeliefert. Das Skript bricht mit einem Fehler
+ab, falls doch etwas davon in `dist/` landet.
 
 Nutzt ausschließlich die Standardbibliothek — auf Netlify muss dafür nichts
 installiert werden.
@@ -19,24 +30,10 @@ from pathlib import Path
 WURZEL = Path(__file__).resolve().parents[1]
 ZIEL = WURZEL / "dist"
 
-# Einzelne Dateien aus dem Wurzelverzeichnis.
-DATEIEN = [
-    "index.html",
-    "impressum.html",
-    "datenschutz.html",
-    "robots.txt",
-    "sitemap.xml",
-    "404.html",
-]
-
-# Ganze Verzeichnisse. Der zweite Wert nennt Unterordner, die drinbleiben
-# sollen — Build-Skripte haben auf dem Server nichts verloren.
+# (Quelle, Ziel in dist/, ausgenommene Dateien/Ordner)
 VERZEICHNISSE = [
-    ("assets", set()),
-    ("personal-training", set()),
-    ("app", {"build"}),
-    ("business", {"build"}),
-    ("coaching", {"build", "README.md"}),
+    ("personal-training", ".", set()),
+    ("coaching", "coaching", {"build", "README.md"}),
 ]
 
 
@@ -46,50 +43,45 @@ def kopieren():
     ZIEL.mkdir(parents=True)
 
     kopiert, fehlend = [], []
-
-    for name in DATEIEN:
-        quelle = WURZEL / name
-        if not quelle.exists():
-            fehlend.append(name)
-            continue
-        shutil.copy2(quelle, ZIEL / name)
-        kopiert.append((name, quelle.stat().st_size))
-
-    for name, ausnehmen in VERZEICHNISSE:
-        quelle = WURZEL / name
+    for quelle_name, ziel_name, ausnehmen in VERZEICHNISSE:
+        quelle = WURZEL / quelle_name
         if not quelle.is_dir():
-            fehlend.append(name + "/")
+            fehlend.append(quelle_name + "/")
             continue
+        ziel = ZIEL / ziel_name
         shutil.copytree(
-            quelle, ZIEL / name,
+            quelle, ziel, dirs_exist_ok=True,
             ignore=shutil.ignore_patterns(*ausnehmen, "__pycache__", "*.pyc",
                                           ".DS_Store"),
         )
-        groesse = sum(p.stat().st_size for p in (ZIEL / name).rglob("*")
-                      if p.is_file())
-        anzahl = sum(1 for p in (ZIEL / name).rglob("*") if p.is_file())
-        kopiert.append((f"{name}/  ({anzahl} Dateien)", groesse))
-
+        dateien = [p for p in quelle.rglob("*") if p.is_file()
+                   and not any(teil in ausnehmen for teil in p.relative_to(quelle).parts)]
+        kopiert.append((f"{quelle_name}/ → /{'' if ziel_name == '.' else ziel_name + '/'}"
+                        f"  ({len(dateien)} Dateien)",
+                        sum(p.stat().st_size for p in dateien)))
     return kopiert, fehlend
 
 
 def pruefen():
-    """Sicherheitsnetz: Wenn Buchquellen im dist landen, ist etwas faul."""
-    verboten = ["buch", "workbook", "rezepte", "tools", ".git", ".claude"]
+    """Sicherheitsnetz: Nichts von FitLine und keine Buchquellen im dist."""
+    verboten = ["app", "business", "assets", "buch", "workbook", "rezepte",
+                "kopf", "tools", "marke", "personal-training", ".git",
+                ".claude", ".netlify"]
     treffer = [v for v in verboten if (ZIEL / v).exists()]
     if treffer:
         print(f"\nFEHLER: Diese Verzeichnisse dürfen nicht veröffentlicht "
               f"werden: {', '.join(treffer)}")
         return False
 
-    # Die App braucht ihre Daten, sonst startet sie beim Nutzer nicht.
-    pflicht = ["app/index.html", "app/app.js", "app/app.css", "app/sw.js",
-               "app/manifest.webmanifest", "app/daten/programm.json",
-               "app/daten/rezepte.json", "app/daten/wissen.json",
-               "app/icons/icon-192.png", "app/icons/icon-512.png",
-               "business/index.html", "business/app.js", "business/app.css",
-               "business/sw.js", "business/manifest.webmanifest",
-               "business/icons/icon-192.png", "business/icons/icon-512.png",
+    fitline = [p.relative_to(ZIEL).as_posix() for p in ZIEL.rglob("*.html")
+               if "FitLine" in p.read_text(encoding="utf-8", errors="ignore")]
+    if fitline:
+        print(f"\nFEHLER: FitLine wird erwähnt in: {', '.join(fitline)}")
+        return False
+
+    pflicht = ["index.html", "danke.html", "404.html", "impressum.html",
+               "datenschutz.html", "recht.css", "robots.txt", "sitemap.xml",
+               "img/pin.png", "img/og.jpg", "fonts/inter-400.woff2",
                "coaching/index.html", "coaching/app.js", "coaching/app.css",
                "coaching/sw.js", "coaching/manifest.webmanifest",
                "coaching/daten/uebungen.json", "coaching/daten/lebensmittel.json",
@@ -97,8 +89,7 @@ def pruefen():
                "coaching/coach/index.html", "coaching/coach/coach.js",
                "coaching/recht/impressum.html", "coaching/recht/datenschutz.html",
                "coaching/recht/agb.html",
-               "coaching/icons/icon-192.png", "coaching/icons/icon-512.png",
-               "index.html"]
+               "coaching/icons/icon-192.png", "coaching/icons/icon-512.png"]
     fehlt = [p for p in pflicht if not (ZIEL / p).exists()]
     if fehlt:
         print(f"\nFEHLER: Im dist fehlen: {', '.join(fehlt)}")
@@ -111,7 +102,7 @@ def main():
     kopiert, fehlend = kopieren()
 
     for name, groesse in kopiert:
-        print(f"  {name:34s} {groesse / 1024:8.1f} KB")
+        print(f"  {name:48s} {groesse / 1024:8.1f} KB")
 
     if fehlend:
         print(f"\n  Nicht gefunden (übersprungen): {', '.join(fehlend)}")
