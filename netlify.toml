@@ -118,16 +118,6 @@
 # --- Umleitungen ---------------------------------------------------------------
 # Bequeme Kurzlinks zu den Apps.
 [[redirects]]
-  from = "/app"
-  to = "/app/"
-  status = 301
-
-[[redirects]]
-  from = "/business"
-  to = "/business/"
-  status = 301
-
-[[redirects]]
   from = "/coaching"
   to = "/coaching/"
   status = 301
