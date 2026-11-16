@@ -1,9 +1,11 @@
 # Hosting bei Netlify
 
-**Live:** <https://mark-von-daak.netlify.app> · Personal Training unter
-<https://mark-von-daak.netlify.app/personal-training/> · Netlify-Projekt
-`mark-von-daak` im Team `markvondaak-byte` (Formulare aktiviert, kein
-Login-Schutz).
+**Live:** <https://markvondaak-coaching.de> · Personal Training unter
+<https://markvondaak-coaching.de/personal-training/> · Netlify-Projekt
+`mark-von-daak` im Team `markvondaak-byte` (Anmeldung bei Netlify über
+GitHub; Formulare aktiviert, kein Login-Schutz). Die Domain liegt bei IONOS:
+A-Eintrag `@` → `75.2.60.5`, CNAME `www` → `mark-von-daak.netlify.app`.
+<https://mark-von-daak.netlify.app> leitet auf die Domain weiter.
 
 Das Projekt wurde per Upload veröffentlicht und ist noch **nicht mit GitHub
 verbunden**: Ein Push baut also nicht automatisch neu. Dafür in Netlify unter
