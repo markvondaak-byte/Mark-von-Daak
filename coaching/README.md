@@ -4,7 +4,7 @@ Eine **PWA**: läuft im Browser, lässt sich auf dem Homescreen installieren und
 funktioniert nach dem ersten Aufruf offline. Kein Framework, kein Build-Schritt,
 keine Abhängigkeiten zur Laufzeit.
 
-**Smart Coaching — für Klienten von Mark von Daak – Personal Training** — deckt alles ab, was
+**SMART Coaching — für Klienten von Mark von Daak – Personal Training** — deckt alles ab, was
 zwischen zwei Coach-Kontakten passiert. Die App trägt das Logo (Standort-Pin
 mit Hantel) in Kopfzeile, Einrichtung und Homescreen-Icon, Akzentfarbe ist das
 Logo-Blau #38B6FF, Schrift Inter (selbst gehostet unter `fonts/`). Marks
