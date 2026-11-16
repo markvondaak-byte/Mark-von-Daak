@@ -11,6 +11,7 @@ kopf/out/
 
 # Netlify-Build
 dist/
+.netlify/
 
 # Versehentlich heruntergeladene Pakete
 *.tar.gz
