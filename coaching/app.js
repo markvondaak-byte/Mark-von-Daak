@@ -514,7 +514,7 @@ function einrichtung(ziel) {
   document.querySelector('.tabs').classList.add('versteckt');
   document.getElementById('einstellungen-auf').classList.add('versteckt');
   document.getElementById('titel').textContent = 'Willkommen';
-  document.getElementById('untertitel').textContent = 'Dein Coaching mit Mark';
+  document.getElementById('untertitel').textContent = 'Smart Coaching mit Mark';
 
   const p = einrichtung.entwurf || (einrichtung.entwurf = {
     name: '', ziel: null, geschlecht: null, alter: null, groesse: null, gewicht: null,
@@ -544,7 +544,7 @@ function einrichtung(ziel) {
     marke.append(logo, wort);
     box.append(marke);
     box.append(el('h2', null, 'Schön, dass du da bist!'));
-    box.append(el('p', 'leise', 'Diese App begleitet dich durch dein Coaching: Training, Ernährung, Meal Prep, Schritte, Schlaf und dein wöchentlicher Check-in — alles an einem Ort.'));
+    box.append(el('p', 'leise', 'Smart Coaching begleitet dich durch dein Coaching: Training, Ernährung, Meal Prep, Schritte, Schlaf und dein wöchentlicher Check-in — alles an einem Ort.'));
     const name = eingabe('text', p.name, { platzhalter: 'Dein Vorname' });
     name.autocomplete = 'given-name';
     name.oninput = () => { p.name = name.value.trim(); };
