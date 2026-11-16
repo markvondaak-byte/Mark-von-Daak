@@ -3,7 +3,7 @@
    in den Cache legen und danach zuerst von dort ausliefern. Bei jedem
    Release VERSION erhöhen, sonst sehen bestehende Nutzer das Update nie. */
 
-const VERSION = 'coaching-v18';
+const VERSION = 'coaching-v19';
 
 const DATEIEN = [
   './',
@@ -18,6 +18,13 @@ const DATEIEN = [
   './icons/icon-180.png',
   './icons/icon-192.png',
   './icons/icon-512.png',
+  './icons/logo-pin.png',
+  './fonts/inter-400.woff2',
+  './fonts/inter-500.woff2',
+  './fonts/inter-600.woff2',
+  './fonts/inter-700.woff2',
+  './fonts/interdisplay-700.woff2',
+  './fonts/interdisplay-800.woff2',
   './coach/',
   './coach/index.html',
   './coach/coach.js',

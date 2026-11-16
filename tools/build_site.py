@@ -32,6 +32,7 @@ DATEIEN = [
 # sollen — Build-Skripte haben auf dem Server nichts verloren.
 VERZEICHNISSE = [
     ("assets", set()),
+    ("personal-training", set()),
     ("app", {"build"}),
     ("business", {"build"}),
     ("coaching", {"build", "README.md"}),
