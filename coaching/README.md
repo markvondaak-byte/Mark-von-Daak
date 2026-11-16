@@ -4,12 +4,13 @@ Eine **PWA**: läuft im Browser, lässt sich auf dem Homescreen installieren und
 funktioniert nach dem ersten Aufruf offline. Kein Framework, kein Build-Schritt,
 keine Abhängigkeiten zur Laufzeit.
 
-**Für Klienten im Fitness-Coaching** — deckt alles ab, was zwischen zwei
-Coach-Kontakten passiert. Die App ist bewusst neutral: kein Personen- oder
-Markenname, keine voreingestellten Kontaktdaten. WhatsApp-Nummer und E-Mail
-des Coachs trägt der Klient bei der Einrichtung oder unter Einstellungen ein.
-Sie ist von keiner anderen Seite aus verlinkt und nur über ihre Adresse
-(`/coaching/`) erreichbar.
+**Für Klienten von Mark von Daak – Personal Training** — deckt alles ab, was
+zwischen zwei Coach-Kontakten passiert. Die App trägt das Logo (Standort-Pin
+mit Hantel) in Kopfzeile, Einrichtung und Homescreen-Icon, Akzentfarbe ist das
+Logo-Blau #38B6FF, Schrift Inter (selbst gehostet unter `fonts/`). Marks
+WhatsApp-Nummer und E-Mail sind bei der Einrichtung vorausgefüllt und lassen
+sich dort oder unter Einstellungen ändern. Sie ist von keiner anderen Seite aus
+verlinkt und nur über ihre Adresse (`/coaching/`) erreichbar.
 
 ## Was die App kann
 
@@ -97,7 +98,9 @@ fällt die App ebenfalls auf den Knopf zurück.
 python3 coaching/build/build_icons.py
 ```
 
-Neutrale Hantel in Orange, ohne Logo oder Wortmarke.
+Das Logo (Pin mit Hantel) weiß auf himmelblauem Verlauf, Quelle
+`marke/logo-bildmarke.png`. Erzeugt außerdem `icons/logo-pin.png` für die
+Kopfzeile.
 
 ## Lokal ausprobieren
 

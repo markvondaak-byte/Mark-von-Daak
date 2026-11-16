@@ -159,7 +159,7 @@ const Modus = {
     const dunkel = wahl === 'dunkel' || (wahl === 'system' && this.systemIstDunkel());
     document.documentElement.dataset.theme = dunkel ? 'dark' : 'light';
     const marke = document.querySelector('meta[name="theme-color"]');
-    if (marke) marke.setAttribute('content', dunkel ? '#17140F' : '#C2410C');
+    if (marke) marke.setAttribute('content', dunkel ? '#0B1218' : '#FFFFFF');
   },
   setzen(wahl) {
     try {
@@ -514,12 +514,12 @@ function einrichtung(ziel) {
   document.querySelector('.tabs').classList.add('versteckt');
   document.getElementById('einstellungen-auf').classList.add('versteckt');
   document.getElementById('titel').textContent = 'Willkommen';
-  document.getElementById('untertitel').textContent = 'Dein Coaching';
+  document.getElementById('untertitel').textContent = 'Dein Coaching mit Mark';
 
   const p = einrichtung.entwurf || (einrichtung.entwurf = {
     name: '', ziel: null, geschlecht: null, alter: null, groesse: null, gewicht: null,
     aktivitaet: null, tage: 3, ort: 'studio', erfahrung: 'einsteiger', schrittziel: 8000, schlafziel: 7.5,
-    coachWhatsapp: '', coachEmail: ''
+    coachWhatsapp: '0179 4340426', coachEmail: 'markvondaak@icloud.com'
   });
   const schritte = 6;
   const nr = einrichtung.schritt || 1;
@@ -536,6 +536,13 @@ function einrichtung(ziel) {
   const gehe = (n) => { einrichtung.schritt = n; neuZeichnen(); window.scrollTo({ top: 0 }); };
 
   if (nr === 1) {
+    const marke = el('div', 'marke-kopf');
+    const logo = document.createElement('img');
+    logo.src = 'icons/logo-pin.png'; logo.alt = '';
+    const wort = el('div');
+    wort.append(el('div', 'marke-kopf__name', 'MARK VON DAAK'), el('div', 'marke-kopf__sub', 'PERSONAL TRAINING'));
+    marke.append(logo, wort);
+    box.append(marke);
     box.append(el('h2', null, 'Schön, dass du da bist!'));
     box.append(el('p', 'leise', 'Diese App begleitet dich durch dein Coaching: Training, Ernährung, Meal Prep, Schritte, Schlaf und dein wöchentlicher Check-in — alles an einem Ort.'));
     const name = eingabe('text', p.name, { platzhalter: 'Dein Vorname' });

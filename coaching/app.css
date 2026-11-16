@@ -1,21 +1,30 @@
 /* =========================================================================
    Coaching — App
-   Poppins für Überschriften, Instrument Sans für Fließtext (jeweils mit
-   Systemschrift als Rückfall), Karten, Blätter, heller und dunkler Modus.
-   Akzentfarbe Orange.
+   Marke Mark von Daak – Personal Training: Inter Display für Überschriften,
+   Inter für Fließtext (selbst gehostet unter fonts/, offline verfügbar),
+   Karten, Blätter, heller und dunkler Modus. Akzent Himmelblau #38B6FF aus
+   dem Logo, darauf dunkle Schrift.
    ========================================================================= */
+
+@font-face { font-family: "Inter"; font-weight: 400; font-display: swap; src: url(fonts/inter-400.woff2) format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 500; font-display: swap; src: url(fonts/inter-500.woff2) format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 600; font-display: swap; src: url(fonts/inter-600.woff2) format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 700; font-display: swap; src: url(fonts/inter-700.woff2) format("woff2"); }
+@font-face { font-family: "Inter Display"; font-weight: 700; font-display: swap; src: url(fonts/interdisplay-700.woff2) format("woff2"); }
+@font-face { font-family: "Inter Display"; font-weight: 800; font-display: swap; src: url(fonts/interdisplay-800.woff2) format("woff2"); }
 
 :root {
   --bg:         #FFFFFF;
-  --bg-2:       #F3F1EC;
+  --bg-2:       #F3F6F9;
   --surface:    #FFFFFF;
-  --surface-2:  #F7F5F0;
-  --ink:        #1B1A17;
-  --ink-soft:   #625F58;
-  --line:       #E7E2D9;
-  --accent:     #C2410C;   /* weiße Schrift darauf 5,2:1 */
-  --accent-ink: #9A3412;
-  --on-accent:  #FFFFFF;
+  --surface-2:  #EEF3F7;
+  --ink:        #0F1720;
+  --ink-soft:   #4A5563;
+  --line:       #E3E8EE;
+  --accent:     #38B6FF;   /* Logofarbe; dunkle Schrift darauf 8,6:1 */
+  --accent-ink: #0077C2;   /* Blau für Text auf Weiß, 4,9:1 */
+  --on-accent:  #0B1218;
+  --marke-dunkel: #0B1218;
 
   /* Zweitfarben für Makros und Kennzahlen. Immer mit Beschriftung — Farbe
      allein ist keine zugängliche Information. */
@@ -32,8 +41,8 @@
   --radius-sm: 12px;
   --maxw:      560px;
 
-  --display: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-  --body:    "Instrument Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --display: "Inter Display", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --body:    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
 
   --shadow:    0 1px 2px rgba(28,18,21,.05), 0 14px 34px -18px rgba(28,18,21,.28);
   --shadow-sm: 0 1px 2px rgba(28,18,21,.06), 0 6px 16px -12px rgba(28,18,21,.3);
@@ -42,19 +51,19 @@
 }
 
 /* Dunkelmodus — gesetzt über data-theme am <html> (Skript im <head>).
-   --accent      Flächen, weiße Schrift darauf 5,2:1
-   --accent-ink  Text auf dunklem Grund, 7,1:1 auf Kartenflächen */
+   --accent      Flächen, dunkle Schrift darauf 8,6:1
+   --accent-ink  Text auf dunklem Grund, 8,4:1 auf Kartenflächen */
 :root[data-theme="dark"] {
-  --bg:         #17140F;
-  --bg-2:       #100D08;
-  --surface:    #221E17;
-  --surface-2:  #2B261E;
-  --ink:        #F4F1EA;
-  --ink-soft:   #BDB4A6;
-  --line:       #34302A;
-  --accent:     #C2410C;
-  --accent-ink: #FF8A4C;
-  --on-accent:  #FFFFFF;
+  --bg:         #0B1218;
+  --bg-2:       #070C10;
+  --surface:    #131C24;
+  --surface-2:  #1B2631;
+  --ink:        #F2F6FA;
+  --ink-soft:   #A7B3BF;
+  --line:       #24303B;
+  --accent:     #38B6FF;
+  --accent-ink: #6CCBFF;
+  --on-accent:  #0B1218;
 
   --c-eiweiss:  #60A5FA;
   --c-kh:       #FBBF24;
@@ -71,9 +80,9 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
-    --bg: #17140F; --bg-2: #100D08; --surface: #221E17; --surface-2: #2B261E;
-    --ink: #F4F1EA; --ink-soft: #BDB4A6; --line: #34302A;
-    --accent: #C2410C; --accent-ink: #FF8A4C;
+    --bg: #0B1218; --bg-2: #070C10; --surface: #131C24; --surface-2: #1B2631;
+    --ink: #F2F6FA; --ink-soft: #A7B3BF; --line: #24303B;
+    --accent: #38B6FF; --accent-ink: #6CCBFF;
   }
 }
 
@@ -118,6 +127,11 @@ input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; marg
 }
 .kopf__zeile { display: flex; align-items: center; gap: 12px; }
 .kopf h1 { font-size: 22px; letter-spacing: -.02em; }
+.kopf__logo { width: 26px; height: auto; flex: none; }
+.marke-kopf { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; margin: 6px 0 22px; }
+.marke-kopf img { width: 56px; height: auto; }
+.marke-kopf__name { font-family: var(--display); font-weight: 800; font-size: 17px; letter-spacing: .04em; line-height: 1; }
+.marke-kopf__sub { font-size: 10.5px; font-weight: 600; letter-spacing: .28em; color: var(--accent-ink); margin-top: 5px; }
 .kopf__sub { color: var(--ink-soft); font-size: 13px; margin-top: 2px; }
 
 .inhalt {
@@ -181,24 +195,18 @@ input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; marg
 
 /* --- Held ---------------------------------------------------------------- */
 .held {
-  background: linear-gradient(160deg,
-    color-mix(in srgb, var(--accent) 88%, #000) 0%,
-    var(--accent) 60%,
-    color-mix(in srgb, var(--accent) 78%, #F59E0B) 100%);
+  background:
+    radial-gradient(260px 200px at 100% 0%, rgba(56,182,255,.32), transparent 70%),
+    linear-gradient(160deg, #0B1218 0%, #12212E 100%);
   color: #fff; border-radius: var(--radius); padding: 20px;
   margin-bottom: 16px; box-shadow: var(--shadow);
   position: relative; overflow: hidden;
 }
-:root[data-theme="dark"] .held {
-  background: linear-gradient(160deg,
-    color-mix(in srgb, var(--accent) 62%, #000) 0%,
-    color-mix(in srgb, var(--accent) 84%, #000) 60%,
-    color-mix(in srgb, var(--accent) 72%, #7A3E22) 100%);
-}
+:root[data-theme="dark"] .held { border: 1px solid var(--line); }
 .held::after {
   content: ""; position: absolute; inset: auto -40px -70px auto;
   width: 190px; height: 190px; border-radius: 50%;
-  background: rgba(255,255,255,.10); pointer-events: none;
+  background: rgba(56,182,255,.14); pointer-events: none;
 }
 .held__oben { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
 .held__label { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; opacity: .85; }
@@ -211,10 +219,10 @@ input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; marg
 .held__titel { font-family: var(--display); font-size: 26px; line-height: 1.1; letter-spacing: -.02em; }
 .held__text { opacity: .88; font-size: 14px; margin-top: 6px; }
 .held .knopf {
-  background: #fff; color: var(--accent); margin-top: 16px; position: relative; z-index: 1;
-  box-shadow: 0 6px 16px -10px rgba(0,0,0,.5);
+  background: var(--accent); color: var(--on-accent); margin-top: 16px; position: relative; z-index: 1;
+  box-shadow: 0 8px 20px -10px rgba(56,182,255,.7);
 }
-:root[data-theme="dark"] .held .knopf { color: #9A3412; }
+.held__label { color: var(--accent); opacity: 1 !important; }
 
 /* --- Ringe & Balken ------------------------------------------------------ */
 .ringe { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
@@ -276,7 +284,7 @@ input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; marg
 }
 .haken:active { transform: scale(.9); }
 .haken[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); }
-.haken svg { width: 15px; height: 15px; stroke: #fff; stroke-width: 3; opacity: 0; transition: opacity .15s; }
+.haken svg { width: 15px; height: 15px; stroke: var(--on-accent); stroke-width: 3; opacity: 0; transition: opacity .15s; }
 .haken[aria-pressed="true"] svg { opacity: 1; }
 
 /* Wasserperlen */
@@ -434,7 +442,7 @@ textarea.eingabe { min-height: 76px; resize: vertical; }
 .plan-tag--naechster { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), var(--shadow-sm); }
 .plan-tag__nr {
   width: 40px; height: 40px; border-radius: 12px; flex: 0 0 auto;
-  background: var(--accent); color: #fff; display: grid; place-items: center;
+  background: var(--accent); color: var(--on-accent); display: grid; place-items: center;
   font-family: var(--display); font-weight: 700; font-size: 15px;
 }
 .plan-tag__text { flex: 1; min-width: 0; }
@@ -447,7 +455,7 @@ textarea.eingabe { min-height: 76px; resize: vertical; }
   width: 30px; height: 30px; margin: 4px auto 0; border-radius: 50%;
   border: 2px solid var(--line); display: grid; place-items: center; background: var(--surface);
 }
-.woche-punkte__punkt svg { width: 14px; height: 14px; stroke: #fff; stroke-width: 3; }
+.woche-punkte__punkt svg { width: 14px; height: 14px; stroke: var(--on-accent); stroke-width: 3; }
 .woche-punkte__punkt--voll { background: var(--accent); border-color: var(--accent); }
 .woche-punkte__punkt--heute { border-color: var(--accent); }
 
