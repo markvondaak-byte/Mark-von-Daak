@@ -5,3 +5,5 @@ Allow: /
 Disallow: /app/
 Disallow: /business/
 Disallow: /coaching/
+
+Sitemap: https://mark-von-daak.netlify.app/sitemap.xml

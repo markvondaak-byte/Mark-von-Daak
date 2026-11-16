@@ -25,6 +25,7 @@ DATEIEN = [
     "impressum.html",
     "datenschutz.html",
     "robots.txt",
+    "sitemap.xml",
     "404.html",
 ]
 
