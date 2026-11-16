@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mark von Daak – Personal Training in Wolfsburg | Dein Training. Dein Ort.</title>
+<meta name="description" content="Mobiles Personal Training in Wolfsburg: Mark von Daak kommt zu dir nach Hause, ins Büro, in den Park oder ins Studio. In 12 Wochen messbar stärker, fitter und schmerzfreier.">
+<meta name="theme-color" content="#0B1218">
+<link rel="icon" type="image/png" href="img/favicon.png">
+<link rel="apple-touch-icon" href="img/icon-180.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Mark von Daak – Personal Training in Wolfsburg">
+<meta property="og:description" content="Dein Training. Dein Ort. Mobiles 1:1-Training mit System – in 12 Wochen messbar stärker.">
+<meta property="og:image" content="img/icon-512.png">
+<link rel="preload" href="fonts/interdisplay-800.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HealthAndBeautyBusiness",
+  "name": "Mark von Daak – Personal Training",
+  "description": "Mobiles Personal Training in Wolfsburg und Umgebung.",
+  "telephone": "+49 179 4340426",
+  "email": "markvondaak@icloud.com",
+  "areaServed": "Wolfsburg",
+  "address": {"@type": "PostalAddress", "addressLocality": "Wolfsburg", "postalCode": "38444", "addressCountry": "DE"}
+}
+</script>
+<style>
+  @font-face { font-family: "Inter"; font-weight: 400; font-display: swap; src: url(fonts/inter-400.woff2) format("woff2"); }
+  @font-face { font-family: "Inter"; font-weight: 500; font-display: swap; src: url(fonts/inter-500.woff2) format("woff2"); }
+  @font-face { font-family: "Inter"; font-weight: 600; font-display: swap; src: url(fonts/inter-600.woff2) format("woff2"); }
+  @font-face { font-family: "Inter Display"; font-weight: 700; font-display: swap; src: url(fonts/interdisplay-700.woff2) format("woff2"); }
+  @font-face { font-family: "Inter Display"; font-weight: 800; font-display: swap; src: url(fonts/interdisplay-800.woff2) format("woff2"); }
+
+  :root {
+    --blue: #38B6FF;          /* Logofarbe */
+    --blue-deep: #0077C2;     /* Blau für Text auf Weiß (Kontrast) */
+    --blue-soft: #E6F5FF;
+    --ink: #0F1720;
+    --ink-soft: #4A5563;
+    --line: #E3E8EE;
+    --bg: #FFFFFF;
+    --bg-2: #F3F6F9;
+    --dark: #0B1218;
+    --dark-2: #131C24;
+    --dark-line: #24303B;
+    --on-dark: #F2F6FA;
+    --on-dark-soft: #A7B3BF;
+    --radius: 20px;
+    --maxw: 1180px;
+    --display: "Inter Display", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    --body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    --shadow: 0 1px 2px rgba(15,23,32,.05), 0 18px 40px -22px rgba(15,23,32,.30);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; }
+  h1, h2, h3 { font-family: var(--display); line-height: 1.08; letter-spacing: -.02em; margin: 0; text-wrap: balance; }
+  h2 { font-size: clamp(2rem, 4.2vw, 3.1rem); font-weight: 800; }
+  h3 { font-size: 1.25rem; font-weight: 700; letter-spacing: -.01em; }
+  p { margin: 0; }
+  .wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  .eyebrow { display: inline-flex; align-items: center; gap: .7em; font-size: .78rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--blue-deep); margin-bottom: 18px; }
+  .eyebrow::before { content: ""; width: 28px; height: 2px; background: currentColor; }
+  .dark .eyebrow { color: var(--blue); }
+  .lead { font-size: 1.15rem; color: var(--ink-soft); max-width: 62ch; margin-top: 18px; }
+  .dark .lead { color: var(--on-dark-soft); }
+  .section { padding: 112px 0; }
+  .section-head { max-width: 760px; margin-bottom: 56px; }
+  .center { text-align: center; margin-left: auto; margin-right: auto; }
+  .center .eyebrow::after { content: ""; width: 28px; height: 2px; background: currentColor; }
+  .center .lead { margin-left: auto; margin-right: auto; }
+
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; font: 600 1rem/1 var(--body); padding: 17px 26px; border-radius: 999px; text-decoration: none; border: 2px solid transparent; cursor: pointer; transition: transform .18s ease, background .18s ease, box-shadow .18s ease, color .18s ease; white-space: nowrap; }
+  .btn svg { width: 18px; height: 18px; flex: none; }
+  .btn-primary { background: var(--blue); color: var(--dark); box-shadow: 0 10px 28px -12px rgba(56,182,255,.7); }
+  .btn-primary:hover { transform: translateY(-2px); background: #5CC4FF; }
+  .btn-ghost { border-color: currentColor; color: inherit; background: transparent; }
+  .btn-ghost:hover { background: rgba(255,255,255,.08); }
+  .btn-dark { background: var(--ink); color: #fff; }
+  .btn-dark:hover { transform: translateY(-2px); background: #1E2A36; }
+  .btn:focus-visible, a:focus-visible, summary:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+
+  /* ---------- Header ---------- */
+  header.site { position: fixed; inset: 0 0 auto 0; z-index: 50; transition: background .25s ease, box-shadow .25s ease, color .25s ease; color: var(--on-dark); }
+  header.site.scrolled { background: rgba(255,255,255,.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 1px 0 var(--line); color: var(--ink); }
+  .nav { display: flex; align-items: center; justify-content: space-between; height: 76px; gap: 24px; }
+  .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .brand img { height: 40px; width: auto; }
+  .brand-text { display: flex; flex-direction: column; line-height: 1.05; }
+  .brand-name { font-family: var(--display); font-weight: 800; font-size: 1.12rem; letter-spacing: .02em; }
+  .brand-sub { font-size: .66rem; font-weight: 600; letter-spacing: .26em; color: var(--blue); margin-top: 4px; }
+  header.site.scrolled .brand-sub { color: var(--blue-deep); }
+  .nav-links { display: flex; align-items: center; gap: 30px; }
+  .nav-links a { text-decoration: none; font-size: .95rem; font-weight: 500; opacity: .86; }
+  .nav-links a:hover { opacity: 1; }
+  .nav-links .btn { padding: 12px 20px; font-size: .92rem; opacity: 1; }
+  .menu-btn { display: none; background: none; border: 0; color: inherit; padding: 8px; cursor: pointer; }
+  .menu-btn svg { width: 28px; height: 28px; }
+
+  /* ---------- Hero ---------- */
+  .hero { position: relative; background: radial-gradient(1200px 600px at 85% 20%, rgba(56,182,255,.18), transparent 60%), var(--dark); color: var(--on-dark); padding: 150px 0 0; overflow: hidden; }
+  .hero-grid { display: grid; grid-template-columns: 1.08fr .92fr; gap: 40px; align-items: end; }
+  .hero-copy { padding-bottom: 96px; }
+  .hero h1 { font-size: clamp(2.8rem, 6.6vw, 5.4rem); font-weight: 800; letter-spacing: -.035em; line-height: .98; }
+  .hero h1 span { color: var(--blue); }
+  .hero .lead { font-size: 1.2rem; margin-top: 26px; max-width: 34em; }
+  .hero-ctas { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 36px; }
+  .places { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 40px; padding: 0; list-style: none; }
+  .places li { display: inline-flex; align-items: center; gap: 8px; font-size: .9rem; padding: 9px 15px; border: 1px solid var(--dark-line); border-radius: 999px; color: var(--on-dark-soft); background: rgba(255,255,255,.02); }
+  .places svg { width: 16px; height: 16px; color: var(--blue); }
+  .hero-visual { position: relative; align-self: end; display: flex; justify-content: center; }
+  .hero-visual .halo { position: absolute; bottom: 0; left: 50%; width: min(520px, 100%); aspect-ratio: 1; transform: translate(-50%, 18%); border-radius: 50%; background: linear-gradient(160deg, var(--blue) 0%, #1C8FD6 100%); }
+  .hero-visual .ring { position: absolute; bottom: 0; left: 50%; width: min(620px, 118%); aspect-ratio: 1; transform: translate(-50%, 24%); border-radius: 50%; border: 1px solid rgba(56,182,255,.25); }
+  .hero-visual img.portrait { position: relative; width: min(470px, 92%); height: auto; -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent 99%); mask-image: linear-gradient(to bottom, #000 78%, transparent 99%); }
+  .hero-badge { position: absolute; left: 0; bottom: 70px; background: #fff; color: var(--ink); border-radius: 16px; padding: 14px 18px; display: flex; align-items: center; gap: 12px; box-shadow: 0 20px 40px -18px rgba(0,0,0,.6); }
+  .hero-badge img { width: 30px; height: auto; }
+  .hero-badge strong { display: block; font-family: var(--display); font-size: 1.05rem; line-height: 1.1; }
+  .hero-badge span { font-size: .82rem; color: var(--ink-soft); }
+
+  .facts { background: var(--dark-2); color: var(--on-dark); border-top: 1px solid var(--dark-line); position: relative; }
+  .facts-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+  .fact { padding: 30px 24px; border-left: 1px solid var(--dark-line); }
+  .fact:first-child { border-left: 0; padding-left: 0; }
+  .fact strong { display: block; font-family: var(--display); font-size: 2rem; font-weight: 800; color: var(--blue); letter-spacing: -.02em; line-height: 1; }
+  .fact span { display: block; margin-top: 8px; font-size: .92rem; color: var(--on-dark-soft); }
+
+  /* ---------- Für wen ---------- */
+  .cards-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 32px; box-shadow: var(--shadow); }
+  .icon { width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; background: var(--blue-soft); color: var(--blue-deep); margin-bottom: 22px; }
+  .icon svg { width: 26px; height: 26px; }
+  .card p { color: var(--ink-soft); margin-top: 10px; }
+  .card ul { margin: 18px 0 0; padding: 0; list-style: none; display: grid; gap: 9px; }
+  .card li { display: flex; gap: 10px; font-size: .96rem; }
+  .card li::before { content: ""; flex: none; width: 18px; height: 18px; margin-top: 4px; border-radius: 50%; background: var(--blue-soft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230077C2' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E") center/12px no-repeat; }
+
+  /* ---------- Programm ---------- */
+  .program { background: var(--bg-2); }
+  .program-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 64px; align-items: start; }
+  .program-intro { position: sticky; top: 110px; }
+  .program-intro .big { font-family: var(--display); font-weight: 800; font-size: clamp(3.6rem, 8vw, 6.4rem); line-height: .9; letter-spacing: -.04em; }
+  .program-intro .big span { color: var(--blue); }
+  .phases { display: grid; gap: 16px; counter-reset: phase; }
+  .phase { display: grid; grid-template-columns: 74px 1fr; gap: 22px; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 28px; }
+  .phase-num { width: 74px; height: 74px; border-radius: 18px; background: var(--ink); color: #fff; display: grid; place-content: center; text-align: center; font-family: var(--display); }
+  .phase-num b { font-size: 1.6rem; line-height: 1; }
+  .phase-num small { font-size: .66rem; letter-spacing: .12em; text-transform: uppercase; color: var(--blue); margin-top: 4px; }
+  .phase:last-child .phase-num { background: var(--blue); color: var(--dark); }
+  .phase:last-child .phase-num small { color: var(--dark); }
+  .phase .when { font-size: .8rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--blue-deep); }
+  .phase h3 { margin-top: 4px; }
+  .phase p { color: var(--ink-soft); margin-top: 8px; }
+
+  .included { margin-top: 18px; background: var(--ink); color: var(--on-dark); border-radius: var(--radius); padding: 30px; }
+  .included h3 { color: #fff; }
+  .included ul { list-style: none; padding: 0; margin: 18px 0 0; display: grid; grid-template-columns: 1fr 1fr; gap: 12px 24px; }
+  .included li { display: flex; gap: 10px; font-size: .95rem; color: var(--on-dark-soft); }
+  .included li svg { flex: none; width: 20px; height: 20px; color: var(--blue); margin-top: 2px; }
+
+  /* ---------- App ---------- */
+  .app-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+  .phone { position: relative; width: 300px; margin: 0 auto; aspect-ratio: 9/19; border-radius: 44px; background: var(--dark); padding: 14px; box-shadow: 0 40px 80px -30px rgba(15,23,32,.55), inset 0 0 0 2px #2A3540; }
+  .screen { height: 100%; border-radius: 32px; background: #F5F8FB; overflow: hidden; padding: 22px 16px; display: flex; flex-direction: column; gap: 12px; font-size: .78rem; }
+  .screen .s-top { display: flex; justify-content: space-between; align-items: center; }
+  .screen .s-top b { font-family: var(--display); font-size: 1.15rem; }
+  .screen .s-top img { width: 22px; }
+  .s-card { background: #fff; border-radius: 16px; padding: 14px; box-shadow: 0 1px 2px rgba(15,23,32,.06); }
+  .s-card .lbl { color: var(--ink-soft); font-size: .7rem; text-transform: uppercase; letter-spacing: .1em; font-weight: 600; }
+  .s-workout { background: var(--ink); color: #fff; }
+  .s-workout .lbl { color: var(--blue); }
+  .s-workout b { display: block; font-size: 1rem; margin-top: 4px; font-family: var(--display); }
+  .s-workout .go { margin-top: 10px; display: inline-block; background: var(--blue); color: var(--dark); border-radius: 999px; padding: 6px 12px; font-weight: 600; }
+  .rings { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; text-align: center; }
+  .rings svg { width: 54px; height: 54px; margin: 0 auto; }
+  .rings span { display: block; font-size: .66rem; color: var(--ink-soft); margin-top: 2px; }
+  .bars { display: flex; align-items: end; gap: 6px; height: 64px; margin-top: 10px; }
+  .bars i { flex: 1; background: #CFE9FB; border-radius: 4px 4px 2px 2px; }
+  .bars i:last-child { background: var(--blue); }
+  .feature-list { display: grid; gap: 22px; margin-top: 34px; }
+  .feature { display: grid; grid-template-columns: 52px 1fr; gap: 18px; }
+  .feature .icon { margin: 0; }
+  .feature p { color: var(--ink-soft); margin-top: 4px; }
+
+  /* ---------- Ablauf ---------- */
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; position: relative; }
+  .step { position: relative; padding-top: 74px; }
+  .step::before { content: ""; position: absolute; top: 26px; left: 56px; right: -22px; height: 2px; background: repeating-linear-gradient(90deg, var(--blue) 0 8px, transparent 8px 16px); opacity: .5; }
+  .step:last-child::before { display: none; }
+  .step-dot { position: absolute; top: 0; left: 0; width: 54px; height: 54px; border-radius: 50%; background: var(--blue); color: var(--dark); display: grid; place-items: center; font-family: var(--display); font-weight: 800; font-size: 1.2rem; box-shadow: 0 0 0 8px var(--blue-soft); }
+  .step p { color: var(--ink-soft); margin-top: 8px; font-size: .97rem; }
+
+  /* ---------- Preise ---------- */
+  .pricing { background: var(--dark); color: var(--on-dark); }
+  .price-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; align-items: stretch; }
+  .price { background: var(--dark-2); border: 1px solid var(--dark-line); border-radius: 24px; padding: 34px; display: flex; flex-direction: column; }
+  .price.featured { background: #fff; color: var(--ink); border: 0; box-shadow: 0 0 0 3px var(--blue), 0 40px 80px -40px rgba(56,182,255,.6); transform: translateY(-12px); }
+  .tag { align-self: flex-start; font-size: .74rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; padding: 7px 12px; border-radius: 999px; background: rgba(56,182,255,.14); color: var(--blue); }
+  .featured .tag { background: var(--blue); color: var(--dark); }
+  .price h3 { margin-top: 18px; font-size: 1.45rem; }
+  .price .for { color: var(--on-dark-soft); margin-top: 6px; font-size: .95rem; }
+  .featured .for { color: var(--ink-soft); }
+  .amount { margin-top: 24px; font-family: var(--display); font-weight: 800; font-size: 2.9rem; letter-spacing: -.03em; line-height: 1; }
+  .amount small { font-family: var(--body); font-weight: 500; font-size: .95rem; letter-spacing: 0; color: var(--on-dark-soft); }
+  .featured .amount small { color: var(--ink-soft); }
+  .amount-note { font-size: .85rem; color: var(--on-dark-soft); margin-top: 8px; }
+  .featured .amount-note { color: var(--ink-soft); }
+  .price ul { list-style: none; padding: 0; margin: 26px 0 30px; display: grid; gap: 11px; flex: 1; }
+  .price li { display: flex; gap: 10px; font-size: .96rem; }
+  .price li svg { flex: none; width: 20px; height: 20px; color: var(--blue); margin-top: 2px; }
+  .featured li svg { color: var(--blue-deep); }
+  .price .btn { width: 100%; }
+  .price:not(.featured) .btn { border-color: var(--dark-line); color: #fff; }
+  .price:not(.featured) .btn:hover { border-color: var(--blue); background: transparent; }
+  .more-offers { margin-top: 40px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--dark-line); border: 1px solid var(--dark-line); border-radius: 18px; overflow: hidden; }
+  .more-offers div { background: var(--dark); padding: 22px 24px; }
+  .more-offers b { display: block; font-size: 1rem; }
+  .more-offers span { display: block; color: var(--on-dark-soft); font-size: .9rem; margin-top: 4px; }
+  .guarantee { margin-top: 26px; display: flex; gap: 18px; align-items: center; padding: 22px 26px; border-radius: 18px; background: rgba(56,182,255,.08); border: 1px solid rgba(56,182,255,.3); }
+  .guarantee svg { flex: none; width: 40px; height: 40px; color: var(--blue); }
+  .guarantee p { color: var(--on-dark-soft); font-size: .96rem; }
+  .guarantee strong { color: #fff; }
+  .price-legal { margin-top: 18px; font-size: .82rem; color: var(--on-dark-soft); }
+
+  /* ---------- Über mich ---------- */
+  .about-grid { display: grid; grid-template-columns: .85fr 1.15fr; gap: 72px; align-items: center; }
+  .about-photo { position: relative; border-radius: 28px; background: linear-gradient(170deg, var(--blue-soft), #CBEAFF); overflow: hidden; aspect-ratio: 4/5; display: flex; align-items: end; justify-content: center; }
+  .about-photo img.portrait { width: 88%; height: auto; -webkit-mask-image: linear-gradient(to bottom, #000 80%, transparent 100%); mask-image: linear-gradient(to bottom, #000 80%, transparent 100%); }
+  .about-photo .pin-mark { position: absolute; top: 24px; right: 24px; width: 46px; }
+  .about-copy p { color: var(--ink-soft); margin-top: 16px; font-size: 1.06rem; }
+  .about-copy p:first-of-type { margin-top: 22px; }
+  .about-copy .sign { font-family: var(--display); font-weight: 700; color: var(--ink); font-size: 1.2rem; margin-top: 26px; }
+  .values { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 32px; }
+  .value { padding: 18px 20px; border: 1px solid var(--line); border-radius: 16px; }
+  .value b { display: block; font-size: 1rem; }
+  .value span { font-size: .9rem; color: var(--ink-soft); }
+
+  /* ---------- Region ---------- */
+  .region { background: var(--bg-2); }
+  .region-box { display: grid; grid-template-columns: 1.1fr .9fr; gap: 48px; align-items: center; background: #fff; border: 1px solid var(--line); border-radius: 28px; padding: 56px; box-shadow: var(--shadow); }
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+  .chips span { padding: 9px 15px; border-radius: 999px; background: var(--bg-2); font-size: .92rem; font-weight: 500; }
+  .map { position: relative; aspect-ratio: 1; max-width: 360px; width: 100%; margin: 0 auto; }
+  .map .c { position: absolute; inset: 0; border-radius: 50%; border: 2px dashed rgba(0,119,194,.35); }
+  .map .c2 { inset: 18%; border-style: solid; border-color: rgba(56,182,255,.25); background: rgba(56,182,255,.08); }
+  .map .c3 { inset: 36%; border: 0; background: rgba(56,182,255,.18); }
+  .map img { position: absolute; left: 50%; top: 50%; width: 22%; transform: translate(-50%, -78%); filter: drop-shadow(0 12px 14px rgba(0,119,194,.35)); }
+  .map .lbl { position: absolute; left: 50%; bottom: 7%; transform: translateX(-50%); font-size: .8rem; font-weight: 600; color: var(--blue-deep); background: #fff; padding: 5px 10px; border-radius: 999px; box-shadow: var(--shadow); white-space: nowrap; }
+
+  /* ---------- FAQ ---------- */
+  .faq-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 64px; }
+  .faq details { border-bottom: 1px solid var(--line); }
+  .faq summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; gap: 20px; align-items: center; padding: 24px 0; font-weight: 600; font-size: 1.08rem; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: ""; flex: none; width: 32px; height: 32px; border-radius: 50%; background: var(--bg-2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230F1720' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M12 6v12M6 12h12'/%3E%3C/svg%3E") center/16px no-repeat; transition: transform .2s ease, background-color .2s ease; }
+  .faq details[open] summary::after { transform: rotate(45deg); background-color: var(--blue-soft); }
+  .faq details p { color: var(--ink-soft); padding: 0 48px 24px 0; }
+
+  /* ---------- Kontakt ---------- */
+  .contact { background: var(--dark); color: var(--on-dark); position: relative; overflow: hidden; }
+  .contact::before { content: ""; position: absolute; width: 700px; height: 700px; right: -260px; top: -260px; border-radius: 50%; background: radial-gradient(circle, rgba(56,182,255,.18), transparent 65%); }
+  .contact-grid { position: relative; display: grid; grid-template-columns: .9fr 1.1fr; gap: 64px; align-items: start; }
+  .direct { display: grid; gap: 12px; margin-top: 34px; }
+  .direct a { display: flex; align-items: center; gap: 16px; padding: 16px 18px; border: 1px solid var(--dark-line); border-radius: 16px; text-decoration: none; transition: border-color .2s ease, background .2s ease; }
+  .direct a:hover { border-color: var(--blue); background: rgba(56,182,255,.06); }
+  .direct .icon { margin: 0; width: 46px; height: 46px; background: rgba(56,182,255,.14); color: var(--blue); }
+  .direct small { display: block; color: var(--on-dark-soft); font-size: .82rem; }
+  .direct b { font-size: 1.02rem; }
+  form.card-form { background: #fff; color: var(--ink); border-radius: 24px; padding: 36px; box-shadow: 0 40px 80px -40px rgba(0,0,0,.7); }
+  .form-title { font-family: var(--display); font-weight: 800; font-size: 1.5rem; }
+  .form-sub { color: var(--ink-soft); margin-top: 6px; font-size: .95rem; }
+  .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px; }
+  .field { display: grid; gap: 7px; }
+  .field.full { grid-column: 1 / -1; }
+  label { font-size: .86rem; font-weight: 600; }
+  input, select, textarea { font: inherit; font-size: 1rem; width: 100%; padding: 13px 14px; border: 1.5px solid var(--line); border-radius: 12px; background: #fff; color: var(--ink); transition: border-color .15s ease; }
+  input:focus, select:focus, textarea:focus { border-color: var(--blue); outline: none; box-shadow: 0 0 0 4px rgba(56,182,255,.18); }
+  textarea { min-height: 110px; resize: vertical; }
+  .consent { display: flex; gap: 12px; align-items: flex-start; font-size: .85rem; color: var(--ink-soft); font-weight: 400; }
+  .consent input { width: 20px; height: 20px; margin-top: 2px; flex: none; accent-color: var(--blue-deep); }
+  .consent a { color: var(--blue-deep); }
+  .form-btn { margin-top: 22px; width: 100%; }
+  .hidden { display: none; }
+
+  /* ---------- Footer ---------- */
+  footer { background: #070C10; color: var(--on-dark-soft); padding: 56px 0 36px; font-size: .92rem; }
+  .foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 30px; align-items: center; }
+  footer .brand { color: #fff; }
+  footer .brand-sub { color: var(--blue); }
+  .foot-links { display: flex; flex-wrap: wrap; gap: 26px; }
+  .foot-links a { text-decoration: none; }
+  .foot-links a:hover { color: #fff; }
+  .foot-bottom { margin-top: 34px; padding-top: 24px; border-top: 1px solid var(--dark-line); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: .84rem; }
+
+  /* ---------- Mobil: fester Button ---------- */
+  .sticky-cta { display: none; }
+
+  /* ---------- Einblenden ---------- */
+  .reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s ease, transform .7s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .btn, .faq summary::after { transition: none; }
+  }
+
+  /* ---------- Responsiv ---------- */
+  @media (max-width: 1020px) {
+    .hero-grid, .program-grid, .app-grid, .about-grid, .faq-grid, .contact-grid, .region-box { grid-template-columns: 1fr; }
+    .hero-copy { padding-bottom: 20px; }
+    .hero-visual { max-width: 460px; margin: 0 auto; width: 100%; }
+    .program-intro { position: static; }
+    .cards-3, .price-grid { grid-template-columns: 1fr; max-width: 560px; margin-left: auto; margin-right: auto; }
+    .price.featured { transform: none; }
+    .steps { grid-template-columns: 1fr 1fr; gap: 36px 22px; }
+    .step:nth-child(2)::before { display: none; }
+    .more-offers { grid-template-columns: 1fr 1fr; }
+    .app-grid .phone-col { order: 2; }
+    .about-photo { max-width: 440px; margin: 0 auto; width: 100%; }
+    .region-box { padding: 36px; }
+  }
+  @media (max-width: 860px) {
+    .nav-links { position: fixed; inset: 76px 0 auto 0; background: #fff; color: var(--ink); flex-direction: column; align-items: stretch; gap: 0; padding: 8px 24px 24px; box-shadow: 0 30px 40px -30px rgba(0,0,0,.4); display: none; }
+    .nav-links.open { display: flex; }
+    .nav-links a { padding: 15px 0; border-bottom: 1px solid var(--line); font-size: 1.05rem; }
+    .nav-links .btn { margin-top: 16px; border: 0; padding: 16px; }
+    .menu-btn { display: block; }
+    header.site.menu-open { background: #fff; color: var(--ink); }
+    header.site.menu-open .brand-sub { color: var(--blue-deep); }
+  }
+  @media (max-width: 640px) {
+    body { font-size: 16px; }
+    .wrap { padding: 0 16px; }
+    .section { padding: 80px 0; }
+    .section-head { margin-bottom: 40px; }
+    .hero { padding-top: 120px; }
+    .hero-ctas .btn { flex: 1 1 100%; }
+    .facts-grid { grid-template-columns: 1fr 1fr; }
+    .fact { padding: 22px 0 22px 16px; }
+    .fact:nth-child(odd) { border-left: 0; padding-left: 0; }
+    .fact:nth-child(n+3) { border-top: 1px solid var(--dark-line); }
+    .fact strong { font-size: 1.6rem; }
+    .hero-badge { left: 4px; bottom: 40px; padding: 10px 14px; }
+    .card, .phase, .price, .included, form.card-form { padding: 24px; }
+    .phase { grid-template-columns: 1fr; gap: 14px; }
+    .phase-num { width: 62px; height: 62px; }
+    .included ul, .values, .fields { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr; }
+    .step::before { display: none; }
+    .more-offers { grid-template-columns: 1fr; }
+    .region-box { padding: 24px; }
+    .faq details p { padding-right: 0; }
+    .phone { width: 270px; }
+    .sticky-cta { display: block; position: fixed; left: 16px; right: 16px; bottom: 14px; z-index: 40; transform: translateY(140%); transition: transform .3s ease; }
+    .sticky-cta.show { transform: none; }
+    .sticky-cta .btn { width: 100%; }
+    footer { padding-bottom: 96px; }
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-6 8 6v8a1 1 0 0 1-1 1h-4v-6h-6v6H5a1 1 0 0 1-1-1z"/></symbol>
+    <symbol id="i-office" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M10 21v-4h4v4"/></symbol>
+    <symbol id="i-tree" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21v-6M7 15h10l-3-4h2l-4-7-4 7h2z"/></symbol>
+    <symbol id="i-dumbbell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10v4M6.5 7.5v9M17.5 7.5v9M21 10v4M6.5 12h11"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M6 18l2.5-2.5M15.5 8.5L18 6"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/><path d="M8 11h2l1-2 2 4 1-2h2"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V4M4 20h16M8 16l4-5 3 3 5-6"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></symbol>
+    <symbol id="i-food" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v8a2 2 0 0 0 2 2v8M5 3v5M9 3v5M17 21V3c-2 1-3 4-3 7s1 3 3 3"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.2A8 8 0 1 1 20 12z"/></symbol>
+    <symbol id="i-call" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6.5L12 13l8.5-6.5"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.4 8.2-8 9-4.6-.8-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
+  </defs>
+</svg>
+
+<header class="site" id="top">
+  <div class="wrap nav">
+    <a class="brand" href="#top" aria-label="Mark von Daak – Personal Training, zum Seitenanfang">
+      <img src="img/pin.png" alt="" width="34" height="40">
+      <span class="brand-text"><span class="brand-name">MARK VON DAAK</span><span class="brand-sub">PERSONAL TRAINING</span></span>
+    </a>
+    <nav class="nav-links" id="nav" aria-label="Hauptnavigation">
+      <a href="#programm">Programm</a>
+      <a href="#ablauf">Ablauf</a>
+      <a href="#preise">Preise</a>
+      <a href="#ueber-mich">Über mich</a>
+      <a href="#faq">FAQ</a>
+      <a class="btn btn-primary" href="#kontakt">Kennenlernen buchen</a>
+    </nav>
+    <button class="menu-btn" id="menuBtn" aria-label="Menü öffnen" aria-expanded="false" aria-controls="nav">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+</header>
+
+<main>
+  <!-- Hero -->
+  <section class="hero dark">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">Mobiles Personal Training in Wolfsburg</p>
+        <h1>Dein Training.<br><span>Dein Ort.</span></h1>
+        <p class="lead">Ich komme zu dir – nach Hause, ins Büro, in den Park oder ins Studio. Mit einem klaren 12-Wochen-System wirst du messbar stärker, fitter und schmerzfreier. In nur drei Stunden pro Woche.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="#kontakt">Kennenlern-Training buchen <svg><use href="#i-arrow"/></svg></a>
+          <a class="btn btn-ghost" href="#programm">So funktioniert's</a>
+        </div>
+        <ul class="places" aria-label="Trainingsorte">
+          <li><svg><use href="#i-home"/></svg>Zu Hause</li>
+          <li><svg><use href="#i-office"/></svg>Im Büro</li>
+          <li><svg><use href="#i-tree"/></svg>Outdoor</li>
+          <li><svg><use href="#i-dumbbell"/></svg>Im Studio</li>
+        </ul>
+      </div>
+      <div class="hero-visual">
+        <div class="ring" aria-hidden="true"></div>
+        <div class="halo" aria-hidden="true"></div>
+        <img class="portrait" src="img/mark.webp" alt="Mark von Daak, Personal Trainer in Wolfsburg" width="713" height="900">
+        <div class="hero-badge">
+          <img src="img/pin.png" alt="" width="30" height="34">
+          <div><strong>Ich komme zu dir</strong><span>Wolfsburg und Umgebung</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="facts">
+    <div class="wrap facts-grid">
+      <div class="fact"><strong>12</strong><span>Wochen mit klarem Fahrplan</span></div>
+      <div class="fact"><strong>1:1</strong><span>Training, nur du und dein Coach</span></div>
+      <div class="fact"><strong>24</strong><span>persönliche Einheiten im Programm</span></div>
+      <div class="fact"><strong>0 km</strong><span>Anfahrt für dich</span></div>
+    </div>
+  </div>
+
+  <!-- Für wen -->
+  <section class="section" id="fuer-wen">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">Für wen</p>
+        <h2>Für Menschen, die endlich dranbleiben wollen.</h2>
+        <p class="lead">Du weißt, was zu tun wäre – aber Job, Familie und Alltag kommen dazwischen. Genau dafür gibt es feste Termine, einen klaren Plan und einen Coach, der zu dir kommt.</p>
+      </div>
+      <div class="cards-3">
+        <article class="card reveal">
+          <div class="icon"><svg><use href="#i-clock"/></svg></div>
+          <h3>Viel Verantwortung, wenig Zeit</h3>
+          <p>Lange Arbeitstage, Familie, das Studio-Abo läuft ungenutzt weiter.</p>
+          <ul>
+            <li>Training ohne Anfahrt, auch im Büro</li>
+            <li>Weniger Rückenschmerzen vom Sitzen</li>
+            <li>Mehr Energie für Job und Familie</li>
+          </ul>
+        </article>
+        <article class="card reveal">
+          <div class="icon"><svg><use href="#i-spark"/></svg></div>
+          <h3>Neu- und Wiedereinstieg</h3>
+          <p>Unsicher im Studio, Angst vor falscher Technik oder lange raus aus dem Sport.</p>
+          <ul>
+            <li>Saubere Technik von Anfang an</li>
+            <li>Training im geschützten Rahmen</li>
+            <li>Sichtbare Veränderung Schritt für Schritt</li>
+          </ul>
+        </article>
+        <article class="card reveal">
+          <div class="icon"><svg><use href="#i-heart"/></svg></div>
+          <h3>Fit bleiben mit 50+</h3>
+          <p>Gelenke zwicken, Kraft lässt nach – und du willst lange selbstständig und aktiv bleiben.</p>
+          <ul>
+            <li>Gelenkschonendes Krafttraining</li>
+            <li>Mehr Stabilität und Gleichgewicht</li>
+            <li>Gern auch als Duo mit Partner</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Programm -->
+  <section class="section program" id="programm">
+    <div class="wrap program-grid">
+      <div class="program-intro reveal">
+        <p class="eyebrow">Das Signature-Programm</p>
+        <p class="big">STARK<br>in <span>12</span></p>
+        <p class="lead">Kein Zufallstraining, sondern ein Plan mit Anfang, Ziel und Messpunkten. Vier Phasen, 24 Einheiten, ein Ergebnis, das du schwarz auf weiß siehst.</p>
+        <div class="hero-ctas"><a class="btn btn-dark" href="#kontakt">Jetzt starten <svg><use href="#i-arrow"/></svg></a></div>
+      </div>
+      <div>
+        <div class="phases">
+          <article class="phase reveal">
+            <div class="phase-num"><b>01</b><small>Analyse</small></div>
+            <div><p class="when">Woche 0</p><h3>Eingangs-Check</h3><p>90 Minuten: Gespräch über deine Ziele, Haltungs- und Bewegungsanalyse, Kraftwerte und Körpermaße. Danach wissen wir beide, wo du stehst.</p></div>
+          </article>
+          <article class="phase reveal">
+            <div class="phase-num"><b>02</b><small>Fundament</small></div>
+            <div><p class="when">Woche 1–4</p><h3>Technik und Stabilität</h3><p>Saubere Bewegungen, Mobilität und ein starker Rumpf. Dazu einfache Routinen für Schlaf, Schritte und Ernährung.</p></div>
+          </article>
+          <article class="phase reveal">
+            <div class="phase-num"><b>03</b><small>Aufbau</small></div>
+            <div><p class="when">Woche 5–8</p><h3>Kraft und Kondition</h3><p>Progressives Krafttraining, mehr Ausdauer, Feinschliff bei der Ernährung. Zwischen-Check in Woche 6.</p></div>
+          </article>
+          <article class="phase reveal">
+            <div class="phase-num"><b>04</b><small>Leistung</small></div>
+            <div><p class="when">Woche 9–12</p><h3>Ergebnis und Ausblick</h3><p>Intensivierung, Abschlusstest und dein persönlicher Plan für die Zeit danach – damit das Ergebnis bleibt.</p></div>
+          </article>
+        </div>
+        <div class="included reveal">
+          <h3>Alles inklusive</h3>
+          <ul>
+            <li><svg><use href="#i-check"/></svg>24 Einheiten à 60 Minuten</li>
+            <li><svg><use href="#i-check"/></svg>Eingangs-, Zwischen- und Abschluss-Check</li>
+            <li><svg><use href="#i-check"/></svg>Trainings- und Ernährungsplan in der App</li>
+            <li><svg><use href="#i-check"/></svg>Wöchentlicher Check-in mit Feedback</li>
+            <li><svg><use href="#i-check"/></svg>Equipment bringe ich mit</li>
+            <li><svg><use href="#i-check"/></svg>Abschlussbericht mit Vorher-Nachher</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- App -->
+  <section class="section" id="app">
+    <div class="wrap app-grid">
+      <div class="phone-col reveal">
+        <div class="phone" role="img" aria-label="Ansicht der Coaching-App mit nächstem Training, Tageszielen und Trainingsfortschritt">
+          <div class="screen" aria-hidden="true">
+            <div class="s-top"><b>Heute</b><img src="img/pin.png" alt=""></div>
+            <div class="s-card s-workout"><span class="lbl">Nächstes Training</span><b>Ganzkörper A · Woche 6</b><span class="go">Training starten</span></div>
+            <div class="s-card"><span class="lbl">Tagesziele</span>
+              <div class="rings">
+                <div><svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="14" fill="none" stroke="#E3EEF6" stroke-width="5"/><circle cx="18" cy="18" r="14" fill="none" stroke="#38B6FF" stroke-width="5" stroke-linecap="round" stroke-dasharray="70 88" transform="rotate(-90 18 18)"/></svg><span>Eiweiß</span></div>
+                <div><svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="14" fill="none" stroke="#E3EEF6" stroke-width="5"/><circle cx="18" cy="18" r="14" fill="none" stroke="#0077C2" stroke-width="5" stroke-linecap="round" stroke-dasharray="55 88" transform="rotate(-90 18 18)"/></svg><span>Schritte</span></div>
+                <div><svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="14" fill="none" stroke="#E3EEF6" stroke-width="5"/><circle cx="18" cy="18" r="14" fill="none" stroke="#0F1720" stroke-width="5" stroke-linecap="round" stroke-dasharray="80 88" transform="rotate(-90 18 18)"/></svg><span>Schlaf</span></div>
+              </div>
+            </div>
+            <div class="s-card"><span class="lbl">Trainingsvolumen</span>
+              <div class="bars"><i style="height:38%"></i><i style="height:46%"></i><i style="height:52%"></i><i style="height:58%"></i><i style="height:66%"></i><i style="height:74%"></i><i style="height:84%"></i><i style="height:96%"></i></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal">
+        <p class="eyebrow">Deine Coaching-App</p>
+        <h2>Zwischen den Einheiten bist du nicht allein.</h2>
+        <p class="lead">Die eigene MvD-Coaching-App begleitet dich jeden Tag – auf dem Smartphone, auch offline.</p>
+        <div class="feature-list">
+          <div class="feature"><div class="icon"><svg><use href="#i-dumbbell"/></svg></div><div><h3>Dein Trainingsplan</h3><p>161 Übungen mit Anleitung und Video, Satzprotokoll und Steigerungsvorschläge für jede Übung.</p></div></div>
+          <div class="feature"><div class="icon"><svg><use href="#i-food"/></svg></div><div><h3>Ernährung ohne Diätfrust</h3><p>Ernährungstagebuch mit Barcode-Scanner, Meal-Prep-Rezepte und eine Einkaufsliste per Klick.</p></div></div>
+          <div class="feature"><div class="icon"><svg><use href="#i-chart"/></svg></div><div><h3>Fortschritt sichtbar machen</h3><p>Gewicht, Maße, Bestwerte und Fortschrittsfotos – dein Wochen-Check-in landet direkt bei mir.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ablauf -->
+  <section class="section" id="ablauf" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head center reveal">
+        <p class="eyebrow">Ablauf</p>
+        <h2>In vier Schritten zum Start.</h2>
+      </div>
+      <div class="steps">
+        <div class="step reveal"><span class="step-dot">1</span><h3>Anfrage</h3><p>Formular, Anruf oder WhatsApp. Ich melde mich innerhalb von 24 Stunden.</p></div>
+        <div class="step reveal"><span class="step-dot">2</span><h3>Kennenlernen</h3><p>60 Minuten Gespräch und Probetraining bei dir vor Ort. Wir klären Ziel, Ort und Zeiten.</p></div>
+        <div class="step reveal"><span class="step-dot">3</span><h3>Eingangs-Check</h3><p>Wir messen deinen Startpunkt. Daraus entsteht dein persönlicher 12-Wochen-Plan.</p></div>
+        <div class="step reveal"><span class="step-dot">4</span><h3>Training</h3><p>Zwei feste Termine pro Woche, dazu App und Check-ins. Ab jetzt geht es nur nach vorn.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Preise -->
+  <section class="section pricing dark" id="preise">
+    <div class="wrap">
+      <div class="section-head center reveal">
+        <p class="eyebrow">Preise</p>
+        <h2>Klare Pakete. Keine versteckten Kosten.</h2>
+        <p class="lead">Du investierst in ein Ergebnis, nicht in Einzelstunden. Anfahrt und Equipment im Raum Wolfsburg sind immer inklusive.</p>
+      </div>
+      <div class="price-grid">
+        <article class="price reveal">
+          <span class="tag">Flexibel</span>
+          <h3>Hybrid-Coaching</h3>
+          <p class="for">Für Vielreisende und alle, die viel selbst trainieren wollen.</p>
+          <p class="amount">249 €<small> / Monat</small></p>
+          <p class="amount-note">Mindestlaufzeit 3 Monate</p>
+          <ul>
+            <li><svg><use href="#i-check"/></svg>2 persönliche Einheiten pro Monat</li>
+            <li><svg><use href="#i-check"/></svg>Individueller Plan in der App</li>
+            <li><svg><use href="#i-check"/></svg>Video-Feedback zur Technik</li>
+            <li><svg><use href="#i-check"/></svg>Wöchentlicher Check-in</li>
+          </ul>
+          <a class="btn btn-ghost" href="#kontakt" data-paket="Hybrid-Coaching">Anfragen</a>
+        </article>
+        <article class="price featured reveal">
+          <span class="tag">Am beliebtesten</span>
+          <h3>STARK in 12</h3>
+          <p class="for">Das Signature-Programm für dein messbares Ergebnis.</p>
+          <p class="amount">2.390 €<small> einmalig</small></p>
+          <p class="amount-note">oder 3 Raten à 830 €</p>
+          <ul>
+            <li><svg><use href="#i-check"/></svg>24 Einheiten 1:1 bei dir vor Ort</li>
+            <li><svg><use href="#i-check"/></svg>Eingangs-, Zwischen- und Abschluss-Check</li>
+            <li><svg><use href="#i-check"/></svg>Trainings- und Ernährungsplan in der App</li>
+            <li><svg><use href="#i-check"/></svg>Wöchentlicher Check-in mit Feedback</li>
+            <li><svg><use href="#i-check"/></svg>Ergebnisgarantie</li>
+          </ul>
+          <a class="btn btn-primary" href="#kontakt" data-paket="STARK in 12">Kennenlernen buchen</a>
+        </article>
+        <article class="price reveal">
+          <span class="tag">Nach dem Programm</span>
+          <h3>Weiterführung</h3>
+          <p class="for">Für alle, die ihr Ergebnis halten und weiter ausbauen wollen.</p>
+          <p class="amount">379 €<small> / Monat</small></p>
+          <p class="amount-note">1× pro Woche · 2× pro Woche 690 €</p>
+          <ul>
+            <li><svg><use href="#i-check"/></svg>Feste Wochentermine 1:1</li>
+            <li><svg><use href="#i-check"/></svg>Quartalsweise Leistungstests</li>
+            <li><svg><use href="#i-check"/></svg>App-Begleitung inklusive</li>
+            <li><svg><use href="#i-check"/></svg>Nach 6 Monaten monatlich kündbar</li>
+          </ul>
+          <a class="btn btn-ghost" href="#kontakt" data-paket="Weiterführung">Anfragen</a>
+        </article>
+      </div>
+
+      <div class="more-offers reveal">
+        <div><b>Kennenlern-Training</b><span>49 € · wird bei Buchung angerechnet</span></div>
+        <div><b>Duo-Training</b><span>140 € pro Einheit für zwei Personen</span></div>
+        <div><b>Online-Coaching</b><span>149 € / Monat, deutschlandweit</span></div>
+        <div><b>Firmenfitness</b><span>Workshops und Kurse auf Anfrage</span></div>
+      </div>
+
+      <div class="guarantee reveal">
+        <svg><use href="#i-shield"/></svg>
+        <p><strong>Ergebnisgarantie:</strong> Wenn du alle Termine wahrnimmst und mitziehst, aber dein vereinbartes 12-Wochen-Ziel nicht erreichst, trainiere ich vier weitere Wochen kostenlos mit dir.</p>
+      </div>
+      <p class="price-legal">Alle Preise inkl. gesetzlicher MwSt. Absagen bis 24 Stunden vorher sind kostenfrei.</p>
+    </div>
+  </section>
+
+  <!-- Über mich -->
+  <section class="section" id="ueber-mich">
+    <div class="wrap about-grid">
+      <div class="about-photo reveal">
+        <img class="pin-mark" src="img/pin.png" alt="">
+        <img class="portrait" src="img/mark.webp" alt="Porträt von Mark von Daak" width="713" height="900" loading="lazy">
+      </div>
+      <div class="about-copy reveal">
+        <p class="eyebrow">Über mich</p>
+        <h2>Hi, ich bin Mark.</h2>
+        <p>Ich bin Personal Trainer in Wolfsburg und habe eine einfache Überzeugung: Gutes Training muss in dein Leben passen – nicht umgekehrt. Deshalb komme ich zu dir, statt dich ins Studio zu schicken.</p>
+        <p>Mein Ansatz ist ehrlich und wissenschaftlich fundiert: Krafttraining als Basis, Gewohnheiten statt Crash-Diäten und Messwerte statt Bauchgefühl. Ich höre zu, schaue mir deinen Alltag an und baue mit dir einen Plan, den du wirklich durchziehst.</p>
+        <p>Bei Beschwerden arbeite ich eng mit Ärzten und Physiotherapeuten zusammen. Denn das Ziel ist nicht nur, dass du gut aussiehst – sondern dass du dich lange stark und gesund fühlst.</p>
+        <p class="sign">– Mark</p>
+        <div class="values">
+          <div class="value"><b>Ehrlich</b><span>Realistische Ziele, klare Worte</span></div>
+          <div class="value"><b>Verlässlich</b><span>Feste Termine, schnelle Antworten</span></div>
+          <div class="value"><b>Fundiert</b><span>Training nach aktuellem Wissensstand</span></div>
+          <div class="value"><b>Persönlich</b><span>Ein Coach, kein Wechsel</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Region -->
+  <section class="section region" id="region">
+    <div class="wrap">
+      <div class="region-box reveal">
+        <div>
+          <p class="eyebrow">Einsatzgebiet</p>
+          <h2>Wolfsburg und Umgebung.</h2>
+          <p class="lead">Ich trainiere mit dir in deinem Wohnzimmer, im Garten, im Firmen-Fitnessraum, im Park oder in einem Partnerstudio. Online-Coaching gibt es deutschlandweit.</p>
+          <div class="chips">
+            <span>Wolfsburg</span><span>Fallersleben</span><span>Vorsfelde</span><span>Detmerode</span><span>Gifhorn</span><span>Weyhausen</span><span>Velpke</span><span>und weitere auf Anfrage</span>
+          </div>
+        </div>
+        <div class="map" aria-hidden="true">
+          <div class="c"></div><div class="c c2"></div><div class="c c3"></div>
+          <img src="img/pin.png" alt="">
+          <span class="lbl">Ich komme zu dir</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" id="faq">
+    <div class="wrap faq-grid">
+      <div class="reveal">
+        <p class="eyebrow">FAQ</p>
+        <h2>Häufige Fragen.</h2>
+        <p class="lead">Deine Frage ist nicht dabei? Schreib mir einfach – ich antworte persönlich.</p>
+      </div>
+      <div class="faq reveal">
+        <details>
+          <summary>Brauche ich zu Hause eigene Geräte?</summary>
+          <p>Nein. Kurzhanteln, Kettlebells, Bänder, Matten und alles Weitere bringe ich mit. Etwa vier mal zwei Meter freie Fläche reichen.</p>
+        </details>
+        <details>
+          <summary>Ich bin völlig untrainiert – ist das ein Problem?</summary>
+          <p>Ganz im Gegenteil. Das Programm startet bei deinem aktuellen Stand. Gerade am Anfang ist eine saubere Technik unter Anleitung am wertvollsten.</p>
+        </details>
+        <details>
+          <summary>Kann ich mit Rückenschmerzen oder Gelenkproblemen trainieren?</summary>
+          <p>In den meisten Fällen ja – und gezieltes Krafttraining hilft oft sogar. Bei akuten Beschwerden oder Vorerkrankungen sprechen wir vorher mit deinem Arzt oder Physiotherapeuten.</p>
+        </details>
+        <details>
+          <summary>Was passiert, wenn ich einen Termin absagen muss?</summary>
+          <p>Bis 24 Stunden vorher ist eine Absage kostenfrei und wir finden einen Ersatztermin. Kurzfristigere Absagen werden berechnet.</p>
+        </details>
+        <details>
+          <summary>Wie schnell sehe ich Ergebnisse?</summary>
+          <p>Die meisten spüren nach zwei bis drei Wochen mehr Energie und bessere Haltung. Messbare Veränderungen bei Kraft und Körpermaßen zeigen sich beim Zwischen-Check in Woche 6.</p>
+        </details>
+        <details>
+          <summary>Bietest du auch Training für Firmen an?</summary>
+          <p>Ja. Von Workshops wie „Gesunder Rücken im Büro“ über Gruppenkurse bis zum Einzelcoaching für Führungskräfte. Betriebliche Gesundheitsförderung ist bis 600 € pro Mitarbeiter und Jahr steuerlich begünstigt.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Kontakt -->
+  <section class="section contact dark" id="kontakt">
+    <div class="wrap contact-grid">
+      <div class="reveal">
+        <p class="eyebrow">Kontakt</p>
+        <h2>Bereit für deinen Start?</h2>
+        <p class="lead">Buche dein Kennenlern-Training: 60 Minuten Gespräch und Probetraining bei dir vor Ort. Danach entscheidest du in Ruhe.</p>
+        <div class="direct">
+          <a href="https://wa.me/491794340426" target="_blank" rel="noopener"><span class="icon"><svg><use href="#i-chat"/></svg></span><span><small>WhatsApp</small><b>Nachricht schreiben</b></span></a>
+          <a href="tel:+491794340426"><span class="icon"><svg><use href="#i-call"/></svg></span><span><small>Telefon</small><b>0179 4340426</b></span></a>
+          <a href="mailto:markvondaak@icloud.com"><span class="icon"><svg><use href="#i-mail"/></svg></span><span><small>E-Mail</small><b>markvondaak@icloud.com</b></span></a>
+        </div>
+      </div>
+      <form class="card-form reveal" name="personal-training-anfrage" method="POST" action="danke.html" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="personal-training-anfrage">
+        <p class="hidden"><label>Nicht ausfüllen: <input name="bot-field"></label></p>
+        <p class="form-title">Kennenlern-Training anfragen</p>
+        <p class="form-sub">Ich melde mich innerhalb von 24 Stunden bei dir.</p>
+        <div class="fields">
+          <div class="field"><label for="f-name">Name *</label><input id="f-name" name="name" autocomplete="name" required></div>
+          <div class="field"><label for="f-tel">Telefon *</label><input id="f-tel" name="telefon" type="tel" autocomplete="tel" required></div>
+          <div class="field full"><label for="f-mail">E-Mail *</label><input id="f-mail" name="email" type="email" autocomplete="email" required></div>
+          <div class="field"><label for="f-ziel">Dein Ziel</label>
+            <select id="f-ziel" name="ziel">
+              <option>Abnehmen und straffen</option>
+              <option>Kraft und Muskeln aufbauen</option>
+              <option>Rücken- und Gelenkbeschwerden lindern</option>
+              <option>Fit und beweglich bleiben</option>
+              <option>Etwas anderes</option>
+            </select>
+          </div>
+          <div class="field"><label for="f-paket">Interesse an</label>
+            <select id="f-paket" name="paket">
+              <option>STARK in 12</option>
+              <option>Weiterführung</option>
+              <option>Hybrid-Coaching</option>
+              <option>Online-Coaching</option>
+              <option>Duo-Training</option>
+              <option>Firmenfitness</option>
+              <option>Noch unsicher</option>
+            </select>
+          </div>
+          <div class="field full"><label for="f-msg">Nachricht</label><textarea id="f-msg" name="nachricht" placeholder="Wo möchtest du trainieren, und wann passt es dir am besten?"></textarea></div>
+          <label class="consent full field" style="grid-column:1/-1"><input type="checkbox" name="einwilligung" required> <span>Ich bin einverstanden, dass meine Angaben zur Bearbeitung meiner Anfrage verwendet werden. Mehr dazu in der <a href="../datenschutz.html">Datenschutzerklärung</a>. *</span></label>
+        </div>
+        <button class="btn btn-primary form-btn" type="submit">Anfrage senden <svg><use href="#i-arrow"/></svg></button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <a class="brand" href="#top">
+        <img src="img/pin.png" alt="" width="34" height="40">
+        <span class="brand-text"><span class="brand-name">MARK VON DAAK</span><span class="brand-sub">PERSONAL TRAINING</span></span>
+      </a>
+      <nav class="foot-links" aria-label="Fußzeile">
+        <a href="#programm">Programm</a>
+        <a href="#preise">Preise</a>
+        <a href="#kontakt">Kontakt</a>
+        <a href="../impressum.html">Impressum</a>
+        <a href="../datenschutz.html">Datenschutz</a>
+      </nav>
+    </div>
+    <div class="foot-bottom">
+      <span>© <span id="year">2026</span> Mark von Daak – Personal Training, Wolfsburg</span>
+      <span>Dein Training. Dein Ort.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="sticky-cta" id="stickyCta"><a class="btn btn-primary" href="#kontakt">Kennenlern-Training buchen</a></div>
+
+<script>
+  (function () {
+    var header = document.querySelector('header.site');
+    var sticky = document.getElementById('stickyCta');
+    var hero = document.querySelector('.hero');
+    function onScroll() {
+      var y = window.scrollY;
+      header.classList.toggle('scrolled', y > 40);
+      var kontakt = document.getElementById('kontakt').getBoundingClientRect().top;
+      sticky.classList.toggle('show', y > hero.offsetHeight * 0.7 && kontakt > window.innerHeight);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    var btn = document.getElementById('menuBtn'), nav = document.getElementById('nav');
+    function setMenu(open) {
+      nav.classList.toggle('open', open);
+      header.classList.toggle('menu-open', open);
+      btn.setAttribute('aria-expanded', open);
+      btn.setAttribute('aria-label', open ? 'Menü schließen' : 'Menü öffnen');
+    }
+    btn.addEventListener('click', function () { setMenu(!nav.classList.contains('open')); });
+    nav.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { setMenu(false); }); });
+
+    document.querySelectorAll('[data-paket]').forEach(function (a) {
+      a.addEventListener('click', function () { document.getElementById('f-paket').value = a.getAttribute('data-paket'); });
+    });
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    var items = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+      }, { rootMargin: '0px 0px -8% 0px' });
+      items.forEach(function (el) { io.observe(el); });
+    } else {
+      items.forEach(function (el) { el.classList.add('in'); });
+    }
+  })();
+</script>
+</body>
+</html>
