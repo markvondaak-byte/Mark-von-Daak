@@ -519,7 +519,7 @@ function einrichtung(ziel) {
   const p = einrichtung.entwurf || (einrichtung.entwurf = {
     name: '', ziel: null, geschlecht: null, alter: null, groesse: null, gewicht: null,
     aktivitaet: null, tage: 3, ort: 'studio', erfahrung: 'einsteiger', schrittziel: 8000, schlafziel: 7.5,
-    coachWhatsapp: '0179 4340426', coachEmail: 'markvondaak@icloud.com'
+    coachWhatsapp: '0179 4340426', coachEmail: 'info@markvondaak-coaching.de'
   });
   const schritte = 6;
   const nr = einrichtung.schritt || 1;
