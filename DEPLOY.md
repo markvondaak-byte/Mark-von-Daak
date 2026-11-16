@@ -1,5 +1,15 @@
 # Hosting bei Netlify
 
+**Live:** <https://mark-von-daak.netlify.app> · Personal Training unter
+<https://mark-von-daak.netlify.app/personal-training/> · Netlify-Projekt
+`mark-von-daak` im Team `markvondaak-byte` (Formulare aktiviert, kein
+Login-Schutz).
+
+Das Projekt wurde per Upload veröffentlicht und ist noch **nicht mit GitHub
+verbunden**: Ein Push baut also nicht automatisch neu. Dafür in Netlify unter
+**Project configuration → Build & deploy → Continuous deployment → Link
+repository** dieses Repository und den Branch `claude/hihi-mdd42r` wählen.
+
 ## Was veröffentlicht wird
 
 | Pfad | Inhalt |
