@@ -5,5 +5,3 @@ Allow: /
 Disallow: /app/
 Disallow: /business/
 Disallow: /coaching/
-
-Sitemap: https://markvondaak-coaching.de/sitemap.xml

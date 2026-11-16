@@ -148,3 +148,22 @@
   from = "/rezepte/*"
   to = "/404.html"
   status = 404
+
+# --- Nur Personal Training --------------------------------------------------
+# Die Personal-Training-Seite liegt seit der eigenen Domain direkt unter /.
+# Alte Links auf /personal-training/ führen dorthin; die FitLine-Teile
+# (Stoffwechsel-Reset-App, Kontakttool) gibt es unter dieser Domain nicht.
+[[redirects]]
+  from = "/personal-training/*"
+  to = "/:splat"
+  status = 301
+
+[[redirects]]
+  from = "/app/*"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/business/*"
+  to = "/"
+  status = 301

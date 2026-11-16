@@ -14,19 +14,20 @@ repository** dieses Repository und den Branch `claude/hihi-mdd42r` wählen.
 
 ## Was veröffentlicht wird
 
-| Pfad | Inhalt |
-|---|---|
-| `/` | Website (`index.html`, Impressum, Datenschutz) |
-| `/app/` | Die Stoffwechsel-Reset-App |
-| `/coaching/` | Neutrale Coaching-App für Klienten — nicht verlinkt und aus Suchmaschinen ausgeschlossen (siehe `coaching/README.md`) |
-| `/business/` | Kontakte und Follow-up — persönliches Arbeitsmittel, nicht verlinkt und aus Suchmaschinen ausgeschlossen |
-| `/assets/` | Bilddateien |
-| `/404.html` | Fehlerseite im Look der Website |
+Unter **markvondaak-coaching.de** läuft ausschließlich *Mark von Daak –
+Personal Training*:
 
-**Nicht** veröffentlicht werden die Buchquellen unter `buch/`, `workbook/` und
-`rezepte/` sowie sämtliche Build-Skripte. Dafür sorgt `tools/build_site.py`:
-Es kopiert gezielt nur das Auszuliefernde nach `dist/` und bricht mit einem
-Fehler ab, falls doch eine Buchquelle darin landet.
+| Pfad | Inhalt | Quelle |
+|---|---|---|
+| `/` | Personal-Training-Seite mit Impressum, Datenschutz, Danke- und Fehlerseite | `personal-training/` |
+| `/coaching/` | App SMART Coaching samt Coach-Ansicht — nicht verlinkt, für Suchmaschinen gesperrt | `coaching/` |
+
+Die FitLine-Seite „Vital und fit mit Mark“ (`index.html`, `impressum.html`,
+`datenschutz.html`, `assets/`), die Stoffwechsel-Reset-App (`app/`), das
+Kontakttool (`business/`) und die Buchquellen bleiben im Repository, werden
+aber **nicht** veröffentlicht. `tools/build_site.py` bricht ab, sobald etwas
+davon oder das Wort „FitLine“ in `dist/` landet. Alte Links auf
+`/personal-training/…` leiten per `netlify.toml` auf `/` um.
 
 ## Einrichtung, einmalig
 
