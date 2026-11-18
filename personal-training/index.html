@@ -293,6 +293,8 @@
   .consent input { width: 20px; height: 20px; margin-top: 2px; flex: none; accent-color: var(--blue-deep); }
   .consent a { color: var(--blue-deep); }
   .form-btn { margin-top: 22px; width: 100%; }
+  .form-btn[disabled] { opacity: .6; cursor: wait; }
+  .form-status { margin-top: 12px; font-size: .92rem; color: #B42318; min-height: 1.2em; }
   .hidden { display: none; }
 
   /* ---------- Footer ---------- */
@@ -757,9 +759,12 @@
           <a href="mailto:info@markvondaak-coaching.de"><span class="icon"><svg><use href="#i-mail"/></svg></span><span><small>E-Mail</small><b>info@markvondaak-coaching.de</b></span></a>
         </div>
       </div>
-      <form class="card-form reveal" name="personal-training-anfrage" method="POST" action="danke.html" data-netlify="true" netlify-honeypot="bot-field">
-        <input type="hidden" name="form-name" value="personal-training-anfrage">
-        <p class="hidden"><label>Nicht ausfüllen: <input name="bot-field"></label></p>
+      <form class="card-form reveal" id="anfrage" method="POST" action="https://api.web3forms.com/submit">
+        <input type="hidden" name="access_key" value="db875e4a-c387-41ca-8a86-06b75030eddf">
+        <input type="hidden" name="subject" value="Neue Anfrage über markvondaak-coaching.de">
+        <input type="hidden" name="from_name" value="Website Mark von Daak Personal Training">
+        <input type="hidden" name="redirect" value="https://markvondaak-coaching.de/danke.html">
+        <input type="checkbox" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true">
         <p class="form-title">Kennenlern-Training anfragen</p>
         <p class="form-sub">Ich melde mich innerhalb von 24 Stunden bei dir.</p>
         <div class="fields">
@@ -789,6 +794,7 @@
           <label class="consent full field" style="grid-column:1/-1"><input type="checkbox" name="einwilligung" required> <span>Ich bin einverstanden, dass meine Angaben zur Bearbeitung meiner Anfrage verwendet werden. Mehr dazu in der <a href="/datenschutz.html">Datenschutzerklärung</a>. *</span></label>
         </div>
         <button class="btn btn-primary form-btn" type="submit">Anfrage senden <svg><use href="#i-arrow"/></svg></button>
+        <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
       </form>
     </div>
   </section>
@@ -847,6 +853,26 @@
     });
 
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    var form = document.getElementById('anfrage');
+    if (form && window.fetch && window.FormData) {
+      form.addEventListener('submit', function (ev) {
+        ev.preventDefault();
+        var knopf = form.querySelector('button[type=submit]');
+        var status = document.getElementById('form-status');
+        knopf.disabled = true; status.textContent = '';
+        fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } })
+          .then(function (r) { return r.json(); })
+          .then(function (d) {
+            if (d && d.success) { window.location.href = '/danke.html'; return; }
+            throw new Error('fehlgeschlagen');
+          })
+          .catch(function () {
+            knopf.disabled = false;
+            status.textContent = 'Das hat leider nicht geklappt. Bitte versuche es noch einmal oder schreib mir per WhatsApp.';
+          });
+      });
+    }
 
     var items = document.querySelectorAll('.reveal');
     if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
