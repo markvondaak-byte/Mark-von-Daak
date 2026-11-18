@@ -8,10 +8,7 @@ Story 1080 × 1920, Profilbild 1080 × 1080). Die Vorlage dafür liegt in
 ## 1. Account anlegen
 
 1. In der Instagram-App: Profilbild → Menü → **Konto hinzufügen → Neues Konto erstellen**.
-2. Benutzername (Vorschläge, der erste passt zur Domain):
-   - `markvondaak.coaching`
-   - `markvondaak.pt`
-   - `markvondaak_personaltraining`
+2. Benutzername: **`markvondaak.coaching`** (https://www.instagram.com/markvondaak.coaching/), verlinkt auf der Website und der Link-Seite.
 3. **Einstellungen → Kontoart und Tools → Zu professionellem Konto wechseln → Unternehmen**,
    Kategorie **Personal Trainer**.
 4. Profilbild: `01-profilbild.png`
