@@ -243,6 +243,8 @@
   .about-copy p { color: var(--ink-soft); margin-top: 16px; font-size: 1.06rem; }
   .about-copy p:first-of-type { margin-top: 22px; }
   .about-copy .sign { font-family: var(--display); font-weight: 700; color: var(--ink); font-size: 1.2rem; margin-top: 26px; }
+  .bewertung { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; margin-top: 26px; }
+  .bewertung span { font-size: .9rem; color: var(--ink-soft); }
   .values { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 32px; }
   .value { padding: 18px 20px; border: 1px solid var(--line); border-radius: 16px; }
   .value b { display: block; font-size: 1rem; }
@@ -411,6 +413,7 @@
     <symbol id="i-call" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></symbol>
     <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6.5L12 13l8.5-6.5"/></symbol>
     <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.4 8.2-8 9-4.6-.8-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z"/></symbol>
     <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
   </defs>
 </svg>
@@ -701,6 +704,10 @@
           <div class="value"><b>Fundiert</b><span>Training nach aktuellem Wissensstand</span></div>
           <div class="value"><b>Persönlich</b><span>Ein Coach, kein Wechsel</span></div>
         </div>
+        <div class="bewertung">
+          <a class="btn btn-dark" href="https://g.page/r/CfBGx8EM42uhEBM/review" target="_blank" rel="noopener"><svg><use href="#i-star"/></svg>Bewertungen bei Google</a>
+          <span>Ansehen oder selbst eine Bewertung schreiben</span>
+        </div>
       </div>
     </div>
   </section>
@@ -802,6 +809,7 @@
           <a href="https://wa.me/491794340426" target="_blank" rel="noopener"><span class="icon"><svg><use href="#i-chat"/></svg></span><span><small>WhatsApp</small><b>Nachricht schreiben</b></span></a>
           <a href="tel:+491794340426"><span class="icon"><svg><use href="#i-call"/></svg></span><span><small>Telefon</small><b>0179 4340426</b></span></a>
           <a href="mailto:info@markvondaak-coaching.de"><span class="icon"><svg><use href="#i-mail"/></svg></span><span><small>E-Mail</small><b>info@markvondaak-coaching.de</b></span></a>
+          <a href="https://g.page/r/CfBGx8EM42uhEBM/review" target="_blank" rel="noopener"><span class="icon"><svg><use href="#i-star"/></svg></span><span><small>Google</small><b>Bewertungen ansehen &amp; schreiben</b></span></a>
         </div>
       </div>
       <form class="card-form reveal" id="anfrage" method="POST" action="https://api.web3forms.com/submit">
@@ -858,6 +866,7 @@
         <a href="#kontakt">Kontakt</a>
         <a href="/impressum.html">Impressum</a>
         <a href="/datenschutz.html">Datenschutz</a>
+        <a href="https://g.page/r/CfBGx8EM42uhEBM/review" target="_blank" rel="noopener">Bewertungen bei Google</a>
       </nav>
     </div>
     <div class="foot-bottom">
