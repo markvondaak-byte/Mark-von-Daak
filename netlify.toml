@@ -157,3 +157,14 @@
   from = "/business/*"
   to = "/"
   status = 301
+
+# Kurzlinks für die Link-Seite (Instagram-Bio)
+[[redirects]]
+  from = "/link"
+  to = "/links/"
+  status = 301
+
+[[redirects]]
+  from = "/linktree"
+  to = "/links/"
+  status = 301

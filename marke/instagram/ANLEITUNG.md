@@ -31,8 +31,8 @@ A-Lizenz · STARK in 12
 👇 Kennenlern-Training buchen
 ```
 
-**Link:** `https://markvondaak-coaching.de`
-(Weitere Links über „Links hinzufügen“: Amazon-Buch `https://www.amazon.de/dp/B0HPP1HD66`, Google-Bewertungen `https://g.page/r/CfBGx8EM42uhEBM/review`)
+**Link:** `https://markvondaak-coaching.de/links`
+Das ist deine eigene Link-Seite (wie Linktree) mit allen Links: Kennenlern-Training, WhatsApp, Website, STARK in 12, Angebote, Buch, Google-Bewertungen, Telefon und E-Mail. Kurzform: `markvondaak-coaching.de/link`.
 
 **Kontakt-Buttons:** Telefon `0179 4340426`, E-Mail `info@markvondaak-coaching.de`, WhatsApp verbinden.
 
