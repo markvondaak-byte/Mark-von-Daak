@@ -763,7 +763,6 @@
         <input type="hidden" name="access_key" value="db875e4a-c387-41ca-8a86-06b75030eddf">
         <input type="hidden" name="subject" value="Neue Anfrage über markvondaak-coaching.de">
         <input type="hidden" name="from_name" value="Website Mark von Daak Personal Training">
-        <input type="hidden" name="redirect" value="https://markvondaak-coaching.de/danke.html">
         <input type="checkbox" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true">
         <p class="form-title">Kennenlern-Training anfragen</p>
         <p class="form-sub">Ich melde mich innerhalb von 24 Stunden bei dir.</p>
@@ -861,15 +860,17 @@
         var knopf = form.querySelector('button[type=submit]');
         var status = document.getElementById('form-status');
         knopf.disabled = true; status.textContent = '';
-        fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } })
-          .then(function (r) { return r.json(); })
+        var daten = {};
+        new FormData(form).forEach(function (wert, schluessel) { daten[schluessel] = wert; });
+        fetch(form.action, { method: 'POST', body: JSON.stringify(daten), headers: { 'Content-Type': 'application/json', Accept: 'application/json' } })
+          .then(function (r) { return r.json().catch(function () { return { success: r.ok }; }); })
           .then(function (d) {
             if (d && d.success) { window.location.href = '/danke.html'; return; }
-            throw new Error('fehlgeschlagen');
+            throw new Error((d && d.message) || 'fehlgeschlagen');
           })
-          .catch(function () {
+          .catch(function (fehler) {
             knopf.disabled = false;
-            status.textContent = 'Das hat leider nicht geklappt. Bitte versuche es noch einmal oder schreib mir per WhatsApp.';
+            status.textContent = 'Das hat leider nicht geklappt. Bitte versuche es noch einmal oder schreib mir per WhatsApp.' + (fehler && fehler.message && fehler.message !== 'fehlgeschlagen' ? ' (' + fehler.message + ')' : '');
           });
       });
     }
