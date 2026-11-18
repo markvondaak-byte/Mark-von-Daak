@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<style>
+  @font-face { font-family: "Inter"; font-weight: 400; src: url(inter-400.woff2); }
+  @font-face { font-family: "Inter"; font-weight: 600; src: url(inter-600.woff2); }
+  @font-face { font-family: "Inter Display"; font-weight: 800; src: url(interdisplay-800.woff2); }
+  :root { --blue: #38B6FF; --dark: #0B1218; --card: #131C24; --line: #24303B; --soft: #A7B3BF; --white: #F2F6FA; --rot: #FF6B6B; --gruen: #4ADE80; }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: #444; font-family: "Inter", sans-serif; display: flex; flex-direction: column; gap: 40px; padding: 40px; }
+  .s { position: relative; overflow: hidden; width: 1080px; height: 1350px; padding: 96px 80px; color: var(--white); flex: none;
+       background: radial-gradient(900px 700px at 100% 0%, rgba(56,182,255,.2), transparent 65%), var(--dark); }
+  h1, h2 { font-family: "Inter Display", "Inter", sans-serif; font-weight: 800; letter-spacing: -.035em; line-height: .98; }
+  .eyebrow { font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--blue); font-size: 28px; display: flex; align-items: center; gap: 18px; }
+  .eyebrow::before { content: ""; width: 48px; height: 4px; background: var(--blue); }
+  .fuss { position: absolute; left: 80px; right: 80px; bottom: 64px; display: flex; align-items: center; justify-content: space-between; }
+  .marke { display: flex; align-items: center; gap: 16px; }
+  .marke img { height: 56px; }
+  .marke b { display: block; font-family: "Inter Display", sans-serif; font-weight: 800; font-size: 26px; letter-spacing: .02em; }
+  .marke span { display: block; font-size: 15px; font-weight: 600; letter-spacing: .3em; color: var(--blue); margin-top: 3px; }
+  .punkte { display: flex; gap: 10px; }
+  .punkte i { width: 14px; height: 14px; border-radius: 50%; background: #2A3642; }
+  .punkte i.an { background: var(--blue); width: 40px; border-radius: 999px; }
+
+  /* Cover */
+  .cover h1 { font-size: 164px; margin-top: 60px; }
+  .cover h1 span { color: var(--blue); }
+  .cover p { font-size: 46px; color: #D6DEE6; margin-top: 40px; line-height: 1.25; }
+  .cover .wisch { margin-top: 70px; display: inline-flex; align-items: center; gap: 16px; background: var(--blue); color: var(--dark); font-weight: 600; font-size: 34px; padding: 22px 36px; border-radius: 999px; }
+  .cover .wisch svg { width: 36px; height: 36px; }
+  .gross-zahl { position: absolute; right: -40px; top: 120px; font-family: "Inter Display", sans-serif; font-weight: 800; font-size: 900px; line-height: .8; color: rgba(56,182,255,.07); }
+
+  /* Fehler-Folien */
+  .nr { font-family: "Inter Display", sans-serif; font-weight: 800; font-size: 34px; color: var(--dark); background: var(--blue); width: 76px; height: 76px; border-radius: 20px; display: grid; place-items: center; }
+  .kopf { display: flex; align-items: center; gap: 24px; }
+  .fehler h2 { font-size: 104px; margin-top: 40px; }
+  .box { margin-top: 44px; border-radius: 28px; padding: 34px 38px; border: 2px solid; }
+  .box.falsch { background: rgba(255,107,107,.08); border-color: rgba(255,107,107,.45); }
+  .box.richtig { background: rgba(74,222,128,.08); border-color: rgba(74,222,128,.45); margin-top: 24px; }
+  .box .t { display: flex; align-items: center; gap: 14px; font-weight: 600; font-size: 30px; letter-spacing: .08em; text-transform: uppercase; }
+  .box.falsch .t { color: var(--rot); }
+  .box.richtig .t { color: var(--gruen); }
+  .box .t svg { width: 38px; height: 38px; }
+  .box p { font-size: 36px; line-height: 1.35; margin-top: 14px; color: #E3E9EF; }
+  .box ul { margin: 14px 0 0; padding-left: 1.1em; font-size: 34px; line-height: 1.4; color: #E3E9EF; }
+  .box li + li { margin-top: 6px; }
+
+  /* Checkliste */
+  .check h2 { font-size: 96px; margin-top: 36px; }
+  .check ol { list-style: none; padding: 0; margin-top: 54px; display: grid; gap: 20px; counter-reset: c; }
+  .check li { counter-increment: c; display: flex; align-items: center; gap: 26px; background: var(--card); border: 2px solid var(--line); border-radius: 26px; padding: 26px 30px; font-size: 38px; font-weight: 600; }
+  .check li::before { content: counter(c); flex: none; width: 64px; height: 64px; border-radius: 18px; background: rgba(56,182,255,.16); color: var(--blue); display: grid; place-items: center; font-family: "Inter Display", sans-serif; font-weight: 800; font-size: 32px; }
+
+  /* CTA */
+  .cta h2 { font-size: 118px; margin-top: 44px; }
+  .cta h2 span { color: var(--blue); }
+  .cta p { font-size: 40px; color: #D6DEE6; margin-top: 40px; line-height: 1.35; }
+  .cta .buttons { display: grid; gap: 22px; margin-top: 64px; }
+  .cta .b { display: flex; align-items: center; gap: 22px; border-radius: 26px; padding: 28px 32px; font-size: 38px; font-weight: 600; background: var(--card); border: 2px solid var(--line); }
+  .cta .b.haupt { background: var(--blue); border-color: var(--blue); color: var(--dark); }
+  .cta .b svg { width: 46px; height: 46px; flex: none; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="12" cy="12" r="10" stroke-width="2"/><path d="M8.5 8.5l7 7M15.5 8.5l-7 7"/></symbol>
+    <symbol id="ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" stroke-width="2"/><path d="M7.5 12.5l3 3 6-6.5"/></symbol>
+    <symbol id="pfeil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="merken" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-6-4-6 4z"/></symbol>
+    <symbol id="cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18M9 15l2 2 4-4"/></symbol>
+  </defs>
+</svg>
+
+<!-- 1 Cover -->
+<div class="s cover" id="k1">
+  <div class="gross-zahl">3</div>
+  <p class="eyebrow">Technik-Check</p>
+  <h1>3 Fehler<br>beim <span>Kniebeugen</span></h1>
+  <p>…und wie du sie ab heute korrigierst.</p>
+  <span class="wisch">Wischen <svg><use href="#pfeil"/></svg></span>
+  <div class="fuss"><div class="marke"><img src="pin.png" alt=""><div><b>MARK VON DAAK</b><span>PERSONAL TRAINING</span></div></div><div class="punkte"><i class="an"></i><i></i><i></i><i></i><i></i><i></i></div></div>
+</div>
+
+<!-- 2 Fehler 1 -->
+<div class="s fehler" id="k2">
+  <div class="kopf"><span class="nr">1</span><p class="eyebrow">Fehler Nummer eins</p></div>
+  <h2>Die Knie fallen nach innen.</h2>
+  <div class="box falsch"><p class="t"><svg><use href="#x"/></svg>So nicht</p><p>Beim Hochkommen knicken die Knie Richtung Mitte ein. Das belastet die Knie unnötig und kostet Kraft.</p></div>
+  <div class="box richtig"><p class="t"><svg><use href="#ok"/></svg>So geht's</p><ul><li>Knie zeigen in Richtung Zehen</li><li>Boden „auseinanderdrücken“, Füße fest</li><li>Tipp: Miniband über den Knien</li></ul></div>
+  <div class="fuss"><div class="marke"><img src="pin.png" alt=""><div><b>MARK VON DAAK</b><span>PERSONAL TRAINING</span></div></div><div class="punkte"><i></i><i class="an"></i><i></i><i></i><i></i><i></i></div></div>
+</div>
+
+<!-- 3 Fehler 2 -->
+<div class="s fehler" id="k3">
+  <div class="kopf"><span class="nr">2</span><p class="eyebrow">Fehler Nummer zwei</p></div>
+  <h2>Die Fersen heben ab.</h2>
+  <div class="box falsch"><p class="t"><svg><use href="#x"/></svg>So nicht</p><p>Das Gewicht wandert auf die Zehen, du verlierst das Gleichgewicht und die Last landet auf den Knien.</p></div>
+  <div class="box richtig"><p class="t"><svg><use href="#ok"/></svg>So geht's</p><ul><li>Ganzer Fuß bleibt am Boden</li><li>Gewicht über der Fußmitte</li><li>Sprunggelenke mobilisieren</li></ul></div>
+  <div class="fuss"><div class="marke"><img src="pin.png" alt=""><div><b>MARK VON DAAK</b><span>PERSONAL TRAINING</span></div></div><div class="punkte"><i></i><i></i><i class="an"></i><i></i><i></i><i></i></div></div>
+</div>
+
+<!-- 4 Fehler 3 -->
+<div class="s fehler" id="k4">
+  <div class="kopf"><span class="nr">3</span><p class="eyebrow">Fehler Nummer drei</p></div>
+  <h2>Der Rücken wird rund.</h2>
+  <div class="box falsch"><p class="t"><svg><use href="#x"/></svg>So nicht</p><p>Der Oberkörper kippt nach vorn oder der untere Rücken rundet sich ganz unten – genau dort, wo die Last am größten ist.</p></div>
+  <div class="box richtig"><p class="t"><svg><use href="#ok"/></svg>So geht's</p><ul><li>Vor jeder Wiederholung Bauch fest anspannen</li><li>Brust aufrecht, Blick nach vorn</li><li>Nur so tief, wie der Rücken gerade bleibt</li></ul></div>
+  <div class="fuss"><div class="marke"><img src="pin.png" alt=""><div><b>MARK VON DAAK</b><span>PERSONAL TRAINING</span></div></div><div class="punkte"><i></i><i></i><i></i><i class="an"></i><i></i><i></i></div></div>
+</div>
+
+<!-- 5 Checkliste -->
+<div class="s check" id="k5">
+  <p class="eyebrow">Zum Speichern</p>
+  <h2>Deine Kniebeuge in 5 Punkten</h2>
+  <ol>
+    <li>Füße etwa schulterbreit</li>
+    <li>Bauch fest, bevor es runtergeht</li>
+    <li>Knie folgen den Zehen</li>
+    <li>Ganzer Fuß am Boden</li>
+    <li>Rücken gerade, kontrolliert hoch</li>
+  </ol>
+  <div class="fuss"><div class="marke"><img src="pin.png" alt=""><div><b>MARK VON DAAK</b><span>PERSONAL TRAINING</span></div></div><div class="punkte"><i></i><i></i><i></i><i></i><i class="an"></i><i></i></div></div>
+</div>
+
+<!-- 6 CTA -->
+<div class="s cta" id="k6">
+  <p class="eyebrow">Wolfsburg und Umgebung</p>
+  <h2>Unsicher bei deiner <span>Technik?</span></h2>
+  <p>Im Kennenlern-Training schaue ich mir deine Kniebeuge bei dir vor Ort an – und zeige dir, wie sie sauber wird.</p>
+  <div class="buttons">
+    <div class="b haupt"><svg><use href="#cal"/></svg>Kennenlern-Training · Link in Bio</div>
+    <div class="b"><svg><use href="#merken"/></svg>Speichern für dein nächstes Training</div>
+  </div>
+  <div class="fuss"><div class="marke"><img src="pin.png" alt=""><div><b>MARK VON DAAK</b><span>PERSONAL TRAINING</span></div></div><div class="punkte"><i></i><i></i><i></i><i></i><i></i><i class="an"></i></div></div>
+</div>
+</body>
+</html>
