@@ -15,3 +15,9 @@ dist/
 
 # Versehentlich heruntergeladene Pakete
 *.tar.gz
+
+# Instagram-Vorlage: Arbeitskopien von Fotos, Schriften und Logo
+marke/instagram/_vorlage/*.jpg
+marke/instagram/_vorlage/*.webp
+marke/instagram/_vorlage/*.woff2
+marke/instagram/_vorlage/*.png
