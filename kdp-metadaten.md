@@ -432,6 +432,160 @@ dort direkt ins KDP-Feld kopieren (2.435 von 4.000 Zeichen).
 
 ---
 
+## Der Narzisst in meinem Bett
+
+Eigenständiger Titel, **kein Band einer Reihe** — kein Serienfeld ausfüllen.
+Drei Ausgaben: Taschenbuch, Hardcover und Kindle. Bei KDP sind das drei
+Formate desselben Titels; Beschreibung, Kategorien und Keywords sind für alle
+gleich. Keine Übungen, kein Arbeitsteil. Bauen:
+
+```bash
+python3 narzisst/build/build_narzisst.py   # Innenteil (Taschenbuch und Hardcover)
+python3 narzisst/build/build_cover.py      # Umschläge für beide Bindearten
+python3 narzisst/build/build_epub.py       # Kindle-EPUB und Kindle-Titelbild
+```
+
+| Feld | Wert |
+|---|---|
+| Titel | Der Narzisst in meinem Bett |
+| Untertitel | Narzisstischen Missbrauch erkennen, verstehen und sich lösen |
+| Autor | Mark von Daak |
+| Sprache | Deutsch |
+| Altersfreigabe | keine jugendgefährdenden Inhalte (Sexualität wird sachlich behandelt, nicht explizit) |
+| Seiten | 76 |
+
+**Taschenbuch**
+
+| Feld | Wert |
+|---|---|
+| Trimmgröße | 15,24 × 22,86 cm (6″ × 9″) |
+| Papier / Druckfarbe | weiß / Schwarzweiß |
+| Anschnitt | nein (Innenteil ohne randabfallende Elemente) |
+| Rückenbreite | 4,35 mm — **kein Rückentext**, KDP erlaubt ihn erst ab 79 Seiten |
+| Umschlag gesamt | 12,421 × 9,250 Zoll (315,50 × 234,95 mm) |
+| Innenteil | `narzisst/out/der-narzisst-in-meinem-bett-druck.pdf` |
+| Umschlag | `narzisst/out/cover-druck.pdf` |
+
+**Hardcover** — derselbe Innenteil; 6 × 9 Zoll steht in KDPs Hardcover-Liste.
+KDP nimmt Hardcover erst ab 75 Seiten an — `build_narzisst.py` bricht ab,
+wenn der Band unter 76 fällt.
+
+| Feld | Wert |
+|---|---|
+| Trimmgröße | 15,24 × 22,86 cm (6″ × 9″) |
+| Papier / Druckfarbe | weiß / Schwarzweiß |
+| Rücken der Buchdecke | 13,3 mm — **mit** Rückentext |
+| Umschlag gesamt | **13,942 × 10,417 Zoll** (354,13 × 264,59 mm) |
+| Innenteil | `narzisst/out/der-narzisst-in-meinem-bett-druck.pdf` |
+| Umschlag | `narzisst/out/cover-hardcover-druck.pdf` |
+
+**Kindle-E-Book**
+
+| Feld | Wert |
+|---|---|
+| Datei | `narzisst/out/der-narzisst-in-meinem-bett-kindle.epub` (fließender Text) |
+| Titelbild | `narzisst/out/kindle-cover.jpg` (1600 × 2560 px) |
+| DRM | nach Wunsch; eine Rücknahme ist später nicht möglich |
+| Preis | für 70 % Tantieme bei Amazon.de zwischen 2,99 € und 9,99 € |
+
+Gerade bei diesem Thema hat das E-Book einen eigenen Wert: Wer noch mit dem
+Partner zusammenlebt, liest es unauffälliger als ein Buch auf dem Nachttisch.
+Das Vorwort sagt das ausdrücklich.
+
+**Impressum:** ausführlich, in 8 pt auf einer Seite — Auflage und
+Copyright, Herausgeber im Selbstverlag mit Anschrift und USt-IdNr.,
+Verantwortlicher nach den Pressegesetzen, Umschlag und Druck, Urheberrecht mit Vorbehalt gegen Text und Data
+Mining (§ 44b UrhG), Haftungsausschluss, Hinweise zu Rufnummern, Rechtslage,
+Fallbeispielen, Sprache und Marken. Ohne Transparenzhinweis zur
+Vertriebstätigkeit — auf Wunsch herausgenommen; das Buch hat mit dem Thema
+Nahrungsergänzung nichts zu tun.
+
+**ISBN:** KDP vergibt beim Anlegen kostenlos je eine ISBN für Taschenbuch
+und Hardcover. Beide in `narzisst/narzisst.yaml` unter `isbn:` eintragen und
+`build_narzisst.py` erneut laufen lassen — die Zeile erscheint dann im
+Impressum. Solange nichts eingetragen ist, fehlt sie; das ist zulässig. Das
+E-Book bekommt keine ISBN, sondern eine ASIN; dort bleibt die Zeile immer weg.
+
+**Pflichtexemplare:** Wer in Deutschland ein Buch mit ISBN verlegt, muss
+Pflichtexemplare an die Deutsche Nationalbibliothek abgeben (bei
+Druckwerken zwei Exemplare, dazu je nach Bundesland eines an die
+Landesbibliothek; für Wolfsburg die GWLB Hannover). Die Pflicht gilt
+unabhängig davon, ob im Impressum ein DNB-Hinweis steht — der ist auf Wunsch
+herausgenommen. Die genauen Regeln stehen auf dnb.de unter „Ablieferung“.
+
+**KI-Angabe:** Der Text wurde mit Claude erzeugt und anschließend bearbeitet —
+**„KI-erzeugter Text: ja“**. Das Titelbild (`narzisst/cover/titelbild.png`,
+dunkles Schlafzimmer um 3:33 Uhr) wurde mit Higgsfield erzeugt —
+**„KI-erzeugte Bilder: ja“**. Titel und Rückseite sind in
+`narzisst/build/build_cover.py` gesetzt. Beide Angaben gelten für alle drei
+Formate.
+
+**Titelbild:** Die Vorlage trug unten rechts das Higgsfield-Wasserzeichen; es
+ist herausgeschnitten (der Streifen war fast schwarz). Ein Wasserzeichen
+deutet oft auf einen kostenlosen Tarif hin — vor dem Upload prüfen, ob der
+eigene Higgsfield-Tarif die **kommerzielle Nutzung** auf einem Buchumschlag
+erlaubt. Die Vorlage hat nur 896 × 1110 px und wird beim Bauen um den Faktor
+2,5 (Taschenbuch) bzw. 2,8 (Hardcover) hochgerechnet; das körnige Motiv
+verträgt das, gestochen scharf wird es dadurch nicht. Eine größere Fassung
+(mindestens 2100 × 2600 px) einfach unter demselben Namen ablegen und
+`build_cover.py` und `build_epub.py` erneut laufen lassen. Ohne Titelbild
+zeichnet das Skript den gesprungenen Spiegel.
+
+**Über den Autor (KDP-Feld, für diesen Titel):**
+
+> Mark von Daak lebt in Wolfsburg und schreibt Ratgeber über die Themen, an
+> denen Menschen im Alltag scheitern — nicht aus Unwissen, sondern weil
+> zwischen Wissen und Handeln etwas im Weg steht. Er ist kein Psychologe und
+> kein Psychotherapeut. Dieses Buch übersetzt, was Forschung und
+> Beratungspraxis über Beziehungen mit narzisstischen Partnern wissen, in
+> klare Worte — und sagt, wo ein Buch an seine Grenzen kommt.
+
+**Kategorien** — KDP erlaubt drei. Im Formular den Marktplatz **Amazon.de**
+wählen und nach den Begriffen suchen; die genauen Namen erscheinen je nach
+Oberfläche deutsch oder englisch.
+
+| Platz | Kategorie | Warum |
+|---|---|---|
+| 1 | Ratgeber › Partnerschaft & Beziehung (*Love & Romance / Relationships*) | Hauptkategorie: Hier suchen Betroffene. |
+| 2 | Ratgeber › Psychologie › Persönlichkeitsstörungen (*Personality Disorders*) | Dort stehen die meisten Narzissmus-Ratgeber. |
+| 3 | Ratgeber › Lebenshilfe › Trennung & Scheidung (*Divorce*) | Nische für Leser, die schon über das Gehen nachdenken. |
+
+Ersatz für Platz 3: Missbrauch (*Abuse*) oder Häusliche Gewalt (*Domestic
+Abuse*), falls im Formular angeboten. Die Knoten-IDs sind hier bewusst nicht
+eingetragen — sie im Formular nachschlagen statt zu raten.
+
+Nicht wählen: Erotik oder Liebesromane. Der Titel klingt danach, das Buch ist
+es nicht, und falsche Käufer schreiben schlechte Rezensionen.
+
+**Keywords** — sieben Felder à 50 Zeichen, geprüft: kein Wort aus Titel oder
+Untertitel, kein Wort doppelt, längster Eintrag 48 Zeichen.
+
+```
+toxische beziehung beenden trennung schaffen
+psychische gewalt partnerschaft ratgeber frauen
+gaslighting love bombing manipulation
+traumabindung loslassen ex vergessen
+kontaktabbruch grauer stein selbstwert stärken
+narzissmus ehe ehemann co abhängigkeit
+liebeskummer heilen selbstliebe vertrauen lernen
+```
+
+Zum Tauschen, falls ein Begriff nach ein paar Wochen nichts bringt:
+`emotionale erpressung partner` · `verdeckter narzissmus ehe` ·
+`nach der trennung neu anfangen` · `angehörige helfen gewalt` ·
+`toxische ex partnerin` — vor dem Tauschen prüfen, dass kein Wort doppelt
+vorkommt (etwa „narzissmus“ nur in einem Feld)
+
+**Beschreibung:** `narzisst/cover/amazon-beschreibung.md` — die HTML-Fassung
+dort direkt ins KDP-Feld kopieren (3.192 von 4.000 Zeichen inklusive HTML). Dort steht auch eine Zusammenfassung mit 766 Zeichen für A+-Inhalte, Pressetext und Social Media.
+
+**Was bei diesem Titel nicht hineingehört:** keine Ferndiagnosen über reale
+Personen, kein „So entlarvst du jeden Narzissten“, keine Heilversprechen und
+keine Zeitangaben bis zur Heilung. Die Hilfetelefon-Nummern im Buch vor dem
+Upload einmal gegenprüfen — sie stehen auf dem Stand bei Drucklegung.
+
+---
+
 ## KI-erzeugte Inhalte melden
 
 KDP fragt beim Anlegen eines Titels ab, ob Text, Bilder oder Übersetzungen
