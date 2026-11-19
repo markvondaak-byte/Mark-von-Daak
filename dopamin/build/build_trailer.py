@@ -1,21 +1,19 @@
 #!/usr/bin/env python3
-"""Baut den Trailer zu „Die Dopamin-Lüge" (9:16, 1080 × 1920, 18 s, mit Musik).
+"""Baut den Trailer zu „Die Dopamin-Lüge" (9:16, 1080 × 1920, 18 s, ohne Ton).
 
     python3 dopamin/build/build_trailer.py
 
 Vorher muss der Umschlag gebaut sein (dopamin/out/cover.png) — das
 Buch-Mockup wird aus der Vorderseite ausgeschnitten. Das Hauptmotiv ist
-dopamin/cover/titelbild.png (Kopf im Profil mit leuchtenden Synapsen). Die
-Musik rechnet trailer_musik.py; sie ist selbst synthetisiert und damit frei
-von fremden Rechten.
+dopamin/cover/titelbild.png (Kopf im Profil mit leuchtenden Synapsen).
 
-Bild für Bild mit Pillow gesetzt und mit der Musik an ffmpeg gereicht.
-Schnitte, Lichtblitze und Texteinsätze liegen auf dem Takt der Musik
-(120 BPM, ein Takt = 2 s). Alle Sätze stammen aus dem Klappentext und stehen
-so im Buch; Anrede „Sie" wie im Buch.
+Bild für Bild mit Pillow gesetzt und an ffmpeg gereicht. Schnitte,
+Lichtblitze und Texteinsätze folgen einem festen Takt (120 BPM, ein Takt =
+2 s), damit sich Musik aus der Bibliothek der jeweiligen Plattform leicht
+darunterlegen lässt. Das Video selbst hat keine Tonspur. Alle Sätze stammen
+aus dem Klappentext und stehen so im Buch; Anrede „Sie" wie im Buch.
 
-  0–4 s    Dunkel. Ein Benachrichtigungston, das Telefon leuchtet auf, der
-           Feed läuft. „23:20 Uhr. Sie greifen zum Telefon."
+  0–4 s    Dunkel. Das Telefon leuchtet auf, der Feed läuft. „23:20 Uhr. Sie greifen zum Telefon."
   4–8 s    „40 Minuten später. Nichts davon hat Spaß gemacht. Aufhören
            konnten Sie trotzdem nicht." — Anlauf zum Einschlag.
   8–12 s   Einschlag. Das Titelmotiv, pulsierend im Takt: „Dopamin macht
@@ -45,12 +43,11 @@ def _laden(name, pfad):
 
 
 NV = _laden("narzisst_video", WURZEL / "narzisst" / "build" / "build_video.py")
-MUSIK = _laden("trailer_musik", BAND / "build" / "trailer_musik.py")
 KV = NV.KV
 B, H, FPS = KV.B, KV.H, KV.FPS
-DAUER = MUSIK.DAUER
-SCHLAG = MUSIK.SCHLAG
-EINSCHLAEGE = MUSIK.EINSCHLAEGE
+DAUER = 18.0
+SCHLAG = 60 / 120            # 120 BPM
+EINSCHLAEGE = (8.0, 12.0)    # Lichtblitz und Zoom-Stoß
 
 # Farbwelt des Umschlags: Indigo, Violett, kaltes Bildschirmblau.
 TEXT = (242, 241, 248)
@@ -399,19 +396,13 @@ def main():
         if not pflicht.exists():
             raise SystemExit(f"{pflicht.relative_to(WURZEL)} fehlt — erst "
                              "den Umschlag bauen.")
-    musik = MUSIK.bauen(AUS / "trailer-musik.wav")
     ziel = AUS / "trailer-9x16.mp4"
     trailer = Trailer()
-    # Lautheit für Social Media: rund −14 LUFS
     befehl = ["ffmpeg", "-y", "-loglevel", "error",
               "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{B}x{H}",
-              "-r", str(FPS), "-i", "-", "-i", str(musik),
-              "-map", "0:v", "-map", "1:a",
+              "-r", str(FPS), "-i", "-",
               "-c:v", "libx264", "-preset", "slow", "-crf", "17",
-              "-pix_fmt", "yuv420p",
-              "-af", "loudnorm=I=-14:TP=-1.5:LRA=11",
-              "-c:a", "aac", "-b:a", "192k", "-ar", "48000",
-              "-shortest", "-movflags", "+faststart", str(ziel)]
+              "-pix_fmt", "yuv420p", "-movflags", "+faststart", str(ziel)]
     prozess = subprocess.Popen(befehl, stdin=subprocess.PIPE)
     anzahl = round(DAUER * FPS)
     for n in range(anzahl):
@@ -422,7 +413,7 @@ def main():
     for sekunde in (3.4, 7.4, 8.1, 11.2, 16.5):
         trailer.bild(sekunde).resize((B // 3, H // 3)).save(
             AUS / f"trailer-standbild-{sekunde:04.1f}s.png")
-    print(f"{anzahl} Bilder, {DAUER:.0f} s, {B} x {H}, {FPS} fps, mit Musik")
+    print(f"{anzahl} Bilder, {DAUER:.0f} s, {B} x {H}, {FPS} fps, ohne Ton")
     print(f"  → {ziel.relative_to(WURZEL)}  "
           f"({ziel.stat().st_size / 1024 / 1024:.1f} MB)")
 
