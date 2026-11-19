@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<style>
+  @font-face { font-family: "Inter"; font-weight: 400; src: url(inter-400.woff2); }
+  @font-face { font-family: "Inter"; font-weight: 600; src: url(inter-600.woff2); }
+  @font-face { font-family: "Inter Display"; font-weight: 800; src: url(interdisplay-800.woff2); }
+  :root { --blue: #38B6FF; --dark: #0B1218; --soft: #A7B3BF; --white: #F2F6FA; }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: #444; font-family: "Inter", sans-serif; display: flex; flex-direction: column; gap: 40px; padding: 40px; }
+  .k { position: relative; overflow: hidden; color: var(--white); background: var(--dark); flex: none; }
+  h1, .gross { font-family: "Inter Display", "Inter", sans-serif; font-weight: 800; letter-spacing: -.035em; line-height: .95; }
+  .eyebrow { font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--blue); font-size: 30px; display: flex; align-items: center; gap: 18px; }
+  .eyebrow::before { content: ""; width: 48px; height: 4px; background: var(--blue); }
+  .marke { position: absolute; left: 72px; bottom: 64px; display: flex; align-items: center; gap: 18px; }
+  .marke img { height: 64px; }
+  .marke b { display: block; font-family: "Inter Display", sans-serif; font-weight: 800; font-size: 30px; letter-spacing: .02em; color: #fff; }
+  .marke span { display: block; font-size: 17px; font-weight: 600; letter-spacing: .3em; color: var(--blue); margin-top: 4px; }
+  .glow { position: absolute; border-radius: 50%; background: radial-gradient(circle, rgba(56,182,255,.35), transparent 65%); }
+  .seite { position: absolute; right: 72px; bottom: 74px; font-size: 26px; color: var(--soft); font-weight: 600; }
+
+  /* Profilbild */
+  #profil { width: 1080px; height: 1080px; background: linear-gradient(180deg, #40BCFF, #188FD6); display: grid; place-items: center; }
+  #profil svg { width: 560px; height: auto; }
+
+  /* Highlight-Cover */
+  .hl { width: 1080px; height: 1920px; display: grid; place-items: center; background: radial-gradient(700px 700px at 50% 50%, rgba(56,182,255,.22), transparent 70%), var(--dark); }
+  .hl .kreis { width: 620px; height: 620px; border-radius: 50%; border: 6px solid var(--blue); display: grid; place-items: center; }
+  .hl svg { width: 300px; height: 300px; color: #fff; }
+
+  /* Beitrag 1: Start */
+  #post1 { width: 1080px; height: 1350px; }
+  #post1 .foto { position: absolute; inset: 0; background: url(foto-arme.jpg) 52% 30% / cover; }
+  #post1 .verlauf { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11,18,24,0) 30%, rgba(11,18,24,.88) 68%, #0B1218 100%); }
+  #post1 .text { position: absolute; left: 72px; right: 72px; bottom: 210px; }
+  #post1 h1 { font-size: 148px; margin-top: 26px; }
+  #post1 .eyebrow { font-size: 26px; white-space: nowrap; }
+  #post1 h1 span { color: var(--blue); }
+  #post1 p { font-size: 38px; color: #D6DEE6; margin-top: 30px; line-height: 1.3; }
+
+  /* Beitrag 2: STARK in 12 */
+  #post2 { width: 1080px; height: 1350px; padding: 80px 72px; }
+  #post2 .glow { width: 900px; height: 900px; right: -380px; top: -380px; }
+  #post2 .gross { font-size: 168px; margin-top: 24px; }
+  #post2 .gross span { color: var(--blue); }
+  #post2 .sub { font-size: 36px; color: var(--soft); margin-top: 22px; line-height: 1.3; }
+  #post2 .phasen { display: grid; gap: 16px; margin-top: 40px; }
+  #post2 .ph { display: flex; align-items: center; gap: 28px; background: #131C24; border: 2px solid #24303B; border-radius: 26px; padding: 18px 28px; }
+  #post2 .ph b { font-family: "Inter Display", sans-serif; font-weight: 800; font-size: 42px; width: 84px; height: 84px; border-radius: 22px; background: #fff; color: var(--dark); display: grid; place-items: center; flex: none; }
+  #post2 .ph:last-child b { background: var(--blue); }
+  #post2 .ph strong { display: block; font-size: 40px; font-weight: 600; }
+  #post2 .ph span { display: block; font-size: 28px; color: var(--soft); margin-top: 4px; }
+
+  /* Beitrag 3: Ich komme zu dir */
+  #post3 { width: 1080px; height: 1350px; padding: 96px 72px; background: radial-gradient(900px 700px at 50% 70%, rgba(56,182,255,.2), transparent 70%), var(--dark); }
+  #post3 h1 { font-size: 130px; margin-top: 30px; }
+  #post3 h1 span { color: var(--blue); }
+  #post3 .orte { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 70px; }
+  #post3 .ort { background: #131C24; border: 2px solid #24303B; border-radius: 28px; padding: 34px; display: flex; align-items: center; gap: 22px; font-size: 42px; font-weight: 600; }
+  #post3 .ort svg { width: 64px; height: 64px; color: var(--blue); flex: none; }
+  #post3 p.unten { font-size: 36px; color: var(--soft); margin-top: 54px; line-height: 1.35; }
+
+  /* Beitrag 4: Über mich */
+  #post4 { width: 1080px; height: 1350px; }
+  #post4 .foto { position: absolute; inset: 0; background: url(foto-portrait.jpg) 40% 20% / cover; }
+  #post4 .verlauf { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11,18,24,0) 35%, rgba(11,18,24,.9) 70%, #0B1218 100%); }
+  #post4 .text { position: absolute; left: 72px; right: 72px; bottom: 200px; }
+  #post4 h1 { font-size: 120px; margin-top: 24px; }
+  #post4 .badge { display: inline-flex; align-items: center; gap: 16px; margin-top: 34px; background: rgba(56,182,255,.14); border: 2px solid rgba(56,182,255,.5); border-radius: 999px; padding: 16px 28px; font-size: 32px; font-weight: 600; }
+  #post4 .badge svg { width: 40px; height: 40px; color: var(--blue); }
+
+  /* Beitrag 5: Buch */
+  #post5 { width: 1080px; height: 1350px; padding: 96px 72px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+  #post5 .glow { width: 1000px; height: 1000px; left: 40px; top: 260px; }
+  #post5 .eyebrow { justify-content: center; }
+  #post5 .eyebrow::after { content: ""; width: 48px; height: 4px; background: var(--blue); }
+  #post5 img.cover { position: relative; width: 470px; margin-top: 48px; border-radius: 10px; box-shadow: 0 50px 90px -30px rgba(0,0,0,.9); transform: rotate(-3deg); }
+  #post5 p { position: relative; font-size: 40px; color: #D6DEE6; margin-top: 56px; line-height: 1.3; font-weight: 600; }
+  #post5 .link { position: relative; display: inline-block; margin-top: 30px; background: var(--blue); color: var(--dark); font-weight: 600; font-size: 32px; padding: 20px 36px; border-radius: 999px; }
+
+  /* Story-Vorlage */
+  #story { width: 1080px; height: 1920px; padding: 160px 80px; background: radial-gradient(900px 900px at 80% 15%, rgba(56,182,255,.25), transparent 65%), var(--dark); }
+  #story h1 { font-size: 150px; margin-top: 40px; }
+  #story h1 span { color: var(--blue); }
+  #story p { font-size: 46px; color: #D6DEE6; margin-top: 50px; line-height: 1.3; }
+  #story .platz { margin-top: 90px; height: 620px; border: 4px dashed rgba(56,182,255,.5); border-radius: 40px; display: grid; place-items: center; color: var(--soft); font-size: 34px; text-align: center; padding: 40px; }
+  #story .marke { left: 80px; bottom: 120px; }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
+    <symbol id="hantel" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10v4M6.5 7.5v9M17.5 7.5v9M21 10v4M6.5 12h11"/></symbol>
+    <symbol id="essen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v8a2 2 0 0 0 2 2v8M5 3v5M9 3v5M17 21V3c-2 1-3 4-3 7s1 3 3 3"/></symbol>
+    <symbol id="chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V4M4 20h16M8 16l4-5 3 3 5-6"/></symbol>
+    <symbol id="buch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5M8 7h7"/></symbol>
+    <symbol id="chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.2A8 8 0 1 1 20 12z"/></symbol>
+    <symbol id="stern" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z"/></symbol>
+    <symbol id="haus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-6 8 6v8a1 1 0 0 1-1 1h-4v-6h-6v6H5a1 1 0 0 1-1-1z"/></symbol>
+    <symbol id="buero" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M10 21v-4h4v4"/></symbol>
+    <symbol id="baum" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21v-6M7 15h10l-3-4h2l-4-7-4 7h2z"/></symbol>
+    <symbol id="schild" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.4 8.2-8 9-4.6-.8-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></symbol>
+  </defs>
+</svg>
+
+<!-- Profilbild: weißer Pin mit Hantel auf Blau (wie das App-Icon) -->
+<div class="k" id="profil">
+  <svg viewBox="0 0 100 130"><path d="M50 4C24.6 4 4 24.6 4 50c0 27 33 58 43.5 74.3a3 3 0 0 0 5 0C63 108 96 77 96 50 96 24.6 75.4 4 50 4z" fill="#fff"/><circle cx="50" cy="50" r="33" fill="#2AA5EE"/><g stroke="#fff" stroke-width="6" stroke-linecap="round"><path d="M27 43v14M35.5 36v28M64.5 36v28M73 43v14M35.5 50h29"/></g></svg>
+</div>
+
+<!-- Highlight-Cover -->
+<div class="k hl" id="hl-ueber-mich"><div class="kreis"><svg><use href="#pin"/></svg></div></div>
+<div class="k hl" id="hl-stark-in-12"><div class="kreis"><svg><use href="#hantel"/></svg></div></div>
+<div class="k hl" id="hl-ernaehrung"><div class="kreis"><svg><use href="#essen"/></svg></div></div>
+<div class="k hl" id="hl-ergebnisse"><div class="kreis"><svg><use href="#chart"/></svg></div></div>
+<div class="k hl" id="hl-buch"><div class="kreis"><svg><use href="#buch"/></svg></div></div>
+<div class="k hl" id="hl-bewertungen"><div class="kreis"><svg><use href="#stern"/></svg></div></div>
+<div class="k hl" id="hl-kontakt"><div class="kreis"><svg><use href="#chat"/></svg></div></div>
+
+<!-- Beitrag 1 -->
+<div class="k" id="post1">
+  <div class="foto"></div><div class="verlauf"></div>
+  <div class="text">
+    <p class="eyebrow">Personal Training · Wolfsburg</p>
+    <h1>Dein Training.<br><span>Dein Ort.</span></h1>
+    <p>Ich komme zu dir – nach Hause, ins Büro, in den Park oder ins Studio.</p>
+  </div>
+  <div class="marke"><img src="pin.png" alt=""><div><b>MARK VON DAAK</b><span>PERSONAL TRAINING</span></div></div>
+</div>
+
+<!-- Beitrag 2 -->
+<div class="k" id="post2">
+  <div class="glow"></div>
+  <p class="eyebrow">Das Signature-Programm</p>
+  <p class="gross">STARK<br>in <span>12</span></p>
+  <p class="sub">12 Wochen · 24 Einheiten · ein messbares Ergebnis</p>
+  <div class="phasen">
+    <div class="ph"><b>01</b><div><strong>Analyse</strong><span>Eingangs-Check</span></div></div>
+    <div class="ph"><b>02</b><div><strong>Fundament</strong><span>Woche 1–4 · Technik und Stabilität</span></div></div>
+    <div class="ph"><b>03</b><div><strong>Aufbau</strong><span>Woche 5–8 · Kraft und Kondition</span></div></div>
+    <div class="ph"><b>04</b><div><strong>Leistung</strong><span>Woche 9–12 · Ergebnis und Ausblick</span></div></div>
+  </div>
+  <div class="marke"><img src="pin.png" alt=""><div><b>MARK VON DAAK</b><span>PERSONAL TRAINING</span></div></div>
+</div>
+
+<!-- Beitrag 3 -->
+<div class="k" id="post3">
+  <p class="eyebrow">Wolfsburg und Umgebung</p>
+  <h1>Ich komme<br><span>zu dir.</span></h1>
+  <div class="orte">
+    <div class="ort"><svg><use href="#haus"/></svg>Zu Hause</div>
+    <div class="ort"><svg><use href="#buero"/></svg>Im Büro</div>
+    <div class="ort"><svg><use href="#baum"/></svg>Outdoor</div>
+    <div class="ort"><svg><use href="#hantel"/></svg>Im Studio</div>
+  </div>
+  <p class="unten">Keine Anfahrt, kein Studio-Abo, keine Ausreden. Equipment bringe ich mit.</p>
+  <div class="marke"><img src="pin.png" alt=""><div><b>MARK VON DAAK</b><span>PERSONAL TRAINING</span></div></div>
+</div>
+
+<!-- Beitrag 4 -->
+<div class="k" id="post4">
+  <div class="foto"></div><div class="verlauf"></div>
+  <div class="text">
+    <p class="eyebrow">Über mich</p>
+    <h1>Hi, ich bin Mark.</h1>
+    <div class="badge"><svg><use href="#schild"/></svg>Fitness- und Gesundheitstrainer · A-Lizenz</div>
+  </div>
+  <div class="marke"><img src="pin.png" alt=""><div><b>MARK VON DAAK</b><span>PERSONAL TRAINING</span></div></div>
+</div>
+
+<!-- Beitrag 5 -->
+<div class="k" id="post5">
+  <div class="glow"></div>
+  <p class="eyebrow" style="position:relative">Mein Buch</p>
+  <img class="cover" src="buch-kopf-schlaegt-kalorien.webp" alt="">
+  <p>Du weißt, was du essen solltest.<br>Warum tust du es nicht?</p>
+  <span class="link">Jetzt bei Amazon · Link in Bio</span>
+</div>
+
+<!-- Story-Vorlage -->
+<div class="k" id="story">
+  <p class="eyebrow">Tipp der Woche</p>
+  <h1>Dein<br><span>Titel hier.</span></h1>
+  <p>Ein bis zwei Sätze Text – kurz und konkret.</p>
+  <div class="platz">Platz für Foto, Video oder Umfrage-Sticker</div>
+  <div class="marke"><img src="pin.png" alt=""><div><b>MARK VON DAAK</b><span>PERSONAL TRAINING</span></div></div>
+</div>
+
+</body>
+</html>

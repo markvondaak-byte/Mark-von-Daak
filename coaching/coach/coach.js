@@ -51,7 +51,7 @@ const Modus = {
     const dunkel = wahl === 'dunkel' || (wahl === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
     document.documentElement.dataset.theme = dunkel ? 'dark' : 'light';
     const marke = document.querySelector('meta[name="theme-color"]');
-    if (marke) marke.setAttribute('content', dunkel ? '#17140F' : '#C2410C');
+    if (marke) marke.setAttribute('content', dunkel ? '#0B1218' : '#FFFFFF');
   },
   setzen(wahl) {
     try {
