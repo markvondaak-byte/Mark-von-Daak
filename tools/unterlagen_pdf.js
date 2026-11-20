@@ -1,0 +1,23 @@
+// Erzeugt die Druckvorlagen unter unterlagen/ aus unterlagen/vorlagen/*.html.
+//
+//     node tools/unterlagen_pdf.js
+//
+// Braucht Playwright mit Chromium. Die Unterlagen gehören nicht zur Website.
+const path = require('path');
+const { pathToFileURL } = require('url');
+const { chromium } = require('playwright');
+
+const wurzel = path.join(__dirname, '..', 'unterlagen');
+const vorlagen = [['trainingsplan-blanko.html', 'Trainingsplan-Blanko.pdf']];
+
+(async () => {
+  const browser = await chromium.launch();
+  const seite = await browser.newPage();
+  for (const [quelle, ziel] of vorlagen) {
+    await seite.goto(pathToFileURL(path.join(wurzel, 'vorlagen', quelle)).href);
+    await seite.evaluate(() => document.fonts.ready);
+    await seite.pdf({ path: path.join(wurzel, ziel), printBackground: true, preferCSSPageSize: true });
+    console.log(path.join(wurzel, ziel));
+  }
+  await browser.close();
+})();
