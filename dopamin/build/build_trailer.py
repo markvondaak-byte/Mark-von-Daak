@@ -10,7 +10,9 @@ dopamin/cover/titelbild.png (Kopf im Profil mit leuchtenden Synapsen).
 Bild für Bild mit Pillow gesetzt und an ffmpeg gereicht. Schnitte,
 Lichtblitze und Texteinsätze folgen einem festen Takt (120 BPM, ein Takt =
 2 s), damit sich Musik aus der Bibliothek der jeweiligen Plattform leicht
-darunterlegen lässt. Das Video selbst hat keine Tonspur. Alle Sätze stammen
+darunterlegen lässt. Das Video selbst hat keine Tonspur.
+Es trägt durchgehend die Kennzeichnung „KI-generiert“ (oben links) und den
+Hinweis in den Metadaten der Datei. Alle Sätze stammen
 aus dem Klappentext und stehen so im Buch; Anrede „Sie" wie im Buch.
 
   0–4 s    Dunkel. Das Telefon leuchtet auf, der Feed läuft. „23:20 Uhr. Sie greifen zum Telefon."
@@ -277,6 +279,39 @@ def schlagpuls(t, ab, bis):
     return math.exp(-((t - ab) % SCHLAG) / 0.09)
 
 
+# --- KI-Kennzeichnung --------------------------------------------------------
+# Das Titelmotiv ist KI-generiert; deshalb trägt das Video über die ganze
+# Laufzeit eine sichtbare Kennzeichnung und den Hinweis in den Metadaten.
+# Oben links, unterhalb der Kopfzeile, die Instagram und TikTok einblenden,
+# und weg von den Bedienknöpfen am rechten Rand.
+KI_TEXT = "KI-generiert"
+KI_METADATEN = ("KI-generierter Inhalt: Bildmotiv mit KI erzeugt, Video "
+                "programmatisch gesetzt. Trailer zu „Die Dopamin-Lüge“ "
+                "von Mark von Daak.")
+
+
+def ki_kennzeichen():
+    f = schrift("SemiBold", 30)
+    messen = ImageDraw.Draw(Image.new("L", (1, 1)))
+    breite = messen.textlength(KI_TEXT, font=f)
+    stern = 30
+    b, h = round(breite + stern + 64), 58
+    bild = Image.new("RGBA", (b, h), (0, 0, 0, 0))
+    z = ImageDraw.Draw(bild)
+    z.rounded_rectangle((0, 0, b - 1, h - 1), radius=h / 2,
+                        fill=(10, 9, 26, 190), outline=(255, 255, 255, 90),
+                        width=2)
+    # kleiner Funken als Symbol, wie ihn viele Plattformen für KI nutzen
+    mx, my, r = 24 + stern / 2, h / 2, stern / 2
+    z.polygon([(mx, my - r), (mx + r * 0.28, my - r * 0.28), (mx + r, my),
+               (mx + r * 0.28, my + r * 0.28), (mx, my + r),
+               (mx - r * 0.28, my + r * 0.28), (mx - r, my),
+               (mx - r * 0.28, my - r * 0.28)], fill=AKZENT + (255,))
+    z.text((24 + stern + 12, h / 2), KI_TEXT, font=f, fill=TEXT + (255,),
+           anchor="lm")
+    return bild
+
+
 # --- Trailer ------------------------------------------------------------------
 class Trailer:
     def __init__(self):
@@ -308,6 +343,7 @@ class Trailer:
                             "ExtraBold", TEXT, 0)
         self.s4d = gesperrt("bei Amazon", 50, "Medium", LEISE, 0)
         self.s4e = gesperrt("MARK VON DAAK", 40, "SemiBold", TEXT, 10)
+        self.ki = ki_kennzeichen()
 
     def bild(self, t):
         bild = self.grund.copy()
@@ -388,6 +424,8 @@ class Trailer:
         if t > DAUER - 1.0:
             ergebnis = Image.blend(ergebnis, Image.new("RGB", (B, H)),
                                    klemmen((t - (DAUER - 1.0)) / 1.0))
+        # Zuletzt, damit die Kennzeichnung auch in Blitz und Abblende steht
+        ergebnis.paste(self.ki, (56, 210), self.ki)
         return ergebnis
 
 
@@ -402,7 +440,11 @@ def main():
               "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{B}x{H}",
               "-r", str(FPS), "-i", "-",
               "-c:v", "libx264", "-preset", "slow", "-crf", "17",
-              "-pix_fmt", "yuv420p", "-movflags", "+faststart", str(ziel)]
+              "-pix_fmt", "yuv420p",
+              "-metadata", "title=Die Dopamin-Lüge — Trailer",
+              "-metadata", f"comment={KI_METADATEN}",
+              "-metadata", f"description={KI_METADATEN}",
+              "-movflags", "+faststart+use_metadata_tags", str(ziel)]
     prozess = subprocess.Popen(befehl, stdin=subprocess.PIPE)
     anzahl = round(DAUER * FPS)
     for n in range(anzahl):
