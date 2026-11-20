@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mark von Daak – Personal Training | Links</title>
-<meta name="description" content="Alle Links von Mark von Daak – mobiles Personal Training in Wolfsburg: Kennenlern-Training buchen, WhatsApp, Programm STARK in 12, Buch und Bewertungen.">
+<meta name="description" content="Alle Links von Mark von Daak – mobiles Personal Training in Wolfsburg: Kennenlern-Training buchen, WhatsApp, Programm STARK in 12, Bücher und Bewertungen.">
 <meta name="robots" content="noindex, follow">
 <link rel="canonical" href="https://markvondaak-coaching.de/links/">
 <meta name="theme-color" content="#0B1218">
@@ -50,13 +50,28 @@
   .links b { display: block; font-size: 1rem; font-weight: 600; }
   .links small { display: block; font-size: .82rem; color: var(--soft); margin-top: 2px; }
   .pfeil { margin-left: auto; width: 18px; height: 18px; opacity: .6; flex: none; }
-  .buchbild { width: 40px; height: 60px; object-fit: cover; border-radius: 4px; flex: none; box-shadow: 0 6px 14px -6px rgba(0,0,0,.8); }
   footer { margin-top: 36px; font-size: .8rem; color: var(--soft); }
   footer a { color: var(--soft); text-decoration: none; margin: 0 8px; }
   footer a:hover { color: var(--text); }
+  /* Bücher: bewusst neutral, ohne das Blau der Trainingsmarke — die Cover
+     tragen die Farbe. */
+  .buecher { margin-top: 40px; text-align: left; }
+  .buecher h2 { font-size: .72rem; font-weight: 600; letter-spacing: .28em; color: var(--soft); text-align: center; margin: 0 0 14px; }
+  .buecher .liste { display: grid; gap: 12px; }
+  .buecher a {
+    display: flex; align-items: center; gap: 16px; text-decoration: none; color: var(--text);
+    background: rgba(255,255,255,.035); border: 1px solid rgba(255,255,255,.09); border-radius: 16px; padding: 12px 16px 12px 12px;
+    transition: transform .15s ease, border-color .15s ease, background .15s ease;
+  }
+  .buecher a:hover { transform: translateY(-2px); border-color: rgba(255,255,255,.32); background: rgba(255,255,255,.06); }
+  .buecher a:focus-visible { outline: 3px solid var(--text); outline-offset: 3px; }
+  .buecher img { width: 64px; height: 96px; object-fit: cover; border-radius: 4px; flex: none; box-shadow: 0 10px 22px -10px rgba(0,0,0,.9); }
+  .buecher b { display: block; font-size: 1rem; font-weight: 600; line-height: 1.3; }
+  .buecher small { display: block; font-size: .82rem; color: var(--soft); margin-top: 4px; line-height: 1.4; }
+  .buecher .amazon { display: inline-block; margin-top: 8px; font-size: .78rem; font-weight: 600; color: var(--text); opacity: .8; }
   .logo { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 14px; }
   .logo img { height: 22px; }
-  @media (prefers-reduced-motion: reduce) { .links a { transition: none; } }
+  @media (prefers-reduced-motion: reduce) { .links a, .buecher a { transition: none; } }
 </style>
 </head>
 <body>
@@ -90,11 +105,22 @@
     <a href="/"><span class="ic"><svg><use href="#i-web"/></svg></span><span><b>Website</b><small>markvondaak-coaching.de</small></span><svg class="pfeil"><use href="#i-pfeil"/></svg></a>
     <a href="/#programm"><span class="ic"><svg><use href="#i-hantel"/></svg></span><span><b>STARK in 12</b><small>Mein 12-Wochen-Programm</small></span><svg class="pfeil"><use href="#i-pfeil"/></svg></a>
     <a href="/#angebote"><span class="ic"><svg><use href="#i-essen"/></svg></span><span><b>Angebote</b><small>Personal Training, Ernährungs-Coaching, Duo, Firmen</small></span><svg class="pfeil"><use href="#i-pfeil"/></svg></a>
-    <a href="https://www.amazon.de/dp/B0HPP1HD66" target="_blank" rel="noopener"><img class="buchbild" src="/img/buch-kopf-schlaegt-kalorien.webp" alt="" width="40" height="60"><span><b>Mein Buch: Kopf schlägt Kalorien</b><small>Bei Amazon ansehen</small></span><svg class="pfeil"><use href="#i-pfeil"/></svg></a>
     <a href="https://g.page/r/CfBGx8EM42uhEBM/review" target="_blank" rel="noopener"><span class="ic"><svg><use href="#i-stern"/></svg></span><span><b>Bewertungen bei Google</b><small>Ansehen oder selbst bewerten</small></span><svg class="pfeil"><use href="#i-pfeil"/></svg></a>
     <a href="tel:+491794340426"><span class="ic"><svg><use href="#i-call"/></svg></span><span><b>Anrufen</b><small>0179 4340426</small></span><svg class="pfeil"><use href="#i-pfeil"/></svg></a>
     <a href="mailto:info@markvondaak-coaching.de"><span class="ic"><svg><use href="#i-mail"/></svg></span><span><b>E-Mail</b><small>info@markvondaak-coaching.de</small></span><svg class="pfeil"><use href="#i-pfeil"/></svg></a>
   </nav>
+
+  <section class="buecher" aria-labelledby="buecher-titel">
+    <h2 id="buecher-titel">MEINE BÜCHER</h2>
+    <div class="liste">
+      <!-- Narzisst-Buch: erscheint, sobald der Amazon-Link da ist — dann
+           AMAZON_NARZISST ersetzen und den Kommentar entfernen.
+      <a href="AMAZON_NARZISST" target="_blank" rel="noopener"><img src="/img/buch-der-narzisst-in-meinem-bett.webp" alt="Buchcover: Der Narzisst in meinem Bett" width="64" height="96" loading="lazy"><span><b>Der Narzisst in meinem Bett</b><small>Narzisstischen Missbrauch erkennen, verstehen und sich lösen</small><span class="amazon">Bei Amazon ansehen →</span></span></a>
+      -->
+      <a href="https://www.amazon.de/dp/B0HG9SH79C" target="_blank" rel="noopener"><img src="/img/buch-die-dopamin-luege.webp" alt="Buchcover: Die Dopamin-Lüge" width="64" height="96" loading="lazy"><span><b>Die Dopamin-Lüge</b><small>Warum das Glückshormon kein Glück macht – und wie Sie Ihren Antrieb zurückholen</small><span class="amazon">Bei Amazon ansehen →</span></span></a>
+      <a href="https://www.amazon.de/dp/B0HPP1HD66" target="_blank" rel="noopener"><img src="/img/buch-kopf-schlaegt-kalorien.webp" alt="Buchcover: Kopf schlägt Kalorien" width="64" height="96" loading="lazy"><span><b>Kopf schlägt Kalorien</b><small>Warum Diäten am Mindset scheitern und nicht am Plan</small><span class="amazon">Bei Amazon ansehen →</span></span></a>
+    </div>
+  </section>
 
   <footer>
     <div class="logo"><img src="/img/pin.png" alt=""><span>Mark von Daak – Personal Training</span></div>
