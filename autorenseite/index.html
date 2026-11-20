@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mark von Daak – Bücher</title>
+<meta name="description" content="Die Bücher von Mark von Daak auf einen Blick: Chaos mit System, Was uns die Maschine abnimmt, Die Dopamin-Lüge, Kopf schlägt Kalorien – bei Amazon als Taschenbuch und E-Book.">
+<meta name="theme-color" content="#111214">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Mark von Daak – Bücher">
+<meta property="og:description" content="Alle Bücher von Mark von Daak auf einen Blick.">
+<style>
+  /* Separater Linktree für die Bücher — bewusst neutral und ohne Bezug zur
+     Personal-Training-Website. Gleicher Aufbau wie die Link-Seite dort,
+     aber Graphit statt Markenblau; die Farbe kommt von den Covern. */
+  @font-face { font-family: "Inter"; font-weight: 400; font-display: swap; src: url(fonts/inter-400.woff2) format("woff2"); }
+  @font-face { font-family: "Inter"; font-weight: 600; font-display: swap; src: url(fonts/inter-600.woff2) format("woff2"); }
+  @font-face { font-family: "Inter Display"; font-weight: 800; font-display: swap; src: url(fonts/interdisplay-800.woff2) format("woff2"); }
+  :root { --grund: #111214; --karte: #1A1B1F; --linie: #2A2C31; --text: #F4F4F5; --leise: #A1A1AA; --hell: #E4E4E7; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; color: var(--text);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: radial-gradient(700px 480px at 50% -10%, rgba(255,255,255,.08), transparent 70%), var(--grund);
+    -webkit-font-smoothing: antialiased;
+  }
+  main { max-width: 520px; margin: 0 auto; padding: 48px 16px 40px; text-align: center; }
+  .foto { width: 108px; height: 108px; border-radius: 50%; object-fit: cover; object-position: 50% 25%; border: 2px solid rgba(255,255,255,.22); box-shadow: 0 16px 40px -18px rgba(0,0,0,.9); }
+  h1 { font-family: "Inter Display", "Inter", sans-serif; font-weight: 800; font-size: 1.6rem; letter-spacing: -.02em; margin: 18px 0 0; }
+  .sub { font-size: .72rem; font-weight: 600; letter-spacing: .28em; color: var(--leise); margin-top: 6px; }
+  .bio { color: var(--leise); margin: 16px auto 0; line-height: 1.55; max-width: 26em; font-size: .98rem; }
+  .buecher { display: grid; gap: 12px; margin-top: 30px; text-align: left; }
+  .buecher a {
+    display: flex; align-items: center; gap: 16px; text-decoration: none; color: var(--text);
+    background: var(--karte); border: 1px solid var(--linie); border-radius: 16px; padding: 12px 16px 12px 12px;
+    transition: transform .15s ease, border-color .15s ease, background .15s ease;
+  }
+  .buecher a:hover { transform: translateY(-2px); border-color: rgba(255,255,255,.35); background: #202126; }
+  .buecher a:focus-visible { outline: 3px solid var(--hell); outline-offset: 3px; }
+  .buecher img { width: 68px; height: 102px; object-fit: cover; border-radius: 4px; flex: none; box-shadow: 0 10px 22px -10px rgba(0,0,0,.95); }
+  .buecher b { display: block; font-size: 1.02rem; font-weight: 600; line-height: 1.3; }
+  .buecher small { display: block; font-size: .83rem; color: var(--leise); margin-top: 4px; line-height: 1.4; }
+  .amazon { display: inline-flex; align-items: center; gap: 6px; margin-top: 9px; padding: 5px 11px; border-radius: 999px; background: rgba(255,255,255,.08); font-size: .76rem; font-weight: 600; color: var(--hell); }
+  .amazon svg { width: 14px; height: 14px; }
+  .hinweis { margin-top: 22px; font-size: .8rem; color: var(--leise); line-height: 1.5; }
+  footer { margin-top: 34px; font-size: .78rem; color: var(--leise); line-height: 1.6; }
+  footer details { margin-top: 8px; }
+  footer summary { cursor: pointer; display: inline; }
+  footer summary::-webkit-details-marker { display: none; }
+  footer summary:hover, footer summary:focus-visible { color: var(--text); }
+  footer .rechtstext { text-align: left; margin: 12px auto 0; max-width: 30em; padding: 14px 16px; border: 1px solid var(--linie); border-radius: 12px; }
+  footer .rechtstext p { margin: 0 0 8px; }
+  footer a { color: var(--hell); }
+  @media (prefers-reduced-motion: reduce) { .buecher a { transition: none; } }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-pfeil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></symbol>
+  </defs>
+</svg>
+
+<main>
+  <img class="foto" src="img/mark-von-daak.webp" alt="Mark von Daak" width="108" height="108">
+  <h1>Mark von Daak</h1>
+  <p class="sub">AUTOR</p>
+  <p class="bio">Ratgeber über die Themen, an denen wir im Alltag scheitern – nicht aus Unwissen, sondern weil zwischen Wissen und Handeln etwas im Weg steht.</p>
+
+  <nav class="buecher" aria-label="Bücher">
+    <!-- Der Narzisst in meinem Bett: erscheint, sobald der Amazon-Link da ist.
+         Dann AMAZON_NARZISST ersetzen und den Kommentar entfernen.
+    <a href="AMAZON_NARZISST" target="_blank" rel="noopener"><img src="img/der-narzisst-in-meinem-bett.webp" alt="Buchcover: Der Narzisst in meinem Bett" width="68" height="102"><span><b>Der Narzisst in meinem Bett</b><small>Narzisstischen Missbrauch erkennen, verstehen und sich lösen</small><span class="amazon">Bei Amazon ansehen <svg><use href="#i-pfeil"/></svg></span></span></a>
+    -->
+    <a href="https://www.amazon.de/dp/B0HGFVGVFQ" target="_blank" rel="noopener"><img src="img/chaos-mit-system.webp" alt="Buchcover: Chaos mit System" width="68" height="102"><span><b>Chaos mit System</b><small>ADHS verstehen, annehmen und in den Griff bekommen</small><span class="amazon">Bei Amazon ansehen <svg><use href="#i-pfeil"/></svg></span></span></a>
+    <a href="https://www.amazon.de/dp/B0HFZC86VF" target="_blank" rel="noopener"><img src="img/was-uns-die-maschine-abnimmt.webp" alt="Buchcover: Was uns die Maschine abnimmt" width="68" height="102" loading="lazy"><span><b>Was uns die Maschine abnimmt</b><small>Künstliche Intelligenz – Nutzen, Kosten und was zu tun bleibt</small><span class="amazon">Bei Amazon ansehen <svg><use href="#i-pfeil"/></svg></span></span></a>
+    <a href="https://www.amazon.de/dp/B0HG9SH79C" target="_blank" rel="noopener"><img src="img/die-dopamin-luege.webp" alt="Buchcover: Die Dopamin-Lüge" width="68" height="102" loading="lazy"><span><b>Die Dopamin-Lüge</b><small>Warum das Glückshormon kein Glück macht – und wie Sie Ihren Antrieb zurückholen</small><span class="amazon">Bei Amazon ansehen <svg><use href="#i-pfeil"/></svg></span></span></a>
+    <a href="https://www.amazon.de/dp/B0HPP1HD66" target="_blank" rel="noopener"><img src="img/kopf-schlaegt-kalorien.webp" alt="Buchcover: Kopf schlägt Kalorien" width="68" height="102" loading="lazy"><span><b>Kopf schlägt Kalorien</b><small>Warum Diäten am Mindset scheitern und nicht am Plan</small><span class="amazon">Bei Amazon ansehen <svg><use href="#i-pfeil"/></svg></span></span></a>
+  </nav>
+
+  <p class="hinweis">Alle Bücher bei Amazon – je nach Titel als Taschenbuch, Hardcover und E-Book.</p>
+
+  <footer>
+    © 2026 Mark von Daak
+    <details>
+      <summary>Impressum &amp; Datenschutz</summary>
+      <div class="rechtstext">
+        <p><b>Impressum</b><br>Mark von Daak<br>Rabenbergstraße 16<br>38444 Wolfsburg<br>Deutschland<br>E-Mail: <a href="mailto:markvondaak@icloud.com">markvondaak@icloud.com</a><br>USt-IdNr.: DE319920422</p>
+        <p><b>Datenschutz</b><br>Diese Seite setzt keine Cookies, nutzt keine Analyse- oder Werbedienste und lädt keine Inhalte von Dritten; Schriften und Bilder liegen auf diesem Server. Beim Aufruf verarbeitet der Hoster technisch notwendige Zugriffsdaten (z. B. IP-Adresse, Zeitpunkt) zur Auslieferung und Sicherheit der Seite. Die Buttons führen zu Amazon; dort gelten die Datenschutzbestimmungen von Amazon.</p>
+      </div>
+    </details>
+  </footer>
+</main>
+</body>
+</html>
