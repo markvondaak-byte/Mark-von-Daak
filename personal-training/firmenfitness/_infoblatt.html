@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Firmenfitness – Infoblatt – Mark von Daak</title>
+<meta name="robots" content="noindex">
+<!-- Quelle für infoblatt.pdf. Erzeugen: node tools/infoblatt_pdf.js -->
+<style>
+  @font-face { font-family: "Inter"; font-weight: 400; src: url(../fonts/inter-400.woff2) format("woff2"); }
+  @font-face { font-family: "Inter"; font-weight: 600; src: url(../fonts/inter-600.woff2) format("woff2"); }
+  @font-face { font-family: "Inter Display"; font-weight: 800; src: url(../fonts/interdisplay-800.woff2) format("woff2"); }
+  @page { size: A4; margin: 0; }
+  :root { --blue: #38B6FF; --blue-deep: #0077C2; --blue-soft: #E6F5FF; --ink: #0F1720; --soft: #4A5563; --line: #E3E8EE; --dark: #0B1218; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { width: 210mm; height: 297mm; font-family: "Inter", sans-serif; color: var(--ink); font-size: 9.6pt; line-height: 1.45; -webkit-print-color-adjust: exact; print-color-adjust: exact; display: flex; flex-direction: column; overflow: hidden; }
+  .kopf { background: radial-gradient(90mm 60mm at 100% 0%, rgba(56,182,255,.32), transparent 70%), var(--dark); color: #F2F6FA; padding: 11mm 16mm 9mm; }
+  .marke { display: flex; align-items: center; gap: 3mm; }
+  .marke img { height: 10mm; }
+  .marke b { display: block; font-family: "Inter Display"; font-weight: 800; font-size: 12pt; letter-spacing: .03em; }
+  .marke span { display: block; font-size: 6.5pt; font-weight: 600; letter-spacing: .3em; color: var(--blue); margin-top: .6mm; }
+  .eyebrow { margin: 5.5mm 0 0; font-size: 7.5pt; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--blue); }
+  h1 { font-family: "Inter Display"; font-weight: 800; font-size: 26pt; line-height: 1; letter-spacing: -.03em; margin: 2.5mm 0 0; }
+  h1 span { color: var(--blue); }
+  .kopf p.lead { margin: 4mm 0 0; color: #C9D3DC; font-size: 10.5pt; max-width: 140mm; }
+  main { padding: 6mm 16mm 5mm; flex: 1; }
+  h2 { font-family: "Inter Display"; font-weight: 800; font-size: 13pt; letter-spacing: -.01em; margin: 0 0 3mm; }
+  .bs { display: grid; grid-template-columns: 1fr 1fr; gap: 3.5mm; }
+  .b { border: 1px solid var(--line); border-radius: 3mm; padding: 3.2mm 4.5mm; }
+  .b h3 { margin: 0; font-size: 10pt; font-weight: 600; }
+  .b .m { margin-top: 1.4mm; font-size: 7.5pt; font-weight: 600; color: var(--blue-deep); }
+  .b p { margin: 1.4mm 0 0; color: var(--soft); font-size: 8.6pt; }
+  .zwei { display: grid; grid-template-columns: 1.15fr 1fr; gap: 8mm; margin-top: 5mm; }
+  ol { margin: 0; padding: 0; list-style: none; counter-reset: s; display: grid; gap: 1.8mm; }
+  ol li { counter-increment: s; display: grid; grid-template-columns: 7mm 1fr; gap: 3mm; align-items: start; }
+  ol li::before { content: counter(s); width: 7mm; height: 7mm; border-radius: 50%; background: var(--blue); color: var(--dark); font-weight: 800; font-family: "Inter Display"; display: grid; place-items: center; font-size: 9pt; }
+  ol b { display: block; }
+  ol span { color: var(--soft); font-size: 8.6pt; }
+  .box { background: var(--blue-soft); border-radius: 3mm; padding: 5mm; }
+  .box p { margin: 0 0 2.4mm; color: var(--soft); font-size: 8.6pt; }
+  .box p:last-child { margin: 0; }
+  .box b { color: var(--ink); }
+  .fuss { margin-top: 0; background: var(--dark); color: #F2F6FA; padding: 6mm 16mm; display: grid; grid-template-columns: 1fr auto; gap: 6mm; align-items: center; }
+  .fuss .k { font-family: "Inter Display"; font-weight: 800; font-size: 14pt; }
+  .fuss .k span { color: var(--blue); }
+  .fuss p { margin: 1.5mm 0 0; color: #A7B3BF; font-size: 8.6pt; }
+  .fuss ul { list-style: none; margin: 0; padding: 0; text-align: right; font-size: 9.4pt; font-weight: 600; line-height: 1.7; }
+  .fuss ul small { color: var(--blue); font-weight: 600; font-size: 7pt; letter-spacing: .12em; text-transform: uppercase; margin-right: 2mm; }
+</style>
+</head>
+<body>
+  <header class="kopf">
+    <div class="marke"><img src="../img/pin.png" alt=""><div><b>MARK VON DAAK</b><span>FIRMENFITNESS</span></div></div>
+    <p class="eyebrow">Betriebliche Gesundheitsförderung in Wolfsburg</p>
+    <h1>Gesunde Mitarbeiter.<br><span>Starkes Team.</span></h1>
+    <p class="lead">Workshops, bewegte Pausen und Kurse direkt bei euch im Unternehmen – mit Mark von Daak, Fitness- und Gesundheitstrainer mit A-Lizenz.</p>
+  </header>
+
+  <main>
+    <h2>Sechs Bausteine – frei kombinierbar</h2>
+    <div class="bs">
+      <div class="b"><h3>Workshop „Gesunder Rücken im Büro“</h3><div class="m">90 Minuten · bis 20 Personen</div><p>Ursachen, Arbeitsplatz-Tipps und Übungen, die wirklich helfen – zum Mitmachen.</p></div>
+      <div class="b"><h3>Bewegte Pause</h3><div class="m">15 Minuten · am Arbeitsplatz</div><p>Angeleitete Übungen ohne Umziehen und ohne Schwitzen – ideal als fester Wochentermin.</p></div>
+      <div class="b"><h3>Firmenkurs Kraft &amp; Beweglichkeit</h3><div class="m">8–12 Termine à 60 Min. · bis 12 Personen</div><p>Kraft, Beweglichkeit und Haltung mit klarem Aufbau – für jedes Fitnesslevel.</p></div>
+      <div class="b"><h3>Ernährungs-Workshop</h3><div class="m">90 Minuten · bis 25 Personen</div><p>„Fit durch den Arbeitstag“: was im Büroalltag satt und leistungsfähig macht – gegen das Nachmittagstief.</p></div>
+      <div class="b"><h3>Gesundheitstag</h3><div class="m">halber oder ganzer Tag</div><p>Mitmach-Stationen, kurze Fitness-Checks und Mini-Workshops für die ganze Belegschaft.</p></div>
+      <div class="b"><h3>Einzel-Coaching für Führungskräfte</h3><div class="m">1:1 · Termine flexibel</div><p>Persönliches Training im Haus oder in der Nähe, mit Plan in der App SMART Coaching.</p></div>
+    </div>
+
+    <div class="zwei">
+      <div>
+        <h2>So läuft es ab</h2>
+        <ol>
+          <li><div><b>Erstgespräch</b><span>30 Minuten, kostenlos – telefonisch oder vor Ort</span></div></li>
+          <li><div><b>Bedarf klären</b><span>Teamgröße, Arbeitsalltag, Räume und Ziele</span></div></li>
+          <li><div><b>Angebot nach Maß</b><span>Schriftlich, mit Inhalten, Terminen und Kosten</span></div></li>
+          <li><div><b>Umsetzung bei euch</b><span>Material bringe ich mit</span></div></li>
+          <li><div><b>Auswertung</b><span>Feedback und Vorschläge für die nächsten Schritte</span></div></li>
+        </ol>
+      </div>
+      <div>
+        <h2>Gut zu wissen</h2>
+        <div class="box">
+          <p><b>Individuelles Angebot:</b> Die Kosten richten sich nach Baustein, Umfang und Teilnehmerzahl.</p>
+          <p><b>Steuerliche Vorteile:</b> Gesundheitsförderung kann unter bestimmten Voraussetzungen steuer- und sozialversicherungsfrei sein (§ 3 Nr. 34 EStG). Bitte mit der Steuerberatung klären – Unterlagen zu Inhalten und Ablauf stelle ich gern bereit.</p>
+          <p><b>Ohne großen Aufwand:</b> Ein Raum mit etwas freier Fläche genügt.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="fuss">
+    <div>
+      <div class="k">Lasst uns <span>sprechen.</span></div>
+      <p>Kostenloses Erstgespräch vereinbaren – ich melde mich innerhalb von zwei Werktagen.</p>
+    </div>
+    <ul>
+      <li><small>Telefon</small>0179 4340426</li>
+      <li><small>E-Mail</small>info@markvondaak-coaching.de</li>
+      <li><small>Web</small>markvondaak-coaching.de/firmenfitness</li>
+    </ul>
+  </footer>
+</body>
+</html>
