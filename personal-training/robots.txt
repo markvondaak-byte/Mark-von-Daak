@@ -3,5 +3,6 @@ Allow: /
 
 # Die App ist ein Werkzeug für Klienten, kein Inhalt für Suchmaschinen.
 Disallow: /coaching/
+Disallow: /gutschein/
 
 Sitemap: https://markvondaak-coaching.de/sitemap.xml
