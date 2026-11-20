@@ -52,9 +52,10 @@ def kopieren():
         shutil.copytree(
             quelle, ziel, dirs_exist_ok=True,
             ignore=shutil.ignore_patterns(*ausnehmen, "__pycache__", "*.pyc",
-                                          ".DS_Store"),
+                                          ".DS_Store", "_*.html"),
         )
         dateien = [p for p in quelle.rglob("*") if p.is_file()
+                   and not p.name.startswith("_")
                    and not any(teil in ausnehmen for teil in p.relative_to(quelle).parts)]
         kopiert.append((f"{quelle_name}/ → /{'' if ziel_name == '.' else ziel_name + '/'}"
                         f"  ({len(dateien)} Dateien)",
