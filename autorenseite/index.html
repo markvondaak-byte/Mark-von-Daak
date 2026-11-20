@@ -44,8 +44,9 @@
   .amazon svg { width: 14px; height: 14px; }
   .hinweis { margin-top: 22px; font-size: .8rem; color: var(--leise); line-height: 1.5; }
   footer { margin-top: 34px; font-size: .78rem; color: var(--leise); line-height: 1.6; }
-  footer details { margin-top: 8px; }
-  footer summary { cursor: pointer; display: inline; }
+  footer .recht { display: flex; flex-direction: column; align-items: center; gap: 6px; margin-top: 8px; }
+  footer details { width: 100%; }
+  footer summary { cursor: pointer; display: inline; text-decoration: underline; text-underline-offset: 3px; }
   footer summary::-webkit-details-marker { display: none; }
   footer summary:hover, footer summary:focus-visible { color: var(--text); }
   footer .rechtstext { text-align: left; margin: 12px auto 0; max-width: 30em; padding: 14px 16px; border: 1px solid var(--linie); border-radius: 12px; }
@@ -82,13 +83,28 @@
 
   <footer>
     © 2026 Mark von Daak
-    <details>
-      <summary>Impressum &amp; Datenschutz</summary>
-      <div class="rechtstext">
-        <p><b>Impressum</b><br>Mark von Daak<br>Rabenbergstraße 16<br>38444 Wolfsburg<br>Deutschland<br>E-Mail: <a href="mailto:markvondaak@icloud.com">markvondaak@icloud.com</a><br>USt-IdNr.: DE319920422</p>
-        <p><b>Datenschutz</b><br>Diese Seite setzt keine Cookies, nutzt keine Analyse- oder Werbedienste und lädt keine Inhalte von Dritten; Schriften und Bilder liegen auf diesem Server. Beim Aufruf verarbeitet der Hoster technisch notwendige Zugriffsdaten (z. B. IP-Adresse, Zeitpunkt) zur Auslieferung und Sicherheit der Seite. Die Buttons führen zu Amazon; dort gelten die Datenschutzbestimmungen von Amazon.</p>
-      </div>
-    </details>
+    <div class="recht">
+      <details>
+        <summary>Impressum</summary>
+        <div class="rechtstext">
+          <p><b>Angaben gemäß § 5 DDG</b><br>Mark von Daak<br>Rabenbergstraße 16<br>38444 Wolfsburg<br>Deutschland</p>
+          <p><b>Kontakt</b><br>E-Mail: <a href="mailto:markvondaak@icloud.com">markvondaak@icloud.com</a></p>
+          <p><b>Umsatzsteuer-Identifikationsnummer</b> gemäß § 27a UStG<br>DE319920422</p>
+          <p><b>Verbraucherstreitbeilegung</b><br>Ich bin nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Datenschutz</summary>
+        <div class="rechtstext">
+          <p><b>Verantwortlicher</b><br>Mark von Daak, Rabenbergstraße 16, 38444 Wolfsburg, Deutschland, <a href="mailto:markvondaak@icloud.com">markvondaak@icloud.com</a></p>
+          <p><b>Keine Cookies, keine Analyse</b><br>Diese Seite setzt keine Cookies, nutzt keine Analyse-, Tracking- oder Werbedienste und bindet keine Inhalte von Dritten ein. Schriften und Bilder werden vom selben Server geladen wie die Seite.</p>
+          <p><b>Hosting</b><br>Die Seite wird über GitHub Pages bereitgestellt, einen Dienst der GitHub Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA. Beim Aufruf verarbeitet GitHub technisch notwendige Daten in Server-Protokollen, insbesondere IP-Adresse, Datum und Uhrzeit, aufgerufene Datei und Browserangaben, um die Seite auszuliefern und ihre Sicherheit zu gewährleisten. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO; das berechtigte Interesse liegt in einer sicheren und zuverlässigen Bereitstellung. Die Daten können in die USA übermittelt werden. GitHub ist nach dem EU-US Data Privacy Framework zertifiziert, für das ein Angemessenheitsbeschluss der EU-Kommission besteht (Art. 45 DSGVO). Ich selbst habe keinen Zugriff auf diese Protokolle und speichere keine Daten. Näheres: <a href="https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">Datenschutzerklärung von GitHub</a>.</p>
+          <p><b>Links zu Amazon</b><br>Die Buttons sind einfache Links ohne Partner- oder Tracking-Kennung. Erst wenn Sie einen anklicken, verlassen Sie diese Seite; für die Verarbeitung bei Amazon ist Amazon verantwortlich.</p>
+          <p><b>Kontakt per E-Mail</b><br>Schreiben Sie mir eine E-Mail, verarbeite ich Ihre Angaben, um die Anfrage zu beantworten (Art. 6 Abs. 1 lit. b bzw. f DSGVO), und lösche sie, wenn sie dafür nicht mehr benötigt werden und keine gesetzlichen Aufbewahrungspflichten bestehen.</p>
+          <p><b>Ihre Rechte</b><br>Sie haben das Recht auf Auskunft (Art. 15), Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung der Verarbeitung (Art. 18), Datenübertragbarkeit (Art. 20) und Widerspruch gegen Verarbeitungen auf Grundlage berechtigter Interessen (Art. 21 DSGVO). Außerdem können Sie sich bei einer Datenschutz-Aufsichtsbehörde beschweren (Art. 77 DSGVO), etwa bei der Landesbeauftragten für den Datenschutz Niedersachsen.</p>
+        </div>
+      </details>
+    </div>
   </footer>
 </main>
 </body>
