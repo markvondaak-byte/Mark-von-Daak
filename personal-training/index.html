@@ -231,6 +231,22 @@
   .guarantee strong { color: #fff; }
   .price-legal { margin-top: 18px; font-size: .82rem; color: var(--on-dark-soft); }
 
+  /* ---------- Gutscheine ---------- */
+  .gutscheine { background: var(--bg-2); }
+  .gs-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .gs { position: relative; overflow: hidden; display: flex; flex-direction: column; background: linear-gradient(160deg, #0B1218 0%, #12212E 100%); color: var(--on-dark); border-radius: 22px; padding: 26px; min-height: 280px; box-shadow: var(--shadow); }
+  .gs::after { content: ""; position: absolute; width: 180px; height: 180px; right: -60px; top: -60px; border-radius: 50%; background: rgba(56,182,255,.18); }
+  .gs .icon { background: rgba(56,182,255,.16); color: var(--blue); margin-bottom: 18px; position: relative; z-index: 1; }
+  .gs h3 { color: #fff; position: relative; z-index: 1; }
+  .gs p { color: var(--on-dark-soft); font-size: .95rem; margin-top: 8px; flex: 1; }
+  .gs .btn { margin-top: 20px; padding: 12px 18px; font-size: .92rem; align-self: flex-start; }
+  .gs-info { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 30px; }
+  .gs-info div { display: flex; gap: 14px; align-items: flex-start; background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; }
+  .gs-info b { display: block; }
+  .gs-info span { display: block; color: var(--ink-soft); font-size: .92rem; margin-top: 2px; }
+  .gs-info .icon { display: grid; place-items: center; margin: 0; width: 42px; height: 42px; flex: none; }
+  .gs-info .icon svg { width: 22px; height: 22px; }
+
   /* ---------- Über mich ---------- */
   .about-grid { display: grid; grid-template-columns: .85fr 1.15fr; gap: 72px; align-items: center; }
   .about-photo { position: relative; border-radius: 28px; overflow: hidden; aspect-ratio: 4/5; box-shadow: var(--shadow); }
@@ -348,11 +364,13 @@
     .steps { grid-template-columns: 1fr 1fr; gap: 36px 22px; }
     .step:nth-child(2)::before { display: none; }
     .more-offers { grid-template-columns: 1fr 1fr; }
+    .gs-grid { grid-template-columns: 1fr 1fr; }
+    .gs-info { grid-template-columns: 1fr; }
     .app-grid .phone-col { order: 2; }
     .about-photo { max-width: 440px; margin: 0 auto; width: 100%; }
     .region-box { padding: 36px; }
   }
-  @media (max-width: 860px) {
+  @media (max-width: 1100px) {
     .nav-links { position: fixed; inset: 76px 0 auto 0; background: #fff; color: var(--ink); flex-direction: column; align-items: stretch; gap: 0; padding: 8px 24px 24px; box-shadow: 0 30px 40px -30px rgba(0,0,0,.4); display: none; }
     .nav-links.open { display: flex; }
     .nav-links a { padding: 15px 0; border-bottom: 1px solid var(--line); font-size: 1.05rem; }
@@ -384,6 +402,8 @@
     .steps { grid-template-columns: 1fr; }
     .step::before { display: none; }
     .more-offers { grid-template-columns: 1fr; }
+    .gs-grid { grid-template-columns: 1fr; }
+    .gs { min-height: 0; }
     .region-box { padding: 24px; }
     .faq details p { padding-right: 0; }
     .phone { width: 270px; }
@@ -415,6 +435,7 @@
     <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6.5L12 13l8.5-6.5"/></symbol>
     <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.4 8.2-8 9-4.6-.8-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></symbol>
     <symbol id="i-insta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6" fill="currentColor"/></symbol>
+    <symbol id="i-geschenk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M5 12v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-8M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"/></symbol>
     <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z"/></symbol>
     <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
   </defs>
@@ -430,6 +451,7 @@
       <a href="#programm">Programm</a>
       <a href="#ablauf">Ablauf</a>
       <a href="#angebote">Angebote</a>
+      <a href="#gutscheine">Gutscheine</a>
       <a href="#ueber-mich">Über mich</a>
       <a href="#buch">Buch</a>
       <a href="#faq">FAQ</a>
@@ -685,6 +707,48 @@
     </div>
   </section>
 
+  <!-- Gutscheine -->
+  <section class="section gutscheine" id="gutscheine">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">Gutscheine</p>
+        <h2>Verschenke Kraft und Gesundheit.</h2>
+        <p class="lead">Das perfekte Geschenk zu Weihnachten, zum Geburtstag oder einfach so: ein Gutschein für Personal Training in Wolfsburg und Umgebung.</p>
+      </div>
+      <div class="gs-grid">
+        <article class="gs reveal">
+          <span class="icon"><svg><use href="#i-geschenk"/></svg></span>
+          <h3>Kennenlern-Training</h3>
+          <p>60 Minuten Gespräch und Probetraining – der perfekte Einstieg.</p>
+          <a class="btn btn-primary" href="#kontakt" data-paket="Gutschein: Kennenlern-Training">Gutschein anfragen</a>
+        </article>
+        <article class="gs reveal">
+          <span class="icon"><svg><use href="#i-geschenk"/></svg></span>
+          <h3>Personal Training</h3>
+          <p>Eine Stunde 1:1-Training mit Eingangs-Check, vor Ort beim Beschenkten.</p>
+          <a class="btn btn-primary" href="#kontakt" data-paket="Gutschein: Personal Training (1 Stunde)">Gutschein anfragen</a>
+        </article>
+        <article class="gs reveal">
+          <span class="icon"><svg><use href="#i-geschenk"/></svg></span>
+          <h3>10er-Karte</h3>
+          <p>Zehn Einheiten für alle, die richtig durchstarten wollen.</p>
+          <a class="btn btn-primary" href="#kontakt" data-paket="Gutschein: 10er-Karte">Gutschein anfragen</a>
+        </article>
+        <article class="gs reveal">
+          <span class="icon"><svg><use href="#i-geschenk"/></svg></span>
+          <h3>Wertgutschein</h3>
+          <p>Du wählst den Betrag – einlösbar für alle Angebote.</p>
+          <a class="btn btn-primary" href="#kontakt" data-paket="Gutschein: Wertgutschein">Gutschein anfragen</a>
+        </article>
+      </div>
+      <div class="gs-info reveal">
+        <div><span class="icon"><svg><use href="#i-mail"/></svg></span><span><b>Anfragen</b><span>Gutschein auswählen und über das Formular anfragen – gern mit Namen des Beschenkten und Wunschtext.</span></span></div>
+        <div><span class="icon"><svg><use href="#i-check"/></svg></span><span><b>Bezahlen</b><span>Du bekommst von mir Preis und Zahlungsinfos per E-Mail.</span></span></div>
+        <div><span class="icon"><svg><use href="#i-geschenk"/></svg></span><span><b>Verschenken</b><span>Nach Zahlungseingang erhältst du den Gutschein als PDF – zum Ausdrucken oder Weiterleiten.</span></span></div>
+      </div>
+    </div>
+  </section>
+
   <!-- Über mich -->
   <section class="section" id="ueber-mich">
     <div class="wrap about-grid">
@@ -841,6 +905,10 @@
               <option>Ernährungs-Coaching (10 Wochen)</option>
               <option>Duo-Training</option>
               <option>Firmenfitness</option>
+              <option>Gutschein: Kennenlern-Training</option>
+              <option>Gutschein: Personal Training (1 Stunde)</option>
+              <option>Gutschein: 10er-Karte</option>
+              <option>Gutschein: Wertgutschein</option>
               <option>Noch unsicher</option>
             </select>
           </div>
@@ -864,6 +932,7 @@
       <nav class="foot-links" aria-label="Fußzeile">
         <a href="#programm">Programm</a>
         <a href="#angebote">Angebote</a>
+        <a href="#gutscheine">Gutscheine</a>
         <a href="#buch">Buch</a>
         <a href="#kontakt">Kontakt</a>
         <a href="/impressum.html">Impressum</a>
@@ -906,7 +975,13 @@
     nav.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { setMenu(false); }); });
 
     document.querySelectorAll('[data-paket]').forEach(function (a) {
-      a.addEventListener('click', function () { document.getElementById('f-paket').value = a.getAttribute('data-paket'); });
+      a.addEventListener('click', function () {
+        var paket = a.getAttribute('data-paket');
+        document.getElementById('f-paket').value = paket;
+        document.getElementById('f-msg').placeholder = paket.indexOf('Gutschein') === 0
+          ? 'Für wen ist der Gutschein? Wunschtext? Beim Wertgutschein: welcher Betrag?'
+          : 'Wo möchtest du trainieren, und wann passt es dir am besten?';
+      });
     });
 
     document.getElementById('year').textContent = new Date().getFullYear();

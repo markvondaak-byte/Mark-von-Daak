@@ -1,0 +1,90 @@
+<!DOCTYPE html><html lang="de"><head><meta charset="UTF-8"><style>
+  @font-face { font-family: "Inter"; font-weight: 400; src: url(inter-400.woff2); }
+  @font-face { font-family: "Inter"; font-weight: 600; src: url(inter-600.woff2); }
+  @font-face { font-family: "Inter Display"; font-weight: 800; src: url(interdisplay-800.woff2); }
+  :root { --blue: #38B6FF; --dark: #0B1218; --card: #131C24; --line: #24303B; --soft: #A7B3BF; --white: #F2F6FA; --rot: #FF6B6B; --gruen: #4ADE80; }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: #444; font-family: "Inter", sans-serif; display: flex; flex-direction: column; gap: 40px; padding: 40px; }
+  .s { position: relative; overflow: hidden; width: 1080px; height: 1350px; padding: 96px 80px; color: var(--white); flex: none;
+       background: radial-gradient(900px 700px at 100% 0%, rgba(56,182,255,.2), transparent 65%), var(--dark); }
+  h1, h2 { font-family: "Inter Display", "Inter", sans-serif; font-weight: 800; letter-spacing: -.035em; line-height: .98; }
+  .eyebrow { font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--blue); font-size: 28px; display: flex; align-items: center; gap: 18px; }
+  .eyebrow::before { content: ""; width: 48px; height: 4px; background: var(--blue); }
+  .fuss { position: absolute; left: 80px; right: 80px; bottom: 64px; display: flex; align-items: center; justify-content: space-between; }
+  .marke { display: flex; align-items: center; gap: 16px; }
+  .marke img { height: 56px; }
+  .marke b { display: block; font-family: "Inter Display", sans-serif; font-weight: 800; font-size: 26px; letter-spacing: .02em; }
+  .marke span { display: block; font-size: 15px; font-weight: 600; letter-spacing: .3em; color: var(--blue); margin-top: 3px; }
+  .punkte { display: flex; gap: 10px; }
+  .punkte i { width: 14px; height: 14px; border-radius: 50%; background: #2A3642; }
+  .punkte i.an { background: var(--blue); width: 40px; border-radius: 999px; }
+
+  /* Cover */
+  .cover h1 { font-size: 164px; margin-top: 60px; }
+  .cover h1 span { color: var(--blue); }
+  .cover p { font-size: 46px; color: #D6DEE6; margin-top: 40px; line-height: 1.25; }
+  .cover .wisch { margin-top: 70px; display: inline-flex; align-items: center; gap: 16px; background: var(--blue); color: var(--dark); font-weight: 600; font-size: 34px; padding: 22px 36px; border-radius: 999px; }
+  .cover .wisch svg { width: 36px; height: 36px; }
+  .gross-zahl { position: absolute; right: -40px; top: 120px; font-family: "Inter Display", sans-serif; font-weight: 800; font-size: 900px; line-height: .8; color: rgba(56,182,255,.07); }
+
+  /* Fehler-Folien */
+  .nr { font-family: "Inter Display", sans-serif; font-weight: 800; font-size: 34px; color: var(--dark); background: var(--blue); width: 76px; height: 76px; border-radius: 20px; display: grid; place-items: center; }
+  .kopf { display: flex; align-items: center; gap: 24px; }
+  .fehler h2 { font-size: 104px; margin-top: 40px; }
+  .box { margin-top: 44px; border-radius: 28px; padding: 34px 38px; border: 2px solid; }
+  .box.falsch { background: rgba(255,107,107,.08); border-color: rgba(255,107,107,.45); }
+  .box.richtig { background: rgba(74,222,128,.08); border-color: rgba(74,222,128,.45); margin-top: 24px; }
+  .box .t { display: flex; align-items: center; gap: 14px; font-weight: 600; font-size: 30px; letter-spacing: .08em; text-transform: uppercase; }
+  .box.falsch .t { color: var(--rot); }
+  .box.richtig .t { color: var(--gruen); }
+  .box .t svg { width: 38px; height: 38px; }
+  .box p { font-size: 36px; line-height: 1.35; margin-top: 14px; color: #E3E9EF; }
+  .box ul { margin: 14px 0 0; padding-left: 1.1em; font-size: 34px; line-height: 1.4; color: #E3E9EF; }
+  .box li + li { margin-top: 6px; }
+
+  /* Checkliste */
+  .check h2 { font-size: 96px; margin-top: 36px; }
+  .check ol { list-style: none; padding: 0; margin-top: 54px; display: grid; gap: 20px; counter-reset: c; }
+  .check li { counter-increment: c; display: flex; align-items: center; gap: 26px; background: var(--card); border: 2px solid var(--line); border-radius: 26px; padding: 26px 30px; font-size: 38px; font-weight: 600; }
+  .check li::before { content: counter(c); flex: none; width: 64px; height: 64px; border-radius: 18px; background: rgba(56,182,255,.16); color: var(--blue); display: grid; place-items: center; font-family: "Inter Display", sans-serif; font-weight: 800; font-size: 32px; }
+
+  /* CTA */
+  .cta h2 { font-size: 118px; margin-top: 44px; }
+  .cta h2 span { color: var(--blue); }
+  .cta p { font-size: 40px; color: #D6DEE6; margin-top: 40px; line-height: 1.35; }
+  .cta .buttons { display: grid; gap: 22px; margin-top: 64px; }
+  .cta .b { display: flex; align-items: center; gap: 22px; border-radius: 26px; padding: 28px 32px; font-size: 38px; font-weight: 600; background: var(--card); border: 2px solid var(--line); }
+  .cta .b.haupt { background: var(--blue); border-color: var(--blue); color: var(--dark); }
+  .cta .b svg { width: 46px; height: 46px; flex: none; }
+
+  .box.info { background: rgba(56,182,255,.08); border-color: rgba(56,182,255,.45); }
+  .box.info .t { color: var(--blue); }
+  .uebung h2 { font-size: 104px; margin-top: 40px; }
+  .uebung .box ul { font-size: 40px; line-height: 1.45; }
+  .uebung .box p { font-size: 38px; }
+  .uebung .box { padding: 40px 42px; }
+  .chip { display: inline-flex; align-items: center; gap: 12px; margin-top: 30px; padding: 14px 24px; border-radius: 999px; background: rgba(56,182,255,.14); color: var(--blue); font-weight: 600; font-size: 30px; }
+  .chip svg { width: 34px; height: 34px; }
+  .tabelle { margin-top: 44px; display: grid; gap: 16px; }
+  .zeile { display: flex; align-items: center; justify-content: space-between; gap: 20px; background: var(--card); border: 2px solid var(--line); border-radius: 24px; padding: 24px 30px; font-size: 34px; }
+  .zeile small { display: block; color: var(--soft); font-size: 26px; margin-top: 4px; }
+  .zeile b { font-family: "Inter Display", sans-serif; font-weight: 800; color: var(--blue); font-size: 40px; white-space: nowrap; }
+  .zeile.summe { background: var(--blue); border-color: var(--blue); color: var(--dark); font-weight: 600; }
+  .zeile.summe b { color: var(--dark); }
+  .hinweis { margin-top: 26px; font-size: 26px; color: var(--soft); line-height: 1.4; }
+</style></head><body><svg width="0" height="0" style="position:absolute"><defs>
+    <symbol id="x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="12" cy="12" r="10" stroke-width="2"/><path d="M8.5 8.5l7 7M15.5 8.5l-7 7"/></symbol>
+    <symbol id="ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" stroke-width="2"/><path d="M7.5 12.5l3 3 6-6.5"/></symbol>
+    <symbol id="pfeil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="merken" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-6-4-6 4z"/></symbol>
+    <symbol id="cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18M9 15l2 2 4-4"/></symbol>
+  
+    <symbol id="uhr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="10" stroke-width="2"/><path d="M12 11v6M12 7.5h.01"/></symbol>
+</defs></svg><div class="s cover" id="k1"><div class="gross-zahl">g</div><p class="eyebrow">Ernährung</p><h1>Eiweiß im <span>Alltag</span></h1><p>So schaffst du dein Eiweiß – ohne Shakes und Rechnerei.</p><span class="wisch">Wischen <svg><use href="#pfeil"/></svg></span><div class="fuss"><div class="marke"><img src="pin.png" alt=""><div><b>MARK VON DAAK</b><span>PERSONAL TRAINING</span></div></div><div class="punkte"><i class="an"></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div></div>
+<div class="s uebung" id="k2"><div class="kopf"><span class="nr">1</span><p class="eyebrow">Warum Eiweiß?</p></div><h2>Satt, stark, leichter abnehmen.</h2><div class="box richtig"><p class="t"><svg><use href="#ok"/></svg>Eiweiß hilft dir</p><ul><li>Macht lange satt</li><li>Unterstützt den Muskelaufbau beim Training</li><li>Schützt die Muskeln, wenn du abnimmst</li></ul></div><div class="box info"><p class="t"><svg><use href="#info"/></svg>Richtwert</p><p>Wer Krafttraining macht, liegt oft gut bei etwa 1,6 bis 2 g Eiweiß pro kg Körpergewicht am Tag.</p></div><div class="fuss"><div class="marke"><img src="pin.png" alt=""><div><b>MARK VON DAAK</b><span>PERSONAL TRAINING</span></div></div><div class="punkte"><i></i><i class="an"></i><i></i><i></i><i></i><i></i><i></i></div></div></div>
+<div class="s uebung" id="k3"><div class="kopf"><span class="nr">2</span><p class="eyebrow">Tipp Nummer eins</p></div><h2>Zu jeder Mahlzeit eine Eiweißquelle.</h2><div class="box richtig"><p class="t"><svg><use href="#ok"/></svg>So geht's</p><ul><li>Faustregel: eine Handfläche Eiweiß pro Mahlzeit</li><li>Zuerst die Eiweißquelle planen, dann den Rest</li><li>Drei Mahlzeiten plus ein Snack reichen oft schon</li></ul></div><div class="fuss"><div class="marke"><img src="pin.png" alt=""><div><b>MARK VON DAAK</b><span>PERSONAL TRAINING</span></div></div><div class="punkte"><i></i><i></i><i class="an"></i><i></i><i></i><i></i><i></i></div></div></div>
+<div class="s uebung" id="k4"><div class="kopf"><span class="nr">3</span><p class="eyebrow">Tipp Nummer zwei</p></div><h2>Das Frühstück aufwerten.</h2><div class="box richtig"><p class="t"><svg><use href="#ok"/></svg>So geht's</p><ul><li>Skyr oder Magerquark mit Beeren und Nüssen</li><li>Rührei oder Omelett mit Gemüse</li><li>Haferflocken mit Quark statt nur mit Milch</li></ul></div><div class="fuss"><div class="marke"><img src="pin.png" alt=""><div><b>MARK VON DAAK</b><span>PERSONAL TRAINING</span></div></div><div class="punkte"><i></i><i></i><i></i><i class="an"></i><i></i><i></i><i></i></div></div></div>
+<div class="s uebung" id="k5"><div class="kopf"><span class="nr">4</span><p class="eyebrow">Tipp Nummer drei</p></div><h2>Snacks clever wählen.</h2><div class="box richtig"><p class="t"><svg><use href="#ok"/></svg>So geht's</p><ul><li>Hüttenkäse oder Skyr</li><li>Edamame oder geröstete Kichererbsen</li><li>Thunfisch, Eier oder Putenaufschnitt</li></ul></div><div class="fuss"><div class="marke"><img src="pin.png" alt=""><div><b>MARK VON DAAK</b><span>PERSONAL TRAINING</span></div></div><div class="punkte"><i></i><i></i><i></i><i></i><i class="an"></i><i></i><i></i></div></div></div>
+<div class="s check" id="k6"><p class="eyebrow">Beispieltag</p><h2 style="font-size:96px;margin-top:36px">So kommst du auf über 100 g</h2><div class="tabelle"><div class="zeile"><span>Frühstück<small>250 g Skyr mit Beeren</small></span><b>ca. 27 g</b></div><div class="zeile"><span>Mittag<small>150 g Hähnchenbrust</small></span><b>ca. 35 g</b></div><div class="zeile"><span>Snack<small>200 g Hüttenkäse</small></span><b>ca. 24 g</b></div><div class="zeile"><span>Abendessen<small>200 g Tofu mit Gemüse</small></span><b>ca. 30 g</b></div><div class="zeile summe"><span>Zusammen</span><b>ca. 116 g</b></div></div><p class="hinweis">Werte gerundet. Bei Nierenerkrankungen die Eiweißmenge bitte ärztlich abklären.</p><div class="fuss"><div class="marke"><img src="pin.png" alt=""><div><b>MARK VON DAAK</b><span>PERSONAL TRAINING</span></div></div><div class="punkte"><i></i><i></i><i></i><i></i><i></i><i class="an"></i><i></i></div></div></div>
+<div class="s cta" id="k7"><p class="eyebrow">Ernährungs-Coaching</p><h2>Ernährung ohne <span>Diätfrust.</span></h2><p>Persönliche Kalorien- und Eiweißziele, Rezepte und Einkaufsliste in meiner App SMART Coaching – auch ohne Training buchbar.</p><div class="buttons"><div class="b haupt"><svg><use href="#cal"/></svg>Jetzt anfragen · Link in Bio</div><div class="b"><svg><use href="#merken"/></svg>Speichern für später</div></div><div class="fuss"><div class="marke"><img src="pin.png" alt=""><div><b>MARK VON DAAK</b><span>PERSONAL TRAINING</span></div></div><div class="punkte"><i></i><i></i><i></i><i></i><i></i><i></i><i class="an"></i></div></div></div></body></html>
