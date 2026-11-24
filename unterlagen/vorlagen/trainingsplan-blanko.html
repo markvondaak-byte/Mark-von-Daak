@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Trainingsplan Blanko – Mark von Daak Personal Training</title>
+<!-- Quelle für unterlagen/Trainingsplan-Blanko.pdf. Erzeugen: node tools/unterlagen_pdf.js -->
+<style>
+  @font-face { font-family: "Inter"; font-weight: 400; src: url(../../personal-training/fonts/inter-400.woff2) format("woff2"); }
+  @font-face { font-family: "Inter"; font-weight: 600; src: url(../../personal-training/fonts/inter-600.woff2) format("woff2"); }
+  @font-face { font-family: "Inter Display"; font-weight: 800; src: url(../../personal-training/fonts/interdisplay-800.woff2) format("woff2"); }
+  @page { size: A4; margin: 12mm 13mm; }
+  :root { --blue: #38B6FF; --blue-deep: #0077C2; --blue-soft: #E6F5FF; --ink: #0F1720; --soft: #4A5563; --line: #C9D2DC; --dark: #0B1218; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Inter", sans-serif; color: var(--ink); font-size: 9.5pt; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .seite { height: 272mm; display: flex; flex-direction: column; break-after: page; }
+  .seite:last-child { break-after: auto; }
+  .kopf { display: flex; justify-content: space-between; align-items: center; border-bottom: 2.5px solid var(--blue); padding-bottom: 3mm; }
+  .marke { display: flex; align-items: center; gap: 2.5mm; }
+  .marke img { height: 9mm; }
+  .marke b { display: block; font-family: "Inter Display"; font-weight: 800; font-size: 11pt; letter-spacing: .03em; }
+  .marke span { display: block; font-size: 6pt; font-weight: 600; letter-spacing: .3em; color: var(--blue-deep); margin-top: .5mm; }
+  h1 { font-family: "Inter Display"; font-weight: 800; font-size: 18pt; letter-spacing: -.02em; margin: 0; }
+  h1 small { font-family: "Inter"; font-weight: 400; font-size: 9pt; color: var(--soft); letter-spacing: 0; margin-left: 2mm; }
+  h2 { font-family: "Inter Display"; font-weight: 800; font-size: 12pt; margin: 5mm 0 2mm; display: flex; align-items: baseline; gap: 3mm; }
+  h2 small { font-family: "Inter"; font-weight: 400; font-size: 8pt; color: var(--soft); }
+  table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+  th, td { border: 1px solid var(--line); padding: 0 2mm; text-align: left; vertical-align: middle; }
+  th { background: var(--blue-soft); font-size: 7.5pt; font-weight: 600; color: var(--blue-deep); height: 7mm; text-transform: uppercase; letter-spacing: .06em; }
+  td { height: 10.5mm; }
+  td.lbl { font-weight: 600; font-size: 8.5pt; background: #F5F8FB; }
+  td.nr { font-weight: 600; text-align: center; color: var(--blue-deep); }
+  .daten td { height: 9mm; }
+  .box { display: inline-block; width: 3.2mm; height: 3.2mm; border: 1.2px solid var(--ink); border-radius: .6mm; vertical-align: -0.5mm; margin: 0 1.2mm 0 3mm; }
+  .box:first-child { margin-left: 0; }
+  .hinweis { font-size: 8pt; color: var(--soft); margin: 0 0 2mm; }
+  .notiz td { height: 9.5mm; }
+  .gross td { height: 14.5mm; }
+  .fuss { margin-top: auto; padding-top: 3mm; display: flex; justify-content: space-between; font-size: 7.5pt; color: var(--soft); border-top: 1px solid var(--line); }
+</style>
+</head>
+<body>
+
+<section class="seite">
+  <div class="kopf">
+    <div class="marke"><img src="../../personal-training/img/pin.png" alt=""><div><b>MARK VON DAAK</b><span>PERSONAL TRAINING</span></div></div>
+    <h1>Trainingsplan <small>ein Blatt pro Phase (4 Wochen)</small></h1>
+  </div>
+
+  <h2>Kunde und Phase</h2>
+  <table class="daten">
+    <colgroup><col style="width:30%"><col></colgroup>
+    <tr><td class="lbl">Name</td><td></td></tr>
+    <tr><td class="lbl">Programm</td><td><span class="box"></span>STARK in 12<span class="box"></span>10er-Karte<span class="box"></span>Einzelstunden</td></tr>
+    <tr><td class="lbl">Phase</td><td><span class="box"></span>Fundament (W 1–4)<span class="box"></span>Aufbau (W 5–8)<span class="box"></span>Leistung (W 9–12)</td></tr>
+    <tr><td class="lbl">Zeitraum</td><td>von ____________________ bis ____________________</td></tr>
+    <tr><td class="lbl">Hauptziel</td><td></td></tr>
+    <tr><td class="lbl">Einschränkungen / nicht machen</td><td></td></tr>
+    <tr><td class="lbl">Ziel-Belastung (RPE) · Pausen</td><td>RPE ________   Pausen ________ Sek.</td></tr>
+  </table>
+
+  <h2>Oberkörper Tag <small>Wochenspalten: Gewicht × Wiederholungen, z. B. 12 kg × 10</small></h2>
+  <table class="gross">
+    <colgroup><col style="width:32%"><col style="width:14%"><col><col><col><col></colgroup>
+    <tr><th>Übung / Variante</th><th>Sätze × Wdh.</th><th>Woche 1</th><th>Woche 2</th><th>Woche 3</th><th>Woche 4</th></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+  </table>
+
+  <div class="fuss"><span>Mark von Daak – Personal Training · 0179 4340426 · info@markvondaak-coaching.de</span><span>Seite 1 / 2</span></div>
+</section>
+
+<section class="seite">
+  <div class="kopf">
+    <div class="marke"><img src="../../personal-training/img/pin.png" alt=""><div><b>MARK VON DAAK</b><span>PERSONAL TRAINING</span></div></div>
+    <h1>Trainingsplan <small>Name: ______________________________</small></h1>
+  </div>
+
+  <h2>Training B</h2>
+  <table>
+    <colgroup><col style="width:32%"><col style="width:14%"><col><col><col><col></colgroup>
+    <tr><th>Übung / Variante</th><th>Sätze × Wdh.</th><th>Woche 1</th><th>Woche 2</th><th>Woche 3</th><th>Woche 4</th></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+  </table>
+
+  <h2>Aufwärmen, Finisher und Hausaufgabe</h2>
+  <table class="daten">
+    <colgroup><col style="width:30%"><col></colgroup>
+    <tr><td class="lbl">Aufwärmen (10 Min.)</td><td></td></tr>
+    <tr><td class="lbl">Finisher Training A</td><td></td></tr>
+    <tr><td class="lbl">Finisher Training B</td><td></td></tr>
+    <tr><td class="lbl">Hausaufgabe pro Woche</td><td></td></tr>
+    <tr><td class="lbl">Schritte pro Tag (Ziel)</td><td></td></tr>
+  </table>
+
+
+  <div class="fuss"><span>Mark von Daak – Personal Training · 0179 4340426 · info@markvondaak-coaching.de</span><span>Seite 2 / 2</span></div>
+</section>
+</body>
+</html>

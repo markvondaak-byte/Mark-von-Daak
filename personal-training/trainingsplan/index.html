@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trainingsplan erstellen – Mark von Daak Personal Training</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="/img/favicon.png">
+<style>
+  @font-face { font-family: "Inter"; font-weight: 400; font-display: swap; src: url(/fonts/inter-400.woff2) format("woff2"); }
+  @font-face { font-family: "Inter"; font-weight: 600; font-display: swap; src: url(/fonts/inter-600.woff2) format("woff2"); }
+  @font-face { font-family: "Inter Display"; font-weight: 800; font-display: swap; src: url(/fonts/interdisplay-800.woff2) format("woff2"); }
+  :root { --blue: #38B6FF; --blue-deep: #0077C2; --blue-soft: #E6F5FF; --ink: #0F1720; --soft: #4A5563; --line: #D5DDE5; --dark: #0B1218; --dark2: #131C24; --bg2: #F3F6F9; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Inter", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; background: var(--bg2); color: var(--ink); -webkit-font-smoothing: antialiased; }
+
+  /* ---------- Bedienung ---------- */
+  .app { display: grid; grid-template-columns: 400px 1fr; gap: 28px; padding: 24px; align-items: start; }
+  .steuerung { position: sticky; top: 16px; max-height: calc(100vh - 32px); overflow: auto; background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 22px; }
+  .steuerung h1 { font-family: "Inter Display", sans-serif; font-weight: 800; font-size: 1.45rem; letter-spacing: -.02em; margin: 0 0 6px; }
+  .hinweis { color: var(--soft); font-size: .86rem; margin: 0 0 14px; line-height: 1.5; }
+  fieldset { border: 0; border-top: 1px solid var(--line); margin: 16px 0 0; padding: 14px 0 0; }
+  legend { font-family: "Inter Display", sans-serif; font-weight: 800; font-size: 1rem; padding: 0 8px 0 0; }
+  label { display: block; font-size: .78rem; font-weight: 600; margin: 10px 0 5px; }
+  input, select, textarea { width: 100%; font: inherit; font-size: .92rem; padding: 9px 11px; border: 1.5px solid var(--line); border-radius: 10px; background: #fff; color: var(--ink); }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(56,182,255,.2); }
+  .zwei { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .uebung-zeile { display: grid; grid-template-columns: 22px 1fr 92px; gap: 6px; align-items: center; margin-top: 6px; }
+  .uebung-zeile span { font-size: .75rem; font-weight: 600; color: var(--blue-deep); text-align: center; }
+  .uebung-zeile input { padding: 7px 9px; font-size: .86rem; }
+  .knopf { display: block; width: 100%; margin-top: 10px; font: 600 .95rem "Inter", sans-serif; padding: 13px; border: 0; border-radius: 999px; background: var(--blue); color: var(--dark); cursor: pointer; }
+  .knopf.zweit { background: #fff; border: 1.5px solid var(--line); color: var(--ink); }
+  .knopf.klein { padding: 9px; font-size: .85rem; }
+  .knoepfe { display: grid; grid-template-columns: 1fr 1fr; gap: 0 10px; }
+  .tipp { font-size: .78rem; color: var(--soft); margin-top: 12px; line-height: 1.5; }
+  input[type=file] { display: none; }
+  .vorschau { overflow-x: auto; padding-bottom: 24px; }
+  .vorschau .seite { margin: 0 auto 24px; box-shadow: 0 30px 60px -30px rgba(15,23,32,.45); background: #fff; }
+  @media (max-width: 1100px) { .app { grid-template-columns: 1fr; } .steuerung { position: static; max-height: none; } }
+
+  /* ---------- Plan (A4) ---------- */
+  .seite { width: 210mm; height: 297mm; display: flex; flex-direction: column; overflow: hidden; -webkit-print-color-adjust: exact; print-color-adjust: exact; font-size: 9.5pt; color: var(--ink); }
+  .hero { background: radial-gradient(95mm 70mm at 100% 0%, rgba(56,182,255,.32), transparent 70%), var(--dark); color: #F2F6FA; padding: 11mm 15mm 9mm; }
+  .hero.klein { padding: 8mm 15mm 7mm; }
+  .marke { display: flex; align-items: center; gap: 2.5mm; }
+  .marke img { height: 9mm; }
+  .marke b { display: block; font-family: "Inter Display", sans-serif; font-weight: 800; font-size: 11pt; letter-spacing: .03em; }
+  .marke span { display: block; font-size: 6pt; font-weight: 600; letter-spacing: .3em; color: var(--blue); margin-top: .5mm; }
+  .kopfzeile { display: flex; justify-content: space-between; align-items: center; gap: 6mm; }
+  .eyebrow { margin: 7mm 0 0; font-size: 7.5pt; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--blue); }
+  .titel { font-family: "Inter Display", sans-serif; font-weight: 800; font-size: 28pt; line-height: 1; letter-spacing: -.03em; margin: 2mm 0 0; }
+  .titel span { color: var(--blue); }
+  .hero.klein .titel { font-size: 16pt; margin: 0; }
+  .zeitraum { font-size: 9pt; color: #C9D3DC; }
+  .fakten { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; background: var(--dark2); color: #F2F6FA; border-top: 1px solid #24303B; }
+  .fakt { padding: 4mm 5mm; border-left: 1px solid #24303B; }
+  .fakt:first-child { border-left: 0; padding-left: 15mm; }
+  .fakt:last-child { padding-right: 15mm; }
+  .fakt small { display: block; font-size: 6.5pt; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--blue); }
+  .fakt b { display: block; margin-top: 1.2mm; font-size: 9.5pt; font-weight: 600; line-height: 1.3; min-height: 1.3em; }
+  .inhalt { padding: 7mm 15mm 0; flex: 1; }
+  .tagtitel { font-family: "Inter Display", sans-serif; font-weight: 800; font-size: 15pt; letter-spacing: -.02em; margin: 0 0 1mm; display: flex; align-items: center; gap: 3mm; }
+  .tagtitel .tag { font-family: "Inter", sans-serif; font-size: 7pt; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--dark); background: var(--blue); border-radius: 99px; padding: 1.2mm 3mm; }
+  .erklaerung { font-size: 8pt; color: var(--soft); margin: 0 0 3mm; }
+  table.plan { width: 100%; border-collapse: separate; border-spacing: 0; table-layout: fixed; border: 1px solid var(--line); border-radius: 3mm; overflow: hidden; }
+  .plan th, .plan td { border-bottom: 1px solid var(--line); border-left: 1px solid var(--line); padding: 0 2.5mm; text-align: left; vertical-align: middle; }
+  .plan th:first-child, .plan td:first-child { border-left: 0; }
+  .plan tr:last-child td { border-bottom: 0; }
+  .plan th { background: var(--blue-soft); font-size: 7pt; font-weight: 600; color: var(--blue-deep); height: 7.5mm; text-transform: uppercase; letter-spacing: .08em; }
+  .plan th.mitte { text-align: center; }
+  .plan td { height: 12mm; }
+  .plan td.uebung { font-weight: 600; font-size: 10pt; }
+  .plan td.uebung i { display: inline-grid; place-items: center; width: 5.5mm; height: 5.5mm; border-radius: 50%; background: var(--dark); color: #fff; font-size: 7pt; font-style: normal; margin-right: 2mm; vertical-align: .3mm; }
+  .plan td.saetze { font-weight: 600; color: var(--blue-deep); text-align: center; }
+  .karten { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; margin-top: 6mm; }
+  .karte { border: 1px solid var(--line); border-radius: 3mm; padding: 4mm 4.5mm; }
+  .karte.dunkel { background: var(--dark); color: #F2F6FA; border: 0; }
+  .karte small { display: block; font-size: 6.5pt; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--blue-deep); }
+  .karte.dunkel small { color: var(--blue); }
+  .karte b { display: block; margin-top: 1.5mm; font-size: 10pt; line-height: 1.35; min-height: 1.35em; }
+  .karte p { margin: 1mm 0 0; font-size: 8.5pt; color: var(--soft); }
+  .karte.dunkel p { color: #A7B3BF; }
+  .fuss { margin-top: auto; padding: 4mm 15mm; display: flex; justify-content: space-between; font-size: 7.5pt; color: var(--soft); border-top: 1px solid var(--line); }
+
+  @page { size: A4; margin: 0; }
+  @media print {
+    body { background: none; }
+    .app { display: block; padding: 0; }
+    .steuerung { display: none; }
+    .vorschau { overflow: visible; padding: 0; }
+    .vorschau .seite { margin: 0; box-shadow: none; break-after: page; }
+    .vorschau .seite:last-child { break-after: auto; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <form class="steuerung" id="f" onsubmit="return false" autocomplete="off">
+    <h1>Trainingsplan erstellen</h1>
+    <p class="hinweis">Nur für dich als Trainer. Felder ausfüllen, rechts siehst du den Plan. Leere Übungszeilen bleiben zum Ausfüllen per Hand frei. Die Daten bleiben in deinem Browser und werden nirgends hochgeladen.</p>
+
+    <fieldset>
+      <legend>Kunde</legend>
+      <div class="zwei">
+        <div><label for="vorname">Vorname</label><input id="vorname" data-feld="vorname"></div>
+        <div><label for="nachname">Nachname</label><input id="nachname" data-feld="nachname"></div>
+      </div>
+      <div class="zwei">
+        <div><label for="von">Von</label><input id="von" type="date" data-feld="von"></div>
+        <div><label for="bis">Bis</label><input id="bis" type="date" data-feld="bis"></div>
+      </div>
+      <div class="zwei">
+        <div><label for="wochen">Wochenspalten</label>
+          <select id="wochen" data-feld="wochen"><option>3</option><option selected>4</option><option>5</option><option>6</option></select></div>
+        <div><label for="titel">Überschrift (optional)</label><input id="titel" data-feld="titel" placeholder="Stark in 4 Wochen"></div>
+      </div>
+      <label for="ziel">Ziel</label><input id="ziel" data-feld="ziel" placeholder="z. B. 3 kg abnehmen, Muskelaufbau">
+      <div class="zwei">
+        <div><label for="intensitaet">Intensität</label><input id="intensitaet" data-feld="intensitaet" placeholder="1–2 Wdh. in Reserve"></div>
+        <div><label for="pausen">Pausen</label><input id="pausen" data-feld="pausen" placeholder="60–90 Sekunden"></div>
+      </div>
+      <label for="aufwaermen">Aufwärmen</label><input id="aufwaermen" data-feld="aufwaermen" placeholder="z. B. Crosstrainer, 10 Min.">
+    </fieldset>
+
+    <fieldset>
+      <legend>Trainingstage</legend>
+      <label for="tage">Anzahl Trainingstage</label>
+      <select id="tage" data-feld="anzahlTage"><option>1</option><option selected>2</option><option>3</option></select>
+      <div id="tag-felder"></div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Alltag</legend>
+      <label for="hausaufgabe">Hausaufgabe</label><input id="hausaufgabe" data-feld="hausaufgabe" placeholder="z. B. 3 × pro Woche 5 Liegestütze + 20 Sek. Unterarmstütz">
+      <label for="schritte">Schritte pro Tag</label><input id="schritte" data-feld="schritte" placeholder="z. B. 10.000">
+    </fieldset>
+
+    <button type="button" class="knopf" id="drucken">Als PDF speichern</button>
+    <div class="knoepfe">
+      <button type="button" class="knopf zweit klein" id="sichern">Plan als Datei sichern</button>
+      <button type="button" class="knopf zweit klein" id="laden">Plan laden</button>
+    </div>
+    <button type="button" class="knopf zweit klein" id="neu">Neuer Plan (alles leeren)</button>
+    <input type="file" id="datei" accept="application/json,.json">
+    <p class="tipp">Im Druckfenster „Als PDF sichern“ wählen, Ränder „Keine“, Hintergrundgrafiken an. Mit „Plan als Datei sichern“ kannst du einen Plan später für denselben Kunden weiterführen oder als Vorlage für den nächsten nutzen.</p>
+  </form>
+
+  <div class="vorschau" id="vorschau" aria-label="Vorschau des Trainingsplans"></div>
+</div>
+
+<script>
+(function () {
+  var MAX_UEBUNGEN = 8;
+  var SPEICHER = 'mvd-trainingsplan-entwurf';
+  var STANDARD_TAGE = ['Oberkörper-Tag', 'Unterkörper-Tag', 'Ganzkörper-Tag'];
+
+  function leererTag(i) {
+    var u = [];
+    for (var k = 0; k < MAX_UEBUNGEN; k++) u.push({ name: '', sw: '' });
+    return { name: STANDARD_TAGE[i], uebungen: u, finisher: '' };
+  }
+  function leererPlan() {
+    return { vorname: '', nachname: '', von: '', bis: '', wochen: '4', titel: '', ziel: '', intensitaet: '', pausen: '', aufwaermen: '',
+             anzahlTage: '2', hausaufgabe: '', schritte: '', tage: [leererTag(0), leererTag(1), leererTag(2)] };
+  }
+  var plan = leererPlan();
+
+  function $(id) { return document.getElementById(id); }
+  function el(tag, klasse, text) {
+    var e = document.createElement(tag);
+    if (klasse) e.className = klasse;
+    if (text !== undefined && text !== null) e.textContent = text;
+    return e;
+  }
+  function datum(iso) {
+    if (!iso) return '';
+    var t = iso.split('-');
+    return t[2] + '.' + t[1] + '.' + t[0];
+  }
+  function linie(wert, laenge) { return wert && wert.trim() ? wert : '_'.repeat(laenge || 18); }
+
+  /* ---------- Speichern im Browser (nur Komfort, darf fehlschlagen) ---------- */
+  function sichernLokal() { try { localStorage.setItem(SPEICHER, JSON.stringify(plan)); } catch (e) {} }
+  function ladenLokal() {
+    try { var d = localStorage.getItem(SPEICHER); if (d) return uebernehmen(JSON.parse(d)); } catch (e) {}
+    return false;
+  }
+  function uebernehmen(d) {
+    if (!d || typeof d !== 'object') return false;
+    var neu = leererPlan();
+    Object.keys(neu).forEach(function (k) { if (k !== 'tage' && typeof d[k] === 'string') neu[k] = d[k]; });
+    if (Array.isArray(d.tage)) {
+      d.tage.slice(0, 3).forEach(function (t, i) {
+        if (!t) return;
+        if (typeof t.name === 'string') neu.tage[i].name = t.name;
+        if (typeof t.finisher === 'string') neu.tage[i].finisher = t.finisher;
+        if (Array.isArray(t.uebungen)) t.uebungen.slice(0, MAX_UEBUNGEN).forEach(function (u, k) {
+          if (u && typeof u.name === 'string') neu.tage[i].uebungen[k].name = u.name;
+          if (u && typeof u.sw === 'string') neu.tage[i].uebungen[k].sw = u.sw;
+        });
+      });
+    }
+    plan = neu;
+    return true;
+  }
+
+  /* ---------- Formular ---------- */
+  function tagFelderBauen() {
+    var box = $('tag-felder');
+    box.textContent = '';
+    var n = Number(plan.anzahlTage);
+    for (var i = 0; i < n; i++) {
+      var t = plan.tage[i];
+      var wrap = el('div');
+      wrap.appendChild(el('label', null, 'Tag ' + (i + 1) + ' – Name'));
+      var name = el('input'); name.value = t.name; name.dataset.tag = i; name.dataset.art = 'name';
+      wrap.appendChild(name);
+      wrap.appendChild(el('label', null, 'Übungen (Name · Sätze × Wdh.)'));
+      for (var k = 0; k < MAX_UEBUNGEN; k++) {
+        var z = el('div', 'uebung-zeile');
+        z.appendChild(el('span', null, String(k + 1)));
+        var un = el('input'); un.value = t.uebungen[k].name; un.placeholder = k === 0 ? 'z. B. Beinpresse' : '';
+        un.dataset.tag = i; un.dataset.art = 'uebung'; un.dataset.nr = k;
+        var sw = el('input'); sw.value = t.uebungen[k].sw; sw.placeholder = '3 × 15';
+        sw.dataset.tag = i; sw.dataset.art = 'sw'; sw.dataset.nr = k;
+        z.appendChild(un); z.appendChild(sw);
+        wrap.appendChild(z);
+      }
+      wrap.appendChild(el('label', null, 'Finisher Tag ' + (i + 1)));
+      var fi = el('input'); fi.value = t.finisher; fi.placeholder = 'z. B. 3 Runden: Liegestütze max. + 12 Sit-ups';
+      fi.dataset.tag = i; fi.dataset.art = 'finisher';
+      wrap.appendChild(fi);
+      box.appendChild(wrap);
+    }
+  }
+  function formularFuellen() {
+    document.querySelectorAll('[data-feld]').forEach(function (e) { e.value = plan[e.dataset.feld]; });
+    tagFelderBauen();
+  }
+
+  /* ---------- Plan zeichnen ---------- */
+  function marke() {
+    var m = el('div', 'marke');
+    var img = el('img'); img.src = '/img/pin.png'; img.alt = '';
+    var t = el('div'); t.appendChild(el('b', null, 'MARK VON DAAK')); t.appendChild(el('span', null, 'PERSONAL TRAINING'));
+    m.appendChild(img); m.appendChild(t);
+    return m;
+  }
+  function wochenAnzahl() { return Number(plan.wochen) || 4; }
+
+  function tagBlock(i, istLetzte) {
+    var t = plan.tage[i], frag = document.createDocumentFragment();
+    var h = el('h2', 'tagtitel', linie(t.name, 14) + ' ');
+    h.appendChild(el('span', 'tag', 'Tag ' + (i + 1)));
+    frag.appendChild(h);
+    frag.appendChild(el('p', 'erklaerung', i === 0
+      ? 'Trag nach jedem Training Gewicht × Wiederholungen ein, z. B. 12 kg × 15. Schaffst du in allen Sätzen die Wiederholungen sauber, darf es beim nächsten Mal etwas mehr sein.'
+      : 'Gleiches Prinzip: Gewicht × Wiederholungen eintragen und langsam steigern.'));
+
+    var w = wochenAnzahl();
+    var benutzt = t.uebungen.filter(function (u) { return u.name.trim() || u.sw.trim(); }).length;
+    var zeilen = 7; // leerer Tag: 7 Zeilen zum Ausfüllen per Hand
+    var tab = el('table', 'plan');
+    var cg = el('colgroup');
+    var c1 = el('col'); c1.style.width = '36%'; cg.appendChild(c1);
+    var c2 = el('col'); c2.style.width = '12%'; cg.appendChild(c2);
+    for (var x = 0; x < w; x++) cg.appendChild(el('col'));
+    tab.appendChild(cg);
+    var kopf = el('tr');
+    kopf.appendChild(el('th', null, 'Übung'));
+    kopf.appendChild(el('th', 'mitte', 'Sätze × Wdh.'));
+    for (var x2 = 1; x2 <= w; x2++) kopf.appendChild(el('th', null, 'Woche ' + x2));
+    tab.appendChild(kopf);
+    var nr = 0;
+    t.uebungen.forEach(function (u, k) {
+      if (benutzt && !(u.name.trim() || u.sw.trim())) return;
+      if (!benutzt && k >= zeilen) return;
+      nr++;
+      var tr = el('tr');
+      var td = el('td', 'uebung'); td.appendChild(el('i', null, String(nr))); td.appendChild(document.createTextNode(u.name));
+      tr.appendChild(td);
+      tr.appendChild(el('td', 'saetze', u.sw));
+      for (var y = 0; y < w; y++) tr.appendChild(el('td'));
+      tab.appendChild(tr);
+    });
+    frag.appendChild(tab);
+
+    var karten = el('div', 'karten');
+    var fk = el('div', 'karte dunkel');
+    fk.appendChild(el('small', null, 'Finisher ' + (t.name.trim() || 'Tag ' + (i + 1))));
+    fk.appendChild(el('b', null, linie(t.finisher, 30)));
+    karten.appendChild(fk);
+    var nk = el('div', 'karte');
+    nk.appendChild(el('small', null, 'Finisher notieren'));
+    for (var z = 1; z <= w; z += 2) {
+      var txt = 'Woche ' + z + ' ______';
+      if (z + 1 <= w) txt += '    Woche ' + (z + 1) + ' ______';
+      nk.appendChild(el('p', null, txt));
+    }
+    karten.appendChild(nk);
+    if (istLetzte) {
+      var hk = el('div', 'karte');
+      hk.appendChild(el('small', null, 'Deine Hausaufgabe'));
+      hk.appendChild(el('b', null, linie(plan.hausaufgabe, 30)));
+      karten.appendChild(hk);
+      var ak = el('div', 'karte');
+      ak.appendChild(el('small', null, 'Dein Alltag'));
+      ak.appendChild(el('b', null, (plan.schritte.trim() || '________') + ' Schritte pro Tag'));
+      ak.appendChild(el('p', null, 'Jeder Spaziergang zählt – besonders an trainingsfreien Tagen.'));
+      karten.appendChild(ak);
+    }
+    frag.appendChild(karten);
+    return frag;
+  }
+
+  function zeichnen() {
+    var v = $('vorschau');
+    v.textContent = '';
+    var n = Number(plan.anzahlTage), name = plan.vorname.trim();
+    var zeitraum = plan.von || plan.bis ? (datum(plan.von) || '…') + ' – ' + (datum(plan.bis) || '…') + ' · ' + wochenAnzahl() + ' Wochen' : wochenAnzahl() + ' Wochen';
+    for (var i = 0; i < n; i++) {
+      var s = el('section', 'seite');
+      var hero = el('header', i === 0 ? 'hero' : 'hero klein');
+      var kz = el('div', 'kopfzeile');
+      kz.appendChild(marke());
+      if (i === 0) {
+        kz.appendChild(el('div', 'zeitraum', zeitraum));
+        hero.appendChild(kz);
+        hero.appendChild(el('p', 'eyebrow', 'Dein persönlicher Trainingsplan'));
+        var titel = el('h1', 'titel', (plan.titel.trim() || 'Stark in ' + wochenAnzahl() + ' Wochen') + ',');
+        titel.appendChild(el('br'));
+        titel.appendChild(el('span', null, (name || '__________') + '.'));
+        hero.appendChild(titel);
+      } else {
+        var kt = el('h1', 'titel', 'Trainingsplan ');
+        kt.appendChild(el('span', null, name || '__________'));
+        kz.appendChild(kt);
+        hero.appendChild(kz);
+      }
+      s.appendChild(hero);
+      if (i === 0) {
+        var f = el('div', 'fakten');
+        [['Dein Ziel', plan.ziel], ['Intensität', plan.intensitaet], ['Pausen', plan.pausen], ['Aufwärmen', plan.aufwaermen]].forEach(function (p) {
+          var d = el('div', 'fakt'); d.appendChild(el('small', null, p[0])); d.appendChild(el('b', null, p[1].trim() || '____________'));
+          f.appendChild(d);
+        });
+        s.appendChild(f);
+      }
+      var inhalt = el('div', 'inhalt');
+      inhalt.appendChild(tagBlock(i, i === n - 1));
+      s.appendChild(inhalt);
+      var fuss = el('div', 'fuss');
+      fuss.appendChild(el('span', null, i === n - 1 ? 'Fragen zwischen den Terminen? WhatsApp 0179 4340426' : 'Mark von Daak – Personal Training · 0179 4340426 · info@markvondaak-coaching.de'));
+      fuss.appendChild(el('span', null, 'Seite ' + (i + 1) + ' / ' + n));
+      s.appendChild(fuss);
+      v.appendChild(s);
+    }
+    document.title = 'Trainingsplan ' + [plan.vorname, plan.nachname].join(' ').trim() + ' – Mark von Daak Personal Training';
+  }
+
+  /* ---------- Ereignisse ---------- */
+  $('f').addEventListener('input', function (ev) {
+    var e = ev.target;
+    if (e.dataset.feld) {
+      plan[e.dataset.feld] = e.value;
+      if (e.dataset.feld === 'anzahlTage') tagFelderBauen();
+      if (e.dataset.feld === 'von' || e.dataset.feld === 'bis') wochenAusDatum();
+    } else if (e.dataset.tag !== undefined) {
+      var t = plan.tage[Number(e.dataset.tag)];
+      if (e.dataset.art === 'name') t.name = e.value;
+      if (e.dataset.art === 'finisher') t.finisher = e.value;
+      if (e.dataset.art === 'uebung') t.uebungen[Number(e.dataset.nr)].name = e.value;
+      if (e.dataset.art === 'sw') t.uebungen[Number(e.dataset.nr)].sw = e.value;
+    }
+    zeichnen(); sichernLokal();
+  });
+  function wochenAusDatum() {
+    if (!plan.von || !plan.bis) return;
+    var tage = (Date.parse(plan.bis) - Date.parse(plan.von)) / 864e5 + 1;
+    var w = Math.round(tage / 7);
+    if (w >= 3 && w <= 6) { plan.wochen = String(w); $('wochen').value = plan.wochen; }
+  }
+  $('drucken').addEventListener('click', function () { window.print(); });
+  $('neu').addEventListener('click', function () {
+    if (!confirm('Alle Eingaben leeren und mit einem neuen Plan beginnen?')) return;
+    plan = leererPlan(); formularFuellen(); zeichnen(); sichernLokal();
+  });
+  $('sichern').addEventListener('click', function () {
+    var name = [plan.vorname, plan.nachname].join('-').replace(/[^A-Za-z0-9ÄÖÜäöüß-]+/g, '').replace(/^-+|-+$/g, '') || 'vorlage';
+    var blob = new Blob([JSON.stringify(plan, null, 2)], { type: 'application/json' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = 'trainingsplan-' + name + '.json';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+  });
+  $('laden').addEventListener('click', function () { $('datei').click(); });
+  $('datei').addEventListener('change', function () {
+    var d = this.files && this.files[0]; if (!d) return;
+    var r = new FileReader();
+    r.onload = function () {
+      try { if (!uebernehmen(JSON.parse(r.result))) throw new Error(); formularFuellen(); zeichnen(); sichernLokal(); }
+      catch (e) { alert('Diese Datei ist kein gespeicherter Trainingsplan.'); }
+    };
+    r.readAsText(d);
+    this.value = '';
+  });
+
+  ladenLokal();
+  formularFuellen();
+  zeichnen();
+})();
+</script>
+</body>
+</html>

@@ -23,3 +23,9 @@ marke/instagram/_vorlage/*.jpg
 marke/instagram/_vorlage/*.webp
 marke/instagram/_vorlage/*.woff2
 marke/instagram/_vorlage/*.png
+
+# Enthält die Bankverbindung – nicht ins öffentliche Repository
+unterlagen/Vertragsunterlagen.pdf
+
+# Kundenpläne enthalten persönliche Daten – nie ins öffentliche Repository
+unterlagen/kunden/
