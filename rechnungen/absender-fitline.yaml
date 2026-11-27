@@ -1,0 +1,15 @@
+# Absenderprofil für FitLine-Rechnungen. Überschreibt nur die hier genannten
+# Felder aus absender.yaml (USt-IdNr., Bank, Nummernkreis bleiben gleich –
+# es ist dasselbe Unternehmen, also ein gemeinsamer Nummernkreis).
+# Im Beleg aktiviert mit:  absender: fitline
+
+name: Wellness 4 You Wolfsburg
+inhaber: Mark von Daak        # Pflicht: voller Name des Inhabers (Einzelunternehmen)
+zusatz: Inhaber Mark von Daak
+strasse: Rabenbergstraße 16
+plz_ort: 38444 Wolfsburg
+schluss: Vielen Dank für Ihre Bestellung!
+gruss: |
+  Mit freundlichen Grüßen
+  Mark von Daak
+  Wellness 4 You Wolfsburg

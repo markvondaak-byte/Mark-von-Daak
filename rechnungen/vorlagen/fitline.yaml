@@ -4,6 +4,7 @@ art: rechnung
 nummer: auto
 datum: heute
 leistungsdatum: heute     # Liefer-/Übergabedatum (Pflicht), z. B. 2026-11-27
+absender: fitline        # Wellness 4 You Wolfsburg (rechnungen/absender-fitline.yaml)
 katalog: fitline
 preise: brutto            # Katalogpreise sind Endkundenpreise inkl. USt.
 
@@ -31,4 +32,3 @@ zahlungsziel_tage: 7
 # bezahlt:                 # bei Barzahlung/PayPal sofort eintragen -> Quittungsvermerk
 #   datum: 2026-11-27
 #   art: bar
-schluss: "Vielen Dank für Ihre Bestellung!"

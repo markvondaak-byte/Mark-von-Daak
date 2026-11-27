@@ -124,6 +124,12 @@ Mark verkauft FitLine-Produkte (PM-International). **Jede Rechnung dafür
 wird mit `rechnungen/rechnung.py` erstellt**, nicht mit Online-Diensten wie
 invoicehome.com. Anleitung: `rechnungen/README.md`.
 
+- Absender der FitLine-Rechnungen ist die Firma **Wellness 4 You Wolfsburg**,
+  Inhaber Mark von Daak, Rabenbergstraße 16, 38444 Wolfsburg (Profil
+  `rechnungen/absender-fitline.yaml`, im Beleg `absender: fitline` – steht
+  schon in der Vorlage). Gleiche USt-IdNr. und gemeinsamer Nummernkreis mit
+  seinen übrigen Rechnungen.
+
 - Ablauf: `neu rechnung --vorlage fitline --kunde "<Name>"` → Empfänger und
   Positionen (`artikel:` aus `rechnungen/kataloge/fitline.yaml`, `menge:`)
   eintragen → `bauen` → PDF **und** die Beleg-YAML mit SendUserFile

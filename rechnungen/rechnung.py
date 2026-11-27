@@ -137,8 +137,13 @@ def lade_yaml(p: Path) -> dict:
         return yaml.safe_load(f) or {}
 
 
-def lade_absender() -> dict:
+def lade_absender(profil: str | None = None) -> dict:
     a = lade_yaml(HIER / "absender.yaml")
+    if profil:
+        datei = HIER / f"absender-{profil}.yaml"
+        if not datei.exists():
+            sys.exit(f"Absenderprofil „{profil}“ fehlt ({datei.relative_to(HIER.parent)}).")
+        a.update(lade_yaml(datei))
     bank = PRIVAT / "bank.yaml"
     a["bank"] = lade_yaml(bank) if bank.exists() else {}
     return a
@@ -347,8 +352,8 @@ def girocode(bank: dict, betrag: Decimal, zweck: str, name: str) -> Drawing | No
 # ---------------------------------------------------------------- PDF ---
 
 def baue_pdf(pfad: Path) -> Path:
-    a = lade_absender()
     b = lade_yaml(pfad)
+    a = lade_absender(b.get("absender"))
     art = str(b.get("art", "rechnung")).lower()
     if art not in ARTEN:
         sys.exit(f"Unbekannte Art „{art}“. Möglich: {', '.join(ARTEN)}")
@@ -432,6 +437,8 @@ def baue_pdf(pfad: Path) -> Path:
             c.setFont(normal, 7)
             c.setFillColor(grau)
             zeile = " · ".join(x for x in [a.get("name"), a.get("strasse"), a.get("plz_ort")] if x)
+            if c.stringWidth(zeile, normal, 7) > 85 * mm:  # nie in den Infoblock laufen
+                c.setFont(normal, 6)
             c.drawString(L, H - 50 * mm, zeile)
             c.setStrokeColor(linie)
             c.line(L, H - 51.2 * mm, L + 85 * mm, H - 51.2 * mm)

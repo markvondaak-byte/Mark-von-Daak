@@ -79,6 +79,10 @@ Fristen von deinem Steuerberater bestätigen.
 
 ## FitLine-Rechnungen
 
+Absender ist **Wellness 4 You Wolfsburg** (Inhaber Mark von Daak), Profil
+`absender-fitline.yaml`. Andere Absender gehen genauso: `absender-<name>.yaml`
+anlegen und im Beleg `absender: <name>` setzen.
+
 Produkte, Endkundenpreise (brutto) und Steuersätze stehen in
 `kataloge/fitline.yaml`. Eine Position braucht dann nur noch `artikel:` und
 `menge:`.
