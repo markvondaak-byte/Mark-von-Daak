@@ -134,10 +134,18 @@ invoicehome.com. Anleitung: `rechnungen/README.md`.
   Positionen (`artikel:` aus `rechnungen/kataloge/fitline.yaml`, `menge:`)
   eintragen → `bauen` → PDF **und** die Beleg-YAML mit SendUserFile
   schicken (Mark archiviert sie; Aufbewahrung 8 Jahre).
-- Steuersätze (von Mark bestätigt): Nahrungsergänzung 7 %, Kosmetik 19 %,
-  alle übrigen Shop-Artikel 19 %. Neue Produkte entsprechend einordnen.
-- Fehlt ein Produkt oder Preis im Katalog: Mark nach dem Preis fragen,
-  im Katalog ergänzen und committen. Keine Preise erfinden.
+- Katalog `rechnungen/kataloge/fitline.yaml` (alle Produkte des offiziellen
+  FitLine-Shops mit Artikelnummer, Endkundenpreis brutto und dem von FitLine
+  deklarierten Steuersatz) wird **automatisch erzeugt**:
+  `python3 rechnungen/kataloge/fitline_aktualisieren.py` (Playwright).
+  Vor einer Rechnung neu abrufen, wenn `stand:` älter als ca. ein Monat ist,
+  dann committen. Nicht von Hand bearbeiten.
+- Steuersätze (von Mark bestätigt, wie von FitLine deklariert):
+  Nahrungsergänzung 7 %, Kosmetik und übrige Shop-Artikel 19 %; Ausnahmen
+  laut FitLine (z. B. Fertiggetränk in Dosen 19 %) übernimmt der Katalog.
+- Produkte per Schlüssel, Kurzname oder Artikelnummer (`artikel: "0705067"`).
+  Etwas, das nicht im Shop ist: freie Position mit `text:`, `preis:`, `ust:`
+  – Preis von Mark erfragen, nie erfinden.
 - Bei Barzahlung/PayPal sofort `bezahlt:` setzen (Quittungsvermerk);
   Storno nur über `storno`, nie eine Nummer neu vergeben oder löschen.
 - Nach jeder Rechnung `rechnungen/nummern.json` committen und pushen

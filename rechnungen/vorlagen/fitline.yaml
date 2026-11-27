@@ -1,5 +1,6 @@
 # FitLine-Verkauf an Endkunden. Produkte stehen in rechnungen/kataloge/fitline.yaml
 # Liste anzeigen: python3 rechnungen/rechnung.py artikel fitline
+# Preise aktualisieren: python3 rechnungen/kataloge/fitline_aktualisieren.py
 art: rechnung
 nummer: auto
 datum: heute
@@ -24,9 +25,8 @@ positionen:
   #   menge: 2
   # - artikel: versand
   #   preis: 4.90
-  # - artikel: kosmetik             # Kosmetik/Shop-Artikel (19 %): Text und Preis angeben
-  #   text: FitLine skin Reinigungsgel
-  #   preis: 24.90
+  # - artikel: "0116122"            # auch per Artikelnummer (hier 4ever, 19 %)
+  #   menge: 1
   # - text: Rabatt Stammkunde      # freie Position, Rabatt als Minusbetrag
   #   preis: -5.00
   #   ust: 7

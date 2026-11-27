@@ -93,11 +93,16 @@ python3 rechnungen/rechnung.py neu rechnung --vorlage fitline --kunde "Lisa Must
 python3 rechnungen/rechnung.py bauen rechnungen/belege/<datei>.yaml
 ```
 
-Steuersätze: Nahrungsergänzung 7 %, Kosmetik und übrige Shop-Artikel 19 %
-(wie von FitLine deklariert). Für Kosmetik und Zubehör gibt es die
-Sammelartikel `kosmetik` und `shopartikel`, dazu `text:` und `preis:` in die
-Position schreiben. Preise im Katalog **vor der ersten echten Rechnung mit
-der aktuellen Preisliste abgleichen**.
+Der Katalog enthält **alle Produkte des offiziellen FitLine-Shops**
+(Artikelnummer, Endkundenpreis, Steuersatz wie von FitLine deklariert) und
+wird automatisch erzeugt. Preise aktualisieren:
+
+```bash
+python3 rechnungen/kataloge/fitline_aktualisieren.py   # zeigt geänderte Preise an
+```
+
+Positionen gehen per Schlüssel (`powercocktail`), Kurzname (`optimal-set`,
+`restorate`, `activize` …) oder Artikelnummer (`artikel: "0705067"`).
 
 ## Nummern über Sitzungen hinweg
 

@@ -251,6 +251,15 @@ def lade_katalog(name: str) -> dict:
     return lade_yaml(p)
 
 
+def finde_artikel(kat: dict, schluessel: str) -> dict | None:
+    """Schlüssel, Alias oder Artikelnummer."""
+    artikel = kat.get("artikel") or {}
+    schluessel = (kat.get("aliase") or {}).get(schluessel, schluessel)
+    if schluessel in artikel:
+        return artikel[schluessel]
+    return next((e for e in artikel.values() if str(e.get("artikelnr", "")) == schluessel.lstrip("#")), None)
+
+
 def katalog_aufloesen(b: dict) -> dict:
     """Positionen mit 'artikel:' aus dem Katalog ergänzen (Angaben im Beleg haben Vorrang)."""
     positionen = b.get("positionen") or []
@@ -266,7 +275,7 @@ def katalog_aufloesen(b: dict) -> dict:
             if not name:
                 sys.exit(f"Artikel „{ref}“: Katalog fehlt (katalog: fitline oder artikel: fitline/{ref}).")
             kat = kataloge.setdefault(name, lade_katalog(name))
-            eintrag = (kat.get("artikel") or {}).get(schluessel)
+            eintrag = finde_artikel(kat, schluessel)
             if eintrag is None:
                 sys.exit(f"Artikel „{schluessel}“ steht nicht im Katalog {name}. "
                          f"Liste: python3 rechnungen/rechnung.py artikel {name}")
@@ -504,7 +513,13 @@ def baue_pdf(pfad: Path) -> Path:
 
     doc = BaseDocTemplate(str(ziel), pagesize=A4, title=f"{titel} {b['nummer']}",
                           author=a.get("name", ""), subject=b.get("betreff", ""), creator="rechnung.py")
-    f1 = Frame(L, 30 * mm, W - L - R, H - 30 * mm - 90 * mm, id="f1", leftPadding=0, rightPadding=0)
+    # Textbereich direkt unter Anschrift/Infoblock beginnen lassen (spart Platz)
+    e0 = b.get("empfaenger") or {}
+    n_anschrift = sum(1 for f in ("firma", "name", "zusatz", "strasse", "plz_ort", "land") if e0.get(f))
+    n_info = 2 + sum(1 for x in (b.get("leistungsdatum"), e0.get("kundennummer"), e0.get("ust_id"),
+                                 b.get("bezug"), art == "angebot") if x)
+    oben = max(56 + (n_anschrift - 1) * 4.6, 50 + (n_info - 1) * 4.6) + 12
+    f1 = Frame(L, 30 * mm, W - L - R, H - 30 * mm - max(oben, 74) * mm, id="f1", leftPadding=0, rightPadding=0)
     f2 = Frame(L, 32 * mm, W - L - R, H - 32 * mm - 30 * mm, id="f2", leftPadding=0, rightPadding=0)
     doc.addPageTemplates([PageTemplate("erste", [f1], onPage=lambda c, d: rahmen(c, d, True), autoNextPageTemplate="weitere"),
                           PageTemplate("weitere", [f2], onPage=lambda c, d: rahmen(c, d, False))])
@@ -671,10 +686,15 @@ def cmd_neu(args):
 
 def cmd_artikel(args):
     kat = lade_katalog(args.katalog)
-    print(f"{kat.get('katalog', args.katalog)} – Preise {kat.get('preise', 'netto')}\n")
+    print(f"{kat.get('katalog', args.katalog)} – Preise {kat.get('preise', 'netto')}"
+          + (f", Stand {kat['stand']}" if kat.get("stand") else "") + "\n")
+    print(f"  {'Art.-Nr.':<10} {'Produkt':<52} {'Preis':>10}  USt.   Schlüssel")
     for k, e in (kat.get("artikel") or {}).items():
         preis = "– fehlt –" if e.get("preis") is None else geld(dec(e["preis"]))
-        print(f"  {k:<22} {e.get('text', '')[:44]:<44} {preis:>12}  {zahl(e.get('ust', kat.get('standard_ust', 19)))} %")
+        print(f"  {str(e.get('artikelnr', '')):<10} {e.get('text', '')[:52]:<52} {preis:>10}  "
+              f"{zahl(e.get('ust', kat.get('standard_ust', 19))):>2} %   {k}")
+    if kat.get("aliase"):
+        print("\nKurznamen: " + ", ".join(f"{a} → {z}" for a, z in kat["aliase"].items()))
 
 
 def cmd_bauen(args):
