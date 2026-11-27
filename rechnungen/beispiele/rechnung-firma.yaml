@@ -1,0 +1,32 @@
+# Beispiel (fiktiver Kunde): Firmenfitness-Workshop an ein Unternehmen, Preise netto
+art: rechnung
+nummer: BEISPIEL-001
+datum: 2026-11-27
+leistungsdatum: 2026-11-20
+empfaenger:
+  firma: Musterfirma GmbH
+  name: z. Hd. Frau Erika Beispiel
+  strasse: Industriestraße 1
+  plz_ort: 38440 Wolfsburg
+  kundennummer: K-1001
+betreff: Workshop „Gesunder Rücken im Büro“
+einleitung: "Sehr geehrte Frau Beispiel, für den Workshop am 20.11.2026 berechne ich Ihnen:"
+preise: netto
+steuerfall: normal
+ust: 19
+positionen:
+  - text: Workshop „Gesunder Rücken im Büro“
+    detail: 2 × 90 Minuten vor Ort, bis 15 Teilnehmende
+    menge: 3
+    einheit: Std.
+    preis: 120.00
+  - text: Handout für Teilnehmende
+    detail: gedruckt, je Person
+    menge: 15
+    einheit: Stk.
+    preis: 4.50
+  - text: Anfahrt
+    menge: 1
+    einheit: pausch.
+    preis: 0.00
+zahlungsziel_tage: 14

@@ -1,0 +1,28 @@
+art: angebot
+nummer: auto
+datum: heute
+# gueltig_bis: 2026-12-31   # sonst Datum + 30 Tage
+
+empfaenger:
+  firma: ""
+  name: ""
+  strasse: ""
+  plz_ort: ""
+  ust_id: ""
+
+betreff: ""
+einleitung: "Vielen Dank für Ihre Anfrage. Gern biete ich Ihnen folgende Leistungen an:"
+
+preise: netto
+steuerfall: normal
+ust: 19
+
+positionen:
+  - text: ""
+    detail: ""
+    menge: 1
+    einheit: ""
+    preis: 0.00
+
+hinweis: "Nach Ihrer Zusage erhalten Sie eine Auftragsbestätigung."
+schluss: "Ich freue mich auf die Zusammenarbeit."

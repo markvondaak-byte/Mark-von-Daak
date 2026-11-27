@@ -1,0 +1,21 @@
+# Beispiel (fiktiver Kunde): Angebot Firmenfitness mit Rabatt
+art: angebot
+nummer: BEISPIEL-003
+datum: 2026-11-27
+empfaenger:
+  firma: Musterfirma GmbH
+  name: z. Hd. Frau Erika Beispiel
+  strasse: Industriestraße 1
+  plz_ort: 38440 Wolfsburg
+betreff: Bewegte Pause – 12 Termine im ersten Quartal 2027
+preise: netto
+ust: 19
+rabatt_prozent: 10
+positionen:
+  - text: Bewegte Pause vor Ort
+    detail: wöchentlich 30 Minuten, Januar bis März 2027
+    menge: 12
+    einheit: Termin
+    preis: 95.00
+hinweis: "Nach Ihrer Zusage erhalten Sie eine Auftragsbestätigung."
+schluss: "Ich freue mich auf die Zusammenarbeit."

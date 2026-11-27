@@ -1,0 +1,38 @@
+art: rechnung            # rechnung | angebot | quittung | storno | korrektur | proforma | lieferschein | auftrag
+nummer: auto             # wird beim ersten Bauen vergeben und hier eingetragen
+datum: heute
+leistungsdatum: ""       # Pflicht: 2026-11-27 (Tag) oder 2026-11 (Monat) oder Freitext "03.–28.11.2026"
+
+empfaenger:
+  firma: ""              # leer bei Privatkunden
+  name: ""
+  zusatz: ""
+  strasse: ""
+  plz_ort: ""
+  land: ""               # leer = Deutschland
+  kundennummer: ""
+  ust_id: ""             # nur bei Firmen, Pflicht bei Reverse Charge
+
+betreff: ""
+# einleitung: "Sehr geehrte Frau …, für meine Leistungen berechne ich Ihnen:"
+
+preise: netto            # netto (zzgl. USt.) oder brutto (inkl. USt., üblich bei Privatkunden)
+steuerfall: normal       # normal | kleinunternehmer | reverse_charge | ig_lieferung | drittland
+ust: 19                  # Standardsatz für alle Positionen; je Position überschreibbar (7, 0 …)
+
+positionen:
+  - text: Personal Training (60 Minuten)
+    detail: ""
+    menge: 1
+    einheit: Std.
+    preis: 0.00
+# - text: Rabatt Stammkunde        # Rabatt/Anzahlung als negative Position
+#   menge: 1
+#   preis: -20.00
+
+# rabatt_prozent: 10     # Rabatt auf alles
+zahlungsziel_tage: 14
+# zahlungslink: https://…  # z. B. PayPal-Link, wird als Link gedruckt
+# girocode: false          # QR-Code für Banking-Apps abschalten
+# hinweis: "Freitext unter der Zahlungsaufforderung"
+# schluss: "Vielen Dank!"

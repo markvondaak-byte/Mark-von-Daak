@@ -1,0 +1,6 @@
+# Kopieren nach rechnungen/privat/bank.yaml und ausfüllen.
+# rechnungen/privat/ ist gitignored – die IBAN landet nie im öffentlichen Repository.
+kontoinhaber: Mark von Daak
+bank: Musterbank
+iban: DE00 0000 0000 0000 0000 00
+bic: XXXXDEXXXXX
