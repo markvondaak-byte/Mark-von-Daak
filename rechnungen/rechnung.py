@@ -387,7 +387,7 @@ def katalog_aufloesen(b: dict) -> dict:
                          f"Liste: python3 rechnungen/rechnung.py artikel {name}")
             pos = {"ust": kat.get("standard_ust", 19), **eintrag, **{k: v for k, v in pos.items() if k != "artikel"}}
             if pos.get("preis") is None:
-                sys.exit(f"Artikel „{schluessel}“ hat im Katalog {name} noch keinen Preis – bitte eintragen.")
+                sys.exit(f"Artikel „{schluessel}“ hat keinen festen Preis – bitte preis: in der Position angeben.")
         neu.append(pos)
     b = {**b, "positionen": neu}
     if "preise" not in b and kataloge:

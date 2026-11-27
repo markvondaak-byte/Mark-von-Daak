@@ -52,6 +52,10 @@ aliase:
   generation-50: generation-50-plus
   gelenk-fit: gelenk-fit
   basen-plus: basen-plus
+  peach-eistee: acti-peach-eistee
+  peach: acti-peach-eistee
+  acti-peach: acti-peach-eistee
+  peach-tea: acti-peach-eistee
 
 artikel:
 
@@ -1058,6 +1062,14 @@ artikel:
     artikelnr: "0711055"
     einheit: Set
     preis: 13.50
+    ust: 7
+
+  # ---- Nicht mehr im Shop (von Mark bestätigt; Preis aus der Bestellung) ----
+  acti-peach-eistee:
+    text: "FitLine Activize Peach Eistee"
+    detail: "limitierte Sorte"
+    einheit: "Stk."
+    preis: null
     ust: 7
 
   # ---- Eigene Positionen ----

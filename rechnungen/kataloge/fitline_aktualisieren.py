@@ -65,6 +65,14 @@ ALIASE = {
     "basen-plus": "0702007",
 }
 
+# Produkte, die nicht (mehr) im Shop stehen – von Mark bestätigt. Preis kommt aus
+# seiner Bestellnachricht (preis: null = Preis muss in der Position stehen).
+AUSGELAUFEN = {
+    "acti-peach-eistee": {"text": "FitLine Activize Peach Eistee", "detail": "limitierte Sorte",
+                          "einheit": "Stk.", "ust": 7,
+                          "aliase": ["peach-eistee", "peach", "acti-peach", "peach-tea", "acti-peach-eistee"]},
+}
+
 KATEGORIEN = {
     "optimalsupply": "Optimalversorgung", "fitness": "Fitness & Sport", "specialneeds": "Individuell",
     "beauty": "Beauty", "weightmanagement": "Figur & Balance", "fanshop": "FanShop",
@@ -150,6 +158,10 @@ def main():
     for a, nr in ALIASE.items():
         if nr in nr_zu_k:
             zeilen.append(f"  {a}: {nr_zu_k[nr]}")
+    for k, e in AUSGELAUFEN.items():
+        for a in e.get("aliase", []):
+            if a != k:
+                zeilen.append(f"  {a}: {k}")
     zeilen += ["", "artikel:"]
     kat_alt = None
     for k, p in eintraege.items():
@@ -165,6 +177,12 @@ def main():
         zeilen.append("    einheit: " + ("Set" if re.search(r"(?i)set\b", p["name"]) else "Stk."))
         zeilen.append(f"    preis: {p['preis']:.2f}")
         zeilen.append(f"    ust: {p['ust']}" + ("" if p["lieferbar"] else "   # derzeit nicht lieferbar"))
+    zeilen += ["", "  # ---- Nicht mehr im Shop (von Mark bestätigt; Preis aus der Bestellung) ----"]
+    for k, e in AUSGELAUFEN.items():
+        zeilen.append(f"  {k}:")
+        for feld in ("text", "detail", "einheit"):
+            zeilen.append(f"    {feld}: {json.dumps(e[feld], ensure_ascii=False)}")
+        zeilen += ["    preis: null", f"    ust: {e['ust']}"]
     zeilen += ["", "  # ---- Eigene Positionen ----",
                "  versand:", "    text: Versandkosten", "    einheit: pausch.", "    preis: 0.00",
                "    ust: 7   # folgt der Ware; bei 7 % und 19 % gemischt aufteilen (zweite Position mit ust: 19)", ""]

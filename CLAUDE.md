@@ -167,7 +167,9 @@ invoicehome.com. Anleitung: `rechnungen/README.md`.
   nachfragen** (Wunsch von Mark), bevor die Rechnung gebaut wird – welches
   Produkt genau, Bezeichnung auf der Rechnung und ob 7 % (Pulver/
   Nahrungsergänzung) oder 19 % (Kosmetik/Zubehör/Fertiggetränk). Nichts
-  raten. Antwort danach als Alias bzw. Regel hier festhalten. Neue
+  raten. Antwort danach als Alias (`ALIASE`) bzw. bei ausgelaufenen Produkten in
+  `AUSGELAUFEN` in `fitline_aktualisieren.py` festhalten. Bestätigt:
+  Peach Eistee = limitierte Activize-Sorte, 7 % (`acti-peach-eistee`). Neue
   Kurznamen, die Mark öfter nutzt, in `ALIASE` ergänzen und Katalog neu
   erzeugen.
   Ohne ✅ → offen (Zahlungsaufforderung, bezahlt-Block entfernen).
