@@ -287,6 +287,63 @@ def finde_artikel(kat: dict, schluessel: str) -> dict | None:
     return next((e for e in artikel.values() if str(e.get("artikelnr", "")) == schluessel.lstrip("#")), None)
 
 
+# ------------------------------------------------------------ Kunden ---
+
+def lade_kunden() -> dict:
+    p = PRIVAT / "kunden.yaml"
+    return (lade_yaml(p).get("kunden") or {}) if p.exists() else {}
+
+
+def kunde_aufloesen(b: dict, a: dict) -> tuple[dict, list[str]]:
+    """kunde: <kürzel> bzw. gruppe: <name> → Empfänger und Standard-Rabatt einsetzen.
+
+    Reihenfolge: Angabe im Beleg > Rabatt des Kunden > Rabatt der Gruppe.
+    """
+    notizen = []
+    kunde = {}
+    if b.get("kunde"):
+        kunden = lade_kunden()
+        kunde = kunden.get(str(b["kunde"]))
+        if kunde is None:
+            treffer = [k for k, v in kunden.items() if str(b["kunde"]).lower() in
+                       f"{k} {v.get('name', '')} {v.get('firma', '')}".lower()]
+            if len(treffer) == 1:
+                kunde = kunden[treffer[0]]
+            else:
+                sys.exit(f"Kunde „{b['kunde']}“ nicht eindeutig im Kundenstamm ({rel(PRIVAT / 'kunden.yaml')})"
+                         + (f": {', '.join(treffer)}" if treffer else "."))
+        e = dict(b.get("empfaenger") or {})
+        if not any(v for v in e.values()):
+            e = {k: kunde.get(k, "") for k in ("firma", "name", "zusatz", "strasse", "plz_ort", "land",
+                                               "kundennummer", "ust_id") if kunde.get(k)}
+            b = {**b, "empfaenger": e}
+            notizen.append(f"Empfänger aus Kundenstamm: {e.get('firma') or e.get('name')}")
+    gruppe = b.get("gruppe") or kunde.get("gruppe")
+    gruppen = a.get("rabattgruppen") or {}
+    if gruppe and gruppe not in gruppen:
+        sys.exit(f"Gruppe „{gruppe}“ unbekannt. Möglich: {', '.join(gruppen) or '–'} (rabattgruppen in der Absender-Datei).")
+    g = gruppen.get(gruppe) or {}
+    if "rabatt_prozent" not in b and "rabatt_betrag" not in b:
+        satz = kunde.get("rabatt", g.get("rabatt"))
+        if satz:
+            b = {**b, "rabatt_prozent": satz}
+            notizen.append(f"Rabatt {zahl(satz)} % ({'Kunde' if 'rabatt' in kunde else 'Gruppe ' + gruppe})")
+    if b.get("rabatt_prozent") and not b.get("rabatt_text"):
+        text = kunde.get("rabatt_text") or g.get("text")
+        if text:
+            b = {**b, "rabatt_text": text}
+    return b, notizen
+
+
+def kunde_einfrieren(pfad: Path, b: dict, notizen: list[str]) -> None:
+    """Übernommene Kundendaten fest in den Beleg schreiben – spätere Änderungen im
+    Kundenstamm verändern eine erstellte Rechnung nicht mehr."""
+    kopf = [z for z in pfad.read_text(encoding="utf-8").splitlines() if z.startswith("#")][:3]
+    b = {**b, "kunde_uebernommen": dt.date.today().isoformat()}
+    pfad.write_text("\n".join(kopf + [f"# {n}" for n in notizen]) + "\n"
+                    + yaml.safe_dump(b, allow_unicode=True, sort_keys=False), encoding="utf-8")
+
+
 def katalog_aufloesen(b: dict) -> dict:
     """Positionen mit 'artikel:' aus dem Katalog ergänzen (Angaben im Beleg haben Vorrang)."""
     positionen = b.get("positionen") or []
@@ -413,6 +470,11 @@ def girocode(bank: dict, betrag: Decimal, zweck: str, name: str) -> Drawing | No
 def baue_pdf(pfad: Path) -> Path:
     b = lade_yaml(pfad)
     a = lade_absender(b.get("absender"))
+    if (b.get("kunde") or b.get("gruppe")) and not b.get("kunde_uebernommen"):
+        b, notizen = kunde_aufloesen(b, a)
+        for n in notizen:
+            print(f"• {n}")
+        kunde_einfrieren(pfad, b, notizen)
     art = str(b.get("art", "rechnung")).lower()
     if art not in ARTEN:
         sys.exit(f"Unbekannte Art „{art}“. Möglich: {', '.join(ARTEN)}")
@@ -746,6 +808,16 @@ def cmd_neu(args):
     print(f"Angelegt: {rel(ziel)}\nAusfüllen, dann: python3 rechnungen/rechnung.py bauen {rel(ziel)}")
 
 
+def cmd_kunden(args):
+    kunden = lade_kunden()
+    if not kunden:
+        print(f"Kundenstamm leer oder fehlt: {rel(PRIVAT / 'kunden.yaml')} (Muster: rechnungen/kunden.beispiel.yaml)")
+        return
+    for k, v in kunden.items():
+        r = f"{zahl(v['rabatt'])} %" if v.get("rabatt") is not None else "Gruppe"
+        print(f"  {k:<18} {(v.get('firma') or v.get('name', ''))[:30]:<30} {v.get('gruppe', ''):<12} {r}")
+
+
 def cmd_artikel(args):
     kat = lade_katalog(args.katalog)
     print(f"{kat.get('katalog', args.katalog)} – Preise {kat.get('preise', 'netto')}"
@@ -913,6 +985,8 @@ def main():
     p.add_argument("--kunde", help="Kundenname für den Dateinamen")
     p.add_argument("--vorlage", help="andere Vorlage aus vorlagen/, z. B. fitline")
     p.set_defaults(f=cmd_neu)
+    p = sub.add_parser("kunden", help="Kundenstamm anzeigen")
+    p.set_defaults(f=cmd_kunden)
     p = sub.add_parser("artikel", help="Artikel eines Katalogs anzeigen")
     p.add_argument("katalog", nargs="?", default="fitline")
     p.set_defaults(f=cmd_artikel)

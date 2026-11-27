@@ -154,7 +154,15 @@ invoicehome.com. Anleitung: `rechnungen/README.md`.
 - Produkte per Schlüssel, Kurzname oder Artikelnummer (`artikel: "0705067"`).
   Etwas, das nicht im Shop ist: freie Position mit `text:`, `preis:`, `ust:`
   – Preis von Mark erfragen, nie erfinden.
-- Kundenrabatte (Mark gibt sie öfter): je Produkt `rabatt:` (%) oder
+- **Kundenstamm und Rabattgruppen:** Mark gibt Kunden und Teampartnern in
+  der Regel 20–30 % Rabatt. Kunden stehen in `privat/kunden.yaml` der
+  privaten Ablage (Muster `rechnungen/kunden.beispiel.yaml`) mit Anschrift,
+  `gruppe: kunde|teampartner` und optional persönlichem `rabatt:`. Gruppen-
+  Standard steht in `rechnungen/absender-fitline.yaml` (`rabattgruppen`).
+  Im Beleg reicht `kunde: <kürzel>`; neue Kunden vorher dort anlegen
+  (Gruppe und Rabatt bei Mark erfragen). Beim ersten Bauen werden Anschrift
+  und Rabatt fest in den Beleg geschrieben.
+- Weitere Rabatte (Mark gibt sie öfter): je Produkt `rabatt:` (%) oder
   `rabatt_betrag:` (€), auf alles `rabatt_prozent:` / `rabatt_betrag:`,
   Bezeichnung `rabatt_text:`. Nie Katalogpreise ändern, um Rabatte
   abzubilden. Fehlt die Angabe, wie viel Rabatt, nachfragen.

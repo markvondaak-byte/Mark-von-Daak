@@ -119,6 +119,21 @@ Alles lässt sich kombinieren. Die Rechnung zeigt Listenpreis, Rabatt und
 anteilig auf 7 % und 19 % verteilt (sonst stimmt die Umsatzsteuer nicht).
 Storno kehrt auch Rabatte um.
 
+## Kundenstamm und Rabattgruppen
+
+Einmal anlegen in `privat/kunden.yaml` (Muster: `kunden.beispiel.yaml`):
+Anschrift, `gruppe: kunde` oder `teampartner`, optional ein persönlicher
+`rabatt:`. In der Rechnung reicht dann `kunde: lisa`, und Anschrift und
+Rabatt werden eingesetzt. Die Standard-Rabatte je Gruppe stehen in
+`absender-fitline.yaml` unter `rabattgruppen`. Vorrang: Angabe im Beleg >
+persönlicher Rabatt > Gruppe. Beim ersten Bauen werden die Daten fest in
+den Beleg geschrieben, damit spätere Änderungen alte Rechnungen nicht
+verändern.
+
+```bash
+python3 rechnungen/rechnung.py kunden     # Kundenstamm anzeigen
+```
+
 ## Nummern über Sitzungen hinweg
 
 `nummern.json` enthält nur die Zählerstände (keine Kundendaten) und wird

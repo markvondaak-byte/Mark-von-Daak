@@ -13,3 +13,13 @@ gruss: |
   Mit freundlichen Grüßen
   Mark von Daak
   Wellness 4 You Wolfsburg
+
+# Standard-Rabatte je Kundengruppe (Prozent auf die ganze Rechnung).
+# Reihenfolge: Angabe im Beleg > persönlicher Rabatt im Kundenstamm > Gruppe.
+rabattgruppen:
+  kunde:
+    rabatt: 20
+    text: Kundenrabatt
+  teampartner:
+    rabatt: 30
+    text: Teampartner-Rabatt

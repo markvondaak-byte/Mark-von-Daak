@@ -9,6 +9,9 @@ absender: fitline        # Wellness 4 You Wolfsburg (rechnungen/absender-fitline
 katalog: fitline
 preise: brutto            # Katalogpreise sind Endkundenpreise inkl. USt.
 
+kunde: ""                 # Kürzel aus dem Kundenstamm (privat/kunden.yaml) – füllt Empfänger + Rabatt
+gruppe: ""                # kunde | teampartner – ohne Kundenstamm: nur Gruppen-Rabatt
+                          # (Rabatt hier im Beleg angeben geht immer vor)
 empfaenger:
   name: ""
   strasse: ""
