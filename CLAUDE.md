@@ -117,3 +117,26 @@ vermerken.)
   Commit-Nachrichten auf Deutsch, beginnend mit dem Buchtitel.
 - Nummern von Hilfetelefonen und Quellenangaben als „bitte vor Upload
   prüfen“ kennzeichnen, wenn sie nicht online verifiziert wurden.
+
+# Rechnungen (alle Rechnungen für FitLine-Produkte)
+
+Mark verkauft FitLine-Produkte (PM-International). **Jede Rechnung dafür
+wird mit `rechnungen/rechnung.py` erstellt**, nicht mit Online-Diensten wie
+invoicehome.com. Anleitung: `rechnungen/README.md`.
+
+- Ablauf: `neu rechnung --vorlage fitline --kunde "<Name>"` → Empfänger und
+  Positionen (`artikel:` aus `rechnungen/kataloge/fitline.yaml`, `menge:`)
+  eintragen → `bauen` → PDF **und** die Beleg-YAML mit SendUserFile
+  schicken (Mark archiviert sie; Aufbewahrung 8 Jahre).
+- Fehlt ein Produkt oder Preis im Katalog: Mark nach dem Preis fragen,
+  im Katalog ergänzen und committen. Keine Preise erfinden.
+- Bei Barzahlung/PayPal sofort `bezahlt:` setzen (Quittungsvermerk);
+  Storno nur über `storno`, nie eine Nummer neu vergeben oder löschen.
+- Nach jeder Rechnung `rechnungen/nummern.json` committen und pushen
+  (Commit „Rechnungen: RE-… erstellt“), damit der Nummernkreis in der
+  nächsten Sitzung lückenlos weiterläuft.
+- **Nie committen:** `rechnungen/belege/`, `rechnungen/privat/`,
+  `rechnungen/out/` (Kundendaten, IBAN – das Repository ist öffentlich).
+- IBAN steht in `rechnungen/privat/bank.yaml`, die in einer neuen Sitzung
+  fehlt: Mark einmal nach der Bankverbindung fragen oder ohne IBAN/GiroCode
+  bauen und darauf hinweisen.

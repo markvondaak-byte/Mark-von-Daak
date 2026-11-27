@@ -76,3 +76,24 @@ schicken, wenn der Kunde zustimmt. Ab 2028 muss es XRechnung oder ZUGFeRD
 sein. Für Privatkunden (B2C) bleibt das PDF erlaubt. Die Daten hier
 (Positionen, Steuersätze) reichen für eine spätere ZUGFeRD-Ausgabe. Lass die
 Fristen von deinem Steuerberater bestätigen.
+
+## FitLine-Rechnungen
+
+Produkte, Endkundenpreise (brutto) und Steuersätze stehen in
+`kataloge/fitline.yaml`. Eine Position braucht dann nur noch `artikel:` und
+`menge:`.
+
+```bash
+python3 rechnungen/rechnung.py artikel fitline                           # Produktliste
+python3 rechnungen/rechnung.py neu rechnung --vorlage fitline --kunde "Lisa Muster"
+python3 rechnungen/rechnung.py bauen rechnungen/belege/<datei>.yaml
+```
+
+Preise und Steuersätze im Katalog **vor der ersten echten Rechnung prüfen**
+(siehe Kopf der Katalogdatei).
+
+## Nummern über Sitzungen hinweg
+
+`nummern.json` enthält nur die Zählerstände (keine Kundendaten) und wird
+committet. So läuft der Nummernkreis auch in einer neuen Cloud-Sitzung
+lückenlos weiter. Belege und PDFs bleiben lokal bzw. werden dir geschickt.

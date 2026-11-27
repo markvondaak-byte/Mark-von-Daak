@@ -50,7 +50,8 @@ BELEGE = HIER / "belege"
 OUT = HIER / "out"
 PRIVAT = HIER / "privat"
 VORLAGEN = HIER / "vorlagen"
-ZAEHLER = BELEGE / "nummern.json"
+KATALOGE = HIER / "kataloge"
+ZAEHLER = HIER / "nummern.json"   # ohne Kundendaten, wird committet: Nummern laufen sitzungsübergreifend weiter
 
 ARTEN = {
     "rechnung": "Rechnung",
@@ -209,7 +210,6 @@ def naechste_nummer(art: str, absender: dict, jahr: int, verbrauchen: bool = Tru
         nr += 1
     if verbrauchen:
         z[schluessel] = nr
-        BELEGE.mkdir(exist_ok=True)
         ZAEHLER.write_text(json.dumps(z, indent=2, ensure_ascii=False))
     return muster.format(jahr=jahr, nr=nr)
 
@@ -231,10 +231,49 @@ def schreibe_feld(p: Path, feld: str, wert: str) -> None:
     p.write_text(neu, encoding="utf-8")
 
 
+# ------------------------------------------------------------- Katalog ---
+
+def lade_katalog(name: str) -> dict:
+    p = KATALOGE / f"{name}.yaml"
+    if not p.exists():
+        sys.exit(f"Katalog „{name}“ nicht gefunden ({p.relative_to(HIER.parent)}).")
+    return lade_yaml(p)
+
+
+def katalog_aufloesen(b: dict) -> dict:
+    """Positionen mit 'artikel:' aus dem Katalog ergänzen (Angaben im Beleg haben Vorrang)."""
+    positionen = b.get("positionen") or []
+    if not any(isinstance(pos, dict) and pos.get("artikel") for pos in positionen):
+        return b
+    neu = []
+    kataloge = {}
+    for pos in positionen:
+        if pos.get("artikel"):
+            ref = str(pos["artikel"])
+            name, _, schluessel = ref.rpartition("/")
+            name = name or b.get("katalog")
+            if not name:
+                sys.exit(f"Artikel „{ref}“: Katalog fehlt (katalog: fitline oder artikel: fitline/{ref}).")
+            kat = kataloge.setdefault(name, lade_katalog(name))
+            eintrag = (kat.get("artikel") or {}).get(schluessel)
+            if eintrag is None:
+                sys.exit(f"Artikel „{schluessel}“ steht nicht im Katalog {name}. "
+                         f"Liste: python3 rechnungen/rechnung.py artikel {name}")
+            pos = {"ust": kat.get("standard_ust", 19), **eintrag, **{k: v for k, v in pos.items() if k != "artikel"}}
+            if pos.get("preis") is None:
+                sys.exit(f"Artikel „{schluessel}“ hat im Katalog {name} noch keinen Preis – bitte eintragen.")
+        neu.append(pos)
+    b = {**b, "positionen": neu}
+    if "preise" not in b and kataloge:
+        b["preise"] = next(iter(kataloge.values())).get("preise", "netto")
+    return b
+
+
 # ------------------------------------------------------------- Rechnen ---
 
 def berechne(b: dict) -> dict:
     """Summen nach Steuersätzen. Preise netto (Standard) oder brutto (preise: brutto)."""
+    b = katalog_aufloesen(b)
     steuerfall = b.get("steuerfall", "normal")
     ohne_ust = steuerfall != "normal"
     brutto_modus = str(b.get("preise", "netto")).lower() == "brutto"
@@ -314,8 +353,11 @@ def baue_pdf(pfad: Path) -> Path:
     if art not in ARTEN:
         sys.exit(f"Unbekannte Art „{art}“. Möglich: {', '.join(ARTEN)}")
     b_datum = datum(b.get("datum"))
-    if not b.get("datum"):
+    if not b.get("datum") or str(b.get("datum")).lower() == "heute":
         schreibe_feld(pfad, "datum", b_datum.isoformat())
+    if str(b.get("leistungsdatum", "")).lower() == "heute":
+        b["leistungsdatum"] = b_datum.isoformat()
+        schreibe_feld(pfad, "leistungsdatum", b["leistungsdatum"])
     if str(b.get("nummer", "auto")).lower() in ("auto", "", "none"):
         b["nummer"] = naechste_nummer(art, a, b_datum.year)
         schreibe_feld(pfad, "nummer", b["nummer"])
@@ -323,6 +365,7 @@ def baue_pdf(pfad: Path) -> Path:
     for warnung in pruefe(b, a, art):
         print(f"⚠ {warnung}")
 
+    b = katalog_aufloesen(b)
     r = berechne(b)
     wae = b.get("waehrung", a.get("waehrung", "EUR"))
     bank = a.get("bank") or {}
@@ -599,16 +642,24 @@ def dateiname(nummer_oder_art: str, kunde: str = "") -> Path:
 
 
 def cmd_neu(args):
-    vorlage = VORLAGEN / f"{args.art}.yaml"
+    vorlage = VORLAGEN / f"{args.vorlage or args.art}.yaml"
     if not vorlage.exists():
         vorlage = VORLAGEN / "rechnung.yaml"
     BELEGE.mkdir(exist_ok=True)
-    ziel = dateiname(args.art, args.kunde or "")
+    ziel = dateiname(f"{args.art}-{args.vorlage}" if args.vorlage else args.art, args.kunde or "")
     text = vorlage.read_text(encoding="utf-8")
     text = re.sub(r"(?m)^art:.*$", f"art: {args.art}", text)
     text = re.sub(r"(?m)^datum:.*$", f"datum: {dt.date.today().isoformat()}", text)
     ziel.write_text(text, encoding="utf-8")
     print(f"Angelegt: {ziel.relative_to(HIER.parent)}\nAusfüllen, dann: python3 rechnungen/rechnung.py bauen {ziel.relative_to(HIER.parent)}")
+
+
+def cmd_artikel(args):
+    kat = lade_katalog(args.katalog)
+    print(f"{kat.get('katalog', args.katalog)} – Preise {kat.get('preise', 'netto')}\n")
+    for k, e in (kat.get("artikel") or {}).items():
+        preis = "– fehlt –" if e.get("preis") is None else geld(dec(e["preis"]))
+        print(f"  {k:<22} {e.get('text', '')[:44]:<44} {preis:>12}  {zahl(e.get('ust', kat.get('standard_ust', 19)))} %")
 
 
 def cmd_bauen(args):
@@ -617,7 +668,7 @@ def cmd_bauen(args):
 
 
 def kopiere_beleg(quelle: Path, art: str, extra: dict, minus: bool = False) -> Path:
-    b = lade_yaml(quelle)
+    b = katalog_aufloesen(lade_yaml(quelle)) if minus else lade_yaml(quelle)
     b.update({"art": art, "nummer": "auto", "datum": dt.date.today().isoformat(), **extra})
     b.pop("bezahlt", None)
     b.pop("gueltig_bis", None)
@@ -741,7 +792,11 @@ def main():
     p = sub.add_parser("neu", help="neuen Beleg aus Vorlage anlegen")
     p.add_argument("art", choices=list(ARTEN))
     p.add_argument("--kunde", help="Kundenname für den Dateinamen")
+    p.add_argument("--vorlage", help="andere Vorlage aus vorlagen/, z. B. fitline")
     p.set_defaults(f=cmd_neu)
+    p = sub.add_parser("artikel", help="Artikel eines Katalogs anzeigen")
+    p.add_argument("katalog", nargs="?", default="fitline")
+    p.set_defaults(f=cmd_artikel)
     p = sub.add_parser("bauen", help="PDF erzeugen")
     p.add_argument("dateien", nargs="+")
     p.set_defaults(f=cmd_bauen)

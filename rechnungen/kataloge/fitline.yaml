@@ -1,0 +1,93 @@
+# FitLine-Produktkatalog für Rechnungen (Hersteller: PM-International)
+#
+# In einer Rechnung genügt:   - artikel: powercocktail
+#                               menge: 2
+# Name, Einheit, Preis und Steuersatz kommen von hier; alles in der Position
+# Angegebene (z. B. preis:) überschreibt den Katalog.
+#
+# preise: brutto = Endkundenpreise inkl. USt. (so wie FitLine sie angibt).
+#
+# BITTE VOR NUTZUNG PRÜFEN:
+#  * Preise stammen von einer Partnerseite (fitonline.de, Stand Nov. 2026, ohne
+#    Datum) und nicht aus deinem Partner-Backoffice. Mit deiner aktuellen
+#    Preisliste abgleichen und Packungsgrößen/Artikelnummern ergänzen.
+#  * Steuersatz: 7 % für Lebensmittel/Nahrungsergänzung angenommen
+#    (§ 12 Abs. 2 Nr. 1 UStG, Anlage 2). Die Einordnung einzelner Produkte
+#    (v. a. Getränkepulver, Sets) vom Steuerberater bestätigen lassen bzw. mit
+#    den Sätzen auf deinen PM-Einkaufsrechnungen abgleichen.
+#  * Produkte ohne Preis (preis: null) erst ausfüllen – sonst bricht das Bauen ab.
+
+katalog: FitLine
+preise: brutto
+standard_ust: 7
+
+artikel:
+  optimal-set:
+    text: FitLine Optimal-Set
+    detail: Basics, Restorate und PowerCocktail bzw. Activize
+    einheit: Set
+    preis: 111.90
+  powercocktail:
+    text: FitLine PowerCocktail
+    einheit: Pck.
+    preis: 93.50
+  basics:
+    text: FitLine Basics
+    einheit: Pck.
+    preis: 61.90
+  restorate:
+    text: FitLine Restorate (Mineralien)
+    einheit: Pck.
+    preis: 25.00
+  activize:
+    text: FitLine Activize (Acti Power-Drink)
+    einheit: Pck.
+    preis: 31.50
+  powercocktail-junior:
+    text: FitLine PowerCocktail Junior
+    einheit: Pck.
+    preis: 33.50
+  omega-3:
+    text: FitLine Omega 3 vegan
+    einheit: Pck.
+    preis: 44.50
+  proshape-shake:
+    text: FitLine ProShape All-in-1 Shake
+    einheit: Pck.
+    preis: 35.90
+  topshape:
+    text: FitLine TopShape
+    einheit: Pck.
+    preis: 87.10
+  joghurt:
+    text: FitLine Feel-Good Joghurt-Pulver
+    einheit: Pck.
+    preis: 26.90
+
+  # Weitere Produkte: Preis aus deiner Preisliste eintragen
+  zellschutz:      {text: FitLine Zellschutz, einheit: Pck., preis: null}
+  basen-plus:      {text: FitLine Basen Plus, einheit: Pck., preis: null}
+  generation-50:   {text: FitLine Generation 50+, einheit: Pck., preis: null}
+  gelenk-fit:      {text: FitLine Gelenk-Fit, einheit: Pck., preis: null}
+  d-drink:         {text: FitLine D-Drink, einheit: Pck., preis: null}
+  fitness-drink:   {text: FitLine Fitness-Drink, einheit: Pck., preis: null}
+  heart-duo:       {text: FitLine Heart Duo, einheit: Pck., preis: null}
+  q10-plus:        {text: FitLine Q10 Plus, einheit: Pck., preis: null}
+  ib5:             {text: FitLine IB5, einheit: Pck., preis: null}
+  munogen:         {text: FitLine Munogen, einheit: Pck., preis: null}
+  whey:            {text: FitLine Whey, einheit: Pck., preis: null}
+  proshape-amino:  {text: FitLine ProShape Amino, einheit: Pck., preis: null}
+  creatine-plus:   {text: FitLine Creatine+ Plus, einheit: Pck., preis: null}
+  men-plus:        {text: FitLine Men+ Plus, einheit: Pck., preis: null}
+  women-plus:      {text: FitLine Women+ Plus, einheit: Pck., preis: null}
+  herbaslim-tee:   {text: FitLine Herbaslim Tee, einheit: Pck., preis: null}
+  c-balance:       {text: FitLine C-Balance, einheit: Pck., preis: null}
+  beauty:          {text: FitLine Beauty, einheit: Pck., preis: null}
+  # Kosmetik (z. B. FitLine skin) unterliegt 19 % USt.:
+  # skin-reinigung: {text: FitLine skin …, einheit: Stk., preis: null, ust: 19}
+
+  versand:
+    text: Versandkosten
+    einheit: pausch.
+    preis: 0.00
+    ust: 7   # Versand folgt dem Steuersatz der Ware (bei gemischten Sätzen aufteilen)
