@@ -29,3 +29,8 @@ unterlagen/Vertragsunterlagen.pdf
 
 # Kundenpläne enthalten persönliche Daten – nie ins öffentliche Repository
 unterlagen/kunden/
+
+# Rechnung mit Bankverbindung – nur lokal (Vorlage ohne Bank liegt in unterlagen/vorlagen/)
+unterlagen/bank.json
+unterlagen/Rechnung-Mark.html
+unterlagen/Rechnung-Vorlage-Bank.pdf

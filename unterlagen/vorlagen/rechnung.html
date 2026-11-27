@@ -298,7 +298,11 @@ Sportliche Grüße, Mark von Daak</textarea></div>
   const z = laden();
   if (z) {
     $('steuer').value = z.steuer === 'netto' ? 'netto' : 'brutto';
-    FELDER.forEach((id) => { if (z.felder && z.felder[id] !== undefined) $(id).value = z.felder[id]; });
+    FELDER.forEach((id) => {
+      const v = z.felder && z.felder[id];
+      // Vorbelegte Bankdaten nicht mit leeren gespeicherten Werten überschreiben
+      if (v !== undefined && !(MERKEN.includes(id) && !v)) $(id).value = v;
+    });
     (z.positionen && z.positionen.length ? z.positionen : [{}]).forEach(zeile);
   } else if (leer) {
     for (let i = 0; i < 6; i++) zeile();
