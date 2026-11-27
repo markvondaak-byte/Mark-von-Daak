@@ -162,10 +162,12 @@ invoicehome.com. Anleitung: `rechnungen/README.md`.
   `ALIASE` in `fitline_aktualisieren.py`, z. B. acti-lemon, acti-sensitive,
   ac-tea, resto, pc, heart-duo). „Acti“ ohne Sorte → Text „FitLine
   Activize“ (7 %). Nur der fertige „Power Drink“ in Dosen hat 19 %.
-  **Nicht (mehr) im Shop** (z. B. limitierte Sorten wie Peach Eistee):
-  freie Position mit Marks Bezeichnung („FitLine Activize Peach Eistee“),
-  seinem Preis und dem Satz der Produktart (Pulver/Nahrungsergänzung 7 %,
-  Kosmetik/Zubehör/Fertiggetränk 19 %); bei Zweifel nachfragen. Neue
+  **Nicht (mehr) im Shop oder nicht eindeutig zuzuordnen** (z. B.
+  limitierte Sorten wie Peach Eistee): **immer vorsichtshalber bei Mark
+  nachfragen** (Wunsch von Mark), bevor die Rechnung gebaut wird – welches
+  Produkt genau, Bezeichnung auf der Rechnung und ob 7 % (Pulver/
+  Nahrungsergänzung) oder 19 % (Kosmetik/Zubehör/Fertiggetränk). Nichts
+  raten. Antwort danach als Alias bzw. Regel hier festhalten. Neue
   Kurznamen, die Mark öfter nutzt, in `ALIASE` ergänzen und Katalog neu
   erzeugen.
   Ohne ✅ → offen (Zahlungsaufforderung, bezahlt-Block entfernen).
