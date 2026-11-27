@@ -46,12 +46,35 @@ from reportlab.platypus import (BaseDocTemplate, Frame, KeepTogether, PageTempla
                                 Paragraph, Spacer, Table, TableStyle)
 
 HIER = Path(__file__).resolve().parent
-BELEGE = HIER / "belege"
-OUT = HIER / "out"
-PRIVAT = HIER / "privat"
+
+
+def finde_ablage() -> Path | None:
+    """Privates Rechnungs-Repository: $RECHNUNG_ABLAGE oder ein Nachbarordner mit .rechnungsablage."""
+    import os
+    if os.environ.get("RECHNUNG_ABLAGE"):
+        return Path(os.environ["RECHNUNG_ABLAGE"]).expanduser().resolve()
+    for kandidat in sorted(HIER.parent.parent.iterdir()):
+        if (kandidat / ".rechnungsablage").exists():
+            return kandidat
+    return None
+
+
+ABLAGE = finde_ablage()
+
+
+def rel(p: Path) -> str:
+    """Pfad kurz anzeigen (relativ zum aktuellen Ordner, wenn möglich)."""
+    import os
+    return os.path.relpath(p) if not os.path.relpath(p).startswith("../..") else str(p)
+if ABLAGE:   # alles mit Kundendaten liegt im privaten Repository
+    BELEGE, OUT, PRIVAT = ABLAGE / "belege", ABLAGE / "pdf", ABLAGE / "privat"
+else:        # Fallback: lokal und gitignored
+    BELEGE, OUT, PRIVAT = HIER / "belege", HIER / "out", HIER / "privat"
+SCHRIFT_CACHE = HIER / "out" / ".schriften"
 VORLAGEN = HIER / "vorlagen"
 KATALOGE = HIER / "kataloge"
-ZAEHLER = HIER / "nummern.json"   # ohne Kundendaten, wird committet: Nummern laufen sitzungsübergreifend weiter
+# Nummernzähler (ohne Kundendaten): im privaten Repository, sonst hier (committet)
+ZAEHLER = (ABLAGE or HIER) / "nummern.json"
 
 ARTEN = {
     "rechnung": "Rechnung",
@@ -142,7 +165,7 @@ def lade_absender(profil: str | None = None) -> dict:
     if profil:
         datei = HIER / f"absender-{profil}.yaml"
         if not datei.exists():
-            sys.exit(f"Absenderprofil „{profil}“ fehlt ({datei.relative_to(HIER.parent)}).")
+            sys.exit(f"Absenderprofil „{profil}“ fehlt ({rel(datei)}).")
         a.update(lade_yaml(datei))
     bank = PRIVAT / "bank.yaml"
     a["bank"] = lade_yaml(bank) if bank.exists() else {}
@@ -159,7 +182,7 @@ def lade_absender(profil: str | None = None) -> dict:
 
 def schriften() -> tuple[str, str, str]:
     """Inter als TrueType einbinden (OTF wird einmalig umgewandelt), sonst Liberation Sans."""
-    cache = OUT / ".schriften"
+    cache = SCHRIFT_CACHE
     quelle = Path("/usr/share/fonts/opentype/inter")
     namen = {"Inter": "Inter-Regular", "Inter-Medium": "Inter-SemiBold", "Inter-Bold": "InterDisplay-Bold"}
     try:
@@ -214,6 +237,10 @@ def schriften() -> tuple[str, str, str]:
 def naechste_nummer(art: str, absender: dict, jahr: int, verbrauchen: bool = True) -> str:
     muster = (absender.get("nummernkreise") or {}).get(art) or (art[:2].upper() + "-{jahr}-{nr:03d}")
     z = json.loads(ZAEHLER.read_text()) if ZAEHLER.exists() else {}
+    oeffentlich = HIER / "nummern.json"
+    if ABLAGE and oeffentlich.exists():   # nie hinter einen alten Zählerstand zurückfallen
+        for k, v in json.loads(oeffentlich.read_text()).items():
+            z[k] = max(z.get(k, 0), v)
     schluessel = f"{art}-{jahr}"
     nr = z.get(schluessel, 0) + 1
     vorhandene = {b.get("nummer") for _, b in alle_belege()}
@@ -247,7 +274,7 @@ def schreibe_feld(p: Path, feld: str, wert: str) -> None:
 def lade_katalog(name: str) -> dict:
     p = KATALOGE / f"{name}.yaml"
     if not p.exists():
-        sys.exit(f"Katalog „{name}“ nicht gefunden ({p.relative_to(HIER.parent)}).")
+        sys.exit(f"Katalog „{name}“ nicht gefunden ({rel(p)}).")
     return lade_yaml(p)
 
 
@@ -654,7 +681,7 @@ def baue_pdf(pfad: Path) -> Path:
     else:
         inhalt += block
     doc.build(inhalt)
-    print(f"✓ {ziel.relative_to(HIER.parent)}  ({geld(r['brutto'], wae)})")
+    print(f"✓ {rel(ziel)}  ({geld(r['brutto'], wae)})")
     return ziel
 
 
@@ -681,7 +708,7 @@ def cmd_neu(args):
     text = re.sub(r"(?m)^art:.*$", f"art: {args.art}", text)
     text = re.sub(r"(?m)^datum:.*$", f"datum: {dt.date.today().isoformat()}", text)
     ziel.write_text(text, encoding="utf-8")
-    print(f"Angelegt: {ziel.relative_to(HIER.parent)}\nAusfüllen, dann: python3 rechnungen/rechnung.py bauen {ziel.relative_to(HIER.parent)}")
+    print(f"Angelegt: {rel(ziel)}\nAusfüllen, dann: python3 rechnungen/rechnung.py bauen {rel(ziel)}")
 
 
 def cmd_artikel(args):
@@ -717,7 +744,7 @@ def kopiere_beleg(quelle: Path, art: str, extra: dict, minus: bool = False) -> P
     ziel = dateiname(art, kunde)
     ziel.write_text(f"# Erzeugt aus {quelle.name}\n" + yaml.safe_dump(b, allow_unicode=True, sort_keys=False),
                     encoding="utf-8")
-    print(f"Angelegt: {ziel.relative_to(HIER.parent)}")
+    print(f"Angelegt: {rel(ziel)}")
     return ziel
 
 
@@ -802,7 +829,7 @@ def cmd_liste(args):
         print(f"{z['Nummer']:<16} {z['Datum']}  {z['Kunde'][:26]:<26} {geld(z['_brutto']):>14}  {z['Status']}")
     offen = sum((z["_brutto"] for z in zeilen if z["Status"] in ("offen", "überfällig")), D0)
     summe = sum((z["_brutto"] for z in zeilen), D0)
-    print(f"\nUmsatz brutto: {geld(summe)} · offen: {geld(offen)}\nCSV: {csv_pfad.relative_to(HIER.parent)}")
+    print(f"\nUmsatz brutto: {geld(summe)} · offen: {geld(offen)}\nCSV: {rel(csv_pfad)}")
     return csv_pfad
 
 
@@ -818,7 +845,25 @@ def cmd_archiv(args):
             if not pdf.exists():
                 baue_pdf(BELEGE / zeile["Datei"])
             z.write(pdf, f"pdf/{pdf.name}")
-    print(f"✓ Archiv: {ziel.relative_to(HIER.parent)}")
+    print(f"✓ Archiv: {rel(ziel)}")
+
+
+def cmd_sichern(args):
+    if not ABLAGE:
+        sys.exit("Kein privates Rechnungs-Repository gefunden (RECHNUNG_ABLAGE oder .rechnungsablage).")
+    import subprocess
+    git = lambda *a: subprocess.run(["git", "-C", str(ABLAGE), *a], capture_output=True, text=True)
+    git("add", "-A")
+    if not git("status", "--porcelain").stdout.strip():
+        print("Nichts Neues zu sichern.")
+        return
+    nachricht = args.nachricht or f"Rechnungen: Stand {dt.date.today():%d.%m.%Y}"
+    r = git("commit", "-m", nachricht)
+    if r.returncode:
+        sys.exit(r.stderr)
+    r = git("push")
+    print(r.stderr.strip() or r.stdout.strip())
+    print(f"✓ gesichert in {ABLAGE.name}" if r.returncode == 0 else "⚠ Push fehlgeschlagen – lokal committet.")
 
 
 def main():
@@ -849,6 +894,9 @@ def main():
     p.add_argument("--art", help="z. B. Überweisung, bar, PayPal")
     p.add_argument("--quittung", action="store_true", help="PDF mit Zahlungsvermerk neu bauen")
     p.set_defaults(f=cmd_bezahlt)
+    p = sub.add_parser("sichern", help="Belege und PDFs ins private Repository committen und pushen")
+    p.add_argument("-m", "--nachricht")
+    p.set_defaults(f=cmd_sichern)
     for name, f in (("liste", cmd_liste), ("archiv", cmd_archiv)):
         p = sub.add_parser(name)
         p.add_argument("--jahr", type=int)

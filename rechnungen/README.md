@@ -109,3 +109,20 @@ Positionen gehen per Schlüssel (`powercocktail`), Kurzname (`optimal-set`,
 `nummern.json` enthält nur die Zählerstände (keine Kundendaten) und wird
 committet. So läuft der Nummernkreis auch in einer neuen Cloud-Sitzung
 lückenlos weiter. Belege und PDFs bleiben lokal bzw. werden dir geschickt.
+
+## Private Ablage (empfohlen)
+
+Liegt neben diesem Repository ein Ordner mit der Datei `.rechnungsablage`
+(oder ist `RECHNUNG_ABLAGE` gesetzt), speichert das Skript alles mit
+Kundendaten dort:
+
+```
+rechnungen/            ← privates Repository markvondaak-byte/rechnungen
+  .rechnungsablage
+  belege/              Beleg-YAMLs
+  pdf/                 PDFs, Ausgangsbuch, ZIP-Archive
+  privat/bank.yaml     Bankverbindung
+  nummern.json         Nummernzähler
+```
+
+`python3 rechnungen/rechnung.py sichern` committet und pusht die Ablage.

@@ -130,6 +130,14 @@ invoicehome.com. Anleitung: `rechnungen/README.md`.
   schon in der Vorlage). Gleiche USt-IdNr. und gemeinsamer Nummernkreis mit
   seinen übrigen Rechnungen.
 
+- **Private Ablage:** Belege, PDFs, Bankdaten und Nummernzähler liegen im
+  privaten Repository `markvondaak-byte/rechnungen`. Vor der ersten Rechnung
+  einer Sitzung: `add_repo` (owner `markvondaak-byte`, repo `rechnungen`,
+  access `push`), nach `/home/user/rechnungen` klonen – das Skript findet es
+  über die Datei `.rechnungsablage`. Nach jeder Rechnung
+  `python3 rechnungen/rechnung.py sichern -m "Rechnungen: RE-… erstellt"`.
+  Nur wenn das private Repository nicht erreichbar ist, gilt der Fallback
+  unten (lokal + `rechnungen/nummern.json` im öffentlichen Repo).
 - Ablauf: `neu rechnung --vorlage fitline --kunde "<Name>"` → Empfänger und
   Positionen (`artikel:` aus `rechnungen/kataloge/fitline.yaml`, `menge:`)
   eintragen → `bauen` → PDF **und** die Beleg-YAML mit SendUserFile
