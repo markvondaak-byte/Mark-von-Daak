@@ -1,0 +1,25 @@
+# Beispiel (fiktive Kundin): 10er-Karte Personal Training, Bruttopreise, bar bezahlt
+art: quittung
+nummer: BEISPIEL-002
+datum: 2026-11-27
+leistungsdatum: 2026-11
+empfaenger:
+  name: Lisa Muster
+  strasse: Beispielweg 5
+  plz_ort: 38448 Wolfsburg
+preise: brutto
+ust: 19
+positionen:
+  - text: Personal Training, 10er-Karte
+    detail: 10 × 60 Minuten, Anfahrt und Equipment inklusive
+    menge: 1
+    einheit: Karte
+    preis: 750.00
+  - text: Buch „Der Narzisst in meinem Bett“ (Taschenbuch)
+    menge: 1
+    einheit: Stk.
+    preis: 14.99
+    ust: 7
+bezahlt:
+  datum: 2026-11-27
+  art: bar

@@ -1,0 +1,45 @@
+# Eigene Angaben für alle Belege. Steht ohnehin im Impressum, darf also ins
+# Repository. Die Bankverbindung gehört NICHT hierher, sondern nach
+# rechnungen/privat/bank.yaml (gitignored, Muster: bank.beispiel.yaml).
+
+name: Mark von Daak
+zusatz: Personal Training · Selbstverlag
+strasse: Rabenbergstraße 16
+plz_ort: 38444 Wolfsburg
+land: Deutschland
+telefon: ""                 # optional, z. B. "0151 …"
+email: markvondaak@icloud.com
+web: ""                     # optional, z. B. eigene Domain
+ust_id: DE319920422
+steuernummer: ""            # optional; USt-IdNr. reicht für § 14 UStG
+
+# true nur, wenn du die Kleinunternehmerregelung (§ 19 UStG) nutzt.
+# Dann in jedem Beleg "steuerfall: kleinunternehmer" setzen.
+kleinunternehmer: false
+
+waehrung: EUR
+zahlungsziel_tage: 14
+angebot_gueltig_tage: 30
+
+# Nummernkreise: fortlaufend je Art und Jahr (Pflicht: eindeutig, lückenlos ist empfohlen)
+nummernkreise:
+  rechnung: RE-{jahr}-{nr:03d}
+  quittung: RE-{jahr}-{nr:03d}      # Quittungen laufen im selben Kreis wie Rechnungen
+  storno: ST-{jahr}-{nr:03d}
+  korrektur: KR-{jahr}-{nr:03d}
+  angebot: AN-{jahr}-{nr:03d}
+  proforma: PR-{jahr}-{nr:03d}
+  lieferschein: LS-{jahr}-{nr:03d}
+  auftrag: AB-{jahr}-{nr:03d}
+
+akzentfarbe: "#0077C2"      # Blau der Personal-Training-Seite
+logo: ""                    # optional, Pfad relativ zu rechnungen/, z. B. logo.png
+
+schluss: Vielen Dank für Ihr Vertrauen!
+gruss: |
+  Mit sportlichen Grüßen
+  Mark von Daak
+
+# Bei Privatkunden und Bauleistungen am Grundstück ist dieser Hinweis Pflicht
+# (§ 14 Abs. 4 Nr. 9 UStG); sonst leer lassen.
+aufbewahrung_hinweis: ""

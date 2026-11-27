@@ -29,3 +29,8 @@ unterlagen/Vertragsunterlagen.pdf
 
 # Kundenpläne enthalten persönliche Daten – nie ins öffentliche Repository
 unterlagen/kunden/
+
+# Rechnungen: Kundendaten, Bankverbindung und PDFs nie ins öffentliche Repository
+rechnungen/belege/
+rechnungen/privat/
+rechnungen/out/

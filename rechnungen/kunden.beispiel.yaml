@@ -1,0 +1,16 @@
+# Kundenstamm – Muster. Echte Datei: privat/kunden.yaml im privaten
+# Rechnungs-Repository (bzw. rechnungen/privat/kunden.yaml, gitignored).
+# In einer Rechnung genügt dann:  kunde: lisa
+kunden:
+  lisa:
+    name: Lisa Muster
+    strasse: Beispielweg 5
+    plz_ort: 38448 Wolfsburg
+    gruppe: kunde          # kunde | teampartner (Standard 20 %, siehe absender-fitline.yaml)
+    # rabatt: 25           # optional: persönlicher Rabatt statt 20 %
+  max:
+    name: Max Beispiel
+    strasse: Musterstraße 1
+    plz_ort: 38440 Wolfsburg
+    gruppe: teampartner
+    kundennummer: TP-001

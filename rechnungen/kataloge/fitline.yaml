@@ -1,0 +1,1080 @@
+# FitLine-Produktkatalog für Rechnungen – AUTOMATISCH ERZEUGT, nicht von Hand ändern.
+# Neu erzeugen: python3 rechnungen/kataloge/fitline_aktualisieren.py
+# Quelle: offizieller FitLine-Shop Deutschland (fitline.com/de/de-de), Stand 27.11.2026
+#
+# Preise = Endkundenpreise inkl. USt. Steuersatz je Produkt so, wie FitLine ihn
+# deklariert (Nahrungsergänzung 7 %, Kosmetik und Shop-Artikel 19 %; Ausnahmen
+# übernimmt der Abruf automatisch, z. B. Fertiggetränke in Dosen 19 %).
+#
+# In der Rechnung:   - artikel: powercocktail      (Schlüssel, Alias oder Artikelnummer)
+#                      menge: 2
+# Eigene Preise/Texte in der Position überschreiben den Katalog.
+
+katalog: FitLine
+preise: brutto
+stand: 2026-11-27
+
+aliase:
+  acti: activize-oxyplus
+  acti-oxyplus: activize-oxyplus
+  acti-cassis: activize-oxyplus
+  acti-lemon: activize-lemon-lime
+  acti-lemon-lime: activize-lemon-lime
+  acti-sensitive: activize-sensitive
+  acti-2go: activize2go
+  acti-to-go: activize2go
+  activize: activize-oxyplus
+  ac-tea: ac-tea-punch
+  tea-punch: ac-tea-punch
+  power-drink: activize-power-drink
+  power-drink-24: activize-power-drink-24-dosen
+  optimal-set: optimal-set-powercocktail-plus-restorate
+  pc: powercocktail
+  powercocktail: powercocktail
+  pc-junior: powercocktail-junior
+  restorate: restorate-citrus
+  resto: restorate-citrus
+  resto-citrus: restorate-citrus
+  resto-exotic: restorate-exotic
+  resto-dose: restorate-citrus-dose
+  basics: basics
+  omega-3: microsolve-plus-omega-3
+  omega-3-plus: microsolve-plus-omega-3-plus
+  q10: microsolve-plus-q10
+  heart-duo: microsolve-plus-heart-duo
+  lutein: microsolve-plus-lutein
+  topshape: topshape
+  zellschutz: zellschutz
+  zellschutz-apfel: zellschutz-apfel
+  joghurt: feel-good-yoghurt
+  yoghurt: feel-good-yoghurt
+  proshape-shake: proshape-all-in-1-chocolate
+  generation-50: generation-50-plus
+  gelenk-fit: gelenk-fit
+  basen-plus: basen-plus
+  peach-eistee: acti-peach-eistee
+  peach: acti-peach-eistee
+  acti-peach: acti-peach-eistee
+  peach-tea: acti-peach-eistee
+
+artikel:
+
+  # ---- Beauty ----
+  4ever:
+    text: "FitLine 4ever"
+    detail: "Art.-Nr. 0116122 · 50 ml"
+    artikelnr: "0116122"
+    einheit: Stk.
+    preis: 64.90
+    ust: 19
+  4ever-enriched:
+    text: "FitLine 4ever enriched"
+    detail: "Art.-Nr. 0116220 · 50 ml"
+    artikelnr: "0116220"
+    einheit: Stk.
+    preis: 64.90
+    ust: 19
+  4ever-overnight-enriched:
+    text: "FitLine 4ever overnight enriched"
+    detail: "Art.-Nr. 0116223 · 50 ml"
+    artikelnr: "0116223"
+    einheit: Stk.
+    preis: 64.90
+    ust: 19
+  active-gel:
+    text: "FitLine Active Gel"
+    detail: "Art.-Nr. 0116048 · 150 ml"
+    artikelnr: "0116048"
+    einheit: Stk.
+    preis: 29.90
+    ust: 19
+  activize-serum:
+    text: "FitLine Activize Serum"
+    detail: "Art.-Nr. 0116116 · 30 ml"
+    artikelnr: "0116116"
+    einheit: Stk.
+    preis: 48.90
+    ust: 19
+  augencreme:
+    text: "FitLine Augencreme"
+    detail: "Art.-Nr. 0116093 · 15 ml"
+    artikelnr: "0116093"
+    einheit: Stk.
+    preis: 49.90
+    ust: 19
+  beauty:
+    text: "FitLine Beauty"
+    detail: "Art.-Nr. 0709028 · 195 g"
+    artikelnr: "0709028"
+    einheit: Stk.
+    preis: 47.50
+    ust: 7
+  cell-kapseln:
+    text: "FitLine Cell Kapseln"
+    detail: "Art.-Nr. 0704002 · 96 g"
+    artikelnr: "0704002"
+    einheit: Stk.
+    preis: 54.00
+    ust: 7
+  cell-lotion:
+    text: "FitLine Cell Lotion"
+    detail: "Art.-Nr. 0116101 · 125 ml"
+    artikelnr: "0116101"
+    einheit: Stk.
+    preis: 31.50
+    ust: 19
+  cell-set:
+    text: "FitLine Cell Set"
+    detail: "Art.-Nr. 9701000"
+    artikelnr: "9701000"
+    einheit: Set
+    preis: 79.90
+    ust: 7
+  cleansing-lotion:
+    text: "FitLine Cleansing Lotion"
+    detail: "Art.-Nr. 0116127 · 200 ml"
+    artikelnr: "0116127"
+    einheit: Stk.
+    preis: 26.90
+    ust: 19
+  cleansing-tonic:
+    text: "FitLine Cleansing Tonic"
+    detail: "Art.-Nr. 0116007 · 200 ml"
+    artikelnr: "0116007"
+    einheit: Stk.
+    preis: 26.90
+    ust: 19
+  dark-spot-corrector:
+    text: "FitLine Dark Spot Corrector"
+    detail: "Art.-Nr. 0116222 · 30 ml"
+    artikelnr: "0116222"
+    einheit: Stk.
+    preis: 58.90
+    ust: 19
+  dental-plus:
+    text: "FitLine Dental+"
+    detail: "Art.-Nr. 0116123 · 75 ml"
+    artikelnr: "0116123"
+    einheit: Stk.
+    preis: 5.95
+    ust: 19
+  einsteiger-set-anti-aging:
+    text: "FitLine Einsteiger-Set Anti-Aging"
+    detail: "Art.-Nr. 9116470 · 375 ml"
+    artikelnr: "9116470"
+    einheit: Set
+    preis: 112.90
+    ust: 19
+  einsteiger-set-young-care:
+    text: "FitLine Einsteiger-Set Young Care"
+    detail: "Art.-Nr. 9116472 · 400 ml"
+    artikelnr: "9116472"
+    einheit: Set
+    preis: 59.90
+    ust: 19
+  fitline-ai-scanner-starter-set:
+    text: "FitLine AI Scanner Starter Set"
+    detail: "Art.-Nr. 9116585"
+    artikelnr: "9116585"
+    einheit: Set
+    preis: 505.90
+    ust: 19
+  hydrating-shot-mask:
+    text: "FitLine Hydrating-shot mask"
+    detail: "Art.-Nr. 0116084 · 100 ml"
+    artikelnr: "0116084"
+    einheit: Stk.
+    preis: 52.50
+    ust: 19
+  men-2-in-1-shaving-cream-limited-edition:
+    text: "FitLine Men 2-in-1 Shaving Cream - Limited Edition"
+    detail: "Art.-Nr. 0116213 · 150 ml"
+    artikelnr: "0116213"
+    einheit: Stk.
+    preis: 14.90
+    ust: 19
+  men-2-in-1-showergel-limited-edition:
+    text: "FitLine Men 2-in-1 Showergel - Limited Edition"
+    detail: "Art.-Nr. 0116214 · 200 ml"
+    artikelnr: "0116214"
+    einheit: Stk.
+    preis: 14.50
+    ust: 19
+  men-face-rich-hydrating:
+    text: "FitLine Men Face Rich & Hydrating"
+    detail: "Art.-Nr. 0116109 · 50 ml"
+    artikelnr: "0116109"
+    einheit: Stk.
+    preis: 29.90
+    ust: 19
+  q10-oxy-repair-hands:
+    text: "FitLine Q10 Oxy Repair Hands"
+    detail: "Art.-Nr. 0116070 · 72 ml"
+    artikelnr: "0116070"
+    einheit: Stk.
+    preis: 10.70
+    ust: 19
+  q10-oxy-repair-intensive:
+    text: "FitLine Q10 Oxy Repair Intensive"
+    detail: "Art.-Nr. 0116041 · 15 ml"
+    artikelnr: "0116041"
+    einheit: Stk.
+    preis: 59.50
+    ust: 19
+  starter-set-4ever:
+    text: "FitLine Starter Set 4ever"
+    detail: "Art.-Nr. 9116562 · 100 ml"
+    artikelnr: "9116562"
+    einheit: Set
+    preis: 123.90
+    ust: 19
+  starter-set-4ever-enriched:
+    text: "FitLine Starter Set 4ever enriched"
+    detail: "Art.-Nr. 9116563 · 100 ml"
+    artikelnr: "9116563"
+    einheit: Set
+    preis: 123.90
+    ust: 19
+  ultimate-young:
+    text: "FitLine Ultimate Young"
+    detail: "Art.-Nr. 0116050 · 15 ml"
+    artikelnr: "0116050"
+    einheit: Stk.
+    preis: 79.00
+    ust: 19
+  ultimate-young-4ever:
+    text: "FitLine Ultimate Young 4ever"
+    detail: "Art.-Nr. 9116542 · 65 ml"
+    artikelnr: "9116542"
+    einheit: Stk.
+    preis: 134.90
+    ust: 19
+  young-care-balancing-creme:
+    text: "FitLine Young Care Balancing Creme"
+    detail: "Art.-Nr. 0116082 · 50 ml"
+    artikelnr: "0116082"
+    einheit: Stk.
+    preis: 19.90
+    ust: 19
+  young-care-peeling-maske:
+    text: "FitLine Young Care Peeling-Maske"
+    detail: "Art.-Nr. 0116083 · 100 ml"
+    artikelnr: "0116083"
+    einheit: Stk.
+    preis: 16.70
+    ust: 19
+  young-care-reinigungsschaum:
+    text: "FitLine Young Care Reinigungsschaum"
+    detail: "Art.-Nr. 0116081 · 150 ml"
+    artikelnr: "0116081"
+    einheit: Stk.
+    preis: 16.70
+    ust: 19
+  young-care-set:
+    text: "FitLine Young Care Set"
+    detail: "Art.-Nr. 9116436 · 300 ml"
+    artikelnr: "9116436"
+    einheit: Set
+    preis: 47.20
+    ust: 19
+  microsolve-hair-plus-0116076:
+    text: "FitLine microSolve Hair+"
+    detail: "Art.-Nr. 0116076 · 100 ml"
+    artikelnr: "0116076"
+    einheit: Stk.
+    preis: 39.90
+    ust: 19
+
+  # ---- Individuell ----
+  microsolve-hair-plus-0712053:
+    text: "FitLine microSolve Hair+"
+    detail: "Art.-Nr. 0712053 · 125 ml"
+    artikelnr: "0712053"
+    einheit: Stk.
+    preis: 36.70
+    ust: 7
+
+  # ---- Beauty ----
+  microsolve-hair-plus-phase-1:
+    text: "FitLine microSolve Hair+ Phase 1"
+    detail: "Art.-Nr. 97001242 · 350 ml"
+    artikelnr: "97001242"
+    einheit: Stk.
+    preis: 104.00
+    ust: 7
+  microsolve-hair-plus-phase-2:
+    text: "FitLine microSolve Hair+ Phase 2"
+    detail: "Art.-Nr. 97001241 · 225 ml"
+    artikelnr: "97001241"
+    einheit: Stk.
+    preis: 73.00
+    ust: 7
+
+  # ---- FanShop ----
+  ac-tea-punch-becher-2026:
+    text: "FitLine AC-Tea Punch Becher 2026"
+    detail: "Art.-Nr. 0310186"
+    artikelnr: "0310186"
+    einheit: Stk.
+    preis: 12.90
+    ust: 19
+  adventskalender-2026:
+    text: "FitLine Adventskalender 2026"
+    detail: "Art.-Nr. 0310182"
+    artikelnr: "0310182"
+    einheit: Stk.
+    preis: 94.90
+    ust: 19
+  fitline-3d-effekt-logo-standard-aufkleber-7x5cm:
+    text: "FitLine 3D-Effekt-Logo Standard-Aufkleber 7x5cm"
+    detail: "Art.-Nr. 0305074"
+    artikelnr: "0305074"
+    einheit: Stk.
+    preis: 5.90
+    ust: 19
+  fitline-baseball-cap-schwarz:
+    text: "FitLine Baseball Cap schwarz"
+    detail: "Art.-Nr. 0309987"
+    artikelnr: "0309987"
+    einheit: Stk.
+    preis: 14.90
+    ust: 19
+  fitline-baseball-cap-weiss:
+    text: "FitLine Baseball Cap weiß"
+    detail: "Art.-Nr. 0309986"
+    artikelnr: "0309986"
+    einheit: Stk.
+    preis: 14.90
+    ust: 19
+  fitline-charity-poster:
+    text: "FitLine Charity Poster"
+    detail: "Art.-Nr. 0203077"
+    artikelnr: "0203077"
+    einheit: Stk.
+    preis: 3.90
+    ust: 19
+  fitline-damen-trainingsanzug-blau-s:
+    text: "FitLine Damen-Trainingsanzug Blau -S"
+    detail: "Art.-Nr. 0323409"
+    artikelnr: "0323409"
+    einheit: Stk.
+    preis: 89.90
+    ust: 19
+  fitline-damen-trainingsanzug-schwarz-s:
+    text: "FitLine Damen-Trainingsanzug Schwarz -S"
+    detail: "Art.-Nr. 0323401"
+    artikelnr: "0323401"
+    einheit: Stk.
+    preis: 89.90
+    ust: 19
+  fitline-daunen-ahnliche-jacke-fur-frauen-marineblau-s:
+    text: "FitLine Daunen-ähnliche Jacke für Frauen Marineblau S"
+    detail: "Art.-Nr. 0323292"
+    artikelnr: "0323292"
+    einheit: Stk.
+    preis: 99.90
+    ust: 19
+  fitline-daunen-ahnliche-jacke-fur-frauen-schwarz-s:
+    text: "FitLine Daunen-ähnliche Jacke für Frauen Schwarz S"
+    detail: "Art.-Nr. 0323288"
+    artikelnr: "0323288"
+    einheit: Stk.
+    preis: 99.90
+    ust: 19
+  fitline-daunen-ahnliche-jacke-fur-herren-marineblau-m:
+    text: "FitLine Daunen-ähnliche Jacke für Herren Marineblau M"
+    detail: "Art.-Nr. 0323284"
+    artikelnr: "0323284"
+    einheit: Stk.
+    preis: 99.90
+    ust: 19
+  fitline-daunen-ahnliche-jacke-fur-herren-schwarz-m:
+    text: "FitLine Daunen-ähnliche Jacke für Herren Schwarz M"
+    detail: "Art.-Nr. 0323280"
+    artikelnr: "0323280"
+    einheit: Stk.
+    preis: 99.90
+    ust: 19
+  fitline-demo-bag:
+    text: "FitLine Demo Bag"
+    detail: "Art.-Nr. 9309158"
+    artikelnr: "9309158"
+    einheit: Stk.
+    preis: 19.90
+    ust: 19
+  fitline-demo-becher:
+    text: "FitLine Demo Becher"
+    detail: "Art.-Nr. 0309920"
+    artikelnr: "0309920"
+    einheit: Stk.
+    preis: 1.15
+    ust: 19
+  fitline-dubbeglas-6er-set:
+    text: "FitLine Dubbeglas (6er Set)"
+    detail: "Art.-Nr. 9309089"
+    artikelnr: "9309089"
+    einheit: Set
+    preis: 26.50
+    ust: 19
+  fitline-funktions-t-shirt-damen-schwarz-s:
+    text: "FitLine Funktions-T-Shirt Damen Schwarz-S"
+    detail: "Art.-Nr. 0323382"
+    artikelnr: "0323382"
+    einheit: Stk.
+    preis: 29.90
+    ust: 19
+  fitline-funktions-t-shirt-herren-schwarz-m:
+    text: "FitLine Funktions-T-Shirt Herren Schwarz-M"
+    detail: "Art.-Nr. 0323379"
+    artikelnr: "0323379"
+    einheit: Stk.
+    preis: 29.90
+    ust: 19
+  fitline-hausschuhe:
+    text: "FitLine Hausschuhe"
+    detail: "Art.-Nr. 0310091"
+    artikelnr: "0310091"
+    einheit: Stk.
+    preis: 17.90
+    ust: 19
+  fitline-herren-trainingsanzug-blau-m:
+    text: "FitLine Herren-Trainingsanzug Blau-M"
+    detail: "Art.-Nr. 0323413"
+    artikelnr: "0323413"
+    einheit: Stk.
+    preis: 89.90
+    ust: 19
+  fitline-herren-trainingsanzug-schwarz-m:
+    text: "FitLine Herren-Trainingsanzug Schwarz-M"
+    detail: "Art.-Nr. 0323405"
+    artikelnr: "0323405"
+    einheit: Stk.
+    preis: 89.90
+    ust: 19
+  fitline-loffel:
+    text: "FitLine Löffel"
+    detail: "Art.-Nr. 9309110"
+    artikelnr: "9309110"
+    einheit: Stk.
+    preis: 0.60
+    ust: 19
+  fitline-poster:
+    text: "FitLine Poster"
+    detail: "Art.-Nr. 0203035"
+    artikelnr: "0203035"
+    einheit: Stk.
+    preis: 3.90
+    ust: 19
+  fitline-rucksack-30l:
+    text: "FitLine Rucksack 30l"
+    detail: "Art.-Nr. 0310054"
+    artikelnr: "0310054"
+    einheit: Stk.
+    preis: 44.90
+    ust: 19
+  fitline-sonnenbrillen-zubehorset-beige-gold:
+    text: "FitLine Sonnenbrillen-Zubehörset Beige/Gold"
+    detail: "Art.-Nr. 0310163"
+    artikelnr: "0310163"
+    einheit: Set
+    preis: 44.90
+    ust: 19
+  fitline-sonnenbrillen-zubehorset-pink-silber:
+    text: "FitLine Sonnenbrillen-Zubehörset Pink/Silber"
+    detail: "Art.-Nr. 0310164"
+    artikelnr: "0310164"
+    einheit: Set
+    preis: 44.90
+    ust: 19
+  fitline-sporttasche:
+    text: "FitLine Sporttasche"
+    detail: "Art.-Nr. 0310131"
+    artikelnr: "0310131"
+    einheit: Stk.
+    preis: 30.90
+    ust: 19
+  fitline-standard-baumwoll-t-shirt-damen-weiss-s:
+    text: "FitLine Standard-Baumwoll-T-Shirt Damen Weiß-S"
+    detail: "Art.-Nr. 0323376"
+    artikelnr: "0323376"
+    einheit: Stk.
+    preis: 19.90
+    ust: 19
+  fitline-standard-baumwoll-t-shirt-herren-weiss-m:
+    text: "FitLine Standard-Baumwoll-T-Shirt Herren Weiß-M"
+    detail: "Art.-Nr. 0323373"
+    artikelnr: "0323373"
+    einheit: Stk.
+    preis: 19.90
+    ust: 19
+  fitline-tasche-mit-kordelzug:
+    text: "FitLine Tasche mit Kordelzug"
+    detail: "Art.-Nr. 0309836"
+    artikelnr: "0309836"
+    einheit: Stk.
+    preis: 4.90
+    ust: 19
+  fitline-transparente-demo-bag:
+    text: "FitLine Transparente Demo Bag"
+    detail: "Art.-Nr. 0310156"
+    artikelnr: "0310156"
+    einheit: Stk.
+    preis: 9.50
+    ust: 19
+  fitline-trinkflasche:
+    text: "FitLine Trinkflasche"
+    detail: "Art.-Nr. 0304077"
+    artikelnr: "0304077"
+    einheit: Stk.
+    preis: 5.45
+    ust: 19
+  fitline-twister:
+    text: "FitLine Twister"
+    detail: "Art.-Nr. 0304107"
+    artikelnr: "0304107"
+    einheit: Stk.
+    preis: 28.20
+    ust: 19
+  imagekatalog-1-stuck:
+    text: "FitLine Imagekatalog (1 Stück)"
+    detail: "Art.-Nr. 0202304"
+    artikelnr: "0202304"
+    einheit: Stk.
+    preis: 0.95
+    ust: 0
+  jubilaumsbuch-33-jahre-pm-international-en-de:
+    text: "FitLine Jubiläumsbuch – 33 Jahre PM International (EN/DE)"
+    detail: "Art.-Nr. 0206040"
+    artikelnr: "0206040"
+    einheit: Stk.
+    preis: 19.90
+    ust: 7
+  pm-3d-effekt-logo-standardaufkleber-6x6cm:
+    text: "PM 3D-Effekt-Logo Standardaufkleber 6x6cm"
+    detail: "Art.-Nr. 0305075"
+    artikelnr: "0305075"
+    einheit: Stk.
+    preis: 5.90
+    ust: 19
+  pm-kfz-kennzeichenhalter:
+    text: "PM KFZ-Kennzeichenhalter"
+    detail: "Art.-Nr. 0309541"
+    artikelnr: "0309541"
+    einheit: Stk.
+    preis: 5.15
+    ust: 19
+  produktbroschure-25-stk:
+    text: "FitLine Produktbroschüre (25 Stk.)"
+    detail: "Art.-Nr. 9202277"
+    artikelnr: "9202277"
+    einheit: Stk.
+    preis: 11.90
+    ust: 19
+  to-go-becher:
+    text: "FitLine To Go Becher"
+    detail: "Art.-Nr. 0309982"
+    artikelnr: "0309982"
+    einheit: Stk.
+    preis: 9.90
+    ust: 19
+
+  # ---- Figur & Balance ----
+  herbaslim-tee:
+    text: "FitLine Herbaslim Tee"
+    detail: "Art.-Nr. 0709006 · 100 g"
+    artikelnr: "0709006"
+    einheit: Stk.
+    preis: 11.00
+    ust: 7
+  proshape-all-in-1-bourbon-vanille:
+    text: "FitLine ProShape All-in-1 Bourbon Vanille"
+    detail: "Art.-Nr. 0701047 · 420 g"
+    artikelnr: "0701047"
+    einheit: Stk.
+    preis: 35.90
+    ust: 7
+  proshape-all-in-1-chocolate:
+    text: "FitLine ProShape All-in-1 Chocolate"
+    detail: "Art.-Nr. 0701045 · 420 g"
+    artikelnr: "0701045"
+    einheit: Stk.
+    preis: 35.90
+    ust: 7
+  proshape-all-in-1-cocos:
+    text: "FitLine ProShape All-in-1 Cocos"
+    detail: "Art.-Nr. 0701048 · 420 g"
+    artikelnr: "0701048"
+    einheit: Stk.
+    preis: 35.90
+    ust: 7
+  proshape-all-in-1-mango:
+    text: "FitLine ProShape All-in-1 Mango"
+    detail: "Art.-Nr. 0701051 · 420 g"
+    artikelnr: "0701051"
+    einheit: Stk.
+    preis: 35.90
+    ust: 7
+  proshape-all-in-1-mousse-au-chocolat:
+    text: "FitLine ProShape All-in-1 Mousse au Chocolat"
+    detail: "Art.-Nr. 0701046 · 420 g"
+    artikelnr: "0701046"
+    einheit: Stk.
+    preis: 35.90
+    ust: 7
+  proshape-all-in-1-waldfrucht:
+    text: "FitLine ProShape All-in-1 Waldfrucht"
+    detail: "Art.-Nr. 0701050 · 420 g"
+    artikelnr: "0701050"
+    einheit: Stk.
+    preis: 35.90
+    ust: 7
+  proshape2go-choco-crunch-riegel:
+    text: "FitLine ProShape2go Choco Crunch Riegel"
+    detail: "Art.-Nr. 9711037 · 744 g"
+    artikelnr: "9711037"
+    einheit: Stk.
+    preis: 37.50
+    ust: 7
+  proshape2go-choco-slim-riegel:
+    text: "FitLine ProShape2go Choco Slim Riegel"
+    detail: "Art.-Nr. 0711051 · 768 g"
+    artikelnr: "0711051"
+    einheit: Stk.
+    preis: 42.00
+    ust: 7
+  proshape2go-white-choco-slim-riegel:
+    text: "FitLine ProShape2go White Choco Slim Riegel"
+    detail: "Art.-Nr. 0711052 · 768 g"
+    artikelnr: "0711052"
+    einheit: Stk.
+    preis: 42.00
+    ust: 7
+  topshape:
+    text: "FitLine TopShape"
+    detail: "Art.-Nr. 0704031 · 113,22 g"
+    artikelnr: "0704031"
+    einheit: Stk.
+    preis: 87.10
+    ust: 7
+
+  # ---- Fitness & Sport ----
+  creatine-plus:
+    text: "FitLine Creatine+"
+    detail: "Art.-Nr. 0709065 · 300 g"
+    artikelnr: "0709065"
+    einheit: Stk.
+    preis: 27.40
+    ust: 7
+  fitness-drink:
+    text: "FitLine Fitness-Drink"
+    detail: "Art.-Nr. 0703009 · 450 g"
+    artikelnr: "0703009"
+    einheit: Stk.
+    preis: 41.20
+    ust: 7
+  proshape-amino:
+    text: "FitLine ProShape Amino"
+    detail: "Art.-Nr. 0704022 · 115 g"
+    artikelnr: "0704022"
+    einheit: Stk.
+    preis: 52.90
+    ust: 7
+  protein-max-riegel:
+    text: "FitLine Protein Max Riegel"
+    detail: "Art.-Nr. 9711038 · 500 g"
+    artikelnr: "9711038"
+    einheit: Stk.
+    preis: 28.70
+    ust: 7
+  protein-riegel:
+    text: "FitLine Protein Riegel"
+    detail: "Art.-Nr. 9711039 · 400 g"
+    artikelnr: "9711039"
+    einheit: Stk.
+    preis: 28.70
+    ust: 7
+  whey:
+    text: "FitLine Whey"
+    detail: "Art.-Nr. 0709031 · 750 g"
+    artikelnr: "0709031"
+    einheit: Stk.
+    preis: 51.50
+    ust: 7
+
+  # ---- Individuell ----
+  activize-power-drink:
+    text: "FitLine Activize POWER DRINK"
+    detail: "Art.-Nr. 0712065 · 250 ml"
+    artikelnr: "0712065"
+    einheit: Stk.
+    preis: 1.95
+    ust: 19
+  activize-power-drink-24-dosen:
+    text: "FitLine Activize POWER DRINK (24 Dosen)"
+    detail: "Art.-Nr. 9712058 · 6000 ml"
+    artikelnr: "9712058"
+    einheit: Stk.
+    preis: 43.00
+    ust: 19
+  activize2go:
+    text: "FitLine Activize2GO"
+    detail: "Art.-Nr. 0711047 · 480 g"
+    artikelnr: "0711047"
+    einheit: Stk.
+    preis: 37.50
+    ust: 7
+  aktivierungs-set:
+    text: "FitLine Aktivierungs-Set"
+    detail: "Art.-Nr. 97001018 · 315 g"
+    artikelnr: "97001018"
+    einheit: Set
+    preis: 84.50
+    ust: 7
+  basen-plus:
+    text: "FitLine Basen Plus"
+    detail: "Art.-Nr. 0702007 · 180 g"
+    artikelnr: "0702007"
+    einheit: Stk.
+    preis: 24.40
+    ust: 7
+  c-balance:
+    text: "FitLine C-Balance"
+    detail: "Art.-Nr. 0709048 · 150 g"
+    artikelnr: "0709048"
+    einheit: Stk.
+    preis: 36.70
+    ust: 7
+  d-drink:
+    text: "FitLine D-Drink"
+    detail: "Art.-Nr. 0702083 · 98 g"
+    artikelnr: "0702083"
+    einheit: Stk.
+    preis: 32.50
+    ust: 7
+  ersatzinnenbehalter-fur-feel-good-yoghurtbereiter:
+    text: "FitLine Ersatzinnenbehälter für Feel-Good Yoghurtbereiter"
+    detail: "Art.-Nr. 110000600"
+    artikelnr: "110000600"
+    einheit: Stk.
+    preis: 3.80
+    ust: 19
+  feel-good-yoghurt:
+    text: "FitLine Feel-Good Yoghurt"
+    detail: "Art.-Nr. 9709071 · 303 g"
+    artikelnr: "9709071"
+    einheit: Stk.
+    preis: 26.90
+    ust: 7
+  feel-good-yoghurt-drink:
+    text: "FitLine Feel-Good Yoghurt Drink"
+    detail: "Art.-Nr. 9709001 · 303 g"
+    artikelnr: "9709001"
+    einheit: Stk.
+    preis: 26.90
+    ust: 7
+  gelenk-fit:
+    text: "FitLine Gelenk-Fit"
+    detail: "Art.-Nr. 0709056 · 270 g"
+    artikelnr: "0709056"
+    einheit: Stk.
+    preis: 62.90
+    ust: 7
+  gelenk-set:
+    text: "FitLine Gelenk-Set"
+    detail: "Art.-Nr. 9709066"
+    artikelnr: "9709066"
+    einheit: Set
+    preis: 86.90
+    ust: 7
+  ib:
+    text: "FitLine IB"
+    detail: "Art.-Nr. 0709055 · 25 ml"
+    artikelnr: "0709055"
+    einheit: Stk.
+    preis: 27.20
+    ust: 7
+  isoflavon:
+    text: "FitLine Isoflavon"
+    detail: "Art.-Nr. 0712021 · 100 ml"
+    artikelnr: "0712021"
+    einheit: Stk.
+    preis: 56.20
+    ust: 7
+  men-plus:
+    text: "FitLine Men+"
+    detail: "Art.-Nr. 0709040 · 150 g"
+    artikelnr: "0709040"
+    einheit: Stk.
+    preis: 49.90
+    ust: 7
+  munogen:
+    text: "FitLine Munogen"
+    detail: "Art.-Nr. 0704026 · 41 g"
+    artikelnr: "0704026"
+    einheit: Stk.
+    preis: 56.20
+    ust: 7
+  women-plus:
+    text: "FitLine Women+"
+    detail: "Art.-Nr. 0709062 · 150 g"
+    artikelnr: "0709062"
+    einheit: Stk.
+    preis: 49.90
+    ust: 7
+  yoghurtbereiter:
+    text: "FitLine Yoghurtbereiter"
+    detail: "Art.-Nr. 071300100"
+    artikelnr: "071300100"
+    einheit: Stk.
+    preis: 20.90
+    ust: 19
+  zellschutz:
+    text: "FitLine Zellschutz"
+    detail: "Art.-Nr. 0707013 · 450 g"
+    artikelnr: "0707013"
+    einheit: Stk.
+    preis: 41.90
+    ust: 7
+  zellschutz-apfel:
+    text: "FitLine Zellschutz Apfel"
+    detail: "Art.-Nr. 0707014 · 450 g"
+    artikelnr: "0707014"
+    einheit: Stk.
+    preis: 44.90
+    ust: 7
+  microsolve-plus-heart-duo:
+    text: "FitLine microSolve+ Heart Duo"
+    detail: "Art.-Nr. 0712063 · 51 ml"
+    artikelnr: "0712063"
+    einheit: Stk.
+    preis: 62.50
+    ust: 7
+  microsolve-plus-lutein:
+    text: "FitLine microSolve+ Lutein"
+    detail: "Art.-Nr. 0712062 · 30 ml"
+    artikelnr: "0712062"
+    einheit: Stk.
+    preis: 33.50
+    ust: 7
+  microsolve-plus-omega-3:
+    text: "FitLine microSolve+ Omega 3"
+    detail: "Art.-Nr. 0712067 · 51 ml"
+    artikelnr: "0712067"
+    einheit: Stk.
+    preis: 33.50
+    ust: 7
+  microsolve-plus-omega-3-plus:
+    text: "FitLine microSolve+ Omega 3+"
+    detail: "Art.-Nr. 0712073 · 100 ml"
+    artikelnr: "0712073"
+    einheit: Stk.
+    preis: 44.50
+    ust: 7
+  microsolve-plus-q10:
+    text: "FitLine microSolve+ Q10"
+    detail: "Art.-Nr. 0712066 · 30 ml"
+    artikelnr: "0712066"
+    einheit: Stk.
+    preis: 41.90
+    ust: 7
+
+  # ---- Optimalversorgung ----
+  ac-tea-punch:
+    text: "FitLine AC-Tea Punch"
+    detail: "Art.-Nr. 0708057 · 175 g"
+    artikelnr: "0708057"
+    einheit: Stk.
+    preis: 31.50
+    ust: 7
+  activize-lemon-lime:
+    text: "FitLine Activize Lemon-Lime"
+    detail: "Art.-Nr. 0708062 · 175 g"
+    artikelnr: "0708062"
+    einheit: Stk.
+    preis: 31.50
+    ust: 7
+  activize-oxyplus:
+    text: "FitLine Activize Oxyplus"
+    detail: "Art.-Nr. 0708054 · 175 g"
+    artikelnr: "0708054"
+    einheit: Stk.
+    preis: 31.50
+    ust: 7
+  activize-sensitive:
+    text: "FitLine Activize Sensitive"
+    detail: "Art.-Nr. 0708055 · 175 g"
+    artikelnr: "0708055"
+    einheit: Stk.
+    preis: 31.50
+    ust: 7
+  basics:
+    text: "FitLine Basics"
+    detail: "Art.-Nr. 0705066 · 360 g"
+    artikelnr: "0705066"
+    einheit: Stk.
+    preis: 61.90
+    ust: 7
+  generation-50-plus:
+    text: "FitLine Generation 50+"
+    detail: "Art.-Nr. 0705053 · 150 g"
+    artikelnr: "0705053"
+    einheit: Stk.
+    preis: 89.20
+    ust: 7
+  optimal-set-basics-plus-activize-oxyplus-plus-restorate-citrus-dose:
+    text: "FitLine Optimal-Set (Basics + Activize Oxyplus + Restorate Citrus Dose)"
+    detail: "Art.-Nr. 9700706 · 735 g"
+    artikelnr: "9700706"
+    einheit: Set
+    preis: 111.90
+    ust: 7
+  optimal-set-basics-plus-activize-oxyplus-plus-restorate-citrus:
+    text: "FitLine Optimal-Set (Basics + Activize Oxyplus + Restorate Citrus)"
+    detail: "Art.-Nr. 97001079 · 735 g"
+    artikelnr: "97001079"
+    einheit: Set
+    preis: 111.90
+    ust: 7
+  optimal-set-basics-plus-activize-oxyplus-plus-restorate-exotic:
+    text: "FitLine Optimal-Set (Basics + Activize Oxyplus + Restorate Exotic)"
+    detail: "Art.-Nr. 9700979 · 735 g"
+    artikelnr: "9700979"
+    einheit: Set
+    preis: 111.90
+    ust: 7
+  optimal-set-basics-plus-activize-sensitive-plus-restorate-citrus-dose:
+    text: "FitLine Optimal-Set (Basics + Activize Sensitive + Restorate Citrus Dose)"
+    detail: "Art.-Nr. 9700796 · 735 g"
+    artikelnr: "9700796"
+    einheit: Set
+    preis: 111.90
+    ust: 7
+  optimal-set-powercocktail-plus-restorate-citrus:
+    text: "FitLine Optimal-Set (PowerCocktail + Restorate Citrus)"
+    detail: "Art.-Nr. 9700731 · 650 g"
+    artikelnr: "9700731"
+    einheit: Set
+    preis: 111.90
+    ust: 7
+  optimal-set-powercocktail-plus-restorate:
+    text: "FitLine Optimal-Set (PowerCocktail + Restorate)"
+    detail: "Art.-Nr. 9700977 · 650 g"
+    artikelnr: "9700977"
+    einheit: Set
+    preis: 111.90
+    ust: 7
+  optimal-set-powercocktail-plus-restorate-citrus-dose:
+    text: "FitLine Optimal-Set (PowerCocktail+ Restorate Citrus Dose)"
+    detail: "Art.-Nr. 9700376 · 650 g"
+    artikelnr: "9700376"
+    einheit: Set
+    preis: 111.90
+    ust: 7
+  optimal-set-50-plus-powercocktail-plus-restorate-plus-generation-50-plus:
+    text: "FitLine Optimal-Set 50+ (PowerCocktail + Restorate + Generation 50+)"
+    detail: "Art.-Nr. 9700162 · 800 g"
+    artikelnr: "9700162"
+    einheit: Set
+    preis: 200.60
+    ust: 7
+  powercocktail:
+    text: "FitLine PowerCocktail"
+    detail: "Art.-Nr. 0705067 · 450 g"
+    artikelnr: "0705067"
+    einheit: Stk.
+    preis: 93.50
+    ust: 7
+  powercocktail-junior:
+    text: "FitLine PowerCocktail Junior"
+    detail: "Art.-Nr. 0705068 · 210 g"
+    artikelnr: "0705068"
+    einheit: Stk.
+    preis: 33.50
+    ust: 7
+  restorate-citrus:
+    text: "FitLine Restorate Citrus"
+    detail: "Art.-Nr. 0702037 · 200 g"
+    artikelnr: "0702037"
+    einheit: Stk.
+    preis: 25.00
+    ust: 7
+  restorate-citrus-dose:
+    text: "FitLine Restorate Citrus (Dose)"
+    detail: "Art.-Nr. 0702005 · 200 g"
+    artikelnr: "0702005"
+    einheit: Stk.
+    preis: 21.60
+    ust: 7
+  restorate-exotic:
+    text: "FitLine Restorate Exotic"
+    detail: "Art.-Nr. 0702058 · 200 g"
+    artikelnr: "0702058"
+    einheit: Stk.
+    preis: 25.00
+    ust: 7
+  topshape-optimal-set-powercocktail-plus-restorate-citrus-plus-topshape-plus-2x-proshape:
+    text: "FitLine TopShape Optimal-Set (PowerCocktail + Restorate Citrus + TopShape + 2x ProShape)"
+    detail: "Art.-Nr. 9700095 · 1603,22 g"
+    artikelnr: "9700095"
+    einheit: Set
+    preis: 249.90
+    ust: 7
+  topshape-starterset-topshape-plus-powercocktail-plus-restorate-citrus:
+    text: "FitLine TopShape Starterset (TopShape + PowerCocktail + Restorate Citrus)"
+    detail: "Art.-Nr. 9700093 · 763,22 g"
+    artikelnr: "9700093"
+    einheit: Set
+    preis: 182.65
+    ust: 7
+
+  # ---- Sonstiges ----
+  3-plus-1-isoflavon:
+    text: "FitLine 3+1 Isoflavon"
+    detail: "Art.-Nr. 9712200 · 400 ml"
+    artikelnr: "9712200"
+    einheit: Stk.
+    preis: 168.90
+    ust: 7
+  ersatzdeckel-fitline-feel-good-innenbehalter:
+    text: "FitLine Ersatzdeckel FitLine Feel Good Innenbehälter"
+    detail: "Art.-Nr. 1100007"
+    artikelnr: "1100007"
+    einheit: Stk.
+    preis: 1.50
+    ust: 19
+  fitline-weihnachts-set-1-bestellung-nur-uber-dhl-moglich:
+    text: "FitLine Weihnachts-Set 1 - Bestellung nur über DHL möglich"
+    detail: "Art.-Nr. 9309826"
+    artikelnr: "9309826"
+    einheit: Set
+    preis: 177.90
+    ust: 19
+  fitline-weihnachts-set-2-bestellung-nur-uber-dhl-moglich:
+    text: "FitLine Weihnachts-Set 2 - Bestellung nur über DHL möglich"
+    detail: "Art.-Nr. 9309827"
+    artikelnr: "9309827"
+    einheit: Set
+    preis: 177.90
+    ust: 19
+  riegel-test-set:
+    text: "FitLine Riegel Test-Set"
+    detail: "Art.-Nr. 0711055"
+    artikelnr: "0711055"
+    einheit: Set
+    preis: 13.50
+    ust: 7
+
+  # ---- Nicht mehr im Shop (von Mark bestätigt; Preis aus der Bestellung) ----
+  acti-peach-eistee:
+    text: "FitLine Activize Peach Eistee"
+    detail: "limitierte Sorte"
+    einheit: "Stk."
+    preis: null
+    ust: 7
+
+  # ---- Eigene Positionen ----
+  versand:
+    text: Versandkosten
+    einheit: pausch.
+    preis: 0.00
+    ust: 7   # folgt der Ware; bei 7 % und 19 % gemischt aufteilen (zweite Position mit ust: 19)

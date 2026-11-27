@@ -1,0 +1,1 @@
+fonttools>=4.40  # wandelt Inter (OTF) für reportlab um; ohne: Liberation Sans

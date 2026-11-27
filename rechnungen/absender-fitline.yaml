@@ -1,0 +1,38 @@
+# Absenderprofil für FitLine-Rechnungen. Überschreibt nur die hier genannten
+# Felder aus absender.yaml (USt-IdNr., Bank, Nummernkreis bleiben gleich –
+# es ist dasselbe Unternehmen, also ein gemeinsamer Nummernkreis).
+# Im Beleg aktiviert mit:  absender: fitline
+
+name: Wellness 4 You Wolfsburg
+inhaber: Mark von Daak        # Pflicht: voller Name des Inhabers (Einzelunternehmen)
+zusatz: Inhaber Mark von Daak
+strasse: Rabenbergstraße 16
+plz_ort: 38444 Wolfsburg
+schluss: Vielen Dank für Ihre Bestellung!
+gruss: |
+  Mit freundlichen Grüßen
+  Mark von Daak
+  Wellness 4 You Wolfsburg
+
+# Standard-Rabatte je Kundengruppe (Prozent auf die ganze Rechnung), von Mark
+# bestätigt: Kunden und Teampartner bekommen in der Regel 20 %.
+# Reihenfolge: Angabe im Beleg > Sonderaktion (wenn höher) > persönlicher
+# Rabatt im Kundenstamm > Gruppe.
+standardgruppe: kunde        # gilt, wenn weder Kunde noch Gruppe angegeben ist
+rabattgruppen:
+  kunde:
+    rabatt: 20
+    text: Kundenrabatt
+  teampartner:
+    rabatt: 20
+    text: Teampartner-Rabatt
+
+# Sonderrabattaktionen: gelten automatisch für alle Rechnungen mit Datum im
+# Zeitraum (nur wenn höher als der normale Rabatt). Erzwingen im Beleg mit
+# aktion: <name>. Optional nur für bestimmte Gruppen: gruppen: [teampartner]
+aktionen: []
+#  - name: Black Week
+#    text: Black-Week-Rabatt
+#    rabatt: 30
+#    von: 2026-11-27
+#    bis: 2026-12-01

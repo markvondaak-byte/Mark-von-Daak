@@ -1,0 +1,46 @@
+# FitLine-Verkauf an Endkunden. Produkte stehen in rechnungen/kataloge/fitline.yaml
+# Liste anzeigen: python3 rechnungen/rechnung.py artikel fitline
+# Preise aktualisieren: python3 rechnungen/kataloge/fitline_aktualisieren.py
+art: rechnung
+nummer: auto
+datum: heute
+leistungsdatum: heute     # Liefer-/Übergabedatum (Pflicht), z. B. 2026-11-27
+absender: fitline        # Wellness 4 You Wolfsburg (rechnungen/absender-fitline.yaml)
+katalog: fitline
+preise: brutto            # Katalogpreise sind Endkundenpreise inkl. USt.
+
+kunde: ""                 # Kürzel aus dem Kundenstamm (privat/kunden.yaml) – füllt Empfänger + Rabatt
+gruppe: ""                # kunde | teampartner – ohne Kundenstamm: nur Gruppen-Rabatt
+                          # (Rabatt hier im Beleg angeben geht immer vor)
+empfaenger:
+  name: ""
+  strasse: ""
+  plz_ort: ""
+  kundennummer: ""
+
+betreff: FitLine-Produkte
+einleitung: "Für Ihre Bestellung berechne ich Ihnen:"
+
+positionen:
+  - artikel: optimal-set
+    menge: 1
+  # - artikel: powercocktail
+  #   menge: 2
+  # - artikel: versand
+  #   preis: 4.90
+  # - artikel: "0116122"            # auch per Artikelnummer (hier 4ever, 19 %)
+  #   menge: 1
+  #   rabatt: 10                     # Rabatt auf DIESES Produkt in Prozent …
+  #   rabatt_betrag: 5.00            # … oder als fester Euro-Betrag
+  #   rabatt_text: Kundenrabatt      # Bezeichnung auf der Rechnung (Standard: Rabatt)
+
+# Rabatt auf die ganze Rechnung (wird bei 7 % und 19 % automatisch anteilig verteilt):
+# rabatt_prozent: 10
+# rabatt_betrag: 10.00
+# rabatt_text: Treuerabatt
+
+zahlungsziel_tage: 7
+bezahlt:                  # Mark schickt bereits bezahlte Bestellungen -> Quittungsvermerk
+  datum: heute            # oder Zahlungsdatum, z. B. 2026-11-27
+  # art: bar              # optional: bar, Überweisung, PayPal …
+# (Noch nicht bezahlt? Den ganzen bezahlt:-Block löschen -> Zahlungsaufforderung mit GiroCode)
