@@ -206,6 +206,9 @@ invoicehome.com. Anleitung: `rechnungen/README.md`.
   `rabatt_betrag:` (€), auf alles `rabatt_prozent:` / `rabatt_betrag:`,
   Bezeichnung `rabatt_text:`. Nie Katalogpreise ändern, um Rabatte
   abzubilden. Fehlt die Angabe, wie viel Rabatt, nachfragen.
+- **Verkaufsliste:** `python3 rechnungen/rechnung.py verkaeufe [--jahr J]
+  [--fitline]` → Excel (alle Positionen + Summen je Produkt) und CSV. Fragt
+  Mark nach Verkäufen/Umsätzen, diese Liste erzeugen und schicken.
 - Bei Barzahlung/PayPal sofort `bezahlt:` setzen (Quittungsvermerk);
   Storno nur über `storno`, nie eine Nummer neu vergeben oder löschen.
 - Nach jeder Rechnung `rechnungen/nummern.json` committen und pushen

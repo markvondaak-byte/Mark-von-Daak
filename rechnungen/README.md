@@ -27,6 +27,7 @@ Kleinunternehmer ja/nein.
 | Zahlung eingegangen | `python3 rechnungen/rechnung.py bezahlt <rechnung.yaml> --art Überweisung --quittung` |
 | Rechnung stornieren | `python3 rechnungen/rechnung.py storno <rechnung.yaml>` |
 | Übersicht offen/bezahlt + CSV | `python3 rechnungen/rechnung.py liste --jahr 2026` |
+| Liste aller Produktverkäufe (Excel + CSV) | `python3 rechnungen/rechnung.py verkaeufe --jahr 2026` (`--fitline` = nur FitLine) |
 | Paket für die Steuer (ZIP) | `python3 rechnungen/rechnung.py archiv --jahr 2026` |
 
 Arten: `rechnung`, `angebot`, `quittung`, `storno`, `korrektur`, `proforma`,
@@ -175,3 +176,19 @@ rechnungen/            ← privates Repository markvondaak-byte/rechnungen
 ```
 
 `python3 rechnungen/rechnung.py sichern` committet und pusht die Ablage.
+
+## Verkaufsliste
+
+`verkaeufe` erzeugt `verkaeufe.xlsx` mit zwei Blättern:
+
+- **Alle Verkäufe:** jede verkaufte Position mit Rechnungsdatum,
+  Leistungsdatum, Rechnungsnummer, Status, Kunde, Artikelnummer, Produkt,
+  Menge, Einzelpreis, Rabatt in Euro, gezahltem Betrag (brutto, USt., netto),
+  Zahlungsart und Zahlungsdatum. Mit Filter und Summenzeile, die beim
+  Filtern mitrechnet.
+- **Nach Produkt:** Menge, Anzahl Rechnungen, Rabatt, Umsatz brutto und
+  netto und Ø-Preis je Stück, nach Umsatz sortiert.
+
+Rabatte auf die ganze Rechnung werden anteilig auf die Positionen verteilt.
+Stornos stehen mit negativer Menge drin und heben sich auf. Das
+`archiv`-ZIP enthält die Liste automatisch.

@@ -978,6 +978,143 @@ def cmd_liste(args):
     return csv_pfad
 
 
+def verkaufszeilen(jahr: int | None, nur_fitline: bool = False) -> list[dict]:
+    """Jede verkaufte Position einzeln – Rechnungsrabatte anteilig auf die Positionen verteilt."""
+    zeilen = []
+    for p, b in alle_belege():
+        art = str(b.get("art", "rechnung"))
+        if art not in STEUERBELEGE or str(b.get("nummer", "auto")) == "auto":
+            continue
+        if nur_fitline and b.get("absender") != "fitline" and b.get("katalog") != "fitline":
+            continue
+        d = datum(b.get("datum"))
+        if jahr and d.year != jahr:
+            continue
+        r = berechne(b)
+        e = b.get("empfaenger") or {}
+        bz = b.get("bezahlt") if isinstance(b.get("bezahlt"), dict) else {}
+        status = ("storniert" if b.get("storniert_durch") else "Storno" if art == "storno" else
+                  "bezahlt" if (b.get("bezahlt") or art == "quittung") else "offen")
+        for g in r["gruppen"]:
+            teil = [z for z in r["zeilen"] if z["satz"] == g["satz"]]
+            summe = sum((z["betrag"] for z in teil), D0)
+            rest = g["abzug"]
+            for n, z in enumerate(teil):
+                anteil = rest if n == len(teil) - 1 else (rund(g["abzug"] * z["betrag"] / summe) if summe else D0)
+                rest -= anteil
+                bezahlt_betrag = z["betrag"] - anteil
+                if r["brutto_modus"]:
+                    brutto = bezahlt_betrag
+                    netto = rund(brutto / (1 + z["satz"] / 100))
+                else:
+                    netto = bezahlt_betrag
+                    brutto = rund(netto * (1 + z["satz"] / 100))
+                zeilen.append({
+                    "Rechnungsdatum": d, "Leistungsdatum": leistung_text(b.get("leistungsdatum")),
+                    "Rechnungsnr.": b["nummer"], "Status": status,
+                    "Kunde": e.get("firma") or e.get("name", ""),
+                    "Art.-Nr.": str(z.get("artikelnr", "") or ""), "Produkt": z.get("text", ""),
+                    "Menge": -float(z["menge"]) if art == "storno" else float(z["menge"]),
+                    "Einheit": z.get("einheit", ""),
+                    "Einzelpreis": float(z["preis"]),
+                    "Rabatt €": float(z["pos_rabatt"] + anteil),
+                    "Betrag brutto": float(brutto), "USt-Satz": float(z["satz"]) / 100,
+                    "USt €": float(brutto - netto), "Netto": float(netto),
+                    "Zahlungsart": bz.get("art", "") or "", "Bezahlt am": str(bz.get("datum", "") or ""),
+                    "Bereich": "FitLine" if b.get("absender") == "fitline" or b.get("katalog") == "fitline" else "Sonstiges",
+                })
+    zeilen.sort(key=lambda z: (z["Rechnungsdatum"], z["Rechnungsnr."]))
+    return zeilen
+
+
+def cmd_verkaeufe(args):
+    from openpyxl import Workbook
+    from openpyxl.styles import Alignment, Font, PatternFill
+    from openpyxl.utils import get_column_letter
+    zeilen = verkaufszeilen(args.jahr, args.fitline)
+    if not zeilen:
+        print("Keine gebauten Rechnungen gefunden.")
+        return
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Alle Verkäufe"
+    kopf = list(zeilen[0])
+    fett, kopf_fill = Font(bold=True, color="FFFFFF"), PatternFill("solid", fgColor="0077C2")
+    euro, prozent, datum_fmt = '#,##0.00 "€"', "0%", "DD.MM.YYYY"
+    ws.append(kopf)
+    for z in zeilen:
+        ws.append([z[k] for k in kopf])
+    n = len(zeilen) + 1
+    summen = {"Menge", "Rabatt €", "Betrag brutto", "USt €", "Netto"}
+    ws.append(["Summe"] + [f"=SUBTOTAL(9,{get_column_letter(i)}2:{get_column_letter(i)}{n})" if k in summen else None
+                           for i, k in enumerate(kopf[1:], 2)])
+    for i, k in enumerate(kopf, 1):
+        spalte = get_column_letter(i)
+        ws[f"{spalte}1"].font, ws[f"{spalte}1"].fill = fett, kopf_fill
+        ws[f"{spalte}1"].alignment = Alignment(vertical="center", wrap_text=True)
+        fmt = euro if k in ("Einzelpreis", "Rabatt €", "Betrag brutto", "USt €", "Netto") else \
+            prozent if k == "USt-Satz" else datum_fmt if k == "Rechnungsdatum" else None
+        for zelle in ws[spalte][1:]:
+            if fmt:
+                zelle.number_format = fmt
+        breite = max(len(str(k)), *(len(str(z[k])) for z in zeilen[:500])) + 2
+        ws.column_dimensions[spalte].width = min(max(breite, 9), 48)
+    for zelle in ws[n + 1]:
+        zelle.font = Font(bold=True)
+    ws.freeze_panes = "A2"
+    ws.auto_filter.ref = f"A1:{get_column_letter(len(kopf))}{n}"
+
+    # Zusammenfassung je Produkt (Stornos heben sich auf)
+    je = {}
+    for z in zeilen:
+        k = (z["Art.-Nr."], z["Produkt"])
+        x = je.setdefault(k, {"Menge": 0.0, "Rabatt €": 0.0, "Betrag brutto": 0.0, "Netto": 0.0, "Rechnungen": set()})
+        x["Menge"] += z["Menge"]
+        for f in ("Rabatt €", "Betrag brutto", "Netto"):
+            x[f] += z[f]
+        if z["Status"] not in ("Storno", "storniert"):
+            x["Rechnungen"].add(z["Rechnungsnr."])
+    ws2 = wb.create_sheet("Nach Produkt")
+    kopf2 = ["Art.-Nr.", "Produkt", "Menge", "Rechnungen", "Rabatt €", "Umsatz brutto", "Umsatz netto", "Ø Preis je Stück"]
+    ws2.append(kopf2)
+    for (nr, name), x in sorted(je.items(), key=lambda kv: -kv[1]["Betrag brutto"]):
+        if abs(x["Menge"]) < 1e-9 and abs(x["Betrag brutto"]) < 0.005:
+            continue
+        ws2.append([nr, name, x["Menge"], len(x["Rechnungen"]), round(x["Rabatt €"], 2),
+                    round(x["Betrag brutto"], 2), round(x["Netto"], 2),
+                    round(x["Betrag brutto"] / x["Menge"], 2) if x["Menge"] else None])
+    m = ws2.max_row
+    ws2.append(["Summe", None, f"=SUM(C2:C{m})", None, f"=SUM(E2:E{m})", f"=SUM(F2:F{m})", f"=SUM(G2:G{m})", None])
+    for i, k in enumerate(kopf2, 1):
+        spalte = get_column_letter(i)
+        ws2[f"{spalte}1"].font, ws2[f"{spalte}1"].fill = fett, kopf_fill
+        for zelle in ws2[spalte][1:]:
+            if k in ("Rabatt €", "Umsatz brutto", "Umsatz netto", "Ø Preis je Stück"):
+                zelle.number_format = euro
+        ws2.column_dimensions[spalte].width = {"Produkt": 44}.get(k, 15)
+    for zelle in ws2[m + 1]:
+        zelle.font = Font(bold=True)
+    ws2.freeze_panes = "A2"
+
+    OUT.mkdir(parents=True, exist_ok=True)
+    name = f"verkaeufe{'-fitline' if args.fitline else ''}{'-' + str(args.jahr) if args.jahr else ''}"
+    ziel = OUT / f"{name}.xlsx"
+    wb.save(ziel)
+    with open(OUT / f"{name}.csv", "w", newline="", encoding="utf-8-sig") as f:
+        w = csv.writer(f, delimiter=";")
+        w.writerow(kopf)
+        for z in zeilen:
+            w.writerow([z[k].strftime("%d.%m.%Y") if isinstance(z[k], dt.date) else
+                        (f"{z[k]:.2f}".replace(".", ",") if isinstance(z[k], float) else z[k]) for k in kopf])
+    umsatz = sum(z["Betrag brutto"] for z in zeilen)
+    stueck = sum(x["Menge"] for x in je.values())
+    print(f"{len(zeilen)} Positionen · {stueck:g} Stück · Umsatz brutto {geld(dec(round(umsatz, 2)))}")
+    for (nr, name_), x in [kv for kv in sorted(je.items(), key=lambda kv: -kv[1]["Betrag brutto"])
+                           if abs(kv[1]["Menge"]) > 1e-9 or abs(kv[1]["Betrag brutto"]) > 0.005][:10]:
+        print(f"  {x['Menge']:>5g} × {name_[:44]:<44} {geld(dec(round(x['Betrag brutto'], 2))):>12}")
+    print(f"✓ {rel(ziel)} (+ CSV)")
+
+
 def cmd_archiv(args):
     csv_pfad = cmd_liste(args)
     if not csv_pfad:
@@ -985,6 +1122,12 @@ def cmd_archiv(args):
     ziel = OUT / f"rechnungen-{args.jahr or 'alle'}.zip"
     with zipfile.ZipFile(ziel, "w", zipfile.ZIP_DEFLATED) as z:
         z.write(csv_pfad, csv_pfad.name)
+        args.fitline = False
+        cmd_verkaeufe(args)
+        for endung in ("xlsx", "csv"):
+            vk = OUT / f"verkaeufe{'-' + str(args.jahr) if args.jahr else ''}.{endung}"
+            if vk.exists():
+                z.write(vk, vk.name)
         for zeile in ausgangsbuch(args.jahr):
             pdf = OUT / f"{zeile['Nummer']}.pdf"
             if not pdf.exists():
@@ -1041,6 +1184,10 @@ def main():
     p.add_argument("--art", help="z. B. Überweisung, bar, PayPal")
     p.add_argument("--quittung", action="store_true", help="PDF mit Zahlungsvermerk neu bauen")
     p.set_defaults(f=cmd_bezahlt)
+    p = sub.add_parser("verkaeufe", help="Liste aller Produktverkäufe (Excel + CSV)")
+    p.add_argument("--jahr", type=int)
+    p.add_argument("--fitline", action="store_true", help="nur FitLine-Rechnungen")
+    p.set_defaults(f=cmd_verkaeufe)
     p = sub.add_parser("sichern", help="Belege und PDFs ins private Repository committen und pushen")
     p.add_argument("-m", "--nachricht")
     p.set_defaults(f=cmd_sichern)
