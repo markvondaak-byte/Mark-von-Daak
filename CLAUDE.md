@@ -143,6 +143,6 @@ invoicehome.com. Anleitung: `rechnungen/README.md`.
   nächsten Sitzung lückenlos weiterläuft.
 - **Nie committen:** `rechnungen/belege/`, `rechnungen/privat/`,
   `rechnungen/out/` (Kundendaten, IBAN – das Repository ist öffentlich).
-- IBAN steht in `rechnungen/privat/bank.yaml`, die in einer neuen Sitzung
-  fehlt: Mark einmal nach der Bankverbindung fragen oder ohne IBAN/GiroCode
-  bauen und darauf hinweisen.
+- IBAN: aus `rechnungen/privat/bank.yaml` oder, in frischen Sitzungen, aus
+  der Umgebungsvariable `RECHNUNG_IBAN` (in der Cloud-Umgebung hinterlegt).
+  Fehlt beides, Mark fragen – die IBAN nie in eine committete Datei schreiben.

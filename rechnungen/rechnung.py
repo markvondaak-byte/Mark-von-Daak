@@ -146,6 +146,12 @@ def lade_absender(profil: str | None = None) -> dict:
         a.update(lade_yaml(datei))
     bank = PRIVAT / "bank.yaml"
     a["bank"] = lade_yaml(bank) if bank.exists() else {}
+    # Fallback für frische Cloud-Sitzungen: IBAN aus der Umgebung (nie im Repository)
+    import os
+    if not a["bank"].get("iban") and os.environ.get("RECHNUNG_IBAN"):
+        a["bank"] = {"iban": os.environ["RECHNUNG_IBAN"], "bic": os.environ.get("RECHNUNG_BIC", ""),
+                     "bank": os.environ.get("RECHNUNG_BANK", ""),
+                     "kontoinhaber": os.environ.get("RECHNUNG_KONTOINHABER", a.get("inhaber") or a.get("name", ""))}
     return a
 
 
