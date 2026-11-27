@@ -978,6 +978,19 @@ def cmd_liste(args):
     return csv_pfad
 
 
+def verkaufsdatum(b: dict) -> dt.date:
+    """Leistungsdatum (Tag oder Monat), sonst Rechnungsdatum – für Auswertungen nach Verkaufsjahr."""
+    ld = b.get("leistungsdatum")
+    if isinstance(ld, dt.date):
+        return ld
+    s = str(ld or "")
+    if re.fullmatch(r"\d{4}-\d{2}-\d{2}", s):
+        return dt.date.fromisoformat(s)
+    if re.fullmatch(r"\d{4}-\d{2}", s):
+        return dt.date.fromisoformat(s + "-01")
+    return datum(b.get("datum"))
+
+
 def verkaufszeilen(jahr: int | None, nur_fitline: bool = False) -> list[dict]:
     """Jede verkaufte Position einzeln – Rechnungsrabatte anteilig auf die Positionen verteilt."""
     zeilen = []
@@ -988,7 +1001,8 @@ def verkaufszeilen(jahr: int | None, nur_fitline: bool = False) -> list[dict]:
         if nur_fitline and b.get("absender") != "fitline" and b.get("katalog") != "fitline":
             continue
         d = datum(b.get("datum"))
-        if jahr and d.year != jahr:
+        vd = verkaufsdatum(b)
+        if jahr and vd.year != jahr:
             continue
         r = berechne(b)
         e = b.get("empfaenger") or {}
@@ -1010,7 +1024,7 @@ def verkaufszeilen(jahr: int | None, nur_fitline: bool = False) -> list[dict]:
                     netto = bezahlt_betrag
                     brutto = rund(netto * (1 + z["satz"] / 100))
                 zeilen.append({
-                    "Rechnungsdatum": d, "Leistungsdatum": leistung_text(b.get("leistungsdatum")),
+                    "Verkaufsdatum": vd, "Rechnungsdatum": d,
                     "Rechnungsnr.": b["nummer"], "Status": status,
                     "Kunde": e.get("firma") or e.get("name", ""),
                     "Art.-Nr.": str(z.get("artikelnr", "") or ""), "Produkt": z.get("text", ""),
@@ -1023,7 +1037,7 @@ def verkaufszeilen(jahr: int | None, nur_fitline: bool = False) -> list[dict]:
                     "Zahlungsart": bz.get("art", "") or "", "Bezahlt am": str(bz.get("datum", "") or ""),
                     "Bereich": "FitLine" if b.get("absender") == "fitline" or b.get("katalog") == "fitline" else "Sonstiges",
                 })
-    zeilen.sort(key=lambda z: (z["Rechnungsdatum"], z["Rechnungsnr."]))
+    zeilen.sort(key=lambda z: (z["Verkaufsdatum"], z["Rechnungsnr."]))
     return zeilen
 
 
@@ -1053,7 +1067,7 @@ def cmd_verkaeufe(args):
         ws[f"{spalte}1"].font, ws[f"{spalte}1"].fill = fett, kopf_fill
         ws[f"{spalte}1"].alignment = Alignment(vertical="center", wrap_text=True)
         fmt = euro if k in ("Einzelpreis", "Rabatt €", "Betrag brutto", "USt €", "Netto") else \
-            prozent if k == "USt-Satz" else datum_fmt if k == "Rechnungsdatum" else None
+            prozent if k == "USt-Satz" else datum_fmt if k in ("Verkaufsdatum", "Rechnungsdatum") else None
         for zelle in ws[spalte][1:]:
             if fmt:
                 zelle.number_format = fmt

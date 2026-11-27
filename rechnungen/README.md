@@ -181,8 +181,8 @@ rechnungen/            ← privates Repository markvondaak-byte/rechnungen
 
 `verkaeufe` erzeugt `verkaeufe.xlsx` mit zwei Blättern:
 
-- **Alle Verkäufe:** jede verkaufte Position mit Rechnungsdatum,
-  Leistungsdatum, Rechnungsnummer, Status, Kunde, Artikelnummer, Produkt,
+- **Alle Verkäufe:** jede verkaufte Position mit Verkaufsdatum
+  (= Leistungsdatum; danach richtet sich auch `--jahr`), Rechnungsdatum, Rechnungsnummer, Status, Kunde, Artikelnummer, Produkt,
   Menge, Einzelpreis, Rabatt in Euro, gezahltem Betrag (brutto, USt., netto),
   Zahlungsart und Zahlungsdatum. Mit Filter und Summenzeile, die beim
   Filtern mitrechnet.
