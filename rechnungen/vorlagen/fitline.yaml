@@ -24,6 +24,9 @@ positionen:
   #   menge: 2
   # - artikel: versand
   #   preis: 4.90
+  # - artikel: kosmetik             # Kosmetik/Shop-Artikel (19 %): Text und Preis angeben
+  #   text: FitLine skin Reinigungsgel
+  #   preis: 24.90
   # - text: Rabatt Stammkunde      # freie Position, Rabatt als Minusbetrag
   #   preis: -5.00
   #   ust: 7

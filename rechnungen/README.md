@@ -93,8 +93,11 @@ python3 rechnungen/rechnung.py neu rechnung --vorlage fitline --kunde "Lisa Must
 python3 rechnungen/rechnung.py bauen rechnungen/belege/<datei>.yaml
 ```
 
-Preise und Steuersätze im Katalog **vor der ersten echten Rechnung prüfen**
-(siehe Kopf der Katalogdatei).
+Steuersätze: Nahrungsergänzung 7 %, Kosmetik und übrige Shop-Artikel 19 %
+(wie von FitLine deklariert). Für Kosmetik und Zubehör gibt es die
+Sammelartikel `kosmetik` und `shopartikel`, dazu `text:` und `preis:` in die
+Position schreiben. Preise im Katalog **vor der ersten echten Rechnung mit
+der aktuellen Preisliste abgleichen**.
 
 ## Nummern über Sitzungen hinweg
 

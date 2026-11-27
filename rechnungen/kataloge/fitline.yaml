@@ -11,10 +11,11 @@
 #  * Preise stammen von einer Partnerseite (fitonline.de, Stand Nov. 2026, ohne
 #    Datum) und nicht aus deinem Partner-Backoffice. Mit deiner aktuellen
 #    Preisliste abgleichen und Packungsgrößen/Artikelnummern ergänzen.
-#  * Steuersatz: 7 % für Lebensmittel/Nahrungsergänzung angenommen
-#    (§ 12 Abs. 2 Nr. 1 UStG, Anlage 2). Die Einordnung einzelner Produkte
-#    (v. a. Getränkepulver, Sets) vom Steuerberater bestätigen lassen bzw. mit
-#    den Sätzen auf deinen PM-Einkaufsrechnungen abgleichen.
+#
+# STEUERSÄTZE (von Mark bestätigt, wie von FitLine deklariert):
+#  * Nahrungsergänzung: 7 %  (Standard dieses Katalogs)
+#  * Kosmetik:         19 %
+#  * alle übrigen Shop-Artikel (Zubehör, Shaker, Werbemittel …): 19 %
 #  * Produkte ohne Preis (preis: null) erst ausfüllen – sonst bricht das Bauen ab.
 
 katalog: FitLine
@@ -83,11 +84,26 @@ artikel:
   herbaslim-tee:   {text: FitLine Herbaslim Tee, einheit: Pck., preis: null}
   c-balance:       {text: FitLine C-Balance, einheit: Pck., preis: null}
   beauty:          {text: FitLine Beauty, einheit: Pck., preis: null}
-  # Kosmetik (z. B. FitLine skin) unterliegt 19 % USt.:
-  # skin-reinigung: {text: FitLine skin …, einheit: Stk., preis: null, ust: 19}
+
+  # ---- Kosmetik: 19 % ----------------------------------------------------
+  # Einzelne Produkte mit Preis hier ergänzen, z. B.
+  # skin-serum: {text: FitLine skin …, einheit: Stk., preis: 39.90, ust: 19}
+  kosmetik:        # Sammelartikel: in der Rechnung text: und preis: angeben
+    text: FitLine Kosmetik
+    einheit: Stk.
+    preis: null
+    ust: 19
+
+  # ---- Übrige Shop-Artikel (Zubehör, Shaker, Werbemittel …): 19 % --------
+  shopartikel:     # Sammelartikel: in der Rechnung text: und preis: angeben
+    text: FitLine Shop-Artikel
+    einheit: Stk.
+    preis: null
+    ust: 19
 
   versand:
     text: Versandkosten
     einheit: pausch.
     preis: 0.00
-    ust: 7   # Versand folgt dem Steuersatz der Ware (bei gemischten Sätzen aufteilen)
+    ust: 7   # Versand folgt der Ware; bei 7 % und 19 % gemischt nach Warenwert aufteilen
+             # oder als zwei Positionen (versand 7 % + versand mit ust: 19)

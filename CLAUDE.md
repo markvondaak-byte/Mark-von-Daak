@@ -134,6 +134,8 @@ invoicehome.com. Anleitung: `rechnungen/README.md`.
   Positionen (`artikel:` aus `rechnungen/kataloge/fitline.yaml`, `menge:`)
   eintragen → `bauen` → PDF **und** die Beleg-YAML mit SendUserFile
   schicken (Mark archiviert sie; Aufbewahrung 8 Jahre).
+- Steuersätze (von Mark bestätigt): Nahrungsergänzung 7 %, Kosmetik 19 %,
+  alle übrigen Shop-Artikel 19 %. Neue Produkte entsprechend einordnen.
 - Fehlt ein Produkt oder Preis im Katalog: Mark nach dem Preis fragen,
   im Katalog ergänzen und committen. Keine Preise erfinden.
 - Bei Barzahlung/PayPal sofort `bezahlt:` setzen (Quittungsvermerk);

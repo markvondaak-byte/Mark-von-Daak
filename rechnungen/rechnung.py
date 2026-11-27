@@ -504,7 +504,7 @@ def baue_pdf(pfad: Path) -> Path:
 
     doc = BaseDocTemplate(str(ziel), pagesize=A4, title=f"{titel} {b['nummer']}",
                           author=a.get("name", ""), subject=b.get("betreff", ""), creator="rechnung.py")
-    f1 = Frame(L, 32 * mm, W - L - R, H - 32 * mm - 98 * mm, id="f1", leftPadding=0, rightPadding=0)
+    f1 = Frame(L, 30 * mm, W - L - R, H - 30 * mm - 90 * mm, id="f1", leftPadding=0, rightPadding=0)
     f2 = Frame(L, 32 * mm, W - L - R, H - 32 * mm - 30 * mm, id="f2", leftPadding=0, rightPadding=0)
     doc.addPageTemplates([PageTemplate("erste", [f1], onPage=lambda c, d: rahmen(c, d, True), autoNextPageTemplate="weitere"),
                           PageTemplate("weitere", [f2], onPage=lambda c, d: rahmen(c, d, False))])
@@ -622,20 +622,22 @@ def baue_pdf(pfad: Path) -> Path:
         hinweise.append(esc(b["hinweis"]))
     schluss = b.get("schluss", a.get("schluss", "Vielen Dank für Ihr Vertrauen!"))
 
-    block = [Paragraph(h, s_text) for h in hinweise]
-    if block and qr:
+    block = []
+    for h in hinweise:
+        block += [Paragraph(h, s_text), Spacer(0, 2 * mm)]
+    if schluss:
+        block += [Spacer(0, 2 * mm), Paragraph(esc(schluss), s_text)]
+        if a.get("gruss"):
+            block += [Spacer(0, 2 * mm), Paragraph(esc(a["gruss"]), s_text)]
+    if qr:
+        # QR-Code rechts neben Zahlungshinweis und Gruß – spart eine Seite
         qr_tab = Table([[block, [qr, Paragraph("GiroCode: mit der<br/>Banking-App scannen", s_klein)]]],
                        colWidths=[breite - 32 * mm, 32 * mm])
         qr_tab.setStyle(TableStyle([("VALIGN", (0, 0), (-1, -1), "TOP"),
                                     ("LEFTPADDING", (0, 0), (-1, -1), 0)]))
         inhalt.append(KeepTogether([qr_tab]))
     else:
-        for p in block:
-            inhalt += [p, Spacer(0, 2 * mm)]
-    if schluss:
-        inhalt += [Spacer(0, 5 * mm), Paragraph(esc(schluss), s_text)]
-        if a.get("gruss"):
-            inhalt += [Spacer(0, 2 * mm), Paragraph(esc(a["gruss"]), s_text)]
+        inhalt += block
     doc.build(inhalt)
     print(f"✓ {ziel.relative_to(HIER.parent)}  ({geld(r['brutto'], wae)})")
     return ziel
