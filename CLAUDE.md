@@ -155,7 +155,8 @@ invoicehome.com. Anleitung: `rechnungen/README.md`.
   Etwas, das nicht im Shop ist: freie Position mit `text:`, `preis:`, `ust:`
   – Preis von Mark erfragen, nie erfinden.
 - **Kundenstamm und Rabattgruppen:** Mark gibt Kunden und Teampartnern in
-  der Regel 20–30 % Rabatt. Kunden stehen in `privat/kunden.yaml` der
+  der Regel 20–30 % Rabatt; Standard (bestätigt): Kunden 20 %,
+  Teampartner 30 %. Kunden stehen in `privat/kunden.yaml` der
   privaten Ablage (Muster `rechnungen/kunden.beispiel.yaml`) mit Anschrift,
   `gruppe: kunde|teampartner` und optional persönlichem `rabatt:`. Gruppen-
   Standard steht in `rechnungen/absender-fitline.yaml` (`rabattgruppen`).
