@@ -40,6 +40,7 @@ positionen:
 # rabatt_text: Treuerabatt
 
 zahlungsziel_tage: 7
-# bezahlt:                 # bei Barzahlung/PayPal sofort eintragen -> Quittungsvermerk
-#   datum: 2026-11-27
-#   art: bar
+bezahlt:                  # Mark schickt bereits bezahlte Bestellungen -> Quittungsvermerk
+  datum: heute            # oder Zahlungsdatum, z. B. 2026-11-27
+  # art: bar              # optional: bar, Überweisung, PayPal …
+# (Noch nicht bezahlt? Den ganzen bezahlt:-Block löschen -> Zahlungsaufforderung mit GiroCode)

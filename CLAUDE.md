@@ -138,6 +138,16 @@ invoicehome.com. Anleitung: `rechnungen/README.md`.
   `python3 rechnungen/rechnung.py sichern -m "Rechnungen: RE-… erstellt"`.
   Nur wenn das private Repository nicht erreichbar ist, gilt der Fallback
   unten (lokal + `rechnungen/nummern.json` im öffentlichen Repo).
+- **So schickt Mark Bestellungen:** Name des Kunden + bezahlte Produkte
+  (Produktnamen, Mengen), evtl. Rabatt/Aktion. Daraus ohne Rückfrage die
+  Rechnung bauen: Produktnamen dem Katalog zuordnen (bei Mehrdeutigkeit wie
+  „microSolve Hair+“ nachfragen), `bezahlt:` bleibt gesetzt (Quittungs-
+  vermerk, Datum = heute, falls Mark kein anderes nennt), Standard-Rabatt
+  greift automatisch. Bis 250 € brutto reicht der Name (Kleinbetrags-
+  rechnung, § 33 UStDV); darüber nach der Anschrift fragen, falls sie nicht
+  im Kundenstamm steht. Neue Kunden im Kundenstamm anlegen (Gruppe erfragen,
+  wenn unklar; Standard `kunde`). Danach PDF schicken und kurz Summe +
+  Rabatt nennen.
 - Ablauf: `neu rechnung --vorlage fitline --kunde "<Name>"` → Empfänger und
   Positionen (`artikel:` aus `rechnungen/kataloge/fitline.yaml`, `menge:`)
   eintragen → `bauen` → PDF **und** die Beleg-YAML mit SendUserFile

@@ -454,8 +454,12 @@ def pruefe(b: dict, a: dict, art: str) -> list[str]:
     if art in STEUERBELEGE:
         if not (a.get("ust_id") or a.get("steuernummer")):
             w.append("Absender: USt-IdNr. oder Steuernummer fehlt.")
-        if not (e.get("name") or e.get("firma")) or not e.get("plz_ort"):
-            w.append("Empfänger: Name und vollständige Anschrift fehlen.")
+        brutto = abs(berechne(b)["brutto"])
+        if not (e.get("name") or e.get("firma")):
+            w.append("Empfänger: Name fehlt.")
+        elif not e.get("plz_ort") and brutto > 250:
+            # bis 250 € brutto: Kleinbetragsrechnung (§ 33 UStDV), Kundenanschrift nicht nötig
+            w.append(f"Empfänger: Anschrift fehlt – Pflicht, weil über 250 € ({geld(brutto)}).")
         if not b.get("leistungsdatum") and art != "storno":
             w.append("Leistungsdatum/-zeitraum fehlt (Pflicht, auch wenn gleich Rechnungsdatum).")
         if b.get("steuerfall") == "reverse_charge" and not e.get("ust_id"):
@@ -507,6 +511,10 @@ def baue_pdf(pfad: Path) -> Path:
     b_datum = datum(b.get("datum"))
     if not b.get("datum") or str(b.get("datum")).lower() == "heute":
         schreibe_feld(pfad, "datum", b_datum.isoformat())
+    if isinstance(b.get("bezahlt"), dict) and str(b["bezahlt"].get("datum", "")).lower() == "heute":
+        b["bezahlt"]["datum"] = b_datum.isoformat()
+        text = pfad.read_text(encoding="utf-8")
+        pfad.write_text(re.sub(r"(?m)^(\s+datum:\s*)heute\b", rf"\g<1>{b_datum.isoformat()}", text, count=1), encoding="utf-8")
     if str(b.get("leistungsdatum", "")).lower() == "heute":
         b["leistungsdatum"] = b_datum.isoformat()
         schreibe_feld(pfad, "leistungsdatum", b["leistungsdatum"])
