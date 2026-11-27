@@ -14,7 +14,7 @@ gruss: |
   Mark von Daak
   Wellness 4 You Wolfsburg
 
-# Standard-Rabatte je Kundengruppe (Prozent auf die ganze Rechnung).
+# Standard-Rabatte je Kundengruppe (Prozent auf die ganze Rechnung), von Mark bestätigt.
 # Reihenfolge: Angabe im Beleg > persönlicher Rabatt im Kundenstamm > Gruppe.
 rabattgruppen:
   kunde:
