@@ -156,9 +156,18 @@ invoicehome.com. Anleitung: `rechnungen/README.md`.
   Position = genannter Preis (bei Menge > 1 und unklar, ob Stück- oder
   Gesamtpreis: nachfragen), **`rabatt_prozent: 0`** (kein Zusatzrabatt),
   `leistungsdatum` und `bezahlt: {datum, art}` = genanntes Datum.
-  Rechnungsdatum = Ausstellungstag (nie rückdatieren). Kurznamen: „Acti“ =
-  Activize (Sorte unklar → Text „FitLine Activize“, 7 %; nur „Power Drink“
-  in Dosen ist 19 %), „Heart Duo“ = microSolve+ Heart Duo usw.
+  Rechnungsdatum = Ausstellungstag (nie rückdatieren).
+- **Produktnamen:** Mark nennt Sorten meist mit („Acti Lemon“, „Peach
+  Eistee“ …). Zuordnung über die `aliase` im Katalog (gepflegt in
+  `ALIASE` in `fitline_aktualisieren.py`, z. B. acti-lemon, acti-sensitive,
+  ac-tea, resto, pc, heart-duo). „Acti“ ohne Sorte → Text „FitLine
+  Activize“ (7 %). Nur der fertige „Power Drink“ in Dosen hat 19 %.
+  **Nicht (mehr) im Shop** (z. B. limitierte Sorten wie Peach Eistee):
+  freie Position mit Marks Bezeichnung („FitLine Activize Peach Eistee“),
+  seinem Preis und dem Satz der Produktart (Pulver/Nahrungsergänzung 7 %,
+  Kosmetik/Zubehör/Fertiggetränk 19 %); bei Zweifel nachfragen. Neue
+  Kurznamen, die Mark öfter nutzt, in `ALIASE` ergänzen und Katalog neu
+  erzeugen.
   Ohne ✅ → offen (Zahlungsaufforderung, bezahlt-Block entfernen).
 - Ablauf: `neu rechnung --vorlage fitline --kunde "<Name>"` → Empfänger und
   Positionen (`artikel:` aus `rechnungen/kataloge/fitline.yaml`, `menge:`)

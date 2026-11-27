@@ -15,9 +15,29 @@ preise: brutto
 stand: 2026-11-27
 
 aliase:
-  optimal-set: optimal-set-powercocktail-plus-restorate
-  restorate: restorate-citrus
+  acti: activize-oxyplus
+  acti-oxyplus: activize-oxyplus
+  acti-cassis: activize-oxyplus
+  acti-lemon: activize-lemon-lime
+  acti-lemon-lime: activize-lemon-lime
+  acti-sensitive: activize-sensitive
+  acti-2go: activize2go
+  acti-to-go: activize2go
   activize: activize-oxyplus
+  ac-tea: ac-tea-punch
+  tea-punch: ac-tea-punch
+  power-drink: activize-power-drink
+  power-drink-24: activize-power-drink-24-dosen
+  optimal-set: optimal-set-powercocktail-plus-restorate
+  pc: powercocktail
+  powercocktail: powercocktail
+  pc-junior: powercocktail-junior
+  restorate: restorate-citrus
+  resto: restorate-citrus
+  resto-citrus: restorate-citrus
+  resto-exotic: restorate-exotic
+  resto-dose: restorate-citrus-dose
+  basics: basics
   omega-3: microsolve-plus-omega-3
   omega-3-plus: microsolve-plus-omega-3-plus
   q10: microsolve-plus-q10
@@ -25,8 +45,13 @@ aliase:
   lutein: microsolve-plus-lutein
   topshape: topshape
   zellschutz: zellschutz
+  zellschutz-apfel: zellschutz-apfel
   joghurt: feel-good-yoghurt
+  yoghurt: feel-good-yoghurt
   proshape-shake: proshape-all-in-1-chocolate
+  generation-50: generation-50-plus
+  gelenk-fit: gelenk-fit
+  basen-plus: basen-plus
 
 artikel:
 

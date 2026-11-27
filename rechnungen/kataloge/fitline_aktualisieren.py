@@ -25,9 +25,30 @@ ZIEL = HIER / "fitline.yaml"
 
 # Kurze Namen für häufige Produkte (zusätzlich zu den automatischen Schlüsseln)
 ALIASE = {
+    # Marks übliche Kurznamen (Bestellnachrichten) -> Artikelnummer
+    "acti": "0708054",                 # ohne Sorte: Oxyplus (Text auf der Rechnung neutral halten)
+    "acti-oxyplus": "0708054",
+    "acti-cassis": "0708054",
+    "acti-lemon": "0708062",
+    "acti-lemon-lime": "0708062",
+    "acti-sensitive": "0708055",
+    "acti-2go": "0711047",
+    "acti-to-go": "0711047",
+    "activize": "0708054",
+    "ac-tea": "0708057",
+    "tea-punch": "0708057",
+    "power-drink": "0712065",          # Fertiggetränk Dose – 19 %!
+    "power-drink-24": "9712058",
     "optimal-set": "9700977",          # Optimal-Set (PowerCocktail + Restorate)
+    "pc": "0705067",
+    "powercocktail": "0705067",
+    "pc-junior": "0705068",
     "restorate": "0702037",            # Restorate Citrus
-    "activize": "0708054",             # Activize Oxyplus
+    "resto": "0702037",
+    "resto-citrus": "0702037",
+    "resto-exotic": "0702058",
+    "resto-dose": "0702005",
+    "basics": "0705066",
     "omega-3": "0712067",
     "omega-3-plus": "0712073",
     "q10": "0712066",
@@ -35,8 +56,13 @@ ALIASE = {
     "lutein": "0712062",
     "topshape": "0704031",
     "zellschutz": "0707013",
+    "zellschutz-apfel": "0707014",
     "joghurt": "9709071",
+    "yoghurt": "9709071",
     "proshape-shake": "0701045",       # Sorte über text: anpassen
+    "generation-50": "0705053",
+    "gelenk-fit": "0709056",
+    "basen-plus": "0702007",
 }
 
 KATEGORIEN = {
