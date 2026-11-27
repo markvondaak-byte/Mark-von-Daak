@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rechnung – Mark von Daak Personal Training</title>
+<!--
+  Rechnungsvorlage Personal Training.
+  Ausfüllen: Datei im Browser öffnen, Felder anklicken, „Drucken / als PDF“.
+  Bankverbindung und Rechnungsnummer merkt sich nur dein Browser (localStorage),
+  sie landen nicht im Repository.
+  Leere Druckvorlage unterlagen/Rechnung-Vorlage.pdf erzeugen: node tools/unterlagen_pdf.js
+-->
+<style>
+  @font-face { font-family: "Inter"; font-weight: 400; src: url(../../personal-training/fonts/inter-400.woff2) format("woff2"); }
+  @font-face { font-family: "Inter"; font-weight: 600; src: url(../../personal-training/fonts/inter-600.woff2) format("woff2"); }
+  @font-face { font-family: "Inter Display"; font-weight: 800; src: url(../../personal-training/fonts/interdisplay-800.woff2) format("woff2"); }
+  @page { size: A4; margin: 14mm 16mm 12mm; }
+  :root { --blue: #38B6FF; --blue-deep: #0077C2; --blue-soft: #E6F5FF; --ink: #0F1720; --soft: #4A5563; --line: #C9D2DC; --dark: #0B1218; }
+  * { box-sizing: border-box; }
+  html { background: #E9EEF3; }
+  body { margin: 0; font-family: "Inter", sans-serif; color: var(--ink); font-size: 9.5pt; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  /* Bildschirm: Blatt auf grauem Grund, Werkzeugleiste oben */
+  .leiste { position: sticky; top: 0; z-index: 5; background: var(--dark); color: #fff; padding: 10px 16px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 13px; }
+  .leiste b { margin-right: 8px; }
+  .leiste button, .leiste select { font: 600 13px "Inter", sans-serif; border: 0; border-radius: 999px; padding: 8px 14px; cursor: pointer; background: #24303B; color: #fff; }
+  .leiste button.haupt { background: var(--blue); color: var(--dark); }
+  .leiste .trenner { flex: 1; }
+  .blatt { width: 210mm; min-height: 297mm; margin: 20px auto; background: #fff; padding: 14mm 16mm 12mm; box-shadow: 0 4px 24px rgba(0,0,0,.12); display: flex; flex-direction: column; }
+  @media (max-width: 860px) { .blatt { width: auto; min-height: 0; margin: 12px 16px; padding: 18px 16px; } }
+
+  @media print {
+    html { background: #fff; }
+    .leiste, .nur-bildschirm { display: none !important; }
+    .blatt { width: auto; min-height: 271mm; margin: 0; padding: 0; box-shadow: none; }
+  }
+
+  /* Eingabefelder sehen gedruckt wie Text aus */
+  input, textarea, select.feld { font: inherit; color: inherit; background: transparent; border: 0; border-bottom: 1px dashed transparent; padding: 0; width: 100%; outline: none; }
+  input:hover, textarea:hover, input:focus, textarea:focus { border-bottom-color: var(--blue); background: #F5FBFF; }
+  input:placeholder-shown, textarea:placeholder-shown { border-bottom-color: var(--line); }
+  ::placeholder { color: #9AA6B2; }
+  @media print { ::placeholder { color: transparent; } }
+  textarea { resize: none; line-height: 1.45; display: block; }
+  .r { text-align: right; }
+
+  .kopf { display: flex; justify-content: space-between; align-items: center; border-bottom: 2.5px solid var(--blue); padding-bottom: 3mm; }
+  .marke { display: flex; align-items: center; gap: 2.5mm; }
+  .marke img { height: 10mm; }
+  .marke b { display: block; font-family: "Inter Display"; font-weight: 800; font-size: 12pt; letter-spacing: .03em; }
+  .marke span { display: block; font-size: 6.5pt; font-weight: 600; letter-spacing: .3em; color: var(--blue-deep); margin-top: .5mm; }
+  .kontakt { text-align: right; font-size: 8pt; color: var(--soft); line-height: 1.5; }
+
+  .oben { display: grid; grid-template-columns: 1fr 72mm; gap: 10mm; margin-top: 9mm; }
+  .absenderzeile { font-size: 6.8pt; color: var(--soft); border-bottom: 1px solid var(--line); padding-bottom: 1mm; margin-bottom: 2.5mm; }
+  .empfaenger textarea { font-size: 10pt; min-height: 27mm; }
+  .eckdaten { width: 100%; border-collapse: collapse; }
+  .eckdaten td { padding: 1.1mm 0; vertical-align: baseline; }
+  .eckdaten td:first-child { color: var(--soft); font-size: 8.5pt; width: 33mm; white-space: nowrap; }
+  .eckdaten input { font-weight: 600; }
+
+  h1 { font-family: "Inter Display"; font-weight: 800; font-size: 22pt; letter-spacing: -.02em; margin: 10mm 0 1mm; }
+  .anrede { margin: 2mm 0 5mm; line-height: 1.5; }
+  .anrede textarea { min-height: 10mm; }
+
+  table.pos { width: 100%; border-collapse: collapse; table-layout: fixed; }
+  .pos th { background: var(--blue-soft); font-size: 7.5pt; font-weight: 600; color: var(--blue-deep); text-transform: uppercase; letter-spacing: .06em; padding: 2.2mm 2mm; text-align: left; border-bottom: 1.5px solid var(--blue); }
+  .pos td { padding: 2mm; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .pos td.nr { color: var(--blue-deep); font-weight: 600; }
+  .pos td.summe { font-weight: 600; text-align: right; white-space: nowrap; }
+  .pos textarea { min-height: 5mm; }
+  .pos .weg { border: 0; background: none; color: #C0392B; cursor: pointer; font-size: 14px; padding: 0; width: auto; }
+
+  .summen { margin-left: auto; width: 80mm; margin-top: 3mm; border-collapse: collapse; }
+  .summen td { padding: 1.6mm 2mm; }
+  .summen td:last-child { text-align: right; white-space: nowrap; }
+  .summen tr.gesamt td { font-family: "Inter Display"; font-weight: 800; font-size: 12pt; border-top: 2px solid var(--ink); padding-top: 2.5mm; }
+  .steuerhinweis { font-size: 8.5pt; color: var(--soft); margin: 4mm 0 0; }
+
+  .zahlung { margin-top: 7mm; display: grid; grid-template-columns: 1fr 1fr; gap: 8mm; }
+  .zahlung h2 { font-family: "Inter Display"; font-weight: 800; font-size: 10.5pt; margin: 0 0 2mm; }
+  .zahlung p { margin: 0 0 1.5mm; line-height: 1.5; }
+  .bank td { padding: .8mm 0; }
+  .bank td:first-child { color: var(--soft); font-size: 8.5pt; width: 26mm; }
+  .gruss { margin-top: 7mm; line-height: 1.5; }
+
+  .fuss { margin-top: auto; padding-top: 3mm; display: grid; grid-template-columns: repeat(3, 1fr); gap: 5mm; font-size: 7pt; color: var(--soft); border-top: 1px solid var(--line); line-height: 1.5; }
+  .fuss b { color: var(--ink); font-weight: 600; }
+
+  .tipp { max-width: 210mm; margin: 0 auto 30px; font-size: 13px; color: var(--soft); line-height: 1.55; padding: 0 16px; }
+  .tipp h3 { color: var(--ink); font-size: 14px; margin: 18px 0 6px; }
+</style>
+</head>
+<body>
+
+<div class="leiste nur-bildschirm">
+  <b>Rechnung</b>
+  <button class="haupt" id="drucken">Drucken / als PDF</button>
+  <button id="neu">Neue Rechnung</button>
+  <button id="plus">+ Position</button>
+  <select id="baustein" aria-label="Leistung einfügen">
+    <option value="">Leistung einfügen …</option>
+    <option value="Personal Training 1:1 (60 Minuten) am __.__.____|1|Std.">Einzelstunde 60 Min.</option>
+    <option value="10er-Karte Personal Training (10 × 60 Minuten)|1|Karte">10er-Karte</option>
+    <option value="STARK in 12 – 12-Wochen-Programm (24 Einheiten à 60 Minuten, Eingangs-, Zwischen- und Abschluss-Check, Trainings- und Ernährungsplan in der App)|1|Paket">STARK in 12</option>
+    <option value="Ernährungs-Coaching (10 Wochen)|1|Paket">Ernährungs-Coaching</option>
+    <option value="Firmenfitness: Workshop / Kurs am __.__.____|1|Termin">Firmenfitness</option>
+    <option value="Anfahrt außerhalb Wolfsburg und Umgebung|1|pauschal">Anfahrt</option>
+  </select>
+  <select id="steuer" aria-label="Umsatzsteuer">
+    <option value="netto">19 % USt – Preise netto</option>
+    <option value="brutto">19 % USt – Preise inkl. USt</option>
+    <option value="klein">Kleinunternehmer (§ 19 UStG)</option>
+  </select>
+  <span class="trenner"></span>
+  <span id="gespeichert" style="opacity:.7"></span>
+</div>
+
+<main class="blatt">
+  <div class="kopf">
+    <div class="marke"><img src="../../personal-training/img/pin.png" alt=""><div><b>MARK VON DAAK</b><span>PERSONAL TRAINING</span></div></div>
+    <div class="kontakt">Rabenbergstraße 16 · 38444 Wolfsburg<br>0179 4340426 · info@markvondaak-coaching.de</div>
+  </div>
+
+  <div class="oben">
+    <div class="empfaenger">
+      <div class="absenderzeile">Mark von Daak · Rabenbergstraße 16 · 38444 Wolfsburg</div>
+      <textarea id="empfaenger" rows="5" placeholder="Name Kundin / Kunde&#10;ggf. Firma&#10;Straße Hausnummer&#10;PLZ Ort"></textarea>
+    </div>
+    <table class="eckdaten">
+      <tr><td>Rechnungsnummer</td><td><input id="nummer" placeholder="2026-001"></td></tr>
+      <tr><td>Rechnungsdatum</td><td><input id="datum" placeholder="TT.MM.JJJJ"></td></tr>
+      <tr><td>Leistungszeitraum</td><td><input id="zeitraum" placeholder="z. B. 01.11.–30.11.2026"></td></tr>
+      <tr><td>Kundennummer</td><td><input id="kunde" placeholder="optional"></td></tr>
+      <tr id="zeile-ustid-kunde"><td>USt-IdNr. Kunde</td><td><input id="ustidkunde" placeholder="nur bei Firmen, optional"></td></tr>
+    </table>
+  </div>
+
+  <h1>Rechnung</h1>
+  <div class="anrede"><textarea id="anrede" rows="2">Vielen Dank für dein Vertrauen und das gemeinsame Training. Für meine Leistungen berechne ich dir:</textarea></div>
+
+  <table class="pos">
+    <colgroup><col style="width:9mm"><col><col style="width:17mm"><col style="width:18mm"><col style="width:25mm"><col style="width:26mm"><col class="nur-bildschirm" style="width:6mm"></colgroup>
+    <thead><tr><th>Pos.</th><th>Leistung</th><th class="r">Menge</th><th>Einheit</th><th class="r">Einzelpreis</th><th class="r">Gesamt</th><th class="nur-bildschirm"></th></tr></thead>
+    <tbody id="positionen"></tbody>
+  </table>
+
+  <table class="summen">
+    <tr id="z-netto"><td>Zwischensumme netto</td><td id="s-netto">–</td></tr>
+    <tr id="z-ust"><td>zzgl. 19 % Umsatzsteuer</td><td id="s-ust">–</td></tr>
+    <tr class="gesamt"><td id="l-gesamt">Rechnungsbetrag</td><td id="s-gesamt">–</td></tr>
+  </table>
+  <p class="steuerhinweis" id="steuerhinweis"></p>
+
+  <div class="zahlung">
+    <div>
+      <h2>Zahlung</h2>
+      <p>Bitte überweise den Rechnungsbetrag ohne Abzug bis zum <input id="faellig" placeholder="TT.MM.JJJJ" style="width:24mm;font-weight:600"> auf das rechts genannte Konto.</p>
+      <p>Verwendungszweck: <b id="zweck">Rechnungsnummer</b></p>
+    </div>
+    <div>
+      <h2>Bankverbindung</h2>
+      <table class="bank">
+        <tr><td>Kontoinhaber</td><td><input id="inhaber" value="Mark von Daak"></td></tr>
+        <tr><td>IBAN</td><td><input id="iban" placeholder="DE00 0000 0000 0000 0000 00"></td></tr>
+        <tr><td>BIC</td><td><input id="bic" placeholder="XXXXDEXXXXX"></td></tr>
+        <tr><td>Bank</td><td><input id="bank" placeholder="Name der Bank"></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="gruss"><textarea id="gruss" rows="2">Ich freue mich auf unser nächstes Training!
+Sportliche Grüße, Mark von Daak</textarea></div>
+
+  <div class="fuss">
+    <div><b>Mark von Daak – Personal Training</b><br>Rabenbergstraße 16<br>38444 Wolfsburg</div>
+    <div><b>Kontakt</b><br>Telefon 0179 4340426<br>info@markvondaak-coaching.de</div>
+    <div><b>Steuer</b><br>USt-IdNr. DE319920422<br>Steuernr. <input id="steuernr" placeholder="optional" style="width:30mm"></div>
+  </div>
+</main>
+
+<div class="tipp nur-bildschirm">
+  <h3>So benutzt du die Vorlage</h3>
+  Felder anklicken und ausfüllen, über „Leistung einfügen“ fertige Positionen übernehmen, Preise eintragen – die Summen rechnen sich selbst. Mit „Drucken / als PDF“ speicherst du die Rechnung (im Druckdialog „Als PDF speichern“ wählen, Kopf- und Fußzeilen des Browsers ausschalten). „Neue Rechnung“ leert Kunde und Positionen und zählt die Rechnungsnummer hoch. Bankverbindung, Steuernummer und die letzte Nummer merkt sich nur dieser Browser.
+  <h3>Kurz zu den Pflichtangaben</h3>
+  Rechnungsnummern fortlaufend und nur einmal vergeben. Datum oder Zeitraum der Trainings immer angeben. Ob du Umsatzsteuer ausweist oder die Kleinunternehmerregelung nutzt, klärst du einmal mit deinem Steuerbüro und stellst es oben um. Für Firmenkunden (Firmenfitness) sind ab 2027/2028 E-Rechnungen (XRechnung/ZUGFeRD) Pflicht – ein normales PDF reicht dann dort nicht mehr; bei Privatkunden bleibt das PDF in Ordnung.
+</div>
+
+<script>
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const SCHLUESSEL = 'mvd-rechnung-v1';
+  const MERKEN = ['inhaber', 'iban', 'bic', 'bank', 'steuernr'];
+  const FELDER = ['empfaenger', 'nummer', 'datum', 'zeitraum', 'kunde', 'ustidkunde', 'anrede', 'faellig', 'gruss', ...MERKEN];
+  const euro = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' });
+  const leer = new URLSearchParams(location.search).has('leer');
+
+  function zahl(text) {
+    const s = String(text || '').replace(/[€\s]/g, '').replace(/\./g, '').replace(',', '.');
+    const n = parseFloat(s);
+    return isNaN(n) ? null : n;
+  }
+  function datumText(d) { return d.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' }); }
+  function datumLesen(t) {
+    const m = String(t || '').match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
+    return m ? new Date(+m[3], +m[2] - 1, +m[1]) : null;
+  }
+
+  function zeile(werte) {
+    werte = werte || {};
+    const tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td class="nr"></td>' +
+      '<td><textarea rows="1" class="p-text" placeholder="Leistung, Datum"></textarea></td>' +
+      '<td><input class="p-menge r" placeholder="1"></td>' +
+      '<td><input class="p-einheit" placeholder="Std."></td>' +
+      '<td><input class="p-preis r" placeholder="0,00 €"></td>' +
+      '<td class="summe p-summe"></td>' +
+      '<td class="nur-bildschirm"><button class="weg" title="Position löschen">×</button></td>';
+    tr.querySelector('.p-text').value = werte.text || '';
+    tr.querySelector('.p-menge').value = werte.menge || '';
+    tr.querySelector('.p-einheit').value = werte.einheit || '';
+    tr.querySelector('.p-preis').value = werte.preis || '';
+    tr.querySelector('.weg').addEventListener('click', () => { tr.remove(); rechnen(); });
+    tr.querySelectorAll('input, textarea').forEach((el) => el.addEventListener('input', rechnen));
+    const preisFeld = tr.querySelector('.p-preis');
+    preisFeld.addEventListener('blur', () => {
+      const n = zahl(preisFeld.value);
+      if (n !== null) { preisFeld.value = euro.format(n); rechnen(); }
+    });
+    $('positionen').appendChild(tr);
+    hoehe(tr.querySelector('.p-text'));
+    return tr;
+  }
+
+  function hoehe(t) { t.style.height = 'auto'; t.style.height = t.scrollHeight + 'px'; }
+  document.addEventListener('input', (e) => { if (e.target.tagName === 'TEXTAREA') hoehe(e.target); });
+
+  function rechnen() {
+    const modus = $('steuer').value;
+    let summe = 0, irgendwas = false;
+    [...$('positionen').children].forEach((tr, i) => {
+      tr.querySelector('.nr').textContent = i + 1;
+      const menge = zahl(tr.querySelector('.p-menge').value);
+      const preis = zahl(tr.querySelector('.p-preis').value);
+      const zelle = tr.querySelector('.p-summe');
+      if (preis !== null) {
+        const g = (menge === null ? 1 : menge) * preis;
+        summe += g; irgendwas = true;
+        zelle.textContent = euro.format(g);
+      } else zelle.textContent = '';
+    });
+    summe = Math.round(summe * 100) / 100;
+    let netto, ust, brutto;
+    if (modus === 'netto') { netto = summe; ust = Math.round(netto * 19) / 100; brutto = netto + ust; }
+    else if (modus === 'brutto') { brutto = summe; netto = Math.round(brutto / 1.19 * 100) / 100; ust = Math.round((brutto - netto) * 100) / 100; }
+    else { netto = brutto = summe; ust = 0; }
+    const f = (n) => irgendwas ? euro.format(n) : '';
+    $('s-netto').textContent = f(netto);
+    $('s-ust').textContent = f(ust);
+    $('s-gesamt').textContent = f(brutto);
+    $('z-netto').style.display = modus === 'klein' ? 'none' : '';
+    $('z-ust').style.display = modus === 'klein' ? 'none' : '';
+    $('z-ust').firstElementChild.textContent = modus === 'brutto' ? 'darin enthalten 19 % Umsatzsteuer' : 'zzgl. 19 % Umsatzsteuer';
+    $('z-netto').firstElementChild.textContent = modus === 'brutto' ? 'Nettobetrag' : 'Zwischensumme netto';
+    $('l-gesamt').textContent = modus === 'klein' ? 'Rechnungsbetrag' : 'Rechnungsbetrag brutto';
+    $('steuerhinweis').textContent = modus === 'klein'
+      ? 'Gemäß § 19 UStG wird keine Umsatzsteuer berechnet (Kleinunternehmerregelung).'
+      : 'Leistungsdatum entspricht dem angegebenen Leistungszeitraum bzw. den Daten der einzelnen Positionen.';
+    $('zweck').textContent = $('nummer').value || 'Rechnungsnummer';
+    speichern();
+  }
+
+  function zustand() {
+    const z = { steuer: $('steuer').value, felder: {}, positionen: [] };
+    FELDER.forEach((id) => z.felder[id] = $(id).value);
+    [...$('positionen').children].forEach((tr) => z.positionen.push({
+      text: tr.querySelector('.p-text').value, menge: tr.querySelector('.p-menge').value,
+      einheit: tr.querySelector('.p-einheit').value, preis: tr.querySelector('.p-preis').value }));
+    return z;
+  }
+  function speichern() {
+    if (leer) return;
+    try { localStorage.setItem(SCHLUESSEL, JSON.stringify(zustand())); $('gespeichert').textContent = 'im Browser gespeichert'; } catch (e) {}
+  }
+  function laden() {
+    if (leer) return null;
+    try { return JSON.parse(localStorage.getItem(SCHLUESSEL) || 'null'); } catch (e) { return null; }
+  }
+
+  function standardDaten() {
+    const heute = new Date();
+    const in14 = new Date(heute); in14.setDate(in14.getDate() + 14);
+    $('datum').value = datumText(heute);
+    $('faellig').value = datumText(in14);
+  }
+
+  function naechsteNummer(alt) {
+    const jahr = new Date().getFullYear();
+    const m = String(alt || '').match(/^(\d{4})-(\d+)$/);
+    if (m && +m[1] === jahr) return jahr + '-' + String(+m[2] + 1).padStart(m[2].length, '0');
+    return jahr + '-001';
+  }
+
+  // Start
+  const z = laden();
+  if (z) {
+    $('steuer').value = z.steuer || 'netto';
+    FELDER.forEach((id) => { if (z.felder && z.felder[id] !== undefined) $(id).value = z.felder[id]; });
+    (z.positionen && z.positionen.length ? z.positionen : [{}]).forEach(zeile);
+  } else if (leer) {
+    for (let i = 0; i < 6; i++) zeile();
+    $('anrede').value = ''; $('gruss').value = '';
+  } else {
+    $('nummer').value = naechsteNummer('');
+    standardDaten();
+    zeile();
+  }
+  document.querySelectorAll('textarea').forEach(hoehe);
+
+  document.querySelectorAll('.blatt input, .blatt textarea').forEach((el) => el.addEventListener('input', rechnen));
+  $('datum').addEventListener('change', () => {
+    const d = datumLesen($('datum').value);
+    if (d) { d.setDate(d.getDate() + 14); $('faellig').value = datumText(d); rechnen(); }
+  });
+  $('steuer').addEventListener('change', rechnen);
+  $('plus').addEventListener('click', () => { zeile().querySelector('.p-text').focus(); rechnen(); });
+  $('baustein').addEventListener('change', (e) => {
+    if (!e.target.value) return;
+    const [text, menge, einheit] = e.target.value.split('|');
+    const letzte = $('positionen').lastElementChild;
+    const istLeer = letzte && !letzte.querySelector('.p-text').value && !letzte.querySelector('.p-preis').value;
+    const tr = istLeer ? letzte : zeile();
+    tr.querySelector('.p-text').value = text; tr.querySelector('.p-menge').value = menge.replace('.', ',');
+    tr.querySelector('.p-einheit').value = einheit;
+    hoehe(tr.querySelector('.p-text'));
+    tr.querySelector('.p-preis').focus();
+    e.target.value = '';
+    rechnen();
+  });
+  $('neu').addEventListener('click', () => {
+    if (!confirm('Kunde und Positionen leeren und die nächste Rechnungsnummer vergeben?')) return;
+    ['empfaenger', 'zeitraum', 'kunde', 'ustidkunde'].forEach((id) => $(id).value = '');
+    $('nummer').value = naechsteNummer($('nummer').value);
+    standardDaten();
+    $('positionen').innerHTML = '';
+    zeile();
+    document.querySelectorAll('textarea').forEach(hoehe);
+    rechnen();
+  });
+  $('drucken').addEventListener('click', () => {
+    const alt = document.title;
+    if ($('nummer').value) document.title = 'Rechnung ' + $('nummer').value;
+    window.print();
+    document.title = alt;
+  });
+  rechnen();
+})();
+</script>
+</body>
+</html>
