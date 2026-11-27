@@ -70,7 +70,7 @@
   .pos textarea { min-height: 5mm; }
   .pos .weg { border: 0; background: none; color: #C0392B; cursor: pointer; font-size: 14px; padding: 0; width: auto; }
 
-  .summen { margin-left: auto; width: 80mm; margin-top: 3mm; border-collapse: collapse; }
+  .summen { margin-left: auto; width: 92mm; margin-top: 3mm; border-collapse: collapse; }
   .summen td { padding: 1.6mm 2mm; }
   .summen td:last-child { text-align: right; white-space: nowrap; }
   .summen tr.gesamt td { font-family: "Inter Display"; font-weight: 800; font-size: 12pt; border-top: 2px solid var(--ink); padding-top: 2.5mm; }
@@ -107,9 +107,8 @@
     <option value="Anfahrt außerhalb Wolfsburg und Umgebung|1|pauschal">Anfahrt</option>
   </select>
   <select id="steuer" aria-label="Umsatzsteuer">
-    <option value="netto">19 % USt – Preise netto</option>
-    <option value="brutto">19 % USt – Preise inkl. USt</option>
-    <option value="klein">Kleinunternehmer (§ 19 UStG)</option>
+    <option value="brutto">Privatkunde – Preise inkl. 19 % USt</option>
+    <option value="netto">Firmenkunde – Preise netto zzgl. 19 % USt</option>
   </select>
   <span class="trenner"></span>
   <span id="gespeichert" style="opacity:.7"></span>
@@ -147,7 +146,7 @@
   <table class="summen">
     <tr id="z-netto"><td>Zwischensumme netto</td><td id="s-netto">–</td></tr>
     <tr id="z-ust"><td>zzgl. 19 % Umsatzsteuer</td><td id="s-ust">–</td></tr>
-    <tr class="gesamt"><td id="l-gesamt">Rechnungsbetrag</td><td id="s-gesamt">–</td></tr>
+    <tr class="gesamt"><td id="l-gesamt">Rechnungsbetrag brutto</td><td id="s-gesamt">–</td></tr>
   </table>
   <p class="steuerhinweis" id="steuerhinweis"></p>
 
@@ -182,7 +181,7 @@ Sportliche Grüße, Mark von Daak</textarea></div>
   <h3>So benutzt du die Vorlage</h3>
   Felder anklicken und ausfüllen, über „Leistung einfügen“ fertige Positionen übernehmen, Preise eintragen – die Summen rechnen sich selbst. Mit „Drucken / als PDF“ speicherst du die Rechnung (im Druckdialog „Als PDF speichern“ wählen, Kopf- und Fußzeilen des Browsers ausschalten). „Neue Rechnung“ leert Kunde und Positionen und zählt die Rechnungsnummer hoch. Bankverbindung, Steuernummer und die letzte Nummer merkt sich nur dieser Browser.
   <h3>Kurz zu den Pflichtangaben</h3>
-  Rechnungsnummern fortlaufend und nur einmal vergeben. Datum oder Zeitraum der Trainings immer angeben. Ob du Umsatzsteuer ausweist oder die Kleinunternehmerregelung nutzt, klärst du einmal mit deinem Steuerbüro und stellst es oben um. Für Firmenkunden (Firmenfitness) sind ab 2027/2028 E-Rechnungen (XRechnung/ZUGFeRD) Pflicht – ein normales PDF reicht dann dort nicht mehr; bei Privatkunden bleibt das PDF in Ordnung.
+  Rechnungsnummern fortlaufend und nur einmal vergeben. Datum oder Zeitraum der Trainings immer angeben. Die Rechnung weist immer 19 % Umsatzsteuer aus. Für Privatkunden trägst du Endpreise inklusive Umsatzsteuer ein (so wie du sie nennst), für Firmenkunden Nettopreise – oben in der Leiste umstellen. Für Firmenkunden (Firmenfitness) sind ab 2027/2028 E-Rechnungen (XRechnung/ZUGFeRD) Pflicht – ein normales PDF reicht dann dort nicht mehr; bei Privatkunden bleibt das PDF in Ordnung.
 </div>
 
 <script>
@@ -253,19 +252,13 @@ Sportliche Grüße, Mark von Daak</textarea></div>
     let netto, ust, brutto;
     if (modus === 'netto') { netto = summe; ust = Math.round(netto * 19) / 100; brutto = netto + ust; }
     else if (modus === 'brutto') { brutto = summe; netto = Math.round(brutto / 1.19 * 100) / 100; ust = Math.round((brutto - netto) * 100) / 100; }
-    else { netto = brutto = summe; ust = 0; }
     const f = (n) => irgendwas ? euro.format(n) : '';
     $('s-netto').textContent = f(netto);
     $('s-ust').textContent = f(ust);
     $('s-gesamt').textContent = f(brutto);
-    $('z-netto').style.display = modus === 'klein' ? 'none' : '';
-    $('z-ust').style.display = modus === 'klein' ? 'none' : '';
     $('z-ust').firstElementChild.textContent = modus === 'brutto' ? 'darin enthalten 19 % Umsatzsteuer' : 'zzgl. 19 % Umsatzsteuer';
     $('z-netto').firstElementChild.textContent = modus === 'brutto' ? 'Nettobetrag' : 'Zwischensumme netto';
-    $('l-gesamt').textContent = modus === 'klein' ? 'Rechnungsbetrag' : 'Rechnungsbetrag brutto';
-    $('steuerhinweis').textContent = modus === 'klein'
-      ? 'Gemäß § 19 UStG wird keine Umsatzsteuer berechnet (Kleinunternehmerregelung).'
-      : 'Leistungsdatum entspricht dem angegebenen Leistungszeitraum bzw. den Daten der einzelnen Positionen.';
+    $('steuerhinweis').textContent = 'Leistungsdatum entspricht dem angegebenen Leistungszeitraum bzw. den Daten der einzelnen Positionen.';
     $('zweck').textContent = $('nummer').value || 'Rechnungsnummer';
     speichern();
   }
@@ -304,7 +297,7 @@ Sportliche Grüße, Mark von Daak</textarea></div>
   // Start
   const z = laden();
   if (z) {
-    $('steuer').value = z.steuer || 'netto';
+    $('steuer').value = z.steuer === 'netto' ? 'netto' : 'brutto';
     FELDER.forEach((id) => { if (z.felder && z.felder[id] !== undefined) $(id).value = z.felder[id]; });
     (z.positionen && z.positionen.length ? z.positionen : [{}]).forEach(zeile);
   } else if (leer) {
