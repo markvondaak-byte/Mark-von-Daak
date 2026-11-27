@@ -148,6 +148,18 @@ invoicehome.com. Anleitung: `rechnungen/README.md`.
   im Kundenstamm steht. Neue Kunden im Kundenstamm anlegen (Gruppe erfragen,
   wenn unklar; Standard `kunde`). Danach PDF schicken und kurz Summe +
   Rabatt nennen.
+- **Marks Nachrichtenformat** (Beispiel):
+  `Lothar Kostka: 1x Heart Duo 43,90€, 1x Acti 20.50€ = 64,40€📦✅ Paypal 30.04.25`
+  → Name · je Produkt Menge, Kurzname, **gezahlter Endpreis** (schon
+  rabattiert!) · `=` Kontrollsumme (abgleichen, bei Abweichung nachfragen) ·
+  📦 geliefert · ✅ bezahlt · Zahlungsart + Datum. Umsetzung: `preis:` je
+  Position = genannter Preis (bei Menge > 1 und unklar, ob Stück- oder
+  Gesamtpreis: nachfragen), **`rabatt_prozent: 0`** (kein Zusatzrabatt),
+  `leistungsdatum` und `bezahlt: {datum, art}` = genanntes Datum.
+  Rechnungsdatum = Ausstellungstag (nie rückdatieren). Kurznamen: „Acti“ =
+  Activize (Sorte unklar → Text „FitLine Activize“, 7 %; nur „Power Drink“
+  in Dosen ist 19 %), „Heart Duo“ = microSolve+ Heart Duo usw.
+  Ohne ✅ → offen (Zahlungsaufforderung, bezahlt-Block entfernen).
 - Ablauf: `neu rechnung --vorlage fitline --kunde "<Name>"` → Empfänger und
   Positionen (`artikel:` aus `rechnungen/kataloge/fitline.yaml`, `menge:`)
   eintragen → `bauen` → PDF **und** die Beleg-YAML mit SendUserFile
