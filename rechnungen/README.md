@@ -104,6 +104,21 @@ python3 rechnungen/kataloge/fitline_aktualisieren.py   # zeigt geänderte Preise
 Positionen gehen per Schlüssel (`powercocktail`), Kurzname (`optimal-set`,
 `restorate`, `activize` …) oder Artikelnummer (`artikel: "0705067"`).
 
+## Rabatte
+
+| Was | In der Beleg-YAML |
+|---|---|
+| Prozent auf ein Produkt | in der Position `rabatt: 10` |
+| Euro auf ein Produkt | in der Position `rabatt_betrag: 5.00` |
+| Prozent auf alles | `rabatt_prozent: 10` |
+| Euro auf alles | `rabatt_betrag: 10.00` |
+| Bezeichnung | `rabatt_text: Kundenrabatt` (je Position oder für alles) |
+
+Alles lässt sich kombinieren. Die Rechnung zeigt Listenpreis, Rabatt und
+„Sie sparen … €“. Ein fester Euro-Rabatt wird bei gemischten Steuersätzen
+anteilig auf 7 % und 19 % verteilt (sonst stimmt die Umsatzsteuer nicht).
+Storno kehrt auch Rabatte um.
+
 ## Nummern über Sitzungen hinweg
 
 `nummern.json` enthält nur die Zählerstände (keine Kundendaten) und wird

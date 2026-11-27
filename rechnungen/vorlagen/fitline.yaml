@@ -27,9 +27,14 @@ positionen:
   #   preis: 4.90
   # - artikel: "0116122"            # auch per Artikelnummer (hier 4ever, 19 %)
   #   menge: 1
-  # - text: Rabatt Stammkunde      # freie Position, Rabatt als Minusbetrag
-  #   preis: -5.00
-  #   ust: 7
+  #   rabatt: 10                     # Rabatt auf DIESES Produkt in Prozent …
+  #   rabatt_betrag: 5.00            # … oder als fester Euro-Betrag
+  #   rabatt_text: Kundenrabatt      # Bezeichnung auf der Rechnung (Standard: Rabatt)
+
+# Rabatt auf die ganze Rechnung (wird bei 7 % und 19 % automatisch anteilig verteilt):
+# rabatt_prozent: 10
+# rabatt_betrag: 10.00
+# rabatt_text: Treuerabatt
 
 zahlungsziel_tage: 7
 # bezahlt:                 # bei Barzahlung/PayPal sofort eintragen -> Quittungsvermerk

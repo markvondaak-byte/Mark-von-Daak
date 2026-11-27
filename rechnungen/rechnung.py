@@ -330,12 +330,27 @@ def berechne(b: dict) -> dict:
         menge = dec(pos.get("menge", 1))
         preis = dec(pos.get("preis"))
         satz = D0 if ohne_ust else dec(pos.get("ust", b.get("ust", 19)))
-        betrag = rund(menge * preis)
-        zeilen.append({**pos, "nr": i, "menge": menge, "preis": preis, "satz": satz, "betrag": betrag})
+        listen = rund(menge * preis)
+        # Rabatt je Position: rabatt: 10 (Prozent) oder rabatt_betrag: 5.00 (Euro)
+        pos_rabatt = rund(listen * dec(pos.get("rabatt")) / 100) + rund(dec(pos.get("rabatt_betrag")))
+        betrag = listen - pos_rabatt
+        zeilen.append({**pos, "nr": i, "menge": menge, "preis": preis, "satz": satz,
+                       "listen": listen, "pos_rabatt": pos_rabatt, "betrag": betrag})
         saetze[satz] = saetze.get(satz, D0) + betrag
+    # Fester Euro-Rabatt auf die ganze Rechnung: anteilig auf die Steuersätze verteilen
+    fest = rund(dec(b.get("rabatt_betrag")))
+    gesamt = sum(saetze.values(), D0) - sum((rund(v * rabatt) for v in saetze.values()), D0)
+    fest_anteile, rest = {}, fest
+    reihenfolge = sorted(saetze, reverse=True)
+    for n, satz in enumerate(reihenfolge):
+        basis_satz = saetze[satz] - rund(saetze[satz] * rabatt)
+        anteil = rest if n == len(reihenfolge) - 1 else (rund(fest * basis_satz / gesamt) if gesamt else D0)
+        fest_anteile[satz] = anteil
+        rest -= anteil
     gruppen = []
     for satz, summe in sorted(saetze.items(), reverse=True):
-        abzug = rund(summe * rabatt)
+        abzug_prozent = rund(summe * rabatt)
+        abzug = abzug_prozent + fest_anteile.get(satz, D0)
         basis = summe - abzug
         if brutto_modus:
             netto = rund(basis / (1 + satz / 100))
@@ -343,12 +358,14 @@ def berechne(b: dict) -> dict:
         else:
             netto = basis
             steuer = rund(netto * satz / 100)
-        gruppen.append({"satz": satz, "summe": summe, "abzug": abzug, "netto": netto, "steuer": steuer})
+        gruppen.append({"satz": satz, "summe": summe, "abzug": abzug, "abzug_prozent": abzug_prozent,
+                        "abzug_fest": fest_anteile.get(satz, D0), "netto": netto, "steuer": steuer})
     netto = sum((g["netto"] for g in gruppen), D0)
     steuer = sum((g["steuer"] for g in gruppen), D0)
     return {"zeilen": zeilen, "gruppen": gruppen, "netto": netto, "steuer": steuer,
             "brutto": netto + steuer, "brutto_modus": brutto_modus, "ohne_ust": ohne_ust,
-            "positionen_summe": sum(saetze.values(), D0)}
+            "positionen_summe": sum(saetze.values(), D0),
+            "rabatt_gesamt": sum((z["pos_rabatt"] for z in zeilen), D0) + sum((g["abzug"] for g in gruppen), D0)}
 
 
 def pruefe(b: dict, a: dict, art: str) -> list[str]:
@@ -574,6 +591,14 @@ def baue_pdf(pfad: Path) -> Path:
         beschr = f"<font name='{mittel}'>{esc(z.get('text'))}</font>"
         if z.get("detail"):
             beschr += f"<br/><font size='8' color='#4A5563'>{esc(z['detail'])}</font>"
+        if z["pos_rabatt"]:
+            teile = []
+            if dec(z.get("rabatt")):
+                teile.append(f"{zahl(z['rabatt'])} %")
+            r_txt = esc(z.get("rabatt_text") or "Rabatt")
+            beschr += (f"<br/><font size='8' color='{akzent.hexval().replace('0x', '#')}'>abzgl. {r_txt}"
+                       f"{' ' + ' + '.join(teile) if teile and not dec(z.get('rabatt_betrag')) else ''}: "
+                       f"−{geld(z['pos_rabatt'], wae)} (Listenpreis {geld(z['listen'], wae)})</font>")
         reihe = [Paragraph(str(z["nr"]), s_text), Paragraph(beschr, s_text),
                  Paragraph(f"{zahl(z['menge'])} {esc(z.get('einheit', ''))}".strip(), s_rechts)]
         if not ohne_preise:
@@ -603,13 +628,21 @@ def baue_pdf(pfad: Path) -> Path:
     if not ohne_preise:
         sz = []
         mehrere = len(r["gruppen"]) > 1
+        r_txt = esc(b.get("rabatt_text") or "Rabatt")
+        if any(g["abzug"] for g in r["gruppen"]):
+            sz.append(["Summe Positionen", geld(r["positionen_summe"], wae)])
+            prozent = sum((g["abzug_prozent"] for g in r["gruppen"]), D0)
+            fest = sum((g["abzug_fest"] for g in r["gruppen"]), D0)
+            aufteilung = lambda feld: (" (davon " + ", ".join(f"{zahl(g['satz'])} %: {geld(g[feld], wae)}"
+                                       for g in r["gruppen"] if g[feld]) + ")") if mehrere else ""
+            if prozent:
+                sz.append([f"abzgl. {zahl(b['rabatt_prozent'])} % {r_txt}{aufteilung('abzug_prozent')}", geld(-prozent, wae)])
+            if fest:
+                sz.append([f"abzgl. {r_txt}{aufteilung('abzug_fest')}", geld(-fest, wae)])
         for g in r["gruppen"]:
-            satz_txt = f" ({zahl(g['satz'])} %)" if mehrere else ""
-            if g["abzug"]:
-                sz.append([f"Summe Positionen{satz_txt}", geld(g["summe"], wae)])
-                sz.append([f"abzgl. {zahl(b['rabatt_prozent'])} % Rabatt{satz_txt}", geld(-g["abzug"], wae)])
             if r["ohne_ust"]:
                 continue
+            satz_txt = f" ({zahl(g['satz'])} %)" if mehrere else ""
             sz.append([f"Nettobetrag{satz_txt}", geld(g["netto"], wae)])
             sz.append([f"zzgl. {zahl(g['satz'])} % USt." if not r["brutto_modus"]
                        else f"enthaltene USt. {zahl(g['satz'])} %", geld(g["steuer"], wae)])
@@ -660,6 +693,8 @@ def baue_pdf(pfad: Path) -> Path:
         hinweise.append("Ein bereits gezahlter Betrag wird Ihnen erstattet.")
     if a.get("aufbewahrung_hinweis") and art in STEUERBELEGE and not b.get("empfaenger", {}).get("firma"):
         hinweise.append(esc(a["aufbewahrung_hinweis"]))
+    if r["rabatt_gesamt"] > 0 and art != "storno":
+        hinweise.append(f"Sie sparen mit dieser Bestellung <font name='{mittel}'>{geld(r['rabatt_gesamt'], wae)}</font>.")
     if b.get("hinweis"):
         hinweise.append(esc(b["hinweis"]))
     schluss = b.get("schluss", a.get("schluss", "Vielen Dank für Ihr Vertrauen!"))
@@ -740,6 +775,10 @@ def kopiere_beleg(quelle: Path, art: str, extra: dict, minus: bool = False) -> P
     if minus:
         for pos in b.get("positionen") or []:
             pos["preis"] = -float(dec(pos.get("preis")))
+            if pos.get("rabatt_betrag"):
+                pos["rabatt_betrag"] = -float(dec(pos["rabatt_betrag"]))
+        if b.get("rabatt_betrag"):
+            b["rabatt_betrag"] = -float(dec(b["rabatt_betrag"]))
     kunde = (b.get("empfaenger") or {}).get("firma") or (b.get("empfaenger") or {}).get("name") or ""
     ziel = dateiname(art, kunde)
     ziel.write_text(f"# Erzeugt aus {quelle.name}\n" + yaml.safe_dump(b, allow_unicode=True, sort_keys=False),

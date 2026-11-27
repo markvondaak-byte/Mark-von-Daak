@@ -30,7 +30,10 @@ positionen:
 #   menge: 1
 #   preis: -20.00
 
+# Rabatte: je Position  rabatt: 10  oder  rabatt_betrag: 5.00  (+ rabatt_text)
 # rabatt_prozent: 10     # Rabatt auf alles
+# rabatt_betrag: 10.00   # fester Rabatt auf alles, anteilig auf die Steuersätze verteilt
+# rabatt_text: Treuerabatt
 zahlungsziel_tage: 14
 # zahlungslink: https://…  # z. B. PayPal-Link, wird als Link gedruckt
 # girocode: false          # QR-Code für Banking-Apps abschalten

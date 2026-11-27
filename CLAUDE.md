@@ -154,6 +154,10 @@ invoicehome.com. Anleitung: `rechnungen/README.md`.
 - Produkte per Schlüssel, Kurzname oder Artikelnummer (`artikel: "0705067"`).
   Etwas, das nicht im Shop ist: freie Position mit `text:`, `preis:`, `ust:`
   – Preis von Mark erfragen, nie erfinden.
+- Kundenrabatte (Mark gibt sie öfter): je Produkt `rabatt:` (%) oder
+  `rabatt_betrag:` (€), auf alles `rabatt_prozent:` / `rabatt_betrag:`,
+  Bezeichnung `rabatt_text:`. Nie Katalogpreise ändern, um Rabatte
+  abzubilden. Fehlt die Angabe, wie viel Rabatt, nachfragen.
 - Bei Barzahlung/PayPal sofort `bezahlt:` setzen (Quittungsvermerk);
   Storno nur über `storno`, nie eine Nummer neu vergeben oder löschen.
 - Nach jeder Rechnung `rechnungen/nummern.json` committen und pushen
