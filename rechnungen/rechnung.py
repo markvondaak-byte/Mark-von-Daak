@@ -318,21 +318,43 @@ def kunde_aufloesen(b: dict, a: dict) -> tuple[dict, list[str]]:
                                                "kundennummer", "ust_id") if kunde.get(k)}
             b = {**b, "empfaenger": e}
             notizen.append(f"Empfänger aus Kundenstamm: {e.get('firma') or e.get('name')}")
-    gruppe = b.get("gruppe") or kunde.get("gruppe")
     gruppen = a.get("rabattgruppen") or {}
+    gruppe = b.get("gruppe") or kunde.get("gruppe") or (a.get("standardgruppe") if gruppen else None)
     if gruppe and gruppe not in gruppen:
         sys.exit(f"Gruppe „{gruppe}“ unbekannt. Möglich: {', '.join(gruppen) or '–'} (rabattgruppen in der Absender-Datei).")
     g = gruppen.get(gruppe) or {}
     if "rabatt_prozent" not in b and "rabatt_betrag" not in b:
-        satz = kunde.get("rabatt", g.get("rabatt"))
+        satz, text, quelle = kunde.get("rabatt", g.get("rabatt")), kunde.get("rabatt_text") or g.get("text"), \
+            ("Kunde" if "rabatt" in kunde else f"Gruppe {gruppe}")
+        aktion = finde_aktion(a, b, gruppe)
+        if aktion and dec(aktion.get("rabatt")) > dec(satz):
+            satz, text, quelle = aktion["rabatt"], aktion.get("text") or aktion["name"], f"Aktion {aktion['name']}"
         if satz:
             b = {**b, "rabatt_prozent": satz}
-            notizen.append(f"Rabatt {zahl(satz)} % ({'Kunde' if 'rabatt' in kunde else 'Gruppe ' + gruppe})")
-    if b.get("rabatt_prozent") and not b.get("rabatt_text"):
-        text = kunde.get("rabatt_text") or g.get("text")
-        if text:
-            b = {**b, "rabatt_text": text}
+            if text and not b.get("rabatt_text"):
+                b["rabatt_text"] = text
+            notizen.append(f"Rabatt {zahl(satz)} % ({quelle})")
     return b, notizen
+
+
+def finde_aktion(a: dict, b: dict, gruppe: str | None) -> dict | None:
+    """Sonderaktion: per Name im Beleg (aktion:) oder automatisch nach Rechnungsdatum."""
+    aktionen = a.get("aktionen") or []
+    if b.get("aktion"):
+        treffer = [x for x in aktionen if str(x.get("name", "")).lower() == str(b["aktion"]).lower()]
+        if not treffer:
+            sys.exit(f"Aktion „{b['aktion']}“ nicht gefunden. Vorhanden: {', '.join(x.get('name', '?') for x in aktionen) or '–'}")
+        return treffer[0]
+    tag = datum(b.get("datum"))
+    for x in aktionen:
+        if x.get("von") and tag < datum(x["von"]):
+            continue
+        if x.get("bis") and tag > datum(x["bis"]):
+            continue
+        if x.get("gruppen") and gruppe not in x["gruppen"]:
+            continue
+        return x
+    return None
 
 
 def kunde_einfrieren(pfad: Path, b: dict, notizen: list[str]) -> None:
@@ -470,14 +492,18 @@ def girocode(bank: dict, betrag: Decimal, zweck: str, name: str) -> Drawing | No
 def baue_pdf(pfad: Path) -> Path:
     b = lade_yaml(pfad)
     a = lade_absender(b.get("absender"))
-    if (b.get("kunde") or b.get("gruppe")) and not b.get("kunde_uebernommen"):
-        b, notizen = kunde_aufloesen(b, a)
-        for n in notizen:
-            print(f"• {n}")
-        kunde_einfrieren(pfad, b, notizen)
     art = str(b.get("art", "rechnung")).lower()
     if art not in ARTEN:
         sys.exit(f"Unbekannte Art „{art}“. Möglich: {', '.join(ARTEN)}")
+    erstmals = str(b.get("nummer", "auto")).lower() in ("auto", "", "none") and not b.get("kunde_uebernommen")
+    if erstmals and art not in ("storno", "korrektur") and (b.get("kunde") or b.get("gruppe") or b.get("aktion")
+                                                            or a.get("rabattgruppen") or a.get("aktionen")):
+        vorher = dict(b)
+        b, notizen = kunde_aufloesen(b, a)
+        for n in notizen:
+            print(f"• {n}")
+        if b != vorher or b.get("kunde"):
+            kunde_einfrieren(pfad, b, notizen)
     b_datum = datum(b.get("datum"))
     if not b.get("datum") or str(b.get("datum")).lower() == "heute":
         schreibe_feld(pfad, "datum", b_datum.isoformat())

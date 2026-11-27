@@ -119,16 +119,35 @@ Alles lässt sich kombinieren. Die Rechnung zeigt Listenpreis, Rabatt und
 anteilig auf 7 % und 19 % verteilt (sonst stimmt die Umsatzsteuer nicht).
 Storno kehrt auch Rabatte um.
 
-## Kundenstamm und Rabattgruppen
+## Standard-Rabatt, Sonderaktionen und Kundenstamm
 
-Einmal anlegen in `privat/kunden.yaml` (Muster: `kunden.beispiel.yaml`):
-Anschrift, `gruppe: kunde` oder `teampartner`, optional ein persönlicher
-`rabatt:`. In der Rechnung reicht dann `kunde: lisa`, und Anschrift und
-Rabatt werden eingesetzt. Die Standard-Rabatte je Gruppe stehen in
-`absender-fitline.yaml` unter `rabattgruppen`. Vorrang: Angabe im Beleg >
-persönlicher Rabatt > Gruppe. Beim ersten Bauen werden die Daten fest in
-den Beleg geschrieben, damit spätere Änderungen alte Rechnungen nicht
-verändern.
+**Standard:** Jede FitLine-Rechnung bekommt automatisch **20 %** (Kunden und
+Teampartner), siehe `rabattgruppen` in `absender-fitline.yaml`.
+
+**Sonderaktion:** in `absender-fitline.yaml` unter `aktionen:` eintragen:
+
+```yaml
+aktionen:
+  - name: Black Week
+    text: Black-Week-Rabatt      # steht so auf der Rechnung
+    rabatt: 30
+    von: 2026-11-27
+    bis: 2026-12-01
+    # gruppen: [teampartner]     # optional nur für bestimmte Gruppen
+```
+
+Alle Rechnungen mit Datum im Zeitraum bekommen dann den höheren Rabatt.
+Mit `aktion: Black Week` im Beleg lässt sie sich auch außerhalb des
+Zeitraums erzwingen.
+
+**Kundenstamm:** `privat/kunden.yaml` (Muster: `kunden.beispiel.yaml`) mit
+Anschrift, `gruppe: kunde` oder `teampartner` und optional einem
+persönlichen `rabatt:`. In der Rechnung reicht dann `kunde: lisa`.
+
+**Vorrang:** Angabe im Beleg (`rabatt_prozent: 25`, `0` = kein Rabatt) >
+Aktion (wenn höher) > persönlicher Rabatt > Gruppe. Beim ersten Bauen wird
+alles fest in den Beleg geschrieben, damit spätere Änderungen alte
+Rechnungen nicht verändern.
 
 ```bash
 python3 rechnungen/rechnung.py kunden     # Kundenstamm anzeigen

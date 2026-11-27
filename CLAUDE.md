@@ -154,15 +154,19 @@ invoicehome.com. Anleitung: `rechnungen/README.md`.
 - Produkte per Schlüssel, Kurzname oder Artikelnummer (`artikel: "0705067"`).
   Etwas, das nicht im Shop ist: freie Position mit `text:`, `preis:`, `ust:`
   – Preis von Mark erfragen, nie erfinden.
-- **Kundenstamm und Rabattgruppen:** Mark gibt Kunden und Teampartnern in
-  der Regel 20–30 % Rabatt; Standard (bestätigt): Kunden 20 %,
-  Teampartner 30 %. Kunden stehen in `privat/kunden.yaml` der
-  privaten Ablage (Muster `rechnungen/kunden.beispiel.yaml`) mit Anschrift,
-  `gruppe: kunde|teampartner` und optional persönlichem `rabatt:`. Gruppen-
-  Standard steht in `rechnungen/absender-fitline.yaml` (`rabattgruppen`).
-  Im Beleg reicht `kunde: <kürzel>`; neue Kunden vorher dort anlegen
-  (Gruppe und Rabatt bei Mark erfragen). Beim ersten Bauen werden Anschrift
-  und Rabatt fest in den Beleg geschrieben.
+- **Rabatte (von Mark bestätigt):** Kunden und Teampartner bekommen
+  standardmäßig **20 %** – automatisch auf jede FitLine-Rechnung
+  (`standardgruppe`/`rabattgruppen` in `rechnungen/absender-fitline.yaml`).
+  Bei **Sonderrabattaktionen** mehr: Aktion mit Name, Prozent und Zeitraum
+  unter `aktionen:` eintragen (committen); gilt dann automatisch für alle
+  Rechnungen im Zeitraum, wenn höher. Fragt Mark nach einer Aktion ohne
+  Zeitraum, nachfragen. Vorrang: Angabe im Beleg > Aktion (wenn höher) >
+  persönlicher Rabatt > Gruppe. Kein Rabatt: `rabatt_prozent: 0`.
+- **Kundenstamm:** `privat/kunden.yaml` der privaten Ablage (Muster
+  `rechnungen/kunden.beispiel.yaml`) mit Anschrift, `gruppe: kunde|teampartner`,
+  optional persönlichem `rabatt:`. Im Beleg reicht `kunde: <kürzel>`; neue
+  Kunden vorher anlegen. Beim ersten Bauen werden Anschrift und Rabatt fest
+  in den Beleg geschrieben (Storno übernimmt sie unverändert).
 - Weitere Rabatte (Mark gibt sie öfter): je Produkt `rabatt:` (%) oder
   `rabatt_betrag:` (€), auf alles `rabatt_prozent:` / `rabatt_betrag:`,
   Bezeichnung `rabatt_text:`. Nie Katalogpreise ändern, um Rabatte

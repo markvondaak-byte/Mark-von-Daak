@@ -6,8 +6,8 @@ kunden:
     name: Lisa Muster
     strasse: Beispielweg 5
     plz_ort: 38448 Wolfsburg
-    gruppe: kunde          # kunde | teampartner (Standard-Rabatt aus absender-fitline.yaml)
-    rabatt: 25             # optional: persönlicher Rabatt statt Gruppen-Rabatt
+    gruppe: kunde          # kunde | teampartner (Standard 20 %, siehe absender-fitline.yaml)
+    # rabatt: 25           # optional: persönlicher Rabatt statt 20 %
   max:
     name: Max Beispiel
     strasse: Musterstraße 1
